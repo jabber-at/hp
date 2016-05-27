@@ -6,22 +6,22 @@ It is not yet a finished project or anything.
 
 What we definetly need:
 
-#. blog posts
-#. static pages
-#. site-like framework (so we can show a different hostname depending on the URL)
-#. i18n support (also for articles and pages)
+1. blog posts
+2. static pages
+3. site-like framework (so we can show a different hostname depending on the URL)
+4. i18n support (also for articles and pages)
 
 More advanced features
 
-#. accounts.jabber.at integration
-#. test.jabber.at integration
-#. comments on blog posts
+1. accounts.jabber.at integration
+2. test.jabber.at integration
+3. comments on blog posts
 
 Just a brain storming
 
-#. some account settings integration (e.g. ability to configure MAM settings)
-#. security stuff (e.g. from where you logged in recently, ...)
-#. notifications/verifications of new logins (e.g. from new countries), maybe?
-#. finally a webclient (shouldn't be to hard, there are js libs for it)
-#. better social media integration (twitter cards, facebook opengraph tags)
-#. calendar export of scheduled downtimes
+1. some account settings integration (e.g. ability to configure MAM settings)
+2. security stuff (e.g. from where you logged in recently, ...)
+3. notifications/verifications of new logins (e.g. from new countries), maybe?
+4. finally a webclient (shouldn't be to hard, there are js libs for it)
+5. better social media integration (twitter cards, facebook opengraph tags)
+6. calendar export of scheduled downtimes
