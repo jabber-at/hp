@@ -16,7 +16,9 @@
 from django.db import models
 
 from basedjango.models import BaseModel
+from basedjango.modelfields import TranslatedTextField
 
 
 class BlogPost(BaseModel):
-    pass
+    title = TranslatedTextField()
+    text = TranslatedTextField()
