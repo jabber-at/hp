@@ -7,3 +7,4 @@
 /share/
 /hp/db.sqlite3
 /hp/hp/localsettings.py
+/fab.conf
