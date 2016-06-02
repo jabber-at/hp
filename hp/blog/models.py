@@ -13,12 +13,19 @@
 # You should have received a copy of the GNU General Public License along with django-xmpp-account.
 # If not, see <http://www.gnu.org/licenses/>.
 
+from django.conf import settings
 from django.db import models
 
 from basedjango.models import BaseModel
-from basedjango.modelfields import TranslatedTextField
+
+#from composite_field.l10n import LocalizedCharField
+#from composite_field.l10n import LocalizedTextField
+from core.modelfields import LocalizedCharField
+from core.modelfields import LocalizedTextField
 
 
 class BlogPost(BaseModel):
-    title = TranslatedTextField()
-    text = TranslatedTextField()
+    title = LocalizedCharField(max_length=16)
+    text = LocalizedTextField()
+
+    author = models.ForeignKey(settings.AUTH_USER_MODEL)

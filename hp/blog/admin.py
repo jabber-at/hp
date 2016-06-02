@@ -14,10 +14,29 @@
 # If not, see <http://www.gnu.org/licenses/
 
 from django.contrib import admin
+from django.utils.translation import gettext_lazy as _
 
 from .models import BlogPost
 
 
 @admin.register(BlogPost)
 class BlogPostAdmin(admin.ModelAdmin):
-    pass
+    readonly_fields = ('author', 'created', 'updated', )
+
+    fieldsets = (
+        (None, {
+            'fields': ('author', 'created', 'updated', ),
+        }),
+        (_('Title'), {
+            'fields': [('title_de', 'title_en'), ],
+        }),
+        (_('Text'), {
+            'fields': [('text_de', 'text_en'), ],
+        }),
+    )
+
+    def save_model(self, request, obj, form, change):
+        print(change)
+        if change is False:  # adding a new object
+            obj.author = request.user
+            obj.save()
