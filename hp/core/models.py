@@ -41,7 +41,7 @@ class Page(BasePage):
         return self.title.current
 
 
-class MenuItem(BaseModel, MPTTModel):
+class MenuItem(MPTTModel, BaseModel):
     title = LocalizedCharField(max_length=16, help_text=_('Page title'))
     parent = TreeForeignKey('self', null=True, blank=True, related_name='children', db_index=True)
 
