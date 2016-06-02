@@ -27,7 +27,7 @@ class BlogPostAdmin(admin.ModelAdmin):
 
     fieldsets = (
         (None, {
-            'fields': ('author', 'created', 'updated', ),
+            'fields': ('author', ('created', 'updated', ), ('published', 'sticky', )),
         }),
         (_('Title'), {
             'fields': [('title_de', 'title_en'), ],

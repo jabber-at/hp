@@ -15,6 +15,7 @@
 
 from django.conf import settings
 from django.db import models
+from django.utils.translation import ugettext_lazy as _
 
 from basedjango.models import BaseModel
 
@@ -25,9 +26,14 @@ from core.modelfields import LocalizedTextField
 
 
 class BlogPost(BaseModel):
-    title = LocalizedCharField(max_length=16)
+    title = LocalizedCharField(max_length=16, help_text=_(
+        'Title of the blog post.'))
     text = LocalizedTextField()
 
+    sticky = models.BooleanField(default=False, help_text=_(
+        'Pinned at the top of any list of blog posts.'))
+    published = models.BooleanField(default=True, help_text=_(
+        'If the article is publicly visible.'))
     author = models.ForeignKey(settings.AUTH_USER_MODEL)
 
     def __str__(self):
