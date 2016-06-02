@@ -17,6 +17,9 @@ from django.conf import settings
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
 
+from mptt.models import MPTTModel
+from mptt.models import TreeForeignKey
+
 from basedjango.models import BaseModel
 
 from .modelfields import LocalizedCharField
@@ -33,5 +36,17 @@ class BasePage(BaseModel):
         abstract = True
 
 
-class Page(BaseModel):
-    pass
+class Page(BasePage):
+    def __str__(self):
+        return self.title.current
+
+
+class MenuItem(BaseModel, MPTTModel):
+    title = LocalizedCharField(max_length=16, help_text=_('Page title'))
+    parent = TreeForeignKey('self', null=True, blank=True, related_name='children', db_index=True)
+
+    def __str__(self):
+        return self.title.current
+
+    class MPTTMeta:
+        order_insertion_by = ['title_en']
