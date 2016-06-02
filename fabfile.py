@@ -16,12 +16,25 @@
 import configparser
 
 from fabric.api import local
-from fabric.api import run
 from fabric.api import task
 
+from fabric_webbuilders import BuildBootstrapTask
+
+# Currently not working because of general incompetence of the NodeJS community.
+#build_jquery = BuildJqueryTask(
+#    excludes='-deprecated,-dimensions',
+#    dest_dir='hp/core/static/lib/jquery/',
+#    version='2.1.3'
+#)
+build_bootstrap = BuildBootstrapTask(
+    config='hp/core/static/bootstrap-config.json',
+    dest_dir='hp/core/static/lib/bootstrap/',
+    version='~3'
+)
 
 @task
 def deploy(section):
+    """Deploy current master."""
     config = configparser.ConfigParser()
     config.read('fab.conf')
     config = config[section]
@@ -31,10 +44,12 @@ def deploy(section):
     venv = config.get('virtualenv', path).rstrip('/')
 
     ssh = lambda c: local('ssh %s %s' % (host, c))
-    python = lambda c: ssh('%s/bin/python %s' % (venv, c))
+    sudo = lambda c: ssh('sudo sh -c \'"%s"\'' % c)
+    python = lambda c: sudo('%s/bin/python %s' % (venv, c))
     manage = lambda c: python('%s/hp/manage.py %s' % (path, c))
 
     local('git push origin master')
+    sudo('cd %s && git pull origin master' % path)
     manage('migrate')
     manage('collectstatic --noinput')
-    ssh('touch /etc/uwsgi-emperor/vassals/%s.ini' % section)
+    sudo('touch /etc/uwsgi-emperor/vassals/%s.ini' % section)
