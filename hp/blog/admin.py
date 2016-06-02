@@ -11,7 +11,7 @@
 # General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License along with django-xmpp-account.
-# If not, see <http://www.gnu.org/licenses/
+# If not, see <http://www.gnu.org/licenses/.
 
 from django.contrib import admin
 from django.utils.translation import gettext_lazy as _
@@ -22,6 +22,8 @@ from .models import BlogPost
 @admin.register(BlogPost)
 class BlogPostAdmin(admin.ModelAdmin):
     readonly_fields = ('author', 'created', 'updated', )
+    list_display = ('__str__', 'author', 'created', )
+    list_filter = ('author', )
 
     fieldsets = (
         (None, {
@@ -36,7 +38,6 @@ class BlogPostAdmin(admin.ModelAdmin):
     )
 
     def save_model(self, request, obj, form, change):
-        print(change)
         if change is False:  # adding a new object
             obj.author = request.user
-            obj.save()
+        obj.save()
