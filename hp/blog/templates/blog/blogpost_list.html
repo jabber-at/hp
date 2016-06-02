@@ -2,6 +2,8 @@
 {% load i18n %}
 
 {% block content %}
+<div class="page-header">Hi!</div>
+
 {% for post in object_list %}
     <h2>{{ post.title.current }}</h2>
     {{ post.text.current }}
