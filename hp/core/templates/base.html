@@ -1,0 +1,6 @@
+{% extends "basedjango/base.html" %}
+{% block head %}
+<title>{% block title %}{% endblock title %}</title>
+{% endblock head %}
+
+{% block body %}{% block content %}{% endblock content %}{% endblock body %}

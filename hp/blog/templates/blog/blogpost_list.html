@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block content %}
+{% for post in object_list %}
+    <h2>{{ post.title.current }}</h2>
+    {{ post.text.current }}
+{% empty %}
+{% trans "No articles found." %}
+{% endfor %}
+{% endblock content %}
