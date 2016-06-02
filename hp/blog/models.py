@@ -13,28 +13,18 @@
 # You should have received a copy of the GNU General Public License along with django-xmpp-account.
 # If not, see <http://www.gnu.org/licenses/>.
 
-from django.conf import settings
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
 
-from basedjango.models import BaseModel
-
 #from composite_field.l10n import LocalizedCharField
 #from composite_field.l10n import LocalizedTextField
-from core.modelfields import LocalizedCharField
-from core.modelfields import LocalizedTextField
+
+from core.models import BasePage
 
 
-class BlogPost(BaseModel):
-    title = LocalizedCharField(max_length=16, help_text=_(
-        'Title of the blog post.'))
-    text = LocalizedTextField()
-
+class BlogPost(BasePage):
     sticky = models.BooleanField(default=False, help_text=_(
         'Pinned at the top of any list of blog posts.'))
-    published = models.BooleanField(default=True, help_text=_(
-        'If the article is publicly visible.'))
-    author = models.ForeignKey(settings.AUTH_USER_MODEL)
 
     def __str__(self):
         return self.title.current
