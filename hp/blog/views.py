@@ -19,4 +19,4 @@ from .models import BlogPost
 
 
 class BlogPostListView(ListView):
-    model = BlogPost
+    queryset = BlogPost.objects.filter(published=True).order_by('-sticky', '-created')
