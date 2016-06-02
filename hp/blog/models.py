@@ -29,3 +29,6 @@ class BlogPost(BaseModel):
     text = LocalizedTextField()
 
     author = models.ForeignKey(settings.AUTH_USER_MODEL)
+
+    def __str__(self):
+        return self.title.current
