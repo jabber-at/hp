@@ -2,10 +2,11 @@
 *.py[co]
 /bin/
 /build/
+/fab.conf
+/hp/db.sqlite3
+/hp/hp/localsettings.py
 /include/
 /lib/
 /pip-selfcheck.json
 /share/
-/hp/db.sqlite3
-/hp/hp/localsettings.py
-/fab.conf
+/src/
