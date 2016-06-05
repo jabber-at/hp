@@ -14,16 +14,51 @@
 # If not, see <http://www.gnu.org/licenses/>.
 
 from django.conf import settings
+from django.contrib.auth.models import PermissionsMixin
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
 
 from mptt.models import MPTTModel
 from mptt.models import TreeForeignKey
+from django_xmpp_backends.models import XmppBackendUser
 
 from basedjango.models import BaseModel
 
+from .constants import REGISTRATION_INBAND
+from .constants import REGISTRATION_MANUAL
+from .constants import REGISTRATION_UNKNOWN
+from .constants import REGISTRATION_WEBSITE
 from .modelfields import LocalizedCharField
 from .modelfields import LocalizedTextField
+
+
+REGISTRATION_CHOICES = (
+    (REGISTRATION_WEBSITE, 'Via Website'),
+    (REGISTRATION_INBAND, 'In-Band Registration'),
+    (REGISTRATION_MANUAL, 'Manually'),
+    (REGISTRATION_UNKNOWN, 'Unknown'),
+)
+
+
+class User(XmppBackendUser, PermissionsMixin):
+    # NOTE: MySQL only allows a 255 character limit
+    jid = models.CharField(max_length=255, unique=True, verbose_name='JID')
+    email = models.EmailField(null=True, blank=True)
+    gpg_fingerprint = models.CharField(max_length=40, null=True, blank=True)
+
+    # when the account was first registered
+    registered = models.DateTimeField(auto_now_add=True)
+    registration_method = models.SmallIntegerField(choices=REGISTRATION_CHOICES)
+
+    # when the email was confirmed
+    confirmed = models.DateTimeField(null=True, blank=True)
+
+    USERNAME_FIELD = 'jid'
+    REQUIRED_FIELDS = ('email', )
+
+    def __str__(self):
+        return self.jid
+
 
 class BasePage(BaseModel):
     title = LocalizedCharField(max_length=16, help_text=_('Page title'))
