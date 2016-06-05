@@ -1,6 +1,8 @@
 Django==1.9.7
 django-composite-field==0.7.4
 django-mptt==0.8.4
+django-redis==4.4.3
 django-xmpp-backends==0.1
+hiredis==0.2.0
 # our own basedjango has no release yet.
 -e git+https://github.com/mathiasertl/basedjango.git#egg=basedjango
