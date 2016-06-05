@@ -28,6 +28,7 @@ from .constants import REGISTRATION_INBAND
 from .constants import REGISTRATION_MANUAL
 from .constants import REGISTRATION_UNKNOWN
 from .constants import REGISTRATION_WEBSITE
+from .managers import UserManager
 from .modelfields import LocalizedCharField
 from .modelfields import LocalizedTextField
 
@@ -53,8 +54,14 @@ class User(XmppBackendUser, PermissionsMixin):
     # when the email was confirmed
     confirmed = models.DateTimeField(null=True, blank=True)
 
+    objects = UserManager()
+
     USERNAME_FIELD = 'jid'
     REQUIRED_FIELDS = ('email', )
+
+    @property
+    def is_staff(self):
+        return self.is_superuser
 
     def __str__(self):
         return self.jid
