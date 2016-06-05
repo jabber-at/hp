@@ -135,6 +135,11 @@ USE_TZ = True
 STATIC_URL = '/static/'
 AUTH_USER_MODEL = 'core.User'
 
+# Authenticate against the XMPP server
+AUTHENTICATION_BACKENDS = [
+    'django_xmpp_backends.auth_backends.XmppBackendBackend',
+]
+
 try:
     from .localsettings import *
 except ImportError:
