@@ -14,7 +14,12 @@
 # If not, see <http://www.gnu.org/licenses/>.
 
 from django.conf import settings
+from django.db import models
+from django.utils.translation import ugettext_lazy as _
 
+from jsonfield import JSONField
+
+from composite_field import CompositeField
 from composite_field.l10n import LocalizedCharField as _LocalizedCharField
 from composite_field.l10n import LocalizedTextField as _LocalizedTextField
 
@@ -33,3 +38,21 @@ class LocalizedTextField(_LocalizedTextField):
     def __init__(self, *args, **kwargs):
         kwargs.setdefault('languages', LANGUAGES)
         super(LocalizedTextField, self).__init__(*args, **kwargs)
+
+
+class LinkTarget(CompositeField):
+    TARGET_URL = 0
+    TARGET_NAMED_URL = 1
+    TARGET_PAGE = 2
+    TARGET_BLOGPOST = 3
+
+    TARGET_CHOICES = {
+        TARGET_URL: _('URL'),
+        TARGET_NAMED_URL: _('Named URL'),
+        TARGET_PAGE: _('Page'),
+        TARGET_BLOGPOST: _('Blog Post'),
+    }
+
+    type = models.SmallIntegerField(choices=sorted(TARGET_CHOICES.items(), key=lambda k: k[0]))
+    target = models.CharField(max_length=255, help_text=_('Link target'))
+    params = JSONField(default={})

@@ -18,6 +18,7 @@ from django.contrib.auth.models import PermissionsMixin
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
 
+from jsonfield import JSONField
 from mptt.models import MPTTModel
 from mptt.models import TreeForeignKey
 from django_xmpp_backends.models import XmppBackendUser
@@ -29,6 +30,7 @@ from .constants import REGISTRATION_MANUAL
 from .constants import REGISTRATION_UNKNOWN
 from .constants import REGISTRATION_WEBSITE
 from .managers import UserManager
+from .modelfields import LinkTarget
 from .modelfields import LocalizedCharField
 from .modelfields import LocalizedTextField
 
@@ -86,6 +88,7 @@ class Page(BasePage):
 class MenuItem(MPTTModel, BaseModel):
     title = LocalizedCharField(max_length=16, help_text=_('Page title'))
     parent = TreeForeignKey('self', null=True, blank=True, related_name='children', db_index=True)
+    target = LinkTarget()
 
     def __str__(self):
         return self.title.current
