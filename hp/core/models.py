@@ -18,7 +18,6 @@ from django.contrib.auth.models import PermissionsMixin
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
 
-from jsonfield import JSONField
 from mptt.models import MPTTModel
 from mptt.models import TreeForeignKey
 from django_xmpp_backends.models import XmppBackendUser

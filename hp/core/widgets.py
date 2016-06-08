@@ -13,21 +13,23 @@
 # You should have received a copy of the GNU General Public License along with django-xmpp-account.
 # If not, see <http://www.gnu.org/licenses/>.
 
-from django.utils.translation import ugettext_lazy as _
+import json
+
+from django import forms
+
+from .constants import TARGET_URL
+from .constants import TARGET_PAGE
 
 
-REGISTRATION_WEBSITE = 0
-REGISTRATION_INBAND = 1
-REGISTRATION_MANUAL = 2
-REGISTRATION_UNKNOWN = 9
+class LinkTargetWidget(forms.MultiWidget):
+    def decompress(self, value):
+        if value is None:
+            return [TARGET_URL, '', 1]
+        value = json.loads(value)
+        typ = value.get('typ', TARGET_URL)
 
-TARGET_URL = 0
-TARGET_NAMED_URL = 1
-TARGET_PAGE = 2
-TARGET_BLOGPOST = 3
-TARGET_CHOICES = {
-    TARGET_URL: _('URL'),
-#    TARGET_NAMED_URL: _('Named URL'),
-    TARGET_PAGE: _('Page'),
-#    TARGET_BLOGPOST: _('Blog Post'),
-}
+        if typ == TARGET_URL:
+            return [typ, value.get('url', ''), 1]
+        elif typ == TARGET_PAGE:
+            return [typ, '', value.get('page', 1)]
+        return [TARGET_URL, '', 1]
