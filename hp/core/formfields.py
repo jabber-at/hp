@@ -59,20 +59,35 @@ class LinkTargetField(forms.MultiValueField):
             text_widget = AdminTextInputWidget
 
         fields = (
-            forms.ChoiceField(choices=TARGET_CHOICES.items()),  # type
+            forms.ChoiceField(choices=TARGET_CHOICES.items(), widget=forms.RadioSelect(attrs={
+                'data-field': 'type',
+            })),
 
             # path (url or name of TARGET_NAMED_URL)
-            forms.CharField(required=False, widget=text_widget),
+            forms.CharField(required=False, widget=text_widget(attrs={
+                'data-field': 'name',
+            })),
 
             # args (for TARGET_NAMED_URL args)
-            forms.CharField(required=False, widget=text_widget),
+            forms.CharField(required=False, widget=text_widget(attrs={
+                'data-field': 'args',
+            })),
 
             # kwargs (for TARGET_NAMED_URL kwargs)
-            forms.CharField(required=False, widget=text_widget),
+            forms.CharField(required=False, widget=text_widget(attrs={
+                'data-field': 'kwargs',
+            })),
 
             # For a generic link to an object
-            forms.ModelChoiceField(queryset=model_choices, required=False, empty_label=None),
-            forms.CharField(required=False),  # pk of the object, will be a nice select
+            forms.ModelChoiceField(
+                queryset=model_choices, required=False, empty_label=None,
+                widget=forms.Select(attrs={
+                    'data-field': 'content_type',
+            })),
+            # pk of the object, will be a nice select
+            forms.CharField(required=False, widget=text_widget(attrs={
+                'data-field': 'object_id',
+            })),
         )
         self.widget = LinkTargetWidget(widgets=[f.widget for f in fields], models=model_choices)
 
