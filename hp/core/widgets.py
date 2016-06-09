@@ -51,7 +51,7 @@ class LinkTargetWidget(forms.MultiWidget):
                 widget_value = None
             if id_:
                 final_attrs = dict(final_attrs, id='%s_%s' % (id_, i))
-            output.append('<div>')
+            output.append('<div class="linktarget-widget">')
             widget_id = name + '_%s' % i
 
             # create the label
@@ -88,3 +88,8 @@ class LinkTargetWidget(forms.MultiWidget):
             return [typ, '', '', '', value.get('content_type', 1), value.get('object_id')]
         log.error('Unkown typ %s', typ)
         return [TARGET_URL, '', '[]', '{}', default_model, '']
+
+    class Media:
+        css = {
+            'all': ('core/css/linktargetwidget.css', ),
+        }

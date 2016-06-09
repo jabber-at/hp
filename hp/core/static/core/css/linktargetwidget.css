@@ -1,0 +1,17 @@
+.linktarget-wrapper {
+    margin-left: 160px;
+    padding-left: 10px;
+}
+
+form .aligned .linktarget-wrapper ul {
+    margin-left: 0;
+    padding-left: 0;
+}
+form .aligned .linktarget-wrapper ul li {
+    min-width: 100px;
+    display: inline-block;
+}
+
+form .aligned .linktarget-wrapper .linktarget-widget {
+    padding-bottom: 5px;
+}
