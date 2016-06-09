@@ -17,12 +17,12 @@ import logging
 
 from django import forms
 from django.contrib.contenttypes.models import ContentType
+from django.contrib.admin.widgets import AdminTextInputWidget
 
 from .constants import TARGET_CHOICES
 from .constants import TARGET_NAMED_URL
 from .constants import TARGET_MODEL
 from .constants import TARGET_URL
-#from .models import Page
 from .widgets import LinkTargetWidget
 
 log = logging.getLogger(__name__)
@@ -41,11 +41,21 @@ class LinkTargetField(forms.MultiValueField):
                 model_choices.append(ContentType.objects.get_for_model(model))
         model_choices = ContentType.objects.filter(pk__in=[c.pk for c in model_choices])
 
+        text_widget = forms.TextInput
+        if is_admin is True:
+            text_widget = AdminTextInputWidget
+
         fields = (
             forms.ChoiceField(choices=TARGET_CHOICES.items()),  # type
-            forms.CharField(required=False),  # path (url or name of TARGET_NAMED_URL)
-            forms.CharField(required=False),  # args (for TARGET_NAMED_URL args)
-            forms.CharField(required=False),  # kwargs (for TARGET_NAMED_URL kwargs)
+
+            # path (url or name of TARGET_NAMED_URL)
+            forms.CharField(required=False, widget=text_widget),
+
+            # args (for TARGET_NAMED_URL args)
+            forms.CharField(required=False, widget=text_widget),
+
+            # kwargs (for TARGET_NAMED_URL kwargs)
+            forms.CharField(required=False, widget=text_widget),
 
             # For a generic link to an object
             forms.ModelChoiceField(queryset=model_choices, required=False, empty_label=None),
