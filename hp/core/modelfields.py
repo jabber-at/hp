@@ -21,8 +21,8 @@ from jsonfield import JSONField
 from composite_field.l10n import LocalizedCharField as _LocalizedCharField
 from composite_field.l10n import LocalizedTextField as _LocalizedTextField
 
-from .constants import TARGET_PAGE
 from .constants import TARGET_URL
+from .constants import TARGET_MODEL
 from .formfields import LinkTargetField
 
 LANGUAGES = [l[0] for l in getattr(settings, 'LANGUAGES', [])]
@@ -48,7 +48,7 @@ class LinkTargetDict(dict):
         typ = int(self.get('typ', TARGET_URL))
         if typ == TARGET_URL:
             return self.get('url', '')
-        elif typ == TARGET_PAGE:
+        elif typ == TARGET_MODEL:
             return '/page/%s' % self['page']
         return ''
 
@@ -67,9 +67,9 @@ class LinkTarget(JSONField):
     .. seealso:: https://github.com/bradjasper/django-jsonfield
     """
 
-    def to_python(self, value, obj):
-        return LinkTargetDict(super(LinkTarget, self).pre_init(value, obj))
-
+#    def to_python(self, value, obj):
+#        return LinkTargetDict(super(LinkTarget, self).pre_init(value, obj))
+#
     def pre_init(self, value, obj):
         return LinkTargetDict(super(LinkTarget, self).pre_init(value, obj))
 

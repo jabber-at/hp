@@ -16,9 +16,11 @@
 import logging
 
 from django import forms
+from django.contrib.contenttypes.models import ContentType
 
 from .constants import TARGET_CHOICES
-from .constants import TARGET_PAGE
+from .constants import TARGET_NAMED_URL
+from .constants import TARGET_MODEL
 from .constants import TARGET_URL
 #from .models import Page
 from .widgets import LinkTargetWidget
@@ -28,32 +30,54 @@ log = logging.getLogger(__name__)
 
 class LinkTargetField(forms.MultiValueField):
     def __init__(self, *args, **kwargs):
-        is_admin = kwargs.pop('admin', False)
+        is_admin = kwargs.pop('admin', False)  # TODO
+
+        model_choices = []
+        for model in kwargs.pop('models', ['core.page', 'blog.blogpost']):
+            if isinstance(model, str):
+                app_label, model = model.split('.', 1)
+                model_choices.append(ContentType.objects.get_by_natural_key(app_label, model))
+            else:
+                model_choices.append(ContentType.objects.get_for_model(model))
+        model_choices = ContentType.objects.filter(pk__in=[c.pk for c in model_choices])
 
         fields = (
             forms.ChoiceField(choices=TARGET_CHOICES.items()),  # type
-            forms.CharField(required=False),  # any absolute URL
-#            forms.ModelChoiceField(queryset=Page.objects.filter(published=True), required=False),
+            forms.CharField(required=False),  # path (url or name of TARGET_NAMED_URL)
+            forms.CharField(required=False),  # args (for TARGET_NAMED_URL args)
+            forms.CharField(required=False),  # kwargs (for TARGET_NAMED_URL kwargs)
 
+            # For a generic link to an object
+            forms.ModelChoiceField(queryset=model_choices, required=False, empty_label=None),
+            forms.CharField(required=False),  # pk of the object, will be a nice select
         )
-        self.widget = LinkTargetWidget(widgets=[f.widget for f in fields])
+        self.widget = LinkTargetWidget(widgets=[f.widget for f in fields], models=model_choices)
 
         super(LinkTargetField, self).__init__(fields=fields,
                                               require_all_fields=False, *args,
                                               **kwargs)
 
     def compress(self, data_list):
-        print('### compress(%s)' % (data_list, ))
-        typ = int(data_list.pop(0))
+        typ, path, args, kwargs, model, pk = data_list
+        typ = int(typ)
+
         if typ == TARGET_URL:
             return {
                 'typ': typ,
-                'url': data_list.pop(0),
+                'url': path,
             }
-        elif typ == TARGET_PAGE:
+        elif typ == TARGET_NAMED_URL:
             return {
                 'typ': typ,
-                'page': data_list.pop(1).pk,
+                'name': path,
+                'args': args,
+                'kwargs': kwargs,
             }
-        log.warn('Unknown link target type: %s', typ)
-        return {}
+        elif typ == TARGET_MODEL:
+            return {
+                'typ': typ,
+                'content_type': model.pk,
+                'object_id': int(pk),
+            }
+        log.error("Unkown target type %s", typ)
+        return {typ: TARGET_URL, 'url': ''}
