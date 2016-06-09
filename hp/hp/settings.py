@@ -45,7 +45,6 @@ INSTALLED_APPS = [
     'basedjango',
 
     'core',
-    'blog',
 ]
 
 MIDDLEWARE_CLASSES = [
