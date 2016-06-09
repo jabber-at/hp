@@ -71,6 +71,7 @@ class User(XmppBackendUser, PermissionsMixin):
 
 class BasePage(BaseModel):
     title = LocalizedCharField(max_length=16, help_text=_('Page title'))
+    slug = LocalizedCharField(max_length=16, unique=True, help_text=_('Slug (used in URLs)'))
     text = LocalizedTextField()
     author = models.ForeignKey(settings.AUTH_USER_MODEL)
     published = models.BooleanField(default=True, help_text=_(
