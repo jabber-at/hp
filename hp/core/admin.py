@@ -13,14 +13,12 @@
 # You should have received a copy of the GNU General Public License along with django-xmpp-account.
 # If not, see <http://www.gnu.org/licenses/.
 
-from django import forms
 from django.contrib import admin
 
 from mptt.admin import DraggableMPTTAdmin
 
 from .models import Page
 from .models import MenuItem
-from .formfields import LinkTargetField
 
 
 @admin.register(Page)
@@ -28,17 +26,8 @@ class PageAdmin(admin.ModelAdmin):
     pass
 
 
-class MenuItemAdminForm(forms.ModelForm):
-    target = LinkTargetField()
-
-    class Meta:
-        fields = '__all__'
-        model = MenuItem
-
-
 @admin.register(MenuItem)
 class MenuItemAdmin(DraggableMPTTAdmin):
-    form = MenuItemAdminForm
     list_display = (
         'tree_actions',
         'indented_title',
