@@ -20,7 +20,7 @@ from django import forms
 from .constants import TARGET_CHOICES
 from .constants import TARGET_PAGE
 from .constants import TARGET_URL
-from .models import Page
+#from .models import Page
 from .widgets import LinkTargetWidget
 
 log = logging.getLogger(__name__)
@@ -28,10 +28,12 @@ log = logging.getLogger(__name__)
 
 class LinkTargetField(forms.MultiValueField):
     def __init__(self, *args, **kwargs):
+        is_admin = kwargs.pop('admin', False)
+
         fields = (
             forms.ChoiceField(choices=TARGET_CHOICES.items()),  # type
             forms.CharField(required=False),  # any absolute URL
-            forms.ModelChoiceField(queryset=Page.objects.filter(published=True), required=False),
+#            forms.ModelChoiceField(queryset=Page.objects.filter(published=True), required=False),
 
         )
         self.widget = LinkTargetWidget(widgets=[f.widget for f in fields])
