@@ -3,3 +3,6 @@
     background-color: #f5f5f5;
     border-radius: 4px;
 }
+.blog-post h3 small {
+    font-size: 50%;
+}
