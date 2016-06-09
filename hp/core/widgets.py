@@ -36,17 +36,17 @@ class LinkTargetWidget(forms.MultiWidget):
             default_model = self.models[0].pk
 
         if value is None:
-            return [TARGET_URL, '', '', '', default_model, '']
+            return [TARGET_URL, '', '[]', '{}', default_model, '']
 
         value = json.loads(value)
         typ = value.get('typ', TARGET_URL)
 
         if typ == TARGET_URL:
-            return [typ, value.get('url', ''), '', '', default_model, '']
+            return [typ, value.get('url', ''), '[]', '{}', default_model, '']
         elif typ == TARGET_NAMED_URL:
             return [typ, value.get('name', ''), value.get('args', '[]'), value.get('kwargs', '{}'),
                     default_model, '']
         elif typ == TARGET_MODEL:
             return [typ, '', '', '', value.get('content_type', 1), value.get('object_id')]
         log.error('Unkown typ %s', typ)
-        return [TARGET_URL, '', '', '', default_model, '']
+        return [TARGET_URL, '', '[]', '{}', default_model, '']

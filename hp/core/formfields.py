@@ -13,6 +13,7 @@
 # You should have received a copy of the GNU General Public License along with django-xmpp-account.
 # If not, see <http://www.gnu.org/licenses/>.
 
+import json
 import logging
 
 from django import forms
@@ -92,8 +93,8 @@ class LinkTargetField(forms.MultiValueField):
             return {
                 'typ': typ,
                 'name': path,
-                'args': args,
-                'kwargs': kwargs,
+                'args': json.loads(args),
+                'kwargs': json.loads(kwargs),
             }
         elif typ == TARGET_MODEL:
             return {
