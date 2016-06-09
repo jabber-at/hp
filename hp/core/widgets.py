@@ -17,6 +17,7 @@ import json
 import logging
 
 from django import forms
+from django.utils.html import mark_safe
 
 from .constants import TARGET_URL
 from .constants import TARGET_NAMED_URL
@@ -29,6 +30,31 @@ class LinkTargetWidget(forms.MultiWidget):
     def __init__(self, *args, **kwargs):
         self.models = kwargs.pop('models', [])
         super(LinkTargetWidget, self).__init__(*args, **kwargs)
+
+    def render(self, name, value, attrs=None):
+        if self.is_localized:
+            for widget in self.widgets:
+                widget.is_localized = self.is_localized
+        # value is a list of values, each corresponding to a widget
+        # in self.widgets.
+        if not isinstance(value, list):
+            value = self.decompress(value)
+        output = ['<div class="linktarget-wrapper">']
+        final_attrs = self.build_attrs(attrs)
+        id_ = final_attrs.get('id')
+        for i, widget in enumerate(self.widgets):
+            try:
+                widget_value = value[i]
+            except IndexError:
+                widget_value = None
+            if id_:
+                final_attrs = dict(final_attrs, id='%s_%s' % (id_, i))
+            output.append('<div>')
+            output.append(widget.render(name + '_%s' % i, widget_value, final_attrs))
+            output.append('</div>')
+
+        output.append('</div>')
+        return mark_safe(self.format_output(output))
 
     def decompress(self, value):
         default_model = 1
