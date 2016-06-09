@@ -1,4 +1,8 @@
-/** Note: This currently only works with _one_ LinkTargetField on a page. */
+/** 
+ * Javascript to hide thie widgets not used in the current target type selection.
+ *
+ * WARNING: This currently only works with _one_ LinkTargetField on a page. 
+ */
 
 var linktarget_show_fields = function(value) {
     if (value === "0") {

@@ -69,7 +69,6 @@ class LinkTargetWidget(forms.MultiWidget):
         return mark_safe(self.format_output(output))
 
     def decompress(self, value):
-        print('decompress')
         default_model = 1
         if self.models:
             default_model = self.models[0].pk
