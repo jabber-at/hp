@@ -46,10 +46,12 @@ def deploy(section):
     ssh = lambda c: local('ssh %s %s' % (host, c))
     sudo = lambda c: ssh('sudo sh -c \'"%s"\'' % c)
     python = lambda c: sudo('%s/bin/python %s' % (venv, c))
+    pip = lambda c: sudo('%s/bin/pip %s' % (venv, c))
     manage = lambda c: python('%s/hp/manage.py %s' % (path, c))
 
     local('git push origin master')
     sudo('cd %s && git pull origin master' % path)
+    pip('install -U -r %s/requirements.txt' % path)
     manage('migrate')
     manage('collectstatic --noinput')
     sudo('touch /etc/uwsgi-emperor/vassals/%s.ini' % section)
