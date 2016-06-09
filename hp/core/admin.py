@@ -168,8 +168,23 @@ class MenuItemAdmin(DraggableMPTTAdmin):
         'indented_title',
     )
 
-@admin.register(User, app_label='auth')
-class UserAdmin(admin.ModelAdmin):
-    app_label = 'auth'
+from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
+@admin.register(User)
+class UserAdmin(BaseUserAdmin):
+    ordering = ('registered', )
+    list_display = ('jid', 'email', 'registered', 'confirmed', )
+    list_filter = ('is_superuser', )
+    readonly_fields = ['registered', ]
+    add_fieldsets = (
+        (None, {
+            'fields': ('jid', 'email', 'gpg_fingerprint'),
+        }),
+    )
+    fieldsets = (
+        (None, {
+            'fields': ('jid', 'email', 'registered', 'registration_method', 'confirmed',
+                       'gpg_fingerprint'),
+        }),
+    )
 
 admin.site.unregister(Group)
