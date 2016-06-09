@@ -20,7 +20,9 @@ from django.contrib import admin
 from blog.views import BlogPostListView
 
 urlpatterns = [
+    url(r'^admin/', admin.site.urls),
+    url(r'^tinymce/', include('tinymce.urls')),
+
     url(r'^$', BlogPostListView.as_view(), name='root'),
     url(r'^', include('core.urls')),
-    url(r'^admin/', admin.site.urls),
 ]
