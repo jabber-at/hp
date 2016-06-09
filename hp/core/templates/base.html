@@ -1,16 +1,18 @@
-{% extends "basedjango/base.html" %}
-{% load staticfiles mptt_tags %}
+{% load staticfiles mptt_tags %}<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
 
-{% block head %}
-<title>{% block title %}{% endblock title %}</title>
-<link href="{% static 'lib/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
-<link href="{% static 'lib/bootstrap/css/bootstrap-theme.min.css' %}" rel="stylesheet">
-<link href="{% static 'css/theme.css' %}" rel="stylesheet">
-<link href="{% static 'core/css/base.css' %}" rel="stylesheet">
-{% endblock head %}
+    <title>{% block title %}{% endblock title %}</title>
 
-{% block body-attrs %} role="document"{% endblock body-attrs %}
+    <link href="{% static 'lib/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
+    <link href="{% static 'lib/bootstrap/css/bootstrap-theme.min.css' %}" rel="stylesheet">
+    <link href="{% static 'css/theme.css' %}" rel="stylesheet">
+    <link href="{% static 'core/css/base.css' %}" rel="stylesheet">
 
+<body{% block body-attrs %} role="document"{% endblock body-attrs %}>
 {% block body %}
 <!-- Fixed navbar -->
 <nav class="navbar navbar-inverse navbar-fixed-top">

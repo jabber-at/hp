@@ -24,8 +24,6 @@ from mptt.models import MPTTModel
 from mptt.models import TreeForeignKey
 from django_xmpp_backends.models import XmppBackendUser
 
-from basedjango.models import BaseModel
-
 from .constants import REGISTRATION_INBAND
 from .constants import REGISTRATION_MANUAL
 from .constants import REGISTRATION_UNKNOWN
@@ -43,6 +41,14 @@ REGISTRATION_CHOICES = (
     (REGISTRATION_MANUAL, 'Manually'),
     (REGISTRATION_UNKNOWN, 'Unknown'),
 )
+
+
+class BaseModel(models.Model):
+    created = models.DateTimeField(auto_now_add=True)
+    updated = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        abstract = True
 
 
 class User(XmppBackendUser, PermissionsMixin):

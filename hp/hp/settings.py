@@ -42,8 +42,6 @@ INSTALLED_APPS = [
     'mptt',  # Tree structure for MenuItem
     'tinymce',  # Rich text editor
 
-    'basedjango',
-
     'core',
 ]
 
