@@ -27,7 +27,7 @@ TARGET_PAGE = 2
 TARGET_BLOGPOST = 3
 TARGET_CHOICES = {
     TARGET_URL: _('URL'),
-#    TARGET_NAMED_URL: _('Named URL'),
+    TARGET_NAMED_URL: _('Named URL'),
     TARGET_PAGE: _('Page'),
-#    TARGET_BLOGPOST: _('Blog Post'),
+    TARGET_BLOGPOST: _('Blog Post'),
 }

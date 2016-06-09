@@ -54,6 +54,19 @@ class LinkTargetDict(dict):
 
 
 class LinkTarget(JSONField):
+    """Subclass of a JSONField to contain all relevant data to link to various objects.
+
+    A JSONField is a model field that dynamically serializes its data to JSON.
+
+    This field should store structured data that can be reconstructed to a link. When deserialized,
+    it returns LinkTargetDict instead of just a dict, to provide the ``href`` property.
+    Consequently, you can use this field in templates::
+
+        <a href="{{ object.link_target.href }}">...</a>
+
+    .. seealso:: https://github.com/bradjasper/django-jsonfield
+    """
+
     def to_python(self, value, obj):
         return LinkTargetDict(super(LinkTarget, self).pre_init(value, obj))
 
