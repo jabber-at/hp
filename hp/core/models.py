@@ -15,6 +15,7 @@
 
 from django.conf import settings
 from django.contrib.auth.models import PermissionsMixin
+from django.core.exceptions import ValidationError
 from django.core.urlresolvers import reverse
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
@@ -29,6 +30,7 @@ from .constants import REGISTRATION_INBAND
 from .constants import REGISTRATION_MANUAL
 from .constants import REGISTRATION_UNKNOWN
 from .constants import REGISTRATION_WEBSITE
+from .constants import TARGET_URL
 from .managers import UserManager
 from .modelfields import LinkTarget
 from .modelfields import LocalizedCharField
@@ -83,7 +85,7 @@ class BasePage(BaseModel):
 
 class Page(BasePage):
     def get_absolute_url(self):
-        return reverse('core:page', kwargs={'pk': self.pk})
+        return reverse('core:page', kwargs={'slug': self.slug.current})
 
     def __str__(self):
         return self.title.current
@@ -93,6 +95,19 @@ class MenuItem(MPTTModel, BaseModel):
     title = LocalizedCharField(max_length=16, help_text=_('Page title'))
     parent = TreeForeignKey('self', null=True, blank=True, related_name='children', db_index=True)
     target = LinkTarget()
+
+    def clean(self):
+        """Validate that if we have children, that the target is empty."""
+
+        empty_target = {
+            'typ': TARGET_URL,
+            'url': '#',
+        }
+        print(empty_target, self.target, type(self.target))
+        if self.get_descendant_count() != 0 and self.target != empty_target:
+            raise ValidationError(_('Menu item with children should have URL "#"'))
+
+        return super(MenuItem, self).clean()
 
     def __str__(self):
         return self.title.current
