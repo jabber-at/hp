@@ -14,6 +14,7 @@
 # If not, see <http://www.gnu.org/licenses/.
 
 from django.contrib import admin
+from django.utils.translation import gettext_lazy as _
 
 from mptt.admin import DraggableMPTTAdmin
 
@@ -21,8 +22,48 @@ from .models import Page
 from .models import MenuItem
 
 
+class BasePageAdmin(admin.ModelAdmin):
+    def get_readonly_fields(self, request, obj=None):
+        fields = list(super(BasePageAdmin, self).get_readonly_fields(request, obj=obj))
+        if 'author' not in fields:
+            fields.append('author')
+        return fields
+
+    def get_actions(self, request):
+        actions = super(BasePageAdmin, self).get_actions(request)
+
+        context = {
+            'models': self.model._meta.verbose_name_plural,
+        }
+
+        actions['make_publish'] = (
+            self.make_publish, 'make_publish', self.make_publish.short_description % context,
+        )
+        actions['make_unpublish'] = (
+            self.make_unpublish, 'make_unpublish', self.make_unpublish.short_description % context,
+        )
+        return actions
+
+    def save_model(self, request, obj, form, change):
+        if change is False:  # adding a new object
+            obj.author = request.user
+        obj.save()
+
+    #################
+    # Admin actions #
+    #################
+    def make_publish(self, request, queryset):
+        queryset.update(published=True)
+    make_publish.short_description = _('Publish selected %(models)s')
+
+    def make_unpublish(self, request, queryset):
+        queryset.update(published=False)
+    make_unpublish.short_description = _('Unpublish selected %(models)s')
+
+
+
 @admin.register(Page)
-class PageAdmin(admin.ModelAdmin):
+class PageAdmin(BasePageAdmin):
     pass
 
 
