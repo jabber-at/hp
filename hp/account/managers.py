@@ -13,17 +13,29 @@
 # You should have received a copy of the GNU General Public License along with django-xmpp-account.
 # If not, see <http://www.gnu.org/licenses/>.
 
+from django.conf import settings
 from django.contrib.auth.models import BaseUserManager
+from django.db import transaction
+
+from django_xmpp_backends import backend
 
 from .constants import REGISTRATION_MANUAL
 
 
 class UserManager(BaseUserManager):
-    def create_superuser(self, jid, email, password, method=None):
-        if method is None:
-            method = REGISTRATION_MANUAL
+    def create_uiser(self, jid, email, password=None):
+        user = self.model(jid=jid, email=email, registration_method=REGISTRATION_MANUAL)
+        with transaction.atomic():
+            user.save(using=self.db)
 
-        user = self.model(jid=jid, email=email, registration_method=method,
-                          is_superuser=True)
-        user.save(using=self.db)
+            if password is None and settings.XMPP_HOSTS[user.domain].get('reserve', False):
+                backend.create_reservation(user.node, user.domain, email=email)
+            elif password is not None:
+                backend.create_user(user.node, user.domain, password, email=email)
+        return user
+
+    def create_superuser(self, jid, email, password):
+        user = self.create_user(jid, email, password)
+        user.is_superuser = True
+        user.save()
         return user
