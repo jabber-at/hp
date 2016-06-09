@@ -82,7 +82,7 @@ class BasePage(BaseModel):
 
 class Page(BasePage):
     def get_absolute_url(self):
-        return reverse('core:page', pk=self.pk)
+        return reverse('core:page', kwargs={'pk': self.pk})
 
     def __str__(self):
         return self.title.current
