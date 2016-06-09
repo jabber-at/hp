@@ -31,7 +31,6 @@ class LinkTargetWidget(forms.MultiWidget):
         super(LinkTargetWidget, self).__init__(*args, **kwargs)
 
     def decompress(self, value):
-        print('decompress: %s', value)
         default_model = 1
         if self.models:
             default_model = self.models[0].pk
