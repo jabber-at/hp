@@ -23,6 +23,7 @@ from composite_field.base import CompositeField
 from mptt.admin import DraggableMPTTAdmin
 from tinymce.widgets import TinyMCE
 
+from .models import BlogPost
 from .models import Page
 from .models import MenuItem
 
@@ -74,10 +75,42 @@ class BasePageAdmin(admin.ModelAdmin):
                 new_fields.append(name)
         return new_fields
 
+    def _get_subfields(self, name):
+        return tuple([f.name for f in self.model._meta.get_field(name).subfields.values()])
+
     def get_fieldsets(self, request, obj=None):
         fieldsets = super(BasePageAdmin, self).get_fieldsets(request, obj=obj)
-        for name, options in fieldsets:
-            options['fields'] = self._get_composite_field_tuple(options['fields'])
+
+        if self.fieldsets is None and self.fields is None:
+            # The ModelAdmin class doesn't set fields or fieldsets - we replace localized
+            # fields with tuples.
+            fields = []
+            has_title = has_slug = has_text = False
+            title_fields = self._get_subfields('title')
+            slug_fields = self._get_subfields('slug')
+            text_fields = self._get_subfields('text')
+            for field in fieldsets[0][1]['fields']:
+                if field in title_fields:
+                    if has_title is False:
+                        fields.append(title_fields)
+                        has_title = True
+                elif field in slug_fields:
+                    if has_slug is False:
+                        fields.append(slug_fields)
+                        has_slug = True
+                elif field in text_fields:
+                    if has_text is False:
+                        fields.append(text_fields)
+                        has_text = True
+                else:
+                    fields.append(field)
+
+            fieldsets[0][1]['fields'] = list(fields)
+        else:
+            # ModelAdmin sets fields or fieldsets. This means that e.g. 'title' should
+            # be replaced with ('title_de', 'title_en').
+            for name, options in fieldsets:
+                options['fields'] = self._get_composite_field_tuple(options['fields'])
 
         return fieldsets
 
@@ -113,6 +146,10 @@ class BasePageAdmin(admin.ModelAdmin):
         queryset.update(published=False)
     make_unpublish.short_description = _('Unpublish selected %(models)s')
 
+
+@admin.register(BlogPost)
+class BlogPostAdmin(BasePageAdmin):
+    fields = ['title', 'slug', 'text', ('published', 'sticky'), 'author']
 
 @admin.register(Page)
 class PageAdmin(BasePageAdmin):

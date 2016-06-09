@@ -17,24 +17,24 @@ from django.contrib import admin
 from django.utils.translation import gettext_lazy as _
 
 from core.admin import BasePageAdmin
-from .models import BlogPost
-
-
-@admin.register(BlogPost)
-class BlogPostAdmin(BasePageAdmin):
-    readonly_fields = ('created', 'updated', )
-    list_display = ('published', '__str__', 'author', 'created', )
-    list_display_links = ('__str__', )
-    list_filter = ('author', )
-
-    fieldsets = (
-        (None, {
-            'fields': ('author', ('created', 'updated', ), ('published', 'sticky', )),
-        }),
-        (_('Title'), {
-            'fields': [('title_de', 'title_en'), ],
-        }),
-        (_('Text'), {
-            'fields': [('text_de', 'text_en'), ],
-        }),
-    )
+#from .models import BlogPost
+#
+#
+#@admin.register(BlogPost)
+#class BlogPostAdmin(BasePageAdmin):
+#    readonly_fields = ('created', 'updated', )
+#    list_display = ('published', '__str__', 'author', 'created', )
+#    list_display_links = ('__str__', )
+#    list_filter = ('author', )
+#
+#    fieldsets = (
+#        (None, {
+#            'fields': ('author', ('created', 'updated', ), ('published', 'sticky', )),
+#        }),
+#        (_('Title'), {
+#            'fields': [('title_de', 'title_en'), ],
+#        }),
+#        (_('Text'), {
+#            'fields': [('text_de', 'text_en'), ],
+#        }),
+#    )

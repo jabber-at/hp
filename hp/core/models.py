@@ -90,6 +90,13 @@ class Page(BasePage):
     def __str__(self):
         return self.title.current
 
+class BlogPost(BasePage):
+    sticky = models.BooleanField(default=False, help_text=_(
+        'Pinned at the top of any list of blog posts.'))
+
+    def __str__(self):
+        return self.title.current
+
 
 class MenuItem(MPTTModel, BaseModel):
     title = LocalizedCharField(max_length=16, help_text=_('Page title'))

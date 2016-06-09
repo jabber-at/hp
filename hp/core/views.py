@@ -14,9 +14,19 @@
 # If not, see <http://www.gnu.org/licenses/>.
 
 from django.views.generic.detail import DetailView
+from django.views.generic.list import ListView
 
 from .models import Page
+from .models import BlogPost
 
 
 class PageView(DetailView):
     queryset = Page.objects.filter(published=True)
+
+
+class BlogPostListView(ListView):
+    queryset = BlogPost.objects.filter(published=True).order_by('-sticky', '-created')
+
+
+class BlogPostView(DetailView):
+    queryset = BlogPost.objects.filter(published=True)
