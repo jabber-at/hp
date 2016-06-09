@@ -15,6 +15,7 @@
 
 from django.conf import settings
 from django.contrib.auth.models import PermissionsMixin
+from django.core.urlresolvers import reverse
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
 
@@ -80,6 +81,9 @@ class BasePage(BaseModel):
 
 
 class Page(BasePage):
+    def get_absolute_url(self):
+        return reverse('core:page', pk=self.pk)
+
     def __str__(self):
         return self.title.current
 
