@@ -24,7 +24,7 @@ from .constants import REGISTRATION_MANUAL
 
 
 class UserManager(BaseUserManager):
-    def create_uiser(self, jid, email, password=None):
+    def create_user(self, jid, email, password=None):
         user = self.model(jid=jid, email=email, confirmed=timezone.now(),
                           registration_method=REGISTRATION_MANUAL)
 
