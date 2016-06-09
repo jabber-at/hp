@@ -16,6 +16,7 @@
 from django.conf import settings
 from django.contrib.auth.models import BaseUserManager
 from django.db import transaction
+from django.utils import timezone
 
 from django_xmpp_backends import backend
 
@@ -24,7 +25,9 @@ from .constants import REGISTRATION_MANUAL
 
 class UserManager(BaseUserManager):
     def create_uiser(self, jid, email, password=None):
-        user = self.model(jid=jid, email=email, registration_method=REGISTRATION_MANUAL)
+        user = self.model(jid=jid, email=email, confirmed=timezone.now(),
+                          registration_method=REGISTRATION_MANUAL)
+
         with transaction.atomic():
             user.save(using=self.db)
 
