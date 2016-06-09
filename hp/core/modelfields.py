@@ -56,7 +56,7 @@ class LinkTargetDict(dict):
             return reverse(self['name'], *self['args'], **self['kwargs'])
         elif typ == TARGET_MODEL:
             ct = ContentType.objects.get_for_id(self['content_type'])
-            obj = ct.get_object_for_this_type(self['object_id'])
+            obj = ct.get_object_for_this_type(pk=self['object_id'])
             return obj.get_absolute_url()
         return ''
 
