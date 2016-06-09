@@ -40,6 +40,14 @@ class User(XmppBackendUser, PermissionsMixin):
     REQUIRED_FIELDS = ('email', )
 
     @property
+    def node(self):
+        return self.jid.split('@', 1)[0]
+
+    @property
+    def domain(self):
+        return self.jid.split('@', 1)[1]
+
+    @property
     def is_staff(self):
         return self.is_superuser
 
