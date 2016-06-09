@@ -69,6 +69,7 @@ class LinkTargetWidget(forms.MultiWidget):
         return mark_safe(self.format_output(output))
 
     def decompress(self, value):
+        print('decompress')
         default_model = 1
         if self.models:
             default_model = self.models[0].pk
@@ -85,7 +86,7 @@ class LinkTargetWidget(forms.MultiWidget):
             return [typ, value.get('name', ''), value.get('args', '[]'), value.get('kwargs', '{}'),
                     default_model, '']
         elif typ == TARGET_MODEL:
-            return [typ, '', '', '', value.get('content_type', 1), value.get('object_id')]
+            return [typ, '', '[]', '{}', value.get('content_type', 1), value.get('object_id')]
         log.error('Unkown typ %s', typ)
         return [TARGET_URL, '', '[]', '{}', default_model, '']
 
