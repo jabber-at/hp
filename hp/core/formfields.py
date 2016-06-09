@@ -19,6 +19,7 @@ import logging
 from django import forms
 from django.contrib.contenttypes.models import ContentType
 from django.contrib.admin.widgets import AdminTextInputWidget
+from django.utils.translation import ugettext_lazy as _
 
 from .constants import TARGET_CHOICES
 from .constants import TARGET_NAMED_URL
@@ -64,32 +65,34 @@ class LinkTargetField(forms.MultiValueField):
             })),
 
             # path (url or name of TARGET_NAMED_URL)
-            forms.CharField(required=False, widget=text_widget(attrs={
-                'data-field': 'name',
-            })),
+            forms.CharField(required=False, label=_('URL/URL name'), widget=text_widget),
 
             # args (for TARGET_NAMED_URL args)
-            forms.CharField(required=False, widget=text_widget(attrs={
-                'data-field': 'args',
-            })),
+            forms.CharField(required=False, label=_('args'), widget=text_widget),
 
             # kwargs (for TARGET_NAMED_URL kwargs)
-            forms.CharField(required=False, widget=text_widget(attrs={
-                'data-field': 'kwargs',
-            })),
+            forms.CharField(required=False, label=_('kwargs'), widget=text_widget),
 
             # For a generic link to an object
             forms.ModelChoiceField(
-                queryset=model_choices, required=False, empty_label=None,
+                queryset=model_choices, required=False, label=_('Model'), empty_label=None,
                 widget=forms.Select(attrs={
                     'data-field': 'content_type',
             })),
             # pk of the object, will be a nice select
-            forms.CharField(required=False, widget=text_widget(attrs={
+            forms.CharField(required=False, label=_('Object'), widget=text_widget(attrs={
                 'data-field': 'object_id',
             })),
         )
-        self.widget = LinkTargetWidget(widgets=[f.widget for f in fields], models=model_choices)
+
+        # enrich widgets with label, so we can output it in LinkTargetWidget.render()
+        widgets = []
+        for field in fields:
+            w = field.widget
+            w.label = field.label
+            widgets.append(w)
+
+        self.widget = LinkTargetWidget(widgets=widgets, models=model_choices)
 
         super(LinkTargetField, self).__init__(fields=fields,
                                               require_all_fields=False, *args,

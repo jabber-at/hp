@@ -17,6 +17,8 @@ import json
 import logging
 
 from django import forms
+from django.forms.utils import flatatt
+from django.utils.html import format_html
 from django.utils.html import mark_safe
 
 from .constants import TARGET_URL
@@ -50,7 +52,17 @@ class LinkTargetWidget(forms.MultiWidget):
             if id_:
                 final_attrs = dict(final_attrs, id='%s_%s' % (id_, i))
             output.append('<div>')
-            output.append(widget.render(name + '_%s' % i, widget_value, final_attrs))
+            widget_id = name + '_%s' % i
+
+            # create the label
+            if widget.label:
+                label_attrs = {'for': widget_id}
+                if widget.is_required is True:
+                    label_attrs['class'] = 'required'
+                label_attrs = flatatt(label_attrs) if label_attrs else ''
+                output.append(format_html('<label{}>{}:</label>', label_attrs, widget.label))
+
+            output.append(widget.render(widget_id, widget_value, final_attrs))
             output.append('</div>')
 
         output.append('</div>')
