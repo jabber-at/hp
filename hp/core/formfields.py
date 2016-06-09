@@ -13,6 +13,8 @@
 # You should have received a copy of the GNU General Public License along with django-xmpp-account.
 # If not, see <http://www.gnu.org/licenses/>.
 
+import logging
+
 from django import forms
 
 from .constants import TARGET_CHOICES
@@ -20,6 +22,8 @@ from .constants import TARGET_PAGE
 from .constants import TARGET_URL
 from .models import Page
 from .widgets import LinkTargetWidget
+
+log = logging.getLogger(__name__)
 
 
 class LinkTargetField(forms.MultiValueField):
@@ -49,4 +53,5 @@ class LinkTargetField(forms.MultiValueField):
                 'typ': typ,
                 'page': data_list.pop(1).pk,
             }
-        print('none')
+        log.warn('Unknown link target type: %s', typ)
+        return {}

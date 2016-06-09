@@ -20,7 +20,6 @@ from mptt.admin import DraggableMPTTAdmin
 
 from .models import Page
 from .models import MenuItem
-from .modelfields import LinkTarget
 from .formfields import LinkTargetField
 
 
