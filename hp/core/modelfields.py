@@ -14,6 +14,7 @@
 # If not, see <http://www.gnu.org/licenses/>.
 
 from django.conf import settings
+from django.contrib.admin.widgets import AdminTextareaWidget
 
 from jsonfield import JSONField
 
@@ -22,6 +23,7 @@ from composite_field.l10n import LocalizedTextField as _LocalizedTextField
 
 from .constants import TARGET_PAGE
 from .constants import TARGET_URL
+from .formfields import LinkTargetField
 
 LANGUAGES = [l[0] for l in getattr(settings, 'LANGUAGES', [])]
 
@@ -57,3 +59,11 @@ class LinkTarget(JSONField):
 
     def pre_init(self, value, obj):
         return LinkTargetDict(super(LinkTarget, self).pre_init(value, obj))
+
+    def formfield(self, **kwargs):
+        widget = kwargs.get('widget')
+        admin = False
+        if widget and issubclass(widget, AdminTextareaWidget):
+            admin = True
+
+        return LinkTargetField(admin=admin)
