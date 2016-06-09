@@ -30,7 +30,9 @@ from .models import MenuItem
 class BasePageAdmin(admin.ModelAdmin):
     formfield_overrides = {
         models.TextField: {
-            'widget': TinyMCE(attrs={'cols': 80, 'rows': 10}),
+            'widget': TinyMCE(attrs={'cols': 80, 'rows': 10}, mce_attrs={
+                'theme': "advanced",
+            }),
         },
     }
 

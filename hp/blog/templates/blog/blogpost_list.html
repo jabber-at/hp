@@ -6,7 +6,7 @@
 
 {% for post in object_list %}
     <h2>{{ post.title.current }}</h2>
-    {{ post.text.current }}
+    {{ post.text.current|safe }}
 {% empty %}
 {% trans "No articles found." %}
 {% endfor %}
