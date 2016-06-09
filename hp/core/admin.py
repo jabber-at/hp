@@ -13,6 +13,7 @@
 # You should have received a copy of the GNU General Public License along with django-xmpp-account.
 # If not, see <http://www.gnu.org/licenses/.
 
+from django import forms
 from django.contrib import admin
 from django.utils.translation import gettext_lazy as _
 
@@ -70,6 +71,22 @@ class BasePageAdmin(admin.ModelAdmin):
 
         return fieldsets
 
+    def render_change_form(self, request, context, add, **kwargs):
+        """Override to add javascript only when adding an object.
+
+        It adds Javascript to dynamically calculate the slug of a BasePage object and set the field
+        accordingly.
+
+        Ordinarily you would add Javascript in a Media subclass, but then it would get *always*
+        added. The form for adding/changing an object is identical, so there is no way to only
+        act when adding a form (and you don't normally want to change existing slugs, since they're
+        part of the URL).
+        """
+
+        if add:
+            context['media'] += forms.Media(js=("core/js/basepage-add.js", ))
+        return super(BasePageAdmin, self).render_change_form(request, context, add, **kwargs)
+
     def save_model(self, request, obj, form, change):
         if change is False:  # adding a new object
             obj.author = request.user
@@ -85,7 +102,6 @@ class BasePageAdmin(admin.ModelAdmin):
     def make_unpublish(self, request, queryset):
         queryset.update(published=False)
     make_unpublish.short_description = _('Unpublish selected %(models)s')
-
 
 
 @admin.register(Page)
