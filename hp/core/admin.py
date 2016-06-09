@@ -15,6 +15,7 @@
 
 from django import forms
 from django.contrib import admin
+from django.contrib.auth.models import Group
 from django.db import models
 from django.utils.translation import gettext_lazy as _
 
@@ -26,6 +27,7 @@ from tinymce.widgets import TinyMCE
 from .models import BlogPost
 from .models import Page
 from .models import MenuItem
+from .models import User
 
 
 class BasePageAdmin(admin.ModelAdmin):
@@ -165,3 +167,9 @@ class MenuItemAdmin(DraggableMPTTAdmin):
     list_display_links = (
         'indented_title',
     )
+
+@admin.register(User, app_label='auth')
+class UserAdmin(admin.ModelAdmin):
+    app_label = 'auth'
+
+admin.site.unregister(Group)
