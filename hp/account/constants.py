@@ -13,16 +13,16 @@
 # You should have received a copy of the GNU General Public License along with django-xmpp-account.
 # If not, see <http://www.gnu.org/licenses/>.
 
-from django.contrib.auth.models import BaseUserManager
+from django.utils.translation import ugettext_lazy as _
 
-from .constants import REGISTRATION_MANUAL
 
-class UserManager(BaseUserManager):
-    def create_superuser(self, jid, email, password, method=None):
-        if method is None:
-            method = REGISTRATION_MANUAL
-
-        user = self.model(jid=jid, email=email, registration_method=method,
-                          is_superuser=True)
-        user.save(using=self.db)
-        return user
+REGISTRATION_WEBSITE = 0
+REGISTRATION_INBAND = 1
+REGISTRATION_MANUAL = 2
+REGISTRATION_UNKNOWN = 9
+REGISTRATION_CHOICES = (
+    (REGISTRATION_WEBSITE, _('Via Website')),
+    (REGISTRATION_INBAND, _('In-Band Registration')),
+    (REGISTRATION_MANUAL, _('Manually')),
+    (REGISTRATION_UNKNOWN, _('Unknown')),
+)

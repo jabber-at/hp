@@ -13,25 +13,29 @@
 # You should have received a copy of the GNU General Public License along with django-xmpp-account.
 # If not, see <http://www.gnu.org/licenses/>.
 
-from django.utils.translation import ugettext_lazy as _
+from django.contrib import admin
+from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
+from django.contrib.auth.models import Group
+
+from .models import User
 
 
-REGISTRATION_WEBSITE = 0
-REGISTRATION_INBAND = 1
-REGISTRATION_MANUAL = 2
-REGISTRATION_UNKNOWN = 9
-REGISTRATION_CHOICES = (
-    (REGISTRATION_WEBSITE, _('Via Website')),
-    (REGISTRATION_INBAND, _('In-Band Registration')),
-    (REGISTRATION_MANUAL, _('Manually')),
-    (REGISTRATION_UNKNOWN, _('Unknown')),
-)
+@admin.register(User)
+class UserAdmin(BaseUserAdmin):
+    ordering = ('registered', )
+    list_display = ('jid', 'email', 'registered', 'confirmed', )
+    list_filter = ('is_superuser', )
+    readonly_fields = ['registered', ]
+    add_fieldsets = (
+        (None, {
+            'fields': ('jid', 'email', 'gpg_fingerprint'),
+        }),
+    )
+    fieldsets = (
+        (None, {
+            'fields': ('jid', 'email', 'registered', 'registration_method', 'confirmed',
+                       'gpg_fingerprint'),
+        }),
+    )
 
-TARGET_URL = 0
-TARGET_NAMED_URL = 1
-TARGET_MODEL = 2
-TARGET_CHOICES = {
-    TARGET_URL: _('URL'),
-    TARGET_NAMED_URL: _('URL Name'),
-    TARGET_MODEL: _('Model'),
-}
+admin.site.unregister(Group)
