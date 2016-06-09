@@ -16,6 +16,8 @@
 from django.contrib import admin
 from django.utils.translation import gettext_lazy as _
 
+from composite_field.l10n import LocalizedField
+from composite_field.base import CompositeField
 from mptt.admin import DraggableMPTTAdmin
 
 from .models import Page
@@ -44,6 +46,30 @@ class BasePageAdmin(admin.ModelAdmin):
         )
         return actions
 
+    def _get_composite_field_tuple(self, fields):
+        new_fields = []
+        for name in fields:
+            if not isinstance(name, str):  # don't handle tuples et al
+                new_fields.append(name)
+                continue
+
+            field = self.model._meta.get_field(name)
+
+            if isinstance(field, LocalizedField):
+                new_fields.append(tuple([f.name for f in field.subfields.values()]))
+            elif isinstance(field, CompositeField):
+                new_fields += [f.name for f in field.subfields.values()]
+            else:
+                new_fields.append(name)
+        return new_fields
+
+    def get_fieldsets(self, request, obj=None):
+        fieldsets = super(BasePageAdmin, self).get_fieldsets(request, obj=obj)
+        for name, options in fieldsets:
+            options['fields'] = self._get_composite_field_tuple(options['fields'])
+
+        return fieldsets
+
     def save_model(self, request, obj, form, change):
         if change is False:  # adding a new object
             obj.author = request.user
@@ -64,7 +90,7 @@ class BasePageAdmin(admin.ModelAdmin):
 
 @admin.register(Page)
 class PageAdmin(BasePageAdmin):
-    pass
+    fields = ['title', 'slug', 'text', 'published', 'author']
 
 
 @admin.register(MenuItem)
