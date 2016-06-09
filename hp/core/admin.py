@@ -15,17 +15,25 @@
 
 from django import forms
 from django.contrib import admin
+from django.db import models
 from django.utils.translation import gettext_lazy as _
 
 from composite_field.l10n import LocalizedField
 from composite_field.base import CompositeField
 from mptt.admin import DraggableMPTTAdmin
+from tinymce.widgets import TinyMCE
 
 from .models import Page
 from .models import MenuItem
 
 
 class BasePageAdmin(admin.ModelAdmin):
+    formfield_overrides = {
+        models.TextField: {
+            'widget': TinyMCE(attrs={'cols': 80, 'rows': 10}),
+        },
+    }
+
     def get_readonly_fields(self, request, obj=None):
         fields = list(super(BasePageAdmin, self).get_readonly_fields(request, obj=obj))
         if 'author' not in fields:
