@@ -15,14 +15,17 @@
 
 from django.conf import settings
 from django.contrib.admin.widgets import AdminTextareaWidget
+from django.contrib.contenttypes.models import ContentType
+from django.core.urlresolvers import reverse
 
 from jsonfield import JSONField
 
 from composite_field.l10n import LocalizedCharField as _LocalizedCharField
 from composite_field.l10n import LocalizedTextField as _LocalizedTextField
 
-from .constants import TARGET_URL
 from .constants import TARGET_MODEL
+from .constants import TARGET_NAMED_URL
+from .constants import TARGET_URL
 from .formfields import LinkTargetField
 
 LANGUAGES = [l[0] for l in getattr(settings, 'LANGUAGES', [])]
@@ -46,10 +49,15 @@ class LinkTargetDict(dict):
     @property
     def href(self):
         typ = int(self.get('typ', TARGET_URL))
+
         if typ == TARGET_URL:
             return self.get('url', '')
+        elif typ == TARGET_NAMED_URL:
+            return reverse(self['name'], *self['args'], **self['kwargs'])
         elif typ == TARGET_MODEL:
-            return '/page/%s' % self['page']
+            ct = ContentType.objects.get_for_id(self['content_type'])
+            obj = ct.get_object_for_this_type(self['object_id'])
+            return obj.get_absolute_url()
         return ''
 
 
@@ -66,10 +74,6 @@ class LinkTarget(JSONField):
 
     .. seealso:: https://github.com/bradjasper/django-jsonfield
     """
-
-#    def to_python(self, value, obj):
-#        return LinkTargetDict(super(LinkTarget, self).pre_init(value, obj))
-#
     def pre_init(self, value, obj):
         return LinkTargetDict(super(LinkTarget, self).pre_init(value, obj))
 
