@@ -29,6 +29,18 @@ log = logging.getLogger(__name__)
 
 
 class LinkTargetField(forms.MultiValueField):
+    """Form field for :py:class:`~core.modelfields.LinkTarget` database fields.
+
+    Parameters
+    ----------
+
+    admin : bool, optional
+        If True, the field will use the admin widgets instead of the default widgets.
+    models : list, optional
+        A list of models this target could link to. Each element of the list is either a model
+        or the name identifying the model, e.g. "core.page".
+    """
+
     def __init__(self, *args, **kwargs):
         is_admin = kwargs.pop('admin', False)  # TODO
 
