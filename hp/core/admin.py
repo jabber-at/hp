@@ -161,14 +161,7 @@ class MenuItemAdmin(DraggableMPTTAdmin):
     list_display = (
         'tree_actions',
         'indented_title',
-        # ...more fields if you feel like it...
     )
-
-#    formfield_overrides = {
-#        LinkTarget: {
-#            'widget': LinkTargetField,
-#        },
-#    }
     list_display_links = (
         'indented_title',
     )
