@@ -43,7 +43,7 @@ class LinkTargetField(forms.MultiValueField):
     """
 
     def __init__(self, *args, **kwargs):
-        is_admin = kwargs.pop('admin', False)  # TODO
+        is_admin = kwargs.pop('admin', False)  # if we're on an admin page
 
         model_choices = []
         for model in kwargs.pop('models', ['core.page', 'blog.blogpost']):
