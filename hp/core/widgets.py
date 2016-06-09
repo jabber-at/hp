@@ -51,8 +51,8 @@ class LinkTargetWidget(forms.MultiWidget):
                 widget_value = None
             if id_:
                 final_attrs = dict(final_attrs, id='%s_%s' % (id_, i))
-            output.append('<div class="linktarget-widget">')
             widget_id = name + '_%s' % i
+            output.append('<div class="linktarget-widget wrap_%s">' % widget_id)
 
             # create the label
             if widget.label:
@@ -93,3 +93,6 @@ class LinkTargetWidget(forms.MultiWidget):
         css = {
             'all': ('core/css/linktargetwidget.css', ),
         }
+        js = (
+            'core/js/linktargetwidget.js',
+        )
