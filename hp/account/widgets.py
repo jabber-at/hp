@@ -15,8 +15,28 @@
 
 from django import forms
 from django.conf import settings
+from django.utils.html import format_html
 
 from bootstrap.widgets import BootstrapWidgetMixin
+
+
+class NodeWidget(forms.TextInput):
+    """The widget used for rendering the node part (before the "@") of a username.
+
+    This class is used because we want to render this widget in a bootstrap column.
+    """
+
+    def render(self, *args, **kwargs):
+        html = super(NodeWidget, self).render(*args, **kwargs)
+        return format_html('<div class="col-sm-8">{}</div>', html)
+
+
+class DomainWidget(forms.Select):
+    """The widget used for rendering the domain part of a username."""
+
+    def render(self, *args, **kwargs):
+        html = super(DomainWidget, self).render(*args, **kwargs)
+        return format_html('<div class="col-sm-4">{}</div>', html)
 
 
 class UsernameWidget(BootstrapWidgetMixin, forms.MultiWidget):
@@ -25,7 +45,16 @@ class UsernameWidget(BootstrapWidgetMixin, forms.MultiWidget):
             return value.split('@', 1)
         return '', settings.DEFAULT_XMPP_HOST
 
+    def render(self, *args, **kwargs):
+        widget = forms.MultiWidget.render(self, *args, **kwargs)
+        return format_html('<div class="col-sm-10"><div class="row">{}</div></div>', widget)
+
     class Media:
+        css = {
+            'all': (
+                'account/css/username_widget.css',
+            ),
+        }
         js = (
-            'xmpp_accounts/js/jid_widget.js',
+            'account/css/username_widget.js',
         )

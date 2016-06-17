@@ -20,6 +20,8 @@ from django.core.validators import RegexValidator
 
 from bootstrap.formfields import BootstrapMixin
 
+from .widgets import DomainWidget
+from .widgets import NodeWidget
 from .widgets import UsernameWidget
 
 _MIN_USERNAME_LENGTH = getattr(settings, 'MIN_USERNAME_LENGTH', 2)
@@ -48,6 +50,7 @@ class UsernameField(BootstrapMixin, forms.MultiValueField):
 
         fields = (
             forms.CharField(
+                widget=NodeWidget,
                 min_length=_MIN_USERNAME_LENGTH,
                 max_length=_MAX_USERNAME_LENGTH,
                 error_messages = {
@@ -59,7 +62,7 @@ class UsernameField(BootstrapMixin, forms.MultiValueField):
                 ],
             ),
             forms.ChoiceField(initial=settings.DEFAULT_XMPP_HOST, choices=choices,
-                              disabled=len(hosts) == 1),
+                              disabled=len(hosts) == 1, widget=DomainWidget),
         )
         widgets = [f.widget for f in fields]
 
