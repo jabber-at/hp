@@ -40,6 +40,10 @@ class BoundField(forms.boundfield.BoundField):
 class BootstrapMixin(object):
     """Mixin that adds the form-control class used by bootstrap to input widgets."""
 
+    def __init__(self, **kwargs):
+        self.formgroup_attrs = kwargs.pop('formgroup_attrs', {})
+        super(BootstrapMixin, self).__init__(**kwargs)
+
     def get_bound_field(self, form, field_name):
         return BoundField(form, self, field_name)
 
