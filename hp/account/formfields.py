@@ -44,9 +44,9 @@ class UsernameField(BootstrapMixin, forms.MultiValueField):
         # Add a CSS class to the formgroup
         kwargs.setdefault('formgroup_attrs', {})
         if kwargs['formgroup_attrs'].get('class'):
-            kwargs['formgroup_attrs']['class'] += ' form-inline'
+            kwargs['formgroup_attrs']['class'] += ' form-group-username'
         else:
-            kwargs['formgroup_attrs']['class'] = 'form-inline'
+            kwargs['formgroup_attrs']['class'] = 'form-group-username'
 
         fields = (
             forms.CharField(
