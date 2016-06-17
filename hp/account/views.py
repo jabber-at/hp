@@ -14,6 +14,7 @@
 # not, see <http://www.gnu.org/licenses/>.
 
 from django.db import transaction
+from django.views.generic.detail import DetailView
 from django.views.generic.edit import CreateView
 
 from django_xmpp_backends import backend
@@ -32,3 +33,10 @@ class CreateUserView(CreateView):
             user = form.instance
             backend.create_user(user.node, user.domain, user.email)
             return super(CreateUserView, self).form_valid(form)
+
+
+class UserView(DetailView):
+    model = User
+
+    def get_object(self, *args, **kwargs):
+        return self.request.user
