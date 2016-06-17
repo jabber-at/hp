@@ -21,7 +21,11 @@ from . import widgets
 
 class BoundField(forms.boundfield.BoundField):
     def formgroup(self):
-        return format_html('<div class="form-group">{}{}</div>', self.label_tag(), self)
+        help_text = ''
+        if self.help_text:
+            help_text = format_html('<p class="help-block">{}</p>', self.help_text)
+
+        return format_html('<div class="form-group">{}{}{}</div>', self.label_tag(), self, help_text)
 
     def label_tag(self, contents=None, attrs=None, label_suffix=None):
         attrs = attrs or {}
