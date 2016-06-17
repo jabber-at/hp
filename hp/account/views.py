@@ -16,6 +16,7 @@
 from django.conf import settings
 from django.contrib.auth import get_user_model
 from django.contrib.auth import login
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.urlresolvers import reverse
 from django.core.urlresolvers import reverse_lazy
 from django.db import transaction
@@ -51,7 +52,7 @@ class RegisterUserView(CreateView):
             return response
 
 
-class UserView(DetailView):
+class UserView(LoginRequiredMixin, DetailView):
     model = User
 
     def get_object(self, *args, **kwargs):

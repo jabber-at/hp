@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/1.9/ref/settings/
 """
 
 import os
+from django.core.urlresolvers import reverse_lazy
 from django.utils.translation import ugettext_lazy as _
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
@@ -134,7 +135,8 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 AUTH_USER_MODEL = 'account.User'
-LOGIN_REDIRECT_URL = '/account/'
+LOGIN_URL = reverse_lazy('account:login')
+LOGIN_REDIRECT_URL = reverse_lazy('account:detail')
 
 # Authenticate against the XMPP server
 AUTHENTICATION_BACKENDS = [
