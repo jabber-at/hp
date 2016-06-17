@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'tinymce',  # Rich text editor
 
     'core',
+    'bootstrap',
     'account',
 ]
 
