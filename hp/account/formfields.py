@@ -39,6 +39,13 @@ class UsernameField(BootstrapMixin, forms.MultiValueField):
             hosts = [k for k, v in hosts.items() if v.get('MANAGE', True)]
         choices = tuple([(d, '@%s' % d) for d in hosts])
 
+        # Add a CSS class to the formgroup
+        kwargs.setdefault('formgroup_attrs', {})
+        if kwargs['formgroup_attrs'].get('class'):
+            kwargs['formgroup_attrs']['class'] += ' form-inline'
+        else:
+            kwargs['formgroup_attrs']['class'] = 'form-inline'
+
         fields = (
             forms.CharField(
                 min_length=_MIN_USERNAME_LENGTH,
