@@ -14,6 +14,7 @@
 # not, see <http://www.gnu.org/licenses/>.
 
 from django.conf import settings
+from django.contrib.auth import get_user_model
 from django.contrib.auth import login
 from django.core.urlresolvers import reverse_lazy
 from django.db import transaction
@@ -23,7 +24,8 @@ from django.views.generic.edit import CreateView
 from django_xmpp_backends import backend
 
 from .forms import CreateUserForm
-from .models import User
+
+User = get_user_model()
 
 
 class CreateUserView(CreateView):
