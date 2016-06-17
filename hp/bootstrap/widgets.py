@@ -18,12 +18,18 @@ from django.utils.html import format_html
 
 
 class BootstrapWidgetMixin(object):
+    input_class = None
+
     def __init__(self, attrs=None, **kwargs):
         attrs = attrs or {}
         if attrs.get('class'):
             attrs['class'] += ' form-control'
         else:
-            attrs['class'] = ' form-control'
+            attrs['class'] = 'form-control'
+
+        if self.input_class is not None:
+            attrs['class'] += ' %s' % self.input_class
+
         super(BootstrapWidgetMixin, self).__init__(attrs=attrs, **kwargs)
 
     def render(self, *args, **kwargs):
@@ -36,4 +42,4 @@ class BootstrapTextInput(BootstrapWidgetMixin, forms.TextInput):
 
 
 class BootstrapEmailInput(BootstrapWidgetMixin, forms.EmailInput):
-    pass
+    input_class = 'valid-email'

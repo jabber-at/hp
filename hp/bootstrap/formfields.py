@@ -26,7 +26,7 @@ class BoundField(forms.boundfield.BoundField):
         if self.help_text:
             help_text = format_html('<p class="col-sm-offset-2 col-sm-10 help-block">{}</p>', self.help_text)
 
-        fg_attrs = self.field.formgroup_attrs
+        fg_attrs = dict(self.field.formgroup_attrs)
         if fg_attrs.get('class'):
             fg_attrs['class'] += ' form-group'
         else:
