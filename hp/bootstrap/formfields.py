@@ -16,6 +16,9 @@
 from django import forms
 
 
+from . import widgets
+
+
 class BoundField(forms.boundfield.BoundField):
     def label_tag(self, contents=None, attrs=None, label_suffix=None):
         attrs = attrs or {}
@@ -25,3 +28,18 @@ class BoundField(forms.boundfield.BoundField):
             attrs['class'] = 'control-label'
 
         return super(BoundField, self).label_tag(contents, attrs=attrs, label_suffix=label_suffix)
+
+
+class BootstrapMixin(object):
+    """Mixin that adds the form-control class used by bootstrap to input widgets."""
+
+    def get_bound_field(self, form, field_name):
+        return BoundField(form, self, field_name)
+
+
+class BootstrapCharField(BootstrapMixin, forms.CharField):
+    widget = widgets.BootstrapTextInput
+
+
+class BootstrapEmailField(BootstrapMixin, forms.EmailField):
+    widget = widgets.BootstrapEmailInput

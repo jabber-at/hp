@@ -16,10 +16,16 @@
 from django import forms
 from django.utils.translation import ugettext_lazy as _
 
+from bootstrap.formfields import BootstrapCharField
+from bootstrap.formfields import BootstrapEmailField
+
 from .models import User
 
 
 class CreateUserForm(forms.ModelForm):
+    jid = BootstrapCharField()
+    email = BootstrapEmailField()
+
     class Meta:
         model = User
         fields = ['jid', 'email', ]

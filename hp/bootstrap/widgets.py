@@ -28,3 +28,7 @@ class BootstrapWidgetMixin(object):
 
 class BootstrapTextInput(BootstrapWidgetMixin, forms.TextInput):
     pass
+
+
+class BootstrapEmailInput(BootstrapWidgetMixin, forms.EmailInput):
+    pass
