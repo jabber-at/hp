@@ -13,6 +13,9 @@
 # You should have received a copy of the GNU General Public License along with xmpp-backends.  If
 # not, see <http://www.gnu.org/licenses/>.
 
+from django.conf import settings
+from django.contrib.auth import login
+from django.core.urlresolvers import reverse_lazy
 from django.db import transaction
 from django.views.generic.detail import DetailView
 from django.views.generic.edit import CreateView
@@ -27,12 +30,17 @@ class CreateUserView(CreateView):
     template_name = 'account/user_register.html'
     model = User
     form_class = CreateUserForm
+    success_url = reverse_lazy('account:detail')
 
     def form_valid(self, form):
         with transaction.atomic():
             user = form.instance
             backend.create_user(user.node, user.domain, user.email)
-            return super(CreateUserView, self).form_valid(form)
+
+            response = super(CreateUserView, self).form_valid(form)
+            user.backend = settings.AUTHENTICATION_BACKENDS[0]
+            login(self.request, user)
+            return response
 
 
 class UserView(DetailView):

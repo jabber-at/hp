@@ -19,6 +19,6 @@ from . import views
 
 app_name = 'account'
 urlpatterns = [
-    url(r'$', views.UserView.as_view(), name='index'),
     url(r'register/$', views.CreateUserView.as_view(), name='register'),
+    url(r'$', views.UserView.as_view(), name='detail'),
 ]
