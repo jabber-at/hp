@@ -23,12 +23,12 @@ from .models import User
 
 
 class CreateUserForm(forms.ModelForm):
-    jid = BootstrapCharField()
+    username = BootstrapCharField()
     email = BootstrapEmailField()
 
     class Meta:
         model = User
-        fields = ['jid', 'email', ]
+        fields = ['username', 'email', ]
 
 
 class CreateUserConfirmationForm(forms.Form):

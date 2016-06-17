@@ -23,17 +23,17 @@ from .models import User
 @admin.register(User)
 class UserAdmin(BaseUserAdmin):
     ordering = ('registered', )
-    list_display = ('jid', 'email', 'registered', 'confirmed', )
+    list_display = ('username', 'email', 'registered', 'confirmed', )
     list_filter = ('is_superuser', )
-    readonly_fields = ['registered', ]
+    readonly_fields = ['username', 'registered', ]
     add_fieldsets = (
         (None, {
-            'fields': ('jid', 'email', 'gpg_fingerprint'),
+            'fields': ('username', 'email', 'gpg_fingerprint'),
         }),
     )
     fieldsets = (
         (None, {
-            'fields': ('jid', 'email', 'registered', 'registration_method', 'confirmed',
+            'fields': ('username', 'email', 'registered', 'registration_method', 'confirmed',
                        'gpg_fingerprint'),
         }),
     )

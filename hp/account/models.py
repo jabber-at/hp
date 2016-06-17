@@ -24,7 +24,7 @@ from .managers import UserManager
 
 class User(XmppBackendUser, PermissionsMixin):
     # NOTE: MySQL only allows a 255 character limit
-    jid = models.CharField(max_length=255, unique=True, verbose_name='JID')
+    username = models.CharField(max_length=255, unique=True, verbose_name='JID')
     email = models.EmailField(null=True, blank=True)
     gpg_fingerprint = models.CharField(max_length=40, null=True, blank=True)
 
@@ -38,7 +38,7 @@ class User(XmppBackendUser, PermissionsMixin):
 
     objects = UserManager()
 
-    USERNAME_FIELD = 'jid'
+    USERNAME_FIELD = 'username'
     REQUIRED_FIELDS = ('email', )
 
     @property
@@ -46,4 +46,4 @@ class User(XmppBackendUser, PermissionsMixin):
         return self.is_superuser
 
     def __str__(self):
-        return self.jid
+        return self.username

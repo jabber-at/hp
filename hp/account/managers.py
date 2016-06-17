@@ -24,8 +24,8 @@ from .constants import REGISTRATION_MANUAL
 
 
 class UserManager(BaseUserManager):
-    def create_user(self, jid, email, password=None):
-        user = self.model(jid=jid, email=email, confirmed=timezone.now(),
+    def create_user(self, username, email, password=None):
+        user = self.model(username=username, email=email, confirmed=timezone.now(),
                           registration_method=REGISTRATION_MANUAL)
 
         with transaction.atomic():
@@ -37,8 +37,8 @@ class UserManager(BaseUserManager):
                 backend.create_user(user.node, user.domain, password, email=email)
         return user
 
-    def create_superuser(self, jid, email, password):
-        user = self.create_user(jid, email, password)
+    def create_superuser(self, username, email, password):
+        user = self.create_user(username, email, password)
         user.is_superuser = True
         user.save()
         return user
