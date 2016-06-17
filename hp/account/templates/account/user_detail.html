@@ -1,5 +1,22 @@
 {% extends "base.html" %}
+{% load i18n %}
 
 {% block content %}
-user_detail: {{ object.username }}
+<div class="page-header"><h1>{{ object.username }}</h1></div>
+
+<table class="table table-bordered">
+    <tr>
+        <td>{% trans "Registered" %}</td>
+        <td>{{ object.registered }}</td>
+    </tr>
+    <tr>
+        <td>{% trans "Email address" %}</td>
+        <td>{{ object.username }}</td>
+    </tr>
+    <tr class="{% if object.confirmed %}success{% else %}danger{% endif %}">
+        <td>{% trans "Email confirmed" %}</td>
+        <td>{% if object.confirmed %}{% trans "Yes" %}{% else %}{% trans "No" %}{% endif %}</td>
+    </tr>
+</table>
+
 {% endblock content %}
