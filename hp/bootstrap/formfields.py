@@ -14,6 +14,7 @@
 # If not, see <http://www.gnu.org/licenses/>.
 
 from django import forms
+from django.forms.utils import flatatt
 from django.utils.html import format_html
 
 from . import widgets
@@ -25,7 +26,13 @@ class BoundField(forms.boundfield.BoundField):
         if self.help_text:
             help_text = format_html('<p class="col-sm-offset-2 col-sm-10 help-block">{}</p>', self.help_text)
 
-        return format_html('<div class="form-group">{}{}{}</div>', self.label_tag(), self, help_text)
+        fg_attrs = self.field.formgroup_attrs
+        if fg_attrs.get('class'):
+            fg_attrs['class'] += ' form-group'
+        else:
+            fg_attrs['class'] = 'form-group'
+
+        return format_html('<div {}>{}{}{}</div>', flatatt(fg_attrs), self.label_tag(), self, help_text)
 
     def label_tag(self, contents=None, attrs=None, label_suffix=None):
         attrs = attrs or {}
