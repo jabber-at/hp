@@ -14,26 +14,18 @@
 # If not, see <http://www.gnu.org/licenses/>.
 
 from django import forms
-from django.utils.html import format_html
+from django.conf import settings
+
+from bootstrap.widgets import BootstrapWidgetMixin
 
 
-class BootstrapWidgetMixin(object):
-    def __init__(self, attrs=None, **kwargs):
-        attrs = attrs or {}
-        if attrs.get('class'):
-            attrs['class'] += ' form-control'
-        else:
-            attrs['class'] = ' form-control'
-        super(BootstrapWidgetMixin, self).__init__(attrs=attrs, **kwargs)
+class UsernameWidget(BootstrapWidgetMixin, forms.MultiWidget):
+    def decompress(self, value):
+        if value:
+            return value.split('@', 1)
+        return '', settings.DEFAULT_XMPP_HOST
 
-    def render(self, *args, **kwargs):
-        widget = super(BootstrapWidgetMixin, self).render(*args, **kwargs)
-        return format_html('<div class="col-sm-10">{}</div>', widget)
-
-
-class BootstrapTextInput(BootstrapWidgetMixin, forms.TextInput):
-    pass
-
-
-class BootstrapEmailInput(BootstrapWidgetMixin, forms.EmailInput):
-    pass
+    class Media:
+        js = (
+            'xmpp_accounts/js/jid_widget.js',
+        )

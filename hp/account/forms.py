@@ -17,17 +17,21 @@ from django import forms
 from django.conf import settings
 from django.utils.translation import ugettext_lazy as _
 
-from bootstrap.formfields import BootstrapCharField
+#from bootstrap.formfields import BootstrapCharField
 from bootstrap.formfields import BootstrapEmailField
 
 from .models import User
+from .formfields import UsernameField
 
+_MIN_USERNAME_LENGTH = getattr(settings, 'MIN_USERNAME_LENGTH', 2)
+_MAX_USERNAME_LENGTH = getattr(settings, 'MAX_USERNAME_LENGTH', 64)
 
 class CreateUserForm(forms.ModelForm):
-    username = BootstrapCharField(
+    username = UsernameField(
+        register=True,
         help_text=_('At least %(MIN_LENGTH)s and up to %(MAX_LENGTH)s characters. No "@" or spaces.') % {
-            'MIN_LENGTH': getattr(settings, 'MIN_USERNAME_LENGTH', 2),
-            'MAX_LENGTH': getattr(settings, 'MAX_USERNAME_LENGTH', 64),
+            'MIN_LENGTH': _MIN_USERNAME_LENGTH,
+            'MAX_LENGTH': _MAX_USERNAME_LENGTH,
         }
     )
     email = BootstrapEmailField(
