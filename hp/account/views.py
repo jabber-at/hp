@@ -29,7 +29,7 @@ User = get_user_model()
 
 
 class CreateUserView(CreateView):
-    template_name = 'account/user_register.html'
+    template_name_suffix = '_register'
     model = User
     form_class = CreateUserForm
     success_url = reverse_lazy('account:detail')
