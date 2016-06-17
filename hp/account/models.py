@@ -18,6 +18,7 @@ from django.contrib.auth.models import PermissionsMixin
 from django_xmpp_backends.models import XmppBackendUser
 
 from .constants import REGISTRATION_CHOICES
+from .constants import REGISTRATION_WEBSITE
 from .managers import UserManager
 
 
@@ -29,7 +30,8 @@ class User(XmppBackendUser, PermissionsMixin):
 
     # when the account was first registered
     registered = models.DateTimeField(auto_now_add=True)
-    registration_method = models.SmallIntegerField(choices=REGISTRATION_CHOICES)
+    registration_method = models.SmallIntegerField(
+        default=REGISTRATION_WEBSITE, choices=REGISTRATION_CHOICES)
 
     # when the email was confirmed
     confirmed = models.DateTimeField(null=True, blank=True)
@@ -38,14 +40,6 @@ class User(XmppBackendUser, PermissionsMixin):
 
     USERNAME_FIELD = 'jid'
     REQUIRED_FIELDS = ('email', )
-
-    @property
-    def node(self):
-        return self.jid.split('@', 1)[0]
-
-    @property
-    def domain(self):
-        return self.jid.split('@', 1)[1]
 
     @property
     def is_staff(self):
