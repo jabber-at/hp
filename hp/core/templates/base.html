@@ -42,7 +42,7 @@
       <ul class="nav navbar-nav navbar-right">
         {% if request.user.is_authenticated %}
         <li><a href="{% url "account:detail" %}">{% trans "Account" %}</a></li>
-        <li><a href="{% url "account:detail" %}">{% trans "Logout" %}</a></li>
+        <li><a href="{% url "account:logout" %}">{% trans "Logout" %}</a></li>
         {% else %}
         <li><a href="{% url "account:register" %}">{% trans "Register" %}</a></li>
         <li><a href="{% url "account:register" %}">{% trans "Login" %}</a></li>
