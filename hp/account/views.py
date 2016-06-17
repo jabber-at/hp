@@ -21,7 +21,7 @@ from django.core.urlresolvers import reverse
 from django.core.urlresolvers import reverse_lazy
 from django.db import transaction
 from django.http import HttpResponseRedirect
-from django.views.generic.detail import DetailView
+from django.views.generic.base import TemplateView
 from django.views.generic.edit import CreateView
 
 from django_xmpp_backends import backend
@@ -52,8 +52,10 @@ class RegisterUserView(CreateView):
             return response
 
 
-class UserView(LoginRequiredMixin, DetailView):
-    model = User
+class UserView(LoginRequiredMixin, TemplateView):
+    template_name = 'account/user_detail.html'
 
-    def get_object(self, *args, **kwargs):
-        return self.request.user
+    def get_context_data(self, **kwargs):
+        context = super(UserView, self).get_context_data(**kwargs)
+        context['object'] = self.request.user
+        return context
