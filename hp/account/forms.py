@@ -20,17 +20,6 @@ from .models import User
 
 
 class CreateUserForm(forms.ModelForm):
-    gpg_key = forms.FileField(
-        required=False,
-        help_text=_('Upload your ASCII armored GPG key directly ("gpg --armor --export <fingerprint>").')
-    )
-    gpg_fingerprint = forms.CharField(
-        label=_('GPG key (advanced, optional)'), max_length=50, required=False,
-    #    widget=FingerprintWidget,
-        help_text=_(
-            'Add your fingerprint ("gpg --list-secret-keys --fingerprint") if your key is '
-            'available on the public key servers.')
-    )
     class Meta:
         model = User
         fields = ['jid', 'email', ]

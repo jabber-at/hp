@@ -13,11 +13,22 @@
 # You should have received a copy of the GNU General Public License along with xmpp-backends.  If
 # not, see <http://www.gnu.org/licenses/>.
 
+from django.db import transaction
 from django.views.generic.edit import CreateView
 
+from django_xmpp_backends import backend
+
 from .forms import CreateUserForm
+from .models import User
+
 
 class CreateUserView(CreateView):
     template_name = 'account/user_register.html'
-
+    model = User
     form_class = CreateUserForm
+
+    def form_valid(self, form):
+        with transaction.atomic():
+            user = form.instance
+            backend.create_user(user.node, user.domain, user.email)
+            return super(CreateUserView, self).form_valid(form)
