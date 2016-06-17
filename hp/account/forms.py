@@ -15,10 +15,11 @@
 
 from django import forms
 from django.conf import settings
+from django.contrib.auth.forms import AuthenticationForm
 from django.utils.translation import ugettext_lazy as _
 
-#from bootstrap.formfields import BootstrapCharField
 from bootstrap.formfields import BootstrapEmailField
+from bootstrap.formfields import BootstrapPasswordField
 
 from .models import User
 from .formfields import UsernameField
@@ -41,6 +42,11 @@ class CreateUserForm(forms.ModelForm):
     class Meta:
         model = User
         fields = ['username', 'email', ]
+
+
+class LoginForm(AuthenticationForm):
+    username = UsernameField()
+    password = BootstrapPasswordField()
 
 
 class CreateUserConfirmationForm(forms.Form):

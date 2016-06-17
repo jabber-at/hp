@@ -16,14 +16,17 @@
 from django.conf.urls import url
 from django.contrib.auth import views as auth_views
 
+from . import forms
 from . import views
+
 
 app_name = 'account'
 urlpatterns = [
     url(r'register/$', views.RegisterUserView.as_view(), name='register'),
-    url(r'login/$', auth_views.login,
-        {'template_name': 'account/user_login.html'},
-        name='login'),
+    url(r'login/$', auth_views.login, {
+            'template_name': 'account/user_login.html',
+            'authentication_form': forms.LoginForm,
+        }, name='login'),
     url(r'logout/$', auth_views.logout, name='logout'),
     url(r'$', views.UserView.as_view(), name='detail'),
 ]
