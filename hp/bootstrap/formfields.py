@@ -14,18 +14,21 @@
 # If not, see <http://www.gnu.org/licenses/>.
 
 from django import forms
-
+from django.utils.html import format_html
 
 from . import widgets
 
 
 class BoundField(forms.boundfield.BoundField):
+    def formgroup(self):
+        return format_html('<div class="form-group">{}{}</div>', self.label_tag(), self)
+
     def label_tag(self, contents=None, attrs=None, label_suffix=None):
         attrs = attrs or {}
         if 'class' in attrs:
-            attrs['class'] += ' %s' % 'control-label'
+            attrs['class'] += ' control-label col-sm-2'
         else:
-            attrs['class'] = 'control-label'
+            attrs['class'] = 'control-label col-sm-2'
 
         return super(BoundField, self).label_tag(contents, attrs=attrs, label_suffix=label_suffix)
 

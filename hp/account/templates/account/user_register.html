@@ -1,8 +1,11 @@
 {% extends "base.html" %}
 
 {% block content %}
-<form action="" method="post">{% csrf_token %}
-{{ form.as_p }}
-<input type="submit" value="Submit" />
+<form class="form-horizontal" action="" method="post">{% csrf_token %}{{ form.jid.formgroup }}{{ form.email.formgroup }}
+<div class="form-group">
+    <div class="col-sm-offset-2 col-sm-10">
+        <button type="submit" class="btn btn-default">Submit</button>
+    </div>
+</div>
 </form>
 {% endblock content %}

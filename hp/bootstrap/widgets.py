@@ -14,6 +14,7 @@
 # If not, see <http://www.gnu.org/licenses/>.
 
 from django import forms
+from django.utils.html import format_html
 
 
 class BootstrapWidgetMixin(object):
@@ -24,6 +25,10 @@ class BootstrapWidgetMixin(object):
         else:
             attrs['class'] = ' form-control'
         super(BootstrapWidgetMixin, self).__init__(attrs=attrs)
+
+    def render(self, *args, **kwargs):
+        widget = super(BootstrapWidgetMixin, self).render(*args, **kwargs)
+        return format_html('<div class="col-sm-10">{}</div>', widget)
 
 
 class BootstrapTextInput(BootstrapWidgetMixin, forms.TextInput):
