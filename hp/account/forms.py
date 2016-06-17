@@ -14,6 +14,7 @@
 # not, see <http://www.gnu.org/licenses/>.
 
 from django import forms
+from django.conf import settings
 from django.utils.translation import ugettext_lazy as _
 
 from bootstrap.formfields import BootstrapCharField
@@ -23,8 +24,15 @@ from .models import User
 
 
 class CreateUserForm(forms.ModelForm):
-    username = BootstrapCharField()
-    email = BootstrapEmailField()
+    username = BootstrapCharField(
+        help_text=_('At least %(MIN_LENGTH)s and up to %(MAX_LENGTH)s characters. No "@" or spaces.') % {
+            'MIN_LENGTH': getattr(settings, 'MIN_USERNAME_LENGTH', 2),
+            'MAX_LENGTH': getattr(settings, 'MAX_USERNAME_LENGTH', 64),
+        }
+    )
+    email = BootstrapEmailField(
+        help_text=_('Required, a confirmation email will be sent to this address.')
+    )
 
     class Meta:
         model = User

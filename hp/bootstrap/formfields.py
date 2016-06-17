@@ -23,7 +23,7 @@ class BoundField(forms.boundfield.BoundField):
     def formgroup(self):
         help_text = ''
         if self.help_text:
-            help_text = format_html('<p class="help-block">{}</p>', self.help_text)
+            help_text = format_html('<p class="col-sm-offset-2 col-sm-10 help-block">{}</p>', self.help_text)
 
         return format_html('<div class="form-group">{}{}{}</div>', self.label_tag(), self, help_text)
 
