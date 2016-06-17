@@ -16,8 +16,10 @@
 from django.conf import settings
 from django.contrib.auth import get_user_model
 from django.contrib.auth import login
+from django.core.urlresolvers import reverse
 from django.core.urlresolvers import reverse_lazy
 from django.db import transaction
+from django.http import HttpResponseRedirect
 from django.views.generic.detail import DetailView
 from django.views.generic.edit import CreateView
 
@@ -33,6 +35,11 @@ class RegisterUserView(CreateView):
     model = User
     form_class = CreateUserForm
     success_url = reverse_lazy('account:detail')
+
+    def dispatch(self, request, *args, **kwargs):
+        if request.user.is_authenticated() is True:
+            return HttpResponseRedirect(reverse('account:detail'))
+        return super(RegisterUserView, self).dispatch(request, *args, **kwargs)
 
     def form_valid(self, form):
         with transaction.atomic():
