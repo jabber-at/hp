@@ -45,7 +45,7 @@
         <li><a href="{% url "account:logout" %}">{% trans "Logout" %}</a></li>
         {% else %}
         <li><a href="{% url "account:register" %}">{% trans "Register" %}</a></li>
-        <li><a href="{% url "account:register" %}">{% trans "Login" %}</a></li>
+        <li><a href="{% url "account:login" %}">{% trans "Login" %}</a></li>
         {% endif %}
       </ul>
     </div><!--/.nav-collapse -->

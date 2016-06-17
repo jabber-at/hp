@@ -133,6 +133,7 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 AUTH_USER_MODEL = 'account.User'
+LOGIN_REDIRECT_URL = '/account/'
 
 # Authenticate against the XMPP server
 AUTHENTICATION_BACKENDS = [
