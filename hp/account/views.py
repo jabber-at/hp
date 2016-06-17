@@ -34,12 +34,11 @@ class CreateUserView(CreateView):
 
     def form_valid(self, form):
         with transaction.atomic():
-            user = form.instance
-            backend.create_user(user.node, user.domain, user.email)
-
             response = super(CreateUserView, self).form_valid(form)
-            user.backend = settings.AUTHENTICATION_BACKENDS[0]
-            login(self.request, user)
+            self.object.backend = settings.AUTHENTICATION_BACKENDS[0]
+
+            backend.create_user(self.object.node, self.object.domain, self.object.email)
+            login(self.request, self.object)
             return response
 
 
