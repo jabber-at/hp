@@ -11,7 +11,7 @@
     <link href="{% static 'lib/bootstrap/css/bootstrap-theme.min.css' %}" rel="stylesheet">
     <link href="{% static 'css/theme.css' %}" rel="stylesheet">
     <link href="{% static 'core/css/base.css' %}" rel="stylesheet">
-    {{ form.media }}
+    {{ form.media.css }}
 
 <body{% block body-attrs %} role="document"{% endblock body-attrs %}>
 {% block body %}
@@ -61,4 +61,5 @@
 <script src="{% static 'lib/jquery/jquery-2.2.4.min.js' %}"></script>
 <!-- Include all compiled plugins (below), or include individual files as needed -->
 <script src="{% static 'lib/bootstrap/js/bootstrap.min.js' %}"></script>
+{{ form.media.js }}
 {% endblock body %}
