@@ -1,4 +1,4 @@
-{% load staticfiles mptt_tags %}<!DOCTYPE html>
+{% load i18n staticfiles mptt_tags %}<!DOCTYPE html>
 <html lang="en">
   <head>
     <meta charset="utf-8">
@@ -38,6 +38,15 @@
             </li>
             {% endif %}
         {% endrecursetree %}
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        {% if request.user.is_authenticated %}
+        <li><a href="{% url "account:detail" %}">{% trans "Account" %}</a></li>
+        <li><a href="{% url "account:detail" %}">{% trans "Logout" %}</a></li>
+        {% else %}
+        <li><a href="{% url "account:register" %}">{% trans "Register" %}</a></li>
+        <li><a href="{% url "account:register" %}">{% trans "Login" %}</a></li>
+        {% endif %}
       </ul>
     </div><!--/.nav-collapse -->
   </div>
