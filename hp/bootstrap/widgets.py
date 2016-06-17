@@ -48,3 +48,6 @@ class BootstrapEmailInput(BootstrapWidgetMixin, forms.EmailInput):
         js = (
             'bootstrap/js/email_input.js',
         )
+
+class BootstrapPasswordInput(BootstrapWidgetMixin, forms.PasswordInput):
+    pass
