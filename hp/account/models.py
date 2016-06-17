@@ -15,6 +15,8 @@
 
 from django.db import models
 from django.contrib.auth.models import PermissionsMixin
+from django.utils.translation import ugettext_lazy as _
+
 from django_xmpp_backends.models import XmppBackendUser
 
 from .constants import REGISTRATION_CHOICES
@@ -24,8 +26,8 @@ from .managers import UserManager
 
 class User(XmppBackendUser, PermissionsMixin):
     # NOTE: MySQL only allows a 255 character limit
-    username = models.CharField(max_length=255, unique=True, verbose_name='JID')
-    email = models.EmailField(null=True, blank=True)
+    username = models.CharField(max_length=255, unique=True, verbose_name=_('JID'))
+    email = models.EmailField(null=True, blank=True, verbose_name=_('Email'))
     gpg_fingerprint = models.CharField(max_length=40, null=True, blank=True)
 
     # when the account was first registered
