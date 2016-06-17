@@ -28,7 +28,7 @@ from .forms import CreateUserForm
 User = get_user_model()
 
 
-class CreateUserView(CreateView):
+class RegisterUserView(CreateView):
     template_name_suffix = '_register'
     model = User
     form_class = CreateUserForm
@@ -36,7 +36,7 @@ class CreateUserView(CreateView):
 
     def form_valid(self, form):
         with transaction.atomic():
-            response = super(CreateUserView, self).form_valid(form)
+            response = super(RegisterUserView, self).form_valid(form)
             self.object.backend = settings.AUTHENTICATION_BACKENDS[0]
 
             backend.create_user(self.object.node, self.object.domain, self.object.email)
