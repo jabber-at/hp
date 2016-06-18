@@ -14,6 +14,7 @@
 # If not, see <http://www.gnu.org/licenses/>.
 
 from django.db import models
+from django.conf import settings
 from django.contrib.auth.models import PermissionsMixin
 from django.utils.translation import ugettext_lazy as _
 
@@ -73,13 +74,12 @@ class User(XmppBackendUser, PermissionsMixin):
         return self.username
 
 
-class AccountConfirmation(Confirmation):
-    class Meta:
-        proxy = True
+class UserConfirmation(Confirmation):
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, related_name='confirmations')
 
     def send(self, request, user, purpose, **kwargs):
         node, domain = user.get_username().split('@', 1)
         subject = PURPOSES[purpose]['subject'] % {
             'domain': domain,
         }
-        return super(AccountConfirmation, self).send(request, user, purpose, subject, **kwargs)
+        return super(UserConfirmation, self).send(request, user, purpose, subject, **kwargs)
