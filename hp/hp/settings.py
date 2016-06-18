@@ -163,9 +163,13 @@ GNUPG = {
 }
 GPG_KEYSERVER = 'pool.sks-keyservers.net'
 
+####################
+# CAPTCHA settings #
+####################
 ENABLE_CAPTCHAS = True
 CAPTCHA_LENGTH = 8
 CAPTCHA_FONT_SIZE = 32
+CAPTCHA_TEXT_FIELD_TEMPLATE = 'core/captcha/text_field.html'
 
 try:
     from .localsettings import *
