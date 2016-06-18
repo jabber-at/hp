@@ -76,7 +76,8 @@ class LinkTargetWidget(forms.MultiWidget):
         if value is None:
             return [TARGET_URL, '', '[]', '{}', default_model, '']
 
-        value = json.loads(value)
+        if isinstance(value, str):
+            value = json.loads(value)
         typ = value.get('typ', TARGET_URL)
 
         if typ == TARGET_URL:
