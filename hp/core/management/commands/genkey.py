@@ -43,7 +43,7 @@ class Command(BaseCommand):
             raise CommandError('%s: Host not named in XMPP_HOSTS setting.' % host)
 
         if not os.path.exists(settings.GNUPG['gnupghome']):
-            os.makedirs(settings.GNUPG['gnupghome'], 0x0700)
+            os.makedirs(settings.GNUPG['gnupghome'], 0o700)
         gpg = settings.GPG  # just a nice shortcut
 
         # option sanitization
