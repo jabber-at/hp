@@ -2,7 +2,7 @@
 {% load i18n %}
 
 {% block content %}
-<form class="form-horizontal" action="" method="post">{% csrf_token %}
+<form enctype="multipart/form-data" class="form-horizontal" action="" method="post">{% csrf_token %}
 {{ form.username.formgroup }}
 {{ form.email.formgroup }}
 <div class="col-sm-offset-2 col-sm-10"><h4>{% trans "GPG options" %}</h4></div>
