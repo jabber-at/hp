@@ -92,7 +92,7 @@ class FingerprintField(BootstrapCharField):
         kwargs.setdefault('min_length', 40)
         kwargs.setdefault('required', False)
         kwargs.setdefault('help_text', _(
-            'Add your fingerprint ("gpg --list-secret-keys --fingerprint") if your key is '
+            'Add your fingerprint ("gpg --fingerprint you@example.com") if your key is '
             'available on the public key servers.'))
 
         # define error messages
