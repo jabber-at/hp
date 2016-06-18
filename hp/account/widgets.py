@@ -18,6 +18,7 @@ from django.conf import settings
 from django.utils.html import format_html
 
 from bootstrap.widgets import BootstrapWidgetMixin
+from bootstrap.widgets import BootstrapTextInput
 
 
 class NodeWidget(forms.TextInput):
@@ -37,6 +38,15 @@ class DomainWidget(forms.Select):
     def render(self, *args, **kwargs):
         html = super(DomainWidget, self).render(*args, **kwargs)
         return format_html('<div class="col-sm-4">{}</div>', html)
+
+
+class FingerprintWidget(BootstrapTextInput):
+    input_class = 'gpg-fingerprint'
+
+    class Media:
+        js = (
+            'account/js/fingerprint_widget.js',
+        )
 
 
 class UsernameWidget(BootstrapWidgetMixin, forms.MultiWidget):

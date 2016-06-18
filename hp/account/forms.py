@@ -19,11 +19,11 @@ from django.contrib.auth.forms import AuthenticationForm
 from django.utils.translation import ugettext_lazy as _
 
 from bootstrap.formfields import BootstrapEmailField
-from bootstrap.formfields import BootstrapCharField
 from bootstrap.formfields import BootstrapPasswordField
 
 from .models import User
 from .formfields import UsernameField
+from .formfields import FingerprintField
 from .formfields import KeyUploadField
 
 _MIN_USERNAME_LENGTH = getattr(settings, 'MIN_USERNAME_LENGTH', 2)
@@ -35,7 +35,7 @@ class GPGMixin(forms.Form):
 
     if getattr(settings, 'GPG', True):
         #fingerprint = XMPPAccountFingerprintField()
-        gpg_fingerprint = BootstrapCharField()
+        gpg_fingerprint = FingerprintField()
         gpg_key = KeyUploadField()
 
     class Media:
