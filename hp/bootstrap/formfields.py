@@ -24,8 +24,7 @@ class BoundField(forms.boundfield.BoundField):
     def formgroup(self):
         help_text = ''
         if self.help_text:
-            help_text = format_html('<p class="col-sm-offset-2 col-sm-10 help-block">{}</p>',
-                                    self.help_text)
+            help_text = format_html('<p class="help-block">{}</p>', self.help_text)
 
         fg_attrs = dict(self.field.formgroup_attrs)
         fg_attrs.setdefault('id', 'fg_%s' % self.html_name)
@@ -34,8 +33,8 @@ class BoundField(forms.boundfield.BoundField):
         else:
             fg_attrs['class'] = 'form-group'
 
-        return format_html('<div {}>{}{}{}</div>', flatatt(fg_attrs), self.label_tag(), self,
-                           help_text)
+        return format_html('<div {}>{}<div class="col-sm-10 foo">{}{}</div></div>', flatatt(fg_attrs),
+                           self.label_tag(), self, help_text)
 
     def label_tag(self, contents=None, attrs=None, label_suffix=None):
         attrs = attrs or {}

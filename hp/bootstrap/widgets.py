@@ -37,10 +37,6 @@ class BootstrapWidgetMixin(object):
         else:
             attrs['class'] = cls
 
-    def render(self, *args, **kwargs):
-        widget = super(BootstrapWidgetMixin, self).render(*args, **kwargs)
-        return format_html('<div class="col-sm-10">{}</div>', widget)
-
 
 class BootstrapTextInput(BootstrapWidgetMixin, forms.TextInput):
     pass
@@ -62,14 +58,15 @@ class BootstrapFileInput(BootstrapWidgetMixin, forms.ClearableFileInput):
     input_class = 'upload-button'
 
     def render(self, *args, **kwargs):
-        widget = forms.ClearableFileInput.render(self, *args, **kwargs)
+        widget = super(BootstrapFileInput, self).render(*args, **kwargs)
+
         button = format_html('<span class="btn btn-primary" type="span">{}{}</span>',
                              _('Browse...'), widget)
         button = format_html('<label class="input-group-btn">{}</label>', button)
 
         text_input = mark_safe('<input type="text" class="form-control" readonly>')
         return format_html(
-            '<div class="col-sm-10"><div class="input-group">{}{}</div></div>', button, text_input)
+            '<div class="input-group">{}{}</div>', button, text_input)
 
     class Media:
         css = {

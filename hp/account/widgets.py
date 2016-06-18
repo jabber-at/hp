@@ -47,7 +47,7 @@ class UsernameWidget(BootstrapWidgetMixin, forms.MultiWidget):
 
     def render(self, *args, **kwargs):
         widget = forms.MultiWidget.render(self, *args, **kwargs)
-        return format_html('<div class="col-sm-10"><div class="row">{}</div></div>', widget)
+        return format_html('<div class="row">{}</div>', widget)
 
     class Media:
         css = {
