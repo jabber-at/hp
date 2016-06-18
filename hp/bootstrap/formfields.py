@@ -35,6 +35,12 @@ class BoundField(forms.boundfield.BoundField):
         else:
             fg_attrs['class'] = 'form-group'
 
+        if self.errors:
+            fg_attrs['class'] += ' has-error'
+        elif self.form.is_bound and not self.errors:
+            # TODO: maybe not add this class if the field is optional and no text was entered?
+            fg_attrs['class'] += ' has-success'
+
         feedback_icons = ''
         if getattr(self.field.widget, 'feedback', False):
             fg_attrs['class'] += ' has-feedback'
