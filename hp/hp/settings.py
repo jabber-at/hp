@@ -42,9 +42,10 @@ INSTALLED_APPS = [
 
     'mptt',  # Tree structure for MenuItem
     'tinymce',  # Rich text editor
+    'django_confirm',  # Email confirmations
 
     'core',
-    'bootstrap',
+    'bootstrap',  # bootstrap enhancements
     'account',
 ]
 
