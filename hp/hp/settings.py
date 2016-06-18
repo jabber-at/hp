@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
+    'captcha',
     'mptt',  # Tree structure for MenuItem
     'tinymce',  # Rich text editor
     'django_confirm',  # Email confirmations
@@ -161,6 +162,10 @@ GNUPG = {
     'options': ['--lock-multiple'],
 }
 GPG_KEYSERVER = 'pool.sks-keyservers.net'
+
+ENABLE_CAPTCHAS = True
+CAPTCHA_LENGTH = 8
+CAPTCHA_FONT_SIZE = 32
 
 try:
     from .localsettings import *
