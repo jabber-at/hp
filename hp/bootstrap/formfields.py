@@ -26,7 +26,7 @@ class BoundField(forms.boundfield.BoundField):
         help_text = ''
         if self.help_text or self.errors:
             help_text = format_html('<p id="{}" class="help-block">{}{}</p>', self.help_id,
-                                    self.help_text, self.errors)
+                                    mark_safe(self.help_text), self.errors)
 
         fg_attrs = dict(self.field.formgroup_attrs)
         fg_attrs.setdefault('id', 'fg_%s' % self.html_name)
@@ -51,7 +51,7 @@ class BoundField(forms.boundfield.BoundField):
             feedback_icons = mark_safe(
                 '<span class="%s" aria-hidden="true"></span>' % icon_classes)
 
-        return format_html('<div {}>{}<div class="col-sm-10 foo">{}{}{}</div></div>',
+        return format_html('<div {}>{}<div class="col-sm-10">{}{}{}</div></div>',
                            flatatt(fg_attrs), self.label_tag(), self, feedback_icons, help_text)
 
     @property
