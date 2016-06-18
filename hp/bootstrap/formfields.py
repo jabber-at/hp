@@ -24,7 +24,9 @@ class BoundField(forms.boundfield.BoundField):
     def formgroup(self):
         help_text = ''
         if self.help_text:
-            help_text = format_html('<p class="help-block">{}</p>', self.help_text)
+            help_id = 'hb_%s' % self.html_name
+            help_text = format_html('<p id="{}" class="help-block">{}</p>', help_id,
+                                    self.help_text)
 
         fg_attrs = dict(self.field.formgroup_attrs)
         fg_attrs.setdefault('id', 'fg_%s' % self.html_name)
