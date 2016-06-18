@@ -11,8 +11,11 @@ https://docs.djangoproject.com/en/1.9/ref/settings/
 """
 
 import os
+import logging
+
+import gnupg
+
 from django.core.urlresolvers import reverse_lazy
-from django.core.exceptions import ImproperlyConfigured
 from django.utils.translation import ugettext_lazy as _
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
@@ -165,5 +168,5 @@ if GNUPG is not None:
     if os.path.exists(GNUPG['gnupghome']):
         GPG = gnupg.GPG(**GNUPG)
     else:
-        raise ImproperlyConfigured(
+        logging.warn(
             'GnuPG disabled because GnuPG home not found. Generate key with manage.py genkey.')
