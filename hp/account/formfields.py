@@ -54,7 +54,7 @@ class UsernameField(BootstrapMixin, forms.MultiValueField):
                 widget=NodeWidget,
                 min_length=_MIN_USERNAME_LENGTH,
                 max_length=_MAX_USERNAME_LENGTH,
-                error_messages = {
+                error_messages={
                     'min_length': _('Username must have at least %(limit_value)d characters.'),
                     'max_length': _('Username must have at most %(limit_value)d characters.'),
                 },
@@ -95,7 +95,7 @@ class KeyUploadField(BootstrapFileField):
         super(KeyUploadField, self).__init__(**kwargs)
 
     def clean(self, value, initial):
-        if not getattr(settings, 'GPG', True): # check, just to be sure
+        if not getattr(settings, 'GPG', True):  # check, just to be sure
             raise forms.ValidationError(self.error_messages['not-enabled'])
 
         gpg_key = super(KeyUploadField, self).clean(value)
@@ -116,4 +116,3 @@ class KeyUploadField(BootstrapFileField):
             raise forms.ValidationError(self.error_messages['no-keys'])
 
         return value
-    pass
