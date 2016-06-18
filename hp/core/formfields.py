@@ -21,6 +21,9 @@ from django.contrib.contenttypes.models import ContentType
 from django.contrib.admin.widgets import AdminTextInputWidget
 from django.utils.translation import ugettext_lazy as _
 
+from bootstrap.formfields import BootstrapMixin
+from captcha.fields import CaptchaField as CaptchaFieldBase
+
 from .constants import TARGET_CHOICES
 from .constants import TARGET_NAMED_URL
 from .constants import TARGET_MODEL
@@ -28,6 +31,10 @@ from .constants import TARGET_URL
 from .widgets import LinkTargetWidget
 
 log = logging.getLogger(__name__)
+
+
+class CaptchaField(BootstrapMixin, CaptchaFieldBase):
+    pass
 
 
 class LinkTargetField(forms.MultiValueField):
