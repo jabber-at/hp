@@ -3,6 +3,7 @@
 /bin/
 /build/
 /fab.conf
+/hp/.gpg/
 /hp/db.sqlite3
 /hp/hp/localsettings.py
 /include/
