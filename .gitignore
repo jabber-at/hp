@@ -6,6 +6,7 @@
 /hp/.gpg/
 /hp/db.sqlite3
 /hp/hp/localsettings.py
+/hp/static/
 /include/
 /lib/
 /pip-selfcheck.json
