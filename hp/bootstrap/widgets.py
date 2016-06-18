@@ -56,14 +56,21 @@ class BootstrapPasswordInput(BootstrapWidgetMixin, forms.PasswordInput):
     pass
 
 
-class BootstrapFileInput(forms.ClearableFileInput):
+class BootstrapFileInput(BootstrapWidgetMixin, forms.ClearableFileInput):
+    input_class = 'upload-button'
+
     def render(self, *args, **kwargs):
         widget = super(BootstrapFileInput, self).render(*args, **kwargs)
         return format_html(
-            '<div class="col-sm-10"><label class="btn btn-default btn-file">Foo{}</label></div>',
+            '<div class="col-sm-10"><label class="btn btn-default btn-file">Foo... {}</label></div>',
             widget)
 
     class Media:
+        css = {
+            'all': (
+                'bootstrap/css/file_input.css',
+            ),
+        }
         js = (
             'bootstrap/js/file_input.js',
         )
