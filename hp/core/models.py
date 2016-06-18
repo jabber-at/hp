@@ -76,7 +76,6 @@ class MenuItem(MPTTModel, BaseModel):
             'typ': TARGET_URL,
             'url': '#',
         }
-        print(empty_target, self.target, type(self.target))
         if self.get_descendant_count() != 0 and self.target != empty_target:
             raise ValidationError(_('Menu item with children should have URL "#"'))
 
@@ -95,13 +94,15 @@ class Confirmation(BaseConfirmation):
 
     def send(self, request, user, purpose, subject, **kwargs):
         node, domain = user.get_username().split('@', 1)
-        path = reverse('xmpp_accounts:%s_confirm' % purpose, kwargs={'key': self.key, })
-        uri = request.build_absolute_uri(location=path)
 
         label = self._meta.app_label
 
+        path = reverse('%s:%s_confirm' % (label, purpose), kwargs={'key': self.key, })
+        uri = request.build_absolute_uri(location=path)
+
         kwargs.setdefault('subject', subject)
-        kwargs.setdefault('sender', request.site.get('FROM_EMAIL', settings.DEFAULT_FROM_EMAIL))
+        #kwargs.setdefault('sender', request.site.get('FROM_EMAIL', settings.DEFAULT_FROM_EMAIL))
+        kwargs.setdefault('sender', settings.DEFAULT_FROM_EMAIL)
         kwargs.setdefault('txt_template', '%s/confirm/%s.txt' % (label, purpose))
         kwargs.setdefault('html_template', '%s/confirm/%s.html' % (label, purpose))
         kwargs.setdefault('lang', request.LANGUAGE_CODE)
@@ -112,7 +113,6 @@ class Confirmation(BaseConfirmation):
             'username': node,
             'domain': domain,
             'jid': user.get_username(),
-            'cleartext': settings.CLEARTEXT_PASSWORDS,
             'uri': uri,
         })
         return super(Confirmation, self).send(**kwargs)
