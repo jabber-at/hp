@@ -51,8 +51,8 @@ class BoundField(forms.boundfield.BoundField):
             feedback_icons = mark_safe(
                 '<span class="%s" aria-hidden="true"></span>' % icon_classes)
 
-        return format_html('<div {}>{}<div class="col-sm-10 foo">{}{}{}</div></div>', flatatt(fg_attrs),
-                           self.label_tag(), self, feedback_icons, help_text)
+        return format_html('<div {}>{}<div class="col-sm-10 foo">{}{}{}</div></div>',
+                           flatatt(fg_attrs), self.label_tag(), self, feedback_icons, help_text)
 
     @property
     def help_id(self):
