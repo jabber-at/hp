@@ -64,7 +64,8 @@ class BootstrapFileInput(BootstrapWidgetMixin, forms.ClearableFileInput):
 
         button = format_html('<span class="btn btn-primary" type="span">{}{}</span>',
                              _('Browse...'), widget)
-        button = format_html('<label class="input-group-btn">{}</label>', button)
+        button = format_html('<label for="{}" class="input-group-btn">{}</label>',
+                             kwargs['attrs']['id'], button)
 
         text_input = mark_safe('<input type="text" class="form-control" readonly>')
         return format_html(
