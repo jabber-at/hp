@@ -93,18 +93,17 @@ class Confirmation(BaseConfirmation):
     class Meta:
         proxy = True
 
-    def send(self, purpose, request, user, **kwargs):
+    def send(self, request, user, purpose, subject, **kwargs):
         node, domain = user.get_username().split('@', 1)
-        subject = PURPOSES[self.purpose]['subject'] % {
-            'domain': domain,
-        }
         path = reverse('xmpp_accounts:%s_confirm' % purpose, kwargs={'key': self.key, })
         uri = request.build_absolute_uri(location=path)
 
+        label = self._meta.app_label
+
         kwargs.setdefault('subject', subject)
         kwargs.setdefault('sender', request.site.get('FROM_EMAIL', settings.DEFAULT_FROM_EMAIL))
-        kwargs.setdefault('txt_template', 'xmpp_accounts/%s/mail.txt' % purpose)
-        kwargs.setdefault('html_template', 'xmpp_accounts/%s/mail.html' % purpose)
+        kwargs.setdefault('txt_template', '%s/confirm/%s.txt' % (label, purpose))
+        kwargs.setdefault('html_template', '%s/confirm/%s.html' % (label, purpose))
         kwargs.setdefault('lang', request.LANGUAGE_CODE)
         kwargs.setdefault('gpg_opts', getattr(settings, 'GNUPG', None))
 
