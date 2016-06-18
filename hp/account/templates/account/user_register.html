@@ -6,15 +6,30 @@
 <form enctype="multipart/form-data" class="form-horizontal" action="" method="post">{% csrf_token %}
 {{ form.username.formgroup }}
 {{ form.email.formgroup }}
-<div class="row gpg-header-row">
-<div class="col-sm-offset-2 col-sm-10">
+<div class="row gpg-header-row{% if show_gpg %} show-gpg{% endif %}">
+<div class="col-sm-12">
     <h4>
+        <span class="glyphicon glyphicon-menu-right" aria-hidden="true"></span>
+        <span class="glyphicon glyphicon-menu-down" aria-hidden="true"></span>
         {% trans "GPG options" %}
     </h4>
 </div>
 </div>
+<div class="gpg-content{% if show_gpg %} show-gpg{% endif %}">
+<div class="row"><div class="col-sm-12">
+<p class="help-block">
+{% blocktrans %}You can add a GPG key to have jabber.at encrypt all emails sent to you.{% endblocktrans %}
+<div class="alert alert-warning" role="alert">
+{% blocktrans %}<strong>Warning:</strong> Please note the obvious: If you ever loose your GPG key and
+do not upload a new one here, you can no longer read any emails (e.g. when you
+have forgotton your password) we send to you.{% endblocktrans %}
+</div>
+</div></div>
+
+
 {{ form.gpg_fingerprint.formgroup }}
 {{ form.gpg_key.formgroup }}
+</div>
 {{ form.captcha.formgroup }}
 
 

@@ -57,6 +57,11 @@ class GPGMixin(forms.Form):
         js = (
             'account/js/gpgmixin.js',
         )
+        css = {
+            'all': (
+                'account/css/gpgmixin.css',
+            ),
+        }
 
 
 class CreateUserForm(GPGMixin, CaptchaFormMixin, forms.ModelForm):
