@@ -40,8 +40,8 @@ class BoundField(forms.boundfield.BoundField):
         if self.errors:
             fg_attrs['class'] += ' has-error'
             icon_classes += ' glyphicon-remove'
-        elif self.form.is_bound and not self.errors:
-            # TODO: maybe not add this class if the field is optional and no text was entered?
+        elif self.form.is_bound and not self.errors and self.field.required:
+            # On a bound (=submitted) form, we add the success classes, if the field is required.
             fg_attrs['class'] += ' has-success'
             icon_classes += ' glyphicon-ok'
 
