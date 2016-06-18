@@ -6,5 +6,5 @@ django-tinymce==2.3.0
 django-xmpp-backends==0.1
 hiredis==0.2.0
 jsonfield==1.0.3
-# our own basedjango has no release yet.
--e git+https://github.com/mathiasertl/basedjango.git#egg=basedjango
+# not yet released
+git+https://github.com/mathiasertl/django-confirm.git
