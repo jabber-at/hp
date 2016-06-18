@@ -26,3 +26,8 @@ REGISTRATION_CHOICES = (
     (REGISTRATION_MANUAL, _('Manually')),
     (REGISTRATION_UNKNOWN, _('Unknown')),
 )
+
+PURPOSE_REGISTER = 'register'
+PURPOSE_SET_EMAIL = 'email'
+PURPOSE_SET_PASSWORD = 'password'
+PURPOSE_DELETE = 'delete'

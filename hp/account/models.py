@@ -19,9 +19,31 @@ from django.utils.translation import ugettext_lazy as _
 
 from django_xmpp_backends.models import XmppBackendUser
 
+from core.models import Confirmation
+
 from .constants import REGISTRATION_CHOICES
 from .constants import REGISTRATION_WEBSITE
+from .constants import PURPOSE_REGISTER
+from .constants import PURPOSE_SET_EMAIL
+from .constants import PURPOSE_RESET_PASSWORD
+from .constants import PURPOSE_DELETE
 from .managers import UserManager
+
+
+PURPOSES = {
+    PURPOSE_REGISTER: {
+        'subject': _('Your new account on %(domain)s'),
+    },
+    PURPOSE_SET_EMAIL: {
+        'subject': _('Confirm the email address for your %(domain)s account'),
+    },
+    PURPOSE_RESET_PASSWORD: {
+        'subject': _('Reset the password for your %(domain)s account'),
+    },
+    PURPOSE_DELETE: {
+        'subject': _('Delete your account on %(domain)s'),
+    },
+}
 
 
 class User(XmppBackendUser, PermissionsMixin):
@@ -49,3 +71,15 @@ class User(XmppBackendUser, PermissionsMixin):
 
     def __str__(self):
         return self.username
+
+
+class AccountConfirmation(Confirmation):
+    class Meta:
+        proxy = True
+
+    def send(self, request, user, purpose, **kwargs):
+        node, domain = user.get_username().split('@', 1)
+        subject = PURPOSES[purpose]['subject'] % {
+            'domain': domain,
+        }
+        return super(AccountConfirmation, self).send(request, user, purpose, subject, **kwargs)
