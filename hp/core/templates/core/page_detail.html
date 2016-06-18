@@ -4,6 +4,6 @@
 {% block content %}
 <div class="page-header"><h1>{{ object.title.current }}</h1></div>
 
-{{ object.text.current }}
+{{ object.text.current|safe }}
 
 {% endblock content %}
