@@ -19,6 +19,8 @@ from django.contrib.auth.forms import AuthenticationForm
 from django.utils.translation import ugettext_lazy as _
 
 from bootstrap.formfields import BootstrapEmailField
+from bootstrap.formfields import BootstrapCharField
+from bootstrap.formfields import BootstrapFileField
 from bootstrap.formfields import BootstrapPasswordField
 
 from .models import User
@@ -38,6 +40,9 @@ class CreateUserForm(forms.ModelForm):
     email = BootstrapEmailField(
         help_text=_('Required, a confirmation email will be sent to this address.')
     )
+
+    gpg_fingerprint = BootstrapCharField()
+    gpg_key = BootstrapFileField()
 
     class Meta:
         model = User

@@ -1,7 +1,11 @@
 {% extends "base.html" %}
 
 {% block content %}
-<form class="form-horizontal" action="" method="post">{% csrf_token %}{{ form.username.formgroup }}{{ form.email.formgroup }}
+<form class="form-horizontal" action="" method="post">{% csrf_token %}
+{{ form.username.formgroup }}
+{{ form.email.formgroup }}
+{{ form.gpg_fingerprint.formgroup }}
+{{ form.gpg_key.formgroup }}
 <div class="form-group">
     <div class="col-sm-offset-2 col-sm-10">
         <button type="submit" class="btn btn-default">Submit</button>
