@@ -24,8 +24,7 @@ class BoundField(forms.boundfield.BoundField):
     def formgroup(self):
         help_text = ''
         if self.help_text:
-            help_id = 'hb_%s' % self.html_name
-            help_text = format_html('<p id="{}" class="help-block">{}</p>', help_id,
+            help_text = format_html('<p id="{}" class="help-block">{}</p>', self.help_id,
                                     self.help_text)
 
         fg_attrs = dict(self.field.formgroup_attrs)
@@ -37,6 +36,21 @@ class BoundField(forms.boundfield.BoundField):
 
         return format_html('<div {}>{}<div class="col-sm-10 foo">{}{}</div></div>', flatatt(fg_attrs),
                            self.label_tag(), self, help_text)
+
+    @property
+    def help_id(self):
+        return 'hb_%s' % self.html_name
+
+    def as_widget(self, widget=None, attrs=None, only_initial=False):
+        attrs = attrs or {}
+        if self.help_text:
+            # Add the 'aria-describedby' attribute to the <input /> element. It's the id used by
+            # the help-block describing the element and helps scree readers. See:
+            #   http://getbootstrap.com/css/#forms-help-text
+            attrs['aria-describedby'] = self.help_id
+
+        return super(BoundField, self).as_widget(widget=widget, attrs=attrs,
+                                                 only_initial=only_initial)
 
     def label_tag(self, contents=None, attrs=None, label_suffix=None):
         attrs = attrs or {}
