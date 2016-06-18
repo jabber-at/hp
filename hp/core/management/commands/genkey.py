@@ -25,9 +25,9 @@ class Command(BaseCommand):
 
     def add_arguments(self, parser):
         parser.add_argument(
-            '--key-type', default='RSA', metavar='[DSA|RSA]',
+            '-t', '--type', default='RSA', metavar='[DSA|RSA]',
             help='The type of primary key to generate (default: %(default)s).'),
-        parser.add_argument('--key-length', default=4096, type=int, metavar='BITS',
+        parser.add_argument('-s', '--size', default=4096, type=int, metavar='BITS',
                     help='The length of the primary key (default: %(default)s).'),
         parser.add_argument('--name', help="Override the real name (default: the xmpp-host used."),
         parser.add_argument('-f', '--force', action='store_true', default=False,
@@ -49,7 +49,7 @@ class Command(BaseCommand):
         # option sanitization
         if kwargs['name'] is None:
             kwargs['name'] = host
-        kwargs['key_type'] = kwargs['key_type'].upper()
+        kwargs['type'] = kwargs['type'].upper()
 
         if gpg is not None:
             fingerprint = settings.XMPP_HOSTS.get('GPG_FINGERPRINT')
@@ -63,8 +63,8 @@ class Command(BaseCommand):
         self.stdout.write('Generating key for %s <%s>... (takes a long time!)' % (host, email))
 
         params = gpg.gen_key_input(
-            key_length=kwargs['key_length'],
-            key_type=kwargs['key_type'],
+            key_length=kwargs['size'],
+            key_type=kwargs['type'],
             name_real=kwargs['name'],
             name_comment='',
             name_email=email
