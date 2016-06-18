@@ -19,6 +19,7 @@ from django.core.urlresolvers import reverse
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
 
+from django_confirm.models import Confirmation as BaseConfirmation
 from mptt.models import MPTTModel
 from mptt.models import TreeForeignKey
 
@@ -86,3 +87,33 @@ class MenuItem(MPTTModel, BaseModel):
 
     class MPTTMeta:
         order_insertion_by = ['title_en']
+
+
+class Confirmation(BaseConfirmation):
+    class Meta:
+        proxy = True
+
+    def send(self, purpose, request, user, **kwargs):
+        node, domain = user.get_username().split('@', 1)
+        subject = PURPOSES[self.purpose]['subject'] % {
+            'domain': domain,
+        }
+        path = reverse('xmpp_accounts:%s_confirm' % purpose, kwargs={'key': self.key, })
+        uri = request.build_absolute_uri(location=path)
+
+        kwargs.setdefault('subject', subject)
+        kwargs.setdefault('sender', request.site.get('FROM_EMAIL', settings.DEFAULT_FROM_EMAIL))
+        kwargs.setdefault('txt_template', 'xmpp_accounts/%s/mail.txt' % purpose)
+        kwargs.setdefault('html_template', 'xmpp_accounts/%s/mail.html' % purpose)
+        kwargs.setdefault('lang', request.LANGUAGE_CODE)
+        kwargs.setdefault('gpg_opts', getattr(settings, 'GNUPG', None))
+
+        kwargs.setdefault('extra_context', {})
+        kwargs['extra_context'].update({
+            'username': node,
+            'domain': domain,
+            'jid': user.get_username(),
+            'cleartext': settings.CLEARTEXT_PASSWORDS,
+            'uri': uri,
+        })
+        return super(Confirmation, self).send(**kwargs)
