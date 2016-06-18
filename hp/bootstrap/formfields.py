@@ -35,6 +35,9 @@ class BoundField(forms.boundfield.BoundField):
         else:
             fg_attrs['class'] = 'form-group'
 
+        if self.field.formgroup_class:
+            fg_attrs['class'] += ' %s' % self.field.formgroup_class
+
         icon_classes = 'glyphicon form-control-feedback'
 
         if self.errors:
@@ -81,6 +84,8 @@ class BoundField(forms.boundfield.BoundField):
 
 class BootstrapMixin(object):
     """Mixin that adds the form-control class used by bootstrap to input widgets."""
+
+    formgroup_class = None
 
     def __init__(self, **kwargs):
         self.formgroup_attrs = kwargs.pop('formgroup_attrs', {})
