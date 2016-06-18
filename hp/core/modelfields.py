@@ -75,7 +75,22 @@ class LinkTarget(JSONField):
     .. seealso:: https://github.com/bradjasper/django-jsonfield
     """
     def pre_init(self, value, obj):
-        return LinkTargetDict(super(LinkTarget, self).pre_init(value, obj))
+        value = LinkTargetDict(super(LinkTarget, self).pre_init(value, obj))
+        if type(value) == dict:
+            value = LinkTargetDict(value)
+        return value
+
+    def from_db_value(self, *args, **kwargs):
+        value = super(LinkTarget, self).from_db_value(*args, **kwargs)
+        if type(value) == dict:
+            value = LinkTargetDict(value)
+        return value
+
+    def to_python(self, value):
+        value = super(LinkTarget, self).to_python(value)
+        if type(value) == dict:
+            value = LinkTargetDict(value)
+        return value
 
     def formfield(self, **kwargs):
         widget = kwargs.get('widget')
