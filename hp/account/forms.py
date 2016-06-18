@@ -20,16 +20,31 @@ from django.utils.translation import ugettext_lazy as _
 
 from bootstrap.formfields import BootstrapEmailField
 from bootstrap.formfields import BootstrapCharField
-from bootstrap.formfields import BootstrapFileField
 from bootstrap.formfields import BootstrapPasswordField
 
 from .models import User
 from .formfields import UsernameField
+from .formfields import KeyUploadField
 
 _MIN_USERNAME_LENGTH = getattr(settings, 'MIN_USERNAME_LENGTH', 2)
 _MAX_USERNAME_LENGTH = getattr(settings, 'MAX_USERNAME_LENGTH', 64)
 
-class CreateUserForm(forms.ModelForm):
+
+class GPGMixin(forms.Form):
+    """A mixin that adds the GPG fields to a form."""
+
+    if getattr(settings, 'GPG', True):
+        #fingerprint = XMPPAccountFingerprintField()
+        gpg_fingerprint = BootstrapCharField()
+        gpg_key = KeyUploadField()
+
+    class Media:
+        js = (
+            'xmpp_accounts/js/gpgmixin.js',
+        )
+
+
+class CreateUserForm(GPGMixin, forms.ModelForm):
     username = UsernameField(
         register=True,
         help_text=_('At least %(MIN_LENGTH)s and up to %(MAX_LENGTH)s characters. No "@" or spaces.') % {
@@ -41,12 +56,9 @@ class CreateUserForm(forms.ModelForm):
         help_text=_('Required, a confirmation email will be sent to this address.')
     )
 
-    gpg_fingerprint = BootstrapCharField()
-    gpg_key = BootstrapFileField()
-
     class Meta:
         model = User
-        fields = ['username', 'email', ]
+        fields = ['username', 'email', 'gpg_fingerprint']
 
 
 class LoginForm(AuthenticationForm):

@@ -19,6 +19,7 @@ from django.utils.translation import ugettext_lazy as _
 from django.core.validators import RegexValidator
 
 from bootstrap.formfields import BootstrapMixin
+from bootstrap.formfields import BootstrapFileField
 
 from .widgets import DomainWidget
 from .widgets import NodeWidget
@@ -75,3 +76,44 @@ class UsernameField(BootstrapMixin, forms.MultiValueField):
     def compress(self, data_list):
         node, domain = data_list
         return '@'.join(data_list)
+
+
+class KeyUploadField(BootstrapFileField):
+    def __init__(self, **kwargs):
+        kwargs.setdefault('required', False)
+        kwargs.setdefault('help_text', _(
+            'Upload your ASCII armored GPG key directly ("gpg --armor --export <fingerprint>").'))
+
+        # define error messages
+        kwargs.setdefault('error_messages', {})
+        kwargs['error_messages'].setdefault('not-enabled', _('GPG not enabled.'))
+        kwargs['error_messages'].setdefault(
+            'invalid-filetype', _('Only plain-text files are allowed (was: %(content-type)s)!'))
+        kwargs['error_messages'].setdefault('import-failed', _('Could not import public key.'))
+        kwargs['error_messages'].setdefault('multiple-keys', _('File contains multiple keys.'))
+        kwargs['error_messages'].setdefault('no-keys', _('File contains no keys.'))
+        super(KeyUploadField, self).__init__(**kwargs)
+
+    def clean(self, value, initial):
+        if not getattr(settings, 'GPG', True): # check, just to be sure
+            raise forms.ValidationError(self.error_messages['not-enabled'])
+
+        gpg_key = super(KeyUploadField, self).clean(value)
+
+        if not gpg_key:
+            return gpg_key
+        if gpg_key.content_type not in ['text/plain', 'application/pgp-encrypted']:
+            raise forms.ValidationError(self.error_messages['invalid-filetype'] % {
+                'content-type': gpg_key.content_type,
+            })
+
+        result = settings.GPG.scan_keys(gpg_key.temporary_file_path())
+        if result.stderr:
+            raise forms.ValidationError(self.error_messages['import-failed'])
+        elif len(result.fingerprints) > 1:
+            raise forms.ValidationError(self.error_messages['multiple-keys'])
+        elif len(result.fingerprints) < 1:
+            raise forms.ValidationError(self.error_messages['no-keys'])
+
+        return value
+    pass
