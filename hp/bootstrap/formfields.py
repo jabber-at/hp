@@ -24,7 +24,7 @@ from . import widgets
 class BoundField(forms.boundfield.BoundField):
     def formgroup(self):
         help_text = ''
-        if self.help_text:
+        if self.help_text or self.errors:
             help_text = format_html('<p id="{}" class="help-block">{}{}</p>', self.help_id,
                                     self.help_text, self.errors)
 
@@ -56,7 +56,7 @@ class BoundField(forms.boundfield.BoundField):
 
     def as_widget(self, widget=None, attrs=None, only_initial=False):
         attrs = attrs or {}
-        if self.help_text:
+        if self.help_text or self.errors:
             # Add the 'aria-describedby' attribute to the <input /> element. It's the id used by
             # the help-block describing the element and helps scree readers. See:
             #   http://getbootstrap.com/css/#forms-help-text
