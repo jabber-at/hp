@@ -68,3 +68,7 @@ class BootstrapEmailField(BootstrapMixin, forms.EmailField):
 
 class BootstrapPasswordField(BootstrapMixin, forms.CharField):
     widget = widgets.BootstrapPasswordInput
+
+
+class BootstrapFileField(BootstrapMixin, forms.FileField):
+    widget = widgets.BootstrapFileInput

@@ -51,3 +51,16 @@ class BootstrapEmailInput(BootstrapWidgetMixin, forms.EmailInput):
 
 class BootstrapPasswordInput(BootstrapWidgetMixin, forms.PasswordInput):
     pass
+
+
+class BootstrapFileInput(forms.ClearableFileInput):
+    def render(self, *args, **kwargs):
+        widget = super(BootstrapFileInput, self).render(*args, **kwargs)
+        return format_html(
+            '<div class="col-sm-10"><label class="btn btn-default btn-file">Foo{}</label></div>',
+            widget)
+
+    class Media:
+        js = (
+            'bootstrap/js/file_input.js',
+        )
