@@ -34,6 +34,8 @@ _MAX_USERNAME_LENGTH = getattr(settings, 'MAX_USERNAME_LENGTH', 64)
 
 
 class UsernameField(BootstrapMixin, forms.MultiValueField):
+    formgroup_class = 'form-group-username'
+
     def __init__(self, **kwargs):
         self.register = kwargs.pop('register', False)
         self.status_check = kwargs.pop('status_check', self.register)
@@ -45,13 +47,6 @@ class UsernameField(BootstrapMixin, forms.MultiValueField):
         else:
             hosts = [k for k, v in hosts.items() if v.get('MANAGE', True)]
         choices = tuple([(d, '@%s' % d) for d in hosts])
-
-        # Add a CSS class to the formgroup
-        kwargs.setdefault('formgroup_attrs', {})
-        if kwargs['formgroup_attrs'].get('class'):
-            kwargs['formgroup_attrs']['class'] += ' form-group-username'
-        else:
-            kwargs['formgroup_attrs']['class'] = 'form-group-username'
 
         fields = (
             forms.CharField(
