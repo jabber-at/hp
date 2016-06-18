@@ -2,13 +2,21 @@
 {% load i18n %}
 
 {% block content %}
+<div class="row"><div class="col-md-8">
 <form enctype="multipart/form-data" class="form-horizontal" action="" method="post">{% csrf_token %}
 {{ form.username.formgroup }}
 {{ form.email.formgroup }}
-<div class="col-sm-offset-2 col-sm-10"><h4>{% trans "GPG options" %}</h4></div>
+<div class="row gpg-header-row">
+<div class="col-sm-offset-2 col-sm-10">
+    <h4>
+        {% trans "GPG options" %}
+    </h4>
+</div>
+</div>
 {{ form.gpg_fingerprint.formgroup }}
 {{ form.gpg_key.formgroup }}
 {{ form.captcha.formgroup }}
+
 
 <div class="form-group">
     <div class="col-sm-offset-2 col-sm-10">
@@ -16,4 +24,5 @@
     </div>
 </div>
 </form>
+</div></div>
 {% endblock content %}

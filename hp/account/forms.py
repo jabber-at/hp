@@ -55,7 +55,7 @@ class GPGMixin(forms.Form):
 
     class Media:
         js = (
-            'xmpp_accounts/js/gpgmixin.js',
+            'account/js/gpgmixin.js',
         )
 
 
