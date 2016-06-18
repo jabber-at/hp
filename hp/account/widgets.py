@@ -55,6 +55,6 @@ class UsernameWidget(BootstrapWidgetMixin, forms.MultiWidget):
                 'account/css/username_widget.css',
             ),
         }
-        js = (
-            'account/css/username_widget.js',
-        )
+#        js = (
+#            'account/css/username_widget.js',
+#        )
