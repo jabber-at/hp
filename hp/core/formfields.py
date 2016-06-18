@@ -34,6 +34,7 @@ log = logging.getLogger(__name__)
 
 
 class CaptchaField(BootstrapMixin, CaptchaFieldBase):
+    add_success = False
     formgroup_class = 'fg_captcha'
 
 

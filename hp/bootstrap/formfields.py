@@ -43,7 +43,8 @@ class BoundField(forms.boundfield.BoundField):
         if self.errors:
             fg_attrs['class'] += ' has-error'
             icon_classes += ' glyphicon-remove'
-        elif self.form.is_bound and not self.errors and self.field.required:
+        elif self.form.is_bound and not self.errors and self.field.required \
+                and self.field.add_success:
             # On a bound (=submitted) form, we add the success classes, if the field is required.
             fg_attrs['class'] += ' has-success'
             icon_classes += ' glyphicon-ok'
@@ -85,6 +86,7 @@ class BoundField(forms.boundfield.BoundField):
 class BootstrapMixin(object):
     """Mixin that adds the form-control class used by bootstrap to input widgets."""
 
+    add_success = True
     formgroup_class = None
 
     def __init__(self, **kwargs):
