@@ -14,6 +14,7 @@
     {{ form.media.css }}
 
     <meta name="captcha-refresh-url" content="{% url 'captcha-refresh' %}">
+    <meta name="account:api-check-user" content="{% url 'account:api-check-user' %}">
 
     {% block extrahead %}{% endblock extrahead %}
   </head>
