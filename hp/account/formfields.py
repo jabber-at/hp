@@ -82,7 +82,7 @@ class FingerprintField(BootstrapCharField):
 
     def __init__(self, **kwargs):
         # "gpg --list-keys --fingerprint" outputs fingerprint with spaces, making it 50 chars long
-        kwargs.setdefault('label', _('GPG key (advanced, optional)'))
+        kwargs.setdefault('label', _('Fingerprint'))
         kwargs.setdefault('max_length', 50)
         kwargs.setdefault('min_length', 40)
         kwargs.setdefault('required', False)
@@ -128,8 +128,9 @@ class FingerprintField(BootstrapCharField):
 class KeyUploadField(BootstrapFileField):
     def __init__(self, **kwargs):
         kwargs.setdefault('required', False)
+        kwargs.setdefault('label', _('GPG Key'))
         kwargs.setdefault('help_text', _(
-            'Upload your ASCII armored GPG key directly ("gpg --armor --export <fingerprint>").'))
+            '... or upload your ASCII armored GPG key directly ("gpg --armor --export <fingerprint>").'))
 
         # define error messages
         kwargs.setdefault('error_messages', {})
