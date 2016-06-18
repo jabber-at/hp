@@ -79,12 +79,22 @@ class LoginForm(AuthenticationForm):
     password = BootstrapPasswordField()
 
 
-class CreateUserConfirmationForm(forms.Form):
-    pass
+class SetPasswordForm(forms.Form):
+    password = BootstrapPasswordField()
+    password2 = BootstrapPasswordField()
 
+    password_error_messages = {
+        'password_mismatch': _("The two password fields didn't match.")
+    }
 
-class ResetPasswordForm(forms.Form):
-    pass
+    def clean(self):
+        cleaned_data = super(SetPasswordForm, self).clean()
+
+        password1 = cleaned_data.get('password')
+        password2 = cleaned_data.get('password2')
+        if password1 and password2:
+            if password1 != password2:
+                self.add_error('password2', self.password_error_messages['password_mismatch'])
 
 
 class ResetPasswordConfirmationForm(forms.Form):

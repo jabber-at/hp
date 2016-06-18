@@ -23,6 +23,7 @@ from . import views
 app_name = 'account'
 urlpatterns = [
     url(r'register/$', views.RegisterUserView.as_view(), name='register'),
+    url(r'register/(?P<key>\w+)/$', views.ConfirmRegistrationView.as_view(), name='register_confirm'),
     url(r'login/$', auth_views.login, {
             'template_name': 'account/user_login.html',
             'authentication_form': forms.LoginForm,

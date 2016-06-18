@@ -21,13 +21,16 @@ from django.core.urlresolvers import reverse
 from django.core.urlresolvers import reverse_lazy
 from django.db import transaction
 from django.http import HttpResponseRedirect
+from django.utils import timezone
 from django.views.generic.base import TemplateView
 from django.views.generic.edit import CreateView
+from django.views.generic.edit import FormView
 
-#from django_xmpp_backends import backend
+from django_xmpp_backends import backend
 
 from .constants import PURPOSE_REGISTER
 from .forms import CreateUserForm
+from .forms import SetPasswordForm
 from .models import UserConfirmation
 
 User = get_user_model()
@@ -56,11 +59,29 @@ class RegisterUserView(CreateView):
             kwargs.update(form.gpg_options(self.request))
             confirmation.send(self.request, self.object, PURPOSE_REGISTER, **kwargs)
 
-            # TODO: only on confirmation
-            #backend.create_user(self.object.node, self.object.domain, self.object.email)
-
             login(self.request, self.object)
             return response
+
+
+class ConfirmRegistrationView(FormView):
+    template_name = 'account/user_register_confirm.html'
+    queryset = UserConfirmation.objects.select_related('user')
+    form_class = SetPasswordForm
+    success_url = reverse_lazy('account:detail')
+
+    def form_valid(self, form):
+        with transaction.atomic():
+            key = self.queryset.get(key=self.kwargs['key'])
+            key.user.confirmed = timezone.now()
+            key.user.save()
+
+            if key.user.is_authenticated() is False:
+                key.user.backend = settings.AUTHENTICATION_BACKENDS[0]
+                login(self.request, key.user)
+
+            backend.create_user(key.user.node, key.user.domain, key.user.email)
+            key.delete()
+        return super(ConfirmRegistrationView, self).form_valid(form)
 
 
 class UserView(LoginRequiredMixin, TemplateView):
