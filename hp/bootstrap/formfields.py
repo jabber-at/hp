@@ -16,6 +16,7 @@
 from django import forms
 from django.forms.utils import flatatt
 from django.utils.html import format_html
+from django.utils.html import mark_safe
 
 from . import widgets
 
@@ -34,8 +35,14 @@ class BoundField(forms.boundfield.BoundField):
         else:
             fg_attrs['class'] = 'form-group'
 
-        return format_html('<div {}>{}<div class="col-sm-10 foo">{}{}</div></div>', flatatt(fg_attrs),
-                           self.label_tag(), self, help_text)
+        feedback_icons = ''
+        if getattr(self.field.widget, 'feedback', False):
+            fg_attrs['class'] += ' has-feedback'
+            feedback_icons = mark_safe(
+                '<span class="glyphicon form-control-feedback" aria-hidden="true"></span>')
+
+        return format_html('<div {}>{}<div class="col-sm-10 foo">{}{}{}</div></div>', flatatt(fg_attrs),
+                           self.label_tag(), self, feedback_icons, help_text)
 
     @property
     def help_id(self):

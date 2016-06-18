@@ -44,11 +44,13 @@ class BootstrapTextInput(BootstrapWidgetMixin, forms.TextInput):
 
 class BootstrapEmailInput(BootstrapWidgetMixin, forms.EmailInput):
     input_class = 'valid-email'
+    feedback = True
 
     class Media:
         js = (
             'bootstrap/js/email_input.js',
         )
+
 
 class BootstrapPasswordInput(BootstrapWidgetMixin, forms.PasswordInput):
     pass
