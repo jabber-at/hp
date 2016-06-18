@@ -22,15 +22,18 @@ class BootstrapWidgetMixin(object):
 
     def __init__(self, attrs=None, **kwargs):
         attrs = attrs or {}
-        if attrs.get('class'):
-            attrs['class'] += ' form-control'
-        else:
-            attrs['class'] = 'form-control'
+        self._add_class(attrs, 'form-control')
 
         if self.input_class is not None:
-            attrs['class'] += ' %s' % self.input_class
+            self._add_class(attrs, self.input_class)
 
         super(BootstrapWidgetMixin, self).__init__(attrs=attrs, **kwargs)
+
+    def _add_class(self, attrs, cls):
+        if attrs.get('class'):
+            attrs['class'] += ' %s' % cls
+        else:
+            attrs['class'] = cls
 
     def render(self, *args, **kwargs):
         widget = super(BootstrapWidgetMixin, self).render(*args, **kwargs)
