@@ -21,6 +21,8 @@ from django.utils.translation import ugettext_lazy as _
 from bootstrap.formfields import BootstrapEmailField
 from bootstrap.formfields import BootstrapPasswordField
 
+from core.forms import CaptchaFormMixin
+
 from .models import User
 from .formfields import UsernameField
 from .formfields import FingerprintField
@@ -57,7 +59,7 @@ class GPGMixin(forms.Form):
         )
 
 
-class CreateUserForm(GPGMixin, forms.ModelForm):
+class CreateUserForm(GPGMixin, CaptchaFormMixin, forms.ModelForm):
     username = UsernameField(
         register=True,
         help_text=_('At least %(MIN_LENGTH)s and up to %(MAX_LENGTH)s characters. No "@" or spaces.') % {
@@ -74,7 +76,7 @@ class CreateUserForm(GPGMixin, forms.ModelForm):
         fields = ['username', 'email', 'gpg_fingerprint']
 
 
-class LoginForm(AuthenticationForm):
+class LoginForm(CaptchaFormMixin, AuthenticationForm):
     username = UsernameField()
     password = BootstrapPasswordField()
 
