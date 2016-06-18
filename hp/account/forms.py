@@ -38,6 +38,19 @@ class GPGMixin(forms.Form):
         gpg_fingerprint = FingerprintField()
         gpg_key = KeyUploadField()
 
+    def gpg_options(self, request):
+        if not getattr(settings, 'GPG', True):
+            return {}
+
+        if self.cleaned_data.get('fingerprint'):
+            return {'gpg_encrypt': self.cleaned_data.get('fingerprint'), }
+        elif 'gpg_key' in request.FILES:
+            path = request.FILES['gpg_key'].temporary_file_path()
+            with open(path) as stream:
+                data = stream.read()
+            return {'gpg_key': data, }
+        return {}
+
     class Media:
         js = (
             'xmpp_accounts/js/gpgmixin.js',

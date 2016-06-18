@@ -24,9 +24,11 @@ from django.http import HttpResponseRedirect
 from django.views.generic.base import TemplateView
 from django.views.generic.edit import CreateView
 
-from django_xmpp_backends import backend
+#from django_xmpp_backends import backend
 
+from .constants import PURPOSE_REGISTER
 from .forms import CreateUserForm
+from .models import UserConfirmation
 
 User = get_user_model()
 
@@ -47,7 +49,16 @@ class RegisterUserView(CreateView):
             response = super(RegisterUserView, self).form_valid(form)
             self.object.backend = settings.AUTHENTICATION_BACKENDS[0]
 
-            backend.create_user(self.object.node, self.object.domain, self.object.email)
+            confirmation = UserConfirmation.objects.create(user=self.object)
+            kwargs = {
+                'recipient': self.object.email,
+            }
+            kwargs.update(form.gpg_options(self.request))
+            confirmation.send(self.request, self.object, PURPOSE_REGISTER, **kwargs)
+
+            # TODO: only on confirmation
+            #backend.create_user(self.object.node, self.object.domain, self.object.email)
+
             login(self.request, self.object)
             return response
 
