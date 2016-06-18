@@ -34,7 +34,7 @@ log = logging.getLogger(__name__)
 
 
 class CaptchaField(BootstrapMixin, CaptchaFieldBase):
-    pass
+    formgroup_class = 'fg_captcha'
 
 
 class LinkTargetField(forms.MultiValueField):

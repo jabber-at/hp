@@ -25,5 +25,15 @@ class CaptchaFormMixin(forms.Form):
         captcha = CaptchaField(help_text=_(
             'This <a href="https://en.wikipedia.org/wiki/CAPTCHA">CAPTCHA</a> prevents '
             'automated SPAM. If you can\'t read it, just <a '
-            'class="js-captcha-refresh">&#8634; reload</a> it.'
+            'class="captcha-refresh">&#8634; reload</a> it.'
         ))
+
+        class Media:
+            js = (
+                'core/js/captcha.js',
+            )
+            css = {
+                'all': (
+                    'core/css/captcha.css',
+                ),
+            }

@@ -13,6 +13,10 @@
     <link href="{% static 'core/css/base.css' %}" rel="stylesheet">
     {{ form.media.css }}
 
+    <meta name="captcha-refresh-url" content="{% url 'captcha-refresh' %}">
+
+    {% block extrahead %}{% endblock extrahead %}
+  </head>
 <body{% block body-attrs %} role="document"{% endblock body-attrs %}>
 {% block body %}
 <!-- Fixed navbar -->

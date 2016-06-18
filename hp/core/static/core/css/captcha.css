@@ -1,0 +1,9 @@
+.form-group.fg_captcha img.captcha {
+    display: block;
+    padding-bottom: 3px;
+}
+
+.form-group.fg_captcha a.captcha-refresh {
+    white-space: nowrap;
+    cursor: pointer;
+}
