@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/1.9/ref/settings/
 
 import os
 from django.core.urlresolvers import reverse_lazy
+from django.core.exceptions import ImproperlyConfigured
 from django.utils.translation import ugettext_lazy as _
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
@@ -144,7 +145,25 @@ AUTHENTICATION_BACKENDS = [
     'django_xmpp_backends.auth_backends.XmppBackendBackend',
 ]
 
+################
+# GPG settings #
+################
+GPG = None
+GNUPG = {
+    'gnupghome': os.path.join(BASE_DIR, '.gpg'),
+    'gpgbinary': '/usr/bin/gpg',
+    'options': ['--lock-multiple'],
+}
+GPG_KEYSERVER = 'pool.sks-keyservers.net'
+
 try:
     from .localsettings import *
 except ImportError:
     pass
+
+if GNUPG is not None:
+    if os.path.exists(GNUPG['gnupghome']):
+        GPG = gnupg.GPG(**GNUPG)
+    else:
+        raise ImproperlyConfigured(
+            'GnuPG disabled because GnuPG home not found. Generate key with manage.py genkey.')
