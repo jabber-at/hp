@@ -20,11 +20,14 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.urlresolvers import reverse
 from django.core.urlresolvers import reverse_lazy
 from django.db import transaction
+from django.http import HttpResponse
 from django.http import HttpResponseRedirect
 from django.utils import timezone
+from django.views.generic import View
 from django.views.generic.base import TemplateView
 from django.views.generic.edit import CreateView
 from django.views.generic.edit import FormView
+from django.core.cache import cache
 
 from django_xmpp_backends import backend
 
@@ -91,3 +94,33 @@ class UserView(LoginRequiredMixin, TemplateView):
         context = super(UserView, self).get_context_data(**kwargs)
         context['object'] = self.request.user
         return context
+
+
+class UserAvailableView(View):
+    def post(self, request):
+        # Note: XMPP usernames are case insensitive
+        username = request.POST.get('username', '').strip().lower()
+        domain = request.POST.get('domain', '').strip().lower()
+        jid = '%s@%s' % (username, domain)
+
+        cache_key = 'exists_%s' % jid
+        exists = cache.get(cache_key)
+        if exists is True:
+            return HttpResponse('', status=409)
+        elif exists is False:
+            return HttpResponse('')
+
+        # Check if the user exists in the database
+        if User.objects.filter(jid=jid).exists():
+            cache.set(cache_key, True, 30)
+            return HttpResponse('', status=409)
+
+        # TODO: Add a setting to rely on the contents of the database and not ask the backend.
+
+        # Check if the user exists in the backend
+        if backend.user_exists(username, domain):
+            cache.set(cache_key, True, 30)
+            return HttpResponse('', status=409)
+        else:
+            cache.set(cache_key, False, 30)
+            return HttpResponse('')

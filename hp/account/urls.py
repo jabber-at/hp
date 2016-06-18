@@ -29,5 +29,6 @@ urlpatterns = [
             'authentication_form': forms.LoginForm,
         }, name='login'),
     url(r'logout/$', auth_views.logout, name='logout'),
+    url(r'api/check-user/$', views.UserAvailableView.as_view(), name='api-check-user'),
     url(r'$', views.UserView.as_view(), name='detail'),
 ]
