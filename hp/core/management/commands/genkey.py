@@ -15,6 +15,8 @@
 
 import os
 
+import gnupg
+
 from django.conf import settings
 from django.core.management.base import BaseCommand
 from django.core.management.base import CommandError
@@ -44,7 +46,10 @@ class Command(BaseCommand):
 
         if not os.path.exists(settings.GNUPG['gnupghome']):
             os.makedirs(settings.GNUPG['gnupghome'], 0o700)
-        gpg = settings.GPG  # just a nice shortcut
+
+        # We create our own instance (and don't use settings.GPG) because it is not defined when
+        # creating the first key.
+        gpg = gnupg.GPG(**settings.GNUPG)
 
         # option sanitization
         if kwargs['name'] is None:
