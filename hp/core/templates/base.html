@@ -13,9 +13,9 @@
     <link href="{% static 'core/css/base.css' %}" rel="stylesheet">
     {{ form.media.css }}
 
+    <meta name="csrf-token" content="{{ csrf_token }}">
     <meta name="captcha-refresh-url" content="{% url 'captcha-refresh' %}">
     <meta name="account:api-check-user" content="{% url 'account:api-check-user' %}">
-
     {% block extrahead %}{% endblock extrahead %}
   </head>
 <body{% block body-attrs %} role="document"{% endblock body-attrs %}>
@@ -66,5 +66,6 @@
 <script src="{% static 'lib/jquery/jquery-2.2.4.min.js' %}"></script>
 <!-- Include all compiled plugins (below), or include individual files as needed -->
 <script src="{% static 'lib/bootstrap/js/bootstrap.min.js' %}"></script>
+<script src="{% static 'core/js/base.js' %}"></script>
 {{ form.media.js }}
 {% endblock body %}
