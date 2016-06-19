@@ -111,14 +111,7 @@ class UserAvailableView(View):
             return HttpResponse('')
 
         # Check if the user exists in the database
-        if User.objects.filter(jid=jid).exists():
-            cache.set(cache_key, True, 30)
-            return HttpResponse('', status=409)
-
-        # TODO: Add a setting to rely on the contents of the database and not ask the backend.
-
-        # Check if the user exists in the backend
-        if backend.user_exists(username, domain):
+        if User.objects.filter(username=jid).exists():
             cache.set(cache_key, True, 30)
             return HttpResponse('', status=409)
         else:
