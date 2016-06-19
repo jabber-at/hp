@@ -25,3 +25,11 @@ Just a brain storming
 4. finally a webclient (shouldn't be to hard, there are js libs for it)
 5. better social media integration (twitter cards, facebook opengraph tags)
 6. calendar export of scheduled downtimes
+
+Notes:
+
+bootrap inspiration for styling the blog:
+
+* http://blackrockdigital.github.io/startbootstrap-blog-home/
+* http://blackrockdigital.github.io/startbootstrap-blog-post/
+
