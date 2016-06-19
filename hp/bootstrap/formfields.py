@@ -107,6 +107,7 @@ class BootstrapEmailField(BootstrapMixin, forms.EmailField):
 
 class BootstrapPasswordField(BootstrapMixin, forms.CharField):
     widget = widgets.BootstrapPasswordInput
+    add_success = False
 
 
 class BootstrapFileField(BootstrapMixin, forms.FileField):
