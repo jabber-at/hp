@@ -6,3 +6,11 @@
 .blog-post h3 small {
     font-size: 50%;
 }
+
+/**
+ * The CAPTCHA input is styled here because the CaptchaField does not allow easy
+ * overriding of the widget, which could add its own CSS file.
+ */
+form .form-group.fg_captcha input[type="text"] {
+    width: 200px;
+}
