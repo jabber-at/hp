@@ -16,6 +16,7 @@
 from django import forms
 from django.conf import settings
 from django.utils.html import format_html
+from django.utils.translation import ugettext as _
 
 from bootstrap.widgets import BootstrapWidgetMixin
 from bootstrap.widgets import BootstrapTextInput
@@ -26,6 +27,12 @@ class NodeWidget(forms.TextInput):
 
     This class is used because we want to render this widget in a bootstrap column.
     """
+
+    def __init__(self, attrs=None, **kwargs):
+        attrs = attrs or {}
+        attrs['pattern'] = '[^@ ]{2,}'
+        attrs['title'] = _('At least 2 characters, no "@" or spaces.')
+        super(NodeWidget, self).__init__(attrs=attrs, **kwargs)
 
     def render(self, *args, **kwargs):
         html = super(NodeWidget, self).render(*args, **kwargs)
@@ -42,6 +49,14 @@ class DomainWidget(forms.Select):
 
 class FingerprintWidget(BootstrapTextInput):
     input_class = 'gpg-fingerprint'
+    feedback = True
+
+    def __init__(self, attrs=None, **kwargs):
+        attrs = attrs or {}
+        attrs['pattern'] = '[0-9A-Fa-f ]{40,50}'
+        attrs['title'] = _(
+            'The hex-encoded value of the fingerprint: digits, letters A-F (case-insensitive).')
+        super(FingerprintWidget, self).__init__(attrs=attrs, **kwargs)
 
     class Media:
         js = (
