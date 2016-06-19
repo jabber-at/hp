@@ -60,6 +60,9 @@ class BlogPost(BasePage):
     sticky = models.BooleanField(default=False, help_text=_(
         'Pinned at the top of any list of blog posts.'))
 
+    def get_absolute_url(self):
+        return reverse('core:blogpost', kwargs={'slug': self.slug.current})
+
     def __str__(self):
         return self.title.current
 

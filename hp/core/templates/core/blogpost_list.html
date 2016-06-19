@@ -1,34 +1,23 @@
-{% extends "base.html" %}
+{% extends "core/blog-base.html" %}
 {% load i18n staticfiles %}
 
 {% block head %}{{ block.super }}
 <link href="{% static 'css/blog.css' %}" rel="stylesheet">
 {% endblock head %}
 
-{% block content %}
-<div class="page-header"><h1>{% trans "jabber.at blog" %}</h1></div>
+{% block header %}{% trans "jabber.at blog" %}{% endblock header %}
 
-<div class="row">
-<div class="col-sm-9 blog-main">
+{% block blog %}
 {% for post in object_list %}
-    <div class="blog-post">
-        <h3>{{ post.title.current }} <small>{{ post.created }}</small></h3>
+<div class="blog-post">
+<h3><a href="{{ post.get_absolute_url }}">{{ post.title.current }}</a>
+    <small>{% blocktrans with date=post.created user=post.author.node %}{{ date }} by {{ user}}{% endblocktrans %}</small>
+</h3>
     {{ post.text.current|safe }}
-    </div>
+</div>
+    <hr>
 {% empty %}
 {% trans "No articles found." %}
 {% endfor %}
-</div>
-<div class="col-sm-3 blog-sidebar">
-    <div class="sidebar-module sidebar-module-inset">
-        <h4>About</h4>
-        This page is awesome
-    </div>
-    <div class="sidebar-module sidebar-module-inset">
-        <h4>Whatever</h4>
-        another block.
-    </div>
-</div>
-</div>
 
-{% endblock content %}
+{% endblock blog %}

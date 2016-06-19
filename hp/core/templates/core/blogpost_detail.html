@@ -1,0 +1,12 @@
+{% extends "core/blog-base.html" %}
+{% load i18n staticfiles %}
+
+{% block head %}{{ block.super }}
+<link href="{% static 'css/blog.css' %}" rel="stylesheet">
+{% endblock head %}
+
+{% block header %}{{ post.title.current }}{% endblock header %}
+
+{% block blog %}
+{{ post.text.current|safe }}
+{% endblock blog %}

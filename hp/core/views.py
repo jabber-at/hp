@@ -30,3 +30,4 @@ class BlogPostListView(ListView):
 
 class BlogPostView(DetailView):
     queryset = BlogPost.objects.filter(published=True)
+    context_object_name = 'post'
