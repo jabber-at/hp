@@ -86,9 +86,9 @@ class LoginForm(CaptchaFormMixin, AuthenticationForm):
     password = BootstrapPasswordField()
 
 
-class SetPasswordForm(forms.Form):
-    password = BootstrapPasswordField()
-    password2 = BootstrapPasswordField()
+class SetPasswordForm(CaptchaFormMixin, forms.Form):
+    password = BootstrapPasswordField(min_length=6)
+    password2 = BootstrapPasswordField(min_length=6, label=_('Confirm'))
 
     password_error_messages = {
         'password_mismatch': _("The two password fields didn't match.")

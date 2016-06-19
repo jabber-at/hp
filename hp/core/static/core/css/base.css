@@ -14,3 +14,7 @@
 form .form-group.fg_captcha input[type="text"] {
     width: 200px;
 }
+
+.alert.with-header h5 {
+    margin-top: 0;  /* The alert box itself already has a sufficient margin */
+}

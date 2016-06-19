@@ -2,6 +2,20 @@
 {% load i18n %}
 
 {% block form %}
+<h1>Register on jabber.at</h1>
+<p>
+{% blocktrans %}Please complete the form below to register for an account on jabber.at. You
+will receive an email to confirm the address provided. Click on the link in the email to 
+complete your registration.{% endblocktrans %}
+</p>
+<div class="alert alert-info alert-dismissable with-header" role="alert">
+<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+<h5><strong>{% trans "Why do we require your email address?" %}</strong></h5>
+{% blocktrans %}By default, the email address is used only if you want to reset your password
+or if your account hasn't been used for a year and is about to be removed.
+{% endblocktrans %}
+</div>
+
 <form enctype="multipart/form-data" class="form-horizontal" action="" method="post">{% csrf_token %}
 {{ form.username.formgroup }}
 {{ form.email.formgroup }}
