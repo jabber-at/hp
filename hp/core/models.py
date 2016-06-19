@@ -14,7 +14,6 @@
 # If not, see <http://www.gnu.org/licenses/>.
 
 from django.conf import settings
-from django.core.exceptions import ValidationError
 from django.core.urlresolvers import reverse
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
@@ -23,7 +22,6 @@ from django_confirm.models import Confirmation as BaseConfirmation
 from mptt.models import MPTTModel
 from mptt.models import TreeForeignKey
 
-from .constants import TARGET_URL
 from .modelfields import LinkTarget
 from .modelfields import LocalizedCharField
 from .modelfields import LocalizedTextField
@@ -71,18 +69,6 @@ class MenuItem(MPTTModel, BaseModel):
     title = LocalizedCharField(max_length=16, help_text=_('Page title'))
     parent = TreeForeignKey('self', null=True, blank=True, related_name='children', db_index=True)
     target = LinkTarget()
-
-    def clean(self):
-        """Validate that if we have children, that the target is empty."""
-
-        empty_target = {
-            'typ': TARGET_URL,
-            'url': '#',
-        }
-        if self.get_descendant_count() != 0 and self.target != empty_target:
-            raise ValidationError(_('Menu item with children should have URL "#"'))
-
-        return super(MenuItem, self).clean()
 
     def __str__(self):
         return self.title.current
