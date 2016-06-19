@@ -9,3 +9,6 @@
 .gpg-content.show-gpg {
     display: block;
 }
+.gpg-header-row {
+    cursor: pointer;
+}
