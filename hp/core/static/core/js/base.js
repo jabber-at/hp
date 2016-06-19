@@ -27,3 +27,18 @@ $.ajaxSetup({
         }
     }
 });
+
+$(document).ready(function() {
+    /**
+     * popup navbar elements that have a dropdown.
+     */
+    $('ul.nav > li.dropdown:has("a.dropdown-toggle.disabled")').hover(function(e) {
+        var a = $(e.target);
+        a.attr('aria-expanded', 'true');
+        a.parent().addClass('open');
+    }, function(e) {
+        var a = $(e.target);
+        a.attr('aria-expanded', 'false');
+        $(e.target).parent().removeClass('open');
+    });
+});
