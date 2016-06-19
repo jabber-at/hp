@@ -1,8 +1,7 @@
-{% extends "base.html" %}
+{% extends "account/form-base.html" %}
 {% load i18n %}
 
-{% block content %}
-<div class="row"><div class="col-md-8">
+{% block form %}
 <form enctype="multipart/form-data" class="form-horizontal" action="" method="post">{% csrf_token %}
 {{ form.username.formgroup }}
 {{ form.email.formgroup }}
@@ -39,5 +38,4 @@ have forgotton your password) we send to you.{% endblocktrans %}
     </div>
 </div>
 </form>
-</div></div>
-{% endblock content %}
+{% endblock form %}

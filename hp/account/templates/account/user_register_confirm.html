@@ -1,7 +1,7 @@
-{% extends "base.html" %}
+{% extends "account/form-base.html" %}
 {% load i18n %}
 
-{% block content %}
+{% block form %}
 <form class="form-horizontal" action="" method="post">{% csrf_token %}
 {{ form.password.formgroup }}
 {{ form.password2.formgroup }}
@@ -12,4 +12,4 @@
     </div>
 </div>
 </form>
-{% endblock content %}
+{% endblock form %}

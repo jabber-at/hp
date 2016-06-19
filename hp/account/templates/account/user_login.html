@@ -1,6 +1,6 @@
-{% extends "base.html" %}
+{% extends "account/form-base.html" %}
 
-{% block content %}
+{% block form %}
 {% if form.errors %}
 <p>Your username and password didn't match. Please try again.</p>
 {% endif %}
@@ -25,4 +25,4 @@
   </div>
 </div>
 </form>
-{% endblock content %}
+{% endblock form %}
