@@ -37,6 +37,10 @@ class CaptchaField(BootstrapMixin, CaptchaFieldBase):
     add_success = False
     formgroup_class = 'fg_captcha'
 
+    def __init__(self, **kwargs):
+        kwargs.setdefault('label', _('CAPTCHA'))
+        super(CaptchaField, self).__init__(**kwargs)
+
 
 class LinkTargetField(forms.MultiValueField):
     """Form field for :py:class:`~core.modelfields.LinkTarget` database fields.
