@@ -17,8 +17,10 @@ import re
 
 from django import forms
 from django.conf import settings
-from django.utils.translation import ugettext_lazy as _
 from django.core.validators import RegexValidator
+from django.utils.html import format_html
+from django.utils.html import mark_safe
+from django.utils.translation import ugettext_lazy as _
 
 from bootstrap.formfields import BootstrapCharField
 from bootstrap.formfields import BootstrapFileField
@@ -71,6 +73,21 @@ class UsernameField(BootstrapMixin, forms.MultiValueField):
             attrs['class'] = 'status-check'
         self.widget = UsernameWidget(widgets=widgets, attrs=attrs)
         super(UsernameField, self).__init__(fields=fields, require_all_fields=True, **kwargs)
+
+        if self.register is True:
+            default = format_html('<span id="default">{}</span>',
+                                  _('Type to see if the username is still available.'))
+            available = format_html('<span id="username-available">{}</span>',
+                                   _('The username is still available.'))
+            not_available = format_html('<span id="username-not-available">{}</span>',
+                                        _('The username is no longer available.'))
+            invalid = format_html('<span id="invalid">{}</span>',
+                                  _('The username is invalid.'))
+            error = format_html('<span id="error">{}</span>',
+                                _('An error occured, please try again later.'))
+            self.help_text += format_html(
+                '''<p class="help-block" id="status-check">{}{}{}{}{}</p>''',
+                default, available, not_available, invalid, error)
 
     def compress(self, data_list):
         node, domain = data_list

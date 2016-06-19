@@ -1,3 +1,11 @@
+.form-group-username p#status-check span#username-available,
+.form-group-username p#status-check span#username-not-available,
+.form-group-username p#status-check span#error,
+.form-group-username p#status-check span#invalid
+{
+    display: none;
+}
+
 @media (min-width: 768px) {
 #fg_username .row .col-sm-8 {
     padding-right: 0px;

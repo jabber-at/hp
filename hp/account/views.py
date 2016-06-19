@@ -17,6 +17,7 @@ from django.conf import settings
 from django.contrib.auth import get_user_model
 from django.contrib.auth import login
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.core.cache import cache
 from django.core.urlresolvers import reverse
 from django.core.urlresolvers import reverse_lazy
 from django.db import transaction
@@ -27,7 +28,6 @@ from django.views.generic import View
 from django.views.generic.base import TemplateView
 from django.views.generic.edit import CreateView
 from django.views.generic.edit import FormView
-from django.core.cache import cache
 
 from django_xmpp_backends import backend
 

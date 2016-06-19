@@ -14,7 +14,7 @@ var show_username_local_error = function(form_group, error) {
     form_group.removeClass('has-success');
 
     form_group.find('#status-check span').hide();
-    form_group.find('#status-check span#default').show();
+    form_group.find('#status-check span#invalid').show();
 };
 var show_username_available = function(form_group) {
     form_group.removeClass('has-error');
@@ -31,9 +31,16 @@ var show_username_not_available = function(form_group) {
     form_group.find('#status-check span#username-not-available').show();
 }
 
+var show_username_error = function(form_group) {
+    form_group.addClass('has-error');
+    form_group.removeClass('has-success');
+    form_group.find('.errorlist').hide();
+    form_group.find('#status-check span').hide();
+    form_group.find('#status-check span#error').show();
+}
+
 var check_username = function(form_group) {
     var val = form_group.find('input#id_username_0').val();
-    console.log(form_group.find('input#id_username_0'));
 
 //TODO
 //    if (val.length < MIN_USERNAME_LENGTH) {
@@ -58,7 +65,11 @@ var check_username = function(form_group) {
     }).done(function(data) { // user exists!
         show_username_available(form_group);
     }).fail(function(data) {
-        show_username_not_available(form_group);
+        if (data.status == 409) {  // 409 = HTTP conflict -> The user already exists.
+            show_username_not_available(form_group);
+        } else {
+            show_username_error(form_group);
+        }
     });
 };
 
