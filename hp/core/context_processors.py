@@ -16,8 +16,9 @@
 from .models import MenuItem
 
 
-def menu(request):
-    items = {
+def basic(request):
+    context = {
         'menuitems': MenuItem.objects.all(),
+        'site': request.site,
     }
-    return items
+    return context
