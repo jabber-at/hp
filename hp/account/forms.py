@@ -104,6 +104,12 @@ class SetPasswordForm(CaptchaFormMixin, forms.Form):
                 self.add_error('password2', self.password_error_messages['password_mismatch'])
 
 
+class RequestPasswordResetForm(CaptchaFormMixin, forms.Form):
+    """Form used when a user forgot his password and forgot it."""
+
+    username = UsernameField()
+
+
 class ResetPasswordConfirmationForm(forms.Form):
     pass
 

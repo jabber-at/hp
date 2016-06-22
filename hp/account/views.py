@@ -36,7 +36,9 @@ from django.views.generic.edit import FormView
 from django_xmpp_backends import backend
 
 from .constants import PURPOSE_REGISTER
+from .constants import PURPOSE_RESET_PASSWORD
 from .forms import CreateUserForm
+from .forms import RequestPasswordResetForm
 from .forms import SetPasswordForm
 from .models import UserConfirmation
 
@@ -102,6 +104,44 @@ class ConfirmRegistrationView(FormView):
             key.delete()
         return super(ConfirmRegistrationView, self).form_valid(form)
 
+
+class RequestPasswordResetView(FormView):
+    template_name = 'account/user_password_reset.html'
+    form_class = RequestPasswordResetForm
+
+    def form_valid(self, form):
+        try:
+            user = User.objects.filter(confirmed__isnull=False).get(
+                username=form.cleaned_data['username'])
+        except User.DoesNotExist:
+            form.add_error('username', _('User not found.'))
+            return self.form_invalid(form)
+
+        confirmation = UserConfirmation.objects.create(user=user)
+        kwargs = {
+            'recipient': user.email,
+        }
+        confirmation.send(self.request, user, PURPOSE_RESET_PASSWORD, **kwargs)
+
+        return self.render_to_response(self.get_context_data(form=form))
+
+
+class ResetPasswordView(FormView):
+    template_name = 'account/user_password_reset_confirm.html'
+    form_class = SetPasswordForm
+    success_url = reverse_lazy('account:detail')
+    queryset = UserConfirmation.objects.select_related('user')
+
+    def form_valid(self, form):
+        with transaction.atomic():
+            key = self.queryset.get(key=self.kwargs['key'])
+            backend.set_password(username=key.user.node, domain=key.user.domain,
+                                 password=form.cleaned_data['password'])
+
+            key.user.backend = settings.AUTHENTICATION_BACKENDS[0]
+            login(self.request, key.user)
+            key.delete()
+        return super(ResetPasswordView, self).form_valid(form)
 
 class UserView(LoginRequiredMixin, TemplateView):
     template_name = 'account/user_detail.html'

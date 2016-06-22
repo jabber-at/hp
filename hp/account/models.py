@@ -78,6 +78,7 @@ class UserConfirmation(Confirmation):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, related_name='confirmations')
 
     def send(self, request, user, purpose, **kwargs):
+        self.purpose = purpose
         node, domain = user.get_username().split('@', 1)
         subject = PURPOSES[purpose]['subject'] % {
             'domain': domain,
