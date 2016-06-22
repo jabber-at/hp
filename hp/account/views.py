@@ -13,6 +13,9 @@
 # You should have received a copy of the GNU General Public License along with django-xmpp-account.
 # If not, see <http://www.gnu.org/licenses/>.
 
+import logging
+import time
+
 from django.conf import settings
 from django.contrib.auth import get_user_model
 from django.contrib.auth import login
@@ -24,6 +27,7 @@ from django.db import transaction
 from django.http import HttpResponse
 from django.http import HttpResponseRedirect
 from django.utils import timezone
+from django.utils.translation import ugettext as _
 from django.views.generic import View
 from django.views.generic.base import TemplateView
 from django.views.generic.edit import CreateView
@@ -37,6 +41,7 @@ from .forms import SetPasswordForm
 from .models import UserConfirmation
 
 User = get_user_model()
+log = logging.getLogger(__name__)
 
 
 class RegisterUserView(CreateView):
@@ -82,7 +87,18 @@ class ConfirmRegistrationView(FormView):
                 key.user.backend = settings.AUTHENTICATION_BACKENDS[0]
                 login(self.request, key.user)
 
+            # Actually create the user on the XMPP server
             backend.create_user(key.user.node, key.user.domain, key.user.email)
+
+            # Set the last activity to "now", because ejabberd deletes users without any activity.
+            try:
+                backend.set_last_activity(username=key.user.node, domain=key.user.domain,
+                                          status=_('Registered'), timestamp=time.time())
+            except Exception as e:
+                # just not that critical
+                log.exception(e)
+
+            # Delete the registration key
             key.delete()
         return super(ConfirmRegistrationView, self).form_valid(form)
 
