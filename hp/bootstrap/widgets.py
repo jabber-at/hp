@@ -53,6 +53,38 @@ class BootstrapWidgetMixin(object):
             html += mark_safe('<span class="%s" aria-hidden="true"></span>' % icon_classes)
         return html
 
+class BootstrapMultiWidget(BootstrapWidgetMixin, forms.MultiWidget):
+    def render(self, name, value, attrs=None, status=None):
+        """Direct copy of forms.MultiWidget.render(), enhanced to pass the field status to the
+        underlying widgets.
+        """
+
+        if self.is_localized:
+            for widget in self.widgets:
+                widget.is_localized = self.is_localized
+        # value is a list of values, each corresponding to a widget
+        # in self.widgets.
+        if not isinstance(value, list):
+            value = self.decompress(value)
+        output = []
+        final_attrs = self.build_attrs(attrs)
+        id_ = final_attrs.get('id')
+        for i, widget in enumerate(self.widgets):
+            try:
+                widget_value = value[i]
+            except IndexError:
+                widget_value = None
+            if id_:
+                final_attrs = dict(final_attrs, id='%s_%s' % (id_, i))
+
+            # bootstrap widgets get the additional status parameter
+            if isinstance(widget, BootstrapWidgetMixin):
+                html = widget.render(name + '_%s' % i, widget_value, final_attrs, status=status)
+            else:
+                html = widget.render(name + '_%s' % i, widget_value, final_attrs)
+            output.append(html)
+        return mark_safe(self.format_output(output))
+
 
 class BootstrapTextInput(BootstrapWidgetMixin, forms.TextInput):
     pass
