@@ -15,6 +15,7 @@
 
 from django import forms
 from django.forms.utils import flatatt
+from django.utils.encoding import force_text
 from django.utils.html import format_html
 from django.utils.html import mark_safe
 
@@ -63,10 +64,38 @@ class BoundField(forms.boundfield.BoundField):
             #   http://getbootstrap.com/css/#forms-help-text
             attrs['aria-describedby'] = self.help_id
 
-        widget = super(BoundField, self).as_widget(widget=widget, attrs=attrs,
-                                                   only_initial=only_initial)
+        # 1:1 copy of superclass method starts here
+        if not widget:
+            widget = self.field.widget
 
-        return widget
+        if self.field.localize:
+            widget.is_localized = True
+
+        attrs = attrs or {}
+        if self.field.disabled:
+            attrs['disabled'] = True
+        auto_id = self.auto_id
+        if auto_id and 'id' not in attrs and 'id' not in widget.attrs:
+            if not only_initial:
+                attrs['id'] = auto_id
+            else:
+                attrs['id'] = self.html_initial_id
+
+        if not only_initial:
+            name = self.html_name
+        else:
+            name = self.html_initial_name
+
+        if isinstance(widget, widgets.BootstrapWidgetMixin):
+            status = None
+            if self.form.is_bound:
+                if self.errors:
+                    status = 'remove'
+                elif self.field.required:
+                    status = 'ok'
+            return force_text(widget.render(name, self.value(), attrs=attrs, status=status))
+        else:
+            return force_text(widget.render(name, self.value(), attrs=attrs))
 
     def label_tag(self, contents=None, attrs=None, label_suffix=None):
         attrs = attrs or {}
