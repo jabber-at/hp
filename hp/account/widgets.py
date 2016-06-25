@@ -18,7 +18,7 @@ from django.conf import settings
 from django.utils.html import format_html
 from django.utils.translation import ugettext as _
 
-from bootstrap.widgets import BootstrapWidgetMixin
+from bootstrap.widgets import BootstrapMultiWidget
 from bootstrap.widgets import BootstrapTextInput
 
 
@@ -67,7 +67,7 @@ class FingerprintWidget(BootstrapTextInput):
         )
 
 
-class UsernameWidget(BootstrapWidgetMixin, forms.MultiWidget):
+class UsernameWidget(BootstrapMultiWidget):
     feedback = True
 
     def decompress(self, value):
@@ -76,7 +76,7 @@ class UsernameWidget(BootstrapWidgetMixin, forms.MultiWidget):
         return '', settings.DEFAULT_XMPP_HOST
 
     def render(self, *args, **kwargs):
-        widget = forms.MultiWidget.render(self, *args, **kwargs)
+        widget = super(UsernameWidget, self).render(*args, **kwargs)
         return format_html('<div class="row">{}</div>', widget)
 
     class Media:
