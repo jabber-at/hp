@@ -38,25 +38,18 @@ class BoundField(forms.boundfield.BoundField):
         if self.field.formgroup_class:
             fg_attrs['class'] += ' %s' % self.field.formgroup_class
 
-        icon_classes = 'glyphicon form-control-feedback'
-
         if self.errors:
             fg_attrs['class'] += ' has-error'
-            icon_classes += ' glyphicon-remove'
         elif self.form.is_bound and not self.errors and self.field.required \
                 and self.field.add_success:
             # On a bound (=submitted) form, we add the success classes, if the field is required.
-            fg_attrs['class'] += ' has-success'
-            icon_classes += ' glyphicon-ok'
+            fg_attrs['class'] += ' has-success glyphicon-ok'
 
-        feedback_icons = ''
         if getattr(self.field.widget, 'feedback', False):
             fg_attrs['class'] += ' has-feedback'
-            feedback_icons = mark_safe(
-                '<span class="%s" aria-hidden="true"></span>' % icon_classes)
 
-        return format_html('<div {}>{}<div class="col-sm-10">{}{}{}</div></div>',
-                           flatatt(fg_attrs), self.label_tag(), self, feedback_icons, help_text)
+        return format_html('<div {}>{}<div class="col-sm-10">{}{}</div></div>',
+                           flatatt(fg_attrs), self.label_tag(), self, help_text)
 
     @property
     def help_id(self):
@@ -70,8 +63,10 @@ class BoundField(forms.boundfield.BoundField):
             #   http://getbootstrap.com/css/#forms-help-text
             attrs['aria-describedby'] = self.help_id
 
-        return super(BoundField, self).as_widget(widget=widget, attrs=attrs,
-                                                 only_initial=only_initial)
+        widget = super(BoundField, self).as_widget(widget=widget, attrs=attrs,
+                                                   only_initial=only_initial)
+
+        return widget
 
     def label_tag(self, contents=None, attrs=None, label_suffix=None):
         attrs = attrs or {}
