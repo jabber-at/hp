@@ -23,10 +23,14 @@ class BootstrapWidgetMixin(object):
     input_class = None
     """If set, this CSS class will always be added to the input widget."""
 
-    def __init__(self, attrs=None, glyphicon=False, **kwargs):
+    glyphicon = False
+    """Set to true to add glyphicon for feedback."""
+
+    def __init__(self, attrs=None, glyphicon=None, **kwargs):
         attrs = attrs or {}
         self._add_class(attrs, 'form-control')
-        self._glyphicon = glyphicon
+        if glyphicon is not None:
+            self.glyphicon = glyphicon
 
         if self.input_class is not None:
             self._add_class(attrs, self.input_class)
@@ -42,7 +46,7 @@ class BootstrapWidgetMixin(object):
     def render(self, *args, **kwargs):
         status = kwargs.pop('status', None)
         html = super(BootstrapWidgetMixin, self).render(*args, **kwargs)
-        if self._glyphicon:
+        if self.glyphicon:
             icon_classes = 'glyphicon form-control-feedback'
             if status:
                 icon_classes += ' glyphicon-%s' % status
