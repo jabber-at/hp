@@ -8,6 +8,7 @@ var default_username_state = function(form_group) {
     form_group.find('#status-check span').hide();
     form_group.find('.errorlist').hide();
     form_group.find('#status-check span#default').show();
+    form_group.find('.glyphicon').removeClass('glyphicon-remove').removeClass('glyphicon-ok');
 }
 var show_username_local_error = function(form_group, error) {
     form_group.addClass('has-error');
@@ -15,6 +16,7 @@ var show_username_local_error = function(form_group, error) {
 
     form_group.find('#status-check span').hide();
     form_group.find('#status-check span#invalid').show();
+    form_group.find('.glyphicon').addClass('glyphicon-remove').removeClass('glyphicon-ok');
 };
 var show_username_available = function(form_group) {
     form_group.removeClass('has-error');
@@ -22,6 +24,7 @@ var show_username_available = function(form_group) {
     form_group.find('.errorlist').hide();
     form_group.find('#status-check span').hide();
     form_group.find('#status-check span#username-available').show();
+    form_group.find('.glyphicon').removeClass('glyphicon-remove').addClass('glyphicon-ok');
 }
 var show_username_not_available = function(form_group) {
     form_group.addClass('has-error');
@@ -29,6 +32,7 @@ var show_username_not_available = function(form_group) {
     form_group.find('.errorlist').hide();
     form_group.find('#status-check span').hide();
     form_group.find('#status-check span#username-not-available').show();
+    form_group.find('.glyphicon').addClass('glyphicon-remove').removeClass('glyphicon-ok');
 }
 
 var show_username_error = function(form_group) {
@@ -37,6 +41,7 @@ var show_username_error = function(form_group) {
     form_group.find('.errorlist').hide();
     form_group.find('#status-check span').hide();
     form_group.find('#status-check span#error').show();
+    form_group.find('.glyphicon').addClass('glyphicon-remove').removeClass('glyphicon-ok');
 }
 
 var check_username = function(form_group) {
