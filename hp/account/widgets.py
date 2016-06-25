@@ -22,11 +22,13 @@ from bootstrap.widgets import BootstrapWidgetMixin
 from bootstrap.widgets import BootstrapTextInput
 
 
-class NodeWidget(forms.TextInput):
+class NodeWidget(BootstrapTextInput):
     """The widget used for rendering the node part (before the "@") of a username.
 
     This class is used because we want to render this widget in a bootstrap column.
     """
+
+    glyphicon = True
 
     def __init__(self, attrs=None, **kwargs):
         attrs = attrs or {}
@@ -50,6 +52,7 @@ class DomainWidget(forms.Select):
 class FingerprintWidget(BootstrapTextInput):
     input_class = 'gpg-fingerprint'
     feedback = True
+    glyphicon = True
 
     def __init__(self, attrs=None, **kwargs):
         attrs = attrs or {}
@@ -65,6 +68,8 @@ class FingerprintWidget(BootstrapTextInput):
 
 
 class UsernameWidget(BootstrapWidgetMixin, forms.MultiWidget):
+    feedback = True
+
     def decompress(self, value):
         if value:
             return value.split('@', 1)
