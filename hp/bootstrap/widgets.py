@@ -21,10 +21,12 @@ from django.utils.translation import ugettext as _
 
 class BootstrapWidgetMixin(object):
     input_class = None
+    """If set, this CSS class will always be added to the input widget."""
 
-    def __init__(self, attrs=None, **kwargs):
+    def __init__(self, attrs=None, glyphicon=False, **kwargs):
         attrs = attrs or {}
         self._add_class(attrs, 'form-control')
+        self._glyphicon = glyphicon
 
         if self.input_class is not None:
             self._add_class(attrs, self.input_class)
@@ -36,6 +38,16 @@ class BootstrapWidgetMixin(object):
             attrs['class'] += ' %s' % cls
         else:
             attrs['class'] = cls
+
+    def render(self, *args, **kwargs):
+        status = kwargs.pop('status', None)
+        html = super(BootstrapWidgetMixin, self).render(*args, **kwargs)
+        if self._glyphicon:
+            icon_classes = 'glyphicon form-control-feedback'
+            if status:
+                icon_classes += ' glyphicon-%s' % status
+            html += mark_safe('<span class="%s" aria-hidden="true"></span>' % icon_classes)
+        return html
 
 
 class BootstrapTextInput(BootstrapWidgetMixin, forms.TextInput):
