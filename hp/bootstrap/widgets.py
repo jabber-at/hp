@@ -61,6 +61,7 @@ class BootstrapTextInput(BootstrapWidgetMixin, forms.TextInput):
 class BootstrapEmailInput(BootstrapWidgetMixin, forms.EmailInput):
     input_class = 'valid-email'
     feedback = True
+    glyphicon = True
 
     class Media:
         js = (
