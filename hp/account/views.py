@@ -26,7 +26,9 @@ from django.core.urlresolvers import reverse_lazy
 from django.db import transaction
 from django.http import HttpResponse
 from django.http import HttpResponseRedirect
+from django.shortcuts import resolve_url
 from django.utils import timezone
+from django.utils.http import is_safe_url
 from django.utils.translation import ugettext as _
 from django.views.generic import View
 from django.views.generic.base import TemplateView
@@ -40,6 +42,7 @@ from .constants import PURPOSE_RESET_PASSWORD
 from .forms import CreateUserForm
 from .forms import RequestPasswordResetForm
 from .forms import SetPasswordForm
+from .forms import LoginForm
 from .models import UserConfirmation
 
 User = get_user_model()
@@ -103,6 +106,40 @@ class ConfirmRegistrationView(FormView):
             # Delete the registration key
             key.delete()
         return super(ConfirmRegistrationView, self).form_valid(form)
+
+
+class LoginView(FormView):
+    """Class-based adaption of django.contrib.auth.views.login.
+
+    We duplicate the functionality here because we want to redirect the user to the account
+    detail page if already logged in. The default view always views the login form.
+    """
+    REDIRECT_FIELD_NAME = 'next'
+    template_name = 'account/user_login.html'
+    form_class = LoginForm
+
+    def dispatch(self, request, *args, **kwargs):
+        if request.user.is_authenticated():
+            return HttpResponseRedirect(reverse('account:detail'))
+        return super(LoginView, self).dispatch(request, *args, **kwargs)
+
+
+    def form_valid(self, form):
+        redirect_to = self.request.POST.get(self.REDIRECT_FIELD_NAME, '')
+
+        # Ensure the user-originating redirection url is safe.
+        if not is_safe_url(url=redirect_to, host=self.request.get_host()):
+            redirect_to = resolve_url(settings.LOGIN_REDIRECT_URL)
+
+        # Okay, security check complete. Log the user in.
+        login(self.request, form.get_user())
+        return HttpResponseRedirect(redirect_to)
+
+    def get_context_data(self, **kwargs):
+        context = super(LoginView, self).get_context_data(**kwargs)
+        context[self.REDIRECT_FIELD_NAME] = self.request.POST.get(
+            self.REDIRECT_FIELD_NAME, self.request.GET.get(self.REDIRECT_FIELD_NAME, ''))
+        return context
 
 
 class RequestPasswordResetView(FormView):
