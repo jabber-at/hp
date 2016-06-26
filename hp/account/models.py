@@ -70,6 +70,22 @@ class User(XmppBackendUser, PermissionsMixin):
     def is_staff(self):
         return self.is_superuser
 
+    def gpg_options(self, request):
+        """Get keyword arguments suitable to pass to Confirmation.send()."""
+
+        if not getattr(settings, 'GPG', True):
+            return {}
+        opts = {}
+
+        if self.gpg_fingerprint:
+            opts['gpg_encrypt'] = self.gpg_fingerprint
+
+            # add the option to sign confirmations if the current site has a GPG fingerprint
+            if request.site.get('GPG_FINGERPRINT'):
+                opts['gpg_sign'] = request.site['GPG_FINGERPRINT']
+
+        return opts
+
     def __str__(self):
         return self.username
 

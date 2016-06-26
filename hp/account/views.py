@@ -158,6 +158,7 @@ class RequestPasswordResetView(FormView):
         kwargs = {
             'recipient': user.email,
         }
+        kwargs.update(user.gpg_options(self.request))
         confirmation.send(self.request, user, PURPOSE_RESET_PASSWORD, **kwargs)
 
         return self.render_to_response(self.get_context_data(form=form))
