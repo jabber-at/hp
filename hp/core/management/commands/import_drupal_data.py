@@ -56,23 +56,46 @@ class Command(BaseCommand):
         # replace some links so they work out of the box
         text = getattr(page, 'text_%s' % lang)
         for old, new in [
+            ('/de/apt-repositories/?', '/apt-repository/'),
+            ('/de/contact/?', '/kontakt/'),
             ('/de/empfohlene-clients/?', '/clients/'),
             ('/de/features/?', '/features/'),
             ('/de/features/apt/?', '/apt-repository/'),
             ('/de/features/firewalls/?', '/features-firewalls/'),
             ('/de/features/webpresence/?', '/features-webpresence/'),
+            ('/de/kontakt/?', '/kontakt/'),
+            ('/de/node/138', '/b/trouble-connecting/'),
+            ('/de/node/25/?', '/features/'),
+            ('/de/privacy/?', '/privatsphäre/'),
+            ('/de/privatsphäre/?#legal', '/privatsphäre/#legal'),
+            ('/de/privatsphäre/?', '/privatsphäre/'),
+            ('/de/register/?', '/account/register/'),
+            ('/de/webpresence', '/features-webpresence/'),
+            ('/en/apt-repositories/?', '/apt-repository/'),
+            ('/en/apt-repository/?', '/apt-repository/'),
+            ('/en/contact/?', '/contact/'),
             ('/en/features/?', '/features/'),
+            ('/en/features/apt-repository', '/apt-repository'),
             ('/en/features/apt/?', '/apt-repository/'),
             ('/en/features/firewalls/?', '/features-firewalls/'),
             ('/en/features/webpresence/?', '/features-webpresence/'),
-            ('/en/webpresence/?', '/features-webpresence/'),
+            ('/en/how-good-tls-encryption', '/b/how-good-tls-encryption/'),
+            ('/en/node/130', '/b/downtime-saturday-may-2-9-00-cest/'),
+            ('/en/node/132', '/b/change-in-password-reset-policy/'),
+            ('/en/node/137', '/b/trouble-connecting/'),
+            ('/en/privacy', '/privacy/'),
+            ('/en/privacy-policy#legal', '/privacy/#legal'),
             ('/en/privacy-policy/?', '/privacy/'),
-            ('account.jabber.at/password/?', '/account/password/reset/'),
+            ('/en/register/?', '/account/register/'),
+            ('/en/webpresence/?', '/features-webpresence/'),
             ('https://account.jabber.at/password/', '/account/password/reset/'),
             ('https://webchat.jabber.at/?', '/chat/'),
+
+            # these are last because https://... should match first
+            ('account.jabber.at/password/?', '/account/password/reset/'),
             ('webchat.jabber.at/?', 'Webchat'),
         ]:
-            text = re.sub(r'href=[\'"]%s[\'"]' % old, 'href="%s"' % new, text)
+            text = re.sub(r'href=[\'"](https?://jabber.at)?%s[\'"]' % old, 'href="%s"' % new, text)
         setattr(page, 'text_%s' % lang, text)
 
         slug = re.sub('[^a-z0-9-_üöäß]', '-', slug.lower()).strip('-')
