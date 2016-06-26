@@ -3,7 +3,7 @@
  */
 var slugify = function(value) {
     // replace any unsafe chars
-    value = value.toLowerCase().replace(/[^a-z0-9-]/g, '-');
+    value = value.toLowerCase().replace(/[^a-z0-9-_üöäß]/g, '-');
 
     // replace leading/trailing/multiple dashes
     value = value.replace(/^-*/, '').replace(/-*$/, '').replace(/-+/g, '-');

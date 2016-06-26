@@ -31,17 +31,16 @@ Just a brain storming
 There are obviously still plenty of todos before the page can go live, without order:
 
 1. Provide a contact page
-2. Support umlauts in URLs
-4. Tags for blog posts
-5. Importer for data from account.jabber.at
-6. Internationalized URLs for URL paths (`/contact/` vs. `/kontakt/`)
-7. Provide a webchat
-8. Minimized JavaScript/CSS
-9. Import Tags from Drupal
-10. Automatically convert at least some links from imported Drupal data
-11. Add the ability to edit your email address
-12. RSS feed
-13. Search functionality
+2. Tags for blog posts
+3. Importer for data from account.jabber.at
+4. Internationalized URLs for URL paths (`/contact/` vs. `/kontakt/`)
+5. Provide a webchat
+6. Minimized JavaScript/CSS
+7. Import Tags from Drupal
+8. Automatically convert at least some links from imported Drupal data
+9. Add the ability to edit your email address
+10. RSS feed
+11. Search functionality
 
 Notes:
 

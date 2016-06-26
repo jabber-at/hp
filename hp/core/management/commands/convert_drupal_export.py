@@ -53,7 +53,7 @@ class Command(BaseCommand):
         else:
             slug = data['title']
 
-        slug = re.sub('[^a-z0-9-]', '-', slug.lower()).strip('-')
+        slug = re.sub('[^a-z0-9-_üöäß]', '-', slug.lower()).strip('-')
         slug = re.sub('-+', '-', slug)
         setattr(page, 'slug_%s' % lang, slug)
 

@@ -19,7 +19,7 @@ from . import views
 
 app_name = 'core'
 urlpatterns = [
-    url(r'p/(?P<slug>[a-z0-9-]+)/$', views.PageView.as_view(), name='page'),
-    url(r'b/(?P<slug>[a-z0-9-]+)/$', views.BlogPostView.as_view(), name='blogpost'),
+    url(r'b/(?P<slug>[a-z0-9-_äöüß]+)/$', views.BlogPostView.as_view(), name='blogpost'),
+    url(r'(?P<slug>[a-z0-9-_äöüß]+)/$', views.PageView.as_view(), name='page'),
     url(r'^$', views.BlogPostListView.as_view(), name='home'),
 ]
