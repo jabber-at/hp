@@ -3,17 +3,10 @@
 
 {% block form %}
 {% if form.errors %}
-<p>Your username and password didn't match. Please try again.</p>
+<div class="alert alert-danger">Your username and password didn't match. Please try again.</div>
 {% endif %}
 
-{% if next %}
-    {% if user.is_authenticated %}
-    <p>Your account doesn't have access to this page. To proceed,
-    please login with an account that has access.</p>
-    {% else %}
-    <p>Please login to see this page.</p>
-    {% endif %}
-{% endif %}
+{% if next %}<p>Please login to see this page.</p>{% endif %}
 
 <form class="form-horizontal" method="post" action="{% url 'account:login' %}">{% csrf_token %}
 <input type="hidden" name="next" value="{{ next }}" />
