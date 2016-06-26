@@ -36,22 +36,29 @@ class GPGMixin(forms.Form):
     """A mixin that adds the GPG fields to a form."""
 
     if getattr(settings, 'GPG', True):
-        #fingerprint = XMPPAccountFingerprintField()
         gpg_fingerprint = FingerprintField()
         gpg_key = KeyUploadField()
 
     def gpg_options(self, request):
+        """Get keyword arguments suitable to pass to Confirmation.send()."""
+
         if not getattr(settings, 'GPG', True):
             return {}
+        opts = {}
 
         if self.cleaned_data.get('fingerprint'):
-            return {'gpg_encrypt': self.cleaned_data.get('fingerprint'), }
+            opts['gpg_encrypt'] = self.cleaned_data.get('fingerprint')
         elif 'gpg_key' in request.FILES:
             path = request.FILES['gpg_key'].temporary_file_path()
             with open(path) as stream:
                 data = stream.read()
-            return {'gpg_key': data, }
-        return {}
+            opts['gpg_key'] = data
+
+        # add the option to sign confirmations if the current site has a GPG fingerprint
+        if opts and request.site.get('GPG_FINGERPRINT'):
+            opts['gpg_sign'] = request.site['GPG_FINGERPRINT']
+
+        return opts
 
     class Media:
         js = (
