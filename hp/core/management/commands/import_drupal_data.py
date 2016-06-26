@@ -70,6 +70,7 @@ class Command(BaseCommand):
             ('account.jabber.at/password/?', '/account/password/reset/'),
             ('https://account.jabber.at/password/', '/account/password/reset/'),
             ('https://webchat.jabber.at/?', '/chat/'),
+            ('webchat.jabber.at/?', 'Webchat'),
         ]:
             text = re.sub(r'href=[\'"]%s[\'"]' % old, 'href="%s"' % new, text)
         setattr(page, 'text_%s' % lang, text)
