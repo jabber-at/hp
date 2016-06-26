@@ -133,6 +133,12 @@ class Command(BaseCommand):
                 )
                 item.save()
 
+        # We manually set some menu items
+        features_item = MenuItem.objects.get(title_en='Features')
+        for title in ['Webpresence', 'Security', 'Firewall connectivity', 'APT repository', ]:
+            child_item = MenuItem.objects.get(title_en=title)
+            child_item.move_to(features_item)
+
         for nid, post_data in stories.items():
             if nid != post_data['tnid']:  # translated post
                 continue
