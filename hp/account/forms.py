@@ -46,8 +46,8 @@ class GPGMixin(forms.Form):
             return {}
         opts = {}
 
-        if self.cleaned_data.get('fingerprint'):
-            opts['gpg_encrypt'] = self.cleaned_data.get('fingerprint')
+        if self.cleaned_data.get('gpg_fingerprint'):
+            opts['gpg_encrypt'] = self.cleaned_data.get('gpg_fingerprint')
         elif 'gpg_key' in request.FILES:
             path = request.FILES['gpg_key'].temporary_file_path()
             with open(path) as stream:
