@@ -41,8 +41,9 @@ There are obviously still plenty of todos before the page can go live, without o
 9. Add the ability to edit your email address
 10. RSS feed
 11. Search functionality
+12. Comments?
 
-Notes:
+### Notes
 
 bootrap inspiration for styling the blog:
 
