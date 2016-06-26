@@ -19,7 +19,8 @@ or if your account hasn't been used for a year and is about to be removed.
 <form enctype="multipart/form-data" class="form-horizontal" action="" method="post">{% csrf_token %}
 {{ form.username.formgroup }}
 {{ form.email.formgroup }}
-<div class="row gpg-header-row{% if show_gpg %} show-gpg{% endif %}">
+
+<div class="row gpg-header-row{% if form.show_gpg %} show-gpg{% endif %}">
 <div class="col-sm-12">
     <h4>
         <span class="glyphicon glyphicon-menu-right" aria-hidden="true"></span>
@@ -28,7 +29,7 @@ or if your account hasn't been used for a year and is about to be removed.
     </h4>
 </div>
 </div>
-<div class="gpg-content{% if show_gpg %} show-gpg{% endif %}">
+<div class="gpg-content{% if form.show_gpg %} show-gpg{% endif %}">
 <div class="row"><div class="col-sm-12">
 <p class="help-block">
 {% blocktrans %}You can add a GPG key to have jabber.at encrypt all emails sent to you.{% endblocktrans %}

@@ -60,6 +60,20 @@ class GPGMixin(forms.Form):
 
         return opts
 
+    @property
+    def show_gpg(self):
+        """Returns True if the user submitted a GPG fingerprint or key to this form.
+
+        Used to decide if the template should display the GPG chapter or not.
+        """
+
+        if not self.is_bound or not getattr(settings, 'GPG', True):
+            return False
+
+        if self.data['gpg_fingerprint'] or self.data['gpg_key']:
+            return True
+        return False
+
     class Media:
         js = (
             'account/js/gpgmixin.js',
