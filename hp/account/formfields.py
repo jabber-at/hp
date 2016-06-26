@@ -71,6 +71,10 @@ class UsernameField(BootstrapMixin, forms.MultiValueField):
         attrs = {}
         if self.register is True:
             attrs['class'] = 'status-check'
+        else:
+            # Do not add the has-success class in forms other then the registration form
+            kwargs.setdefault('add_success', False)
+
         self.widget = UsernameWidget(widgets=widgets, attrs=attrs)
         super(UsernameField, self).__init__(fields=fields, require_all_fields=True, **kwargs)
 
