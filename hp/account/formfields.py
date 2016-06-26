@@ -17,9 +17,9 @@ import re
 
 from django import forms
 from django.conf import settings
+from django.core.cache import cache
 from django.core.validators import RegexValidator
 from django.utils.html import format_html
-from django.utils.html import mark_safe
 from django.utils.translation import ugettext_lazy as _
 
 from bootstrap.formfields import BootstrapCharField
@@ -136,8 +136,14 @@ class FingerprintField(BootstrapCharField):
         if re.search('[^A-F0-9]', fp) is not None:
             raise forms.ValidationError(self.error_messages['invalid-chars'])
 
-        # actually search for the key
-        keys = settings.GPG.search_keys(fp, settings.GPG_KEYSERVER)
+        # Actually search for the key, but cache searches to avoid (lengthy) checks on multiple
+        # form resubmissions.
+        cache_key = 'gpg_searched_key_%s' % fp
+        keys = cache.get(cache_key)
+        if keys is None:
+            keys = settings.GPG.search_keys(fp, settings.GPG_KEYSERVER)
+            cache.set(cache_key, keys)
+
         if len(keys) > 1:
             raise forms.ValidationError(self.error_messages['multple-keys'])
         elif len(keys) < 1:
