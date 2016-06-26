@@ -47,7 +47,7 @@ class BoundField(forms.boundfield.BoundField):
             fg_attrs['class'] += ' has-success'
 
         if getattr(self.field.widget, 'feedback', False):
-            fg_attrs['class'] += ' has-feedback'
+            fg_attrs['class'] += ' has-feedback'  # used by glyphicons
 
         return format_html('<div {}>{}<div class="col-sm-10">{}{}</div></div>',
                            flatatt(fg_attrs), self.label_tag(), self, help_text)
