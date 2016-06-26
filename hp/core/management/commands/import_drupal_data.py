@@ -53,6 +53,27 @@ class Command(BaseCommand):
         else:
             slug = data['title']
 
+        # replace some links so they work out of the box
+        text = getattr(page, 'text_%s' % lang)
+        for old, new in [
+            ('/de/empfohlene-clients/?', '/clients/'),
+            ('/de/features/?', '/features/'),
+            ('/de/features/apt/?', '/apt-repository/'),
+            ('/de/features/firewalls/?', '/features-firewalls/'),
+            ('/de/features/webpresence/?', '/features-webpresence/'),
+            ('/en/features/?', '/features/'),
+            ('/en/features/apt/?', '/apt-repository/'),
+            ('/en/features/firewalls/?', '/features-firewalls/'),
+            ('/en/features/webpresence/?', '/features-webpresence/'),
+            ('/en/webpresence/?', '/features-webpresence/'),
+            ('/en/privacy-policy/?', '/privacy/'),
+            ('account.jabber.at/password/?', '/account/password/reset/'),
+            ('https://account.jabber.at/password/', '/account/password/reset/'),
+            ('https://webchat.jabber.at/?', '/chat/'),
+        ]:
+            text = re.sub(r'href=[\'"]%s[\'"]' % old, 'href="%s"' % new, text)
+        setattr(page, 'text_%s' % lang, text)
+
         slug = re.sub('[^a-z0-9-_üöäß]', '-', slug.lower()).strip('-')
         slug = re.sub('-+', '-', slug)
         setattr(page, 'slug_%s' % lang, slug)
