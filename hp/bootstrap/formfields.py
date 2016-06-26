@@ -23,6 +23,12 @@ from . import widgets
 
 
 class BoundField(forms.boundfield.BoundField):
+    """Overwrite BoundField to provide customised widget rendering and the formgroup() method.
+
+    A BoundField is a form field in the context of a form.
+
+    .. seealso:: https://docs.djangoproject.com/en/dev/ref/forms/api/#django.forms.BoundField
+    """
     def formgroup(self):
         help_text = ''
         if self.help_text or self.errors:
@@ -62,6 +68,14 @@ class BoundField(forms.boundfield.BoundField):
         return 'hb_%s' % self.html_name
 
     def as_widget(self, widget=None, attrs=None, only_initial=False):
+        """Renders the field by rendering the passed widget, adding any HTML attributes passed as
+        attrs.
+
+        This method is mostly a copy of the original, but adds the ``aria-describedby`` attribute
+        for screen readers and passes the ``status`` kwarg to the widgets ``render()`` method if
+        the widget is an instance of :py:class:`~bootstrap.widgets.BootstrapWidgetMixin`.
+        """
+
         attrs = attrs or {}
         if self.help_text or self.errors:
             # Add the 'aria-describedby' attribute to the <input /> element. It's the id used by
@@ -91,6 +105,7 @@ class BoundField(forms.boundfield.BoundField):
         else:
             name = self.html_initial_name
 
+        # Pass the status kwarg to the render() method if the widget is a bootstrap widget.
         if isinstance(widget, widgets.BootstrapWidgetMixin):
             status = None
             if self.form.is_bound:
@@ -103,6 +118,8 @@ class BoundField(forms.boundfield.BoundField):
             return force_text(widget.render(name, self.value(), attrs=attrs))
 
     def label_tag(self, contents=None, attrs=None, label_suffix=None):
+        """Add the control-label and col-sm-2 class to label tags."""
+
         attrs = attrs or {}
         if 'class' in attrs:
             attrs['class'] += ' control-label col-sm-2'
