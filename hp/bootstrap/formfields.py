@@ -44,7 +44,7 @@ class BoundField(forms.boundfield.BoundField):
         elif self.form.is_bound and not self.errors and self.field.required \
                 and self.field.add_success:
             # On a bound (=submitted) form, we add the success classes, if the field is required.
-            fg_attrs['class'] += ' has-success glyphicon-ok'
+            fg_attrs['class'] += ' has-success'
 
         if getattr(self.field.widget, 'feedback', False):
             fg_attrs['class'] += ' has-feedback'
