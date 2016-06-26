@@ -15,6 +15,7 @@
 
 from django import forms
 from django.contrib import admin
+from django.contrib.auth import get_user_model
 from django.db import models
 from django.utils.translation import gettext_lazy as _
 
@@ -26,6 +27,8 @@ from tinymce.widgets import TinyMCE
 from .models import BlogPost
 from .models import Page
 from .models import MenuItem
+
+User = get_user_model()
 
 
 class BaseModelAdmin(admin.ModelAdmin):
@@ -176,9 +179,24 @@ class BasePageAdmin(BaseModelAdmin):
     make_unpublish.short_description = _('Unpublish selected %(models)s')
 
 
+class AuthorFilter(admin.SimpleListFilter):
+    title = _('Author')
+    parameter_name = 'author'
+
+    def lookups(self, request, model_admin):
+        qs = User.objects.annotate(num_posts=models.Count('blogpost')).filter(num_posts__gt=1)
+        return [(u.pk, u.username) for u in qs]
+
+    def queryset(self, request, queryset):
+        if self.value():
+            return queryset.filter(author_id=self.value())
+
+
 @admin.register(BlogPost)
 class BlogPostAdmin(BasePageAdmin):
     fields = ['title', 'slug', 'text', ('published', 'sticky'), ]
+    list_display = ['__str__', 'created', ]
+    list_filter = [AuthorFilter, 'published', 'sticky', ]
 
 @admin.register(Page)
 class PageAdmin(BasePageAdmin):
