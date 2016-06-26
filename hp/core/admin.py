@@ -28,7 +28,30 @@ from .models import Page
 from .models import MenuItem
 
 
-class BasePageAdmin(admin.ModelAdmin):
+class BaseModelAdmin(admin.ModelAdmin):
+    def get_readonly_fields(self, request, obj=None):
+        fields = list(super(BaseModelAdmin, self).get_readonly_fields(request, obj=obj))
+
+        if obj is not None:
+            if 'updated' not in fields:
+                fields.append('updated')
+            if 'created' not in fields:
+                fields.append('created')
+        return fields
+
+    def get_fields(self, request, obj=None):
+        fields = list(super(BaseModelAdmin, self).get_fields(request, obj=obj))
+
+        if obj is not None:
+            if 'updated' not in fields:
+                fields.append('updated')
+            if 'created' not in fields:
+                fields.append('created')
+
+        return fields
+
+
+class BasePageAdmin(BaseModelAdmin):
     formfield_overrides = {
         models.TextField: {
             'widget': TinyMCE(attrs={'cols': 80, 'rows': 10}, mce_attrs={
@@ -37,9 +60,15 @@ class BasePageAdmin(admin.ModelAdmin):
         },
     }
 
+    def get_fields(self, request, obj=None):
+        fields = list(super(BasePageAdmin, self).get_fields(request, obj=obj))
+        if obj is not None and 'author' not in fields:
+            fields.append('author')
+        return fields
+
     def get_readonly_fields(self, request, obj=None):
         fields = list(super(BasePageAdmin, self).get_readonly_fields(request, obj=obj))
-        if 'author' not in fields:
+        if obj is not None and 'author' not in fields:
             fields.append('author')
         return fields
 
@@ -149,11 +178,11 @@ class BasePageAdmin(admin.ModelAdmin):
 
 @admin.register(BlogPost)
 class BlogPostAdmin(BasePageAdmin):
-    fields = ['title', 'slug', 'text', ('published', 'sticky'), 'author']
+    fields = ['title', 'slug', 'text', ('published', 'sticky'), ]
 
 @admin.register(Page)
 class PageAdmin(BasePageAdmin):
-    fields = ['title', 'slug', 'text', 'published', 'author']
+    fields = ['title', 'slug', 'text', 'published', ]
 
 
 @admin.register(MenuItem)
