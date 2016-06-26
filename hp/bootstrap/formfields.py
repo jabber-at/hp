@@ -115,6 +115,9 @@ class BootstrapMixin(object):
 
     def __init__(self, **kwargs):
         self.formgroup_attrs = kwargs.pop('formgroup_attrs', {})
+        if 'add_success' in kwargs:
+            self.add_success = kwargs.pop('add_success')
+
         super(BootstrapMixin, self).__init__(**kwargs)
 
     def get_bound_field(self, form, field_name):
