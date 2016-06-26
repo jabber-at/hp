@@ -28,8 +28,6 @@ class NodeWidget(BootstrapTextInput):
     This class is used because we want to render this widget in a bootstrap column.
     """
 
-    glyphicon = True
-
     def __init__(self, attrs=None, **kwargs):
         attrs = attrs or {}
         attrs['pattern'] = '[^@ ]{2,}'

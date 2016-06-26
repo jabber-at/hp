@@ -52,7 +52,7 @@ class UsernameField(BootstrapMixin, forms.MultiValueField):
 
         fields = (
             forms.CharField(
-                widget=NodeWidget,
+                widget=NodeWidget(glyphicon=self.register),
                 min_length=_MIN_USERNAME_LENGTH,
                 max_length=_MAX_USERNAME_LENGTH,
                 error_messages={
