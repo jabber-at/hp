@@ -32,7 +32,6 @@ There are obviously still plenty of todos before the page can go live, without o
 
 1. Provide a contact page
 2. Support umlauts in URLs
-3. German URLs don't work in an English browser and vice versa.
 4. Tags for blog posts
 5. Importer for data from account.jabber.at
 6. Internationalized URLs for URL paths (`/contact/` vs. `/kontakt/`)
