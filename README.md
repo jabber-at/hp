@@ -26,6 +26,24 @@ Just a brain storming
 5. better social media integration (twitter cards, facebook opengraph tags)
 6. calendar export of scheduled downtimes
 
+### TODOs
+
+There are obviously still plenty of todos before the page can go live, without order:
+
+1. Provide a contact page
+2. Support umlauts in URLs
+3. German URLs don't work in an English browser and vice versa.
+4. Tags for blog posts
+5. Importer for data from account.jabber.at
+6. Internationalized URLs for URL paths (`/contact/` vs. `/kontakt/`)
+7. Provide a webchat
+8. Minimized JavaScript/CSS
+9. Import Tags from Drupal
+10. Automatically convert at least some links from imported Drupal data
+11. Add the ability to edit your email address
+12. RSS feed
+13. Search functionality
+
 Notes:
 
 bootrap inspiration for styling the blog:
