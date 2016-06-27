@@ -150,6 +150,10 @@ class BootstrapCharField(BootstrapMixin, forms.CharField):
     widget = widgets.BootstrapTextInput
 
 
+class BootstrapTextField(BootstrapMixin, forms.CharField):
+    widget = widgets.BootstrapTextarea
+
+
 class BootstrapEmailField(BootstrapMixin, forms.EmailField):
     widget = widgets.BootstrapEmailInput
 

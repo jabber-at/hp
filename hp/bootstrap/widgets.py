@@ -90,6 +90,10 @@ class BootstrapTextInput(BootstrapWidgetMixin, forms.TextInput):
     pass
 
 
+class BootstrapTextarea(BootstrapWidgetMixin, forms.Textarea):
+    pass
+
+
 class BootstrapEmailInput(BootstrapWidgetMixin, forms.EmailInput):
     input_class = 'valid-email'
     feedback = True
