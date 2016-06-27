@@ -14,13 +14,18 @@
 # If not, see <http://www.gnu.org/licenses/>.
 
 from django.conf import settings
+from django.core.mail import send_mail
 from django.db.models import Q
 from django.http import Http404
 from django.http import HttpResponseRedirect
 from django.utils.translation import ugettext as _
 from django.views.generic.detail import DetailView
+from django.views.generic.edit import FormView
 from django.views.generic.list import ListView
+from django.core.urlresolvers import reverse_lazy
 
+from .forms import AnonymousContactForm
+from .forms import ContactForm
 from .models import Page
 from .models import BlogPost
 
@@ -92,3 +97,26 @@ class BlogPostListView(ListView):
 class BlogPostView(TranslateSlugViewMixin, DetailView):
     queryset = BlogPost.objects.filter(published=True)
     context_object_name = 'post'
+
+
+class ContactView(FormView):
+    template_name = 'core/contact.html'
+    success_url = reverse_lazy('core:contact')
+
+    def get_form_class(self):
+        if self.request.user.is_authenticated():
+            return ContactForm
+        else:
+            return AnonymousContactForm
+
+    def form_valid(self, form):
+        if isinstance(form, AnonymousContactForm):
+            email = form.cleaned_data['email']
+        else:
+            email = self.request.user.email
+
+        subject = form.cleaned_data['subject']
+        text = form.cleaned_data['text']
+        frm = self.request.site.get('DEFAULT_FROM_EMAIL', settings.DEFAULT_FROM_EMAIL)
+        send_mail(subject, text, frm, [email])
+        return super(ContactView, self).form_valid(form)

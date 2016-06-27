@@ -30,7 +30,6 @@ Just a brain storming
 
 There are obviously still plenty of todos before the page can go live, without order:
 
-1. Provide a contact page
 2. Tags for blog posts
 3. Importer for data from account.jabber.at
 4. Internationalized URLs for URL paths (`/contact/` vs. `/kontakt/`)

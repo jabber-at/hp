@@ -17,6 +17,10 @@ from django import forms
 from django.conf import settings
 from django.utils.translation import ugettext_lazy as _
 
+from bootstrap.formfields import BootstrapCharField
+from bootstrap.formfields import BootstrapEmailField
+from bootstrap.formfields import BootstrapTextField
+
 from .formfields import CaptchaField
 
 
@@ -37,3 +41,12 @@ class CaptchaFormMixin(forms.Form):
                     'core/css/captcha.css',
                 ),
             }
+
+
+class ContactForm(forms.Form):
+    subject = BootstrapCharField()
+    text = BootstrapTextField()
+
+
+class AnonymousContactForm(CaptchaFormMixin, ContactForm):
+    email = BootstrapEmailField(help_text=_('Your address, so we can get back to you.'))
