@@ -14,7 +14,6 @@
 # If not, see <http://www.gnu.org/licenses/>.
 
 import logging
-import time
 
 from django.conf import settings
 from django.contrib.auth import get_user_model
@@ -94,14 +93,6 @@ class ConfirmRegistrationView(FormView):
 
             # Actually create the user on the XMPP server
             backend.create_user(key.user.node, key.user.domain, key.user.email)
-
-            # Set the last activity to "now", because ejabberd deletes users without any activity.
-            try:
-                backend.set_last_activity(username=key.user.node, domain=key.user.domain,
-                                          status=_('Registered'), timestamp=time.time())
-            except Exception as e:
-                # just not that critical
-                log.exception(e)
 
             # Delete the registration key
             key.delete()
