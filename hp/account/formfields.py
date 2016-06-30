@@ -95,6 +95,7 @@ class UsernameField(BootstrapMixin, forms.MultiValueField):
 
     def compress(self, data_list):
         node, domain = data_list
+        node = node.lower()
         return '@'.join(data_list)
 
 

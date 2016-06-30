@@ -66,6 +66,14 @@ class User(XmppBackendUser, PermissionsMixin):
     USERNAME_FIELD = 'username'
     REQUIRED_FIELDS = ('email', )
 
+    def clean(self):
+        self.username = self.username.lower()
+        return super(User, self).clean()
+
+    def save(self, *args, **kwargs):
+        self.username = self.username.lower()
+        return super(User, self).save(*args, **kwargs)
+
     @property
     def is_staff(self):
         return self.is_superuser

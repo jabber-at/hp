@@ -70,7 +70,7 @@ class UsernameWidget(BootstrapMultiWidget):
 
     def decompress(self, value):
         if value:
-            return value.split('@', 1)
+            return value.lower().split('@', 1)
         return '', settings.DEFAULT_XMPP_HOST
 
     def render(self, *args, **kwargs):
