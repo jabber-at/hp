@@ -146,7 +146,12 @@ class Command(BaseCommand):
             for translated_data in [p for p in pages.values() if p['tnid'] == nid]:
                 self.handle_data(page, translated_data, item)
 
-            page.author = User.objects.get_or_create(username='%s@jabber.at' % page_data['name'])[0]
+            nodename = page_data['name'].lower()
+            if not nodename:  # one page (links) has no author name for some reason
+                nodename = 'mati'
+
+            username = '%s@jabber.at' % nodename
+            page.author = User.objects.get_or_create(username=username)[0]
             page.save()
 
             if page_data.get('menu'):
