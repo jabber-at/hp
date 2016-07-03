@@ -21,6 +21,7 @@ from datetime import datetime
 from django.contrib.auth import get_user_model
 from django.contrib.contenttypes.models import ContentType
 from django.core.management.base import BaseCommand
+from django.core.urlresolvers import reverse
 from django.utils import timezone
 
 from ...constants import TARGET_MODEL
