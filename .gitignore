@@ -1,4 +1,5 @@
 *.sw[op]
+*.mo
 *.py[co]
 /bin/
 /build/
