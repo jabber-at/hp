@@ -16,6 +16,7 @@ Including another URLconf
 from django.conf.urls import include
 from django.conf.urls import url
 from django.contrib import admin
+from core.urlpatterns import i18n_url
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
@@ -23,5 +24,5 @@ urlpatterns = [
     url(r'^captcha/', include('captcha.urls')),
 
     url(r'^account/', include('account.urls')),
-    url(r'^', include('core.urls')),
+    i18n_url(r'^', include('core.urls')),
 ]
