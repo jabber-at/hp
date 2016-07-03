@@ -14,12 +14,8 @@
 # If not, see <http://www.gnu.org/licenses/>.
 
 from django.conf import settings
-from django.core.urlresolvers import Resolver404
-from django.core.urlresolvers import Http404
-from django.core.urlresolvers import resolve
 from django.core.urlresolvers import reverse
 from django.http import HttpResponseRedirect
-from django.utils import translation
 
 
 class SiteMiddleware(object):
@@ -35,42 +31,19 @@ class SiteMiddleware(object):
 
 
 class TranslatedUrlConfigMiddleware(object):
-    """Middleware to handle translated paths.
+    """Middleware to handle translated paths."""
 
-    Some URL paths are translated (e.g. /contact/ and /kontakt/). Paths only work for the currently
-    active language, so /kontakt/ raises Http404 if the user uses English, and /contact/ if the
-    user uses German.
-
-    This Middleware catches Http404 exceptions and tries to resolve the current path in all other
-    configured languages. If a match is found, we use its URL name to resolve the path in the
-    current language and redirect to it.
-
-    This middleware only handles translation strings in URL configs (= urls.py files in apps). It
-    does not handle e.g. slugs for blog-posts or pages, these are handled by the view itself (see
-    :py:class:`~core.views.TranslateSlugViewMixin`).
-
-    .. TODO:: This does not yet handle querystrings
-    """
-
-    def process_exception(self, request, exception):
-        if not isinstance(exception, Http404):
-            return
-
-        # get a list of all languages except the currently active one
-        other_langs = [k for k, v in settings.LANGUAGES if k != request.LANGUAGE_CODE]
-
-        match = None
-        for code in other_langs:
-            with translation.override(code):
-                try:
-                    match = resolve(request.path)
-                    break
-                except Resolver404:
-                    continue
-
-        if match is not None:
+    def process_view(self, request, view_func, view_args, view_kwargs):
+        match = request.resolver_match
+        if getattr(match.func, 'translated_match', False):
             url_name = match.url_name  # "name" parameter in the URL config
             if match.namespace:
-                urlname = '%s:%s' % (match.namespace, url_name)
+                url_name = '%s:%s' % (match.namespace, url_name)
 
-            return HttpResponseRedirect(reverse(urlname))
+            return HttpResponseRedirect(reverse(url_name))
+
+
+    # TODO: We might also use this part in case we reestablish a catch-all regular expression
+    #       for pages.
+    #def process_exception(self, request, exception):
+    #    pass
