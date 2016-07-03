@@ -54,4 +54,5 @@ def deploy(section):
     pip('install -U -r %s/requirements.txt' % path)
     manage('migrate')
     manage('collectstatic --noinput')
+    manage('compilemessages -l de')
     sudo('touch /etc/uwsgi-emperor/vassals/%s.ini' % section)
