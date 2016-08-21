@@ -76,7 +76,7 @@ class RegisterUserView(CreateView):
             fp, key = form.get_gpg_data(self.request)
             add_gpg_key.delay(
                 user_pk=self.object.pk, address=address, language=self.request.LANGUAGE_CODE,
-                fp=fp, key=key)
+                fingerprint=fp, key=key)
 
 #            confirmation = UserConfirmation.objects.create(user=self.object)
 #            kwargs = {

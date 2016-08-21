@@ -13,11 +13,11 @@
 # You should have received a copy of the GNU General Public License along with django-xmpp-account.
 # If not, see <http://www.gnu.org/licenses/>.
 
-import logging
 import shutil
 import tempfile
 
 from celery import shared_task
+from celery.utils.log import get_task_logger
 from django.contrib.auth import get_user_model
 from django.utils import timezone
 from django.utils import translation
@@ -28,7 +28,7 @@ from .models import GpgKey
 from .models import UserLogEntry
 
 User = get_user_model()
-log = logging.getLogger()
+log = get_task_logger(__name__)
 
 # Delimiter to split uploaded key data with. A user might upload multiple keys.
 _gpg_key_delimiter = b"""-----END PGP PUBLIC KEY BLOCK-----
@@ -36,14 +36,38 @@ _gpg_key_delimiter = b"""-----END PGP PUBLIC KEY BLOCK-----
 
 
 @shared_task
-def add_gpg_key(user_pk, address, language, fp, key):
+def add_gpg_key(user_pk, address, language, fingerprint=None, key=None):
+    """Task to add or update a submitted GPG key.
+
+    You need to pass either the fingerprint or the raw key. If neither is passed, the task will
+    log an error.
+
+    Parameters
+    ----------
+
+    user_pk : int
+        Primary key of the user.
+    address : str
+        Address the change is originating from.
+    language : str
+        Language the user currently used.
+    fingerprint : str, optional
+        The full fingerprint to add (without a "0x" prefix).
+    key : str, optional
+        The key to add, in ASCII armored text format. This might include multiple keys.
+    """
+    if fingerprint is None and key is None:
+        log.error('Neither fingerprint nor key passed.')
+        return
+
     user = User.objects.get(pk=user_pk)
 
-    if fp:
-        keys = gpg_backend.fetch_key('0x%s' % fp)
+    if fingerprint:
+        keys = gpg_backend.fetch_key('0x%s' % fingerprint)  # fetch key from keyserver
     else:
-        keys = key.encode('utf-8')  # we need bytes to import
+        keys = key.encode('utf-8')  # convert to bytes
 
+    # Create a temporary gpg home directory to import keys.
     home = tempfile.mkdtemp()
     try:
         with gpg_backend.settings(home=home) as backend:
