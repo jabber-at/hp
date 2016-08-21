@@ -44,6 +44,7 @@ from .forms import RequestPasswordResetForm
 from .forms import SetPasswordForm
 from .models import UserConfirmation
 from .models import UserLogEntry
+from .tasks import add_gpg_key
 
 User = get_user_model()
 log = logging.getLogger(__name__)
@@ -65,19 +66,24 @@ class RegisterUserView(CreateView):
             response = super(RegisterUserView, self).form_valid(form)
             self.object.backend = settings.AUTHENTICATION_BACKENDS[0]
 
+            address = self.request.get_host()
+
             # log user creation
-            UserLogEntry.objects.create(user=self.object, address=self.request.get_host(),
+            UserLogEntry.objects.create(user=self.object, address=address,
                                         message=_('Account created.'))
 
             # Store GPG key if any
-            self.object.add_gpg_key(self.request, form)
+            fp, key = form.get_gpg_data(self.request)
+            add_gpg_key.delay(
+                user_pk=self.object.pk, address=address, language=self.request.LANGUAGE_CODE,
+                fp=fp, key=key)
 
-            confirmation = UserConfirmation.objects.create(user=self.object)
-            kwargs = {
-                'recipient': self.object.email,
-            }
-            kwargs.update(form.gpg_options(self.request))
-            confirmation.send(self.request, self.object, PURPOSE_REGISTER, **kwargs)
+#            confirmation = UserConfirmation.objects.create(user=self.object)
+#            kwargs = {
+#                'recipient': self.object.email,
+#            }
+#            kwargs.update(form.gpg_options(self.request))
+#            confirmation.send(self.request, self.object, PURPOSE_REGISTER, **kwargs)
 
             login(self.request, self.object)
             return response
