@@ -35,30 +35,25 @@ _MAX_USERNAME_LENGTH = getattr(settings, 'MAX_USERNAME_LENGTH', 64)
 class GPGMixin(forms.Form):
     """A mixin that adds the GPG fields to a form."""
 
-    if getattr(settings, 'GPG', True):
+    if getattr(settings, 'GPG_BACKENDS', {}):
         gpg_fingerprint = FingerprintField()
         gpg_key = KeyUploadField()
 
-    def gpg_options(self, request):
-        """Get keyword arguments suitable to pass to Confirmation.send()."""
+    def get_gpg_data(self, request):
+        """Get fingerprint and uploaded key, if any."""
 
-        if not getattr(settings, 'GPG', True):
-            return {}
-        opts = {}
+        if not getattr(settings, 'GPG_BACKENDS', {}):  # Shortcut
+            return None, None
 
-        if self.cleaned_data.get('gpg_fingerprint'):
-            opts['gpg_encrypt'] = self.cleaned_data.get('gpg_fingerprint')
-        elif 'gpg_key' in request.FILES:
-            path = request.FILES['gpg_key'].temporary_file_path()
-            with open(path) as stream:
-                data = stream.read()
-            opts['gpg_key'] = data
+        fp = self.cleaned_data.get('gpg_fingerprint') or None
+        key = None
+        if 'gpg_key' in request.FILES:
+            # TODO: Django docs say we should read in chuncks to ensure that large files
+            #       don't overwhelm our systems memory. But we need the data in memory anyway.
+            #       We should probably enforce a maximum content-length elsewhere.
+            key = request.FILES['gpg_key'].read().decode('utf-8')
 
-        # add the option to sign confirmations if the current site has a GPG fingerprint
-        if opts and request.site.get('GPG_FINGERPRINT'):
-            opts['gpg_sign'] = request.site['GPG_FINGERPRINT']
-
-        return opts
+        return fp, key
 
     @property
     def show_gpg(self):
@@ -67,7 +62,8 @@ class GPGMixin(forms.Form):
         Used to decide if the template should display the GPG chapter or not.
         """
 
-        if not self.is_bound or not getattr(settings, 'GPG', True):
+        if not self.is_bound or not getattr(settings, 'GPG_BACKENDS', True):
+            # Form was not submitted or GPG is not configured
             return False
 
         if self.data['gpg_fingerprint'] or self.data['gpg_key']:
