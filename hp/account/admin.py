@@ -18,6 +18,8 @@ from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
 from django.contrib.auth.models import Group
 
 from .models import User
+from .models import UserLogEntry
+from .models import GpgKey
 
 
 @admin.register(User)
@@ -37,5 +39,16 @@ class UserAdmin(BaseUserAdmin):
                        'gpg_fingerprint'),
         }),
     )
+
+
+@admin.register(UserLogEntry)
+class UserLogEntryAdmin(admin.ModelAdmin):
+    pass
+
+
+@admin.register(GpgKey)
+class GpgKeyAdmin(admin.ModelAdmin):
+    pass
+
 
 admin.site.unregister(Group)

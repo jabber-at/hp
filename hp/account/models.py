@@ -20,6 +20,7 @@ from django.utils.translation import ugettext_lazy as _
 
 from django_xmpp_backends.models import XmppBackendUser
 
+from core.models import BaseModel
 from core.models import Confirmation
 
 from .constants import REGISTRATION_CHOICES
@@ -108,3 +109,22 @@ class UserConfirmation(Confirmation):
             'domain': domain,
         }
         return super(UserConfirmation, self).send(request, user, purpose, subject, **kwargs)
+
+
+class UserLogEntry(BaseModel):
+    """A model that logs user activity, e.g. a change of password or GPG key."""
+
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, related_name='log_entries')
+    address = models.GenericIPAddressField()
+    message = models.TextField()
+
+
+class GpgKey(BaseModel):
+    """A GPG key."""
+
+    # NOTE: the fingerprint is *not* unique, because a key might be used for multiple accounts
+    fingerprint = models.CharField(max_length=40)
+    key = models.TextField()
+    expires = models.DateTimeField()
+
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, related_name='gpg_keys')
