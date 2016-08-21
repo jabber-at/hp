@@ -39,10 +39,11 @@ from django_xmpp_backends import backend
 from .constants import PURPOSE_REGISTER
 from .constants import PURPOSE_RESET_PASSWORD
 from .forms import CreateUserForm
+from .forms import LoginForm
 from .forms import RequestPasswordResetForm
 from .forms import SetPasswordForm
-from .forms import LoginForm
 from .models import UserConfirmation
+from .models import UserLogEntry
 
 User = get_user_model()
 log = logging.getLogger(__name__)
@@ -63,6 +64,13 @@ class RegisterUserView(CreateView):
         with transaction.atomic():
             response = super(RegisterUserView, self).form_valid(form)
             self.object.backend = settings.AUTHENTICATION_BACKENDS[0]
+
+            # log user creation
+            UserLogEntry.objects.create(user=self.object, address=self.request.get_host(),
+                                        message=_('Account created.'))
+
+            # Store GPG key if any
+            self.object.add_gpg_key(self.request, form)
 
             confirmation = UserConfirmation.objects.create(user=self.object)
             kwargs = {

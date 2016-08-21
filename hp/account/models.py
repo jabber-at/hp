@@ -13,12 +13,16 @@
 # You should have received a copy of the GNU General Public License along with django-xmpp-account.
 # If not, see <http://www.gnu.org/licenses/>.
 
+import shutil
+import tempfile
+
 from django.db import models
 from django.conf import settings
 from django.contrib.auth.models import PermissionsMixin
 from django.utils.translation import ugettext_lazy as _
 
 from django_xmpp_backends.models import XmppBackendUser
+from gpgmime.django import gpg_backend
 
 from core.models import BaseModel
 from core.models import Confirmation
@@ -78,6 +82,28 @@ class User(XmppBackendUser, PermissionsMixin):
     @property
     def is_staff(self):
         return self.is_superuser
+
+    def add_gpg_key(self, request, form):
+
+        if not form.cleaned_data.get('gpg_fingerprint') and not 'gpg_key' in request.FILES:
+            return
+
+        home = tempfile.mkdtemp()
+        try:
+            with gpg_backend.settings(home=home) as backend:
+                if form.cleaned_data.get('gpg_fingerprint'):
+                    key = gpg_backend.fetch_key('0x%s' % form.cleaned_data['gpg_fingerprint'])
+                elif 'gpg_key' in request.FILES:
+                    path = request.FILES['gpg_key'].temporary_file_path()
+                    with open(path, 'rb') as stream:
+                        key = stream.read()
+
+                fp = backend.import_key(key)
+                expires = backend.expires(fp)
+
+                return GpgKey.objects.create(fingerprint=fp, key=key, expires=expires)
+        finally:
+            shutil.rmtree(home)
 
     def gpg_options(self, request):
         """Get keyword arguments suitable to pass to Confirmation.send()."""
