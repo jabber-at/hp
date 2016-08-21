@@ -183,12 +183,4 @@ class KeyUploadField(BootstrapFileField):
                 'content-type': gpg_key.content_type,
             })
 
-        result = settings.GPG.scan_keys(gpg_key.temporary_file_path())
-        if result.stderr:
-            raise forms.ValidationError(self.error_messages['import-failed'])
-        elif len(result.fingerprints) > 1:
-            raise forms.ValidationError(self.error_messages['multiple-keys'])
-        elif len(result.fingerprints) < 1:
-            raise forms.ValidationError(self.error_messages['no-keys'])
-
         return value
