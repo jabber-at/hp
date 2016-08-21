@@ -20,6 +20,7 @@ from django.utils.translation import ugettext_lazy as _
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+ROOT_DIR = os.path.dirname(BASE_DIR)
 
 
 # Quick-start development settings - unsuitable for production
@@ -165,6 +166,17 @@ GNUPG = {
 }
 GPG_KEYSERVER = 'pool.sks-keyservers.net'
 
+GPG_BACKENDS = {
+    'default': {
+        'BACKEND': 'gpgmime.gpgme.GpgMeBackend',
+        'HOME': os.path.join(ROOT_DIR, 'gnupg'),
+        # Optional settings:
+        #'PATH': '/home/...',  # Path to 'gpg' binary
+        #'ALWAYS_TRUST': True,   # Ignore trust in all operations
+        #'OPTIONS': {...},  # Any custom options for the specific backend implementation
+    },
+}
+
 ####################
 # CAPTCHA settings #
 ####################
@@ -184,3 +196,7 @@ if GNUPG is not None:
     else:
         logging.warn(
             'GnuPG disabled because GnuPG home not found. Generate key with manage.py genkey.')
+
+for backend, config in GPG_BACKENDS.items():
+    if config.get('HOME') and  not os.path.exists(config['HOME']):
+        os.makedirs(config['HOME'])
