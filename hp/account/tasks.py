@@ -19,6 +19,7 @@ import tempfile
 
 from celery import shared_task
 from django.contrib.auth import get_user_model
+from django.utils import timezone
 from django.utils import translation
 from django.utils.translation import ugettext as _
 from gpgmime.django import gpg_backend
@@ -29,31 +30,42 @@ from .models import UserLogEntry
 User = get_user_model()
 log = logging.getLogger()
 
+# Delimiter to split uploaded key data with. A user might upload multiple keys.
+_gpg_key_delimiter = b"""-----END PGP PUBLIC KEY BLOCK-----
+-----BEGIN PGP PUBLIC KEY BLOCK-----"""
+
 
 @shared_task
 def add_gpg_key(user_pk, address, language, fp, key):
     user = User.objects.get(pk=user_pk)
 
     if fp:
-        key = gpg_backend.fetch_key('0x%s' % fp)
+        keys = gpg_backend.fetch_key('0x%s' % fp)
     else:
-        key = key.encode('utf-8')  # we need bytes to import
+        keys = key.encode('utf-8')  # we need bytes to import
 
     home = tempfile.mkdtemp()
     try:
         with gpg_backend.settings(home=home) as backend:
-            fprs = backend.import_key(key)
-            for fpr in fprs:
-                log.info('%s: Add GPG key %s.', user.username, fpr)
+            for key in keys.split(_gpg_key_delimiter):
+                fpr = backend.import_key(key)[0]
+                log.info('%s: Add/update GPG key %s.', user.username, fpr)
+
                 expires = backend.expires(fpr)
+                if expires is not None:
+                    expires = timezone.make_aware(expires)
 
-                # TODO: This currently stores all keys if the user submitted multiple keys ("key"
-                #       is directly from the uploaded form)
-                GpgKey.objects.create(user=user, fingerprint=fpr, key=key, expires=expires)
+                # Create or update the GPG key
+                dbkey, created = GpgKey.objects.update_or_create(
+                    user=user, fingerprint=fpr, defaults={
+                        'key': key, 'fingerprint': fpr, 'expires': expires, })
 
-                # TODO: This currently is always English, language is not yet passed.
                 with translation.override(language):
-                    UserLogEntry.objects.create(user=user, address=address,
-                                                message=_('Added GPG key 0x%s.') % fpr)
+                    if created is True:
+                        message = _('Added GPG key 0x%s.') % fpr
+                    else:
+                        message = _('Updated GPG key 0x%s.') % fpr
+
+                UserLogEntry.objects.create(user=user, address=address, message=message)
     finally:
         shutil.rmtree(home)
