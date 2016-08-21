@@ -1,4 +1,5 @@
-Django==1.10
+# django-mptt does not yet support 1.10
+Django==1.9.9
 Pillow==3.3.1
 django-composite-field==0.7.6
 django-mptt==0.8.5
@@ -14,4 +15,4 @@ pip>=8.1.2
 setuptools>=26.0.0
 # not yet released
 git+https://github.com/mathiasertl/django-confirm.git
-#git+https://github.com/mathiasertl/gpg-mime.git
+git+https://github.com/mathiasertl/gpg-mime.git
