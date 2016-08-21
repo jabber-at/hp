@@ -144,6 +144,13 @@ class UserLogEntry(BaseModel):
     address = models.GenericIPAddressField()
     message = models.TextField()
 
+    class Meta:
+        verbose_name = 'User activity log'
+        verbose_name_plural = 'User activity logs'
+
+    def __str__(self):
+        return '%s: %s' % (self.user, self.message)
+
 
 class GpgKey(BaseModel):
     """A GPG key."""
@@ -154,3 +161,10 @@ class GpgKey(BaseModel):
     expires = models.DateTimeField()
 
     user = models.ForeignKey(settings.AUTH_USER_MODEL, related_name='gpg_keys')
+
+    class Meta:
+        verbose_name = 'GPG key'
+        verbose_name_plural = 'GPG keys'
+
+    def __str__(self):
+        return self.fingerprint

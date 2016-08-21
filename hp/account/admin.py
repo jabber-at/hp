@@ -43,12 +43,14 @@ class UserAdmin(BaseUserAdmin):
 
 @admin.register(UserLogEntry)
 class UserLogEntryAdmin(admin.ModelAdmin):
-    pass
+    list_display = ('__str__', 'created')
+    ordering = ('-created', )
 
 
 @admin.register(GpgKey)
 class GpgKeyAdmin(admin.ModelAdmin):
-    pass
+    list_display = ('user', 'fingerprint', 'expires')
+    list_select_related = ('user', )
 
 
 admin.site.unregister(Group)
