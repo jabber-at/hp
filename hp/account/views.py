@@ -42,7 +42,7 @@ from .forms import CreateUserForm
 from .forms import LoginForm
 from .forms import RequestPasswordResetForm
 from .forms import SetPasswordForm
-from .models import UserConfirmation
+from .models import Confirmation
 from .models import UserLogEntry
 from .tasks import add_gpg_key
 
@@ -91,7 +91,7 @@ class RegisterUserView(CreateView):
 
 class ConfirmRegistrationView(FormView):
     template_name = 'account/user_register_confirm.html'
-    queryset = UserConfirmation.objects.select_related('user')
+    queryset = Confirmation.objects.select_related('user')
     form_class = SetPasswordForm
     success_url = reverse_lazy('account:detail')
 
@@ -159,7 +159,7 @@ class RequestPasswordResetView(FormView):
             form.add_error('username', _('User not found.'))
             return self.form_invalid(form)
 
-        confirmation = UserConfirmation.objects.create(user=user)
+        confirmation = Confirmation.objects.create(user=user)
         kwargs = {
             'recipient': user.email,
         }
@@ -173,7 +173,7 @@ class ResetPasswordView(FormView):
     template_name = 'account/user_password_reset_confirm.html'
     form_class = SetPasswordForm
     success_url = reverse_lazy('account:detail')
-    queryset = UserConfirmation.objects.select_related('user')
+    queryset = Confirmation.objects.select_related('user')
 
     def form_valid(self, form):
         with transaction.atomic():

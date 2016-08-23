@@ -16,16 +16,19 @@
 import shutil
 import tempfile
 
-from django.db import models
 from django.conf import settings
 from django.contrib.auth.models import PermissionsMixin
+from django.db import models
+from django.utils import timezone
+from django.utils.crypto import get_random_string
+from django.utils.crypto import salted_hmac
 from django.utils.translation import ugettext_lazy as _
 
 from django_xmpp_backends.models import XmppBackendUser
+from jsonfield import JSONField
 from gpgmime.django import gpg_backend
 
 from core.models import BaseModel
-from core.models import Confirmation
 
 from .constants import REGISTRATION_CHOICES
 from .constants import REGISTRATION_WEBSITE
@@ -34,6 +37,7 @@ from .constants import PURPOSE_SET_EMAIL
 from .constants import PURPOSE_RESET_PASSWORD
 from .constants import PURPOSE_DELETE
 from .managers import UserManager
+from .managers import ConfirmationManager
 
 
 PURPOSES = {
@@ -50,6 +54,18 @@ PURPOSES = {
         'subject': _('Delete your account on %(domain)s'),
     },
 }
+
+
+def default_key():
+    salt = get_random_string(32)
+    value = get_random_string(64)
+    return salted_hmac(salt, value).hexdigest()
+
+def default_expires():
+    return timezone.now() + settings.USER_CONFIRMATION_TIMEOUT
+
+def default_payload():
+    return {}
 
 
 class User(XmppBackendUser, PermissionsMixin):
@@ -125,16 +141,39 @@ class User(XmppBackendUser, PermissionsMixin):
         return self.username
 
 
-class UserConfirmation(Confirmation):
+class Confirmation(BaseModel):
+    objects = ConfirmationManager()
+
+    key = models.CharField(max_length=40, default=default_key)
+    expires = models.DateTimeField(default=default_expires)
+    purpose = models.CharField(null=True, blank=True, max_length=16)
+    payload = JSONField(default=default_payload)
+
     user = models.ForeignKey(settings.AUTH_USER_MODEL, related_name='confirmations')
 
-    def send(self, request, user, purpose, **kwargs):
+    SUBJECTS = {
+        PURPOSE_REGISTER: _('Your new account on {{ user.domain }}'),
+    }
+
+    def send(self):
+        text_template = Template(self.payload['text_template'])
+        html_template = Template(self.payload['html_template'])
+        subject = self.SUBJECTS[self.payload]
+
+        context = {
+            'user': self.user,
+            'expires': self.expires,
+        }
+
+        text = text_template.render(context)
+        html = html_template.render(context)
+
         self.purpose = purpose
         node, domain = user.get_username().split('@', 1)
         subject = PURPOSES[purpose]['subject'] % {
             'domain': domain,
         }
-        return super(UserConfirmation, self).send(request, user, purpose, subject, **kwargs)
+        return super(Confirmation, self).send(request, user, purpose, subject, **kwargs)
 
 
 class UserLogEntry(BaseModel):

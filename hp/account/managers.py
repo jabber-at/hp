@@ -15,6 +15,7 @@
 
 from django.conf import settings
 from django.contrib.auth.models import BaseUserManager
+from django.db import models
 from django.db import transaction
 from django.utils import timezone
 
@@ -42,3 +43,16 @@ class UserManager(BaseUserManager):
         user.is_superuser = True
         user.save()
         return user
+
+
+class ConfirmationManager(models.Manager):
+    def init(self, user, purpose, language, server, **kwargs):
+        obj = self.model(user=user, purpose=purpose)
+
+        obj.payload['text_template'] = 'account/confirm/%s/mail.txt' % purpose
+        obj.payload['html_template'] = 'account/confirm/%s/mail.html' % purpose
+        obj.payload['language'] = language
+        obj.payload['server'] = server
+        obj.payload.update(kwargs)
+        obj.save()
+        return obj
