@@ -14,6 +14,7 @@ import os
 import logging
 
 import gnupg
+from datetime import timedelta
 
 from django.core.urlresolvers import reverse_lazy
 from django.utils.translation import ugettext_lazy as _
@@ -154,6 +155,13 @@ LOGIN_REDIRECT_URL = reverse_lazy('account:detail')
 AUTHENTICATION_BACKENDS = [
     'django_xmpp_backends.auth_backends.XmppBackendBackend',
 ]
+
+###################
+# CUSTOM SETTINGS #
+###################
+
+# How long confirmation emails remain valid
+USER_CONFIRMATION_TIMEOUT = timedelta(hours=48)
 
 ################
 # GPG settings #
