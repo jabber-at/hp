@@ -142,19 +142,18 @@ class User(XmppBackendUser, PermissionsMixin):
         if not form.cleaned_data.get('gpg_fingerprint') and not 'gpg_key' in request.FILES:
             return
 
+        if form.cleaned_data.get('gpg_fingerprint'):
+            key = gpg_backend.fetch_key('0x%s' % form.cleaned_data['gpg_fingerprint'])
+        elif 'gpg_key' in request.FILES:
+            path = request.FILES['gpg_key'].temporary_file_path()
+            with open(path, 'rb') as stream:
+                key = stream.read()
+
         with self.gpg_keyring(init=False) as backend:
-            if form.cleaned_data.get('gpg_fingerprint'):
-                key = gpg_backend.fetch_key('0x%s' % form.cleaned_data['gpg_fingerprint'])
-
-            elif 'gpg_key' in request.FILES:
-                path = request.FILES['gpg_key'].temporary_file_path()
-                with open(path, 'rb') as stream:
-                    key = stream.read()
-
             fp = backend.import_key(key)
             expires = backend.expires(fp)
 
-            return GpgKey.objects.create(fingerprint=fp, key=key, expires=expires)
+        return GpgKey.objects.create(fingerprint=fp, key=key, expires=expires)
 
     def gpg_options(self, request):
         """Get keyword arguments suitable to pass to Confirmation.send()."""
