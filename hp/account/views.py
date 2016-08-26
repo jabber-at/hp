@@ -67,6 +67,7 @@ class RegisterUserView(CreateView):
         request = self.request
         address = request.META['REMOTE_ADDR']
         lang = request.LANGUAGE_CODE
+        base_url = '%s://%s' % (request.scheme, request.get_host())
 
         with transaction.atomic():
             response = super(RegisterUserView, self).form_valid(form)
@@ -81,7 +82,7 @@ class RegisterUserView(CreateView):
 
         task = send_confirmation_task.si(
             user_pk=user.pk, purpose=PURPOSE_REGISTER, language=lang,
-            server=request.site['DOMAIN'])
+            base_url=base_url, server=request.site['DOMAIN'])
 
         # Store GPG key if any
         fp, key = form.get_gpg_data(request)

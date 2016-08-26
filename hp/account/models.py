@@ -201,7 +201,7 @@ class Confirmation(BaseModel):
     }
 
     def send(self):
-        server = settings.XMPP_SERVERS[self.user.domain]
+        server = settings.XMPP_SERVERS[self.payload['server']]
         path = reverse('account:%s_confirm' % self.purpose, kwargs={'key': self.key})
 
         context = {
@@ -210,9 +210,8 @@ class Confirmation(BaseModel):
             'jid': self.user.get_username(),
             'node': self.user.node,
             'user': self.user,
-            'uri': 'https://%s%s' % (server['CANONICAL_HOST'], path),
+            'uri': '%s%s' % (self.payload['base_url'], path),
         }
-
 
         with translation.override(self.language):
             subject = Template(self.SUBJECTS[self.purpose]).render(Context(context))
