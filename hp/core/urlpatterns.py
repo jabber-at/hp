@@ -60,5 +60,4 @@ def i18n_url(regex, view, kwargs=None, name=None, prefix=''):
         return LocaleRegexURLResolver(regex, urlconf_module, kwargs, app_name=app_name,
                                       namespace=namespace)
     else:
-        # TODO, but possibly not necessary.
         return RegexURLPattern(regex, view, kwargs, name)

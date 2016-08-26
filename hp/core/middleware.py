@@ -41,9 +41,3 @@ class TranslatedUrlConfigMiddleware(object):
                 url_name = '%s:%s' % (match.namespace, url_name)
 
             return HttpResponseRedirect(reverse(url_name))
-
-
-    # TODO: We might also use this part in case we reestablish a catch-all regular expression
-    #       for pages.
-    #def process_exception(self, request, exception):
-    #    pass
