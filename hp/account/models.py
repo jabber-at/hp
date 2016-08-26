@@ -226,9 +226,18 @@ class Confirmation(BaseModel):
 
         frm = server['FROM_EMAIL']
 
-        msg = GpgEmailMessage(subject, text, frm, [self.to])
-        msg.attach_alternative(html, 'text/html')
-        msg.send()
+        keys = list(self.user.gpg_keys.valid().values_list('fingerprint', flat=True))
+
+        if keys:
+            with self.user.gpg_keyring() as backend:
+                msg = GpgEmailMessage(subject, text, frm, [self.to],
+                                      gpg_backend=backend, gpg_recipients=keys)
+                msg.attach_alternative(html, 'text/html')
+                msg.send()
+        else:
+            msg = GpgEmailMessage(subject, text, frm, [self.to])
+            msg.attach_alternative(html, 'text/html')
+            msg.send()
 
 
 class UserLogEntry(BaseModel):
