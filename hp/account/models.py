@@ -16,6 +16,8 @@
 import shutil
 import tempfile
 
+from contextlib import contextmanager
+
 from django.conf import settings
 from django.contrib.auth.models import PermissionsMixin
 from django.db import models
@@ -103,27 +105,55 @@ class User(XmppBackendUser, PermissionsMixin):
     def is_staff(self):
         return self.is_superuser
 
+    @contextmanager
+    def gpg_keyring(self, init=True):
+        """Context manager that yields a temporary GPG keyring.
+
+        To avoid any locking issues and to isolate the GPG keys for users, every operation that
+        interacts with gpg (and thus uses the keyring) is with a separate, temporary keyring that
+        is created specifically for the operations.
+
+        Example::
+
+            user = User.objects.get(username='user@example.com')
+            with user.gpg_keyring() as backend:
+                backend.import_key(...)
+
+        Parameters
+        ----------
+
+        init : bool, optional
+            If ``False``, do not import existing (valid) keys into the keyring.
+        """
+        home = tempfile.mkdtemp()
+        try:
+            with gpg_backend.settings(home=home) as backend:
+                if init is True:  # import existing valid gpg keys
+                    for key in self.gpg_keys.filter(expires__gt=timezone.now()):
+                        backend.import_key(key)
+
+                yield backend
+        finally:
+            shutil.rmtree(home)
+
     def add_gpg_key(self, request, form):
 
         if not form.cleaned_data.get('gpg_fingerprint') and not 'gpg_key' in request.FILES:
             return
 
-        home = tempfile.mkdtemp()
-        try:
-            with gpg_backend.settings(home=home) as backend:
-                if form.cleaned_data.get('gpg_fingerprint'):
-                    key = gpg_backend.fetch_key('0x%s' % form.cleaned_data['gpg_fingerprint'])
-                elif 'gpg_key' in request.FILES:
-                    path = request.FILES['gpg_key'].temporary_file_path()
-                    with open(path, 'rb') as stream:
-                        key = stream.read()
+        with self.gpg_keyring(init=False) as backend:
+            if form.cleaned_data.get('gpg_fingerprint'):
+                key = gpg_backend.fetch_key('0x%s' % form.cleaned_data['gpg_fingerprint'])
 
-                fp = backend.import_key(key)
-                expires = backend.expires(fp)
+            elif 'gpg_key' in request.FILES:
+                path = request.FILES['gpg_key'].temporary_file_path()
+                with open(path, 'rb') as stream:
+                    key = stream.read()
 
-                return GpgKey.objects.create(fingerprint=fp, key=key, expires=expires)
-        finally:
-            shutil.rmtree(home)
+            fp = backend.import_key(key)
+            expires = backend.expires(fp)
+
+            return GpgKey.objects.create(fingerprint=fp, key=key, expires=expires)
 
     def gpg_options(self, request):
         """Get keyword arguments suitable to pass to Confirmation.send()."""
