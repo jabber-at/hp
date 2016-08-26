@@ -61,6 +61,8 @@ PURPOSES = {
         'subject': _('Delete your account on %(domain)s'),
     },
 }
+_gpg_key_delimiter = b"""-----END PGP PUBLIC KEY BLOCK-----
+-----BEGIN PGP PUBLIC KEY BLOCK-----"""
 
 
 def default_key():
@@ -106,6 +108,9 @@ class User(XmppBackendUser, PermissionsMixin):
     def is_staff(self):
         return self.is_superuser
 
+    def log(self, address, message):
+        self.log_entries.create(address=address, message=message)
+
     @contextmanager
     def gpg_keyring(self, init=True):
         """Context manager that yields a temporary GPG keyring.
@@ -137,22 +142,38 @@ class User(XmppBackendUser, PermissionsMixin):
         finally:
             shutil.rmtree(home)
 
-    def add_gpg_key(self, request, form):
+    def add_gpg_key(self, keys, fingerprint, language, address):
+        if fingerprint:
+            keys = gpg_backend.fetch_key('0x%s' % fingerprint)  # fetch key from keyserver
+        elif isinstance(keys, str):
+            keys = keys.encode('utf-8')  # convert to bytes
 
-        if not form.cleaned_data.get('gpg_fingerprint') and not 'gpg_key' in request.FILES:
-            return
-
-        if form.cleaned_data.get('gpg_fingerprint'):
-            key = gpg_backend.fetch_key('0x%s' % form.cleaned_data['gpg_fingerprint'])
-        elif 'gpg_key' in request.FILES:
-            path = request.FILES['gpg_key'].temporary_file_path()
-            with open(path, 'rb') as stream:
-                key = stream.read()
+        imported = []
 
         with self.gpg_keyring(init=False) as backend:
-            fp = backend.import_key(key)
-            expires = backend.expires(fp)
+            for key in keys.split(_gpg_key_delimiter):
+                try:
+                    fp = backend.import_key(keys)[0]
+                    expires = backend.expires(fp)
+                    imported.append((key, fp, expires))
+                except Exception:
+                    with translation.override(language):
+                        self.log(_('Error importing GPG key.'))
+                    raise
 
+
+        for key, fp, expires in imported:
+            # Create or update the GPG key
+            dbkey, created = GpgKey.objects.update_or_create(
+                user=self, fingerprint=fp, defaults={'key': key, 'expires': expires, })
+
+            with translation.override(language):
+                if created is True:
+                    message = _('Added GPG key 0x%s.') % fp
+                else:
+                    message = _('Updated GPG key 0x%s.') % fp
+
+            self.log(address=address, message=message)
         return GpgKey.objects.create(fingerprint=fp, key=key, expires=expires)
 
     def __str__(self):
