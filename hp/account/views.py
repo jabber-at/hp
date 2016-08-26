@@ -173,12 +173,15 @@ class RequestPasswordResetView(FormView):
             form.add_error('username', _('User not found.'))
             return self.form_invalid(form)
 
-        confirmation = Confirmation.objects.create(user=user)
-        kwargs = {
-            'recipient': user.email,
-        }
-        kwargs.update(user.gpg_options(self.request))
-        confirmation.send(self.request, user, PURPOSE_RESET_PASSWORD, **kwargs)
+        request = self.request
+        remote = request.META['REMOTE_ADDR']
+        lang = request.LANGUAGE_CODE
+        base_url = '%s://%s' % (request.scheme, request.get_host())
+
+        user.log(remote, _('Requested password reset.'))
+        send_confirmation_task.delay(
+            user_pk=user.pk, purpose=PURPOSE_RESET_PASSWORD, language=lang, to=user.email,
+            base_url=base_url, server=request.site['DOMAIN'])
 
         return self.render_to_response(self.get_context_data(form=form))
 
@@ -190,10 +193,13 @@ class ResetPasswordView(FormView):
     queryset = Confirmation.objects.select_related('user')
 
     def form_valid(self, form):
+        remote = self.request.META['REMOTE_ADDR']
+
         with transaction.atomic():
             key = self.queryset.get(key=self.kwargs['key'])
             backend.set_password(username=key.user.node, domain=key.user.domain,
                                  password=form.cleaned_data['password'])
+            key.user.log(remote, _('Set new password.'))
 
             key.user.backend = settings.AUTHENTICATION_BACKENDS[0]
             login(self.request, key.user)

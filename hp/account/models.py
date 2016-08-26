@@ -208,6 +208,7 @@ class Confirmation(BaseModel):
 
     SUBJECTS = {
         PURPOSE_REGISTER: _('Your new account on {{ user.domain }}'),
+        PURPOSE_RESET_PASSWORD: _('Reset your password on {{ user.domain }}'),
     }
 
     def send(self):

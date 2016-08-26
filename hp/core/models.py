@@ -20,7 +20,6 @@ from django.utils.translation import ugettext_lazy as _
 
 from composite_field.l10n import LocalizedCharField
 from composite_field.l10n import LocalizedTextField
-from django_confirm.models import Confirmation as BaseConfirmation
 from mptt.models import MPTTModel
 from mptt.models import TreeForeignKey
 
@@ -75,33 +74,3 @@ class MenuItem(MPTTModel, BaseModel):
 
     class MPTTMeta:
         order_insertion_by = ['title_en']
-
-
-class Confirmation(BaseConfirmation):
-    class Meta:
-        proxy = True
-
-    def send(self, request, user, purpose, subject, **kwargs):
-        node, domain = user.get_username().split('@', 1)
-
-        label = self._meta.app_label
-
-        path = reverse('%s:%s_confirm' % (label, purpose), kwargs={'key': self.key, })
-        uri = request.build_absolute_uri(location=path)
-
-        kwargs.setdefault('subject', subject)
-        #kwargs.setdefault('sender', request.site.get('FROM_EMAIL', settings.DEFAULT_FROM_EMAIL))
-        kwargs.setdefault('sender', settings.DEFAULT_FROM_EMAIL)
-        kwargs.setdefault('txt_template', '%s/confirm/%s.txt' % (label, purpose))
-        kwargs.setdefault('html_template', '%s/confirm/%s.html' % (label, purpose))
-        kwargs.setdefault('lang', request.LANGUAGE_CODE)
-        kwargs.setdefault('gpg_opts', getattr(settings, 'GNUPG', None))
-
-        kwargs.setdefault('extra_context', {})
-        kwargs['extra_context'].update({
-            'username': node,
-            'domain': domain,
-            'jid': user.get_username(),
-            'uri': uri,
-        })
-        return super(Confirmation, self).send(**kwargs)
