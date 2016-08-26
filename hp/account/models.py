@@ -185,6 +185,7 @@ class User(XmppBackendUser, PermissionsMixin):
 class Confirmation(BaseModel):
     objects = ConfirmationManager.from_queryset(ConfirmationQuerySet)
 
+    # TODO: Mandatory fields (from, language) should be part of the model as well
     key = models.CharField(max_length=40, default=default_key)
     expires = models.DateTimeField(default=default_expires)
     purpose = models.CharField(null=True, blank=True, max_length=16)
