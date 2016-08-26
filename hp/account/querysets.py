@@ -36,7 +36,7 @@ class ConfirmationQuerySet(models.QuerySet):
     def valid(self, now=None):
         if now is None:
             now = timezone.now()
-        return self.filter(expires__ge=now)
+        return self.filter(expires__gte=now)
 
     def expired(self, now=None):
         if now is None:
