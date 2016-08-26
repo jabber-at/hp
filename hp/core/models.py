@@ -18,13 +18,13 @@ from django.core.urlresolvers import reverse
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
 
+from composite_field.l10n import LocalizedCharField
+from composite_field.l10n import LocalizedTextField
 from django_confirm.models import Confirmation as BaseConfirmation
 from mptt.models import MPTTModel
 from mptt.models import TreeForeignKey
 
 from .modelfields import LinkTarget
-from .modelfields import LocalizedCharField
-from .modelfields import LocalizedTextField
 
 
 class BaseModel(models.Model):

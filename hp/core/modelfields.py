@@ -13,36 +13,16 @@
 # You should have received a copy of the GNU General Public License along with django-xmpp-account.
 # If not, see <http://www.gnu.org/licenses/>.
 
-from django.conf import settings
 from django.contrib.admin.widgets import AdminTextareaWidget
 from django.contrib.contenttypes.models import ContentType
 from django.core.urlresolvers import reverse
 
 from jsonfield import JSONField
 
-from composite_field.l10n import LocalizedCharField as _LocalizedCharField
-from composite_field.l10n import LocalizedTextField as _LocalizedTextField
-
 from .constants import TARGET_MODEL
 from .constants import TARGET_NAMED_URL
 from .constants import TARGET_URL
 from .formfields import LinkTargetField
-
-LANGUAGES = [l[0] for l in getattr(settings, 'LANGUAGES', [])]
-
-
-class LocalizedCharField(_LocalizedCharField):
-    # see: https://bitbucket.org/bikeshedder/django-composite-field/pull-requests/6/map-returns-a-generator-in-py3-that-is/diff
-    def __init__(self, *args, **kwargs):
-        kwargs.setdefault('languages', LANGUAGES)
-        super(LocalizedCharField, self).__init__(*args, **kwargs)
-
-
-class LocalizedTextField(_LocalizedTextField):
-    # see: https://bitbucket.org/bikeshedder/django-composite-field/pull-requests/6/map-returns-a-generator-in-py3-that-is/diff
-    def __init__(self, *args, **kwargs):
-        kwargs.setdefault('languages', LANGUAGES)
-        super(LocalizedTextField, self).__init__(*args, **kwargs)
 
 
 class LinkTargetDict(dict):
