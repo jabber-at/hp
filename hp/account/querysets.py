@@ -18,6 +18,9 @@ from django.utils import timezone
 
 
 class ConfirmationQuerySet(models.QuerySet):
+    def purpose(self, purpose):
+        return self.filter(purpose=purpose)
+
     def valid(self, now=None):
         if now is None:
             now = timezone.now()
