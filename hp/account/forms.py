@@ -39,6 +39,7 @@ class GPGMixin(forms.Form):
         gpg_fingerprint = FingerprintField()
         gpg_key = KeyUploadField()
 
+    #TODO: request might be available as self.request or so, check constructor
     def get_gpg_data(self, request):
         """Get fingerprint and uploaded key, if any."""
 
