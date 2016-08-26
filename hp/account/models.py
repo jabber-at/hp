@@ -177,7 +177,6 @@ class User(XmppBackendUser, PermissionsMixin):
                     message = _('Updated GPG key 0x%s.') % fp
 
             self.log(address=address, message=message)
-        return GpgKey.objects.create(fingerprint=fp, key=key, expires=expires)
 
     def __str__(self):
         return self.username
