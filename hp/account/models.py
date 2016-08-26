@@ -206,9 +206,10 @@ class Confirmation(BaseModel):
             'expires': self.expires,
         }
 
-        subject = subject.render(context)
-        text = text_template.render(context)
-        html = html_template.render(context)
+        with translation.override(self.payload['language']):
+            subject = subject.render(context)
+            text = text_template.render(context)
+            html = html_template.render(context)
 
         frm = self.payload['from']
         to = self.payload['to']
