@@ -174,6 +174,7 @@ GNUPG = {
 }
 GPG_KEYSERVER = 'pool.sks-keyservers.net'
 
+# Default GPG backend configuration
 GPG_BACKENDS = {
     'default': {
         'BACKEND': 'gpgmime.gpgme.GpgMeBackend',
@@ -184,6 +185,9 @@ GPG_BACKENDS = {
         #'OPTIONS': {...},  # Any custom options for the specific backend implementation
     },
 }
+
+# Directory where public/private keys are stored for signing
+GPG_KEYDIR = os.path.join(ROOT_DIR, 'gnupg-keys')
 
 ###################
 # Celery settings #
@@ -212,6 +216,9 @@ if GNUPG is not None:
         logging.warn(
             'GnuPG disabled because GnuPG home not found. Generate key with manage.py genkey.')
 
+# Make sure GPG home directories exist
 for backend, config in GPG_BACKENDS.items():
-    if config.get('HOME') and  not os.path.exists(config['HOME']):
+    if config.get('HOME') and not os.path.exists(config['HOME']):
         os.makedirs(config['HOME'])
+if not os.path.exists(GPG_KEYDIR):
+    os.makedirs(GPG_KEYDIR)
