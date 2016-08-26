@@ -85,7 +85,7 @@ class RegisterUserView(CreateView):
             base_url=base_url, server=request.site['DOMAIN'])
 
         # Store GPG key if any
-        fp, key = form.get_gpg_data(request)
+        fp, key = form.get_gpg_data()
         if fp or key:
             gpg_task = add_gpg_key_task.si(
                 user_pk=user.pk, address=address, language=lang,

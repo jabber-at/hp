@@ -39,8 +39,7 @@ class GPGMixin(forms.Form):
         gpg_fingerprint = FingerprintField()
         gpg_key = KeyUploadField()
 
-    #TODO: request might be available as self.request or so, check constructor
-    def get_gpg_data(self, request):
+    def get_gpg_data(self):
         """Get fingerprint and uploaded key, if any."""
 
         if not getattr(settings, 'GPG_BACKENDS', {}):  # Shortcut
@@ -48,11 +47,11 @@ class GPGMixin(forms.Form):
 
         fp = self.cleaned_data.get('gpg_fingerprint') or None
         key = None
-        if 'gpg_key' in request.FILES:
+        if 'gpg_key' in self.files:
             # TODO: Django docs say we should read in chuncks to ensure that large files
             #       don't overwhelm our systems memory. But we need the data in memory anyway.
             #       We should probably enforce a maximum content-length elsewhere.
-            key = request.FILES['gpg_key'].read().decode('utf-8')
+            key = self.files['gpg_key'].read().decode('utf-8')
 
         return fp, key
 
