@@ -121,6 +121,13 @@ class SetPasswordForm(CaptchaFormMixin, forms.Form):
                 self.add_error('password2', self.password_error_messages['password_mismatch'])
 
 
+class SetEmailForm(GPGMixin, forms.Form):
+    email = BootstrapEmailField(
+        help_text=_('Required, an email will be sent to this address to confirm the change.')
+    )
+
+
+
 class RequestPasswordResetForm(CaptchaFormMixin, forms.Form):
     """Form used when a user forgot his password and forgot it."""
 
