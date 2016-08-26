@@ -33,6 +33,7 @@ from django.views.generic import View
 from django.views.generic.base import TemplateView
 from django.views.generic.edit import CreateView
 from django.views.generic.edit import FormView
+from django.utils import translation
 
 from celery import chain
 from django_xmpp_backends import backend
@@ -71,25 +72,27 @@ class RegisterUserView(CreateView):
             response = super(RegisterUserView, self).form_valid(form)
             user = self.object
 
-            # log user creation
-            user.log(address=address, message=_('Account created.'))
-
-            task = send_confirmation_task.si(
-                user_pk=user.pk, purpose=PURPOSE_REGISTER, language=lang,
-                server=request.site['DOMAIN'])
-
-            # Store GPG key if any
-            fp, key = form.get_gpg_data(request)
-            if fp or key:
-                gpg_task = add_gpg_key_task.si(
-                    user_pk=user.pk, address=address, language=lang,
-                    fingerprint=fp, key=key)
-                task = chain(gpg_task, task)
-            task.delay()
+            # log user creation, login
+            with translation.override(lang):
+                user.log(address=address, message=_('Account created.'))
 
             user.backend = settings.AUTHENTICATION_BACKENDS[0]
             login(self.request, user)
-            return response
+
+        task = send_confirmation_task.si(
+            user_pk=user.pk, purpose=PURPOSE_REGISTER, language=lang,
+            server=request.site['DOMAIN'])
+
+        # Store GPG key if any
+        fp, key = form.get_gpg_data(request)
+        if fp or key:
+            gpg_task = add_gpg_key_task.si(
+                user_pk=user.pk, address=address, language=lang,
+                fingerprint=fp, key=key)
+            task = chain(gpg_task, task)
+        task.delay()
+
+        return response
 
 
 class ConfirmRegistrationView(FormView):
