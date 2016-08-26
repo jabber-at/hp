@@ -20,6 +20,7 @@ from contextlib import contextmanager
 
 from django.conf import settings
 from django.contrib.auth.models import PermissionsMixin
+from django.core.mail import EmailMultiAlternatives
 from django.core.urlresolvers import reverse
 from django.db import models
 from django.template import Context
@@ -234,7 +235,7 @@ class Confirmation(BaseModel):
                 msg.attach_alternative(html, 'text/html')
                 msg.send()
         else:
-            msg = GpgEmailMessage(subject, text, frm, [self.to])
+            msg = EmailMultiAlternatives(subject, text, frm, [self.to])
             msg.attach_alternative(html, 'text/html')
             msg.send()
 
