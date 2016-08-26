@@ -117,6 +117,9 @@ class User(XmppBackendUser, PermissionsMixin):
     def log(self, address, message):
         self.log_entries.create(address=address, message=message)
 
+    def logs(self):
+        return self.log_entries.order_by('-created')
+
     @contextmanager
     def gpg_keyring(self, init=True, **kwargs):
         """Context manager that yields a temporary GPG keyring.
