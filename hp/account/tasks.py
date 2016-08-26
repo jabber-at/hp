@@ -22,10 +22,6 @@ from .models import Confirmation
 User = get_user_model()
 log = get_task_logger(__name__)
 
-# Delimiter to split uploaded key data with. A user might upload multiple keys.
-_gpg_key_delimiter = b"""-----END PGP PUBLIC KEY BLOCK-----
------BEGIN PGP PUBLIC KEY BLOCK-----"""
-
 
 @shared_task
 def add_gpg_key_task(user_pk, address, language, fingerprint=None, key=None):
@@ -57,7 +53,8 @@ def add_gpg_key_task(user_pk, address, language, fingerprint=None, key=None):
 
 
 @shared_task
-def send_confirmation_task(user_pk, purpose, language, server, **payload):
+def send_confirmation_task(user_pk, purpose, language, **payload):
     user = User.objects.get(pk=user_pk)
-    confirmation = Confirmation.init(user=user, purpose=purpose, **payload)
-    confirmation.send()
+    conf = Confirmation.objects.create(user=user, purpose=purpose, language=language,
+                                       payload=payload)
+    conf.send()

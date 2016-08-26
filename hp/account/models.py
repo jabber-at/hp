@@ -22,7 +22,7 @@ from django.conf import settings
 from django.contrib.auth.models import PermissionsMixin
 from django.db import models
 from django.template import Template
-from django.template.loaders.base.Loader import get_template
+from django.template import loader
 from django.utils import timezone
 from django.utils.crypto import get_random_string
 from django.utils.crypto import salted_hmac
@@ -42,7 +42,6 @@ from .constants import PURPOSE_RESET_PASSWORD
 from .constants import PURPOSE_SET_EMAIL
 from .constants import REGISTRATION_CHOICES
 from .constants import REGISTRATION_WEBSITE
-from .managers import ConfirmationManager
 from .managers import UserManager
 from .querysets import ConfirmationQuerySet
 from .querysets import GpgKeyQuerySet
@@ -183,13 +182,15 @@ class User(XmppBackendUser, PermissionsMixin):
 
 
 class Confirmation(BaseModel):
-    objects = ConfirmationManager.from_queryset(ConfirmationQuerySet)
+    objects = ConfirmationQuerySet.as_manager()
 
-    # TODO: Mandatory fields (from, language) should be part of the model as well
     key = models.CharField(max_length=40, default=default_key)
     expires = models.DateTimeField(default=default_expires)
     purpose = models.CharField(null=True, blank=True, max_length=16)
     payload = JSONField(default=default_payload)
+
+    # NOTE: Do not add choices here, or changing settings.LANGUAGES will trigger a migration
+    language = models.CharField(max_length=2)
 
     user = models.ForeignKey(settings.AUTH_USER_MODEL, related_name='confirmations')
 
@@ -198,21 +199,21 @@ class Confirmation(BaseModel):
     }
 
     def send(self):
-        subject = Template(self.SUBJECTS[self.payload])
-        text_template = get_template(self.payload['text_template'])
-        html_template = get_template(self.payload['html_template'])
+        subject = Template(self.SUBJECTS[self.purpose])
+        text_template = loader.get_template('account/confirm/%s/mail.txt' % self.purpose)
+        html_template = loader.get_template('account/confirm/%s/mail.html' % self.purpose)
 
         context = {
             'user': self.user,
             'expires': self.expires,
         }
 
-        with translation.override(self.payload['language']):
+        with translation.override(self.language):
             subject = subject.render(context)
             text = text_template.render(context)
             html = html_template.render(context)
 
-        frm = self.payload['from']
+        frm = settings.XMPP_BACKENDS[self.user.domain]['FROM_EMAIL']
         to = self.payload['to']
 
         msg = GpgEmailMessage(subject, text, frm, [to])
