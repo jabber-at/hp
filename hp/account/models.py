@@ -27,6 +27,7 @@ from django.utils import timezone
 from django.utils.crypto import get_random_string
 from django.utils.crypto import salted_hmac
 from django.utils.translation import ugettext_lazy as _
+from django.utils import translation
 
 from django_xmpp_backends.models import XmppBackendUser
 from jsonfield import JSONField
@@ -161,8 +162,9 @@ class User(XmppBackendUser, PermissionsMixin):
                         self.log(_('Error importing GPG key.'))
                     raise
 
-
         for key, fp, expires in imported:
+            expires = timezone.make_aware(expires)
+
             # Create or update the GPG key
             dbkey, created = GpgKey.objects.update_or_create(
                 user=self, fingerprint=fp, defaults={'key': key, 'expires': expires, })
@@ -220,6 +222,7 @@ class UserLogEntry(BaseModel):
     """A model that logs user activity, e.g. a change of password or GPG key."""
 
     user = models.ForeignKey(settings.AUTH_USER_MODEL, related_name='log_entries')
+    # TODO: Address should be nullable in case admin does something in the admin interface
     address = models.GenericIPAddressField()
     message = models.TextField()
 
@@ -245,6 +248,7 @@ class GpgKey(BaseModel):
     # TODO: add revoked flag
 
     class Meta:
+        # TODO: user and fingerprint should be unique_together
         verbose_name = 'GPG key'
         verbose_name_plural = 'GPG keys'
 

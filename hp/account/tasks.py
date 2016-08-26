@@ -13,20 +13,11 @@
 # You should have received a copy of the GNU General Public License along with django-xmpp-account.
 # If not, see <http://www.gnu.org/licenses/>.
 
-import shutil
-import tempfile
-
 from celery import shared_task
 from celery.utils.log import get_task_logger
 from django.contrib.auth import get_user_model
-from django.utils import timezone
-from django.utils import translation
-from django.utils.translation import ugettext as _
-from gpgmime.django import gpg_backend
 
 from .models import Confirmation
-from .models import GpgKey
-from .models import UserLogEntry
 
 User = get_user_model()
 log = get_task_logger(__name__)
@@ -62,38 +53,7 @@ def add_gpg_key_task(user_pk, address, language, fingerprint=None, key=None):
         return
 
     user = User.objects.get(pk=user_pk)
-
-    if fingerprint:
-        keys = gpg_backend.fetch_key('0x%s' % fingerprint)  # fetch key from keyserver
-    else:
-        keys = key.encode('utf-8')  # convert to bytes
-
-    # Create a temporary gpg home directory to import keys.
-    home = tempfile.mkdtemp()
-    try:
-        with gpg_backend.settings(home=home) as backend:
-            for key in keys.split(_gpg_key_delimiter):
-                fpr = backend.import_key(key)[0]
-                log.info('%s: Add/update GPG key %s.', user.username, fpr)
-
-                expires = backend.expires(fpr)
-                if expires is not None:
-                    expires = timezone.make_aware(expires)
-
-                # Create or update the GPG key
-                dbkey, created = GpgKey.objects.update_or_create(
-                    user=user, fingerprint=fpr, defaults={
-                        'key': key, 'fingerprint': fpr, 'expires': expires, })
-
-                with translation.override(language):
-                    if created is True:
-                        message = _('Added GPG key 0x%s.') % fpr
-                    else:
-                        message = _('Updated GPG key 0x%s.') % fpr
-
-                UserLogEntry.objects.create(user=user, address=address, message=message)
-    finally:
-        shutil.rmtree(home)
+    user.add_gpg_key(keys=key, fingerprint=fingerprint, language=language, address=address)
 
 
 @shared_task
