@@ -19,4 +19,18 @@
     </tr>
 </table>
 
+<h2>{% trans "Recent activity" %}</h2>
+<table class="table table-bordered">
+    <tr>
+        <th>{% trans "IP" %}</th>
+        <th>{% trans "Action" %}</th>
+    </tr>
+{% for entry in object.log_entries.all %}
+    <tr>
+        <td>{{ entry.address }}</td>
+        <td>{{ entry.message }}</tr>
+    </tr>
+{% endfor %}
+</table>
+
 {% endblock content %}
