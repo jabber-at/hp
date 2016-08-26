@@ -212,7 +212,7 @@ class Confirmation(BaseModel):
     }
 
     def send(self):
-        server = settings.XMPP_SERVERS[self.payload['server']]
+        server = settings.XMPP_HOSTS[self.payload['server']]
         path = reverse('account:%s_confirm' % self.purpose, kwargs={'key': self.key})
 
         context = {
@@ -231,7 +231,7 @@ class Confirmation(BaseModel):
             text = render_to_string('account/confirm/%s.txt' % self.purpose, context)
             html = render_to_string('account/confirm/%s.html' % self.purpose, context)
 
-        frm = server['FROM_EMAIL']
+        frm = server['DEFAULT_FROM_EMAIL']
 
         keys = list(self.user.gpg_keys.valid().values_list('fingerprint', flat=True))
 
