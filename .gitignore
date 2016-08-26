@@ -4,6 +4,7 @@
 /bin/
 /build/
 /fab.conf
+/gnupg-keys/
 /gnupg/
 /hp/.gpg/
 /hp/db.sqlite3
