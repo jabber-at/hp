@@ -20,14 +20,16 @@ from contextlib import contextmanager
 
 from django.conf import settings
 from django.contrib.auth.models import PermissionsMixin
+from django.core.urlresolvers import reverse
 from django.db import models
+from django.template import Context
 from django.template import Template
-from django.template import loader
+from django.template.loader import render_to_string
 from django.utils import timezone
+from django.utils import translation
 from django.utils.crypto import get_random_string
 from django.utils.crypto import salted_hmac
 from django.utils.translation import ugettext_lazy as _
-from django.utils import translation
 
 from django_xmpp_backends.models import XmppBackendUser
 from jsonfield import JSONField
@@ -199,21 +201,27 @@ class Confirmation(BaseModel):
     }
 
     def send(self):
-        subject = Template(self.SUBJECTS[self.purpose])
-        text_template = loader.get_template('account/confirm/%s/mail.txt' % self.purpose)
-        html_template = loader.get_template('account/confirm/%s/mail.html' % self.purpose)
+        server = settings.XMPP_SERVERS[self.user.domain]
+        path = reverse('account:%s_confirm' % self.purpose, kwargs={'key': self.key})
 
         context = {
-            'user': self.user,
+            'domain': self.user.domain,
             'expires': self.expires,
+            'jid': self.user.get_username(),
+            'node': self.user.node,
+            'user': self.user,
+            'uri': 'https://%s%s' % (server['CANONICAL_HOST'], path),
         }
 
-        with translation.override(self.language):
-            subject = subject.render(context)
-            text = text_template.render(context)
-            html = html_template.render(context)
 
-        frm = settings.XMPP_BACKENDS[self.user.domain]['FROM_EMAIL']
+        with translation.override(self.language):
+            subject = Template(self.SUBJECTS[self.purpose]).render(Context(context))
+
+            context['subject'] = subject
+            text = render_to_string('account/confirm/%s.txt' % self.purpose, context)
+            html = render_to_string('account/confirm/%s.html' % self.purpose, context)
+
+        frm = server['FROM_EMAIL']
         to = self.payload['to']
 
         msg = GpgEmailMessage(subject, text, frm, [to])
