@@ -44,7 +44,6 @@ from .forms import LoginForm
 from .forms import RequestPasswordResetForm
 from .forms import SetPasswordForm
 from .models import Confirmation
-from .models import UserLogEntry
 from .tasks import add_gpg_key_task
 from .tasks import send_confirmation_task
 
@@ -64,15 +63,16 @@ class RegisterUserView(CreateView):
         return super(RegisterUserView, self).dispatch(request, *args, **kwargs)
 
     def form_valid(self, form):
+        request = self.request
+        address = request.META['REMOTE_ADDR']
+        lang = request.LANGUAGE_CODE
+
         with transaction.atomic():
             response = super(RegisterUserView, self).form_valid(form)
             user = self.object
-            request = self.request
-            address = request.get_host()
-            lang = request.LANGUAGE_CODE
 
             # log user creation
-            UserLogEntry.objects.create(user=user, address=address, message=_('Account created.'))
+            user.log(address=address, message=_('Account created.'))
 
             task = send_confirmation_task.si(
                 user_pk=user.pk, purpose=PURPOSE_REGISTER, language=lang,
