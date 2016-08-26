@@ -17,6 +17,13 @@ from django.db import models
 from django.utils import timezone
 
 
+class GpgKeyQuerySet(models.QuerySet):
+    def valid(self, now=None):
+        if now is None:
+            now = timezone.now()
+        return self.filter(expires__ge=now)
+
+
 class ConfirmationQuerySet(models.QuerySet):
     def purpose(self, purpose):
         return self.filter(purpose=purpose)

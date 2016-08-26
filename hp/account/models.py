@@ -35,15 +35,16 @@ from gpgmime.django import GpgEmailMessage
 
 from core.models import BaseModel
 
+from .constants import PURPOSE_DELETE
+from .constants import PURPOSE_REGISTER
+from .constants import PURPOSE_RESET_PASSWORD
+from .constants import PURPOSE_SET_EMAIL
 from .constants import REGISTRATION_CHOICES
 from .constants import REGISTRATION_WEBSITE
-from .constants import PURPOSE_REGISTER
-from .constants import PURPOSE_SET_EMAIL
-from .constants import PURPOSE_RESET_PASSWORD
-from .constants import PURPOSE_DELETE
-from .managers import UserManager
 from .managers import ConfirmationManager
+from .managers import UserManager
 from .querysets import ConfirmationQuerySet
+from .querysets import GpgKeyQuerySet
 
 
 PURPOSES = {
@@ -229,12 +230,15 @@ class UserLogEntry(BaseModel):
 class GpgKey(BaseModel):
     """A GPG key."""
 
+    objects = GpgKeyQuerySet.as_manager()
+
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, related_name='gpg_keys')
+
     # NOTE: the fingerprint is *not* unique, because a key might be used for multiple accounts
     fingerprint = models.CharField(max_length=40)
     key = models.TextField()
     expires = models.DateTimeField(null=True, blank=True)
-
-    user = models.ForeignKey(settings.AUTH_USER_MODEL, related_name='gpg_keys')
+    # TODO: add revoked flag
 
     class Meta:
         verbose_name = 'GPG key'
