@@ -21,7 +21,12 @@ class GpgKeyQuerySet(models.QuerySet):
     def valid(self, now=None):
         if now is None:
             now = timezone.now()
-        return self.filter(expires__ge=now)
+        return self.filter(expires__gte=now)
+
+    def invalid(self, now=None):
+        if now is None:
+            now = timezone.now()
+        return self.filter(expires__lt=now)
 
 
 class ConfirmationQuerySet(models.QuerySet):
