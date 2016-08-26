@@ -34,6 +34,7 @@ from django.views.generic.base import TemplateView
 from django.views.generic.edit import CreateView
 from django.views.generic.edit import FormView
 
+from celery import chain
 from django_xmpp_backends import backend
 
 from .constants import PURPOSE_REGISTER
@@ -44,7 +45,8 @@ from .forms import RequestPasswordResetForm
 from .forms import SetPasswordForm
 from .models import Confirmation
 from .models import UserLogEntry
-from .tasks import add_gpg_key
+from .tasks import add_gpg_key_task
+from .tasks import send_confirmation_task
 
 User = get_user_model()
 log = logging.getLogger(__name__)
@@ -64,28 +66,29 @@ class RegisterUserView(CreateView):
     def form_valid(self, form):
         with transaction.atomic():
             response = super(RegisterUserView, self).form_valid(form)
-            self.object.backend = settings.AUTHENTICATION_BACKENDS[0]
-
-            address = self.request.get_host()
+            user = self.object
+            request = self.request
+            address = request.get_host()
+            lang = request.LANGUAGE_CODE
 
             # log user creation
-            UserLogEntry.objects.create(user=self.object, address=address,
-                                        message=_('Account created.'))
+            UserLogEntry.objects.create(user=user, address=address, message=_('Account created.'))
+
+            task = send_confirmation_task.si(
+                user_pk=user.pk, purpose=PURPOSE_REGISTER, language=lang,
+                server=request.site['DOMAIN'])
 
             # Store GPG key if any
-            fp, key = form.get_gpg_data(self.request)
-            add_gpg_key.delay(
-                user_pk=self.object.pk, address=address, language=self.request.LANGUAGE_CODE,
-                fingerprint=fp, key=key)
+            fp, key = form.get_gpg_data(request)
+            if fp or key:
+                gpg_task = add_gpg_key_task.si(
+                    user_pk=user.pk, address=address, language=lang,
+                    fingerprint=fp, key=key)
+                task = chain(gpg_task, task)
+            task.delay()
 
-#            confirmation = UserConfirmation.objects.create(user=self.object)
-#            kwargs = {
-#                'recipient': self.object.email,
-#            }
-#            kwargs.update(form.gpg_options(self.request))
-#            confirmation.send(self.request, self.object, PURPOSE_REGISTER, **kwargs)
-
-            login(self.request, self.object)
+            user.backend = settings.AUTHENTICATION_BACKENDS[0]
+            login(self.request, user)
             return response
 
 
