@@ -1,0 +1,21 @@
+{% extends "account/form-base.html" %}
+{% load i18n %}
+
+{% block form %}
+<h1>Reset password</h1>
+
+{% if form.is_valid %}
+Valid!
+{% else %}
+<form enctype="multipart/form-data" class="form-horizontal" action="" method="post">{% csrf_token %}
+{{ form.email.formgroup }}
+{{ form.captcha.formgroup }}
+
+<div class="form-group">
+    <div class="col-sm-offset-2 col-sm-10">
+        <button type="submit" class="btn btn-default">Submit</button>
+    </div>
+</div>
+</form>
+{% endif %}
+{% endblock form %}

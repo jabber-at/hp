@@ -27,6 +27,8 @@ urlpatterns = [
     url(r'password/reset/$', views.RequestPasswordResetView.as_view(), name='reset_password'),
     url(r'password/reset/(?P<key>\w+)/$', views.ResetPasswordView.as_view(),
         name='reset_password_confirm'),
+    url(r'email/$', views.SetEmailView.as_view(), name='set_email'),
+    url(r'email/(?P<key>\w+)/$', views.ConfirmSetEmailView.as_view(), name='set_email_confirm'),
     url(r'logout/$', auth_views.logout, name='logout'),
     url(r'api/check-user/$', views.UserAvailableView.as_view(), name='api-check-user'),
     url(r'$', views.UserView.as_view(), name='detail'),

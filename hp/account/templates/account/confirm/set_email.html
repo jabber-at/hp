@@ -1,0 +1,14 @@
+{% load i18n %}<!DOCTYPE HTML>
+<html>
+<head><title>{{ subject }}</title></head>
+<body>
+<p>{% blocktrans %}Dear {{ jid }},{% endblocktrans %}</p>
+
+<p>{% blocktrans %}You have changed the email address for your Jabber account {{ jid }}.
+To complete the change, please <a href="{{ uri }}">click here</a>.{% endblocktrans %}</p>
+
+<p>{% trans "If you haven't made this change, simply disregard this email." %}</p>
+
+<p>{% trans "greetings," %}<br />
+<p style="padding-left: 4em;">{{ user.domain }}</p>
+</body></html>

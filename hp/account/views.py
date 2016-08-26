@@ -25,24 +25,28 @@ from django.core.urlresolvers import reverse_lazy
 from django.db import transaction
 from django.http import HttpResponse
 from django.http import HttpResponseRedirect
+from django.shortcuts import get_object_or_404
 from django.shortcuts import resolve_url
 from django.utils import timezone
+from django.utils import translation
 from django.utils.http import is_safe_url
 from django.utils.translation import ugettext as _
 from django.views.generic import View
+from django.views.generic.base import RedirectView
 from django.views.generic.base import TemplateView
 from django.views.generic.edit import CreateView
 from django.views.generic.edit import FormView
-from django.utils import translation
 
 from celery import chain
 from django_xmpp_backends import backend
 
 from .constants import PURPOSE_REGISTER
 from .constants import PURPOSE_RESET_PASSWORD
+from .constants import PURPOSE_SET_EMAIL
 from .forms import CreateUserForm
 from .forms import LoginForm
 from .forms import RequestPasswordResetForm
+from .forms import SetEmailForm
 from .forms import SetPasswordForm
 from .models import Confirmation
 from .tasks import add_gpg_key_task
@@ -141,7 +145,6 @@ class LoginView(FormView):
             return HttpResponseRedirect(reverse('account:detail'))
         return super(LoginView, self).dispatch(request, *args, **kwargs)
 
-
     def form_valid(self, form):
         redirect_to = self.request.POST.get(self.REDIRECT_FIELD_NAME, '')
 
@@ -201,6 +204,48 @@ class ResetPasswordView(FormView):
             login(self.request, key.user)
             key.delete()
         return super(ResetPasswordView, self).form_valid(form)
+
+
+class SetEmailView(FormView):
+    template_name = 'account/user_set_email.html'
+    form_class = SetEmailForm
+
+    def form_valid(self, form):
+        request = self.request
+        user = request.user
+
+        lang = request.LANGUAGE_CODE
+        base_url = '%s://%s' % (request.scheme, request.get_host())
+        to = form.cleaned_data['email']
+
+        user.log(_('Requested password reset.'), request.META['REMOTE_ADDR'])
+
+        send_confirmation_task.delay(
+            user_pk=user.pk, purpose=PURPOSE_SET_EMAIL, language=lang, to=to,
+            base_url=base_url, server=request.site['DOMAIN'])
+
+        return HttpResponseRedirect(reverse('account:detail'))
+
+
+class ConfirmSetEmailView(RedirectView):
+    pattern_name = 'account:detail'  # where to redirect to
+    queryset = Confirmation.objects.valid().purpose(PURPOSE_SET_EMAIL)
+
+    def get_redirect_url(self, *args, **kwargs):
+        user = self.request.user
+        qs = self.queryset.filter(user=user)
+        key = get_object_or_404(qs, key=kwargs['key'])
+
+        user.email = key.to
+        user.confirmed = timezone.now()
+
+        with transaction.atomic():
+            user.save()
+            key.delete()
+            user.log(_('Changed email address to %s.') % key.to, self.request.META['REMOTE_ADDR'])
+
+            return super(ConfirmSetEmailView, self).get_redirect_url()
+
 
 class UserView(LoginRequiredMixin, TemplateView):
     template_name = 'account/user_detail.html'
