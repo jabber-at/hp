@@ -115,6 +115,7 @@ class User(XmppBackendUser, PermissionsMixin):
         return self.is_superuser
 
     def log(self, address, message):
+        #TODO: invert order, address should be optional
         self.log_entries.create(address=address, message=message)
 
     def logs(self):
@@ -261,8 +262,7 @@ class UserLogEntry(BaseModel):
     """A model that logs user activity, e.g. a change of password or GPG key."""
 
     user = models.ForeignKey(settings.AUTH_USER_MODEL, related_name='log_entries')
-    # TODO: Address should be nullable in case admin does something in the admin interface
-    address = models.GenericIPAddressField()
+    address = models.GenericIPAddressField(null=True)
     message = models.TextField()
 
     class Meta:
@@ -284,10 +284,10 @@ class GpgKey(BaseModel):
     fingerprint = models.CharField(max_length=40)
     key = models.TextField()
     expires = models.DateTimeField(null=True, blank=True)
-    # TODO: add revoked flag
+    revoked = models.BooleanField(default=False)
 
     class Meta:
-        # TODO: user and fingerprint should be unique_together
+        unique_together = ('user', 'fingerprint')
         verbose_name = 'GPG key'
         verbose_name_plural = 'GPG keys'
 
