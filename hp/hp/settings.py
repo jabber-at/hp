@@ -165,12 +165,6 @@ USER_CONFIRMATION_TIMEOUT = timedelta(hours=48)
 ################
 # GPG settings #
 ################
-GPG = None
-GNUPG = {
-    'gnupghome': os.path.join(BASE_DIR, '.gpg'),
-    'gpgbinary': '/usr/bin/gpg',
-    'options': ['--lock-multiple'],
-}
 GPG_KEYSERVER = 'pool.sks-keyservers.net'
 
 # Default GPG backend configuration
@@ -207,13 +201,6 @@ try:
     from .localsettings import *
 except ImportError:
     pass
-
-if GNUPG is not None:
-    if os.path.exists(GNUPG['gnupghome']):
-        GPG = gnupg.GPG(**GNUPG)
-    else:
-        logging.warn(
-            'GnuPG disabled because GnuPG home not found. Generate key with manage.py genkey.')
 
 # Make sure GPG home directories exist
 for backend, config in GPG_BACKENDS.items():

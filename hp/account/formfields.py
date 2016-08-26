@@ -17,7 +17,6 @@ import re
 
 from django import forms
 from django.conf import settings
-from django.core.cache import cache
 from django.core.validators import RegexValidator
 from django.utils.html import format_html
 from django.utils.translation import ugettext_lazy as _
@@ -119,14 +118,10 @@ class FingerprintField(BootstrapCharField):
                                             _('Fingerprint should be 40 characters long.'))
         kwargs['error_messages'].setdefault('invalid-chars',
                                             _('Fingerprint contains invalid characters.'))
-        kwargs['error_messages'].setdefault('multiple-keys',
-                                            _('Multiple keys with that fingerprint found.'))
-        kwargs['error_messages'].setdefault('key-not-found',
-                                            _('No key with that fingerprint found.'))
         super(FingerprintField, self).__init__(**kwargs)
 
     def clean(self, value):
-        if not getattr(settings, 'GPG'):  # check, just to be sure
+        if not getattr(settings, 'GPG_BACKENDS', {}):  # check, just to be sure
             raise forms.ValidationError(self.error_messages['not-enabled'])
 
         fp = super(FingerprintField, self).clean(value).strip().replace(' ', '').upper()
@@ -136,19 +131,6 @@ class FingerprintField(BootstrapCharField):
             raise forms.ValidationError(self.error_messages['invalid-length'])
         if re.search('[^A-F0-9]', fp) is not None:
             raise forms.ValidationError(self.error_messages['invalid-chars'])
-
-        # Actually search for the key, but cache searches to avoid (lengthy) checks on multiple
-        # form resubmissions.
-        cache_key = 'gpg_searched_key_%s' % fp
-        keys = cache.get(cache_key)
-        if keys is None:
-            keys = settings.GPG.search_keys(fp, settings.GPG_KEYSERVER)
-            cache.set(cache_key, keys)
-
-        if len(keys) > 1:
-            raise forms.ValidationError(self.error_messages['multple-keys'])
-        elif len(keys) < 1:
-            raise forms.ValidationError(self.error_messages['key-not-found'])
 
         return fp
 
@@ -165,13 +147,10 @@ class KeyUploadField(BootstrapFileField):
         kwargs['error_messages'].setdefault('not-enabled', _('GPG not enabled.'))
         kwargs['error_messages'].setdefault(
             'invalid-filetype', _('Only plain-text files are allowed (was: %(content-type)s)!'))
-        kwargs['error_messages'].setdefault('import-failed', _('Could not import public key.'))
-        kwargs['error_messages'].setdefault('multiple-keys', _('File contains multiple keys.'))
-        kwargs['error_messages'].setdefault('no-keys', _('File contains no keys.'))
         super(KeyUploadField, self).__init__(**kwargs)
 
     def clean(self, value, initial):
-        if not getattr(settings, 'GPG'):  # check, just to be sure
+        if not getattr(settings, 'GPG_BACKENDS', {}):  # check, just to be sure
             raise forms.ValidationError(self.error_messages['not-enabled'])
 
         gpg_key = super(KeyUploadField, self).clean(value)
