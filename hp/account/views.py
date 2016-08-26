@@ -106,14 +106,13 @@ class ConfirmRegistrationView(FormView):
     success_url = reverse_lazy('account:detail')
 
     def form_valid(self, form):
-        remote = self.request.META['REMOTE_ADDR']
         with transaction.atomic():
             key = self.queryset.get(key=self.kwargs['key'])
             key.user.confirmed = timezone.now()
             key.user.save()
-            key.user.log(remote, _('Email %(email)s address confirmed.') % {
+            key.user.log(_('Email %(email)s address confirmed.') % {
                 'email': key.user.email
-            })
+            }, self.request.META['REMOTE_ADDR'])
 
             if key.user.is_authenticated() is False:
                 key.user.backend = settings.AUTHENTICATION_BACKENDS[0]
@@ -174,11 +173,10 @@ class RequestPasswordResetView(FormView):
             return self.form_invalid(form)
 
         request = self.request
-        remote = request.META['REMOTE_ADDR']
         lang = request.LANGUAGE_CODE
         base_url = '%s://%s' % (request.scheme, request.get_host())
 
-        user.log(remote, _('Requested password reset.'))
+        user.log(_('Requested password reset.'), request.META['REMOTE_ADDR'])
         send_confirmation_task.delay(
             user_pk=user.pk, purpose=PURPOSE_RESET_PASSWORD, language=lang, to=user.email,
             base_url=base_url, server=request.site['DOMAIN'])
@@ -193,13 +191,11 @@ class ResetPasswordView(FormView):
     queryset = Confirmation.objects.select_related('user')
 
     def form_valid(self, form):
-        remote = self.request.META['REMOTE_ADDR']
-
         with transaction.atomic():
             key = self.queryset.get(key=self.kwargs['key'])
             backend.set_password(username=key.user.node, domain=key.user.domain,
                                  password=form.cleaned_data['password'])
-            key.user.log(remote, _('Set new password.'))
+            key.user.log(_('Set new password.'), self.request.META['REMOTE_ADDR'])
 
             key.user.backend = settings.AUTHENTICATION_BACKENDS[0]
             login(self.request, key.user)

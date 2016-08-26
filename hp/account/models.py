@@ -114,9 +114,8 @@ class User(XmppBackendUser, PermissionsMixin):
     def is_staff(self):
         return self.is_superuser
 
-    def log(self, address, message):
-        #TODO: invert order, address should be optional
-        self.log_entries.create(address=address, message=message)
+    def log(self, message, address=None):
+        self.log_entries.create(message=message, address=address)
 
     def logs(self):
         return self.log_entries.order_by('-created')
@@ -168,7 +167,7 @@ class User(XmppBackendUser, PermissionsMixin):
                     imported.append((key, fp, expires))
                 except Exception:
                     with translation.override(language):
-                        self.log(_('Error importing GPG key.'))
+                        self.log(_('Error importing GPG key.'), address=address)
                     raise
 
         for key, fp, expires in imported:
