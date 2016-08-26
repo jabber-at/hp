@@ -9,7 +9,7 @@ django-simple-captcha==0.5.2
 django-tinymce==2.3.0
 django-xmpp-backends==0.1
 hiredis==0.2.0
-jsonfield==1.0.3
+django-jsonfield==1.0.1
 pip>=8.1.2
 pygpgme==0.3
 python-gnupg==0.3.8
