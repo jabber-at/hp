@@ -67,7 +67,7 @@ class GPGMixin(forms.Form):
             # Form was not submitted or GPG is not configured
             return False
 
-        if self.data['gpg_fingerprint'] or self.data['gpg_key']:
+        if self.data['gpg_fingerprint'] or self.files['gpg_key']:
             return True
         return False
 

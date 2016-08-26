@@ -97,16 +97,23 @@ class RegisterUserView(CreateView):
 
 
 class ConfirmRegistrationView(FormView):
+    """View for confirming a registration e-mail."""
+
     template_name = 'account/user_register_confirm.html'
-    queryset = Confirmation.objects.select_related('user')
+    queryset = Confirmation.objects.valid().purpose(
+        PURPOSE_REGISTER).select_related('user')
     form_class = SetPasswordForm
     success_url = reverse_lazy('account:detail')
 
     def form_valid(self, form):
+        remote = self.request.META['REMOTE_ADDR']
         with transaction.atomic():
             key = self.queryset.get(key=self.kwargs['key'])
             key.user.confirmed = timezone.now()
             key.user.save()
+            key.user.log(remote, _('Email %(email)s address confirmed.') % {
+                'email': key.user.email
+            })
 
             if key.user.is_authenticated() is False:
                 key.user.backend = settings.AUTHENTICATION_BACKENDS[0]
