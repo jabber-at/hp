@@ -186,6 +186,10 @@ class User(XmppBackendUser, PermissionsMixin):
 class Confirmation(BaseModel):
     objects = ConfirmationQuerySet.as_manager()
 
+    # NOTE: This is *not* necessarily the same as the email address of the user (a new address
+    #       might have been added).
+    to = models.EmailField(null=True, blank=True, verbose_name=_('Recipient'))
+
     key = models.CharField(max_length=40, default=default_key)
     expires = models.DateTimeField(default=default_expires)
     purpose = models.CharField(null=True, blank=True, max_length=16)
@@ -221,9 +225,8 @@ class Confirmation(BaseModel):
             html = render_to_string('account/confirm/%s.html' % self.purpose, context)
 
         frm = server['FROM_EMAIL']
-        to = self.payload['to']
 
-        msg = GpgEmailMessage(subject, text, frm, [to])
+        msg = GpgEmailMessage(subject, text, frm, [self.to])
         msg.attach_alternative(html, 'text/html')
         msg.send()
 

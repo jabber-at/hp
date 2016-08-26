@@ -81,7 +81,7 @@ class RegisterUserView(CreateView):
             login(self.request, user)
 
         task = send_confirmation_task.si(
-            user_pk=user.pk, purpose=PURPOSE_REGISTER, language=lang,
+            user_pk=user.pk, purpose=PURPOSE_REGISTER, language=lang, to=user.email,
             base_url=base_url, server=request.site['DOMAIN'])
 
         # Store GPG key if any

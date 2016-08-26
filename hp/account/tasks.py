@@ -53,8 +53,8 @@ def add_gpg_key_task(user_pk, address, language, fingerprint=None, key=None):
 
 
 @shared_task
-def send_confirmation_task(user_pk, purpose, language, **payload):
+def send_confirmation_task(user_pk, to, purpose, language, **payload):
     user = User.objects.get(pk=user_pk)
-    conf = Confirmation.objects.create(user=user, purpose=purpose, language=language,
+    conf = Confirmation.objects.create(user=user, purpose=purpose, language=language, to=to,
                                        payload=payload)
     conf.send()
