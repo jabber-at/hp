@@ -15,5 +15,4 @@ pygpgme==0.3
 python-gnupg==0.3.8
 setuptools>=26.0.0
 # not yet released
-git+https://github.com/mathiasertl/django-confirm.git
 git+https://github.com/mathiasertl/gpg-mime.git

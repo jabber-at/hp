@@ -49,7 +49,6 @@ INSTALLED_APPS = [
     'captcha',
     'mptt',  # Tree structure for MenuItem
     'tinymce',  # Rich text editor
-    'django_confirm',  # Email confirmations
 
     'core',
     'bootstrap',  # bootstrap enhancements
