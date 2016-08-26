@@ -13,6 +13,7 @@
 # You should have received a copy of the GNU General Public License along with django-xmpp-account.
 # If not, see <http://www.gnu.org/licenses/>.
 
+import os
 import shutil
 import tempfile
 
@@ -73,8 +74,10 @@ def default_key():
     value = get_random_string(64)
     return salted_hmac(salt, value).hexdigest()
 
+
 def default_expires():
     return timezone.now() + settings.USER_CONFIRMATION_TIMEOUT
+
 
 def default_payload():
     return {}
@@ -229,9 +232,19 @@ class Confirmation(BaseModel):
         keys = list(self.user.gpg_keys.valid().values_list('fingerprint', flat=True))
 
         if keys:
+            sign_fp = server.get('GPG_KEY')
+
+            if sign_fp:
+                sign_key = os.path.join(settings.GPG_KEYDIR, '%s.key' % sign_fp)
+                with open(sign_key, 'rb') as stream:
+                    sign_key = stream.read()
+
             with self.user.gpg_keyring(default_trust=True) as backend:
+                if sign_fp:
+                    backend.import_private_key(sign_key)
+
                 msg = GpgEmailMessage(subject, text, frm, [self.to],
-                                      gpg_backend=backend, gpg_recipients=keys)
+                                      gpg_backend=backend, gpg_recipients=keys, gpg_signer=sign_fp)
                 msg.attach_alternative(html, 'text/html')
                 msg.send()
         else:
