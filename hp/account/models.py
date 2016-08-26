@@ -19,6 +19,8 @@ import tempfile
 from django.conf import settings
 from django.contrib.auth.models import PermissionsMixin
 from django.db import models
+from django.template import Template
+from django.template.loaders.base.Loader import get_template
 from django.utils import timezone
 from django.utils.crypto import get_random_string
 from django.utils.crypto import salted_hmac
@@ -27,6 +29,7 @@ from django.utils.translation import ugettext_lazy as _
 from django_xmpp_backends.models import XmppBackendUser
 from jsonfield import JSONField
 from gpgmime.django import gpg_backend
+from gpgmime.django import GpgEmailMessage
 
 from core.models import BaseModel
 
@@ -157,24 +160,25 @@ class Confirmation(BaseModel):
     }
 
     def send(self):
-        text_template = Template(self.payload['text_template'])
-        html_template = Template(self.payload['html_template'])
-        subject = self.SUBJECTS[self.payload]
+        subject = Template(self.SUBJECTS[self.payload])
+        text_template = get_template(self.payload['text_template'])
+        html_template = get_template(self.payload['html_template'])
 
         context = {
             'user': self.user,
             'expires': self.expires,
         }
 
+        subject = subject.render(context)
         text = text_template.render(context)
         html = html_template.render(context)
 
-        self.purpose = purpose
-        node, domain = user.get_username().split('@', 1)
-        subject = PURPOSES[purpose]['subject'] % {
-            'domain': domain,
-        }
-        return super(Confirmation, self).send(request, user, purpose, subject, **kwargs)
+        frm = self.payload['from']
+        to = self.payload['to']
+
+        msg = GpgEmailMessage(subject, text, frm, [to])
+        msg.attach_alternative(html, 'text/html')
+        msg.send()
 
 
 class UserLogEntry(BaseModel):
