@@ -28,6 +28,6 @@ REGISTRATION_CHOICES = (
 )
 
 PURPOSE_REGISTER = 'register'
-PURPOSE_SET_EMAIL = 'email'
+PURPOSE_SET_EMAIL = 'set_email'
 PURPOSE_RESET_PASSWORD = 'reset_password'
 PURPOSE_DELETE = 'delete'
