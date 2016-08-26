@@ -24,6 +24,7 @@ from django.utils import translation
 from django.utils.translation import ugettext as _
 from gpgmime.django import gpg_backend
 
+from .models import Confirmation
 from .models import GpgKey
 from .models import UserLogEntry
 
@@ -36,7 +37,7 @@ _gpg_key_delimiter = b"""-----END PGP PUBLIC KEY BLOCK-----
 
 
 @shared_task
-def add_gpg_key(user_pk, address, language, fingerprint=None, key=None):
+def add_gpg_key_task(user_pk, address, language, fingerprint=None, key=None):
     """Task to add or update a submitted GPG key.
 
     You need to pass either the fingerprint or the raw key. If neither is passed, the task will
@@ -93,3 +94,10 @@ def add_gpg_key(user_pk, address, language, fingerprint=None, key=None):
                 UserLogEntry.objects.create(user=user, address=address, message=message)
     finally:
         shutil.rmtree(home)
+
+
+@shared_task
+def send_confirmation_task(user_pk, purpose, language, server, **payload):
+    user = User.objects.get(pk=user_pk)
+    confirmation = Confirmation.init(user=user, purpose=purpose, **payload)
+    confirmation.send()
