@@ -114,7 +114,7 @@ class User(XmppBackendUser, PermissionsMixin):
         self.log_entries.create(address=address, message=message)
 
     @contextmanager
-    def gpg_keyring(self, init=True):
+    def gpg_keyring(self, init=True, **kwargs):
         """Context manager that yields a temporary GPG keyring.
 
         To avoid any locking issues and to isolate the GPG keys for users, every operation that
@@ -135,10 +135,10 @@ class User(XmppBackendUser, PermissionsMixin):
         """
         home = tempfile.mkdtemp()
         try:
-            with gpg_backend.settings(home=home) as backend:
+            with gpg_backend.settings(home=home, **kwargs) as backend:
                 if init is True:  # import existing valid gpg keys
                     for key in self.gpg_keys.filter(expires__gt=timezone.now()):
-                        backend.import_key(key)
+                        backend.import_key(key.key.encode('utf-8'))
 
                 yield backend
         finally:
@@ -228,7 +228,7 @@ class Confirmation(BaseModel):
         keys = list(self.user.gpg_keys.valid().values_list('fingerprint', flat=True))
 
         if keys:
-            with self.user.gpg_keyring() as backend:
+            with self.user.gpg_keyring(default_trust=True) as backend:
                 msg = GpgEmailMessage(subject, text, frm, [self.to],
                                       gpg_backend=backend, gpg_recipients=keys)
                 msg.attach_alternative(html, 'text/html')
