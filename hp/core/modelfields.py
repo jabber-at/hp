@@ -18,11 +18,21 @@ from django.contrib.contenttypes.models import ContentType
 from django.core.urlresolvers import reverse
 
 from jsonfield import JSONField
+from composite_field.l10n import LocalizedCharField as _LocalizedCharField
+from composite_field.l10n import LocalizedTextField as _LocalizedTextField
 
 from .constants import TARGET_MODEL
 from .constants import TARGET_NAMED_URL
 from .constants import TARGET_URL
 from .formfields import LinkTargetField
+
+
+class LocalizedCharField(_LocalizedCharField):
+    many_to_many = None
+
+
+class LocalizedTextField(_LocalizedTextField):
+    many_to_many = None
 
 
 class LinkTargetDict(dict):

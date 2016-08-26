@@ -1,5 +1,4 @@
-# django-mptt does not yet support 1.10
-Django<1.10
+Django==1.10
 Pillow==3.3.1
 celery==3.1.23
 django-composite-field==0.7.6
