@@ -22,7 +22,6 @@ from django.utils import timezone
 from django_xmpp_backends import backend
 
 from .constants import REGISTRATION_MANUAL
-from .querysets import ConfirmationQuerySet
 
 
 class UserManager(BaseUserManager):
@@ -57,6 +56,3 @@ class ConfirmationManager(models.Manager):
         obj.payload.update(kwargs)
         obj.save()
         return obj
-
-    def get_queryset(self):
-        return ConfirmationQuerySet(self.model, using=self._db)

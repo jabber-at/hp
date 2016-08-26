@@ -38,6 +38,7 @@ from .constants import PURPOSE_RESET_PASSWORD
 from .constants import PURPOSE_DELETE
 from .managers import UserManager
 from .managers import ConfirmationManager
+from .querysets import ConfirmationQuerySet
 
 
 PURPOSES = {
@@ -142,7 +143,7 @@ class User(XmppBackendUser, PermissionsMixin):
 
 
 class Confirmation(BaseModel):
-    objects = ConfirmationManager()
+    objects = ConfirmationManager.from_queryset(ConfirmationQuerySet)
 
     key = models.CharField(max_length=40, default=default_key)
     expires = models.DateTimeField(default=default_expires)
