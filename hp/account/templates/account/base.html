@@ -5,8 +5,7 @@
 {% block extrajs %}<script src="{% static 'account/js/base.js' %}"></script>{% endblock extrajs %}
 
 {% block content %}
-<div class="row row-offcanvas row-offcanvas-right">
-    http://getbootstrap.com/examples/offcanvas/#
+<div class="row row-offcanvas row-offcanvas-left">
     <div class="col-xs-6 col-sm-3 sidebar-offcanvas" id="sidebar">
         <div class="list-group">
             {% for item in usermenu %}
@@ -16,8 +15,8 @@
     </div>
 
     <div class="col-xs-12 col-sm-9">
-        <p class="pull-right visible-xs">
-            <button type="button" class="btn btn-primary btn-xs" data-toggle="offcanvas">Toggle nav</button>
+        <p class="pull-left visible-xs">
+            <button type="button" class="btn btn-primary btn-s" data-toggle="offcanvas">Toggle nav</button>
         </p>
 {% block usercontent %}{% endblock usercontent %}
     </div>
