@@ -1,8 +1,9 @@
 {% extends "account/base.html" %}
 {% load i18n %}
 
+{% block title %}{% trans "Set new email address" %}{% endblock title %}
+
 {% block usercontent %}
-<div class="page-header"><h1>{% trans "Set new email address" %}</h1></div>
 
 {% if form.is_valid %}
 {% else %}

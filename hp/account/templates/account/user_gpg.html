@@ -1,10 +1,9 @@
 {% extends "account/base.html" %}
 {% load i18n %}
 
-{% block usercontent %}
-<div class="page-header"><h1>GPG keys</h1></div>
+{% block title %}{% trans "GPG keys" %}{% endblock title %}
 
-<h2>{% trans "Currently configured GPG keys" %}</h2>
+{% block usercontent %}
 <table class="table table-bordered">
     <tr>
         <th>{% trans "Created" %}</th>

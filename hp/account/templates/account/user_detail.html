@@ -1,9 +1,9 @@
 {% extends "account/base.html" %}
 {% load i18n %}
 
-{% block usercontent %}
-<div class="page-header"><h1>{{ object.username }}</h1></div>
+{% block title %}{{ object.username }}{% endblock title %}
 
+{% block usercontent %}
 <table class="table table-bordered">
     <tr>
         <td>{% trans "Registered" %}</td>
