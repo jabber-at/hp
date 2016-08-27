@@ -62,7 +62,6 @@ class AccountPageMixin(object):
     usermenu = (
         ('account:detail', _('Overview')),
         ('account:set_email', _('Set E-Mail')),
-        ('account:detail', _('Test')),
     )
     usermenu_item = None
 
