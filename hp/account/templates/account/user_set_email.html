@@ -8,7 +8,10 @@
 {% else %}
 <form enctype="multipart/form-data" class="form-horizontal" action="" method="post">{% csrf_token %}
 {{ form.email.formgroup }}
-{{ form.captcha.formgroup }}
+
+TODO: custom help block!
+{{ form.gpg_fingerprint.formgroup }}
+{{ form.gpg_key.formgroup }}
 
 <div class="form-group">
     <div class="col-sm-offset-2 col-sm-10">
