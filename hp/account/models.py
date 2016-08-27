@@ -39,6 +39,7 @@ from gpgmime.django import gpg_backend
 from gpgmime.django import GpgEmailMessage
 
 from core.models import BaseModel
+from core.models import CachedMessage
 
 from .constants import PURPOSE_DELETE
 from .constants import PURPOSE_REGISTER
@@ -116,6 +117,9 @@ class User(XmppBackendUser, PermissionsMixin):
 
     def log(self, message, address=None):
         self.log_entries.create(message=message, address=address)
+
+    def message(self, level, message):
+        return CachedMessage.objects.create(user=self, level=level, message=message)
 
     def logs(self):
         return self.log_entries.order_by('-created')
