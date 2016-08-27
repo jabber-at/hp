@@ -66,6 +66,7 @@ MIDDLEWARE_CLASSES = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'core.middleware.TranslatedUrlConfigMiddleware',
+    'core.middleware.CeleryMessageMiddleware',
 ]
 
 ROOT_URLCONF = 'hp.urls'

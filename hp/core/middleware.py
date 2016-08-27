@@ -14,8 +14,12 @@
 # If not, see <http://www.gnu.org/licenses/>.
 
 from django.conf import settings
+from django.contrib import messages
 from django.core.urlresolvers import reverse
+from django.db import transaction
 from django.http import HttpResponseRedirect
+
+from .models import CachedMessage
 
 
 class SiteMiddleware(object):
@@ -41,3 +45,17 @@ class TranslatedUrlConfigMiddleware(object):
                 url_name = '%s:%s' % (match.namespace, url_name)
 
             return HttpResponseRedirect(reverse(url_name))
+
+
+class CeleryMessageMiddleware(object):
+    def process_request(self, request):
+        if request.user.is_anonymous():
+            return
+
+        with transaction.atomic():
+            stored_msgs = CachedMessage.objects.filter(user=request.user)
+            if stored_msgs:
+                for msg in stored_msgs:
+                    messages.add_message(request, msg.level, msg.message)
+
+                stored_msgs.delete()
