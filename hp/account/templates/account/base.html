@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% load i18n static %}
+
+{% block extracss %}<link href="{% static 'account/css/base.css' %}" rel="stylesheet">{% endblock extracss %}
+{% block extrajs %}<script src="{% static 'account/js/base.js' %}"></script>{% endblock extrajs %}
+
+{% block content %}
+<div class="row row-offcanvas row-offcanvas-right">
+    http://getbootstrap.com/examples/offcanvas/#
+    <div class="col-xs-6 col-sm-3 sidebar-offcanvas" id="sidebar">
+        <div class="list-group">
+            {% for item in usermenu %}
+            <a href="{{ item.path }}" class="list-group-item{{item.active}}">{{ item.title }}</a>
+            {% endfor %}
+          </div>
+    </div>
+
+    <div class="col-xs-12 col-sm-9">
+        <p class="pull-right visible-xs">
+            <button type="button" class="btn btn-primary btn-xs" data-toggle="offcanvas">Toggle nav</button>
+        </p>
+{% block usercontent %}{% endblock usercontent %}
+    </div>
+</div>
+{% endblock content %}
