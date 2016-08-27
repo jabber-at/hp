@@ -8,6 +8,7 @@
 <div class="row row-offcanvas row-offcanvas-left">
     <div class="col-xs-6 col-sm-3 sidebar-offcanvas" id="sidebar">
         <div class="list-group">
+            <a class="list-group-item header">{% trans "User settings" %}</a>
             {% for item in usermenu %}
             <a href="{{ item.path }}" class="list-group-item{{item.active}}">{{ item.title }}</a>
             {% endfor %}
@@ -16,7 +17,7 @@
 
     <div class="col-xs-12 col-sm-9">
         <p class="pull-left visible-xs">
-            <button type="button" class="btn btn-primary btn-s" data-toggle="offcanvas">Toggle nav</button>
+        <button type="button" class="btn btn-primary btn-s" data-toggle="offcanvas">{% trans "Show menu" %}</button>
         </p>
 {% block usercontent %}{% endblock usercontent %}
     </div>

@@ -1,3 +1,9 @@
+/* User menu header. Like disabled, but with no special cursor. **/
+a.list-group-item.header {
+    color: #777;
+    background-color: #eee;
+    font-weight: bold;
+}
 /*
  * Off Canvas
  * --------------------------------------------------
