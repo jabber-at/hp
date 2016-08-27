@@ -19,19 +19,4 @@
     </tr>
 </table>
 
-<h2>{% trans "Recent activity" %}</h2>
-<table class="table table-bordered">
-    <tr>
-        <th>{% trans "IP" %}</th>
-        <th>{% trans "Date" %}</th>
-        <th>{% trans "Action" %}</th>
-    </tr>
-{% for entry in object.logs %}
-    <tr>
-        <td>{{ entry.address }}</td>
-        <td>{{ entry.created|date:"SHORT_DATETIME_FORMAT" }}</td>
-        <td>{{ entry.message }}</tr>
-    </tr>
-{% endfor %}
-</table>
 {% endblock usercontent %}

@@ -32,6 +32,7 @@ from django.utils import timezone
 from django.utils.http import is_safe_url
 from django.utils.translation import ugettext as _
 from django.views.generic import View
+from django.views.generic import DetailView
 from django.views.generic.base import RedirectView
 from django.views.generic.base import TemplateView
 from django.views.generic.edit import CreateView
@@ -64,6 +65,7 @@ class AccountPageMixin(object):
         ('account:detail', _('Overview')),
         ('account:set_password', _('Set password')),
         ('account:set_email', _('Set E-Mail')),
+        ('account:log', _('Recent activity')),
     )
     usermenu_item = None
 
@@ -80,6 +82,13 @@ class AccountPageMixin(object):
         context['usermenu'] = usermenu
 
         return context
+
+
+class UserDetailView(DetailView):
+    """Custom detail view to use the current user."""
+
+    def get_object(self):
+        return self.request.user
 
 
 class RegisterUserView(CreateView):
@@ -343,6 +352,13 @@ class UserView(LoginRequiredMixin, AccountPageMixin, TemplateView):
         context = super(UserView, self).get_context_data(**kwargs)
         context['object'] = self.request.user
         return context
+
+
+class RecentActivityView(LoginRequiredMixin, AccountPageMixin, UserDetailView):
+    """Main user settings view (/account)."""
+
+    usermenu_item = 'account:log'
+    template_name = 'account/user_recent_activity.html'
 
 
 class UserAvailableView(View):
