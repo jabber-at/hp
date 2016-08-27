@@ -155,7 +155,7 @@ class ConfirmRegistrationView(FormView):
             backend.create_user(username=key.user.node, domain=key.user.domain, password=password,
                                 email=key.user.email)
 
-            key.user.log(_('Email %(email)s address confirmed.') % {
+            key.user.log(_('Email address %(email)s confirmed.') % {
                 'email': key.user.email
             }, address)
             # TODO: More meaningful help message on a webchat, usable clients, follow updates, ...
