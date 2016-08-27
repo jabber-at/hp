@@ -2,10 +2,9 @@
 {% load i18n %}
 
 {% block usercontent %}
-<div class="page-header"><h1>Reset password</h1></div>
+<div class="page-header"><h1>{% trans "Set new email address" %}</h1></div>
 
 {% if form.is_valid %}
-Valid!
 {% else %}
 <form enctype="multipart/form-data" class="form-horizontal" action="" method="post">{% csrf_token %}
 {{ form.email.formgroup }}
@@ -13,7 +12,7 @@ Valid!
 
 <div class="form-group">
     <div class="col-sm-offset-2 col-sm-10">
-        <button type="submit" class="btn btn-default">Submit</button>
+        <button type="submit" class="btn btn-default">{% trans "Submit" %}</button>
     </div>
 </div>
 </form>
