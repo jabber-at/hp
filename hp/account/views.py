@@ -65,6 +65,7 @@ class AccountPageMixin(object):
         ('account:detail', _('Overview')),
         ('account:set_password', _('Set password')),
         ('account:set_email', _('Set E-Mail')),
+        ('account:gpg', _('GPG keys')),
         ('account:log', _('Recent activity')),
     )
     usermenu_item = None
@@ -346,6 +347,13 @@ class UserView(LoginRequiredMixin, AccountPageMixin, UserDetailView):
     """Main user settings view (/account)."""
 
     usermenu_item = 'account:detail'
+
+
+class GpgView(LoginRequiredMixin, AccountPageMixin, UserDetailView):
+    """Main user settings view (/account)."""
+
+    usermenu_item = 'account:gpg'
+    template_name = 'account/user_gpg.html'
 
 
 class RecentActivityView(LoginRequiredMixin, AccountPageMixin, UserDetailView):

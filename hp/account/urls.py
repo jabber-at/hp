@@ -30,6 +30,7 @@ urlpatterns = [
         name='reset_password_confirm'),
     url(r'email/$', views.SetEmailView.as_view(), name='set_email'),
     url(r'email/(?P<key>\w+)/$', views.ConfirmSetEmailView.as_view(), name='set_email_confirm'),
+    url(r'gpg/$', views.GpgView.as_view(), name='gpg'),
     url(r'log/$', views.RecentActivityView.as_view(), name='log'),
     url(r'logout/$', auth_views.logout, name='logout'),
     url(r'api/check-user/$', views.UserAvailableView.as_view(), name='api-check-user'),

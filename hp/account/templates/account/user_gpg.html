@@ -1,0 +1,22 @@
+{% extends "account/base.html" %}
+{% load i18n %}
+
+{% block usercontent %}
+<div class="page-header"><h1>GPG keys</h1></div>
+
+<h2>{% trans "Currently configured GPG keys" %}</h2>
+<table class="table table-bordered">
+    <tr>
+        <th>{% trans "Created" %}</th>
+        <th>{% trans "Expires" %}</th>
+        <th>{% trans "Fingerprint" %}</th>
+    </tr>
+{% for key in object.gpg_keys.all %}
+    <tr>
+        <td>{{ key.created|date:"SHORT_DATETIME_FORMAT" }}</td>
+        <td>{{ key.expires|date:"SHORT_DATETIME_FORMAT" }}</td>
+        <td>0x{{ key.fingerprint }}</tr>
+    </tr>
+{% endfor %}
+</table>
+{% endblock usercontent %}
