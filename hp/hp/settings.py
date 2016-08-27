@@ -11,11 +11,10 @@ https://docs.djangoproject.com/en/1.9/ref/settings/
 """
 
 import os
-import logging
 
-import gnupg
 from datetime import timedelta
 
+from django.contrib.messages import constants as messages
 from django.core.urlresolvers import reverse_lazy
 from django.utils.translation import ugettext_lazy as _
 
@@ -158,6 +157,13 @@ AUTHENTICATION_BACKENDS = [
 ###################
 # CUSTOM SETTINGS #
 ###################
+
+# Override message tags to match bootstrap alert classes.
+#       See: https://docs.djangoproject.com/en/1.10/ref/contrib/messages/#message-tags
+MESSAGE_TAGS = {
+    messages.ERROR: 'danger',
+    messages.DEBUG: 'info',
+}
 
 # How long confirmation emails remain valid
 USER_CONFIRMATION_TIMEOUT = timedelta(hours=48)
