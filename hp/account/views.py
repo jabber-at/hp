@@ -51,6 +51,7 @@ from .forms import SetPasswordForm
 from .models import Confirmation
 from .tasks import add_gpg_key_task
 from .tasks import send_confirmation_task
+from .tasks import set_email_task
 
 User = get_user_model()
 log = logging.getLogger(__name__)
@@ -286,26 +287,15 @@ class SetEmailView(LoginRequiredMixin, AccountPageMixin, FormView):
         base_url = '%s://%s' % (request.scheme, request.get_host())
         to = form.cleaned_data['email']
 
+        fp, key = form.get_gpg_data()
+        set_email_task.delay(
+            user_pk=user.pk, to=to, address=address, language=lang, fingerprint=fp, key=key,
+            base_url=base_url, server=request.site['DOMAIN'])
+
         messages.success(request, _(
             'We sent you an email to your new email address (%s). Click on the link in it to '
             'confirm it.') % to)
-
         user.log(_('Requested change of email address to %s.') % to, address=address)
-
-        task = send_confirmation_task.si(
-            user_pk=user.pk, purpose=PURPOSE_SET_EMAIL, language=lang, to=to,
-            base_url=base_url, server=request.site['DOMAIN'])
-
-        # Store GPG key if any
-        fp, key = form.get_gpg_data()
-        if fp or key:
-            gpg_task = add_gpg_key_task.si(
-                user_pk=user.pk, address=address, language=lang,
-                fingerprint=fp, key=key)
-            task = chain(gpg_task, task)
-        task.delay()
-
-        # TODO: messaging framework to notify of success.
 
         return HttpResponseRedirect(reverse('account:detail'))
 
