@@ -3,6 +3,7 @@
 *.py[co]
 /bin/
 /build/
+/data/
 /fab.conf
 /gnupg-keys/
 /gnupg/
