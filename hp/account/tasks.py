@@ -17,8 +17,10 @@ from celery import shared_task
 from celery.utils.log import get_task_logger
 from django.contrib.auth import get_user_model
 from django.utils import translation
+from gpgmime.django import gpg_backend
 
 from .models import Confirmation
+from .constants import PURPOSE_SET_EMAIL
 
 User = get_user_model()
 log = get_task_logger(__name__)
@@ -60,3 +62,22 @@ def send_confirmation_task(user_pk, to, purpose, language, **payload):
     conf = Confirmation.objects.create(user=user, purpose=purpose, language=language, to=to,
                                        payload=payload)
     conf.send()
+
+
+@shared_task
+def set_email_task(user_pk, to, address, language, fingerprint=None, key=None, **payload):
+    """A custom task because we might need to send the email with a custom set of GPG keys."""
+
+    user = User.objects.get(pk=user_pk)
+
+    with translation.override(language):
+        if fingerprint:
+            payload['fingerprint'] = fingerprint  # just so we know what was submitted
+            payload['gpg_key'] = gpg_backend.fetch_key('0x%s' % fingerprint)
+        elif key:
+            payload['gpg_key'] = key
+        log.info('payload: %s', payload)
+
+        conf = Confirmation.objects.create(user=user, purpose=PURPOSE_SET_EMAIL, language=language, to=to,
+                                           payload=payload)
+        conf.send()
