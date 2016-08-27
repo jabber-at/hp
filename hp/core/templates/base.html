@@ -11,6 +11,7 @@
     <link href="{% static 'lib/bootstrap/css/bootstrap-theme.min.css' %}" rel="stylesheet">
     <link href="{% static 'css/theme.css' %}" rel="stylesheet">
     <link href="{% static 'core/css/base.css' %}" rel="stylesheet">
+    {% block extracss %}{% endblock extracss %}
     {{ form.media.css }}
 
     <meta name="captcha-refresh-url" content="{% url 'captcha-refresh' %}">
@@ -64,5 +65,6 @@
 <!-- Include all compiled plugins (below), or include individual files as needed -->
 <script src="{% static 'lib/bootstrap/js/bootstrap.min.js' %}"></script>
 <script src="{% static 'core/js/base.js' %}"></script>
+{% block extrajs %}{% endblock extrajs %}
 {{ form.media.js }}
 {% endblock body %}
