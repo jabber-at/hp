@@ -234,7 +234,7 @@ class ResetPasswordView(FormView):
 
 
 class SetEmailView(AccountPageMixin, FormView):
-    usermenu_item = 'account:detail'
+    usermenu_item = 'account:set_email'
     template_name = 'account/user_set_email.html'
     form_class = SetEmailForm
 
