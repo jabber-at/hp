@@ -19,11 +19,16 @@ Base template for user setting views when the user is logged in.
     </div>
 
     <div class="col-xs-12 col-sm-9">
-        <p class="pull-left visible-xs">
-        <button type="button" class="btn btn-primary btn-s" data-toggle="offcanvas">{% trans "Show menu" %}</button>
-        </p>
 
-    <div class="page-header"><h1>{% block title %}{% endblock title %}</h1></div>
+        <div class="page-header">
+            <h1>
+                <p class="pull-left visible-xs">
+                    <button type="button" class="btn btn-primary btn-s" data-toggle="offcanvas">
+                        {% trans "Show menu" %}</button>
+                </p>
+        {% block title %}{% endblock title %}
+            </h1>
+        </div>
 {% include "core/include/messages.html" %}
 {% block usercontent %}{% endblock usercontent %}
     </div>

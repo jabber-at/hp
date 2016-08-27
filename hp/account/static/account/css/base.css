@@ -4,6 +4,11 @@ a.list-group-item.header {
     background-color: #eee;
     font-weight: bold;
 }
+
+div.page-header p.pull-left {
+    margin-right: 10px;
+}
+
 /*
  * Off Canvas
  * --------------------------------------------------
