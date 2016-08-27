@@ -61,10 +61,8 @@ class AccountPageMixin(object):
 
     usermenu = (
         ('account:detail', _('Overview')),
+        ('account:set_password', _('Set password')),
         ('account:set_email', _('Set E-Mail')),
-        ('account:set_email', _('Set E-Mail2')),
-        ('account:set_email', _('Set E-Mail3')),
-        ('account:set_email', _('Set E-Mail4')),
     )
     usermenu_item = None
 
@@ -256,7 +254,25 @@ class ResetPasswordView(FormView):
         return super(ResetPasswordView, self).form_valid(form)
 
 
-class SetEmailView(AccountPageMixin, FormView):
+class SetPasswordView(LoginRequiredMixin, AccountPageMixin, FormView):
+    form_class = SetPasswordForm
+    success_url = reverse_lazy('account:detail')
+    template_name = 'account/set_password.html'
+    usermenu_item = 'account:set_password'
+
+    def form_valid(self, form):
+        request = self.request
+        address = request.META['REMOTE_ADDR']
+        user = request.user
+        password = form.cleaned_data['password']
+
+        backend.set_password(username=user.node, domain=user.domain, password=password)
+        user.log(_('Set new password.'), address)
+        messages.success(request, _('Successfully changed your password.'))
+        return super(SetPasswordView, self).form_valid(form)
+
+
+class SetEmailView(LoginRequiredMixin, AccountPageMixin, FormView):
     usermenu_item = 'account:set_email'
     template_name = 'account/user_set_email.html'
     form_class = SetEmailForm
@@ -294,7 +310,7 @@ class SetEmailView(AccountPageMixin, FormView):
         return HttpResponseRedirect(reverse('account:detail'))
 
 
-class ConfirmSetEmailView(RedirectView):
+class ConfirmSetEmailView(LoginRequiredMixin, RedirectView):
     """Confirmation view for a user setting his email address, redirects to account detail page."""
 
     pattern_name = 'account:detail'  # where to redirect to
