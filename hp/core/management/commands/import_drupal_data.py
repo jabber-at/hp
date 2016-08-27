@@ -25,6 +25,7 @@ from django.core.urlresolvers import reverse
 from django.utils import timezone
 
 from ...constants import TARGET_MODEL
+from ...constants import TARGET_URL
 from ...modelfields import LinkTargetDict
 from ...models import BlogPost
 from ...models import MenuItem
@@ -88,7 +89,7 @@ class Command(BaseCommand):
             ('/en/privacy-policy#legal', '%s#legal' % reverse('core:page', kwargs={'slug': 'privacy'})),
             ('/en/privacy-policy/?', reverse('core:page', kwargs={'slug': 'privacy'})),
             ('/en/register/?', reverse('account:register')),
-            ('/en/webpresence/?', reverse('core:page', kwargs={'slug': '/features-webpresence/'})),
+            ('/en/webpresence/?', reverse('core:page', kwargs={'slug': 'features-webpresence'})),
             ('https://account.jabber.at/password/', '/account/password/reset/'),
             ('https://webchat.jabber.at/?', '/chat/'),
 
@@ -165,6 +166,8 @@ class Command(BaseCommand):
 
         # We manually set some menu items
         features_item = MenuItem.objects.get(title_en='Features')
+        features_item.target = LinkTargetDict(typ=TARGET_URL, url='#')
+        features_item.save()
         for title in ['Webpresence', 'Security', 'Firewall connectivity', 'APT repository', ]:
             child_item = MenuItem.objects.get(title_en=title)
             child_item.move_to(features_item)
@@ -189,5 +192,7 @@ class Command(BaseCommand):
             for translated_data in [p for p in stories.values() if p['tnid'] == nid]:
                 self.handle_data(post, translated_data)
 
-            post.author = User.objects.get_or_create(username='%s@jabber.at' % post_data['name'])[0]
+            nodename = post_data['name'].lower()
+            username = '%s@jabber.at' % nodename
+            post.author = User.objects.get_or_create(username=username)[0]
             post.save()
