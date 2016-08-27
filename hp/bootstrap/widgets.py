@@ -106,7 +106,7 @@ class BootstrapEmailInput(BootstrapWidgetMixin, forms.EmailInput):
 
 
 class BootstrapPasswordInput(BootstrapWidgetMixin, forms.PasswordInput):
-    pass
+    feedback = True
 
 
 class BootstrapFileInput(BootstrapWidgetMixin, forms.ClearableFileInput):

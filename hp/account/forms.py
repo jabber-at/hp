@@ -20,6 +20,7 @@ from django.utils.translation import ugettext_lazy as _
 
 from bootstrap.formfields import BootstrapEmailField
 from bootstrap.formfields import BootstrapPasswordField
+from bootstrap.widgets import BootstrapPasswordInput
 
 from core.forms import CaptchaFormMixin
 
@@ -104,8 +105,12 @@ class LoginForm(CaptchaFormMixin, AuthenticationForm):
 
 
 class SetPasswordForm(CaptchaFormMixin, forms.Form):
-    password = BootstrapPasswordField(min_length=6)
-    password2 = BootstrapPasswordField(min_length=6, label=_('Confirm'))
+    password = BootstrapPasswordField(
+        min_length=6, widget=BootstrapPasswordInput(glyphicon=True),
+        help_text=_('Passwords must be at least six characters.'))
+    password2 = BootstrapPasswordField(
+        min_length=6, widget=BootstrapPasswordInput(glyphicon=True), label=_('Confirm'),
+        help_text=_('Confirm the password to make sure you spelled it correctly.'))
 
     password_error_messages = {
         'password_mismatch': _("The two password fields didn't match.")
@@ -119,6 +124,11 @@ class SetPasswordForm(CaptchaFormMixin, forms.Form):
         if password1 and password2:
             if password1 != password2:
                 self.add_error('password2', self.password_error_messages['password_mismatch'])
+
+    class Media:
+        js = (
+            'account/js/set_password.js',
+        )
 
 
 class SetEmailForm(GPGMixin, forms.Form):
