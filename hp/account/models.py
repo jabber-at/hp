@@ -13,6 +13,7 @@
 # You should have received a copy of the GNU General Public License along with django-xmpp-account.
 # If not, see <http://www.gnu.org/licenses/>.
 
+import logging
 import os
 import shutil
 import tempfile
@@ -42,7 +43,7 @@ from gpgmime.django import GpgEmailMessage
 from core.models import BaseModel
 from core.models import CachedMessage
 
-from .constants import PURPOSE_DELETE
+#from .constants import PURPOSE_DELETE
 from .constants import PURPOSE_REGISTER
 from .constants import PURPOSE_RESET_PASSWORD
 from .constants import PURPOSE_SET_EMAIL
@@ -53,20 +54,7 @@ from .querysets import ConfirmationQuerySet
 from .querysets import GpgKeyQuerySet
 
 
-PURPOSES = {
-    PURPOSE_REGISTER: {
-        'subject': _('Your new account on %(domain)s'),
-    },
-    PURPOSE_SET_EMAIL: {
-        'subject': _('Confirm the email address for your %(domain)s account'),
-    },
-    PURPOSE_RESET_PASSWORD: {
-        'subject': _('Reset the password for your %(domain)s account'),
-    },
-    PURPOSE_DELETE: {
-        'subject': _('Delete your account on %(domain)s'),
-    },
-}
+log = logging.getLogger(__name__)
 _gpg_key_delimiter = b"""-----END PGP PUBLIC KEY BLOCK-----
 -----BEGIN PGP PUBLIC KEY BLOCK-----"""
 
@@ -243,10 +231,11 @@ class Confirmation(BaseModel):
 
         frm = server['DEFAULT_FROM_EMAIL']
 
+        custom_key = self.payload.get('gpg_key')  # key from the payload
         keys = list(self.user.gpg_keys.valid().values_list('fingerprint', flat=True))
 
-        if keys:
-            sign_fp = server.get('GPG_KEY')
+        if custom_key or keys:
+            sign_fp = server.get('GPG_FINGERPRINT')
 
             if sign_fp:
                 sign_key = os.path.join(settings.GPG_KEYDIR, '%s.key' % sign_fp)
@@ -256,6 +245,10 @@ class Confirmation(BaseModel):
             with self.user.gpg_keyring(default_trust=True) as backend:
                 if sign_fp:
                     backend.import_private_key(sign_key)
+
+                if custom_key:
+                    log.info('Imported custom keys.')
+                    keys = backend.import_key(custom_key.encode())
 
                 msg = GpgEmailMessage(subject, text, frm, [self.to],
                                       gpg_backend=backend, gpg_recipients=keys, gpg_signer=sign_fp)
