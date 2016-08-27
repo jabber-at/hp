@@ -241,21 +241,35 @@ class SetEmailView(AccountPageMixin, FormView):
     def form_valid(self, form):
         request = self.request
         user = request.user
+        address = request.META['REMOTE_ADDR']
 
         lang = request.LANGUAGE_CODE
         base_url = '%s://%s' % (request.scheme, request.get_host())
         to = form.cleaned_data['email']
 
-        user.log(_('Requested password reset.'), request.META['REMOTE_ADDR'])
+        user.log(_('Requested password reset.'), address=address)
 
-        send_confirmation_task.delay(
+        task = send_confirmation_task.si(
             user_pk=user.pk, purpose=PURPOSE_SET_EMAIL, language=lang, to=to,
             base_url=base_url, server=request.site['DOMAIN'])
+
+        # Store GPG key if any
+        fp, key = form.get_gpg_data()
+        if fp or key:
+            gpg_task = add_gpg_key_task.si(
+                user_pk=user.pk, address=address, language=lang,
+                fingerprint=fp, key=key)
+            task = chain(gpg_task, task)
+        task.delay()
+
+        # TODO: messaging framework to notify of success.
 
         return HttpResponseRedirect(reverse('account:detail'))
 
 
 class ConfirmSetEmailView(RedirectView):
+    """Confirmation view for a user setting his email address, redirects to account detail page."""
+
     pattern_name = 'account:detail'  # where to redirect to
     queryset = Confirmation.objects.valid().purpose(PURPOSE_SET_EMAIL)
 
@@ -272,6 +286,7 @@ class ConfirmSetEmailView(RedirectView):
             key.delete()
             user.log(_('Changed email address to %s.') % key.to, self.request.META['REMOTE_ADDR'])
 
+            # TODO: messaging framework to notify of success.
             return super(ConfirmSetEmailView, self).get_redirect_url()
 
 
