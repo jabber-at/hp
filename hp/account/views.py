@@ -142,6 +142,7 @@ class ConfirmRegistrationView(FormView):
     def form_valid(self, form):
         request = self.request
         address = request.META['REMOTE_ADDR']
+        password = form.cleaned_data['password']
 
         with transaction.atomic():
             key = self.queryset.get(key=self.kwargs['key'])
@@ -153,8 +154,8 @@ class ConfirmRegistrationView(FormView):
                 login(request, key.user)
 
             # Actually create the user on the XMPP server
-            # TODO: uhm.. we do not pass the password.
-            backend.create_user(key.user.node, key.user.domain, key.user.email)
+            backend.create_user(username=key.user.node, domain=key.user.domain, password=password,
+                                email=key.user.email)
 
             key.user.log(_('Email %(email)s address confirmed.') % {
                 'email': key.user.email
