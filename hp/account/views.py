@@ -56,6 +56,31 @@ User = get_user_model()
 log = logging.getLogger(__name__)
 
 
+class AccountPageMixin(object):
+    """Mixin that adds the usermenu on the left to views where the user is logged in."""
+
+    usermenu = (
+        ('account:detail', _('Overview')),
+        ('account:set_email', _('Set E-Mail')),
+        ('account:detail', _('Test')),
+    )
+    usermenu_item = None
+
+    def get_context_data(self, **kwargs):
+        context = super(AccountPageMixin, self).get_context_data(**kwargs)
+
+        usermenu = []
+        for urlname, title in self.usermenu:
+            usermenu.append({
+                'path': reverse(urlname),
+                'title': title,
+                'active': ' active' if urlname == self.usermenu_item else '',
+            })
+        context['usermenu'] = usermenu
+
+        return context
+
+
 class RegisterUserView(CreateView):
     template_name_suffix = '_register'
     model = User
@@ -206,7 +231,8 @@ class ResetPasswordView(FormView):
         return super(ResetPasswordView, self).form_valid(form)
 
 
-class SetEmailView(FormView):
+class SetEmailView(AccountPageMixin, FormView):
+    usermenu_item = 'account:detail'
     template_name = 'account/user_set_email.html'
     form_class = SetEmailForm
 
@@ -247,7 +273,8 @@ class ConfirmSetEmailView(RedirectView):
             return super(ConfirmSetEmailView, self).get_redirect_url()
 
 
-class UserView(LoginRequiredMixin, TemplateView):
+class UserView(LoginRequiredMixin, AccountPageMixin, TemplateView):
+    usermenu_item = 'account:detail'
     template_name = 'account/user_detail.html'
 
     def get_context_data(self, **kwargs):
