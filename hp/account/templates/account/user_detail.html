@@ -2,6 +2,22 @@
 {% load i18n %}
 
 {% block content %}
+<div class="row row-offcanvas row-offcanvas-right">
+    http://getbootstrap.com/examples/offcanvas/#
+    <div class="col-xs-6 col-sm-3 sidebar-offcanvas" id="sidebar">
+        <div class="list-group">
+            {% for item in usermenu %}
+            <a href="{{ item.path }}" class="list-group-item{{item.active}}">{{ item.title }}</a>
+            {% endfor %}
+          </div>
+    </div>
+
+<div class="col-xs-12 col-sm-9">
+
+<p class="pull-right visible-xs">
+    <button type="button" class="btn btn-primary btn-xs" data-toggle="offcanvas">Toggle nav</button>
+</p>
+
 <div class="page-header"><h1>{{ object.username }}</h1></div>
 
 <table class="table table-bordered">
@@ -33,6 +49,6 @@
         <td>{{ entry.message }}</tr>
     </tr>
 {% endfor %}
-</table>
-
+</table></div>
+</div>
 {% endblock content %}
