@@ -238,15 +238,21 @@ class ResetPasswordView(FormView):
     queryset = Confirmation.objects.select_related('user')
 
     def form_valid(self, form):
+        request = self.request
+        address = request.META['REMOTE_ADDR']
+
         with transaction.atomic():
             key = self.queryset.get(key=self.kwargs['key'])
             backend.set_password(username=key.user.node, domain=key.user.domain,
                                  password=form.cleaned_data['password'])
-            key.user.log(_('Set new password.'), self.request.META['REMOTE_ADDR'])
+
+            key.user.log(_('Set new password.'), address)
+            messages.success(request, _('Successfully changed your password.'))
 
             key.user.backend = settings.AUTHENTICATION_BACKENDS[0]
             login(self.request, key.user)
             key.delete()
+
         return super(ResetPasswordView, self).form_valid(form)
 
 
