@@ -342,16 +342,10 @@ class ConfirmSetEmailView(LoginRequiredMixin, RedirectView):
             return super(ConfirmSetEmailView, self).get_redirect_url()
 
 
-class UserView(LoginRequiredMixin, AccountPageMixin, TemplateView):
+class UserView(LoginRequiredMixin, AccountPageMixin, UserDetailView):
     """Main user settings view (/account)."""
 
     usermenu_item = 'account:detail'
-    template_name = 'account/user_detail.html'
-
-    def get_context_data(self, **kwargs):
-        context = super(UserView, self).get_context_data(**kwargs)
-        context['object'] = self.request.user
-        return context
 
 
 class RecentActivityView(LoginRequiredMixin, AccountPageMixin, UserDetailView):
