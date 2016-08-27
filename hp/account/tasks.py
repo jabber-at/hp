@@ -16,6 +16,7 @@
 from celery import shared_task
 from celery.utils.log import get_task_logger
 from django.contrib.auth import get_user_model
+from django.utils import translation
 
 from .models import Confirmation
 
@@ -49,7 +50,8 @@ def add_gpg_key_task(user_pk, address, language, fingerprint=None, key=None):
         return
 
     user = User.objects.get(pk=user_pk)
-    user.add_gpg_key(keys=key, fingerprint=fingerprint, language=language, address=address)
+    with translation.override(language):
+        user.add_gpg_key(keys=key, fingerprint=fingerprint, language=language, address=address)
 
 
 @shared_task

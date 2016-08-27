@@ -29,7 +29,6 @@ from django.http import HttpResponseRedirect
 from django.shortcuts import get_object_or_404
 from django.shortcuts import resolve_url
 from django.utils import timezone
-from django.utils import translation
 from django.utils.http import is_safe_url
 from django.utils.translation import ugettext as _
 from django.views.generic import View
@@ -105,9 +104,12 @@ class RegisterUserView(CreateView):
             response = super(RegisterUserView, self).form_valid(form)
             user = self.object
 
-            # log user creation, login
-            with translation.override(lang):
-                user.log(address=address, message=_('Account created.'))
+            # log user creation, display help message.
+            user.log(address=address, message=_('Account created.'))
+            messages.success(request, _(
+                """Successfully created the account %s. A confirmation email was just sent to the
+email address you provided (%s). Before you can use your account, you must click on the
+confirmation link in that email.""" % (user.username, user.email)))
 
             user.backend = settings.AUTHENTICATION_BACKENDS[0]
             login(self.request, user)
@@ -125,9 +127,6 @@ class RegisterUserView(CreateView):
             task = chain(gpg_task, task)
         task.delay()
 
-        # TODO: more meaningful message
-        messages.add_message(request, messages.INFO, _('User registerd.'))
-
         return response
 
 
@@ -141,23 +140,32 @@ class ConfirmRegistrationView(FormView):
     success_url = reverse_lazy('account:detail')
 
     def form_valid(self, form):
+        request = self.request
+        address = request.META['REMOTE_ADDR']
+
         with transaction.atomic():
             key = self.queryset.get(key=self.kwargs['key'])
             key.user.confirmed = timezone.now()
             key.user.save()
-            key.user.log(_('Email %(email)s address confirmed.') % {
-                'email': key.user.email
-            }, self.request.META['REMOTE_ADDR'])
 
             if key.user.is_authenticated() is False:
                 key.user.backend = settings.AUTHENTICATION_BACKENDS[0]
-                login(self.request, key.user)
+                login(request, key.user)
 
             # Actually create the user on the XMPP server
+            # TODO: uhm.. we do not pass the password.
             backend.create_user(key.user.node, key.user.domain, key.user.email)
+
+            key.user.log(_('Email %(email)s address confirmed.') % {
+                'email': key.user.email
+            }, address)
+            # TODO: More meaningful help message on a webchat, usable clients, follow updates, ...
+            messages.success(request, _(
+                "Successfully confirmed your email address. You can now use your account."))
 
             # Delete the registration key
             key.delete()
+
         return super(ConfirmRegistrationView, self).form_valid(form)
 
 
@@ -211,6 +219,10 @@ class RequestPasswordResetView(FormView):
         base_url = '%s://%s' % (request.scheme, request.get_host())
 
         user.log(_('Requested password reset.'), request.META['REMOTE_ADDR'])
+        messages.success(request, _(
+            'We just sent you an email to you with a link that will allow you to reset your '
+            'password.'))
+
         send_confirmation_task.delay(
             user_pk=user.pk, purpose=PURPOSE_RESET_PASSWORD, language=lang, to=user.email,
             base_url=base_url, server=request.site['DOMAIN'])
@@ -251,7 +263,11 @@ class SetEmailView(AccountPageMixin, FormView):
         base_url = '%s://%s' % (request.scheme, request.get_host())
         to = form.cleaned_data['email']
 
-        user.log(_('Requested password reset.'), address=address)
+        messages.success(request, _(
+            'We sent you an email to your new email address (%s). Click on the link in it to '
+            'confirm it.') % to)
+
+        user.log(_('Requested change of email address to %s.') % to, address=address)
 
         task = send_confirmation_task.si(
             user_pk=user.pk, purpose=PURPOSE_SET_EMAIL, language=lang, to=to,
@@ -278,7 +294,8 @@ class ConfirmSetEmailView(RedirectView):
     queryset = Confirmation.objects.valid().purpose(PURPOSE_SET_EMAIL)
 
     def get_redirect_url(self, *args, **kwargs):
-        user = self.request.user
+        request = self.request
+        user = request.user
         qs = self.queryset.filter(user=user)
         key = get_object_or_404(qs, key=kwargs['key'])
 
@@ -288,13 +305,17 @@ class ConfirmSetEmailView(RedirectView):
         with transaction.atomic():
             user.save()
             key.delete()
-            user.log(_('Changed email address to %s.') % key.to, self.request.META['REMOTE_ADDR'])
 
-            # TODO: messaging framework to notify of success.
+            messages.success(request, _('Changed email address to %s.') % user.email)
+            user.log(_('Confirmed email address change to %s.') % key.to,
+                     self.request.META['REMOTE_ADDR'])
+
             return super(ConfirmSetEmailView, self).get_redirect_url()
 
 
 class UserView(LoginRequiredMixin, AccountPageMixin, TemplateView):
+    """Main user settings view (/account)."""
+
     usermenu_item = 'account:detail'
     template_name = 'account/user_detail.html'
 
@@ -305,6 +326,8 @@ class UserView(LoginRequiredMixin, AccountPageMixin, TemplateView):
 
 
 class UserAvailableView(View):
+    """Ajax view to check if a username is still available (used during registration)."""
+
     def post(self, request):
         # Note: XMPP usernames are case insensitive
         username = request.POST.get('username', '').strip().lower()

@@ -32,6 +32,7 @@ from django.utils import translation
 from django.utils.crypto import get_random_string
 from django.utils.crypto import salted_hmac
 from django.utils.translation import ugettext_lazy as _
+from django.contrib.messages import constants as messages
 
 from django_xmpp_backends.models import XmppBackendUser
 from jsonfield import JSONField
@@ -170,8 +171,9 @@ class User(XmppBackendUser, PermissionsMixin):
                     expires = backend.expires(fp)
                     imported.append((key, fp, expires))
                 except Exception:
-                    with translation.override(language):
-                        self.log(_('Error importing GPG key.'), address=address)
+                    err = _('Error importing GPG key.')
+                    self.log(err, address=address)
+                    self.message(messages.ERROR, err)
                     raise
 
         for key, fp, expires in imported:
@@ -181,13 +183,13 @@ class User(XmppBackendUser, PermissionsMixin):
             dbkey, created = GpgKey.objects.update_or_create(
                 user=self, fingerprint=fp, defaults={'key': key, 'expires': expires, })
 
-            with translation.override(language):
-                if created is True:
-                    message = _('Added GPG key 0x%s.') % fp
-                else:
-                    message = _('Updated GPG key 0x%s.') % fp
+            if created is True:
+                message = _('Added GPG key 0x%s.') % fp
+            else:
+                message = _('Updated GPG key 0x%s.') % fp
 
             self.log(address=address, message=message)
+            self.message(messages.INFO, message)
 
     def __str__(self):
         return self.username
