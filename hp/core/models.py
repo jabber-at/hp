@@ -76,3 +76,9 @@ class MenuItem(MPTTModel, BaseModel):
 
     class MPTTMeta:
         order_insertion_by = ['title_en']
+
+
+class CachedMessage(BaseModel):
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, db_index=True)
+    level = models.IntegerField()
+    message = models.TextField()
