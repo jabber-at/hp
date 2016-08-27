@@ -16,6 +16,7 @@
 import logging
 
 from django.conf import settings
+from django.contrib import messages
 from django.contrib.auth import get_user_model
 from django.contrib.auth import login
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -123,6 +124,9 @@ class RegisterUserView(CreateView):
                 fingerprint=fp, key=key)
             task = chain(gpg_task, task)
         task.delay()
+
+        # TODO: more meaningful message
+        messages.add_message(request, messages.INFO, _('User registerd.'))
 
         return response
 
