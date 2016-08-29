@@ -42,6 +42,7 @@ class Command(BaseCommand):
         drush --uri=https://jabber.at node-export --type=story,page --format=json --file=export.txt
     """
     help = "Import a Drupal data export."
+    _link_cache = None
 
     def add_arguments(self, parser):
         parser.add_argument('input', help="Path to input file.")
@@ -97,7 +98,9 @@ class Command(BaseCommand):
             ('account.jabber.at/password/?', '/account/password/reset/'),
             ('webchat.jabber.at/?', 'Webchat'),
         ]:
-            text = re.sub(r'href=[\'"](https?://jabber.at)?%s[\'"]' % old, 'href="%s"' % new, text)
+#            text = re.sub(r'href=[\'"](https?://jabber.at)?%s[\'"]' % old, 'href="%s"' % new, text)
+            pass
+
         setattr(page, 'text_%s' % lang, text)
 
         slug = re.sub('[^a-z0-9-_üöäß]', '-', slug.lower()).strip('-')
@@ -109,6 +112,52 @@ class Command(BaseCommand):
 
     def parse_timestamp(self, stamp):
         return timezone.make_aware(datetime.fromtimestamp(int(stamp)))
+
+    def handle_match(self, text, match):
+        href = re.search('href=(?P<quotechar>["\'])(.*?)(?P=quotechar)', match)
+        if not href:
+            return text
+
+        href = href.groups()[1]
+        if re.match('https?://', href):
+            return text
+
+        linktext = re.search('>(.*?)</a>', match).groups()[0]
+        if self._link_cache is None:
+            self._link_cache = {
+                '/de/apt-repositories': Page.objects.get(slug_de='apt-repository'),
+                '/de/features': Page.objects.get(slug_de='apt-repository'),
+                '/de/features/apt': Page.objects.get(slug_de='apt-repository'),
+                '/de/features/firewalls': Page.objects.get(slug_de='features-firewalls'),
+                '/de/features/webpresence': Page.objects.get(slug_de='features-webpresence'),
+                '/de/privacy': Page.objects.get(slug_de='privatsphäre'),
+                '/de/privatsphäre': Page.objects.get(slug_de='privatsphäre'),
+                '/en/apt-repositories': Page.objects.get(slug_en='apt-repository'),
+                '/en/apt-repository': Page.objects.get(slug_en='apt-repository'),
+                '/en/features': Page.objects.get(slug_en='features'),
+                '/en/features/apt': Page.objects.get(slug_en='apt-repository'),
+                '/en/features/apt-repository': Page.objects.get(slug_en='apt-repository'),
+                '/en/features/firewalls': Page.objects.get(slug_en='features-firewalls'),
+                '/en/features/webpresence': Page.objects.get(slug_en='webpresence'),
+                '/en/how-good-tls-encryption': BlogPost.objects.get(slug_en='how-good-tls-encryption'),
+                '/en/privacy-policy': Page.objects.get(slug_en='privacy'),
+                '/en/webpresence': Page.objects.get(slug_en='features-firewalls'),
+            }
+
+        target = self._link_cache.get(href)
+
+        if target is None:
+            print(href)
+            return text
+
+        if isinstance(target, Page):
+            replacement = '{%% page %s title="%s" %%}' % (target.pk, linktext)
+        elif isinstance(target, BlogPost):
+            replacement = '{%% post %s title="%s" %%}' % (target.pk, linktext)
+        else:
+            raise ValueError("Unknown target type %s" % type(target))
+
+        return text.replace(match, replacement)
 
     def handle(self, input, **kwargs):
         with open(input) as stream:
@@ -195,4 +244,18 @@ class Command(BaseCommand):
             nodename = post_data['name'].lower()
             username = '%s@jabber.at' % nodename
             post.author = User.objects.get_or_create(username=username)[0]
+            post.save()
+
+        for page in Page.objects.all():
+            for match in re.finditer('(<[aA] .*?</a>)', page.text_de):
+                page.text_de = self.handle_match(page.text_de, match.groups()[0])
+            for match in re.finditer('(<[aA] .*?</a>)', page.text_en):
+                page.text_en = self.handle_match(page.text_en, match.groups()[0])
+            page.save()
+
+        for post in BlogPost.objects.all():
+            for match in re.finditer('(<[aA] .*?</a>)', post.text_de):
+                post.text_de = self.handle_match(post.text_de, match.groups()[0])
+            for match in re.finditer('(<[aA] .*?</a>)', post.text_en):
+                post.text_en = self.handle_match(post.text_en, match.groups()[0])
             post.save()
