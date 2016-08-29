@@ -15,12 +15,27 @@
 
 
 from django import template
+from django.utils.html import format_html
+
+from ..models import BlogPost
+from ..models import Page
 
 register = template.Library()
 
 
-@register.simple_tag(takes_context=True)
-def render(context, variable):
-    variable = '{%% load blog %%}%s' % variable
-    t = template.Template(variable)
-    return t.render(context)
+@register.simple_tag
+def page(pk, title=None, alt=None):
+    page = Page.objects.get(pk=pk)
+    title = title or page.title.current
+    alt = title or alt
+
+    return format_html('<a href="{}" alt="{}">{}</a>', page.get_absolute_url(), alt, title)
+
+
+@register.simple_tag
+def post(pk, title=None, alt=None):
+    post = BlogPost.objects.get(pk=pk)
+    title = title or post.title.current
+    alt = title or alt
+
+    return format_html('<a href="{}" alt="{}">{}</a>', post.get_absolute_url(), alt, title)
