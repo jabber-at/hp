@@ -21,7 +21,6 @@ from datetime import datetime
 from django.contrib.auth import get_user_model
 from django.contrib.contenttypes.models import ContentType
 from django.core.management.base import BaseCommand
-from django.core.urlresolvers import reverse
 from django.utils import timezone
 
 from ...constants import TARGET_MODEL
@@ -195,12 +194,23 @@ class Command(BaseCommand):
                 item.save()
 
         # We manually set some menu items
-        features_item = MenuItem.objects.get(title_en='Features')
+
+        features_item = MenuItem(title_de='de', title_en='en')
         features_item.target = LinkTargetDict(typ=TARGET_URL, url='#')
         features_item.save()
-        for title in ['Webpresence', 'Security', 'Firewall connectivity', 'APT repository', ]:
+
+        for title in ['Webpresence', 'Security', 'Firewall connectivity', 'APT repository', 'Features', ]:
             child_item = MenuItem.objects.get(title_en=title)
             child_item.move_to(features_item)
+
+        overview_item = MenuItem.objects.get(title_en='Features')
+        overview_item.title_en = 'Overview'
+        overview_item.title_de = 'Übersicht'
+        overview_item.save()
+
+        features_item.title_de = 'Features'
+        features_item.title_en = 'Features'
+        features_item.save()
 
         for nid, post_data in stories.items():
             if nid != post_data['tnid']:  # translated post
