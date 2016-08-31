@@ -15,14 +15,16 @@
 
 from django.conf import settings
 from django.core.mail import send_mail
+from django.core.urlresolvers import reverse_lazy
 from django.db.models import Q
 from django.http import Http404
 from django.http import HttpResponseRedirect
 from django.utils.translation import ugettext as _
+from django.utils.translation import LANGUAGE_SESSION_KEY
+from django.views.generic.base import RedirectView
 from django.views.generic.detail import DetailView
 from django.views.generic.edit import FormView
 from django.views.generic.list import ListView
-from django.core.urlresolvers import reverse_lazy
 
 from .forms import AnonymousContactForm
 from .forms import ContactForm
@@ -120,3 +122,11 @@ class ContactView(FormView):
         frm = self.request.site.get('DEFAULT_FROM_EMAIL', settings.DEFAULT_FROM_EMAIL)
         send_mail(subject, text, frm, [email])
         return super(ContactView, self).form_valid(form)
+
+
+class SetLanguageView(RedirectView):
+    def get_redirect_url(self, *args, **kwargs):
+        self.request.session[LANGUAGE_SESSION_KEY] = self.request.GET['lang']
+
+        # TODO: Verify that this is a local path
+        return self.request.GET['next']
