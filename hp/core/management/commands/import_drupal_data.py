@@ -56,53 +56,6 @@ class Command(BaseCommand):
         else:
             slug = data['title']
 
-        # replace some links so they work out of the box
-        text = getattr(page, 'text_%s' % lang)
-        for old, new in [
-            ('/de/apt-repositories/?', '/apt-repository/'),
-            ('/de/contact/?', '/kontakt/'),
-            ('/de/empfohlene-clients/?', '/clients/'),
-            ('/de/features/?', '/features/'),
-            ('/de/features/apt/?', '/apt-repository/'),
-            ('/de/features/firewalls/?', '/features-firewalls/'),
-            ('/de/features/webpresence/?', '/features-webpresence/'),
-            ('/de/kontakt/?', '/kontakt/'),
-            ('/de/node/138', '/b/trouble-connecting/'),
-            ('/de/node/25/?', '/features/'),
-            ('/de/privacy/?', '/privatsphäre/'),
-            ('/de/privatsphäre/?#legal', '/privatsphäre/#legal'),
-            ('/de/privatsphäre/?', '/privatsphäre/'),
-            ('/de/register/?', reverse('account:register')),
-            ('/de/webpresence', '/features-webpresence/'),
-            ('/en/apt-repositories/?', '/apt-repository/'),
-            ('/en/apt-repository/?', '/apt-repository/'),
-            ('/en/contact/?', '/contact/'),
-            ('/en/features/?', '/features/'),
-            ('/en/features/apt-repository', '/apt-repository'),
-            ('/en/features/apt/?', '/apt-repository/'),
-            ('/en/features/firewalls/?', '/features-firewalls/'),
-            ('/en/features/webpresence/?', '/features-webpresence/'),
-            ('/en/how-good-tls-encryption', '/b/how-good-tls-encryption/'),
-            ('/en/node/130', '/b/downtime-saturday-may-2-9-00-cest/'),
-            ('/en/node/132', '/b/change-in-password-reset-policy/'),
-            ('/en/node/137', '/b/trouble-connecting/'),
-            ('/en/privacy', reverse('core:page', kwargs={'slug': 'privacy'})),
-            ('/en/privacy-policy#legal', '%s#legal' % reverse('core:page', kwargs={'slug': 'privacy'})),
-            ('/en/privacy-policy/?', reverse('core:page', kwargs={'slug': 'privacy'})),
-            ('/en/register/?', reverse('account:register')),
-            ('/en/webpresence/?', reverse('core:page', kwargs={'slug': 'features-webpresence'})),
-            ('https://account.jabber.at/password/', '/account/password/reset/'),
-            ('https://webchat.jabber.at/?', '/chat/'),
-
-            # these are last because https://... should match first
-            ('account.jabber.at/password/?', '/account/password/reset/'),
-            ('webchat.jabber.at/?', 'Webchat'),
-        ]:
-#            text = re.sub(r'href=[\'"](https?://jabber.at)?%s[\'"]' % old, 'href="%s"' % new, text)
-            pass
-
-        setattr(page, 'text_%s' % lang, text)
-
         slug = re.sub('[^a-z0-9-_üöäß]', '-', slug.lower()).strip('-')
         slug = re.sub('-+', '-', slug)
         setattr(page, 'slug_%s' % lang, slug)
@@ -141,19 +94,47 @@ class Command(BaseCommand):
                 '/en/features/webpresence': Page.objects.get(slug_en='webpresence'),
                 '/en/how-good-tls-encryption': BlogPost.objects.get(slug_en='how-good-tls-encryption'),
                 '/en/privacy-policy': Page.objects.get(slug_en='privacy'),
+                '/en/privacy': Page.objects.get(slug_en='privacy'),
                 '/en/webpresence': Page.objects.get(slug_en='features-firewalls'),
+                '/de/privatsphäre#legal': Page.objects.get(slug_de='privatsphäre'),
+                '/en/privacy-policy#legal': Page.objects.get(slug_en='privacy'),
+
+                '/en/contact': {'path': 'core:contact'},
+                '/de/contact': {'path': 'core:contact'},
+                '/contact': {'path': 'core:contact'},
+                '/de/register': {'path': 'account:register'},
+                '/en/register': {'path': 'account:register'},
+                '/stats': {'url': 'https://stats.jabber.at'},
+                '/logs': {'url': '/logs'},
+                '/': {'path': 'core:home'},
+                '/presence/themes': {'url': 'https://http.jabber.at/presence/themes'},
+
+                '/de/node/25': Page.objects.get(slug_de='apt-repository'),
+                '/en/node/132': BlogPost.objects.get(slug_en='change-in-password-reset-policy'),
+                '/en/node/130': BlogPost.objects.get(slug_en='downtime-saturday-may-2-9-00-cest'),
             }
 
         target = self._link_cache.get(href)
 
         if target is None:
-            print(href)
             return text
 
         if isinstance(target, Page):
-            replacement = '{%% page %s title="%s" %%}' % (target.pk, linktext)
+            anchor = ''
+            if '#' in href:
+                _, anchor = href.split('#', 1)
+                anchor = 'anchor="%s" ' % anchor
+
+            replacement = '{%% page %s title="%s" %s%%}' % (target.pk, linktext, anchor)
         elif isinstance(target, BlogPost):
             replacement = '{%% post %s title="%s" %%}' % (target.pk, linktext)
+        elif isinstance(target, dict):
+            if target.get('path'):
+                replacement = '{%% path "%s" "%s" %%}' % (target['path'], linktext)
+            elif target.get('url'):
+                replacement = match.replace(href, target.get('url'))
+            else:
+                raise ValueError("Unknown target type %s" % type(target))
         else:
             raise ValueError("Unknown target type %s" % type(target))
 
