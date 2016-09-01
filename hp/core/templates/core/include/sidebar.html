@@ -1,0 +1,10 @@
+<div class="well">
+    <h4>About</h4>
+    This page is awesome
+    <a href="{% url "core:api-set-lang" %}?lang=de&next={{ request.path }}">de</a>,
+    <a href="{% url "core:api-set-lang" %}?lang=en&next={{ request.path }}">en</a>
+</div>
+<div class="well">
+    <h4>Whatever</h4>
+    another block.
+</div>

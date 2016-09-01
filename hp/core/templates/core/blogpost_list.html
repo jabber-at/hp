@@ -1,13 +1,13 @@
-{% extends "core/blog-base.html" %}
+{% extends "page.html" %}
 {% load i18n staticfiles %}
 
 {% block head %}{{ block.super }}
 <link href="{% static 'css/blog.css' %}" rel="stylesheet">
 {% endblock head %}
 
-{% block header %}{% trans "jabber.at blog" %}{% endblock header %}
+{% block title %}{% trans "jabber.at blog" %}{% endblock title %}
 
-{% block blog %}
+{% block content %}
 {% for post in object_list %}
 <div class="blog-post">
 <h3><a href="{{ post.get_absolute_url }}">{{ post.title.current }}</a>
@@ -20,4 +20,4 @@
 {% trans "No articles found." %}
 {% endfor %}
 
-{% endblock blog %}
+{% endblock content %}
