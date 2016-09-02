@@ -169,7 +169,10 @@ MESSAGE_TAGS = {
 # How long confirmation emails remain valid
 USER_CONFIRMATION_TIMEOUT = timedelta(hours=48)
 DNSBL = (
-    "zen.spamhaus.org", "spam.abuse.ch", "cbl.abuseat.org",
+    'sbl.spamhaus.org',
+    'xbl.spamhaus.org',
+    'spam.abuse.ch',
+    'cbl.abuseat.org',
 )
 
 ################
