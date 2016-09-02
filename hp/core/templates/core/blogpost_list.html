@@ -20,4 +20,39 @@
 {% trans "No articles found." %}
 {% endfor %}
 
+{% if is_paginated %}
+<nav aria-label="Page navigation">
+  <ul class="pagination">
+    {% if page_obj.has_previous %}
+    <li>
+      <a href="{{ request.path }}?page={{ page_obj.previous_page_number }}" aria-label="Previous">
+    {% else %}
+    <li class="disabled">
+      <a href="#" aria-label="Previous">
+    {% endif %}
+        <span aria-hidden="true">&laquo;</span>
+      </a>
+    </li>
+
+    {% if paginator.num_pages < 13 %}
+        {% for pagenumber in paginator.page_range %}
+        <li{% if pagenumber == page_obj.number %} class="active"{% endif %}>
+            <a href="{{ request.path }}?page={{ pagenumber }}">{{ pagenumber }}</a>
+        </li>
+        {% endfor %}
+    {% else %}
+    {% endif %}
+
+    {% if page_obj.has_next %}
+    <li>
+      <a href="{{ request.path }}?page={{ page_obj.next_page_number }}" aria-label="Next">
+    {% else %}
+    <li class="disabled">
+      <a href="#" aria-label="Next">
+    {% endif %}
+        <span aria-hidden="true">&raquo;</span>
+      </a>
+    </li>
+  </ul>
+</nav>{% endif %}
 {% endblock content %}
