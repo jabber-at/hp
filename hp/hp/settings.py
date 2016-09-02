@@ -171,6 +171,7 @@ USER_CONFIRMATION_TIMEOUT = timedelta(hours=48)
 DNSBL = (
     'sbl.spamhaus.org',
     'xbl.spamhaus.org',
+    'proxies.dnsbl.sorbs.net',
     'spam.abuse.ch',
     'cbl.abuseat.org',
 )
