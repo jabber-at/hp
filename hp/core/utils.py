@@ -38,16 +38,16 @@ def check_dnsbl(ip):
         query = '.'.join(reversed(str(ip).split("."))) + "." + dnsbl
 
         try:
-            answers = resolver.query(query, "A")
+            resolver.query(query, "A")
         except dns.resolver.NXDOMAIN:  # not blacklisted
             continue
 
         try:
-            reason = resolver.query(query, "TXT")[0]
+            reason = resolver.query(query, "TXT")[0].to_text()
         except:  # reason is optional
             pass
 
-        blocks.append((answers[0], reason))
+        blocks.append((dnsbl, reason))
 
     cache.set(cache_key, blocks, 3600)  # cache this for an hour
     return blocks
