@@ -315,7 +315,7 @@ class SetEmailView(LoginRequiredMixin, AccountPageMixin, FormView):
             'We sent you an email to your new email address (%s). Click on the link in it to '
             'confirm it.') % to)
         user.log(_('Requested change of email address to %s.') % to, address=address)
-        AddressActivity.objects.log(request, ACTIVITY_SET_EMAIL)
+        AddressActivity.objects.log(request, ACTIVITY_SET_EMAIL, note='address')
 
         return HttpResponseRedirect(reverse('account:detail'))
 

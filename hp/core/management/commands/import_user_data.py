@@ -71,10 +71,8 @@ class Command(BaseCommand):
 
                 if expires is not None:
                     expires = timezone.make_aware(expires)
-                GpgKey.objects.create(user=user, fingerprint=fp, key=data['gpg_key'], expires=expires)
-
-
-            # TODO: handle GPG key
+                GpgKey.objects.create(user=user, fingerprint=fp[0], key=data['gpg_key'],
+                                      expires=expires)
 
         # Make users superuser
         User.objects.filter(
