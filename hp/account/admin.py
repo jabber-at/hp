@@ -24,7 +24,7 @@ from .models import GpgKey
 
 @admin.register(User)
 class UserAdmin(BaseUserAdmin):
-    ordering = ('registered', )
+    ordering = ('-registered', )
     list_display = ('username', 'email', 'registered', 'confirmed', )
     list_filter = ('is_superuser', )
     readonly_fields = ['username', 'registered', ]
@@ -51,6 +51,7 @@ class UserLogEntryAdmin(admin.ModelAdmin):
 class GpgKeyAdmin(admin.ModelAdmin):
     list_display = ('user', 'fingerprint', 'expires')
     list_select_related = ('user', )
+    ordering = ('-created', )
 
 
 admin.site.unregister(Group)
