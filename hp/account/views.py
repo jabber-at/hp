@@ -45,6 +45,7 @@ from core.constants import ACTIVITY_RESET_PASSWORD
 from core.constants import ACTIVITY_SET_EMAIL
 from core.constants import ACTIVITY_SET_PASSWORD
 from core.models import AddressActivity
+from core.views import DnsBlMixin
 
 from .constants import PURPOSE_REGISTER
 from .constants import PURPOSE_RESET_PASSWORD
@@ -97,7 +98,7 @@ class UserDetailView(DetailView):
         return self.request.user
 
 
-class RegisterUserView(CreateView):
+class RegisterUserView(DnsBlMixin, CreateView):
     template_name_suffix = '_register'
     model = User
     form_class = CreateUserForm

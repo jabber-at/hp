@@ -1,0 +1,14 @@
+{% extends "page.html" %}
+{% load i18n %}
+
+{% block title %}{% trans "Ooops! You're blocked." %}{% endblock title %}
+
+{% block content %}
+<div class="alert alert-danger" role="alert">
+<strong>{% trans "You are not allowed to perform this function." %}</strong></div>
+
+{% blocktrans %}Your IP-Address appears on one or more 
+<a href="https://en.wikipedia.org/wiki/DNSBL">DNS-based Blackhole List (DNSBL)</a>.
+This is most likely due to you using an open proxy server or your computer sending a lot of SPAM.
+{% endblocktrans %}
+{% endblock content %}

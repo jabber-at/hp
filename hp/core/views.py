@@ -19,8 +19,9 @@ from django.core.urlresolvers import reverse_lazy
 from django.db.models import Q
 from django.http import Http404
 from django.http import HttpResponseRedirect
-from django.utils.translation import ugettext as _
+from django.template.response import TemplateResponse
 from django.utils.translation import LANGUAGE_SESSION_KEY
+from django.utils.translation import ugettext as _
 from django.views.generic.base import RedirectView
 from django.views.generic.detail import DetailView
 from django.views.generic.edit import FormView
@@ -30,6 +31,7 @@ from .forms import AnonymousContactForm
 from .forms import ContactForm
 from .models import Page
 from .models import BlogPost
+from .utils import check_dnsbl
 
 
 class TranslateSlugViewMixin(object):
@@ -86,6 +88,16 @@ class TranslateSlugViewMixin(object):
             raise Http404(_("No %(verbose_name)s found matching the query") %
                           {'verbose_name': queryset.model._meta.verbose_name})
         return obj
+
+
+class DnsBlMixin(object):
+    def dispatch(self, request, *args, **kwargs):
+        blocks = check_dnsbl(request.META['REMOTE_ADDR'])
+        if blocks:
+            return TemplateResponse(request, 'core/dnsbl.html', {
+                'blocks': blocks,
+            })
+        return super(DnsBlMixin, self).dispatch(request, *args, **kwargs)
 
 
 class PageView(TranslateSlugViewMixin, DetailView):
