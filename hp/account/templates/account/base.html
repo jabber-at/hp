@@ -7,7 +7,7 @@ Base template for user setting views when the user is logged in.
 {% block extracss %}<link href="{% static 'account/css/base.css' %}" rel="stylesheet">{% endblock extracss %}
 {% block extrajs %}<script src="{% static 'account/js/base.js' %}"></script>{% endblock extrajs %}
 
-{% block content %}
+{% block page %}
 <div class="row row-offcanvas row-offcanvas-left">
     <div class="col-xs-6 col-sm-3 sidebar-offcanvas" id="sidebar">
         <div class="list-group">
@@ -30,7 +30,7 @@ Base template for user setting views when the user is logged in.
             </h1>
         </div>
 {% include "core/include/messages.html" %}
-{% block usercontent %}{% endblock usercontent %}
+{% block content %}{% endblock content %}
     </div>
 </div>
-{% endblock content %}
+{% endblock page %}

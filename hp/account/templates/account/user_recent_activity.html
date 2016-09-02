@@ -2,7 +2,7 @@
 {% load i18n %}
 
 {% block title %}{% trans "Recent activity" %}{% endblock title %}
-{% block usercontent %}
+{% block content %}
 <table class="table table-bordered">
     <tr>
         <th>{% trans "IP" %}</th>
@@ -17,4 +17,4 @@
     </tr>
 {% endfor %}
 </table>
-{% endblock usercontent %}
+{% endblock content %}

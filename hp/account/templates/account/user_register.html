@@ -1,16 +1,16 @@
 {% extends "account/form-base.html" %}
 {% load i18n %}
 
+{% block title %}{% trans "Register" %}{% endblock title %}
 {% block form %}
-<h1>Register on jabber.at</h1>
 <p>
 {% blocktrans %}Please complete the form below to register for an account on jabber.at. You
 will receive an email to confirm the address provided. Click on the link in the email to 
 complete your registration.{% endblocktrans %}
 </p>
 <div class="alert alert-info alert-dismissable with-header" role="alert">
-<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-<h5><strong>{% trans "Why do we require your email address?" %}</strong></h5>
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+    <h5><strong>{% trans "Why do we require your email address?" %}</strong></h5>
 {% blocktrans %}By default, the email address is used only if you want to reset your password
 or if your account hasn't been used for a year and is about to be removed.
 {% endblocktrans %}
@@ -39,7 +39,7 @@ or if your account hasn't been used for a year and is about to be removed.
 do not upload a new one here, you can no longer read any emails (e.g. when you
 have forgotton your password) we send to you.{% endblocktrans %}
             </div>
-        </p>
+        </p></div>
     </div></div>
 
 

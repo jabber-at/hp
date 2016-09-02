@@ -1,9 +1,8 @@
-{% extends "base.html" %}
+{% extends "page.html" %}
 {% load i18n render %}
 
+{% block title %}{{ object.title.current }}{% endblock title %}
+
 {% block content %}
-<div class="page-header"><h1>{{ object.title.current }}</h1></div>
-
 {% render object.text.current %}
-
 {% endblock content %}

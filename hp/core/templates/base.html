@@ -59,12 +59,7 @@
 </nav>
 
 <div class="container" role="main">
-    <div class="row">
-        <div class="col-md-8">{% block page %}{% endblock page %}</div>
-        <div class="col-md-4 sidebar">
-            {% include "core/include/sidebar.html" %}
-        </div>
-    </div>
+    <div class="row">{% block page %}{% endblock page %}</div>
 </div>
 
 <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
