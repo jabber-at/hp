@@ -222,7 +222,28 @@ class MenuItemAdmin(DraggableMPTTAdmin):
 @admin.register(Address)
 class AddressAdmin(admin.ModelAdmin):
     ordering = ('address', )
+    list_display = ('address', 'count_activities', 'timerange', )
     search_fields = ['address']
+
+    def get_queryset(self, request):
+        qs = super(AddressAdmin, self).get_queryset(request)
+        return qs.count_activities().first_activity().last_activity()
+
+    def timerange(self, obj):
+        if obj.count_activities <= 1:
+            return '-'
+        diff = obj.last_activity - obj.first_activity
+        hours, remainder = divmod(diff.seconds, 3600)
+        minutes, seconds = divmod(remainder, 60)
+        obj.timerange = diff
+
+        return '%s days, %s:%s:%s' % (diff.days, hours, minutes, seconds)
+    timerange.short_description = _('Timerange of activities')
+
+    def count_activities(self, obj):
+        return obj.count_activities
+    count_activities.short_description = _('Number of activities')
+    count_activities.admin_order_field = 'count_activities'
 
 
 @admin.register(AddressActivity)
