@@ -34,12 +34,17 @@ from django.utils.translation import ugettext as _
 from django.views.generic import View
 from django.views.generic import DetailView
 from django.views.generic.base import RedirectView
-from django.views.generic.base import TemplateView
 from django.views.generic.edit import CreateView
 from django.views.generic.edit import FormView
 
 from celery import chain
 from django_xmpp_backends import backend
+
+from core.constants import ACTIVITY_REGISTER
+from core.constants import ACTIVITY_RESET_PASSWORD
+from core.constants import ACTIVITY_SET_EMAIL
+from core.constants import ACTIVITY_SET_PASSWORD
+from core.models import AddressActivity
 
 from .constants import PURPOSE_REGISTER
 from .constants import PURPOSE_RESET_PASSWORD
@@ -115,6 +120,8 @@ class RegisterUserView(CreateView):
 
             # log user creation, display help message.
             user.log(address=address, message=_('Account created.'))
+            AddressActivity.objects.log(request, ACTIVITY_REGISTER)
+
             messages.success(request, _(
                 """Successfully created the account %s. A confirmation email was just sent to the
 email address you provided (%s). Before you can use your account, you must click on the
@@ -229,6 +236,7 @@ class RequestPasswordResetView(FormView):
         base_url = '%s://%s' % (request.scheme, request.get_host())
 
         user.log(_('Requested password reset.'), request.META['REMOTE_ADDR'])
+        AddressActivity.objects.log(request, ACTIVITY_RESET_PASSWORD)
         messages.success(request, _(
             'We just sent you an email to you with a link that will allow you to reset your '
             'password.'))
@@ -279,6 +287,7 @@ class SetPasswordView(LoginRequiredMixin, AccountPageMixin, FormView):
 
         backend.set_password(username=user.node, domain=user.domain, password=password)
         user.log(_('Set new password.'), address)
+        AddressActivity.objects.log(request, ACTIVITY_SET_PASSWORD)
         messages.success(request, _('Successfully changed your password.'))
         return super(SetPasswordView, self).form_valid(form)
 
@@ -306,6 +315,7 @@ class SetEmailView(LoginRequiredMixin, AccountPageMixin, FormView):
             'We sent you an email to your new email address (%s). Click on the link in it to '
             'confirm it.') % to)
         user.log(_('Requested change of email address to %s.') % to, address=address)
+        AddressActivity.objects.log(request, ACTIVITY_SET_EMAIL)
 
         return HttpResponseRedirect(reverse('account:detail'))
 
