@@ -16,9 +16,16 @@
 import dns.resolver
 
 from django.conf import settings
+from django.core.cache import cache
 
 
 def check_dnsbl(ip):
+    cache_key = 'dnsbl_%s' % ip
+    blocks = cache.get(cache_key)
+
+    if blocks is not None:
+        return blocks
+
     blocks = []
     for dnsbl in settings.DNSBL:
         print('checking %s' % dnsbl)
@@ -38,5 +45,6 @@ def check_dnsbl(ip):
 
         blocks.append((answers[0], reason))
 
+    cache.set(cache_key, blocks, 3600)  # cache this for an hour
     return blocks
 
