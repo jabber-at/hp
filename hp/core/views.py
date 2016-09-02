@@ -91,10 +91,17 @@ class TranslateSlugViewMixin(object):
 
 
 class DnsBlMixin(object):
+    dnsbl_template = 'core/dnsbl.html'
+
     def dispatch(self, request, *args, **kwargs):
-        blocks = check_dnsbl(request.META['REMOTE_ADDR'])
+        if settings.DEBUG is True and request.GET.get('dnsbl'):
+            addr = request.GET['dnsbl']
+        else:
+            addr = request.META['REMOTE_ADDR']
+
+        blocks = check_dnsbl(addr)
         if blocks:
-            return TemplateResponse(request, 'core/dnsbl.html', {
+            return TemplateResponse(request, self.dnsbl_template, {
                 'blocks': blocks,
             })
         return super(DnsBlMixin, self).dispatch(request, *args, **kwargs)
