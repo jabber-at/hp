@@ -1,5 +1,5 @@
 {% extends "page.html" %}
-{% load i18n staticfiles %}
+{% load i18n staticfiles render %}
 
 {% block head %}{{ block.super }}
 <link href="{% static 'css/blog.css' %}" rel="stylesheet">
@@ -8,5 +8,5 @@
 {% block title %}{{ post.title.current }}{% endblock title %}
 
 {% block content %}
-{{ post.text.current|safe }}
+{% render post.text.current %}
 {% endblock content %}

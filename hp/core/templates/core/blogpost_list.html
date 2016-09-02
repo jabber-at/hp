@@ -1,5 +1,5 @@
 {% extends "page.html" %}
-{% load i18n staticfiles %}
+{% load i18n staticfiles render %}
 
 {% block head %}{{ block.super }}
 <link href="{% static 'css/blog.css' %}" rel="stylesheet">
@@ -13,7 +13,7 @@
 <h3><a href="{{ post.get_absolute_url }}">{{ post.title.current }}</a>
     <small>{% blocktrans with date=post.created user=post.author.node %}{{ date }} by {{ user}}{% endblocktrans %}</small>
 </h3>
-    {{ post.text.current|safe }}
+    {% render post.text.current %}
 </div>
     <hr>
 {% empty %}
