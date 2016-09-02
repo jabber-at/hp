@@ -26,6 +26,10 @@ from mptt.models import TreeForeignKey
 from .modelfields import LinkTarget
 from .modelfields import LocalizedCharField
 from .modelfields import LocalizedTextField
+from .constants import ACTIVITY_REGISTER
+from .constants import ACTIVITY_RESET_PASSWORD
+from .constants import ACTIVITY_SET_PASSWORD
+from .constants import ACTIVITY_SET_EMAIL
 
 
 class BaseModel(models.Model):
@@ -82,3 +86,40 @@ class CachedMessage(BaseModel):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, db_index=True)
     level = models.IntegerField()
     message = models.TextField()
+
+
+class Address(models.Model):
+    address = models.GenericIPAddressField()
+    activities = models.ManyToManyField(settings.AUTH_USER_MODEL, through='AddressActivity')
+
+    class Meta:
+        verbose_name = _('IP-Address')
+        verbose_name_plural = _('IP-Addresses')
+
+    def __str__(self):
+        return self.address
+
+
+class AddressActivity(models.Model):
+    address = models.ForeignKey(Address)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL)
+
+    ACTIVITY_CHOICES = {
+        ACTIVITY_REGISTER: _('Registration'),
+        ACTIVITY_RESET_PASSWORD: _('Reset password'),
+        ACTIVITY_SET_PASSWORD: _('Set password'),
+        ACTIVITY_SET_EMAIL: _('Set email'),
+    }
+
+    timestamp = models.DateTimeField(auto_now_add=True)
+    activity = models.SmallIntegerField(
+        choices=sorted([(k, v) for k, v in ACTIVITY_CHOICES.items()], key=lambda t: t[0]))
+    notes = models.CharField(max_length=255, default='', blank=True)
+
+    class Meta:
+        verbose_name = _('IP-Address Activity')
+        verbose_name_plural = _('IP-Address Activities')
+
+    def __str__(self):
+        return '%s: %s/%s' % (self.ACTIVITY_CHOICES[self.activity],
+                              self.address.address, self.user.username)
