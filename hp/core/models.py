@@ -28,10 +28,12 @@ from .constants import ACTIVITY_RESET_PASSWORD
 from .constants import ACTIVITY_SET_EMAIL
 from .constants import ACTIVITY_SET_PASSWORD
 from .managers import AddressActivityManager
+from .managers import AddressManager
 from .modelfields import LinkTarget
 from .modelfields import LocalizedCharField
 from .modelfields import LocalizedTextField
 from .querysets import AddressActivityQuerySet
+from .querysets import AddressQuerySet
 
 
 class BaseModel(models.Model):
@@ -91,6 +93,8 @@ class CachedMessage(BaseModel):
 
 
 class Address(models.Model):
+    objects = AddressManager.from_queryset(AddressQuerySet)()
+
     address = models.GenericIPAddressField()
     activities = models.ManyToManyField(settings.AUTH_USER_MODEL, through='AddressActivity')
 

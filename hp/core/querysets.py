@@ -16,5 +16,16 @@
 from django.db import models
 
 
+class AddressQuerySet(models.QuerySet):
+    def count_activities(self):
+        return self.annotate(count_activities=models.Count('activities'))
+
+    def first_activity(self):
+        return self.annotate(first_activity=models.Min('addressactivity__timestamp'))
+
+    def last_activity(self):
+        return self.annotate(last_activity=models.Max('addressactivity__timestamp'))
+
+
 class AddressActivityQuerySet(models.QuerySet):
     pass

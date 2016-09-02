@@ -16,6 +16,10 @@
 from django.db import models
 
 
+class AddressManager(models.Manager):
+    pass
+
+
 class AddressActivityManager(models.Manager):
     def log(self, request, activity, note='', user=None):
         user = user or request.user
