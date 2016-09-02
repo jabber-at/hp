@@ -1,5 +1,7 @@
-{% extends "base.html" %}
+{% extends "page.html" %}
 {% load i18n %}
+
+{% block title %}{% trans "Contact" %}{% endblock title %}
 
 {% block content %}
 <form class="form-horizontal" method="post" action="{% url 'core:contact' %}">{% csrf_token %}
