@@ -118,7 +118,7 @@ class AddressActivity(models.Model):
     timestamp = models.DateTimeField(auto_now_add=True)
     activity = models.SmallIntegerField(
         choices=sorted([(k, v) for k, v in ACTIVITY_CHOICES.items()], key=lambda t: t[0]))
-    notes = models.CharField(max_length=255, default='', blank=True)
+    note = models.CharField(max_length=255, default='', blank=True)
 
     class Meta:
         verbose_name = _('IP-Address Activity')
