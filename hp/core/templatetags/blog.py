@@ -24,18 +24,24 @@ register = template.Library()
 
 
 @register.simple_tag
-def page(pk, title=None, alt=None):
+def page(pk, title=None, alt=None, anchor=None):
     page = Page.objects.get(pk=pk)
     title = title or page.title.current
     alt = title or alt
+    url = page.get_absolute_url()
+    if anchor is not None:
+        url = '%s#%s' % (url, anchor)
 
-    return format_html('<a href="{}" alt="{}">{}</a>', page.get_absolute_url(), alt, title)
+    return format_html('<a href="{}" alt="{}">{}</a>', url, alt, title)
 
 
 @register.simple_tag
-def post(pk, title=None, alt=None):
+def post(pk, title=None, alt=None, anchor=None):
     post = BlogPost.objects.get(pk=pk)
     title = title or post.title.current
     alt = title or alt
+    url = post.get_absolute_url()
+    if anchor is not None:
+        url = '%s#%s' % (url, anchor)
 
-    return format_html('<a href="{}" alt="{}">{}</a>', post.get_absolute_url(), alt, title)
+    return format_html('<a href="{}" alt="{}">{}</a>', url, alt, title)
