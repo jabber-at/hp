@@ -13,18 +13,16 @@
 # You should have received a copy of the GNU General Public License along with django-xmpp-account.
 # If not, see <http://www.gnu.org/licenses/.
 
-import logging
-
-from django.core.urlresolvers import reverse
+from django.conf import settings
 
 from .models import MenuItem
-
-log = logging.getLogger(__name__)
 
 
 def basic(request):
     context = {
         'menuitems': MenuItem.objects.all(),
         'site': request.site,
+        # language switcher
+        'other_langs': [(k, v) for k, v in settings.LANGUAGES if k != request.LANGUAGE_CODE],
     }
     return context
