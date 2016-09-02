@@ -103,7 +103,7 @@ class Address(models.Model):
 
 
 class AddressActivity(models.Model):
-    objects = AddressActivityManager.from_queryset(AddressActivityQuerySet)
+    objects = AddressActivityManager.from_queryset(AddressActivityQuerySet)()
 
     address = models.ForeignKey(Address)
     user = models.ForeignKey(settings.AUTH_USER_MODEL)

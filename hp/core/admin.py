@@ -24,6 +24,8 @@ from composite_field.base import CompositeField
 from mptt.admin import DraggableMPTTAdmin
 from tinymce.widgets import TinyMCE
 
+from .models import Address
+from .models import AddressActivity
 from .models import BlogPost
 from .models import Page
 from .models import MenuItem
@@ -199,6 +201,7 @@ class BlogPostAdmin(BasePageAdmin):
     list_filter = [AuthorFilter, 'published', 'sticky', ]
     search_fields = ['title_de', 'title_en', 'text_en', 'text_de']
 
+
 @admin.register(Page)
 class PageAdmin(BasePageAdmin):
     fields = ['title', 'slug', 'text', 'published', ]
@@ -214,3 +217,18 @@ class MenuItemAdmin(DraggableMPTTAdmin):
     list_display_links = (
         'indented_title',
     )
+
+
+@admin.register(Address)
+class AddressAdmin(admin.ModelAdmin):
+    ordering = ('address', )
+    search_fields = ['address']
+
+
+@admin.register(AddressActivity)
+class AddressActivityAdmin(admin.ModelAdmin):
+    list_filter = ('activity', )
+    list_display = ('address', 'activity', 'user', 'activity', )
+    list_select_related = ('user', 'address', )
+    ordering = ('-timestamp', )
+    search_fields = ['user__username', 'address__address', 'note', ]

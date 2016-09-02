@@ -19,5 +19,5 @@ from django.db import models
 class AddressActivityManager(models.Manager):
     def log(self, request, activity, note=''):
         Address = self.model._meta.get_field('address').rel.to
-        address = Address.objects.get_or_create(request.META['REMOTE_ADDR'])
+        address = Address.objects.get_or_create(address=request.META['REMOTE_ADDR'])[0]
         return self.create(address=address, user=request.user, activity=activity, note=note)
