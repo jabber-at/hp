@@ -236,7 +236,7 @@ class RequestPasswordResetView(FormView):
         base_url = '%s://%s' % (request.scheme, request.get_host())
 
         user.log(_('Requested password reset.'), request.META['REMOTE_ADDR'])
-        AddressActivity.objects.log(request, ACTIVITY_RESET_PASSWORD)
+        AddressActivity.objects.log(request, ACTIVITY_RESET_PASSWORD, user=user)
         messages.success(request, _(
             'We just sent you an email to you with a link that will allow you to reset your '
             'password.'))
