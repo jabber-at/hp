@@ -1,6 +1,8 @@
 {% extends "account/form-base.html" %}
 {% load i18n %}
 
+{% block title %}{% trans "Login" %}{% endblock title %}
+
 {% block form %}
 {% if form.errors %}
 <div class="alert alert-danger">Your username and password didn't match. Please try again.</div>
