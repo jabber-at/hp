@@ -20,6 +20,11 @@ from django.core.cache import cache
 
 
 def check_dnsbl(ip):
+    """Check the given IP for DNSBL listings.
+
+    This method caches results for an hour to improve speed.
+    """
+
     cache_key = 'dnsbl_%s' % ip
     blocks = cache.get(cache_key)
 
@@ -28,7 +33,6 @@ def check_dnsbl(ip):
 
     blocks = []
     for dnsbl in settings.DNSBL:
-        print('checking %s' % dnsbl)
         reason = None
         resolver = dns.resolver.Resolver()
         query = '.'.join(reversed(str(ip).split("."))) + "." + dnsbl
