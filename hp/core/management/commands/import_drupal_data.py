@@ -24,6 +24,7 @@ from django.core.management.base import BaseCommand
 from django.utils import timezone
 
 from ...constants import TARGET_MODEL
+from ...constants import TARGET_NAMED_URL
 from ...constants import TARGET_URL
 from ...modelfields import LinkTargetDict
 from ...models import BlogPost
@@ -211,6 +212,11 @@ class Command(BaseCommand):
         features_item.title_de = 'Features'
         features_item.title_en = 'Features'
         features_item.save()
+
+        # add a contact menu item
+        MenuItem.objects.create(title_de="Kontakt", title_en="Contact", target=LinkTargetDict(
+            typ=TARGET_NAMED_URL, name='core:contact', args=(), kwargs={},
+        ))
 
         for nid, post_data in stories.items():
             if nid != post_data['tnid']:  # translated post
