@@ -14,12 +14,15 @@
 # If not, see <http://www.gnu.org/licenses/>.
 
 from django.conf import settings
+from django.core.cache import cache
 from django.core.mail import send_mail
 from django.core.urlresolvers import reverse_lazy
 from django.db.models import Q
 from django.http import Http404
 from django.http import HttpResponseRedirect
 from django.template.response import TemplateResponse
+from django.utils import timezone
+from django.utils.http import is_safe_url
 from django.utils.translation import LANGUAGE_SESSION_KEY
 from django.utils.translation import ugettext as _
 from django.views.generic.base import RedirectView
@@ -122,6 +125,26 @@ class AnonymousRequiredMixin(object):
         return super(AnonymousRequiredMixin, self).dispatch(request, *args, **kwargs)
 
 
+class RateLimitMixin(object):
+    rate_activity = None
+    rate_template = 'core/rate.html'
+
+    def get_rate_cache_key(self, request):
+        return 'rate_%s_%s' % (self.rate_activity, request.META['REMOTE_ADDR'])
+
+    def check_rate(self, request):
+        if settings.DEBUG is True:
+            return True
+        pass
+
+    def add_rated_activity(self, request):
+        cache_key = self.get_rate_cache_key(request)
+        now = timezone.now()
+        timestamps = cache.get(cache_key) or []
+        timestamps.append(now)
+        cache.set(timestamps)
+
+
 class PageView(TranslateSlugViewMixin, DetailView):
     queryset = Page.objects.filter(published=True)
 
@@ -162,6 +185,10 @@ class ContactView(FormView):
 class SetLanguageView(RedirectView):
     def get_redirect_url(self, *args, **kwargs):
         self.request.session[LANGUAGE_SESSION_KEY] = self.request.GET['lang']
+        redirect_to = self.request.GET['next']
 
-        # TODO: Verify that this is a local path
-        return self.request.GET['next']
+        # Ensure the user-originating redirection url is safe.
+        if not is_safe_url(url=redirect_to, host=self.request.get_host()):
+            redirect_to = '/'
+
+        return redirect_to
