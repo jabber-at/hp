@@ -217,6 +217,7 @@ class Command(BaseCommand):
         MenuItem.objects.create(title_de="Kontakt", title_en="Contact", target=LinkTargetDict(
             typ=TARGET_NAMED_URL, name='core:contact', args=(), kwargs={},
         ))
+        MenuItem.objects.rebuild()
 
         for nid, post_data in stories.items():
             if nid != post_data['tnid']:  # translated post
