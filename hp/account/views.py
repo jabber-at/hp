@@ -187,7 +187,7 @@ class ConfirmRegistrationView(FormView):
         return super(ConfirmRegistrationView, self).form_valid(form)
 
 
-class LoginView(FormView):
+class LoginView(DnsBlMixin, FormView):
     """Class-based adaption of django.contrib.auth.views.login.
 
     We duplicate the functionality here because we want to redirect the user to the account
@@ -220,7 +220,7 @@ class LoginView(FormView):
         return context
 
 
-class RequestPasswordResetView(FormView):
+class RequestPasswordResetView(DnsBlMixin, FormView):
     template_name = 'account/user_password_reset.html'
     form_class = RequestPasswordResetForm
 
