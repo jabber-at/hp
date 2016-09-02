@@ -23,13 +23,15 @@ from django.utils.translation import ugettext_lazy as _
 from mptt.models import MPTTModel
 from mptt.models import TreeForeignKey
 
+from .constants import ACTIVITY_REGISTER
+from .constants import ACTIVITY_RESET_PASSWORD
+from .constants import ACTIVITY_SET_EMAIL
+from .constants import ACTIVITY_SET_PASSWORD
+from .managers import AddressActivityManager
 from .modelfields import LinkTarget
 from .modelfields import LocalizedCharField
 from .modelfields import LocalizedTextField
-from .constants import ACTIVITY_REGISTER
-from .constants import ACTIVITY_RESET_PASSWORD
-from .constants import ACTIVITY_SET_PASSWORD
-from .constants import ACTIVITY_SET_EMAIL
+from .querysets import AddressActivityQuerySet
 
 
 class BaseModel(models.Model):
@@ -101,6 +103,8 @@ class Address(models.Model):
 
 
 class AddressActivity(models.Model):
+    objects = AddressActivityManager.from_queryset(AddressActivityQuerySet)
+
     address = models.ForeignKey(Address)
     user = models.ForeignKey(settings.AUTH_USER_MODEL)
 
