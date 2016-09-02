@@ -100,6 +100,21 @@ class DnsBlMixin(object):
         return super(DnsBlMixin, self).dispatch(request, *args, **kwargs)
 
 
+class AnonymousRequiredMixin(object):
+    """Opposite of LoginRequiredMixin.
+
+    Some views only make sense for anonymous users - e.g. logging in, registering, ...,
+    so we return the user to his details page if he is logged in.
+    """
+
+    redirect_url = reverse_lazy('account:detail')
+
+    def dispatch(self, request, *args, **kwargs):
+        if request.user.is_authenticated():
+            return HttpResponseRedirect(self.redirect_url)
+        return super(AnonymousRequiredMixin, self).dispatch(request, *args, **kwargs)
+
+
 class PageView(TranslateSlugViewMixin, DetailView):
     queryset = Page.objects.filter(published=True)
 

@@ -45,6 +45,7 @@ from core.constants import ACTIVITY_RESET_PASSWORD
 from core.constants import ACTIVITY_SET_EMAIL
 from core.constants import ACTIVITY_SET_PASSWORD
 from core.models import AddressActivity
+from core.views import AnonymousRequiredMixin
 from core.views import DnsBlMixin
 
 from .constants import PURPOSE_REGISTER
@@ -98,16 +99,11 @@ class UserDetailView(DetailView):
         return self.request.user
 
 
-class RegisterUserView(DnsBlMixin, CreateView):
+class RegisterUserView(DnsBlMixin, AnonymousRequiredMixin, CreateView):
     template_name_suffix = '_register'
     model = User
     form_class = CreateUserForm
     success_url = reverse_lazy('account:detail')
-
-    def dispatch(self, request, *args, **kwargs):
-        if request.user.is_authenticated() is True:
-            return HttpResponseRedirect(reverse('account:detail'))
-        return super(RegisterUserView, self).dispatch(request, *args, **kwargs)
 
     def form_valid(self, form):
         request = self.request
@@ -187,7 +183,7 @@ class ConfirmRegistrationView(FormView):
         return super(ConfirmRegistrationView, self).form_valid(form)
 
 
-class LoginView(DnsBlMixin, FormView):
+class LoginView(DnsBlMixin, AnonymousRequiredMixin, FormView):
     """Class-based adaption of django.contrib.auth.views.login.
 
     We duplicate the functionality here because we want to redirect the user to the account
@@ -196,11 +192,6 @@ class LoginView(DnsBlMixin, FormView):
     REDIRECT_FIELD_NAME = 'next'
     template_name = 'account/user_login.html'
     form_class = LoginForm
-
-    def dispatch(self, request, *args, **kwargs):
-        if request.user.is_authenticated():
-            return HttpResponseRedirect(reverse('account:detail'))
-        return super(LoginView, self).dispatch(request, *args, **kwargs)
 
     def form_valid(self, form):
         redirect_to = self.request.POST.get(self.REDIRECT_FIELD_NAME, '')
@@ -220,7 +211,7 @@ class LoginView(DnsBlMixin, FormView):
         return context
 
 
-class RequestPasswordResetView(DnsBlMixin, FormView):
+class RequestPasswordResetView(DnsBlMixin, AnonymousRequiredMixin, FormView):
     template_name = 'account/user_password_reset.html'
     form_class = RequestPasswordResetForm
 
