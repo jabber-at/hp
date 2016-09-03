@@ -117,7 +117,7 @@ class RegisterUserView(DnsBlMixin, AnonymousRequiredMixin, CreateView):
 
             # log user creation, display help message.
             user.log(address=address, message=_('Account created.'))
-            AddressActivity.objects.log(request, ACTIVITY_REGISTER)
+            AddressActivity.objects.log(request, ACTIVITY_REGISTER, user=user)
 
             messages.success(request, _(
                 """Successfully created the account %s. A confirmation email was just sent to the
