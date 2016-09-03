@@ -44,9 +44,11 @@ from core.constants import ACTIVITY_REGISTER
 from core.constants import ACTIVITY_RESET_PASSWORD
 from core.constants import ACTIVITY_SET_EMAIL
 from core.constants import ACTIVITY_SET_PASSWORD
+from core.constants import ACTIVITY_FAILED_LOGIN
 from core.models import AddressActivity
 from core.views import AnonymousRequiredMixin
 from core.views import DnsBlMixin
+from core.views import RateLimitMixin
 
 from .constants import PURPOSE_REGISTER
 from .constants import PURPOSE_RESET_PASSWORD
@@ -99,14 +101,16 @@ class UserDetailView(DetailView):
         return self.request.user
 
 
-class RegisterUserView(DnsBlMixin, AnonymousRequiredMixin, CreateView):
+class RegisterUserView(DnsBlMixin, RateLimitMixin, AnonymousRequiredMixin, CreateView):
     template_name_suffix = '_register'
     model = User
     form_class = CreateUserForm
     success_url = reverse_lazy('account:detail')
+    rate_activity = ACTIVITY_REGISTER
 
     def form_valid(self, form):
         request = self.request
+        self.ratelimit(request)
         address = request.META['REMOTE_ADDR']
         lang = request.LANGUAGE_CODE
         base_url = '%s://%s' % (request.scheme, request.get_host())
@@ -183,7 +187,7 @@ class ConfirmRegistrationView(FormView):
         return super(ConfirmRegistrationView, self).form_valid(form)
 
 
-class LoginView(DnsBlMixin, AnonymousRequiredMixin, FormView):
+class LoginView(DnsBlMixin, RateLimitMixin, AnonymousRequiredMixin, FormView):
     """Class-based adaption of django.contrib.auth.views.login.
 
     We duplicate the functionality here because we want to redirect the user to the account
@@ -192,6 +196,7 @@ class LoginView(DnsBlMixin, AnonymousRequiredMixin, FormView):
     REDIRECT_FIELD_NAME = 'next'
     template_name = 'account/user_login.html'
     form_class = LoginForm
+    rate_activity = ACTIVITY_FAILED_LOGIN
 
     def form_valid(self, form):
         redirect_to = self.request.POST.get(self.REDIRECT_FIELD_NAME, '')
@@ -203,6 +208,10 @@ class LoginView(DnsBlMixin, AnonymousRequiredMixin, FormView):
         # Okay, security check complete. Log the user in.
         login(self.request, form.get_user())
         return HttpResponseRedirect(redirect_to)
+
+    def form_invalid(self, form):
+        self.ratelimit(self.request)
+        return super(LoginView, self).form_invalid(form)
 
     def get_context_data(self, **kwargs):
         context = super(LoginView, self).get_context_data(**kwargs)
