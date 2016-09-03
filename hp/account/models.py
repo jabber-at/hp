@@ -140,8 +140,7 @@ class User(XmppBackendUser, PermissionsMixin):
         try:
             with gpg_backend.settings(home=home, **kwargs) as backend:
                 if init is True:  # import existing valid gpg keys
-                    # TODO: Does this match keys that never expire?
-                    for key in self.gpg_keys.filter(expires__gt=timezone.now()):
+                    for key in self.gpg_keys.valid():
                         backend.import_key(key.key.encode('utf-8'))
 
                 yield backend
