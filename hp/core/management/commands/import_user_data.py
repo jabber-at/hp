@@ -49,6 +49,8 @@ class Command(BaseCommand):
         User.objects.all().delete()
 
         for data in userdata:
+            self.stdout.write(data['username'])
+            self.stdout.flush()
             user = User(
                 username=data['username'],
                 email=data['email'],
