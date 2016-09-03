@@ -34,7 +34,7 @@ build_bootstrap = BuildBootstrapTask(
 
 configfile = configparser.ConfigParser({
     'home': '/usr/local/home/hp',
-    'path': '%(home)s/%(hostname)s',
+    'path': '%(home)s/hp',
     'upstream': 'https://github.com/jabber-at/hp',
 })
 configfile.read('fab.conf')
@@ -50,12 +50,13 @@ def setup(section):
     config = configfile[section]
     local('git push origin master')
     host = config.get('host')
+    home = config.get('home')
     path = config.get('path')
-    venv = config.get('virtualenv', path).rstrip('/')
+    venv = config.get('venv', home).rstrip('/')
 
     upstream = config.get('upstream')
 
-    sudo(host, 'git clone %s %s' % (upstream, venv))
+    sudo(host, 'git clone %s %s' % (upstream, path))
     sudo(host, 'virtualenv -p /usr/bin/python3 %s' % venv)
     pip(host, venv, 'install -U pip setuptools')
     pip(host, venv, 'install -U -r %s/requirements.txt' % path)
@@ -67,7 +68,7 @@ def deploy(section):
     config = configfile[section]
     host = config.get('host')
     path = config.get('path')
-    venv = config.get('virtualenv', path).rstrip('/')
+    venv = config.get('home', path).rstrip('/')
 
     local('git push origin master')
     sudo('cd %s && git pull origin master' % path)
