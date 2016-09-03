@@ -19,6 +19,9 @@ from django.contrib.messages import constants as messages
 from django.core.urlresolvers import reverse_lazy
 from django.utils.translation import ugettext_lazy as _
 
+from core.constants import ACTIVITY_REGISTER
+from core.constants import ACTIVITY_FAILED_LOGIN
+
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 ROOT_DIR = os.path.dirname(BASE_DIR)
@@ -169,13 +172,6 @@ MESSAGE_TAGS = {
 
 # How long confirmation emails remain valid
 USER_CONFIRMATION_TIMEOUT = timedelta(hours=48)
-DNSBL = (
-    'sbl.spamhaus.org',
-    'xbl.spamhaus.org',
-    'proxies.dnsbl.sorbs.net',
-    'spam.abuse.ch',
-    'cbl.abuseat.org',
-)
 
 ################
 # GPG settings #
@@ -211,13 +207,34 @@ CELERYBEAT_SCHEDULE = {
     },
 }
 
-####################
-# CAPTCHA settings #
-####################
+######################
+# Anti-Spam settings #
+######################
+
+# Captchas
 ENABLE_CAPTCHAS = True
 CAPTCHA_LENGTH = 8
 CAPTCHA_FONT_SIZE = 32
 CAPTCHA_TEXT_FIELD_TEMPLATE = 'core/captcha/text_field.html'
+
+# DNSBL lists
+DNSBL = (
+    'sbl.spamhaus.org',
+    'xbl.spamhaus.org',
+    'proxies.dnsbl.sorbs.net',
+    'spam.abuse.ch',
+    'cbl.abuseat.org',
+)
+
+# Ratelimit
+RATELIMIT_CONFIG = {
+    ACTIVITY_REGISTER: (
+        (timedelta(hours=1), 5, ),
+    ),
+    ACTIVITY_FAILED_LOGIN: (
+        (timedelta(minutes=30), 3, ),
+    ),
+}
 
 try:
     from .localsettings import *
