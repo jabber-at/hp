@@ -13,10 +13,13 @@
 # You should have received a copy of the GNU General Public License along with this project. If
 # not, see <http://www.gnu.org/licenses/>.
 
+import logging
+
 from django import template
 from django.core.urlresolvers import reverse
 from django.utils.html import format_html
 
+log = logging.getLogger(__name__)
 register = template.Library()
 
 
@@ -28,11 +31,19 @@ def render(context, variable):
 
 
 @register.simple_tag
-def path(urlname, text, alt=None, anchor=None, **kwargs):
-    path = reverse(urlname, kwargs=kwargs)
-    if anchor is not None:
-        path = '%s#%s' % (path, anchor)
+def path(urlname, text='', alt=None, anchor=None, **kwargs):
+    if not text:
+        log.warn('No text received path %s', urlname)
+        text = urlname
 
-    alt = alt or text
+    try:
+        path = reverse(urlname, kwargs=kwargs)
+        if anchor is not None:
+            path = '%s#%s' % (path, anchor)
 
-    return format_html('<a href="{}" alt="{}">{}</a>', path, alt, text)
+        alt = alt or text
+
+        return format_html('<a href="{}" alt="{}">{}</a>', path, alt, text)
+    except Exception as e:
+        log.exception(e)
+        return ''
