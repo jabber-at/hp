@@ -76,6 +76,8 @@ def set_email_task(user_pk, to, language, fingerprint=None, key=None, **payload)
             payload['gpg_key'] = gpg_backend.fetch_key('0x%s' % fingerprint)
         elif key:
             payload['gpg_key'] = key
+        else:
+            payload['gpg_key'] = None  # do not encrypt
 
         conf = Confirmation.objects.create(user=user, purpose=PURPOSE_SET_EMAIL, language=language, to=to,
                                            payload=payload)
