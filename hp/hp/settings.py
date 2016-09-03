@@ -14,6 +14,7 @@ import os
 
 from datetime import timedelta
 
+from celery.schedules import crontab
 from django.contrib.messages import constants as messages
 from django.core.urlresolvers import reverse_lazy
 from django.utils.translation import ugettext_lazy as _
@@ -201,6 +202,14 @@ GPG_KEYDIR = os.path.join(BASE_DIR, 'gpg-keys')
 ###################
 CELERY_ACCEPT_CONTENT = ['json']
 CELERY_TASK_SERIALIZER = 'json'
+
+# Periodic tasks
+CELERYBEAT_SCHEDULE = {
+    'core cleanup': {
+        'task': 'core.tasks.cleanup',
+        'schedule': crontab(hour=3, minute=0),
+    },
+}
 
 ####################
 # CAPTCHA settings #
