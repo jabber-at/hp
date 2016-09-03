@@ -194,7 +194,7 @@ GPG_BACKENDS = {
 }
 
 # Directory where public/private keys are stored for signing.
-GPG_KEYDIR = os.path.join(STATICFILES_DIRS[0], 'gpg')
+GPG_KEYDIR = os.path.join(BASE_DIR, 'gpg-keys')
 
 ###################
 # Celery settings #
