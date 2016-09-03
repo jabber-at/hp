@@ -32,22 +32,42 @@ build_bootstrap = BuildBootstrapTask(
     version='~3'
 )
 
-@task
-def deploy(section):
-    """Deploy current master."""
-    config = configparser.ConfigParser()
-    config.read('fab.conf')
-    config = config[section]
+configfile = configparser.ConfigParser({
+    'home': '/usr/local/home/hp',
+    'path': '%(home)s/%(hostname)s',
+    'upstream': 'https://github.com/jabber-at/hp',
+})
+configfile.read('fab.conf')
 
+ssh = lambda h, c: local('ssh %s %s' % (h, c))
+sudo = lambda h, c: ssh(h, 'sudo sh -c \'"%s"\'' % c)
+python = lambda h, v, c: sudo(h, '%s/bin/python %s' % (v, c))
+pip = lambda h, v, c: sudo(h, '%s/bin/pip %s' % (v, c))
+manage = lambda c: python('%s/hp/manage.py %s' % (path, c))
+
+@task
+def setup(section):
+    config = configfile[section]
+    local('git push origin master')
     host = config.get('host')
     path = config.get('path')
     venv = config.get('virtualenv', path).rstrip('/')
 
-    ssh = lambda c: local('ssh %s %s' % (host, c))
-    sudo = lambda c: ssh('sudo sh -c \'"%s"\'' % c)
-    python = lambda c: sudo('%s/bin/python %s' % (venv, c))
-    pip = lambda c: sudo('%s/bin/pip %s' % (venv, c))
-    manage = lambda c: python('%s/hp/manage.py %s' % (path, c))
+    upstream = config.get('upstream')
+
+    sudo(host, 'git clone %s %s' % (upstream, venv))
+    sudo(host, 'virtualenv -p /usr/bin/python3 %s' % venv)
+    pip(host, venv, 'install -U pip setuptools')
+    pip(host, venv, 'install -U -r %s/requirements.txt' % path)
+
+
+@task
+def deploy(section):
+    """Deploy current master."""
+    config = configfile[section]
+    host = config.get('host')
+    path = config.get('path')
+    venv = config.get('virtualenv', path).rstrip('/')
 
     local('git push origin master')
     sudo('cd %s && git pull origin master' % path)
