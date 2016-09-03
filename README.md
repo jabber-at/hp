@@ -49,3 +49,45 @@ bootrap inspiration for styling the blog:
 * http://blackrockdigital.github.io/startbootstrap-blog-home/
 * http://blackrockdigital.github.io/startbootstrap-blog-post/
 
+### Deployment
+
+In your local git checkout (see Development), create a fabric configuration file:
+
+```
+(hp)user@host ~/git/hp $ cat fab.conf 
+[jabber.at]
+# The domain to deploy to
+hostname = jabber.at
+# You should be able to ssh into the target server with this command.
+host = user@example.com
+```
+
+Install the projects dependencies. On Debian/Ubuntu, do (on the target server):
+
+````
+apt-get install virtualenv libgpgme11-dev
+```
+
+Next you can locally execute:
+
+```
+fab setup:section=jabber.at
+```
+
+To perform the pasic setup steps. You will still write a localsettings.py file and
+do the Django setup.
+
+
+### Development
+
+Clone the project, install dependencies and locally initialize the virtualenv.
+
+```
+git clone https://github.com/jabber-at/hp
+cd hp
+virtualenv -p /usr/bin/python3 .
+pip install -U pip setuptools
+pip install -r requirements.txt -r reqirements-dev.txt
+cd hp
+python manage.py migrate
+```
