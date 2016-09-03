@@ -23,6 +23,7 @@ from django.utils.translation import ugettext_lazy as _
 from mptt.models import MPTTModel
 from mptt.models import TreeForeignKey
 
+from .constants import ACTIVITY_FAILED_LOGIN
 from .constants import ACTIVITY_REGISTER
 from .constants import ACTIVITY_RESET_PASSWORD
 from .constants import ACTIVITY_SET_EMAIL
@@ -113,10 +114,11 @@ class AddressActivity(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL)
 
     ACTIVITY_CHOICES = {
+        ACTIVITY_FAILED_LOGIN: _('Failed login'),
         ACTIVITY_REGISTER: _('Registration'),
         ACTIVITY_RESET_PASSWORD: _('Reset password'),
-        ACTIVITY_SET_PASSWORD: _('Set password'),
         ACTIVITY_SET_EMAIL: _('Set email'),
+        ACTIVITY_SET_PASSWORD: _('Set password'),
     }
 
     timestamp = models.DateTimeField(auto_now_add=True)
