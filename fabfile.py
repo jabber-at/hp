@@ -82,4 +82,7 @@ def deploy(section):
     manage('collectstatic --noinput')
     manage('compilemessages -l de')
     sudo('touch /etc/uwsgi-emperor/vassals/%s.ini' % section)
-    sudo('systemctl restart celery')
+
+    # handle celery
+    sudo('systemctl daemon-reload')
+    sudo('systemctl restart hp-celery')
