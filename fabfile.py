@@ -80,11 +80,18 @@ def deploy(section):
     sudo('cd %s && git pull origin master' % path)
     pip('install -U pip setuptools mysqlclient')
     pip('install -U -r %s/requirements.txt' % path)
+
+    sudo('mkdir -p /var/www/%s/static /var/www/%s/media' % (hostname, hostname))
+
     manage('migrate')
     manage('collectstatic --noinput')
     manage('compilemessages -l de')
-    sudo('touch /etc/uwsgi-emperor/vassals/%s.ini' % section)
-    sudo('mkdir -p /var/www/%s/static /var/www/%s/media' % (hostname, hostname)
+
+    # restart uwsgi
+    sudo('touch /etc/uwsgi-emperor/vassals/hp.ini')
+
+    # reload apache
+    sudo('systemctl reload apache2')
 
     # handle celery
     sudo('systemctl daemon-reload')
