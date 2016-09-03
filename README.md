@@ -65,7 +65,7 @@ host = user@example.com
 Install the projects dependencies. On Debian/Ubuntu, do (on the target server):
 
 ````
-apt-get install virtualenv libgpgme11-dev
+apt-get install virtualenv libgpgme11-dev  libmysqlclient-dev
 ```
 
 Next you can locally execute:
