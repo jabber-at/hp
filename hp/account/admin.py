@@ -24,10 +24,6 @@ from .models import GpgKey
 
 @admin.register(User)
 class UserAdmin(BaseUserAdmin):
-    ordering = ('-registered', )
-    list_display = ('username', 'email', 'registered', 'confirmed', )
-    list_filter = ('is_superuser', )
-    readonly_fields = ['username', 'registered', ]
     add_fieldsets = (
         (None, {
             'fields': ('username', 'email', 'gpg_fingerprint'),
@@ -39,6 +35,11 @@ class UserAdmin(BaseUserAdmin):
                        'gpg_fingerprint'),
         }),
     )
+    list_display = ('username', 'email', 'registered', 'confirmed', )
+    list_filter = ('is_superuser', )
+    ordering = ('-registered', )
+    readonly_fields = ['username', 'registered', ]
+    search_fields = ['username', 'email', ]
 
 
 @admin.register(UserLogEntry)
