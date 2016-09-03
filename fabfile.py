@@ -58,7 +58,7 @@ def setup(section):
 
     sudo(host, 'git clone %s %s' % (upstream, path))
     sudo(host, 'virtualenv -p /usr/bin/python3 %s' % venv)
-    pip(host, venv, 'install -U pip setuptools')
+    pip(host, venv, 'install pip setuptools mysqlclient')
     pip(host, venv, 'install -U -r %s/requirements.txt' % path)
 
     sudo(host, 'ln -s %s/files/systemd/hp-celery.tmpfiles /etc/tmpfiles.d/hp-celery.conf' % path)
@@ -77,6 +77,7 @@ def deploy(section):
 
     local('git push origin master')
     sudo('cd %s && git pull origin master' % path)
+    pip('install -U pip setuptools mysqlclient')
     pip('install -U -r %s/requirements.txt' % path)
     manage('migrate')
     manage('collectstatic --noinput')
