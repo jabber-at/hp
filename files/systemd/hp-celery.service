@@ -11,13 +11,13 @@ EnvironmentFile=/etc/conf.d/hp-celery.conf
 WorkingDirectory=/usr/local/home/hp/hp/
 RestartSec=5
 ExecStart=/usr/local/home/hp/bin/celery multi start $CELERYD_NODES \
-    -A xmppaccount --pidfile=${CELERYD_PID_FILE} \
+    -A hp --pidfile=${CELERYD_PID_FILE} \
     --logfile=${CELERYD_LOG_FILE} --loglevel="${CELERYD_LOG_LEVEL}" \
     $CELERYD_OPTS
 ExecStop=/usr/local/home/hp/bin/celery multi stopwait $CELERYD_NODES \
     --pidfile=${CELERYD_PID_FILE}
 ExecReload=/usr/local/home/hp/bin/celery multi restart $CELERYD_NODES \
-    -A xmppaccount --pidfile=${CELERYD_PID_FILE} \
+    -A hp --pidfile=${CELERYD_PID_FILE} \
     --logfile=${CELERYD_LOG_FILE} --loglevel="${CELERYD_LOG_LEVEL}" \
     $CELERYD_OPTS
 

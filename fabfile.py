@@ -61,6 +61,11 @@ def setup(section):
     pip(host, venv, 'install -U pip setuptools')
     pip(host, venv, 'install -U -r %s/requirements.txt' % path)
 
+    sudo(host, 'ln -s %s/files/systemd/hp-celery.tmpfiles /etc/tmpfiles.d/hp-celery.conf' % path)
+    sudo(host,
+         'ln -s %s/files/systemd/hp-celery.service /etc/systemd/system/hp-celery.service' % path)
+    sudo(host, 'ln -s %s/files/systemd/hp-celery.conf /etc/conf.d/' % path)
+
 
 @task
 def deploy(section):
@@ -77,3 +82,4 @@ def deploy(section):
     manage('collectstatic --noinput')
     manage('compilemessages -l de')
     sudo('touch /etc/uwsgi-emperor/vassals/%s.ini' % section)
+    sudo('systemctl restart celery')
