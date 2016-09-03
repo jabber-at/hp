@@ -7,7 +7,7 @@
 {% if form.errors %}
 <div class="alert alert-danger">Your username and password didn't match. Please try again.</div>
 {% endif %}
-
+{% comment %}
 {% if next %}<p>Please login to see this page.</p>{% endif %}
 
 <form class="form-horizontal" method="post" action="{% url 'account:login' %}">{% csrf_token %}
@@ -26,4 +26,6 @@
   </div>
 </div>
 </form>
+{% endcomment %}
+<div class="alert alert-info" role="alert">This functionality is not yet available.</div>
 {% endblock form %}

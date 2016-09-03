@@ -3,6 +3,7 @@
 
 {% block title %}{% trans "Register" %}{% endblock title %}
 {% block form %}
+{% comment %}
 <p>
 {% blocktrans %}Please complete the form below to register for an account on jabber.at. You
 will receive an email to confirm the address provided. Click on the link in the email to 
@@ -15,7 +16,6 @@ complete your registration.{% endblocktrans %}
 or if your account hasn't been used for a year and is about to be removed.
 {% endblocktrans %}
 </div>
-
 <form enctype="multipart/form-data" class="form-horizontal" action="" method="post">{% csrf_token %}
 {{ form.username.formgroup }}
 {{ form.email.formgroup }}
@@ -55,4 +55,6 @@ have forgotton your password) we send to you.{% endblocktrans %}
     </div>
 </div>
 </form>
+{% endcomment %}
+<div class="alert alert-info" role="alert">This functionality is not yet available.</div>
 {% endblock form %}
