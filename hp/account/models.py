@@ -140,6 +140,7 @@ class User(XmppBackendUser, PermissionsMixin):
         try:
             with gpg_backend.settings(home=home, **kwargs) as backend:
                 if init is True:  # import existing valid gpg keys
+                    # TODO: Does this match keys that never expire?
                     for key in self.gpg_keys.filter(expires__gt=timezone.now()):
                         backend.import_key(key.key.encode('utf-8'))
 
@@ -232,7 +233,13 @@ class Confirmation(BaseModel):
         frm = server['DEFAULT_FROM_EMAIL']
 
         custom_key = self.payload.get('gpg_key')  # key from the payload
-        keys = list(self.user.gpg_keys.valid().values_list('fingerprint', flat=True))
+
+        # Only use the GPG keys stored for the user if the payload does not explicity specify
+        # a GPG key to use.  This is used e.g. when the user sets an email address and wants to use
+        # a different GPG key or none at all.
+        keys = None
+        if 'gpg_key' not in self.payload:
+            keys = list(self.user.gpg_keys.valid().values_list('fingerprint', flat=True))
 
         if custom_key or keys:
             sign_fp = server.get('GPG_FINGERPRINT')
