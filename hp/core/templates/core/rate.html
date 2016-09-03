@@ -1,0 +1,13 @@
+{% extends "page.html" %}
+{% load i18n %}
+
+{% block title %}{% trans "Ooops! Not so fast." %}{% endblock title %}
+
+{% block content %}
+<div class="alert alert-danger" role="alert">
+    <strong>{% trans "You have performed this activity to often in a short period of time." %}</strong>
+</div>
+
+{% blocktrans %}We automatically block IP address temporarily if they perform this activity
+too often. Please wait a while before trying again.{% endblocktrans %}
+{% endblock content %}
