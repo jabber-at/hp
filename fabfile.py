@@ -17,6 +17,7 @@ import configparser
 
 from fabric.api import local
 from fabric.api import task
+from fabric.tasks import Task
 
 from fabric_webbuilders import BuildBootstrapTask
 
@@ -43,7 +44,32 @@ ssh = lambda h, c: local('ssh %s %s' % (h, c))
 sudo = lambda h, c: ssh(h, 'sudo sh -c \'"%s"\'' % c)
 python = lambda h, v, c: sudo(h, '%s/bin/python %s' % (v, c))
 pip = lambda h, v, c: sudo(h, '%s/bin/pip %s' % (v, c))
-manage = lambda c: python('%s/hp/manage.py %s' % (path, c))
+manage = lambda h, v, p, c: python(h, v, '%s/hp/manage.py %s' % (p, c))
+
+
+class DeploymentTaskMixin(object):
+    def sudo(self, cmd, chdir=''):
+        if chdir:
+            return local('ssh %s sudo sh -c \'"cd %s && %s"\'' % (self.host, chdir, cmd))
+        else:
+            return local('ssh %s sudo %s' % (self.host, cmd))
+
+    def sg(self, cmd, chdir=''):
+        if not self.group:
+            return self.sudo(cmd, chdir=chdir)
+
+        sg_cmd = 'ssh %s sudo sg %s -c' % (self.host, self.group)
+        if chdir:
+            return local('%s \'"cd %s && %s"\'' % (sg_cmd, chdir, cmd))
+        else:
+            return local('%s \'"%s"\'' % (sg_cmd, cmd))
+
+    def pip(self, cmd):
+        return self.sudo('%s/bin/pip %s' % (self.venv, cmd))
+
+    def manage(self, cmd):
+        return self.sudo('%s/bin/python hp/manage.py %s' %  (self.venv, cmd), chdir=self.path)
+
 
 @task
 def setup(section):
@@ -67,32 +93,34 @@ def setup(section):
     sudo(host, 'ln -s %s/files/systemd/hp-celery.conf /etc/conf.d/' % path)
 
 
-@task
-def deploy(section):
+class DeployTask(DeploymentTaskMixin, Task):
     """Deploy current master."""
-    config = configfile[section]
-    hostname = config.get('hostname')
-    host = config.get('host')
-    path = config.get('path')
-    venv = config.get('home', path).rstrip('/')
+    def run(self, section='DEFAULT'):
+        config = configfile[section]
+        self.hostname = config.get('hostname')
+        self.host = config.get('host')
+        self.path = config.get('path')
+        self.venv = config.get('home', self.path).rstrip('/')
 
-    local('git push origin master')
-    sudo('cd %s && git pull origin master' % path)
-    pip('install -U pip setuptools mysqlclient')
-    pip('install -U -r %s/requirements.txt' % path)
+        local('git push origin master')
+        self.sudo('git pull origin master', chdir=self.path)
+        self.pip('install -U pip setuptools mysqlclient')
+        self.pip('install -U -r %s/requirements.txt' % self.path)
 
-    sudo('mkdir -p /var/www/%s/static /var/www/%s/media' % (hostname, hostname))
+        self.sudo('mkdir -p /var/www/%s/static /var/www/%s/media' % (self.hostname, self.hostname))
 
-    manage('migrate')
-    manage('collectstatic --noinput')
-    manage('compilemessages -l de')
+        self.manage('migrate')
+        self.manage('collectstatic --noinput')
+        self.manage('compilemessages -l de')
 
-    # restart uwsgi
-    sudo('touch /etc/uwsgi-emperor/vassals/hp.ini')
+        # restart uwsgi
+        self.sudo('touch /etc/uwsgi-emperor/vassals/hp.ini')
 
-    # reload apache
-    sudo('systemctl reload apache2')
+        # reload apache
+        self.sudo('systemctl reload apache2')
 
-    # handle celery
-    sudo('systemctl daemon-reload')
-    sudo('systemctl restart hp-celery')
+        # handle celery
+        self.sudo('systemctl daemon-reload')
+        self.sudo('systemctl restart hp-celery')
+
+deploy = DeployTask()
