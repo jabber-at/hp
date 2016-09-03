@@ -71,6 +71,7 @@ def setup(section):
 def deploy(section):
     """Deploy current master."""
     config = configfile[section]
+    hostname = config.get('hostname')
     host = config.get('host')
     path = config.get('path')
     venv = config.get('home', path).rstrip('/')
@@ -83,6 +84,7 @@ def deploy(section):
     manage('collectstatic --noinput')
     manage('compilemessages -l de')
     sudo('touch /etc/uwsgi-emperor/vassals/%s.ini' % section)
+    sudo('mkdir -p /var/www/%s/static /var/www/%s/media' % (hostname, hostname)
 
     # handle celery
     sudo('systemctl daemon-reload')
