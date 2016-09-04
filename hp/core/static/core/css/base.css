@@ -63,3 +63,46 @@ div.twitter-btn a .label {
     padding: 0;
     font: normal normal normal 11px/18px 'Helvetica Neue',Arial,sans-serif;
 }
+
+/**
+ * Facebook buttons
+ */
+div.facebook-btn {
+    border-radius: 3px;
+    height: 20px;
+    padding: 0 0 0 2px;
+    font-size: 11px;
+    font-family: helvetica, arial, sans-serif;
+    color: #fff;
+    cursor: pointer;
+    display: inline-block;
+    background: #4267b2;
+    border: 1px solid #4267b2;
+}
+
+div.facebook-btn:hover {
+    background: #365899;
+    border: 1px solid #365899;
+}
+
+div.facebook-btn a {
+    vertical-align: middle;
+    font-weight: bold;
+    padding: 0 4px;
+    text-decoration: none;
+    cursor: pointer;
+}
+div.facebook-btn a .fb-logo {
+    margin-left: -3px;
+}
+div.facebook-btn a .fb-logo svg {
+    width: 18px;
+    height: 18px;
+}
+div.facebook-btn a .fb-label {
+    color: #fff;
+    font-size: 11px;
+    margin-left: 4px;
+    position: relative;
+    top: -5px;
+}
