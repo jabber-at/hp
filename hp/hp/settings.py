@@ -52,6 +52,7 @@ INSTALLED_APPS = [
     'captcha',
     'mptt',  # Tree structure for MenuItem
     'tinymce',  # Rich text editor
+    'xmpp_http_upload',  # XEP-0363
 
     'core',
     'bootstrap',  # bootstrap enhancements

@@ -24,5 +24,6 @@ urlpatterns = [
     url(r'^captcha/', include('captcha.urls')),
 
     url(r'^account/', include('account.urls')),
+    url(r'^xep0363/', include('xmpp_http_upload.urls', namespace='xmpp-http-upload')),
     i18n_url(r'^', include('core.urls')),
 ]
