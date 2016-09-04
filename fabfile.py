@@ -14,6 +14,7 @@
 # not, see <http://www.gnu.org/licenses/>.
 
 import configparser
+from datetime import datetime
 
 from fabric.api import local
 from fabric.api import task
@@ -122,5 +123,8 @@ class DeployTask(DeploymentTaskMixin, Task):
         # handle celery
         self.sudo('systemctl daemon-reload')
         self.sudo('systemctl restart hp-celery')
+
+        local('git tag %s/%s' % (self.hostname, datetime.utcnow().strftime('%Y%m%d-%H%M%S')))
+        local('git push --tags')
 
 deploy = DeployTask()
