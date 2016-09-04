@@ -26,19 +26,26 @@ register = template.Library()
 
 
 @register.simple_tag
-def path(urlname, text='', alt=None, anchor=None, **kwargs):
+def path(urlname, text='', title=None, anchor=None, **kwargs):
     if not text:
         log.warn('No text received path %s', urlname)
         text = urlname
+
+    if 'alt' in kwargs:
+        alt = kwargs.pop('alt')
+        log.warn('Legacy alt-attribute found: %s', alt)
+        if not title:
+            title = alt
 
     try:
         path = reverse(urlname, kwargs=kwargs)
         if anchor is not None:
             path = '%s#%s' % (path, anchor)
 
-        alt = alt or text
-
-        return format_html('<a href="{}" alt="{}">{}</a>', path, alt, text)
+        title_attr = ''
+        if title:
+            title_attr = format_html(' title={}', title)
+        return format_html('<a href="{}"{}>{}</a>', path, title_attr, text)
     except Exception as e:
         log.exception(e)
         return ''
