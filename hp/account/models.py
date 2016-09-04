@@ -50,8 +50,10 @@ from .constants import PURPOSE_SET_EMAIL
 from .constants import REGISTRATION_CHOICES
 from .constants import REGISTRATION_WEBSITE
 from .managers import UserManager
+from .managers import UserLogEntryManager
 from .querysets import ConfirmationQuerySet
 from .querysets import GpgKeyQuerySet
+from .querysets import UserLogEntryQuerySet
 
 
 log = logging.getLogger(__name__)
@@ -268,6 +270,8 @@ class Confirmation(BaseModel):
 
 class UserLogEntry(BaseModel):
     """A model that logs user activity, e.g. a change of password or GPG key."""
+
+    objects = UserLogEntryManager.from_queryset(UserLogEntryQuerySet)()
 
     user = models.ForeignKey(settings.AUTH_USER_MODEL, related_name='log_entries')
     address = models.GenericIPAddressField(null=True)

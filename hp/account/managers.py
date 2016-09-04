@@ -15,6 +15,7 @@
 
 from django.conf import settings
 from django.contrib.auth.models import BaseUserManager
+from django.db import models
 from django.db import transaction
 from django.utils import timezone
 
@@ -42,3 +43,7 @@ class UserManager(BaseUserManager):
         user.is_superuser = True
         user.save()
         return user
+
+
+class UserLogEntryManager(models.Manager):
+    pass

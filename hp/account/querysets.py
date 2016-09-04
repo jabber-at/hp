@@ -13,6 +13,7 @@
 # You should have received a copy of the GNU General Public License along with django-xmpp-account.
 # If not, see <http://www.gnu.org/licenses/>.
 
+from django.conf import settings
 from django.db import models
 from django.utils import timezone
 
@@ -43,3 +44,13 @@ class ConfirmationQuerySet(models.QuerySet):
             now = timezone.now()
 
         return self.filter(expires__lt=now)
+
+
+class UserLogEntryQuerySet(models.QuerySet):
+    def expired(self, now=None, delta=None):
+        if now is None:
+            now = timezone.now()
+        if delta is None:
+            delta = settings.USER_LOGENTRY_EXPIRES
+
+        return self.filter(created__lt=now - delta)
