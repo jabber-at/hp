@@ -238,9 +238,6 @@ class RequestPasswordResetView(DnsBlMixin, AnonymousRequiredMixin, FormView):
 
         user.log(_('Requested password reset.'), request.META['REMOTE_ADDR'])
         AddressActivity.objects.log(request, ACTIVITY_RESET_PASSWORD, user=user)
-        messages.success(request, _(
-            'We just sent you an email to you with a link that will allow you to reset your '
-            'password.'))
 
         send_confirmation_task.delay(
             user_pk=user.pk, purpose=PURPOSE_RESET_PASSWORD, language=lang, to=user.email,
