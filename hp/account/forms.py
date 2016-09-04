@@ -29,6 +29,7 @@ from .formfields import UsernameField
 from .formfields import FingerprintField
 from .formfields import KeyUploadField
 
+_BANNED_EMAIL_DOMAINS = getattr(settings, 'BANNED_EMAIL_DOMAINS', set())
 _MIN_USERNAME_LENGTH = getattr(settings, 'MIN_USERNAME_LENGTH', 2)
 _MAX_USERNAME_LENGTH = getattr(settings, 'MAX_USERNAME_LENGTH', 64)
 
@@ -93,6 +94,23 @@ class CreateUserForm(GPGMixin, CaptchaFormMixin, forms.ModelForm):
     email = BootstrapEmailField(
         help_text=_('Required, a confirmation email will be sent to this address.')
     )
+
+    def clean_email(self):
+        email = self.cleaned_data['email']
+        _node, domain = email.rsplit('@', 1)
+
+        if domain in settings.XMPP_HOSTS \
+                and not settings.XMPP_HOSTS[domain].get('ALLOW_EMAIL', False):
+
+            raise forms.ValidationError(_(
+                'Please give your own email address, %(domain)s does not provide one.')
+                % {'domain': domain})
+        if domain in _BANNED_EMAIL_DOMAINS:
+            raise forms.ValidationError(_(
+                'Sorry, you cannot use an address on %(domain)s. The domain was blocked because '
+                'it was used to by Spammers.') % {'domain': domain})
+
+        return email
 
     class Meta:
         model = User
