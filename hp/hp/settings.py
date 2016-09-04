@@ -206,6 +206,10 @@ CELERYBEAT_SCHEDULE = {
         'task': 'core.tasks.cleanup',
         'schedule': crontab(hour=3, minute=0),
     },
+    'account cleanup': {
+        'task': 'account.tasks.cleanup',
+        'schedule': crontab(hour=3, minute=5),
+    },
 }
 
 ######################
