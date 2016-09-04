@@ -1,8 +1,17 @@
 {% extends "account/base.html" %}
-{% load i18n %}
+{% load i18n core %}
 
 {% block title %}{% trans "Recent activity" %}{% endblock title %}
 {% block content %}
+
+<p>{% blocktrans with delta=logentry_expires|format_timedelta %}This page shows any recent activity for your account. This information is useful
+if you suspect someone is trying to take over your account. The log entries are
+removed after {{ delta }}.{% endblocktrans %}
+</p>
+
+<p>{% blocktrans %}Please note that this log only includes activity on this homepage. Failed login
+attempts on the Jabber/XMPP server itself will not show up here.{% endblocktrans %}</p>
+
 <table class="table table-bordered">
     <tr>
         <th>{% trans "IP" %}</th>
