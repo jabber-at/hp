@@ -1,0 +1,164 @@
+# Example localsettings.py file for this project.
+#
+# List of all stock Django settings:
+#       https://docs.djangoproject.com/en/1.10/ref/settings/
+
+import os
+
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+
+# Set this to True during development
+#DEBUG = True
+
+# Set this to something long and unique
+SECRET_KEY = ''
+
+##########
+# Caches #
+##########
+# See also: https://docs.djangoproject.com/en/dev/topics/cache/
+
+# Django uses an in-memory cache by default. In development, it's recommended you use a persistent
+# cache because the xmpp_backends.dummy.DummyBackend uses Djangos cache.
+CACHES = {
+    "default": {
+        "BACKEND": "django_redis.cache.RedisCache",
+        "LOCATION": "redis://127.0.0.1:6379/1",
+
+        # Use this in development, that way users don't disappear from the "backend" (which is just
+        # this redis cache).
+        #"TIMEOUT": None,  # never expire
+        "OPTIONS": {
+            "CLIENT_CLASS": "django_redis.client.DefaultClient",
+        },
+    },
+}
+
+########################
+# Celery configuration #
+########################
+# See also: http://docs.celeryproject.org/en/latest/configuration.html
+
+#BROKER_URL = 'redis://localhost:6379/0'
+
+##################
+# Email settings #
+##################
+
+# Email settings (see Django docs for all options)
+#EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+#EMAIL_HOST = ''
+#EMAIL_PORT = 587
+#EMAIL_HOST_USER = ''
+#EMAIL_HOST_PASSWORD = ''
+#EMAIL_USE_TLS = True
+
+#########################
+# General configuration #
+#########################
+
+#MIN_USERNAME_LENGTH = 2
+#MAX_USERNAME_LENGTH = 64
+
+############################
+# XMPP hosts configuration #
+############################
+
+# Connection to the XMPP server.
+XMPP_BACKENDS = {
+    'default': {
+        # For development, uses Djangos cache (see CACHES)
+        #'BACKEND': 'xmpp_backends.dummy.DummyBackend',
+
+        # A sample connection using xmlrpc
+        #'BACKEND': 'xmpp_backends.ejabberd_xmlrpc.EjabberdXMLRPCBackend',
+        #'uri': 'https://...',
+        #'user': 'user',
+        #'server': 'example.com',
+        #'password': '...',
+    },
+}
+
+# Hosts handled by this domain (used in registration form etc.)
+XMPP_HOSTS = {
+    'example.com': {
+        'REGISTRATION': True,
+        'GPG_FINGERPRINT': '...',  # Used for signing, no 0x prefix!
+        'DEFAULT_FROM_EMAIL': 'noreply@example.com',
+
+        # Set to true if a user could use an email address from this domain for registration
+        #'ALLOW_EMAIL': True,
+    },
+}
+
+# Default email used when a host in XMPP_HOSTS does not define one.
+DEFAULT_FROM_EMAIL = 'noreply@jabber.at'
+
+# Default selection in form selection fields
+DEFAULT_XMPP_HOST = 'jabber.at'
+
+######################
+# Anti-Spam settings #
+######################
+
+# CAPTCHAs
+#
+#ENABLE_CAPTCHAS = True
+#CAPTCHA_LENGTH = 8
+#CAPTCHA_FONT_SIZE = 32
+
+# DNS-based Blackhole List
+# IPs that are on one of these DNSBLs are not allowed to use views that use core.views.DnsBlMixin.
+#
+#DNSBL = (
+#    'sbl.spamhaus.org',
+#    'xbl.spamhaus.org',
+#    'proxies.dnsbl.sorbs.net',
+#    'spam.abuse.ch',
+#    'cbl.abuseat.org',
+#)
+
+# Ratelimits
+# Enforce a rate limit per IP for views that use core.views.RateLimitMixin. Use one of the
+# constants in core.constants.ACTIVITY_*.
+#
+#RATELIMIT_CONFIG = {
+#    ACTIVITY_REGISTER: (
+#        (timedelta(hours=1), 5, ),
+#    ),
+#    ACTIVITY_FAILED_LOGIN: (
+#        (timedelta(minutes=30), 3, ),
+#    ),
+#}
+
+# Domains that cannot be used for registration because they are used for SPAM
+#BANNED_EMAIL_DOMAINS = {'spam.com', 'spam.net', }
+
+#####################
+# GPG configuration #
+#####################
+
+# GPG keyserver used for fetching keys
+#GPG_KEYSERVER = 'pool.sks-keyservers.net'
+
+# Location of the *private* key files used for signing GPG emails. This directory is expected
+# to contain the private keys configured in the GPG_FINGERPRINT setting in XMPP_HOSTS. The name
+# of the files should be <fingerprint>.key.
+#GPG_KEYDIR = ''
+
+# Custom GPG backend.
+# NOTE: The backend here is never used verbatim in production. All public keys for users come from
+#       the database, private keys come from the filesystem (see GPG_KEYDIR). Every GPG operation
+#       is done in a separate keyring that is deleted after use. This is done to (a) isolate users
+#       from each other and (b) because of various threading issues with GPG.
+#
+#GPG_BACKENDS = {
+#    'default': {
+#        'BACKEND': 'gpgmime.gpgme.GpgMeBackend',
+#        'HOME': os.path.join(ROOT_DIR, 'gnupg'),
+#        # Optional settings:
+#        'PATH': '/home/...',  # Path to 'gpg' binary
+#        'ALWAYS_TRUST': True,   # Ignore trust in all operations
+#        'OPTIONS': {...},  # Any custom options for the specific backend implementation
+#    },
+#}
