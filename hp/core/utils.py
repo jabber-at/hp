@@ -17,6 +17,42 @@ import dns.resolver
 
 from django.conf import settings
 from django.core.cache import cache
+from django.utils.translation import ungettext
+from django.utils.translation import ugettext as _
+
+
+def format_timedelta(delta):
+    days = delta.days
+    hours, rem = divmod(delta.seconds, 3600)
+    minutes, _seconds = divmod(rem, 60)
+
+    # Get translated strings for days/hours/minutes
+    if days:
+        days = ungettext('one day', '%(count)d days', days) % {'count': days}
+    if hours:
+        hours = ungettext('one hour', '%(count)d hours', hours) % {'count': hours}
+    if minutes:  # just minutes
+        minutes = ungettext('one minute', '%(count)d minutes', minutes) % {'count': minutes}
+
+    # Assemble a string based on what we have
+    if days and hours and minutes:
+        return _('%(days)s, %(hours)s and %(minutes)s') % {
+            'days': days, 'hours': hours, 'minutes': minutes, }
+    elif days and hours:
+        return _('%(days)s and %(hours)s') % {'days': days, 'hours': hours, }
+    elif days and minutes:
+        return _('%(days)s and %(minutes)s') % {'days': days, 'minutes': minutes, }
+    elif days:
+        return days
+    elif hours and minutes:
+        return _('%(hours)s and %(minutes)s') % {'hours': hours, 'minutes': minutes, }
+    elif hours:
+        return hours
+    elif minutes:
+        return minutes
+    else:
+        return _('Now')
+
 
 
 def check_dnsbl(ip):
