@@ -13,13 +13,10 @@
 # You should have received a copy of the GNU General Public License along with django-xmpp-account.
 # If not, see <http://www.gnu.org/licenses/>.
 
-from datetime import timedelta
-
 from celery import shared_task
 from celery.utils.log import get_task_logger
 from django.contrib.auth import get_user_model
 from django.utils import translation
-from django.utils import timezone
 from gpgmime.django import gpg_backend
 
 from .models import Confirmation
@@ -90,6 +87,5 @@ def set_email_task(user_pk, to, language, fingerprint=None, key=None, **payload)
 
 @shared_task
 def cleanup():
-    expired = timezone.now() - timedelta(days=31)
-    UserLogEntry.objects.filter(created__lt=expired).delete()
+    UserLogEntry.objects.expired().delete()
     Confirmation.objects.expired().delete()
