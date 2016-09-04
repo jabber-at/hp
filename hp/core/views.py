@@ -136,8 +136,8 @@ class RateLimitMixin(object):
         return 'rate_%s_%s' % (self.rate_activity, request.META['REMOTE_ADDR'])
 
     def check_rate(self, request):
-#        if request.META['REMOTE_ADDR'] in _RATELIMIT_WHITELIST or settings.DEBUG is True:
-#            return True
+        if request.META['REMOTE_ADDR'] in _RATELIMIT_WHITELIST or settings.DEBUG is True:
+            return True
 
         cache_key = self.get_rate_cache_key(request)
         now = timezone.now()
@@ -146,14 +146,11 @@ class RateLimitMixin(object):
 
         for delta, ratelimit in config:
             offset = now - delta
-            print('checking delta: %s, ratelimit: %s' % (delta, ratelimit))
-            print('Found: %s' % len([t for t in timestamps if t > offset]))
             if len([t for t in timestamps if t > offset]) > ratelimit:
                 return False
         return True
 
     def dispatch(self, request, *args, **kwargs):
-        print('dispatch...')
         if self.check_rate(request) is False:
             return TemplateResponse(request, self.rate_template, {})
         return super(RateLimitMixin, self).dispatch(request, *args, **kwargs)
