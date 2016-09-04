@@ -12,6 +12,7 @@ removed after {{ delta }}.{% endblocktrans %}
 <p>{% blocktrans %}Please note that this log only includes activity on this homepage. Failed login
 attempts on the Jabber/XMPP server itself will not show up here.{% endblocktrans %}</p>
 
+{% if object.logs %}
 <table class="table table-bordered">
     <tr>
         <th>{% trans "IP" %}</th>
@@ -26,4 +27,7 @@ attempts on the Jabber/XMPP server itself will not show up here.{% endblocktrans
     </tr>
 {% endfor %}
 </table>
+{% else %}
+    <p><strong>{% trans "No recent log entries found." %}</strong></p>
+{% endif %}
 {% endblock content %}
