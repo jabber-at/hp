@@ -244,5 +244,8 @@ XMPP_HTTP_UPLOAD_ACCESS = (
   }),
 )
 
+# How long files are shared before they are deleted:
+#XMPP_HTTP_UPLOAD_SHARE_TIMEOUT = 86400 * 31
+
 # Top-level domain to use
 #XMPP_HTTP_UPLOAD_URL_BASE = 'https://jabber.at'
