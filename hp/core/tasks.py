@@ -23,6 +23,8 @@ from .models import Address
 from .models import AddressActivity
 from .models import CachedMessage
 
+from xmpp_http_upload.models import Upload
+
 
 @shared_task
 def cleanup():
@@ -32,3 +34,6 @@ def cleanup():
     AddressActivity.objects.filter(timestamp__lt=expired).delete()
     Address.objects.count_activities().filter(activities=0).delete()
     CachedMessage.objects.filter(created__lt=expired).delete()
+
+    # Cleanup XEP-0363 uploads
+    Upload.objects.cleanup()
