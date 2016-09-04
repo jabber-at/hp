@@ -13,3 +13,53 @@ form .form-group.fg_captcha input[type="text"] {
 .alert.with-header h5 {
     margin-top: 0;  /* The alert box itself already has a sufficient margin */
 }
+
+/**
+ * Twitter button
+ */
+div.twitter-btn {
+    display: inline-block;
+    vertical-align: top;
+    max-width: 100%;
+    white-space: nowrap;
+    font: normal normal normal 11px/18px 'Helvetica Neue',Arial,sans-serif;
+}
+div.twitter-btn a {
+    position: relative;
+    height: 20px;
+    padding: 1px 8px 1px 6px;
+    font-weight: 500;
+    color: #fff;
+    cursor: pointer;
+    background-color: #1b95e0;
+    border-radius: 3px;
+    box-sizing: border-box;
+
+    vertical-align: top;
+    display: inline-block;
+
+    text-decoration: none;
+    outline: 0;
+}
+div.twitter-btn a:hover,
+div.twitter-btn a:active,
+div.twitter-btn a:focus {
+    background-color: #0c7abf;
+}
+
+div.twitter-btn a i {
+    position: relative;
+    top: 2px;
+    display: inline-block;
+    width: 14px;
+    height: 14px;
+    background: transparent 0 0 no-repeat;
+    background-image: url('/static/core/img/twitter.svg');
+}
+
+div.twitter-btn a .label {
+    font-weight: 500;
+    margin-left: 3px;
+    padding: 0;
+    font: normal normal normal 11px/18px 'Helvetica Neue',Arial,sans-serif;
+}

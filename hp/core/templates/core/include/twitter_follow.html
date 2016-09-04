@@ -1,0 +1,7 @@
+{% load i18n %}
+<div class="twitter-btn twitter-follow-btn">                                                                                     <a class="twitter-follow" href="https://twitter.com/intent/follow?screen_name={{ twitter }}">
+<i></i><span class="label">{% blocktrans with handle=twitter %}Follow <strong>@{{ twitter }}</strong>{% endblocktrans %}</span></a>
+</div>
+{% comment %}What twitter does:
+<a href="https://twitter.com/jabber_at" class="twitter-follow-button" data-show-count="false">Follow @jabber_at</a><script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
+{% endcomment %}

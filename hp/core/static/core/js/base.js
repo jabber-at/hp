@@ -27,3 +27,12 @@ $.ajaxSetup({
         }
     }
 });
+
+$(document).ready(function() {
+    /* emulate the behaviour of a twitter follow button */
+    $('div.twitter-follow-btn a').click(function(e) {
+        var href = $(e.currentTarget).attr('href');
+        window.open(href, 'foo', 'width=525, height=550');
+        return false;
+    });
+});

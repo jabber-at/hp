@@ -1,7 +1,25 @@
-{% load i18n %}<div class="well">
-    <h4>{% trans "Language" %}</h4>
+{% load i18n static %}
+
+<div class="panel panel-default">
+  <div class="panel-heading">
+    <h3 class="panel-title">{% trans "Site tools" %}</h3>
+  </div>
+  <div class="panel-body">
     {% trans "View this page in:" %}
     {% for code, name in other_langs %}
     <a href="{% url "core:api-set-lang" %}?lang={{ code }}&next={{ request.path }}">{{ name }}</a>{% if not forloop.last %},{% endif %}
     {% endfor %}
+  </div>
+</div>
+
+<div class="panel panel-default">
+  <div class="panel-heading">
+    <h3 class="panel-title">{% trans "Social media" %}</h3>
+  </div>
+  <ul class="list-group">
+    <li class="list-group-item">
+        {% with twitter="jabber_at" %}
+            {% include "core/include/twitter_link.html" %}
+    {% endwith %}</li>
+  </ul>
 </div>
