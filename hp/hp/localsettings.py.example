@@ -7,6 +7,48 @@ import os
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
+###############################
+# Normal Django configuration #
+###############################
+
+# Database configuration
+# See also: https://docs.djangoproject.com/en/1.10/ref/databases/
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': '...',
+        'USER': '...',
+        'PASSWORD': '...',
+        'HOST': '...',
+        'PORT': '',
+        'OPTIONS': {
+            # Add this if you use MySQL
+            #'init_command': "SET sql_mode='STRICT_TRANS_TABLES'",
+
+            # If you require an SSL connection with MySQL
+            #'ssl': {
+            #    'ca': '...',
+            #},
+        },
+    },
+}
+
+# Admins that get tracebacks
+#ADMINS = (
+#    ('Firstname Lastname', 'user@example.com'),
+#)
+
+# Hostnames that this page runs under
+#ALLOWED_HOSTS = (
+#    'example.com', 'www.example.com',
+#)
+
+# Static and media files configuration
+#MEDIA_ROOT = '/var/www/account.jabber.at/media'
+#MEDIA_URL = '/media/'
+#STATIC_ROOT = '/var/www/jabber.at/static/'
+
+
 # Set this to True during development
 #DEBUG = True
 
