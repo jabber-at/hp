@@ -373,6 +373,10 @@ class RecentActivityView(LoginRequiredMixin, AccountPageMixin, UserDetailView):
     usermenu_item = 'account:log'
     template_name = 'account/user_recent_activity.html'
 
+    def get_context_data(self, **kwargs):
+        context = super(RecentActivityView, self).get_context_data(**kwargs)
+        context['logentry_expires'] = settings.USER_LOGENTRY_EXPIRES
+        return context
 
 class UserAvailableView(View):
     """Ajax view to check if a username is still available (used during registration)."""
