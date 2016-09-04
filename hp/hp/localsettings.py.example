@@ -4,6 +4,7 @@
 #       https://docs.djangoproject.com/en/1.10/ref/settings/
 
 import os
+from datetime import timedelta
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -204,3 +205,11 @@ DEFAULT_XMPP_HOST = 'jabber.at'
 #        'OPTIONS': {...},  # Any custom options for the specific backend implementation
 #    },
 #}
+
+####################
+# Privacy settings #
+####################
+
+# When UserLogEntry records are deleted. These are log entries in the "Recent activity" tab of
+# the user.
+#USER_LOGENTRY_EXPIRES = timedelta(days=31)

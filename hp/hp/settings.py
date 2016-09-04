@@ -241,6 +241,11 @@ RATELIMIT_CONFIG = {
     ),
 }
 
+####################
+# Privacy settings #
+####################
+USER_LOGENTRY_EXPIRES = timedelta(days=31)
+
 try:
     from .localsettings import *
 except ImportError:
