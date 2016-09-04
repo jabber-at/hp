@@ -44,7 +44,7 @@ def path(urlname, text='', alt=None, anchor=None, **kwargs):
         return ''
 
 
-@register.simple_tag
+@register.filter
 def format_timedelta(delta):
     """Passes the delta to :py:func:`core.utils.format_timedelta`."""
 
