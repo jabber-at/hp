@@ -21,7 +21,7 @@
 {% endfor %}
 
 {% if is_paginated %}
-<nav aria-label="Page navigation">
+<nav aria-label="{% trans "Pager" %}" class="paginator">
   <ul class="pagination">
     {% if page_obj.has_previous %}
     <li>
@@ -55,4 +55,6 @@
     </li>
   </ul>
 </nav>{% endif %}
+
+
 {% endblock content %}
