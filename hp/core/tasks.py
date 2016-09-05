@@ -50,9 +50,9 @@ def send_contact_email(domain, subject, message, recipient=None, user=None):
         recipient_list = [user.email, config['CONTACT_ADDRESS']]
         gpg_recipients = list(user.gpg_keys.valid().values_list('fingerprint', flat=True))
 
-    # If we have a GPG fingerprint for the user AND we have fingerprints for the contact address,
+    # If we have a GPG fingerprint for the user AND we have fingerprints for the contact addresses,
     # we use GPG.
-    if gpg_recipients and getattr(settings, 'CONTACT_GPG_FINGERPRINTS'):
+    if gpg_recipients and config.get('CONTACT_GPG_FINGERPRINTS'):
         gpg_signer, sign_key = load_private_key(domain)
         contact_gpg_recipients = load_contact_keys()
         gpg_recipients += contact_gpg_recipients.keys()

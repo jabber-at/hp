@@ -132,6 +132,17 @@ XMPP_HOSTS = {
 
         # Set to true if a user could use an email address from this domain for registration
         #'ALLOW_EMAIL': True,
+
+        # GPG fingerprints (without 0x prefix) of the recipients of the contact address. If this is
+        # set, contact emails are encrypted if the user has a GPG key configured (and is logged
+        # in, obiously).
+        #
+        # Finerprints documented here must exist in the GPG_KEYDIR configured below with a ".pub"
+        # extension.
+        #
+        #CONTACT_GPG_FINGERPRINTS = [
+        #    '...',
+        #],
     },
 }
 
@@ -206,13 +217,6 @@ DEFAULT_XMPP_HOST = 'jabber.at'
 #        'OPTIONS': {...},  # Any custom options for the specific backend implementation
 #    },
 #}
-
-# GPG fingerprints (without 0x prefix) of the recipients of the contact address. If this is set,
-# contact emails are encrypted if the user has a GPG key configured (and is logged in).
-#CONTACT_GPG_FINGERPRINTS = [
-#    '...',
-#]
-
 
 ####################
 # Privacy settings #

@@ -64,10 +64,11 @@ def load_private_key(domain):
     return None, None
 
 
-def load_contact_keys():
+def load_contact_keys(domain):
     keys = {}
+    fingerprints = settings.XMPP_HOSTS[domain].get('CONTACT_GPG_FINGERPRINTS', [])
 
-    for fp in getattr(settings, 'CONTACT_GPG_FINGERPRINTS', []):
+    for fp in fingerprints:
         path = os.path.join(settings.GPG_KEYDIR, '%s.pub' % fp)
         with open(path, 'rb') as stream:
             keys[fp] = stream.read()
