@@ -58,6 +58,7 @@ from .forms import LoginForm
 from .forms import RequestPasswordResetForm
 from .forms import SetEmailForm
 from .forms import SetPasswordForm
+from .forms import ResetPasswordForm
 from .models import Confirmation
 from .tasks import add_gpg_key_task
 from .tasks import send_confirmation_task
@@ -153,7 +154,7 @@ class ConfirmRegistrationView(FormView):
     template_name = 'account/user_register_confirm.html'
     queryset = Confirmation.objects.valid().purpose(
         PURPOSE_REGISTER).select_related('user')
-    form_class = SetPasswordForm
+    form_class = ResetPasswordForm
     success_url = reverse_lazy('account:detail')
 
     def form_valid(self, form):

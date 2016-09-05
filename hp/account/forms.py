@@ -122,7 +122,7 @@ class LoginForm(CaptchaFormMixin, AuthenticationForm):
     password = BootstrapPasswordField()
 
 
-class SetPasswordForm(CaptchaFormMixin, forms.Form):
+class SetPasswordForm(forms.Form):
     password = BootstrapPasswordField(
         min_length=6, widget=BootstrapPasswordInput(glyphicon=True),
         help_text=_('Passwords must be at least six characters.'))
@@ -148,18 +148,20 @@ class SetPasswordForm(CaptchaFormMixin, forms.Form):
             'account/js/set_password.js',
         )
 
-
 class SetEmailForm(GPGMixin, forms.Form):
     email = BootstrapEmailField(
         help_text=_('Required, an email will be sent to this address to confirm the change.')
     )
 
 
-
 class RequestPasswordResetForm(CaptchaFormMixin, forms.Form):
     """Form used when a user forgot his password and forgot it."""
 
     username = UsernameField()
+
+
+class ResetPasswordForm(CaptchaFormMixin, SetPasswordForm):
+    pass
 
 
 class ResetPasswordConfirmationForm(forms.Form):
