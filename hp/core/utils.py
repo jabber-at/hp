@@ -13,6 +13,7 @@
 # You should have received a copy of the GNU General Public License along with django-xmpp-account.
 # If not, see <http://www.gnu.org/licenses
 
+import os
 import dns.resolver
 
 from django.conf import settings
@@ -54,6 +55,13 @@ def format_timedelta(delta):
         return _('Now')
 
 
+def load_private_key(domain):
+    fp = settings.XMPP_HOSTS[domain].get('GPG_FINGERPRINT')
+    if fp:
+        path = os.path.join(settings.GPG_KEYDIR, '%s.key' % fp)
+        with open(path, 'rb') as stream:
+            return fp, stream.read()
+    return None, None
 
 def check_dnsbl(ip):
     """Check the given IP for DNSBL listings.
