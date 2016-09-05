@@ -54,7 +54,7 @@ def send_contact_email(domain, subject, message, recipient=None, user=None):
     # we use GPG.
     if gpg_recipients and config.get('CONTACT_GPG_FINGERPRINTS'):
         gpg_signer, sign_key = load_private_key(domain)
-        contact_gpg_recipients = load_contact_keys()
+        contact_gpg_recipients = load_contact_keys(domain)
         gpg_recipients += contact_gpg_recipients.keys()
 
         with user.gpg_keyring(default_trust=True) as backend:
