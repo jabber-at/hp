@@ -35,6 +35,8 @@ from .forms import ContactForm
 from .models import Page
 from .models import BlogPost
 from .utils import check_dnsbl
+from .tasks import send_contact_email
+
 
 _RATELIMIT_WHITELIST = getattr(settings, 'RATELIMIT_WHITELIST', set())
 _RATELIMIT_CONFIG = getattr(settings, 'RATELIMIT_CONFIG', {})
@@ -191,15 +193,19 @@ class ContactView(FormView):
             return AnonymousContactForm
 
     def form_valid(self, form):
-        if isinstance(form, AnonymousContactForm):
-            email = form.cleaned_data['email']
-        else:
-            email = self.request.user.email
-
+        domain = self.request.site['DOMAIN']
         subject = form.cleaned_data['subject']
-        text = form.cleaned_data['text']
-        frm = self.request.site.get('DEFAULT_FROM_EMAIL', settings.DEFAULT_FROM_EMAIL)
-        send_mail(subject, text, frm, [email])
+        message = form.cleaned_data['text']
+
+        recipient = None
+        user = None
+
+        if isinstance(form, AnonymousContactForm):
+            recipient = form.cleaned_data['email']
+        else:
+            user = self.request.user.pk
+
+        send_contact_email.delay(domain, subject, message, recipient=recipient, user=user)
         return super(ContactView, self).form_valid(form)
 
 
