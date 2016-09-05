@@ -235,6 +235,8 @@ class Confirmation(BaseModel):
 
         custom_key = self.payload.get('gpg_key')  # key from the payload
 
+        log.warn('Confirmation key %s (purpose: %s)', self.key, self.purpose)
+
         # Only use the GPG keys stored for the user if the payload does not explicity specify
         # a GPG key to use.  This is used e.g. when the user sets an email address and wants to use
         # a different GPG key or none at all.
