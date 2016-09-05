@@ -206,7 +206,7 @@ class ContactView(FormView):
             user = self.request.user.pk
 
         send_contact_email.delay(domain, subject, message, recipient=recipient, user=user)
-        return super(ContactView, self).form_valid(form)
+        return self.render_to_response(self.get_context_data(form=form))
 
 
 class SetLanguageView(RedirectView):
