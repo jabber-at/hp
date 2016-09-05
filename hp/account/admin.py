@@ -17,9 +17,10 @@ from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
 from django.contrib.auth.models import Group
 
+from .models import Confirmation
+from .models import GpgKey
 from .models import User
 from .models import UserLogEntry
-from .models import GpgKey
 
 
 @admin.register(User)
@@ -53,6 +54,13 @@ class GpgKeyAdmin(admin.ModelAdmin):
     list_display = ('user', 'fingerprint', 'expires')
     list_select_related = ('user', )
     ordering = ('-created', )
+
+
+@admin.register(Confirmation)
+class ConfirmationAdmin(admin.ModelAdmin):
+    list_display = ('key', 'purpose', 'user', 'to', 'expires', )
+    list_filter = ('purpose', )
+    search_fields = ('key', 'to', 'user__username', 'user__email', )
 
 
 admin.site.unregister(Group)
