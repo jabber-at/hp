@@ -16,14 +16,58 @@
 from datetime import timedelta
 
 from celery import shared_task
+from gpgmime.django import GpgEmailMessage
 
+from django.conf import settings
+from django.contrib.auth import get_user_model
+from django.core.mail import send_mail
 from django.utils import timezone
 
 from .models import Address
 from .models import AddressActivity
 from .models import CachedMessage
+from .utils import load_private_key
+from .utils import load_contact_keys
 
 from xmpp_http_upload.models import Upload
+
+User = get_user_model()
+
+
+@shared_task
+def send_contact_email(domain, subject, message, recipient=None, user=None):
+    if not recipient and not user:
+        raise ValueError("Need at least recipient or user")
+
+    config = settings.XMPP_HOSTS[domain]
+    from_email = config.get('DEFAULT_FROM_EMAIL', settings.DEFAULT_FROM_EMAIL)
+    gpg_recipients = None
+
+    if user is None:
+        recipient_list = [recipient, config['CONTACT_ADDRESS']]
+    else:
+        user = User.objects.get(pk=user)
+        recipient_list = [user.email, config['CONTACT_ADDRESS']]
+        gpg_recipients = list(user.gpg_keys.valid().values_list('fingerprint', flat=True))
+
+    if gpg_recipients:
+        gpg_signer, sign_key = load_private_key(domain)
+        contact_gpg_recipients = load_contact_keys()
+        gpg_recipients += contact_gpg_recipients.keys()
+
+        with user.gpg_keyring(default_trust=True) as backend:
+            if sign_key:  # import private key for signing
+                backend.import_private_key(sign_key)
+
+            for contact_key in contact_gpg_recipients.values():  #
+                backend.import_key(contact_key)
+
+            msg = GpgEmailMessage(
+                subject, message, from_email, recipient_list,
+                gpg_backend=backend, gpg_recipients=gpg_recipients, gpg_signer=gpg_signer)
+            msg.send()
+    else:
+        send_mail(subject, message, from_email, recipient_list)
 
 
 @shared_task
