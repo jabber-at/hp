@@ -63,6 +63,17 @@ def load_private_key(domain):
             return fp, stream.read()
     return None, None
 
+
+def load_contact_keys():
+    keys = {}
+
+    for fp in getattr(settings, 'CONTACT_GPG_FINGERPRINTS', []):
+        path = os.path.join(settings.GPG_KEYDIR, '%s.pub' % fp)
+        with open(path, 'rb') as stream:
+            keys[fp] = stream.read()
+
+    return keys
+
 def check_dnsbl(ip):
     """Check the given IP for DNSBL listings.
 
