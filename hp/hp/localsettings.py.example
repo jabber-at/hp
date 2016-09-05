@@ -207,6 +207,13 @@ DEFAULT_XMPP_HOST = 'jabber.at'
 #    },
 #}
 
+# GPG fingerprints (without 0x prefix) of the recipients of the contact address. If this is set,
+# contact emails are encrypted if the user has a GPG key configured (and is logged in).
+#CONTACT_GPG_FINGERPRINTS = [
+#    '...',
+#]
+
+
 ####################
 # Privacy settings #
 ####################
