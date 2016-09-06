@@ -1,0 +1,15 @@
+{% extends "page.html" %}
+{% load i18n %}
+
+{% block title %}{% trans "Ooops! You're blocked." %}{% endblock title %}
+
+{% block content %}
+<div class="alert alert-danger" role="alert">
+<strong>{% trans "You are not allowed to perform this function." %}</strong></div>
+
+{% comment %}TODO: this also affects the contact page. We should link to
+FB/Twitter as a way to contact us.
+{% endcomment %}
+{% blocktrans %}Your IP-Address was manually blocked by us. This means you cannot perform this operation
+until we lift the ban.{% endblocktrans %}
+{% endblock content %}
