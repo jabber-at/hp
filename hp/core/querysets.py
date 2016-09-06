@@ -18,7 +18,10 @@ from django.db import models
 
 class AddressQuerySet(models.QuerySet):
     def count_activities(self):
-        return self.annotate(count_activities=models.Count('activities'))
+        return self.annotate(count_activities=models.Count('addressactivity', distinct=True))
+
+    def count_confirmations(self):
+        return self.annotate(count_confirmations=models.Count('confirmations', distinct=True))
 
     def first_activity(self):
         return self.annotate(first_activity=models.Min('addressactivity__timestamp'))

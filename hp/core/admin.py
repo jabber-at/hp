@@ -221,14 +221,15 @@ class MenuItemAdmin(DraggableMPTTAdmin):
 
 @admin.register(Address)
 class AddressAdmin(admin.ModelAdmin):
-    list_display = ('address', 'count_activities', 'timerange', )
+    list_display = ('address', 'count_activities', 'count_confirmations', 'timerange', )
     search_fields = ['address']
 
     def get_queryset(self, request):
         qs = super(AddressAdmin, self).get_queryset(request)
         # NOTE: We add ordering here because the system check framework checks that each name given
         #       in the "ordering" class property is actually a model field.
-        return qs.count_activities().first_activity().last_activity().order_by('-count_activities')
+        return qs.count_activities().count_confirmations()\
+            .first_activity().last_activity().order_by('-count_activities')
 
     def timerange(self, obj):
         if obj.count_activities <= 1:
@@ -246,11 +247,16 @@ class AddressAdmin(admin.ModelAdmin):
     count_activities.short_description = _('Number of activities')
     count_activities.admin_order_field = 'count_activities'
 
+    def count_confirmations(self, obj):
+        return obj.count_confirmations
+    count_confirmations.short_description = _('Number of confirmations')
+    count_confirmations.admin_order_field = 'count_confirmations'
+
 
 @admin.register(AddressActivity)
 class AddressActivityAdmin(admin.ModelAdmin):
     list_filter = ('activity', )
-    list_display = ('address', 'activity', 'user', 'note' )
+    list_display = ('address', 'activity', 'user', 'note', )
     list_select_related = ('user', 'address', )
     ordering = ('-timestamp', )
     search_fields = ['user__username', 'address__address', 'note', ]
