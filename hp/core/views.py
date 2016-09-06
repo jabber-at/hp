@@ -201,7 +201,8 @@ class BlogPostView(TranslateSlugViewMixin, DetailView):
     context_object_name = 'post'
 
 
-class ContactView(FormView):
+class ContactView(BlacklistMixin, DnsBlMixin, FormView):
+    # TODO: Use ratelimit mixin as well
     template_name = 'core/contact.html'
     success_url = reverse_lazy('core:contact')
 
