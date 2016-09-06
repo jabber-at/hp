@@ -20,6 +20,15 @@ Base template for user setting views when the user is logged in.
 
     <div class="col-xs-12 col-sm-9">
 
+        {% if not user.created_in_backend %}
+            <div class="alert alert-warning" role="alert">
+                <h4>{% trans "Your account is not yet confirmed!" %}</h4>
+                {% blocktrans with email=user.email %}You have not yet confirmed your email address. Your account registration is not
+complete until you have. We just sent you an email to {{ email }}, click
+on the link in it and give us a password to complete the registration.{% endblocktrans %}
+            </div>
+        {% endif %}
+
         <div class="page-header">
             <h1>
                 <p class="pull-left visible-xs">
@@ -28,6 +37,7 @@ Base template for user setting views when the user is logged in.
                 </p>
         {% block title %}{% endblock title %}
             </h1>
+
         </div>
 {% include "core/include/messages.html" %}
 {% block content %}{% endblock content %}
