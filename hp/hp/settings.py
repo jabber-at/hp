@@ -10,6 +10,7 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/1.9/ref/settings/
 """
 
+import ipaddress
 import os
 
 from datetime import timedelta
@@ -241,6 +242,7 @@ RATELIMIT_CONFIG = {
         (timedelta(minutes=30), 3, ),
     ),
 }
+SPAM_BLACKLIST = set()
 
 ####################
 # Privacy settings #
@@ -251,6 +253,8 @@ try:
     from .localsettings import *
 except ImportError:
     pass
+
+SPAM_BLACKLIST = set([ipaddress.ip_network(addr) for addr in SPAM_BLACKLIST])
 
 # Make sure GPG home directories exist
 for backend, config in GPG_BACKENDS.items():
