@@ -4,22 +4,18 @@
 {% block title %}{% trans "GPG keys" %}{% endblock title %}
 
 {% block content %}
-{% if user.created_in_backend %}
-    <table class="table table-bordered">
-        <tr>
-            <th>{% trans "Created" %}</th>
-            <th>{% trans "Expires" %}</th>
-            <th>{% trans "Fingerprint" %}</th>
-        </tr>
-    {% for key in object.gpg_keys.all %}
-        <tr>
-            <td>{{ key.created|date:"SHORT_DATETIME_FORMAT" }}</td>
-            <td>{{ key.expires|date:"SHORT_DATETIME_FORMAT" }}</td>
-            <td>0x{{ key.fingerprint }}</tr>
-        </tr>
-    {% endfor %}
-    </table>
-{% else %}
-    <p>{% trans "This functionality requires that you have confirmed your email address." %}</p>
-{% endif %}
+<table class="table table-bordered">
+    <tr>
+        <th>{% trans "Created" %}</th>
+        <th>{% trans "Expires" %}</th>
+        <th>{% trans "Fingerprint" %}</th>
+    </tr>
+{% for key in object.gpg_keys.all %}
+    <tr>
+        <td>{{ key.created|date:"SHORT_DATETIME_FORMAT" }}</td>
+        <td>{{ key.expires|date:"SHORT_DATETIME_FORMAT" }}</td>
+        <td>0x{{ key.fingerprint }}</tr>
+    </tr>
+{% endfor %}
+</table>
 {% endblock content %}

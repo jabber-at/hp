@@ -4,55 +4,50 @@
 {% block title %}{% trans "Set new email address" %}{% endblock title %}
 
 {% block content %}
+<form enctype="multipart/form-data" class="form-horizontal" action="" method="post">{% csrf_token %}
+    {{ form.email.formgroup }}
 
-{% if user.created_in_backend %}
-    <form enctype="multipart/form-data" class="form-horizontal" action="" method="post">{% csrf_token %}
-        {{ form.email.formgroup }}
+    {% with user.uses_gpg as uses_gpg %}
+    <div class="row gpg-header-row{% if form.show_gpg or uses_gpg%} show-gpg{% endif %}">
+    <div class="col-sm-12">
+        <h4>
+            <span class="glyphicon glyphicon-menu-right" aria-hidden="true"></span>
+            <span class="glyphicon glyphicon-menu-down" aria-hidden="true"></span>
+            {% trans "GPG options" %}
+        </h4>
+    </div>
+    </div>
 
-        {% with user.uses_gpg as uses_gpg %}
-        <div class="row gpg-header-row{% if form.show_gpg or uses_gpg%} show-gpg{% endif %}">
-        <div class="col-sm-12">
-            <h4>
-                <span class="glyphicon glyphicon-menu-right" aria-hidden="true"></span>
-                <span class="glyphicon glyphicon-menu-down" aria-hidden="true"></span>
-                {% trans "GPG options" %}
-            </h4>
-        </div>
-        </div>
+    <div class="gpg-content{% if form.show_gpg or uses_gpg %} show-gpg{% endif %}">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="help-block">
+                    <p>{% blocktrans %}You can add a GPG key to have jabber.at encrypt all emails sent to you.{% endblocktrans %}</p>
 
-        <div class="gpg-content{% if form.show_gpg or uses_gpg %} show-gpg{% endif %}">
-            <div class="row">
-                <div class="col-sm-12">
-                    <div class="help-block">
-                        <p>{% blocktrans %}You can add a GPG key to have jabber.at encrypt all emails sent to you.{% endblocktrans %}</p>
-
-                        <div class="alert alert-warning" role="alert">
-                        {% comment %}Warning is different if user already uses GPG (we assume he knows the risks).{% endcomment %}
-                        {% if uses_gpg %}
-    {% blocktrans %}<strong>Warning:</strong> Previously configured GPG keys will not be used for sending 
-    this email. Add a key here if you want to continue using GPG. Any existing GPG keys will be removed
-    once you confirm this change.{% endblocktrans %}
-                        {% else %}
-    {% blocktrans %}<strong>Warning:</strong> Please note the obvious: If you ever loose your GPG key and
-    do not upload a new one here, you can no longer read any emails (e.g. when you
-    have forgotton your password) we send to you.{% endblocktrans %}
-                        {% endif %}
-                        </div>
+                    <div class="alert alert-warning" role="alert">
+                    {% comment %}Warning is different if user already uses GPG (we assume he knows the risks).{% endcomment %}
+                    {% if uses_gpg %}
+{% blocktrans %}<strong>Warning:</strong> Previously configured GPG keys will not be used for sending 
+this email. Add a key here if you want to continue using GPG. Any existing GPG keys will be removed
+once you confirm this change.{% endblocktrans %}
+                    {% else %}
+{% blocktrans %}<strong>Warning:</strong> Please note the obvious: If you ever loose your GPG key and
+do not upload a new one here, you can no longer read any emails (e.g. when you
+have forgotton your password) we send to you.{% endblocktrans %}
+                    {% endif %}
                     </div>
                 </div>
             </div>
-            {{ form.gpg_fingerprint.formgroup }}
-            {{ form.gpg_key.formgroup }}
         </div>
-        {% endwith %}
+        {{ form.gpg_fingerprint.formgroup }}
+        {{ form.gpg_key.formgroup }}
+    </div>
+    {% endwith %}
 
-        <div class="form-group">
-            <div class="col-sm-offset-2 col-sm-10">
-                <button type="submit" class="btn btn-default">{% trans "Submit" %}</button>
-            </div>
+    <div class="form-group">
+        <div class="col-sm-offset-2 col-sm-10">
+            <button type="submit" class="btn btn-default">{% trans "Submit" %}</button>
         </div>
-    </form>
-{% else %}
-    <p>{% trans "This functionality requires that you have confirmed your email address." %}</p>
-{% endif %}
+    </div>
+</form>
 {% endblock content %}
