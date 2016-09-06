@@ -58,8 +58,9 @@ class GpgKeyAdmin(admin.ModelAdmin):
 
 @admin.register(Confirmation)
 class ConfirmationAdmin(admin.ModelAdmin):
-    list_display = ('key', 'purpose', 'user', 'to', 'expires', )
+    list_display = ('key', 'user', 'address', 'purpose', 'to', 'expires', )
     list_filter = ('purpose', )
+    list_select_related = ('user', 'address', )
     search_fields = ('key', 'to', 'user__username', 'user__email', )
 
 
