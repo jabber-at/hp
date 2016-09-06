@@ -40,6 +40,7 @@ from jsonfield import JSONField
 from gpgmime.django import gpg_backend
 from gpgmime.django import GpgEmailMessage
 
+from core.models import Address
 from core.models import BaseModel
 from core.models import CachedMessage
 
@@ -208,6 +209,7 @@ class Confirmation(BaseModel):
     language = models.CharField(max_length=2)
 
     user = models.ForeignKey(settings.AUTH_USER_MODEL, related_name='confirmations')
+    address = models.ForeignKey(Address, models.PROTECT, blank=True, null=True)
 
     SUBJECTS = {
         PURPOSE_REGISTER: _('Your new account on {{ user.domain }}'),
