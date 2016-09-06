@@ -89,6 +89,10 @@ class User(XmppBackendUser, PermissionsMixin):
     # when the email was confirmed
     confirmed = models.DateTimeField(null=True, blank=True)
 
+    # If the user is created in the backend (not necessarily the same as confirmed, old users don't
+    # have an email address).
+    created_in_backend = models.BooleanField(default=False)
+
     objects = UserManager()
 
     USERNAME_FIELD = 'username'
