@@ -39,7 +39,7 @@ from .utils import check_dnsbl
 from .tasks import send_contact_email
 
 
-_BLACKLIST = getattr(settings, 'BLACKLIST', set())
+_BLACKLIST = getattr(settings, 'SPAM_BLACKLIST', set())
 _RATELIMIT_WHITELIST = getattr(settings, 'RATELIMIT_WHITELIST', set())
 _RATELIMIT_CONFIG = getattr(settings, 'RATELIMIT_CONFIG', {})
 

@@ -173,6 +173,13 @@ DEFAULT_XMPP_HOST = 'jabber.at'
 #    'cbl.abuseat.org',
 #)
 
+# A manually maintained list of IP addresses or networks that are blocked. Used by the
+# BlocklistMixin.
+#SPAM_BLACKLIST = {
+#    '192.0.2.0',  # You can use IP addresses...
+#    '192.0.0.0/28',  # ... or network ranges
+#}
+
 # Ratelimits
 # Enforce a rate limit per IP for views that use core.views.RateLimitMixin. Use one of the
 # constants in core.constants.ACTIVITY_*.
