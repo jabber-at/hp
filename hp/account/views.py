@@ -72,11 +72,11 @@ class AccountPageMixin(object):
     """Mixin that adds the usermenu on the left to views where the user is logged in."""
 
     usermenu = (
-        ('account:detail', _('Overview')),
-        ('account:set_password', _('Set password')),
-        ('account:set_email', _('Set E-Mail')),
-        ('account:gpg', _('GPG keys')),
-        ('account:log', _('Recent activity')),
+        ('account:detail', _('Overview'), False),
+        ('account:set_password', _('Set password'), True),
+        ('account:set_email', _('Set E-Mail'), True),
+        ('account:gpg', _('GPG keys'), True),
+        ('account:log', _('Recent activity'), False),
     )
     usermenu_item = None
 
@@ -84,7 +84,10 @@ class AccountPageMixin(object):
         context = super(AccountPageMixin, self).get_context_data(**kwargs)
 
         usermenu = []
-        for urlname, title in self.usermenu:
+        for urlname, title, requires_confirmation in self.usermenu:
+            if self.request.user.created_in_backend is False and requires_confirmation is True:
+                continue
+
             usermenu.append({
                 'path': reverse(urlname),
                 'title': title,
