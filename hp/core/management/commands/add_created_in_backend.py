@@ -33,7 +33,7 @@ class Command(BaseCommand):
 
     def handle(self, **kwargs):
         for host, config in settings.XMPP_HOSTS.items():
-            users = backend.all_users(host)
+            users = ['%s@%s' % (u, host) for u in backend.all_users(host)]
             count = User.objects.filter(username__in=users).update(created_in_backend=True)
             self.stdout.write('Updated %s users for %s' % (count, host))
 
