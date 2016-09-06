@@ -19,6 +19,8 @@ from django.contrib.auth import get_user_model
 from django.utils import translation
 from gpgmime.django import gpg_backend
 
+from core.models import Address
+
 from .models import Confirmation
 from .models import UserLogEntry
 from .constants import PURPOSE_SET_EMAIL
@@ -60,8 +62,9 @@ def add_gpg_key_task(user_pk, address, language, fingerprint=None, key=None):
 @shared_task
 def send_confirmation_task(user_pk, to, purpose, language, address, **payload):
     user = User.objects.get(pk=user_pk)
+    address = Address.objects.get_or_create(address=address)[0]
     conf = Confirmation.objects.create(user=user, purpose=purpose, language=language, to=to,
-                                       payload=payload)
+                                       address=address, payload=payload)
     conf.send()
 
 
@@ -70,18 +73,19 @@ def set_email_task(user_pk, to, language, address, fingerprint=None, key=None, *
     """A custom task because we might need to send the email with a custom set of GPG keys."""
 
     user = User.objects.get(pk=user_pk)
+    address = Address.objects.get_or_create(address=address)[0]
+
+    if fingerprint:
+        payload['fingerprint'] = fingerprint  # just so we know what was submitted
+        payload['gpg_key'] = gpg_backend.fetch_key('0x%s' % fingerprint)
+    elif key:
+        payload['gpg_key'] = key
+    else:
+        payload['gpg_key'] = None  # do not encrypt
 
     with translation.override(language):
-        if fingerprint:
-            payload['fingerprint'] = fingerprint  # just so we know what was submitted
-            payload['gpg_key'] = gpg_backend.fetch_key('0x%s' % fingerprint)
-        elif key:
-            payload['gpg_key'] = key
-        else:
-            payload['gpg_key'] = None  # do not encrypt
-
         conf = Confirmation.objects.create(user=user, purpose=PURPOSE_SET_EMAIL, language=language, to=to,
-                                           payload=payload)
+                                           address=address, payload=payload)
         conf.send()
 
 
