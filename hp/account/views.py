@@ -178,6 +178,7 @@ class ConfirmRegistrationView(FormView):
         with transaction.atomic():
             key = self.queryset.get(key=self.kwargs['key'])
             key.user.confirmed = timezone.now()
+            key.user.created_in_backend = True
             key.user.save()
 
             if key.user.is_authenticated() is False:
