@@ -28,6 +28,7 @@ from django.http import HttpResponse
 from django.http import HttpResponseRedirect
 from django.shortcuts import get_object_or_404
 from django.shortcuts import resolve_url
+from django.template.response import TemplateResponse
 from django.utils import timezone
 from django.utils.http import is_safe_url
 from django.utils.translation import ugettext as _
@@ -79,6 +80,14 @@ class AccountPageMixin(object):
         ('account:log', _('Recent activity'), False),
     )
     usermenu_item = None
+    requires_confirmation = True
+
+    def dispatch(self, request, *args, **kwargs):
+        if self.requires_confirmation and not request.user.created_in_backend:
+            context = self.get_context_data()
+            return TemplateResponse(request, 'account/requires_confirmation.html', context)
+
+        return super(AccountPageMixin, self).dispatch(request, *args, **kwargs)
 
     def get_context_data(self, **kwargs):
         context = super(AccountPageMixin, self).get_context_data(**kwargs)
@@ -295,6 +304,7 @@ class SetPasswordView(LoginRequiredMixin, AccountPageMixin, FormView):
 
 
 class SetEmailView(LoginRequiredMixin, AccountPageMixin, FormView):
+    success_url = reverse_lazy('account:detail')
     usermenu_item = 'account:set_email'
     template_name = 'account/user_set_email.html'
     form_class = SetEmailForm
@@ -319,7 +329,7 @@ class SetEmailView(LoginRequiredMixin, AccountPageMixin, FormView):
         user.log(_('Requested change of email address to %s.') % to, address=address)
         AddressActivity.objects.log(request, ACTIVITY_SET_EMAIL, note=to)
 
-        return HttpResponseRedirect(reverse('account:detail'))
+        return super(SetEmailView, self).form_valid(form)
 
 
 class ConfirmSetEmailView(LoginRequiredMixin, RedirectView):
@@ -359,6 +369,7 @@ class UserView(LoginRequiredMixin, AccountPageMixin, UserDetailView):
     """Main user settings view (/account)."""
 
     usermenu_item = 'account:detail'
+    requires_confirmation = False
 
 
 class GpgView(LoginRequiredMixin, AccountPageMixin, UserDetailView):
@@ -373,11 +384,13 @@ class RecentActivityView(LoginRequiredMixin, AccountPageMixin, UserDetailView):
 
     usermenu_item = 'account:log'
     template_name = 'account/user_recent_activity.html'
+    requires_confirmation = False
 
     def get_context_data(self, **kwargs):
         context = super(RecentActivityView, self).get_context_data(**kwargs)
         context['logentry_expires'] = settings.USER_LOGENTRY_EXPIRES
         return context
+
 
 class UserAvailableView(View):
     """Ajax view to check if a username is still available (used during registration)."""
