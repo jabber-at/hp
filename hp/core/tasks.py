@@ -78,7 +78,7 @@ def cleanup():
 
     expired = timezone.now() - timedelta(days=31)
     AddressActivity.objects.filter(timestamp__lt=expired).delete()
-    Address.objects.count_activities().filter(activities=0).delete()
+    Address.objects.inactive().delete()
     CachedMessage.objects.filter(created__lt=expired).delete()
 
     # Cleanup XEP-0363 uploads

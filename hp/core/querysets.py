@@ -29,6 +29,12 @@ class AddressQuerySet(models.QuerySet):
     def last_activity(self):
         return self.annotate(last_activity=models.Max('addressactivity__timestamp'))
 
+    def inactive(self):
+        """Returns addresses with no logged activities and no pending confirmation keys."""
+
+        return self.count_activities().count_confirmations().filter(
+            count_activities=0, count_confirmations=0)
+
 
 class AddressActivityQuerySet(models.QuerySet):
     pass
