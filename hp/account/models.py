@@ -209,7 +209,8 @@ class Confirmation(BaseModel):
     language = models.CharField(max_length=2)
 
     user = models.ForeignKey(settings.AUTH_USER_MODEL, related_name='confirmations')
-    address = models.ForeignKey(Address, models.PROTECT, blank=True, null=True)
+    address = models.ForeignKey(Address, models.PROTECT, blank=True, null=True,
+                                related_name='confirmations')
 
     SUBJECTS = {
         PURPOSE_REGISTER: _('Your new account on {{ user.domain }}'),
