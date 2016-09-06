@@ -13,9 +13,10 @@
 # You should have received a copy of the GNU General Public License along with django-xmpp-account.
 # If not, see <http://www.gnu.org/licenses/>.
 
+import ipaddress
+
 from django.conf import settings
 from django.core.cache import cache
-from django.core.mail import send_mail
 from django.core.urlresolvers import reverse_lazy
 from django.db.models import Q
 from django.http import Http404
@@ -38,6 +39,7 @@ from .utils import check_dnsbl
 from .tasks import send_contact_email
 
 
+_BLACKLIST = getattr(settings, 'BLACKLIST', set())
 _RATELIMIT_WHITELIST = getattr(settings, 'RATELIMIT_WHITELIST', set())
 _RATELIMIT_CONFIG = getattr(settings, 'RATELIMIT_CONFIG', {})
 
@@ -96,6 +98,23 @@ class TranslateSlugViewMixin(object):
             raise Http404(_("No %(verbose_name)s found matching the query") %
                           {'verbose_name': queryset.model._meta.verbose_name})
         return obj
+
+
+class BlacklistMixin(object):
+    blacklist_template = 'core/blacklist.html'
+
+    def dispatch(self, request, *args, **kwargs):
+        if settings.DEBUG is True and request.GET.get('blacklist'):
+            addr = request.GET['blacklist']
+        else:
+            addr = request.META['REMOTE_ADDR']
+
+        addr = ipaddress.ip_address(addr)
+        for network in _BLACKLIST:
+            if addr in network:
+                return TemplateResponse(request, self.blacklist_template, {})
+
+        return super(BlacklistMixin, self).dispatch(request, *args, **kwargs)
 
 
 class DnsBlMixin(object):
