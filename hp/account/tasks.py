@@ -58,7 +58,7 @@ def add_gpg_key_task(user_pk, address, language, fingerprint=None, key=None):
 
 
 @shared_task
-def send_confirmation_task(user_pk, to, purpose, language, **payload):
+def send_confirmation_task(user_pk, to, purpose, language, address, **payload):
     user = User.objects.get(pk=user_pk)
     conf = Confirmation.objects.create(user=user, purpose=purpose, language=language, to=to,
                                        payload=payload)
@@ -66,7 +66,7 @@ def send_confirmation_task(user_pk, to, purpose, language, **payload):
 
 
 @shared_task
-def set_email_task(user_pk, to, language, fingerprint=None, key=None, **payload):
+def set_email_task(user_pk, to, language, address, fingerprint=None, key=None, **payload):
     """A custom task because we might need to send the email with a custom set of GPG keys."""
 
     user = User.objects.get(pk=user_pk)

@@ -146,8 +146,8 @@ confirmation link in that email.""" % (user.username, user.email)))
             login(self.request, user)
 
         task = send_confirmation_task.si(
-            user_pk=user.pk, purpose=PURPOSE_REGISTER, language=lang, to=user.email,
-            base_url=base_url, server=request.site['DOMAIN'])
+            user_pk=user.pk, purpose=PURPOSE_REGISTER, language=lang, address=address,
+            to=user.email, base_url=base_url, server=request.site['DOMAIN'])
 
         # Store GPG key if any
         fp, key = form.get_gpg_data()
@@ -247,6 +247,7 @@ class RequestPasswordResetView(BlacklistMixin, DnsBlMixin, AnonymousRequiredMixi
             return self.form_invalid(form)
 
         request = self.request
+        address = request.META['REMOTE_ADDR']
         lang = request.LANGUAGE_CODE
         base_url = '%s://%s' % (request.scheme, request.get_host())
 
@@ -254,8 +255,8 @@ class RequestPasswordResetView(BlacklistMixin, DnsBlMixin, AnonymousRequiredMixi
         AddressActivity.objects.log(request, ACTIVITY_RESET_PASSWORD, user=user)
 
         send_confirmation_task.delay(
-            user_pk=user.pk, purpose=PURPOSE_RESET_PASSWORD, language=lang, to=user.email,
-            base_url=base_url, server=request.site['DOMAIN'])
+            user_pk=user.pk, purpose=PURPOSE_RESET_PASSWORD, language=lang, address=address,
+            to=user.email, base_url=base_url, server=request.site['DOMAIN'])
 
         return self.render_to_response(self.get_context_data(form=form))
 
@@ -321,7 +322,7 @@ class SetEmailView(LoginRequiredMixin, AccountPageMixin, FormView):
 
         fp, key = form.get_gpg_data()
         set_email_task.delay(
-            user_pk=user.pk, to=to, address=address, language=lang, fingerprint=fp, key=key,
+            user_pk=user.pk, to=to, language=lang, address=address, fingerprint=fp, key=key,
             base_url=base_url, server=request.site['DOMAIN'])
 
         messages.success(request, _(
