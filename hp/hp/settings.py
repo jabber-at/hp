@@ -22,6 +22,7 @@ from django.utils.translation import ugettext_lazy as _
 
 from core.constants import ACTIVITY_REGISTER
 from core.constants import ACTIVITY_FAILED_LOGIN
+from core.constants import ACTIVITY_RESET_PASSWORD
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -241,6 +242,9 @@ RATELIMIT_CONFIG = {
         (timedelta(hours=1), 5, ),
     ),
     ACTIVITY_FAILED_LOGIN: (
+        (timedelta(minutes=30), 3, ),
+    ),
+    ACTIVITY_RESET_PASSWORD: (
         (timedelta(minutes=30), 3, ),
     ),
 }

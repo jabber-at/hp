@@ -249,12 +249,14 @@ class UserView(LoginRequiredMixin, AccountPageMixin, UserDetailView):
 
 
 
-# TODO; Ratelimit mixin
 class ResetPasswordView(BlacklistMixin, DnsBlMixin, AnonymousRequiredMixin, FormView):
     template_name = 'account/user_password_reset.html'
     form_class = ResetPasswordForm
+    rate_activity = ACTIVITY_RESET_PASSWORD
 
     def form_valid(self, form):
+        self.ratelimit(self.request)
+
         try:
             user = User.objects.filter(confirmed__isnull=False).get(
                 username=form.cleaned_data['username'])
