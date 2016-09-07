@@ -176,6 +176,8 @@ MESSAGE_TAGS = {
 # How long confirmation emails remain valid
 USER_CONFIRMATION_TIMEOUT = timedelta(hours=48)
 
+LOG_LEVEL = 'WARN'
+
 ################
 # GPG settings #
 ################
@@ -262,3 +264,51 @@ for backend, config in GPG_BACKENDS.items():
         os.makedirs(config['HOME'])
 if not os.path.exists(GPG_KEYDIR):
     os.makedirs(GPG_KEYDIR)
+
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'filters': {
+        'require_debug_false': {
+            '()': 'django.utils.log.RequireDebugFalse',
+        },
+    },
+    'formatters': {
+        'simple': {
+            'format': '[%(asctime).19s %(levelname)-8s] %(message)s',  # .19s = only first 19 chars
+        },
+    },
+    'handlers': {
+        'mail_admins': {
+            'level': 'ERROR',
+            'filters': ['require_debug_false'],
+            'class': 'django.utils.log.AdminEmailHandler',
+        },
+        'console': {
+            'level': LOG_LEVEL,
+            'class': 'logging.StreamHandler',
+            'formatter': 'simple',
+        },
+    },
+    'loggers': {
+        'django.request': {
+            'handlers': ['mail_admins'],
+            'level': 'ERROR',
+            'propagate': True,
+        },
+        'account': {
+            'handlers': ['console', ],
+            'level': LOG_LEVEL,
+            'propagate': False,
+        },
+        'core': {
+            'handlers': ['console', ],
+            'level': LOG_LEVEL,
+            'propagate': False,
+        },
+    },
+    'root': {
+        'handlers': ['console', ],
+        'level': LOG_LEVEL,
+    },
+}
