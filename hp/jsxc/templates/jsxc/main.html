@@ -22,7 +22,7 @@
 
 {% block page %}
 <div class="col-xs-12 col-sm-9">
-<form id="jsxc-main-form" class="form-horizontal" method="post" action="{% url 'jsxc:main' %}">{% csrf_token %}
+<form id="jsxc-main-form" class="form-horizontal">{% csrf_token %}
 {{ form.username.formgroup }}
 {{ form.password.formgroup }}
 <div class="form-group">
