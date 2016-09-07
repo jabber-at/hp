@@ -69,6 +69,7 @@ from .tasks import set_email_task
 
 User = get_user_model()
 log = logging.getLogger(__name__)
+_confirmation_qs = Confirmation.objects.valid().select_related('user')
 
 
 class AccountPageMixin(object):
@@ -168,7 +169,7 @@ class ConfirmRegistrationView(FormView):
     """View for confirming a registration e-mail."""
 
     template_name = 'account/user_register_confirm.html'
-    queryset = Confirmation.objects.valid().purpose(PURPOSE_REGISTER).select_related('user')
+    queryset = _confirmation_qs.purpose(PURPOSE_REGISTER)
     form_class = ResetPasswordForm
     success_url = reverse_lazy('account:detail')
 
@@ -283,7 +284,7 @@ class ConfirmResetPasswordView(FormView):
     template_name = 'account/user_password_reset_confirm.html'
     form_class = ConfirmResetPasswordForm
     success_url = reverse_lazy('account:detail')
-    queryset = Confirmation.objects.select_related('user')  # TODO: Purpose
+    queryset = _confirmation_qs.purpose(PURPOSE_RESET_PASSWORD)
 
     def form_valid(self, form):
         request = self.request
@@ -356,7 +357,7 @@ class ConfirmSetEmailView(LoginRequiredMixin, RedirectView):
     """Confirmation view for a user setting his email address, redirects to account detail page."""
 
     pattern_name = 'account:detail'  # where to redirect to
-    queryset = Confirmation.objects.valid().purpose(PURPOSE_SET_EMAIL)
+    queryset = _confirmation_qs.purpose(PURPOSE_SET_EMAIL)
 
     def get_redirect_url(self, *args, **kwargs):
         request = self.request
