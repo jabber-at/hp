@@ -250,7 +250,7 @@ class UserView(LoginRequiredMixin, AccountPageMixin, UserDetailView):
 
 
 
-class ResetPasswordView(BlacklistMixin, DnsBlMixin, AnonymousRequiredMixin, FormView):
+class ResetPasswordView(BlacklistMixin, DnsBlMixin, RateLimitMixin, AnonymousRequiredMixin, FormView):
     form_class = ResetPasswordForm
     rate_activity = ACTIVITY_RESET_PASSWORD
     template_name = 'account/user_password_reset.html'
