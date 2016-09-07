@@ -58,7 +58,7 @@ from .constants import PURPOSE_RESET_PASSWORD
 from .constants import PURPOSE_SET_EMAIL
 from .forms import CreateUserForm
 from .forms import LoginForm
-from .forms import RequestPasswordResetForm
+from .forms import ConfirmResetPasswordForm
 from .forms import SetEmailForm
 from .forms import SetPasswordForm
 from .forms import ResetPasswordForm
@@ -116,7 +116,8 @@ class UserDetailView(DetailView):
         return self.request.user
 
 
-class RegisterUserView(BlacklistMixin, DnsBlMixin, RateLimitMixin, AnonymousRequiredMixin, CreateView):
+class RegistrationView(BlacklistMixin, DnsBlMixin, RateLimitMixin, AnonymousRequiredMixin,
+                       CreateView):
     template_name_suffix = '_register'
     model = User
     form_class = CreateUserForm
@@ -131,7 +132,7 @@ class RegisterUserView(BlacklistMixin, DnsBlMixin, RateLimitMixin, AnonymousRequ
         base_url = '%s://%s' % (request.scheme, request.get_host())
 
         with transaction.atomic():
-            response = super(RegisterUserView, self).form_valid(form)
+            response = super(RegistrationView, self).form_valid(form)
             user = self.object
 
             # log user creation, display help message.
@@ -167,8 +168,7 @@ class ConfirmRegistrationView(FormView):
     """View for confirming a registration e-mail."""
 
     template_name = 'account/user_register_confirm.html'
-    queryset = Confirmation.objects.valid().purpose(
-        PURPOSE_REGISTER).select_related('user')
+    queryset = Confirmation.objects.valid().purpose(PURPOSE_REGISTER).select_related('user')
     form_class = ResetPasswordForm
     success_url = reverse_lazy('account:detail')
 
@@ -196,7 +196,7 @@ class ConfirmRegistrationView(FormView):
                                 email=key.user.email)
 
             key.user.log(_('Email address %(email)s confirmed.') % {
-                'email': key.user.email
+                'email': key.user.email,
             }, address)
             # TODO: More meaningful help message on a webchat, usable clients, follow updates, ...
             messages.success(request, _(
@@ -241,9 +241,18 @@ class LoginView(BlacklistMixin, DnsBlMixin, RateLimitMixin, AnonymousRequiredMix
         return context
 
 
-class RequestPasswordResetView(BlacklistMixin, DnsBlMixin, AnonymousRequiredMixin, FormView):
+class UserView(LoginRequiredMixin, AccountPageMixin, UserDetailView):
+    """Main user settings view (/account)."""
+
+    usermenu_item = 'account:detail'
+    requires_confirmation = False
+
+
+
+# TODO; Ratelimit mixin
+class ResetPasswordView(BlacklistMixin, DnsBlMixin, AnonymousRequiredMixin, FormView):
     template_name = 'account/user_password_reset.html'
-    form_class = RequestPasswordResetForm
+    form_class = ResetPasswordForm
 
     def form_valid(self, form):
         try:
@@ -268,11 +277,11 @@ class RequestPasswordResetView(BlacklistMixin, DnsBlMixin, AnonymousRequiredMixi
         return self.render_to_response(self.get_context_data(form=form))
 
 
-class ResetPasswordView(FormView):
+class ConfirmResetPasswordView(FormView):
     template_name = 'account/user_password_reset_confirm.html'
-    form_class = SetPasswordForm
+    form_class = ConfirmResetPasswordForm
     success_url = reverse_lazy('account:detail')
-    queryset = Confirmation.objects.select_related('user')
+    queryset = Confirmation.objects.select_related('user')  # TODO: Purpose
 
     def form_valid(self, form):
         request = self.request
@@ -290,7 +299,7 @@ class ResetPasswordView(FormView):
             login(self.request, key.user)
             key.delete()
 
-        return super(ResetPasswordView, self).form_valid(form)
+        return super(ConfirmResetPasswordView, self).form_valid(form)
 
 
 class SetPasswordView(LoginRequiredMixin, AccountPageMixin, FormView):
@@ -372,13 +381,6 @@ class ConfirmSetEmailView(LoginRequiredMixin, RedirectView):
                      self.request.META['REMOTE_ADDR'])
 
             return super(ConfirmSetEmailView, self).get_redirect_url()
-
-
-class UserView(LoginRequiredMixin, AccountPageMixin, UserDetailView):
-    """Main user settings view (/account)."""
-
-    usermenu_item = 'account:detail'
-    requires_confirmation = False
 
 
 class GpgView(LoginRequiredMixin, AccountPageMixin, UserDetailView):

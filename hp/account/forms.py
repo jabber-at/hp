@@ -154,13 +154,13 @@ class SetEmailForm(GPGMixin, forms.Form):
     )
 
 
-class RequestPasswordResetForm(CaptchaFormMixin, forms.Form):
+class ResetPasswordForm(CaptchaFormMixin, forms.Form):
     """Form used when a user forgot his password and forgot it."""
 
     username = UsernameField()
 
 
-class ResetPasswordForm(CaptchaFormMixin, SetPasswordForm):
+class ConfirmResetPasswordForm(CaptchaFormMixin, SetPasswordForm):
     pass
 
 
