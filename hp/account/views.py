@@ -119,11 +119,11 @@ class UserDetailView(DetailView):
 
 class RegistrationView(BlacklistMixin, DnsBlMixin, RateLimitMixin, AnonymousRequiredMixin,
                        CreateView):
-    template_name_suffix = '_register'
-    model = User
     form_class = CreateUserForm
-    success_url = reverse_lazy('account:detail')
+    model = User
     rate_activity = ACTIVITY_REGISTER
+    success_url = reverse_lazy('account:detail')
+    template_name_suffix = '_register'
 
     def form_valid(self, form):
         request = self.request
@@ -168,10 +168,10 @@ confirmation link in that email.""" % (user.username, user.email)))
 class ConfirmRegistrationView(FormView):
     """View for confirming a registration e-mail."""
 
-    template_name = 'account/user_register_confirm.html'
-    queryset = _confirmation_qs.purpose(PURPOSE_REGISTER)
     form_class = ResetPasswordForm
+    queryset = _confirmation_qs.purpose(PURPOSE_REGISTER)
     success_url = reverse_lazy('account:detail')
+    template_name = 'account/user_register_confirm.html'
 
     def form_valid(self, form):
         request = self.request
@@ -216,9 +216,9 @@ class LoginView(BlacklistMixin, DnsBlMixin, RateLimitMixin, AnonymousRequiredMix
     detail page if already logged in. The default view always views the login form.
     """
     REDIRECT_FIELD_NAME = 'next'
-    template_name = 'account/user_login.html'
     form_class = LoginForm
     rate_activity = ACTIVITY_FAILED_LOGIN
+    template_name = 'account/user_login.html'
 
     def form_valid(self, form):
         redirect_to = self.request.POST.get(self.REDIRECT_FIELD_NAME, '')
@@ -251,9 +251,9 @@ class UserView(LoginRequiredMixin, AccountPageMixin, UserDetailView):
 
 
 class ResetPasswordView(BlacklistMixin, DnsBlMixin, AnonymousRequiredMixin, FormView):
-    template_name = 'account/user_password_reset.html'
     form_class = ResetPasswordForm
     rate_activity = ACTIVITY_RESET_PASSWORD
+    template_name = 'account/user_password_reset.html'
 
     def form_valid(self, form):
         self.ratelimit(self.request)
@@ -281,10 +281,10 @@ class ResetPasswordView(BlacklistMixin, DnsBlMixin, AnonymousRequiredMixin, Form
 
 
 class ConfirmResetPasswordView(FormView):
-    template_name = 'account/user_password_reset_confirm.html'
     form_class = ConfirmResetPasswordForm
-    success_url = reverse_lazy('account:detail')
     queryset = _confirmation_qs.purpose(PURPOSE_RESET_PASSWORD)
+    success_url = reverse_lazy('account:detail')
+    template_name = 'account/user_password_reset_confirm.html'
 
     def form_valid(self, form):
         request = self.request
@@ -325,10 +325,10 @@ class SetPasswordView(LoginRequiredMixin, AccountPageMixin, FormView):
 
 
 class SetEmailView(LoginRequiredMixin, AccountPageMixin, FormView):
-    success_url = reverse_lazy('account:detail')
-    usermenu_item = 'account:set_email'
-    template_name = 'account/user_set_email.html'
     form_class = SetEmailForm
+    success_url = reverse_lazy('account:detail')
+    template_name = 'account/user_set_email.html'
+    usermenu_item = 'account:set_email'
 
     def form_valid(self, form):
         request = self.request
@@ -396,9 +396,9 @@ class GpgView(LoginRequiredMixin, AccountPageMixin, UserDetailView):
 class RecentActivityView(LoginRequiredMixin, AccountPageMixin, UserDetailView):
     """Main user settings view (/account)."""
 
-    usermenu_item = 'account:log'
-    template_name = 'account/user_recent_activity.html'
     requires_confirmation = False
+    template_name = 'account/user_recent_activity.html'
+    usermenu_item = 'account:log'
 
     def get_context_data(self, **kwargs):
         context = super(RecentActivityView, self).get_context_data(**kwargs)
