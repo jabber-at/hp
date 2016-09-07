@@ -58,7 +58,8 @@ INSTALLED_APPS = [
 
     'core',
     'bootstrap',  # bootstrap enhancements
-    'account',
+    'account',  # account management
+    'jsxc',  # webchat
 ]
 
 MIDDLEWARE_CLASSES = [
