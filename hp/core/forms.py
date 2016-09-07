@@ -44,8 +44,8 @@ class CaptchaFormMixin(forms.Form):
 
 
 class ContactForm(forms.Form):
-    subject = BootstrapCharField()
-    text = BootstrapTextField()
+    subject = BootstrapCharField(min_length=12)
+    text = BootstrapTextField(min_length=100)
 
 
 class AnonymousContactForm(CaptchaFormMixin, ContactForm):
