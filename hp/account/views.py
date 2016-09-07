@@ -19,6 +19,7 @@ from django.conf import settings
 from django.contrib import messages
 from django.contrib.auth import get_user_model
 from django.contrib.auth import login
+from django.contrib.auth import logout
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.cache import cache
 from django.core.urlresolvers import reverse
@@ -144,6 +145,7 @@ confirmation link in that email.""" % (user.username, user.email)))
 
             user.backend = settings.AUTHENTICATION_BACKENDS[0]
             login(self.request, user)
+            log.info('[%s, %s] Registered.', address, user.username)
 
         task = send_confirmation_task.si(
             user_pk=user.pk, purpose=PURPOSE_REGISTER, language=lang, address=address,
@@ -181,7 +183,11 @@ class ConfirmRegistrationView(FormView):
             key.user.created_in_backend = True
             key.user.save()
 
-            if key.user.is_authenticated() is False:
+            log.info('[%s, %s] %s: Confirmed registration (user=%s)', address, key.user.username,
+                     key.key, request.user)
+
+            if request.user != key.user:
+                logout(request)  # logout any previous user
                 key.user.backend = settings.AUTHENTICATION_BACKENDS[0]
                 login(request, key.user)
 

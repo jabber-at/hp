@@ -65,6 +65,7 @@ def send_confirmation_task(user_pk, to, purpose, language, address, **payload):
     address = Address.objects.get_or_create(address=address)[0]
     conf = Confirmation.objects.create(user=user, purpose=purpose, language=language, to=to,
                                        address=address, payload=payload)
+    log.warn('[%s, %s] %s: Send confirmation (purpose=%s).', address, user, conf.key, conf.purpose)
     conf.send()
 
 
@@ -86,6 +87,9 @@ def set_email_task(user_pk, to, language, address, fingerprint=None, key=None, *
     with translation.override(language):
         conf = Confirmation.objects.create(user=user, purpose=PURPOSE_SET_EMAIL, language=language, to=to,
                                            address=address, payload=payload)
+        log.warn('[%s, %s] %s: Send confirmation (purpose=%s).', address, user, conf.key,
+                 conf.purpose)
+
         conf.send()
 
 
