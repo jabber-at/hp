@@ -168,7 +168,7 @@ confirmation link in that email.""" % (user.username, user.email)))
 class ConfirmRegistrationView(FormView):
     """View for confirming a registration e-mail."""
 
-    form_class = ResetPasswordForm
+    form_class = ConfirmResetPasswordForm
     queryset = _confirmation_qs.purpose(PURPOSE_REGISTER)
     success_url = reverse_lazy('account:detail')
     template_name = 'account/user_register_confirm.html'
