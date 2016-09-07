@@ -1,0 +1,17 @@
+@import "colors";
+@import "dep";
+
+//fonts
+$font_sans: Arial, sans-serif;
+$font_serif: serif;
+
+@import "modules";
+@import "buddylist";
+@import "state";
+@import "emoticons";
+@import "roster";
+@import "window";
+@import "muc";
+
+@import "jsxc";
+@import "webrtc";
