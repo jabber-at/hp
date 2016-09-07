@@ -13,11 +13,12 @@
 # You should have received a copy of the GNU General Public License along with django-xmpp-account.
 # If not, see <http://www.gnu.org/licenses/>.
 
-from django.views.generic.edit import FormView
+from django import forms
 
-from .forms import JsxcForm
+from account.formfields import UsernameField
+from bootstrap.formfields import BootstrapPasswordField
 
 
-class JsxcView(FormView):
-    template_name = 'jsxc/main.html'
-    form_class = JsxcForm
+class JsxcForm(forms.Form):
+    username = UsernameField()
+    password = BootstrapPasswordField()
