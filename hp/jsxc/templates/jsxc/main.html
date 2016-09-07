@@ -2,13 +2,27 @@
 
 {% load i18n static %}
 
-{% block extracss %}<link href="{% static 'account/css/base.css' %}" rel="stylesheet">{% endblock extracss %}
-{% block extrajs %}<script src="{% static 'account/js/base.js' %}"></script>{% endblock extrajs %}
+
+{% block extracss %}
+<link href="{% static "jsxc/lib/jsxc/lib/jquery-ui.min.css" %}" media="all" rel="stylesheet" type="text/css" />
+<link href="{% static "jsxc/lib/jsxc/build/css/jsxc.css" %}" media="all" rel="stylesheet" type="text/css" />
+<link href="{% static "jsxc/jsxc.css" %}" media="all" rel="stylesheet" type="text/css" />
+{% endblock extracss %}
+
+{% block extrajs %}
+<script src="{% static "jsxc/lib/jsxc/lib/jquery.ui.min.js" %}"></script>
+<script src="{% static "jsxc/lib/jsxc/lib/jquery.slimscroll.js" %}"></script>
+<script src="{% static "jsxc/lib/jsxc/lib/jquery.fullscreen.js" %}"></script>
+
+<script src="{% static "jsxc/lib/jsxc/build/lib/jsxc.dep.js" %}"></script>
+<script src="{% static "jsxc/lib/jsxc/build/jsxc.js" %}"></script>
+
+<script src="{% static "jsxc/jsxc.js" %}"></script>
+{% endblock extrajs %}
 
 {% block page %}
 <div class="col-xs-12 col-sm-9">
-<form class="form-horizontal" method="post" action="{% url 'jsxc:main' %}">{% csrf_token %}
-<input type="hidden" name="next" value="{{ next }}" />
+<form id="jsxc-main-form" class="form-horizontal" method="post" action="{% url 'jsxc:main' %}">{% csrf_token %}
 {{ form.username.formgroup }}
 {{ form.password.formgroup }}
 <div class="form-group">
