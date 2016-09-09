@@ -1,7 +1,17 @@
 {% extends "account/form-base.html" %}
 {% load i18n %}
 
+{% block title %}{% trans "Confirm registration" %}{% endblock title %}
+
 {% block form %}
+<p>{% blocktrans %}Please enter a password to complete your registration. You will be
+able to use your new account immediately.{% endblocktrans %}</p>
+
+{% url 'account:detail' as account_page_url %}
+<div class="alert alert-info" role="alert">{% blocktrans %}<strong>Please note:</strong>
+This link is a one-time link only. If you have already completed your
+registration, please proceed to your <a class="alert-link" href="{{ account_page_url }}">your account-page</a>.{% endblocktrans %}</div>
+
 <form class="form-horizontal" action="" method="post">{% csrf_token %}
 {{ form.password.formgroup }}
 {{ form.password2.formgroup }}
