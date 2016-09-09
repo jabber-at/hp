@@ -1,0 +1,19 @@
+{% extends "page.html" %}
+{% load i18n %}
+
+{% block pageheader %}{% endblock pageheader %}
+
+{% block content %}
+{% url 'account:detail' as account_page_url %}
+
+<div class="alert alert-info" role="alert">
+    <h3>{% block title %}{% trans "Confirmation key not found" %}{% endblock title %}</h3>    
+{% blocktrans %}The confirmation key could not be found. This usually means that you
+have used it already and you can proceed straight to your
+<a class="alert-link" href="{{ account_page_url }}">your account-page</a>.{% endblocktrans %}</div>
+
+<p>{% blocktrans %}You can use the confirmation links we send to you only once. In order
+to protect you from an attacker randomly guessing links, we only present an
+error message once the form is submitted and you have solved the CAPTCHA.{% endblocktrans %}</p>
+
+{% endblock content %}

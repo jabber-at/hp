@@ -179,7 +179,12 @@ class ConfirmRegistrationView(FormView):
         password = form.cleaned_data['password']
 
         with transaction.atomic():
-            key = self.queryset.get(key=self.kwargs['key'])
+            try:
+                key = self.queryset.get(key=self.kwargs['key'])
+            except Confirmation.DoesNotExist:
+                return TemplateResponse(
+                    request, 'account/user_register_confirmation_not_found.html', {}, status=404)
+
             key.user.confirmed = timezone.now()
             key.user.created_in_backend = True
             key.user.save()
