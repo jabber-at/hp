@@ -2,7 +2,9 @@
 
 {% block page %}
 <div class="col-md-8">
+    {% block pageheader %}
     <div class="page-header"><h1>{% block title %}{% endblock title %}</h1></div>
+    {% endblock pageheader %}
     {% block content %}{% endblock content %}
 </div>
 <div class="col-md-4 sidebar">
