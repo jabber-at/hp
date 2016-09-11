@@ -2,8 +2,11 @@
 
 ## 2016-09-11
 
-* Make the set-language view more fail-safe (e.g. missing query parameters) and pass the full path
-  including the query string.
+* Improve logging configuration to make sure that logging calls are properly logged in any
+  configuration, via uWSGI and Celery. `log.error()` and exceptions in Celery tasks are now mailed
+  to admins.
+* The set-language view (`/api/set-lang/`) no longer fails if any query parameter is missing. The
+  query string is also passed via the `next` query parameter.
 * Add `rel="nofollow"` set-language links.
 * Remove dependency for python-gnupg (we use pygpgme now).
 
