@@ -311,16 +311,10 @@ LOGGING = {
             'level': 'ERROR',
             'propagate': True,
         },
-        'account': {
-#            'handlers': ['console', ],
-            'level': LOG_LEVEL,
-#            'propagate': False,
-        },
-        'core': {
-#            'handlers': ['console', ],
-            'level': LOG_LEVEL,
-#            'propagate': False,
-        },
+        'account': {'level': LOG_LEVEL, },
+        'bootstrap': {'level': LOG_LEVEL, },
+        'core': {'level': LOG_LEVEL, },
+        'jsxc': {'level': LOG_LEVEL, },
     },
     'root': {
         'handlers': ['console', ],
