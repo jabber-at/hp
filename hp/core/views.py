@@ -14,6 +14,7 @@
 # If not, see <http://www.gnu.org/licenses/>.
 
 import ipaddress
+import logging
 
 from django.conf import settings
 from django.core.cache import cache
@@ -36,9 +37,11 @@ from .forms import ContactForm
 from .models import Page
 from .models import BlogPost
 from .utils import check_dnsbl
+from .utils import logtest
 from .tasks import send_contact_email
 
 
+log = logging.getLogger(__name__)
 _BLACKLIST = getattr(settings, 'SPAM_BLACKLIST', set())
 _RATELIMIT_WHITELIST = getattr(settings, 'RATELIMIT_WHITELIST', set())
 _RATELIMIT_CONFIG = getattr(settings, 'RATELIMIT_CONFIG', {})
@@ -207,6 +210,8 @@ class ContactView(BlacklistMixin, DnsBlMixin, FormView):
     success_url = reverse_lazy('core:contact')
 
     def get_form_class(self):
+        log.warn('uwsgi log')
+        logtest('uwsgi utils')
         if self.request.user.is_authenticated():
             return ContactForm
         else:

@@ -13,9 +13,12 @@
 # You should have received a copy of the GNU General Public License along with django-xmpp-account.
 # If not, see <http://www.gnu.org/licenses/>.
 
+import logging
+
 from datetime import timedelta
 
 from celery import shared_task
+from celery.utils.log import get_task_logger
 from gpgmime.django import GpgEmailMessage
 
 from django.conf import settings
@@ -27,10 +30,20 @@ from .models import AddressActivity
 from .models import CachedMessage
 from .utils import load_private_key
 from .utils import load_contact_keys
+from .utils import logtest
 
 from xmpp_http_upload.models import Upload
 
 User = get_user_model()
+log = logging.getLogger(__name__)
+task_log = get_task_logger(__name__)
+
+
+@shared_task
+def logtask():
+    log.warn('log')
+    task_log.warn('task_log')
+    logtest('utils via celery')
 
 
 @shared_task
