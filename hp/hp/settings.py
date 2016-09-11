@@ -327,6 +327,11 @@ LOGGING = {
             'level': 'ERROR',
             'propagate': True,
         },
+        'celery.worker.job': {  # exceptions in tasks
+            'handlers': ['mail_admins'],
+            'level': 'ERROR',
+            'propagate': True,
+        },
     },
     'root': {
         'handlers': ['console', ],
