@@ -56,6 +56,13 @@ DATABASES = {
 # Set this to something long and unique
 SECRET_KEY = ''
 
+#########################
+# General configuration #
+#########################
+
+#MIN_USERNAME_LENGTH = 2
+#MAX_USERNAME_LENGTH = 64
+
 ##########
 # Caches #
 ##########
@@ -77,13 +84,6 @@ CACHES = {
     },
 }
 
-########################
-# Celery configuration #
-########################
-# See also: http://docs.celeryproject.org/en/latest/configuration.html
-
-#BROKER_URL = 'redis://localhost:6379/0'
-
 ##################
 # Email settings #
 ##################
@@ -96,13 +96,18 @@ CACHES = {
 #EMAIL_HOST_PASSWORD = ''
 #EMAIL_USE_TLS = True
 
-#########################
-# General configuration #
-#########################
+###########
+# Logging #
+###########
 
-#LOG_LEVEL = 'WARN'
-#MIN_USERNAME_LENGTH = 2
-#MAX_USERNAME_LENGTH = 64
+# The log format used. Note that Celery also has more specific settings below.
+#LOG_FORMAT = '[%(asctime).19s %(levelname)-8s] %(message)s' # .19s = only first 19 chars
+
+# Log level used for our own code
+#LOG_LEVEL = 'INFO'
+
+# Log level used for any library code
+#LIBRARY_LOG_LEVEL = 'WARN'
 
 ############################
 # XMPP hosts configuration #
@@ -126,32 +131,65 @@ XMPP_BACKENDS = {
 # Hosts handled by this domain (used in registration form etc.)
 XMPP_HOSTS = {
     'example.com': {
-        'REGISTRATION': True,
-        'GPG_FINGERPRINT': '...',  # Used for signing, no 0x prefix!
-        'DEFAULT_FROM_EMAIL': 'noreply@example.com',
-        'CONTACT_ADDRESS': '...',
+        # [REQUIRED] A list of hostnames where this host configuration should be used. If a request
+        # does not match any host, the host named in DEFAULT_XMPP_HOST will be used. The setting is
+        # the same as Djangos global "ALLOWED_HOSTS" setting.
+        'ALLOWED_HOSTS': [
+            '...',
+        ],
+
+        # The "Form" address used in confirmation emails and by the contact form. If not set, the
+        # global DEFAULT_FROM_EMAIL setting will be used.
+        #'DEFAULT_FROM_EMAIL': 'noreply@example.com',
+
+        # Where the contact form sends emails to. If not set, the DEFAULT_CONTACT_ADDRESS will be
+        # used.
+        #'CONTACT_ADDRESS': '...',
+
+        # Set to False to disable registration for this host. The host will still be usable e.g. in
+        # "reset password" forms, but not in the registration form.
+        #'REGISTRATION': True,
 
         # Set to true if a user could use an email address from this domain for registration
         #'ALLOW_EMAIL': True,
 
+        # GPG fingerprint of the key used for signing encrypted messages. The fingerprint listed
+        # here must exist in GPG_KEYDIR with the name "<fingerprint>.key".
+        #'GPG_FINGERPRINT': '...',  # Used for signing, no 0x prefix!
+
         # GPG fingerprints (without 0x prefix) of the recipients of the contact address. If this is
         # set, contact emails are encrypted if the user has a GPG key configured (and is logged
-        # in, obiously).
-        #
-        # Finerprints documented here must exist in the GPG_KEYDIR configured below with a ".pub"
-        # extension.
-        #
+        # in, obiously). Public keys listed here must exist in GPG_KEYDIR with the name
+        # <fingerprint>.pub.
         #CONTACT_GPG_FINGERPRINTS = [
         #    '...',
         #],
     },
 }
 
+# Default address the contact form sends emails to.
+DEFAULT_CONTACT_ADDRESS = 'contact@example.com'
+
 # Default email used when a host in XMPP_HOSTS does not define one.
-DEFAULT_FROM_EMAIL = 'noreply@jabber.at'
+DEFAULT_FROM_EMAIL = 'noreply@example.com'
 
 # Default selection in form selection fields
-DEFAULT_XMPP_HOST = 'jabber.at'
+DEFAULT_XMPP_HOST = 'example.com'
+
+########################
+# Celery configuration #
+########################
+# See also: http://docs.celeryproject.org/en/latest/configuration.html
+
+#BROKER_URL = 'redis://localhost:6379/0'
+
+# The log format used by the celery loggers. If None (the default), the same as LOG_FORMAT will be
+# used.
+#CELERYD_LOG_FORMAT = None
+
+# The format used for Celery task loggers (-> get_task_logger()). The default is the same as the
+# normal default, except that the task name is added.
+#CELERYD_TASK_LOG_FORMAT = '[%(asctime).19s %(levelname)-8s] [%(task_name)s] %(message)s'
 
 ######################
 # Anti-Spam settings #
