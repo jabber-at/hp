@@ -315,6 +315,18 @@ LOGGING = {
         'bootstrap': {'level': LOG_LEVEL, },
         'core': {'level': LOG_LEVEL, },
         'jsxc': {'level': LOG_LEVEL, },
+
+        # mail any errors to admins
+        'core.tasks': {
+            'handlers': ['mail_admins'],
+            'level': 'ERROR',
+            'propagate': True,
+        },
+        'account.tasks': {
+            'handlers': ['mail_admins'],
+            'level': 'ERROR',
+            'propagate': True,
+        },
     },
     'root': {
         'handlers': ['console', ],

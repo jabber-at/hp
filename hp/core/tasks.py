@@ -36,6 +36,12 @@ log = get_task_logger(__name__)
 
 
 @shared_task
+def error():
+    log.error("Error test by mati")
+    raise Exception("Exception raised by mati")
+
+
+@shared_task
 def send_contact_email(domain, subject, message, recipient=None, user=None, address=None):
     if not recipient and not user:
         raise ValueError("Need at least recipient or user")
