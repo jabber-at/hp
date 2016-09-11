@@ -178,6 +178,7 @@ MESSAGE_TAGS = {
 # How long confirmation emails remain valid
 USER_CONFIRMATION_TIMEOUT = timedelta(hours=48)
 
+LOG_FORMAT = '[%(asctime).19s %(levelname)-8s] %(message)s' # .19s = only first 19 chars
 LOG_LEVEL = 'WARN'
 
 ################
@@ -217,6 +218,8 @@ CELERYBEAT_SCHEDULE = {
         'schedule': crontab(hour=3, minute=5),
     },
 }
+CELERYD_LOG_FORMAT = None
+CELERYD_TASK_LOG_FORMAT = None
 
 ######################
 # Anti-Spam settings #
@@ -261,6 +264,12 @@ try:
 except ImportError:
     pass
 
+if CELERYD_LOG_FORMAT is None:
+    CELERYD_LOG_FORMAT = LOG_FORMAT
+if CELERYD_TASK_LOG_FORMAT is None:
+    # The default includes the task_name
+    CELERYD_TASK_LOG_FORMAT = '[%(asctime).19s %(levelname)-8s] [%(task_name)s] %(message)s'
+
 SPAM_BLACKLIST = set([ipaddress.ip_network(addr) for addr in SPAM_BLACKLIST])
 
 # Make sure GPG home directories exist
@@ -280,7 +289,7 @@ LOGGING = {
     },
     'formatters': {
         'simple': {
-            'format': '[%(asctime).19s %(levelname)-8s] %(message)s',  # .19s = only first 19 chars
+            'format': LOG_FORMAT,
         },
     },
     'handlers': {
