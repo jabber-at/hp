@@ -311,14 +311,14 @@ LOGGING = {
             'propagate': True,
         },
         'account': {
-            'handlers': ['console', ],
+#            'handlers': ['console', ],
             'level': LOG_LEVEL,
-            'propagate': False,
+#            'propagate': False,
         },
         'core': {
-            'handlers': ['console', ],
+#            'handlers': ['console', ],
             'level': LOG_LEVEL,
-            'propagate': False,
+#            'propagate': False,
         },
     },
     'root': {
