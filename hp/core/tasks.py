@@ -41,16 +41,14 @@ def send_contact_email(domain, subject, message, recipient=None, user=None, addr
     config = settings.XMPP_HOSTS[domain]
     from_email = config.get('DEFAULT_FROM_EMAIL', settings.DEFAULT_FROM_EMAIL)
     gpg_recipients = None
+    recipient_list = [config['CONTACT_ADDRESS']]
 
     if user is None:
-        recipient_list = [recipient, config['CONTACT_ADDRESS']]
+        reply_to = [recipient, config['CONTACT_ADDRESS']]
     else:
         user = User.objects.get(pk=user)
-        recipient_list = [user.email, config['CONTACT_ADDRESS']]
+        reply_to = [user.email, config['CONTACT_ADDRESS']]
         gpg_recipients = list(user.gpg_keys.valid().values_list('fingerprint', flat=True))
-
-    # Set the Reply-To field to both recipients for convenience.
-    reply_to = recipient_list
 
     # We add the connecting IP-Address and the user (if any).
     headers = {
