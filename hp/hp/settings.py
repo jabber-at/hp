@@ -278,6 +278,10 @@ if not CONTACT_ADDRESS:
 if not DEFAULT_XMPP_HOST:
     raise ImproperlyConfigured("The DEFAULT_XMPP_HOST setting is undefined.")
 
+if not ALLOWED_HOSTS:
+    for config in XMPP_HOSTS.values():
+        ALLOWED_HOSTS += XMPP_HOSTS.get('ALLOWED_HOSTS', [])
+
 if CELERYD_LOG_FORMAT is None:
     CELERYD_LOG_FORMAT = LOG_FORMAT
 if CELERYD_TASK_LOG_FORMAT is None:

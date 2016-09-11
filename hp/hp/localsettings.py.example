@@ -43,6 +43,7 @@ DATABASES = {
 #)
 
 # Hostnames that this page runs under
+# Note that if not set, the hostnames from XMPP_HOSTS will be used.
 #ALLOWED_HOSTS = (
 #    'example.com', 'www.example.com',
 #)
@@ -134,9 +135,10 @@ XMPP_BACKENDS = {
 # Hosts handled by this domain (used in registration form etc.)
 XMPP_HOSTS = {
     'example.com': {
-        # [REQUIRED] A list of hostnames where this host configuration should be used. If a request
-        # does not match any host, the host named in DEFAULT_XMPP_HOST will be used. The setting is
-        # the same as Djangos global "ALLOWED_HOSTS" setting.
+        # A list of hostnames where this host configuration should be used. If a request does not
+        # match any host, the host named in DEFAULT_XMPP_HOST will be used. The setting is the same
+        # as Djangos global "ALLOWED_HOSTS" setting. Set an empty list if the site is not served by
+        # any domain (e.g. where we don't allow registration anyway).
         'ALLOWED_HOSTS': [
             '...',
         ],
