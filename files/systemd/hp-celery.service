@@ -1,7 +1,7 @@
 [Unit]
 Description=Celery workers
-After=network.target redis-server
-Require=systemd-tmpfiles-setup redis-server
+After=network.target redis-server.service
+Require=systemd-tmpfiles-setup.service redis-server.service
 
 [Service]
 Type=forking
@@ -22,4 +22,4 @@ ExecReload=/usr/local/home/hp/bin/celery multi restart $CELERYD_NODES \
     $CELERYD_OPTS
 
 [Install]
-WantedBy=multi-user.targe
+WantedBy=multi-user.target
