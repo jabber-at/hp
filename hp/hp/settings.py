@@ -277,12 +277,10 @@ if not CONTACT_ADDRESS:
     raise ImproperlyConfigured("The CONTACT_ADDRESS setting is undefined.")
 if not DEFAULT_XMPP_HOST:
     raise ImproperlyConfigured("The DEFAULT_XMPP_HOST setting is undefined.")
+elif DEFAULT_XMPP_HOST not in XMPP_HOSTS:
+    raise ImproperlyConfigured("Host named by DEFAULT_XMPP_HOST is not defined in XMPP_HOSTS.")
 if not DEFAULT_FROM_EMAIL:
     raise ImproperlyConfigured("The DEFAULT_FROM_EMAIL setting is undefined.")
-
-if not ALLOWED_HOSTS:
-    for config in XMPP_HOSTS.values():
-        ALLOWED_HOSTS += XMPP_HOSTS.get('ALLOWED_HOSTS', [])
 
 if CELERYD_LOG_FORMAT is None:
     CELERYD_LOG_FORMAT = LOG_FORMAT
@@ -302,11 +300,16 @@ if not os.path.exists(GPG_KEYDIR):
 # set some defaults for XMPP_HOSTS
 for key, config in XMPP_HOSTS.items():
     config['NAME'] = key
+    config.setdefault('ALLOWED_HOSTS', [])
+    config.setdefault('ALLOW_EMAIL', False)
     config.setdefault('BRAND', key)
     config.setdefault('CONTACT_ADDRESS', CONTACT_ADDRESS)
-    config.setdefault('REGISTRATION', True)
-    config.setdefault('ALLOW_EMAIL', False)
     config.setdefault('DEFAULT_FROM_EMAIL', DEFAULT_FROM_EMAIL)
+    config.setdefault('REGISTRATION', True)
+
+if not ALLOWED_HOSTS:
+    for config in XMPP_HOSTS.values():
+        ALLOWED_HOSTS += XMPP_HOSTS.get('ALLOWED_HOSTS', [])
 
 
 LOGGING = {
