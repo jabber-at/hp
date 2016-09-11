@@ -20,9 +20,8 @@ from gpgmime.django import GpgEmailMessage
 
 from django.conf import settings
 from django.contrib.auth import get_user_model
-from django.core.mail import send_mail
+from django.core.mail import EmailMessage
 from django.utils import timezone
-
 from .models import Address
 from .models import AddressActivity
 from .models import CachedMessage
@@ -50,6 +49,9 @@ def send_contact_email(domain, subject, message, recipient=None, user=None):
         recipient_list = [user.email, config['CONTACT_ADDRESS']]
         gpg_recipients = list(user.gpg_keys.valid().values_list('fingerprint', flat=True))
 
+    # Set the Reply-To field to both recipients for convenience.
+    reply_to = recipient_list
+
     # If we have a GPG fingerprint for the user AND we have fingerprints for the contact addresses,
     # we use GPG.
     if gpg_recipients and config.get('CONTACT_GPG_FINGERPRINTS'):
@@ -65,11 +67,14 @@ def send_contact_email(domain, subject, message, recipient=None, user=None):
                 backend.import_key(contact_key)
 
             msg = GpgEmailMessage(
-                subject, message, from_email, recipient_list,
+                subject, message, from_email, recipient_list, reply_to=reply_to,
                 gpg_backend=backend, gpg_recipients=gpg_recipients, gpg_signer=gpg_signer)
+
+            # TODO: Attach the GPG key
             msg.send()
     else:
-        send_mail(subject, message, from_email, recipient_list)
+        email = EmailMessage(subject, message, from_email, recipient_list, reply_to=reply_to)
+        email.send()
 
 
 @shared_task
