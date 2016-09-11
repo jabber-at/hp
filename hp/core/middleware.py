@@ -18,18 +18,24 @@ from django.contrib import messages
 from django.core.urlresolvers import reverse
 from django.db import transaction
 from django.http import HttpResponseRedirect
+from django.http.request import split_domain_port
+from django.http.request import validate_host
 
 from .models import CachedMessage
 
 
 class SiteMiddleware(object):
     def process_request(self, request):
-        host = request.META.get('HTTP_HOST', request.META.get('SERVER_NAME'))
-        config = getattr(settings, 'XMPP_HOSTS_MAPPING', {}).get(host)
-        if config is None:
-            config = settings.DEFAULT_XMPP_HOST
+        host = request._get_raw_host()
+        domain, port = split_domain_port(host)
 
-        request.site = settings.XMPP_HOSTS[config]
+        for name, config in settings.XMPP_HOSTS.items():
+            allowed_hosts = config.get('ALLOWED_HOSTS', [])
+            if validate_host(domain, allowed_hosts):
+                request.site = config
+                return
+
+        request.site = settings.XMPP_HOSTS[settings.DEFAULT_XMPP_HOST]
 
 
 class TranslatedUrlConfigMiddleware(object):
