@@ -2,5 +2,7 @@
 
 ## 2016-09-11
 
-* Add `rel="nofollow"` to the set-language view.
+* Make the set-language view more fail-safe (e.g. missing query parameters) and pass the full path
+  including the query string.
+* Add `rel="nofollow"` set-language links.
 * Remove dependency for python-gnupg (we use pygpgme now).

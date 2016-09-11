@@ -7,7 +7,7 @@
   <div class="panel-body">
     {% trans "View this page in:" %}
     {% for code, name in other_langs %}
-    <a href="{% url "core:api-set-lang" %}?lang={{ code }}&next={{ request.path }}" rel="nofollow">{{ name }}</a>{% if not forloop.last %},{% endif %}
+    <a href="{% url "core:api-set-lang" %}?lang={{ code }}&next={{ request.get_full_path|urlencode }}" rel="nofollow">{{ name }}</a>{% if not forloop.last %},{% endif %}
     {% endfor %}
   </div>
 </div>
