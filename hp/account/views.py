@@ -147,7 +147,6 @@ confirmation link in that email.""" % (user.username, user.email)))
 
             user.backend = settings.AUTHENTICATION_BACKENDS[0]
             login(self.request, user)
-            log.info('[%s, %s] Registered.', address, user.username)
 
         task = send_confirmation_task.si(
             user_pk=user.pk, purpose=PURPOSE_REGISTER, language=lang, address=address,
@@ -188,9 +187,6 @@ class ConfirmRegistrationView(FormView):
             key.user.confirmed = timezone.now()
             key.user.created_in_backend = True
             key.user.save()
-
-            log.info('[%s, %s] %s: Confirmed registration (user=%s)', address, key.user.username,
-                     key.key, request.user)
 
             if request.user != key.user:
                 logout(request)  # logout any previous user
