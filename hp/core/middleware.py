@@ -30,8 +30,6 @@ class SiteMiddleware(object):
             config = settings.DEFAULT_XMPP_HOST
 
         request.site = settings.XMPP_HOSTS[config]
-        request.site['DOMAIN'] = config
-        request.site.setdefault('BRAND', getattr(settings, 'BRAND', config))
 
 
 class TranslatedUrlConfigMiddleware(object):

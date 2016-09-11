@@ -212,7 +212,7 @@ class ContactView(BlacklistMixin, DnsBlMixin, FormView):
             return AnonymousContactForm
 
     def form_valid(self, form):
-        domain = self.request.site['DOMAIN']
+        config = self.request.site['NAME']
         subject = form.cleaned_data['subject']
         message = form.cleaned_data['text']
 
@@ -224,7 +224,7 @@ class ContactView(BlacklistMixin, DnsBlMixin, FormView):
         else:
             user = self.request.user.pk
 
-        send_contact_email.delay(domain, subject, message, recipient=recipient, user=user,
+        send_contact_email.delay(config, subject, message, recipient=recipient, user=user,
                                  address=self.request.META['REMOTE_ADDR'])
         return self.render_to_response(self.get_context_data(form=form))
 
