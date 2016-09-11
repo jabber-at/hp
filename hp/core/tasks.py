@@ -47,6 +47,7 @@ def send_contact_email(domain, subject, message, recipient=None, user=None, addr
         reply_to = [recipient, config['CONTACT_ADDRESS']]
     else:
         user = User.objects.get(pk=user)
+        recipient_list.append(user.email)
         reply_to = [user.email, config['CONTACT_ADDRESS']]
         gpg_recipients = list(user.gpg_keys.valid().values_list('fingerprint', flat=True))
 
