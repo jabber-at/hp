@@ -75,7 +75,10 @@ def send_contact_email(domain, subject, message, recipient=None, user=None, addr
                 subject, message, from_email, recipient_list, reply_to=reply_to, headers=headers,
                 gpg_backend=backend, gpg_recipients=gpg_recipients, gpg_signer=gpg_signer)
 
-            # TODO: Attach the GPG key
+            # Attach the users public key(s) as "key.asc" so we can reply encrypted.
+            attachment = ''.join(user.gpg_keys.valid().values_list('key', flat=True))
+            msg.attach('key.asc', attachment, 'text/gpg-key')
+
             msg.send()
     else:
         email = EmailMessage(subject, message, from_email, recipient_list, reply_to=reply_to,

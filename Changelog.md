@@ -16,3 +16,4 @@
 * Add the IP-Address that submitted the contact form is passed in the `X-Homepage-Submit-Address`
   header.
 * The user currently logged in, if any, is passed in the `X-Homepage-Logged-In-User` header.
+* Add the users GPG keys as attachement, if he has configured any.
