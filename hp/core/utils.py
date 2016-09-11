@@ -13,7 +13,6 @@
 # You should have received a copy of the GNU General Public License along with django-xmpp-account.
 # If not, see <http://www.gnu.org/licenses
 
-import logging
 import os
 import dns.resolver
 
@@ -21,11 +20,6 @@ from django.conf import settings
 from django.core.cache import cache
 from django.utils.translation import ungettext
 from django.utils.translation import ugettext as _
-
-log = logging.getLogger(__name__)
-
-def logtest(msg):
-    log.warn(msg)
 
 
 def format_timedelta(delta):
