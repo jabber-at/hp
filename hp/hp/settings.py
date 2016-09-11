@@ -277,6 +277,8 @@ if not CONTACT_ADDRESS:
     raise ImproperlyConfigured("The CONTACT_ADDRESS setting is undefined.")
 if not DEFAULT_XMPP_HOST:
     raise ImproperlyConfigured("The DEFAULT_XMPP_HOST setting is undefined.")
+if not DEFAULT_FROM_EMAIL:
+    raise ImproperlyConfigured("The DEFAULT_FROM_EMAIL setting is undefined.")
 
 if not ALLOWED_HOSTS:
     for config in XMPP_HOSTS.values():
@@ -302,6 +304,9 @@ for key, config in XMPP_HOSTS.items():
     config['NAME'] = key
     config.setdefault('BRAND', key)
     config.setdefault('CONTACT_ADDRESS', CONTACT_ADDRESS)
+    config.setdefault('REGISTRATION', True)
+    config.setdefault('ALLOW_EMAIL', False)
+    config.setdefault('DEFAULT_FROM_EMAIL', DEFAULT_FROM_EMAIL)
 
 
 LOGGING = {
