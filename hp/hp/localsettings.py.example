@@ -142,8 +142,8 @@ XMPP_HOSTS = {
         # global DEFAULT_FROM_EMAIL setting will be used.
         #'DEFAULT_FROM_EMAIL': 'noreply@example.com',
 
-        # Where the contact form sends emails to. If not set, the DEFAULT_CONTACT_ADDRESS will be
-        # used.
+        # Where the contact form sends emails to. If not set, the global CONTACT_ADDRESS setting
+        # will be used.
         #'CONTACT_ADDRESS': '...',
 
         # Set to False to disable registration for this host. The host will still be usable e.g. in
@@ -168,7 +168,7 @@ XMPP_HOSTS = {
 }
 
 # Default address the contact form sends emails to.
-DEFAULT_CONTACT_ADDRESS = 'contact@example.com'
+CONTACT_ADDRESS = 'contact@example.com'
 
 # Default email used when a host in XMPP_HOSTS does not define one.
 DEFAULT_FROM_EMAIL = 'noreply@example.com'

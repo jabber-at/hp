@@ -18,6 +18,7 @@ from datetime import timedelta
 from celery.schedules import crontab
 from django.contrib.messages import constants as messages
 from django.core.urlresolvers import reverse_lazy
+from django.core.exceptions import ImproperlyConfigured
 from django.utils.translation import ugettext_lazy as _
 
 from core.constants import ACTIVITY_REGISTER
@@ -176,6 +177,8 @@ MESSAGE_TAGS = {
 }
 
 XMPP_HOSTS = {}
+CONTACT_ADDRESS = None
+DEFAULT_XMPP_HOST = None
 
 # How long confirmation emails remain valid
 USER_CONFIRMATION_TIMEOUT = timedelta(hours=48)
@@ -267,6 +270,14 @@ try:
 except ImportError:
     pass
 
+# Make sure some required settings are set
+if not XMPP_HOSTS:
+    raise ImproperlyConfigured("The XMPP_HOSTS setting is undefined.")
+if not CONTACT_ADDRESS:
+    raise ImproperlyConfigured("The CONTACT_ADDRESS setting is undefined.")
+if not DEFAULT_XMPP_HOST:
+    raise ImproperlyConfigured("The DEFAULT_XMPP_HOST setting is undefined.")
+
 if CELERYD_LOG_FORMAT is None:
     CELERYD_LOG_FORMAT = LOG_FORMAT
 if CELERYD_TASK_LOG_FORMAT is None:
@@ -286,6 +297,7 @@ if not os.path.exists(GPG_KEYDIR):
 for key, config in XMPP_HOSTS.items():
     config['NAME'] = key
     config.setdefault('BRAND', key)
+    config.setdefault('CONTACT_ADDRESS', CONTACT_ADDRESS)
 
 
 LOGGING = {
