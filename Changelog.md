@@ -9,7 +9,7 @@
 
 ### Contact form
 
-* Do not CC the message to anonmous users, to make sure that the contact form cannot be abused to
+* Do not CC the message to anonymous users, to make sure that the contact form cannot be abused to
   send SPAM.
 * Set the Reply-To header to the contact address and the users address. That way we can just hit
   "Reply" to answer more quickly.
