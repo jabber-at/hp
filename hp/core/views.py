@@ -225,7 +225,8 @@ class ContactView(BlacklistMixin, DnsBlMixin, FormView):
         else:
             user = self.request.user.pk
 
-        send_contact_email.delay(domain, subject, message, recipient=recipient, user=user)
+        send_contact_email.delay(domain, subject, message, recipient=recipient, user=user,
+                                 address=self.request.META['REMOTE_ADDR'])
         return self.render_to_response(self.get_context_data(form=form))
 
 

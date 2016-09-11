@@ -34,7 +34,7 @@ User = get_user_model()
 
 
 @shared_task
-def send_contact_email(domain, subject, message, recipient=None, user=None):
+def send_contact_email(domain, subject, message, recipient=None, user=None, address=None):
     if not recipient and not user:
         raise ValueError("Need at least recipient or user")
 
@@ -52,6 +52,12 @@ def send_contact_email(domain, subject, message, recipient=None, user=None):
     # Set the Reply-To field to both recipients for convenience.
     reply_to = recipient_list
 
+    # We add the connecting IP-Address and the user (if any).
+    headers = {
+        'X-Homepage-Logged-In-User': user,
+        'X-Homepage-Submit-Address': address,
+    }
+
     # If we have a GPG fingerprint for the user AND we have fingerprints for the contact addresses,
     # we use GPG.
     if gpg_recipients and config.get('CONTACT_GPG_FINGERPRINTS'):
@@ -67,13 +73,14 @@ def send_contact_email(domain, subject, message, recipient=None, user=None):
                 backend.import_key(contact_key)
 
             msg = GpgEmailMessage(
-                subject, message, from_email, recipient_list, reply_to=reply_to,
+                subject, message, from_email, recipient_list, reply_to=reply_to, headers=headers,
                 gpg_backend=backend, gpg_recipients=gpg_recipients, gpg_signer=gpg_signer)
 
             # TODO: Attach the GPG key
             msg.send()
     else:
-        email = EmailMessage(subject, message, from_email, recipient_list, reply_to=reply_to)
+        email = EmailMessage(subject, message, from_email, recipient_list, reply_to=reply_to,
+                             headers=headers)
         email.send()
 
 
