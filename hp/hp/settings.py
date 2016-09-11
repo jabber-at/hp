@@ -175,6 +175,8 @@ MESSAGE_TAGS = {
     messages.DEBUG: 'info',
 }
 
+XMPP_HOSTS = {}
+
 # How long confirmation emails remain valid
 USER_CONFIRMATION_TIMEOUT = timedelta(hours=48)
 
@@ -279,6 +281,12 @@ for backend, config in GPG_BACKENDS.items():
         os.makedirs(config['HOME'])
 if not os.path.exists(GPG_KEYDIR):
     os.makedirs(GPG_KEYDIR)
+
+# set some defaults for XMPP_HOSTS
+for key, config in XMPP_HOSTS.items():
+    config['NAME'] = key
+    config.setdefault('BRAND', key)
+
 
 LOGGING = {
     'version': 1,
