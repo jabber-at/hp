@@ -40,6 +40,7 @@ from django.views.generic.edit import CreateView
 from django.views.generic.edit import FormView
 
 from celery import chain
+from xmpp_http_upload.models import Upload
 from django_xmpp_backends import backend
 
 from core.constants import ACTIVITY_REGISTER
@@ -79,6 +80,7 @@ class AccountPageMixin(object):
         ('account:detail', _('Overview'), False),
         ('account:set_password', _('Set password'), True),
         ('account:set_email', _('Set E-Mail'), True),
+        ('account:xep0363', _('HTTP uploads'), True),
         ('account:gpg', _('GPG keys'), True),
         ('account:log', _('Recent activity'), False),
     )
@@ -385,6 +387,16 @@ class ConfirmSetEmailView(LoginRequiredMixin, RedirectView):
                      self.request.META['REMOTE_ADDR'])
 
             return super(ConfirmSetEmailView, self).get_redirect_url()
+
+
+class HttpUploadView(LoginRequiredMixin, AccountPageMixin, UserDetailView):
+    usermenu_item = 'account:xep0363'
+    template_name = 'account/xep0363.html'
+
+    def get_context_data(self, **kwargs):
+        context = super(HttpUploadView, self).get_context_data(**kwargs)
+        context['uploads'] = Upload.objects.filter(jid=context['object'].username)
+        return context
 
 
 class GpgView(LoginRequiredMixin, AccountPageMixin, UserDetailView):
