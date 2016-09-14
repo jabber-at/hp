@@ -18,6 +18,7 @@ import logging
 from django import template
 from django.core.urlresolvers import reverse
 from django.utils.html import format_html
+from django.utils.translation import ugettext as _
 
 from ..utils import format_timedelta as _format_timedelta
 
@@ -56,3 +57,13 @@ def format_timedelta(delta):
     """Passes the delta to :py:func:`core.utils.format_timedelta`."""
 
     return _format_timedelta(delta)
+
+
+@register.filter
+def format_filesize(size):
+    if size < 2000:
+        return _('%s bytes') % size
+    elif size < 1024 * 900:  # starting at ~900 KB, we display in MB
+        return _('%.2f kilobyte') % (size / 1024)
+    else:
+        return _('%.2f megabyte') % (size / 1024 / 1024)
