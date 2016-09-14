@@ -7,10 +7,18 @@
 {% if form.is_valid %}
 <div class="alert alert-success" role="alert">
     <p><strong>{% trans "Thank you for contacting us." %}</strong></p>
-    <p>{% blocktrans %}We will get back to you as soon as possible. You should have gotton a copy
-your message in your email inbox.{% endblocktrans %}</p>
+    <p>{% trans "We will get back to you as soon as possible." %}
+{% if user.is_authenticated %}
+{% trans "You should have received a copy your message in your email inbox." %}{% endif %}</p>
 </div>
 {% else %}
+<p>{% blocktrans %}If you need to contact us, the best way to do so is to join our chatroom at
+<a href="xmpp:chat@jabber.at">chat@jabber.at</a>. If you have trouble registering or connecting,
+you can use this contact form and we will get back to you.{% endblocktrans %}</p>
+<p>{% blocktrans %}Please try to be as specific as possible to describe your problem: What exactly
+have you done that led to your issue? If you get an error message, what does it
+say and where exactly do you see it? What client are you using? ... and so on.{% endblocktrans %}</p>
+
 <form class="form-horizontal" method="post" action="{% url 'core:contact' %}">{% csrf_token %}
 {% if not request.user.is_authenticated %}
 {{ form.email.formgroup }}
