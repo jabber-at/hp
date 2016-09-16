@@ -44,17 +44,17 @@ def send_contact_email(hostname, subject, message, recipient=None, user_pk=None,
     if not recipient and not user_pk:
         raise ValueError("Need at least recipient or user")
 
-    config = settings.XMPP_HOSTS[hostname]
-    from_email = config.get('DEFAULT_FROM_EMAIL', settings.DEFAULT_FROM_EMAIL)
+    host = settings.XMPP_HOSTS[hostname]
+    from_email = host.get('DEFAULT_FROM_EMAIL', settings.DEFAULT_FROM_EMAIL)
     gpg_recipients = None
-    recipient_list = [config['CONTACT_ADDRESS']]
+    recipient_list = [host['CONTACT_ADDRESS']]
 
     if user_pk is None:
-        reply_to = [recipient, config['CONTACT_ADDRESS']]
+        reply_to = [recipient, host['CONTACT_ADDRESS']]
     else:
         user = User.objects.get(pk=user_pk)
         recipient_list.append(user.email)
-        reply_to = [user.email, config['CONTACT_ADDRESS']]
+        reply_to = [user.email, host['CONTACT_ADDRESS']]
         gpg_recipients = list(user.gpg_keys.valid().values_list('fingerprint', flat=True))
 
     # We add the connecting IP-Address and the user (if any).
@@ -65,9 +65,9 @@ def send_contact_email(hostname, subject, message, recipient=None, user_pk=None,
 
     # If we have a GPG fingerprint for the user AND we have fingerprints for the contact addresses,
     # we use GPG.
-    if gpg_recipients and config.get('CONTACT_GPG_FINGERPRINTS'):
+    if gpg_recipients and host.get('CONTACT_GPG_FINGERPRINTS'):
         contact_gpg_recipients = load_contact_keys(hostname)
-        gpg_signer = config.get('GPG_FINGERPRINT')
+        gpg_signer = host.get('GPG_FINGERPRINT')
         gpg_recipients += contact_gpg_recipients.keys()
 
         with user.gpg_keyring(default_trust=True, hostname=hostname) as backend:
