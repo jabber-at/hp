@@ -61,7 +61,9 @@ class GpgKeyAdmin(admin.ModelAdmin):
     actions = ['refresh']
     list_display = ('user', 'fingerprint', 'expires')
     list_select_related = ('user', )
+    list_filter = ('revoked', )
     ordering = ('-created', )
+    search_fields = ('fingerprint', 'user__username', 'user__email', )
 
     def refresh(self, request, queryset):
         for obj in queryset:
