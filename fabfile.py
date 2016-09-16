@@ -99,6 +99,7 @@ class DeployTask(DeploymentTaskMixin, Task):
         config = configfile[section]
         self.hostname = config.get('hostname')
         self.host = config.get('host')
+        self.path = config.get('path')
         self.venv = config.get('home', self.path).rstrip('/')
 
         local('git push origin master')
@@ -125,5 +126,5 @@ class DeployTask(DeploymentTaskMixin, Task):
         local('git tag %s/%s' % (self.hostname, datetime.utcnow().strftime('%Y%m%d-%H%M%S')))
         local('git push --tags')
 
-setup = SetupTask
+setup = SetupTask()
 deploy = DeployTask()
