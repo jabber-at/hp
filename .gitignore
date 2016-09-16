@@ -1,9 +1,10 @@
-*.sw[op]
 *.mo
 *.py[co]
+*.sw[op]
 /bin/
 /build/
 /data/
+/doc/_build/
 /fab.conf
 /gnupg-keys/
 /gnupg/
