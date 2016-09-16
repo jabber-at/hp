@@ -53,9 +53,15 @@ class UserLogEntryAdmin(admin.ModelAdmin):
 
 @admin.register(GpgKey)
 class GpgKeyAdmin(admin.ModelAdmin):
+    actions = ['refresh']
     list_display = ('user', 'fingerprint', 'expires')
     list_select_related = ('user', )
     ordering = ('-created', )
+
+    def refresh(self, request, queryset):
+        for obj in queryset:
+            obj.refresh()
+    refresh.short_description = _('Refresh keys from keyserver.')
 
 
 @admin.register(Confirmation)
@@ -67,7 +73,6 @@ class ConfirmationAdmin(admin.ModelAdmin):
     search_fields = ('key', 'to', 'user__username', 'user__email', )
 
     def resend(self, request, queryset):
-        print('Resending')
         resend_confirmations.delay(*queryset.values_list('pk', flat=True))
     resend.short_description = _('Resend confirmations')
 
