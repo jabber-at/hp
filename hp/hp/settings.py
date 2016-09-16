@@ -347,6 +347,7 @@ LOGGING = {
         'bootstrap': {'level': LOG_LEVEL, },
         'core': {'level': LOG_LEVEL, },
         'jsxc': {'level': LOG_LEVEL, },
+        'gpgmime': {'level': LOG_LEVEL, },
 
         # mail any errors to admins
         'core.tasks': {
