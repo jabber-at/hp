@@ -17,7 +17,6 @@ import configparser
 from datetime import datetime
 
 from fabric.api import local
-from fabric.api import task
 from fabric.tasks import Task
 
 from fabric_webbuilders import BuildBootstrapTask
@@ -40,12 +39,6 @@ configfile = configparser.ConfigParser({
     'upstream': 'https://github.com/jabber-at/hp',
 })
 configfile.read('fab.conf')
-
-ssh = lambda h, c: local('ssh %s %s' % (h, c))
-sudo = lambda h, c: ssh(h, 'sudo sh -c \'"%s"\'' % c)
-python = lambda h, v, c: sudo(h, '%s/bin/python %s' % (v, c))
-pip = lambda h, v, c: sudo(h, '%s/bin/pip %s' % (v, c))
-manage = lambda h, v, p, c: python(h, v, '%s/hp/manage.py %s' % (p, c))
 
 
 class DeploymentTaskMixin(object):
@@ -72,37 +65,40 @@ class DeploymentTaskMixin(object):
         return self.sudo('%s/bin/python hp/manage.py %s' % (self.venv, cmd), chdir=self.path)
 
 
-@task
-def setup(section):
-    config = configfile[section]
-    local('git push origin master')
-    host = config.get('host')
-    home = config.get('home')
-    path = config.get('path')
-    venv = config.get('venv', home).rstrip('/')
+class SetupTask(DeploymentTaskMixin, Task):
+    def run(self, section='DEFAULT'):
+        config = configfile[section]
+        self.host = config.get('host')
+        self.hostname = config.get('hostname')
+        self.path = config.get('path')
+        self.upstream = config.get('upstream')
+        self.venv = config.get('home', self.path).rstrip('/')
 
-    upstream = config.get('upstream')
+        # check source, push it and clone it at remote location
+        local('flake8 hp')
+        local('git push origin master')
+        self.sudo('git clone %s %s' % (self.upstream, self.path))
 
-    sudo(host, 'git clone %s %s' % (upstream, path))
-    sudo(host, 'virtualenv -p /usr/bin/python3 %s' % venv)
-    pip(host, venv, 'install pip setuptools mysqlclient')
-    pip(host, venv, 'install -U -r %s/requirements.txt' % path)
+        # setup virtualenv
+        self.sudo('virtualenv -p /usr/bin/python3 %s' % self.venv)
+        self.pip('install pip setuptools mysqlclient')
+        self.pip('install -U -r %s/requirements.txt' % self.path)
 
-    sudo(host, 'ln -s %s/files/systemd/hp-celery.tmpfiles /etc/tmpfiles.d/hp-celery.conf' % path)
-    sudo(host,
-         'ln -s %s/files/systemd/hp-celery.service /etc/systemd/system/hp-celery.service' % path)
-    sudo(host, 'ln -s %s/files/systemd/hp-celery.conf /etc/conf.d/' % path)
+        # setup systemd
+        self.sudo('ln -s %s/files/systemd/hp-celery.tmpfiles /etc/tmpfiles.d/hp-celery.conf' %
+                  self.path)
+        self.sudo('ln -s %s/files/systemd/hp-celery.service /etc/systemd/system/hp-celery.service'
+                  % self.path)
+        self.sudo('ln -s %s/files/systemd/hp-celery.conf /etc/conf.d/' % self.path)
 
 
 class DeployTask(DeploymentTaskMixin, Task):
     """Deploy current master."""
     def run(self, section='DEFAULT'):
         local('flake8 hp')
-
         config = configfile[section]
         self.hostname = config.get('hostname')
         self.host = config.get('host')
-        self.path = config.get('path')
         self.venv = config.get('home', self.path).rstrip('/')
 
         local('git push origin master')
@@ -129,4 +125,5 @@ class DeployTask(DeploymentTaskMixin, Task):
         local('git tag %s/%s' % (self.hostname, datetime.utcnow().strftime('%Y%m%d-%H%M%S')))
         local('git push --tags')
 
+setup = SetupTask
 deploy = DeployTask()
