@@ -126,5 +126,17 @@ class DeployTask(DeploymentTaskMixin, Task):
         local('git tag %s/%s' % (self.hostname, datetime.utcnow().strftime('%Y%m%d-%H%M%S')))
         local('git push --tags')
 
+
+class UploadDoc(DeploymentTaskMixin, Task):
+    """Upload documentation to https://jabber.at/doc."""
+
+    def run(self, section='DEFAULT'):
+        config = configfile[section]
+
+        local('make -C doc html')
+        local('rsync -a --rsync-path="sudo rsync" doc/_build/html/ %s:/var/www/%s/doc/'
+              % (config['host'], config['hostname']))
+
 setup = SetupTask()
 deploy = DeployTask()
+upload_doc = UploadDoc()
