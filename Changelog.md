@@ -1,5 +1,19 @@
 # Changelog
 
+## 2016-09-16
+
+* Start Sphinx documenation (build with `make -C doc html`).
+* Check Syntax with `flake8` upon deployment.
+* Import public key of signer when sending signed email.
+
+## 2016-09-14
+
+* Add an overview of XEP-0363 uploads to the user page.
+* Add the `format_filesize` template filter to display a filesize in a human-readable form.
+* Update the contact form to display information and mention our chatroom.
+* Remove jumbotron about how this is still a beta page.
+
+
 ## 2016-09-11
 
 * Improve logging configuration to make sure that logging calls are properly logged in any
