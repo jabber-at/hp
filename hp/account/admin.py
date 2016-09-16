@@ -141,7 +141,7 @@ class GpgKeyAdmin(admin.ModelAdmin):
             except Exception as e:
                 log.exception(e)
                 messages.error(request, _('Error importing %s: %s') % (obj.fingerprint, e))
-    refresh.short_description = _('Refresh keys from keyserver.')
+    refresh.short_description = _('Refresh keys from keyserver')
 
 
 @admin.register(Confirmation)
