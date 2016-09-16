@@ -13,7 +13,10 @@
 # You should have received a copy of the GNU General Public License along with django-xmpp-account.
 # If not, see <http://www.gnu.org/licenses/>.
 
+import logging
+
 from django.contrib import admin
+from django.contrib import messages
 from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
 from django.contrib.auth.models import Group
 from django.utils.translation import ugettext_lazy as _
@@ -23,6 +26,8 @@ from .models import GpgKey
 from .models import User
 from .models import UserLogEntry
 from .tasks import resend_confirmations
+
+log = logging.getLogger(__name__)
 
 
 @admin.register(User)
@@ -60,7 +65,11 @@ class GpgKeyAdmin(admin.ModelAdmin):
 
     def refresh(self, request, queryset):
         for obj in queryset:
-            obj.refresh()
+            try:
+                obj.refresh()
+            except Exception as e:
+                log.exception(e)
+                messages.error(request, _('Error importing %s: %s') % (obj.fingerprint, e))
     refresh.short_description = _('Refresh keys from keyserver.')
 
 
