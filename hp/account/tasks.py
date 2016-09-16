@@ -78,12 +78,12 @@ def set_email_task(user_pk, to, language, address, fingerprint=None, key=None, *
     address = Address.objects.get_or_create(address=address)[0]
 
     if fingerprint:
-        payload['fingerprint'] = fingerprint  # just so we know what was submitted
-        payload['gpg_key'] = gpg_backend.fetch_key('0x%s' % fingerprint)
+        payload['gpg_recv_fp'] = fingerprint  # just so we know what was submitted
+        payload['gpg_recv_pub'] = gpg_backend.fetch_key('0x%s' % fingerprint)
     elif key:
-        payload['gpg_key'] = key
+        payload['gpg_recv_pub'] = key
     else:
-        payload['gpg_key'] = None  # do not encrypt
+        payload['gpg_recv_pub'] = None  # do not encrypt
 
     with translation.override(language):
         conf = Confirmation.objects.create(user=user, purpose=PURPOSE_SET_EMAIL, language=language,

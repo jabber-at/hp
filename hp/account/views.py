@@ -374,7 +374,8 @@ class ConfirmSetEmailView(LoginRequiredMixin, RedirectView):
         with transaction.atomic():
             # Update list of GPG keys
             user.gpg_keys.all().delete()
-            gpg_keys = key.payload.get('gpg_key')
+            # TODO: remove old fallback value
+            gpg_keys = key.payload.get('gpg_recv_pub', key.payload.get('gpg_key'))
             if gpg_keys:
                 add_gpg_key_task.delay(user_pk=user.pk, address=key.payload['address'],
                                        language=request.LANGUAGE_CODE, key=gpg_keys)

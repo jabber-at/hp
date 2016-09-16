@@ -250,13 +250,13 @@ class Confirmation(BaseModel):
 
         frm = server['DEFAULT_FROM_EMAIL']
 
-        custom_key = self.payload.get('gpg_key')  # key from the payload
+        custom_key = self.payload.get('gpg_recv_pub')  # key from the payload
 
         # Only use the GPG keys stored for the user if the payload does not explicity specify
         # a GPG key to use.  This is used e.g. when the user sets an email address and wants to use
         # a different GPG key or none at all.
         keys = None
-        if 'gpg_key' not in self.payload:
+        if 'gpg_recv_pub' not in self.payload:
             keys = list(self.user.gpg_keys.valid().values_list('fingerprint', flat=True))
 
         if custom_key or keys:
