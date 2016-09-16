@@ -40,11 +40,11 @@ def error():
 
 
 @shared_task
-def send_contact_email(domain, subject, message, recipient=None, user=None, address=None):
+def send_contact_email(hostname, subject, message, recipient=None, user=None, address=None):
     if not recipient and not user:
         raise ValueError("Need at least recipient or user")
 
-    config = settings.XMPP_HOSTS[domain]
+    config = settings.XMPP_HOSTS[hostname]
     from_email = config.get('DEFAULT_FROM_EMAIL', settings.DEFAULT_FROM_EMAIL)
     gpg_recipients = None
     recipient_list = [config['CONTACT_ADDRESS']]
@@ -66,11 +66,11 @@ def send_contact_email(domain, subject, message, recipient=None, user=None, addr
     # If we have a GPG fingerprint for the user AND we have fingerprints for the contact addresses,
     # we use GPG.
     if gpg_recipients and config.get('CONTACT_GPG_FINGERPRINTS'):
-        contact_gpg_recipients = load_contact_keys(domain)
+        contact_gpg_recipients = load_contact_keys(hostname)
         gpg_signer = config.get('GPG_FINGERPRINT')
         gpg_recipients += contact_gpg_recipients.keys()
 
-        with user.gpg_keyring(default_trust=True, hostname=domain) as backend:
+        with user.gpg_keyring(default_trust=True, hostname=hostname) as backend:
             for contact_key in contact_gpg_recipients.values():  #
                 backend.import_key(contact_key)
 
