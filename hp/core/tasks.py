@@ -35,7 +35,7 @@ log = get_task_logger(__name__)
 
 
 @shared_task
-def error(self):
+def error():
     log.error('first test')
     raise Exception("second test")
 
