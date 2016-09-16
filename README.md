@@ -91,3 +91,11 @@ pip install -r requirements.txt -r reqirements-dev.txt
 cd hp
 python manage.py migrate
 ```
+
+Do build the (still sparse) documentation, execute
+
+```
+make -C doc html
+```
+
+... and go to the `doc/_build/html` directory.
