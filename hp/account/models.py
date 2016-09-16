@@ -124,7 +124,7 @@ class User(XmppBackendUser, PermissionsMixin):
         return self.gpg_keys.valid().exists()
 
     @contextmanager
-    def gpg_keyring(self, init=True, **kwargs):
+    def gpg_keyring(self, init=True, domain=None, **kwargs):
         """Context manager that yields a temporary GPG keyring.
 
         To avoid any locking issues and to isolate the GPG keys for users, every operation that
@@ -142,13 +142,23 @@ class User(XmppBackendUser, PermissionsMixin):
 
         init : bool, optional
             If ``False``, do not import existing (valid) keys into the keyring.
+        domain : str, optional
+            If set, also import the private key for the given domain configured in the
+            ``XMPP_HOSTS`` setting.
         """
         home = tempfile.mkdtemp()
+        if domain is not None:
+            domain_fp, domain_key, domain_pub = load_private_key(domain)
+
         try:
             with gpg_backend.settings(home=home, **kwargs) as backend:
                 if init is True:  # import existing valid gpg keys
                     for key in self.gpg_keys.valid():
                         backend.import_key(key.key.encode('utf-8'))
+
+                if domain is not None:
+                    backend.import_private_key(domain_key)
+                    backend.import_key(domain_pub)
 
                 yield backend
         finally:
