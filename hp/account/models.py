@@ -14,7 +14,6 @@
 # If not, see <http://www.gnu.org/licenses/>.
 
 import logging
-import os
 import shutil
 import tempfile
 
@@ -43,6 +42,7 @@ from gpgmime.django import GpgEmailMessage
 from core.models import Address
 from core.models import BaseModel
 from core.models import CachedMessage
+from core.utils import load_private_key
 
 #from .constants import PURPOSE_DELETE
 from .constants import PURPOSE_REGISTER
@@ -170,8 +170,8 @@ class User(XmppBackendUser, PermissionsMixin):
                     imported.append((key, fp, expires))
                 except Exception:
                     err = _('Error importing GPG key.')
-                    self.log(err, address=address)
-                    self.message(messages.ERROR, err)
+                    self.log(err, address=address)  # log entry in "Recent activity"
+                    self.message(messages.ERROR, err)  # message to user
                     raise
 
         for key, fp, expires in imported:
@@ -250,16 +250,11 @@ class Confirmation(BaseModel):
             keys = list(self.user.gpg_keys.valid().values_list('fingerprint', flat=True))
 
         if custom_key or keys:
-            sign_fp = server.get('GPG_FINGERPRINT')
-
-            if sign_fp:
-                sign_key = os.path.join(settings.GPG_KEYDIR, '%s.key' % sign_fp)
-                with open(sign_key, 'rb') as stream:
-                    sign_key = stream.read()
+            sign_fp, sign_key = load_private_key(self.payload['server'])
 
             with self.user.gpg_keyring(default_trust=True) as backend:
-                if sign_fp:
-                    backend.import_private_key(sign_key)
+                if sign_key is not None:
+                    backend.import_key(sign_key)
 
                 if custom_key:
                     log.info('Imported custom keys.')
