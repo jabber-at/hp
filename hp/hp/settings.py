@@ -171,9 +171,10 @@ AUTHENTICATION_BACKENDS = [
 
 # Override message tags to match bootstrap alert classes.
 #       See: https://docs.djangoproject.com/en/1.10/ref/contrib/messages/#message-tags
+# The second class is the django default, needed in django admin.
 MESSAGE_TAGS = {
-    messages.ERROR: 'danger',
-    messages.DEBUG: 'info',
+    messages.ERROR: 'danger error',
+    messages.DEBUG: 'info debug',
 }
 
 XMPP_HOSTS = {}
