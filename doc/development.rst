@@ -25,8 +25,9 @@ Note that you can configure Django to send emails to stdout instead via SMTP::
 
    EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
+***********************
 Run the project locally
-=======================
+***********************
 
 To run the testserver, use::
 
@@ -36,6 +37,21 @@ To run the Celery daemon (which is needed for sending emails etc.), use (in the 
 ``manage.py``)::
 
    celery -A hp worker -l info -B
+
+**************************
+Build/upload documentation
+**************************
+
+To build documentation, simply do (from the root directory)::
+
+   make -C doc html
+
+To upload documentation to https://jabber.at/doc, simply do::
+
+   fab upload_doc
+
+Note that this requires a correctly configured :file:`fab.conf`, see :doc:`deployment`.
+
 
 ******************
 Naming conventions
@@ -73,7 +89,10 @@ Spelling      German          Description
 Jabber        Jabber          "We are a *Jabber* server.
 email         E-Mail          "We sent you an *email*."
 email address E-Mail-Addresse "Enter a valid *email address*."
-account       Konto           "Create an *account*.
+account       Konto           "Create an *account*."
+client        Client          "Use a *client* to connect to jabber.at."
+user          BenutzerIn      "A *user* needs to...."
+users         BenutzerInnen   "*Users* are required to..."
 ============= =============== ====================================================================
 
 The website addresses a user as "you", in German, we use the polite form in lower case:
