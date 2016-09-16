@@ -16,11 +16,13 @@
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
 from django.contrib.auth.models import Group
+from django.utils.translation import ugettext_lazy as _
 
 from .models import Confirmation
 from .models import GpgKey
 from .models import User
 from .models import UserLogEntry
+from .tasks import resend_confirmations
 
 
 @admin.register(User)
@@ -58,10 +60,16 @@ class GpgKeyAdmin(admin.ModelAdmin):
 
 @admin.register(Confirmation)
 class ConfirmationAdmin(admin.ModelAdmin):
+    actions = ['resend']
     list_display = ('key', 'user', 'address', 'purpose', 'to', 'expires', )
     list_filter = ('purpose', )
     list_select_related = ('user', 'address', )
     search_fields = ('key', 'to', 'user__username', 'user__email', )
+
+    def resend(self, request, queryset):
+        print('Resending')
+        resend_confirmations.delay(*queryset.values_list('pk', flat=True))
+    resend.short_description = _('Resend confirmations')
 
 
 admin.site.unregister(Group)
