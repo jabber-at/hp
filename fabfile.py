@@ -69,7 +69,7 @@ class DeploymentTaskMixin(object):
         return self.sudo('%s/bin/pip %s' % (self.venv, cmd))
 
     def manage(self, cmd):
-        return self.sudo('%s/bin/python hp/manage.py %s' %  (self.venv, cmd), chdir=self.path)
+        return self.sudo('%s/bin/python hp/manage.py %s' % (self.venv, cmd), chdir=self.path)
 
 
 @task
@@ -97,6 +97,8 @@ def setup(section):
 class DeployTask(DeploymentTaskMixin, Task):
     """Deploy current master."""
     def run(self, section='DEFAULT'):
+        local('flake8 hp')
+
         config = configfile[section]
         self.hostname = config.get('hostname')
         self.host = config.get('host')
