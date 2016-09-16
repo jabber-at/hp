@@ -157,6 +157,12 @@ class BootstrapTextField(BootstrapMixin, forms.CharField):
 class BootstrapEmailField(BootstrapMixin, forms.EmailField):
     widget = widgets.BootstrapEmailInput
 
+    def clean(self, value):
+        value = super(BootstrapEmailField, self).clean(value)
+        if value:
+            value = value.lower()
+        return value
+
 
 class BootstrapPasswordField(BootstrapMixin, forms.CharField):
     widget = widgets.BootstrapPasswordInput

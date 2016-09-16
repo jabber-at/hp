@@ -98,7 +98,14 @@ class CreateUserForm(GPGMixin, CaptchaFormMixin, forms.ModelForm):
 
     def clean_email(self):
         email = self.cleaned_data['email']
-        _node, domain = email.rsplit('@', 1)
+
+        try:
+            _node, domain = email.rsplit('@', 1)
+        except ValueError:
+            # Raised when the email address does not contain an '@'. This shouldn't happen to
+            # normal users, because the form field already makes sure that it's a valid email
+            # address.
+            raise forms.ValidationError(_('Malformed email address.'))
 
         if domain in settings.XMPP_HOSTS \
                 and not settings.XMPP_HOSTS[domain].get('ALLOW_EMAIL', False):
