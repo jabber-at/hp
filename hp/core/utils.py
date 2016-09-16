@@ -55,8 +55,8 @@ def format_timedelta(delta):
         return _('Now')
 
 
-def load_private_key(domain):
-    fp = settings.XMPP_HOSTS[domain].get('GPG_FINGERPRINT')
+def load_private_key(hostname):
+    fp = settings.XMPP_HOSTS[hostname].get('GPG_FINGERPRINT')
     if fp:
         path = os.path.join(settings.GPG_KEYDIR, '%s.key' % fp)
         with open(path, 'rb') as stream:
@@ -69,9 +69,9 @@ def load_private_key(domain):
     return None, None, None
 
 
-def load_contact_keys(domain):
+def load_contact_keys(hostname):
     keys = {}
-    fingerprints = settings.XMPP_HOSTS[domain].get('CONTACT_GPG_FINGERPRINTS', [])
+    fingerprints = settings.XMPP_HOSTS[hostname].get('CONTACT_GPG_FINGERPRINTS', [])
 
     for fp in fingerprints:
         path = os.path.join(settings.GPG_KEYDIR, '%s.pub' % fp)
