@@ -37,6 +37,7 @@ configfile = configparser.ConfigParser({
     'home': '/usr/local/home/hp',
     'path': '%(home)s/hp',
     'upstream': 'https://github.com/jabber-at/hp',
+    'uwsgi-emperor': '1',
 })
 configfile.read('fab.conf')
 
@@ -102,6 +103,7 @@ class DeployTask(DeploymentTaskMixin, Task):
         self.path = config.get('path')
         self.venv = config.get('home', self.path).rstrip('/')
 
+        # push source code
         local('git push origin master')
         self.sudo('git pull origin master', chdir=self.path)
         self.pip('install -U pip setuptools mysqlclient')
@@ -109,12 +111,16 @@ class DeployTask(DeploymentTaskMixin, Task):
 
         self.sudo('mkdir -p /var/www/%s/static /var/www/%s/media' % (self.hostname, self.hostname))
 
+        # update installation
         self.manage('migrate')
         self.manage('collectstatic --noinput')
         self.manage('compilemessages -l de')
 
         # restart uwsgi
-        self.sudo('touch /etc/uwsgi-emperor/vassals/hp.ini')
+        if config.getboolean('uwsgi-emperor'):
+            vassals_file = config.get('vassals-file',
+                                      '/etc/uwsgi-emperor/vassals/%s.ini' % self.hostname)
+            self.sudo('touch %s' % vassals_file)
 
         # reload apache
         self.sudo('systemctl reload apache2')
