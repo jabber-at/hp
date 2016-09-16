@@ -142,9 +142,9 @@ class User(XmppBackendUser, PermissionsMixin):
 
         init : bool, optional
             If ``False``, do not import existing (valid) keys into the keyring.
-        domain : str, optional
-            If set, also import the private key for the given domain configured in the
-            ``XMPP_HOSTS`` setting.
+        host : str, optional
+            If set, also import the private key for the given host configured in the ``XMPP_HOSTS``
+            setting.
         """
         home = tempfile.mkdtemp()
         if domain is not None:
@@ -229,7 +229,8 @@ class Confirmation(BaseModel):
     }
 
     def send(self):
-        server = settings.XMPP_HOSTS[self.payload['server']]
+        hostname = self.payload['server']
+        server = settings.XMPP_HOSTS[hostname]
         path = reverse('account:%s_confirm' % self.purpose, kwargs={'key': self.key})
 
         context = {
@@ -260,13 +261,9 @@ class Confirmation(BaseModel):
             keys = list(self.user.gpg_keys.valid().values_list('fingerprint', flat=True))
 
         if custom_key or keys:
-            sign_fp, sign_key, sign_pub = load_private_key(self.payload['server'])
+            sign_fp = server.get('GPG_FINGERPRINT')
 
-            with self.user.gpg_keyring(default_trust=True) as backend:
-                if sign_key is not None:
-                    backend.import_private_key(sign_key)
-                    backend.import_key(sign_pub)
-
+            with self.user.gpg_keyring(default_trust=True, host=hostname) as backend:
                 if custom_key:
                     log.info('Imported custom keys.')
                     keys = backend.import_key(custom_key.encode())
