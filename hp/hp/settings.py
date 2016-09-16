@@ -351,24 +351,6 @@ LOGGING = {
         'core': {'level': LOG_LEVEL, },
         'jsxc': {'level': LOG_LEVEL, },
         'gpgmime': {'level': LOG_LEVEL, },
-
-        # mail any errors to admins
-        'core.tasks': {
-            'handlers': ['mail_admins'],
-            'level': 'ERROR',
-            'propagate': True,
-        },
-        'account.tasks': {
-            'handlers': ['mail_admins'],
-            'level': 'ERROR',
-            'propagate': True,
-        },
-        # Temporary disabled, mail_admins handler fails for this logger
-        #'celery.worker.job': {  # exceptions in tasks
-        #    'handlers': ['mail_admins'],
-        #    'level': 'ERROR',
-        #    'propagate': True,
-        #},
     },
     'root': {
         'handlers': ['console', ],

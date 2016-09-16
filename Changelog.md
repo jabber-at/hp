@@ -14,6 +14,7 @@
     * List filter for the `revoked` property.
     * `Refresh` admin action to refresh keys from keyserver.
   * Admin action `Resend` for resending confirmation keys.
+* Logging: Celery tasks that raise an (uncaught) exception, send an email.
 * Start Sphinx documenation (build with `make -C doc html`).
 * Check Syntax with `flake8` upon deployment.
 * Import public key of signer when sending signed email.
