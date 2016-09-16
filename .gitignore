@@ -12,6 +12,7 @@
 /hp/db.sqlite3
 /hp/gpg-keys
 /hp/hp/localsettings.py
+/hp/http_upload/
 /hp/static/
 /include/
 /lib/
