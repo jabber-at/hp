@@ -91,6 +91,20 @@ def set_email_task(user_pk, to, language, address, fingerprint=None, key=None, *
 
 
 @shared_task
+def resend_confirmations(*conf_pks):
+    """Task to resend the passed confirmation keys.
+
+    Usage::
+
+        # Resend confirmation keys with primary keys 3, 5 and 10:
+        >>> resend_confirmations.delay(3, 5, 10)
+    """
+    for pk in conf_pks:
+        conf = Confirmation.objects.get(pk=pk)
+        conf.send()
+
+
+@shared_task
 def cleanup():
     UserLogEntry.objects.expired().delete()
     Confirmation.objects.expired().delete()
