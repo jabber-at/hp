@@ -2,6 +2,18 @@
 
 ## 2016-09-16
 
+* Various admin interface improvements:
+  * Users:
+    * Filter users by if they have a confirmed email address or if they were created on the server.
+      (Older users do not have a confirmed email address but do exists on the server)
+    * Admin action to resend confirmation emails. As a precaution, this only sends emails for users
+      that are not yet created on the XMPP server.
+  * GPG keys:
+    * List with their validity status and if they are usable (not expired and not revoked)
+    * Keys are now searchable by fingerprint, username and email.
+    * List filter for the `revoked` property.
+    * `Refresh` admin action to refresh keys from keyserver.
+  * Admin action `Resend` for resending confirmation keys.
 * Start Sphinx documenation (build with `make -C doc html`).
 * Check Syntax with `flake8` upon deployment.
 * Import public key of signer when sending signed email.
