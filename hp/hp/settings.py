@@ -192,7 +192,7 @@ LOG_LEVEL = 'INFO'
 ################
 # GPG settings #
 ################
-GPG_KEYSERVER = 'pool.sks-keyservers.net'
+GPG_KEYSERVER = 'http://pool.sks-keyservers.net:11371'
 
 # Default GPG backend configuration
 GPG_BACKENDS = {

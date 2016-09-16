@@ -249,7 +249,7 @@ DEFAULT_XMPP_HOST = 'example.com'
 #####################
 
 # GPG keyserver used for fetching keys
-#GPG_KEYSERVER = 'pool.sks-keyservers.net'
+#GPG_KEYSERVER = 'http://pool.sks-keyservers.net:11371'
 
 # Location of the *private* key files used for signing GPG emails. This directory is expected
 # to contain the private keys configured in the GPG_FINGERPRINT setting in XMPP_HOSTS. The name
