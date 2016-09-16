@@ -60,8 +60,13 @@ def load_private_key(domain):
     if fp:
         path = os.path.join(settings.GPG_KEYDIR, '%s.key' % fp)
         with open(path, 'rb') as stream:
-            return fp, stream.read()
-    return None, None
+            key = stream.read()
+
+        path = os.path.join(settings.GPG_KEYDIR, '%s.pub' % fp)
+        with open(path, 'rb') as stream:
+            pub = stream.read()
+        return fp, key, pub
+    return None, None, None
 
 
 def load_contact_keys(domain):

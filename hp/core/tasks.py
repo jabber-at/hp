@@ -62,13 +62,14 @@ def send_contact_email(domain, subject, message, recipient=None, user=None, addr
     # If we have a GPG fingerprint for the user AND we have fingerprints for the contact addresses,
     # we use GPG.
     if gpg_recipients and config.get('CONTACT_GPG_FINGERPRINTS'):
-        gpg_signer, sign_key = load_private_key(domain)
+        gpg_signer, sign_key, sign_pub = load_private_key(domain)
         contact_gpg_recipients = load_contact_keys(domain)
         gpg_recipients += contact_gpg_recipients.keys()
 
         with user.gpg_keyring(default_trust=True) as backend:
             if sign_key:  # import private key for signing
                 backend.import_private_key(sign_key)
+                backend.import_key(sign_pub)
 
             for contact_key in contact_gpg_recipients.values():  #
                 backend.import_key(contact_key)

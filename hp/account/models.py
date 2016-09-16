@@ -250,11 +250,12 @@ class Confirmation(BaseModel):
             keys = list(self.user.gpg_keys.valid().values_list('fingerprint', flat=True))
 
         if custom_key or keys:
-            sign_fp, sign_key = load_private_key(self.payload['server'])
+            sign_fp, sign_key, sign_pub = load_private_key(self.payload['server'])
 
             with self.user.gpg_keyring(default_trust=True) as backend:
                 if sign_key is not None:
-                    backend.import_key(sign_key)
+                    backend.import_private_key(sign_key)
+                    backend.import_key(sign_pub)
 
                 if custom_key:
                     log.info('Imported custom keys.')
