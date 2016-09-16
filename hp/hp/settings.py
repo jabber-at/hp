@@ -214,6 +214,7 @@ GPG_KEYDIR = os.path.join(BASE_DIR, 'gpg-keys')
 ###################
 CELERY_ACCEPT_CONTENT = ['json']
 CELERY_TASK_SERIALIZER = 'json'
+CELERY_SEND_TASK_ERROR_EMAILS = True
 
 # Periodic tasks
 CELERYBEAT_SCHEDULE = {
