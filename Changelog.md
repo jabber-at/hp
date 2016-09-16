@@ -17,7 +17,8 @@
 * Logging: Celery tasks that raise an (uncaught) exception, send an email.
 * Email addresses from forms are now consistently lower-cased.
 * Import public key of signer when sending signed email.
-* Start Sphinx documenation (build with `make -C doc html`).
+* Start Sphinx documenation (build with `make -C doc html`). You can view the documentation at
+  https://jabber.at/doc
 * Check Syntax with `flake8` upon deployment.
 
 ## 2016-09-14
