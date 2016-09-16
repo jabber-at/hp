@@ -22,17 +22,56 @@ from django.contrib.auth.models import Group
 from django.utils import timezone
 from django.utils.translation import ugettext_lazy as _
 
+from .constants import PURPOSE_REGISTER
 from .models import Confirmation
 from .models import GpgKey
 from .models import User
 from .models import UserLogEntry
 from .tasks import resend_confirmations
+from .tasks import send_confirmation_task
 
 log = logging.getLogger(__name__)
 
 
+class ConfirmedFilter(admin.SimpleListFilter):
+    title = _('confirmed email')
+    parameter_name = 'confirmed'
+
+    def lookups(self, request, model_admin):
+        return (
+            ('0', 'No'),
+            ('1', 'Yes'),
+        )
+
+    def queryset(self, request, queryset):
+        if self.value() == '0':
+            return queryset.filter(confirmed__isnull=True)
+        elif self.value() == '1':
+            return queryset.filter(confirmed__isnull=False)
+        return queryset
+
+
+class CreatedInBackendFilter(admin.SimpleListFilter):
+    title = _('created in backend')
+    parameter_name = 'in_backend'
+
+    def lookups(self, request, model_admin):
+        return (
+            ('0', 'No'),
+            ('1', 'Yes'),
+        )
+
+    def queryset(self, request, queryset):
+        if self.value() == '0':
+            return queryset.filter(created_in_backend=False)
+        elif self.value() == '1':
+            return queryset.filter(created_in_backend=True)
+        return queryset
+
+
 @admin.register(User)
 class UserAdmin(BaseUserAdmin):
+    actions = ['send_registration', ]
     add_fieldsets = (
         (None, {
             'fields': ('username', 'email', 'gpg_fingerprint'),
@@ -45,10 +84,27 @@ class UserAdmin(BaseUserAdmin):
         }),
     )
     list_display = ('username', 'email', 'registered', 'confirmed', )
-    list_filter = ('is_superuser', )
+    list_filter = (ConfirmedFilter, CreatedInBackendFilter, 'is_superuser', )
     ordering = ('-registered', )
     readonly_fields = ['username', 'registered', ]
     search_fields = ['username', 'email', ]
+
+    def send_registration(self, request, queryset):
+        base_url = '%s://%s' % (request.scheme, request.get_host())
+
+        for user in queryset.filter(created_in_backend=False):
+            # Try to get any existing confirmation and resend it if it exists
+            conf = user.confirmations.filter(purpose=PURPOSE_REGISTER).first()
+            if conf is not None:
+                resend_confirmations.delay(conf.pk)
+
+            # No confirmation key exists (anymore), so we create a new one from existing data
+            else:
+                send_confirmation_task.delay(
+                    user_pk=user.pk, purpose=PURPOSE_REGISTER, language='en', to=user.email,
+                    base_url=base_url, server=user.domain)
+
+    send_registration.short_description = _('Send new registration confirmations')
 
 
 @admin.register(UserLogEntry)
