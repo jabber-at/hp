@@ -46,7 +46,7 @@ def send_contact_email(hostname, subject, message, recipient=None, user_pk=None,
 
     host = settings.XMPP_HOSTS[hostname]
     from_email = host.get('DEFAULT_FROM_EMAIL', settings.DEFAULT_FROM_EMAIL)
-    gpg_recipients = None
+    recv_fps = None
     recipient_list = [host['CONTACT_ADDRESS']]
 
     if user_pk is None:
@@ -55,7 +55,7 @@ def send_contact_email(hostname, subject, message, recipient=None, user_pk=None,
         user = User.objects.get(pk=user_pk)
         recipient_list.append(user.email)
         reply_to = [user.email, host['CONTACT_ADDRESS']]
-        gpg_recipients = list(user.gpg_keys.valid().values_list('fingerprint', flat=True))
+        recv_fps = list(user.gpg_keys.valid().values_list('fingerprint', flat=True))
 
     # We add the connecting IP-Address and the user (if any).
     headers = {
@@ -65,18 +65,18 @@ def send_contact_email(hostname, subject, message, recipient=None, user_pk=None,
 
     # If we have a GPG fingerprint for the user AND we have fingerprints for the contact addresses,
     # we use GPG.
-    if gpg_recipients and host.get('CONTACT_GPG_FINGERPRINTS'):
-        contact_gpg_recipients = load_contact_keys(hostname)
-        gpg_signer = host.get('GPG_FINGERPRINT')
-        gpg_recipients += contact_gpg_recipients.keys()
+    if recv_fps and host.get('CONTACT_GPG_FINGERPRINTS'):
+        contact_fps = load_contact_keys(hostname)
+        recv_fps += contact_fps.keys()
+        sign_fp = host.get('GPG_FINGERPRINT')
 
         with user.gpg_keyring(default_trust=True, hostname=hostname) as backend:
-            for contact_key in contact_gpg_recipients.values():  #
+            for contact_key in contact_fps.values():
                 backend.import_key(contact_key)
 
             msg = GpgEmailMessage(
                 subject, message, from_email, recipient_list, reply_to=reply_to, headers=headers,
-                gpg_backend=backend, gpg_recipients=gpg_recipients, gpg_signer=gpg_signer)
+                gpg_backend=backend, gpg_recipients=recv_fps, gpg_signer=sign_fp)
 
             # Attach the users public key(s) as "key.asc" so we can reply encrypted.
             attachment = ''.join(user.gpg_keys.valid().values_list('key', flat=True))
