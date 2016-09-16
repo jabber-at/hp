@@ -90,7 +90,7 @@ div.smtw-btn a .label {
 /**
  * Facebook buttons
  */
-div.facebook-btn {
+div.smfb-btn {
     border-radius: 3px;
     height: 20px;
     padding: 0 0 0 2px;
@@ -103,26 +103,26 @@ div.facebook-btn {
     border: 1px solid #4267b2;
 }
 
-div.facebook-btn:hover {
+div.smfb-btn:hover {
     background: #365899;
     border: 1px solid #365899;
 }
 
-div.facebook-btn a {
+div.smfb-btn a {
     vertical-align: middle;
     font-weight: bold;
     padding: 0 4px;
     text-decoration: none;
     cursor: pointer;
 }
-div.facebook-btn a .fb-logo {
+div.smfb-btn a .fb-logo {
     margin-left: -3px;
 }
-div.facebook-btn a .fb-logo svg {
+div.smfb-btn a .fb-logo svg {
     width: 18px;
     height: 18px;
 }
-div.facebook-btn a .fb-label {
+div.smfb-btn a .fb-label {
     color: #fff;
     font-size: 11px;
     margin-left: 4px;
