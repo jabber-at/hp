@@ -40,8 +40,8 @@ def error():
 
 
 @shared_task
-def send_contact_email(hostname, subject, message, recipient=None, user=None, address=None):
-    if not recipient and not user:
+def send_contact_email(hostname, subject, message, recipient=None, user_pk=None, address=None):
+    if not recipient and not user_pk:
         raise ValueError("Need at least recipient or user")
 
     config = settings.XMPP_HOSTS[hostname]
@@ -49,10 +49,10 @@ def send_contact_email(hostname, subject, message, recipient=None, user=None, ad
     gpg_recipients = None
     recipient_list = [config['CONTACT_ADDRESS']]
 
-    if user is None:
+    if user_pk is None:
         reply_to = [recipient, config['CONTACT_ADDRESS']]
     else:
-        user = User.objects.get(pk=user)
+        user = User.objects.get(pk=user_pk)
         recipient_list.append(user.email)
         reply_to = [user.email, config['CONTACT_ADDRESS']]
         gpg_recipients = list(user.gpg_keys.valid().values_list('fingerprint', flat=True))
