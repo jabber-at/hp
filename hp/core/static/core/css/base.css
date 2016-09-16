@@ -40,14 +40,14 @@ form .form-group.fg_captcha input[type="text"] {
 /**
  * Twitter button
  */
-div.twitter-btn {
+div.smtw-btn {
     display: inline-block;
     vertical-align: top;
     max-width: 100%;
     white-space: nowrap;
     font: normal normal normal 11px/18px 'Helvetica Neue',Arial,sans-serif;
 }
-div.twitter-btn a {
+div.smtw-btn a {
     position: relative;
     height: 20px;
     padding: 1px 8px 1px 6px;
@@ -64,23 +64,23 @@ div.twitter-btn a {
     text-decoration: none;
     outline: 0;
 }
-div.twitter-btn a:hover,
-div.twitter-btn a:active,
-div.twitter-btn a:focus {
+div.smtw-btn a:hover,
+div.smtw-btn a:active,
+div.smtw-btn a:focus {
     background-color: #0c7abf;
 }
 
-div.twitter-btn a i {
+div.smtw-btn a i {
     position: relative;
     top: 2px;
     display: inline-block;
     width: 14px;
     height: 14px;
     background: transparent 0 0 no-repeat;
-    background-image: url('/static/core/img/twitter.svg');
+    background-image: url('/static/core/img/smtw.svg');
 }
 
-div.twitter-btn a .label {
+div.smtw-btn a .label {
     font-weight: 500;
     margin-left: 3px;
     padding: 0;
