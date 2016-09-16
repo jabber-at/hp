@@ -19,6 +19,7 @@ from django.contrib import admin
 from django.contrib import messages
 from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
 from django.contrib.auth.models import Group
+from django.utils import timezone
 from django.utils.translation import ugettext_lazy as _
 
 from .models import Confirmation
@@ -59,11 +60,23 @@ class UserLogEntryAdmin(admin.ModelAdmin):
 @admin.register(GpgKey)
 class GpgKeyAdmin(admin.ModelAdmin):
     actions = ['refresh']
-    list_display = ('user', 'fingerprint', 'expires')
+    list_display = ('user', 'fingerprint', 'expires', 'valid', 'usable')
     list_select_related = ('user', )
     list_filter = ('revoked', )
     ordering = ('-created', )
     search_fields = ('fingerprint', 'user__username', 'user__email', )
+
+    def valid(self, obj):
+        return not obj.revoked  # just the inverse, more intuitive
+    valid.boolean = True
+
+    def usable(self, obj):
+        now = timezone.now()
+        if obj.expires:
+            return obj.expires > now and not obj.revoked
+        else:
+            return not obj.revoked
+    usable.boolean = True
 
     def refresh(self, request, queryset):
         for obj in queryset:
