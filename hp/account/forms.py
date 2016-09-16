@@ -86,7 +86,8 @@ class GPGMixin(forms.Form):
 class CreateUserForm(GPGMixin, CaptchaFormMixin, forms.ModelForm):
     username = UsernameField(
         register=True,
-        help_text=_('At least %(MIN_LENGTH)s and up to %(MAX_LENGTH)s characters. No "@" or spaces.') % {
+        help_text=_(
+            'At least %(MIN_LENGTH)s and up to %(MAX_LENGTH)s characters. No "@" or spaces.') % {
             'MIN_LENGTH': _MIN_USERNAME_LENGTH,
             'MAX_LENGTH': _MAX_USERNAME_LENGTH,
         }
@@ -147,6 +148,7 @@ class SetPasswordForm(forms.Form):
         js = (
             'account/js/set_password.js',
         )
+
 
 class SetEmailForm(GPGMixin, forms.Form):
     email = BootstrapEmailField(

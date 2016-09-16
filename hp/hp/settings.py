@@ -179,11 +179,12 @@ MESSAGE_TAGS = {
 XMPP_HOSTS = {}
 CONTACT_ADDRESS = None
 DEFAULT_XMPP_HOST = None
+DEFAULT_FROM_EMAIL = None
 
 # How long confirmation emails remain valid
 USER_CONFIRMATION_TIMEOUT = timedelta(hours=48)
 
-LOG_FORMAT = '[%(asctime).19s %(levelname)-8s] %(message)s' # .19s = only first 19 chars
+LOG_FORMAT = '[%(asctime).19s %(levelname)-8s] %(message)s'  # .19s = only first 19 chars
 LIBRARY_LOG_LEVEL = 'WARN'
 LOG_LEVEL = 'INFO'
 
@@ -266,7 +267,7 @@ SPAM_BLACKLIST = set()
 USER_LOGENTRY_EXPIRES = timedelta(days=31)
 
 try:
-    from .localsettings import *
+    from .localsettings import *  # NOQA
 except ImportError:
     pass
 

@@ -53,6 +53,7 @@ class BootstrapWidgetMixin(object):
             html += mark_safe('<span class="%s" aria-hidden="true"></span>' % icon_classes)
         return html
 
+
 class BootstrapMultiWidget(BootstrapWidgetMixin, forms.MultiWidget):
     def render(self, name, value, attrs=None, status=None):
         """Direct copy of forms.MultiWidget.render(), enhanced to pass the field status to the

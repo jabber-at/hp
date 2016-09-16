@@ -84,8 +84,8 @@ def set_email_task(user_pk, to, language, address, fingerprint=None, key=None, *
         payload['gpg_key'] = None  # do not encrypt
 
     with translation.override(language):
-        conf = Confirmation.objects.create(user=user, purpose=PURPOSE_SET_EMAIL, language=language, to=to,
-                                           address=address, payload=payload)
+        conf = Confirmation.objects.create(user=user, purpose=PURPOSE_SET_EMAIL, language=language,
+                                           to=to, address=address, payload=payload)
 
         conf.send()
 

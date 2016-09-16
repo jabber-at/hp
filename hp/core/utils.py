@@ -80,6 +80,7 @@ def load_contact_keys(domain):
 
     return keys
 
+
 def check_dnsbl(ip):
     """Check the given IP for DNSBL listings.
 
@@ -112,4 +113,3 @@ def check_dnsbl(ip):
 
     cache.set(cache_key, blocks, 3600)  # cache this for an hour
     return blocks
-

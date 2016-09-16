@@ -81,7 +81,7 @@ class UsernameField(BootstrapMixin, forms.MultiValueField):
             default = format_html('<span id="default">{}</span>',
                                   _('Type to see if the username is still available.'))
             available = format_html('<span id="username-available">{}</span>',
-                                   _('The username is still available.'))
+                                    _('The username is still available.'))
             not_available = format_html('<span id="username-not-available">{}</span>',
                                         _('The username is no longer available.'))
             invalid = format_html('<span id="invalid">{}</span>',
@@ -140,7 +140,9 @@ class KeyUploadField(BootstrapFileField):
         kwargs.setdefault('required', False)
         kwargs.setdefault('label', _('GPG Key'))
         kwargs.setdefault('help_text', _(
-            '... or upload your ASCII armored GPG key directly ("gpg --armor --export &lt;fingerprint&gt;").'))
+            '... or upload your ASCII armored GPG key directly '
+            '("gpg --armor --export &lt;fingerprint&gt;").'
+        ))
 
         # define error messages
         kwargs.setdefault('error_messages', {})

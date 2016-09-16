@@ -52,7 +52,6 @@ class LocaleRegexURLResolver(RegexURLResolver):
             raise e
 
 
-
 def i18n_url(regex, view, kwargs=None, name=None, prefix=''):
     if isinstance(view, (list, tuple)):
         # For include(...) processing.

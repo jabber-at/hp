@@ -22,7 +22,8 @@ from . import views
 app_name = 'account'
 urlpatterns = [
     url(r'^register/$', views.RegistrationView.as_view(), name='register'),
-    url(r'^register/(?P<key>\w+)/$', views.ConfirmRegistrationView.as_view(), name='register_confirm'),
+    url(r'^register/(?P<key>\w+)/$', views.ConfirmRegistrationView.as_view(),
+        name='register_confirm'),
     url(r'^login/$', views.LoginView.as_view(), name='login'),
     url(r'^password/$', views.SetPasswordView.as_view(), name='set_password'),
     url(r'^password/reset/$', views.ResetPasswordView.as_view(), name='reset_password'),

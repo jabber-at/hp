@@ -252,8 +252,8 @@ class UserView(LoginRequiredMixin, AccountPageMixin, UserDetailView):
     requires_confirmation = False
 
 
-
-class ResetPasswordView(BlacklistMixin, DnsBlMixin, RateLimitMixin, AnonymousRequiredMixin, FormView):
+class ResetPasswordView(BlacklistMixin, DnsBlMixin, RateLimitMixin, AnonymousRequiredMixin,
+                        FormView):
     form_class = ResetPasswordForm
     rate_activity = ACTIVITY_RESET_PASSWORD
     template_name = 'account/user_password_reset.html'

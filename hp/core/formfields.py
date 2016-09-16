@@ -90,7 +90,8 @@ class LinkTargetField(forms.MultiValueField):
                 queryset=model_choices, required=False, label=_('Model'), empty_label=None,
                 widget=forms.Select(attrs={
                     'data-field': 'content_type',
-            })),
+                })),
+
             # pk of the object, will be a nice select
             forms.CharField(required=False, label=_('Object'), widget=text_widget(attrs={
                 'data-field': 'object_id',

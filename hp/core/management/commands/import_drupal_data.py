@@ -92,7 +92,8 @@ class Command(BaseCommand):
                 '/en/features/apt-repository': Page.objects.get(slug_en='apt-repository'),
                 '/en/features/firewalls': Page.objects.get(slug_en='features-firewalls'),
                 '/en/features/webpresence': Page.objects.get(slug_en='webpresence'),
-                '/en/how-good-tls-encryption': BlogPost.objects.get(slug_en='how-good-tls-encryption'),
+                '/en/how-good-tls-encryption': BlogPost.objects.get(
+                    slug_en='how-good-tls-encryption'),
                 '/en/privacy-policy': Page.objects.get(slug_en='privacy'),
                 '/en/privacy': Page.objects.get(slug_en='privacy'),
                 '/en/webpresence': Page.objects.get(slug_en='features-firewalls'),
@@ -200,7 +201,8 @@ class Command(BaseCommand):
         features_item.target = LinkTargetDict(typ=TARGET_URL, url='#')
         features_item.save()
 
-        for title in ['Webpresence', 'Security', 'Firewall connectivity', 'APT repository', 'Features', ]:
+        for title in ['Webpresence', 'Security', 'Firewall connectivity', 'APT repository',
+                      'Features', ]:
             child_item = MenuItem.objects.get(title_en=title)
             child_item.move_to(features_item)
 

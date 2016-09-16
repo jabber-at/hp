@@ -29,13 +29,16 @@ class Command(BaseCommand):
         parser.add_argument(
             '-t', '--type', default='RSA', metavar='[DSA|RSA]',
             help='The type of primary key to generate (default: %(default)s).'),
-        parser.add_argument('-s', '--size', default=4096, type=int, metavar='BITS',
-                    help='The length of the primary key (default: %(default)s).'),
+        parser.add_argument(
+            '-s', '--size', default=4096, type=int, metavar='BITS',
+            help='The length of the primary key (default: %(default)s).'),
         parser.add_argument('--name', help="Override the real name (default: the xmpp-host used."),
-        parser.add_argument('-f', '--force', action='store_true', default=False,
-                    help="Force regeneration of GPG key."),
-        parser.add_argument('-q', '--quiet', action='store_true', default=False,
-                    help="Do not output deleted users."),
+        parser.add_argument(
+            '-f', '--force', action='store_true', default=False,
+            help="Force regeneration of GPG key."),
+        parser.add_argument(
+            '-q', '--quiet', action='store_true', default=False,
+            help="Do not output deleted users."),
         parser.add_argument('host', help="The hostname to generate a GPG key for.")
 
     def handle(self, host, **kwargs):
@@ -90,4 +93,6 @@ class Command(BaseCommand):
         dest_path = os.path.join(dest_dir, '%s.asc' % key.fingerprint)
         with open(dest_path, 'w') as stream:
             stream.write(export)
-        self.stdout.write('Key exported to %s, use "manage.py collectstatic" to make the keys downloadable.' % dest_path)
+        self.stdout.write(
+            'Key exported to %s, use "manage.py collectstatic" to make the keys downloadable.'
+            % dest_path)
