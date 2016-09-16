@@ -80,7 +80,6 @@ class User(XmppBackendUser, PermissionsMixin):
     # NOTE: MySQL only allows a 255 character limit
     username = models.CharField(max_length=255, unique=True, verbose_name=_('Username'))
     email = models.EmailField(null=True, blank=True, verbose_name=_('Email'))
-    gpg_fingerprint = models.CharField(max_length=40, null=True, blank=True)
 
     # when the account was first registered
     registered = models.DateTimeField(auto_now_add=True)

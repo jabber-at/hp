@@ -74,13 +74,12 @@ class UserAdmin(BaseUserAdmin):
     actions = ['send_registration', ]
     add_fieldsets = (
         (None, {
-            'fields': ('username', 'email', 'gpg_fingerprint'),
+            'fields': ('username', 'email'),
         }),
     )
     fieldsets = (
         (None, {
-            'fields': ('username', 'email', 'registered', 'registration_method', 'confirmed',
-                       'gpg_fingerprint'),
+            'fields': ('username', 'email', 'registered', 'registration_method', 'confirmed', )
         }),
     )
     list_display = ('username', 'email', 'registered', 'confirmed', )
