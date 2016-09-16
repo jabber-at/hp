@@ -142,7 +142,7 @@ class User(XmppBackendUser, PermissionsMixin):
 
         init : bool, optional
             If ``False``, do not import existing (valid) keys into the keyring.
-        host : str, optional
+        domain : str, optional
             If set, also import the private key for the given host configured in the ``XMPP_HOSTS``
             setting.
         """
@@ -263,7 +263,7 @@ class Confirmation(BaseModel):
         if custom_key or keys:
             sign_fp = server.get('GPG_FINGERPRINT')
 
-            with self.user.gpg_keyring(default_trust=True, host=hostname) as backend:
+            with self.user.gpg_keyring(default_trust=True, domain=hostname) as backend:
                 if custom_key:
                     log.info('Imported custom keys.')
                     keys = backend.import_key(custom_key.encode())

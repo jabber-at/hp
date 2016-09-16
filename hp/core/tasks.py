@@ -65,7 +65,7 @@ def send_contact_email(domain, subject, message, recipient=None, user=None, addr
         gpg_signer = config.get('GPG_FINGERPRINT')
         gpg_recipients += contact_gpg_recipients.keys()
 
-        with user.gpg_keyring(default_trust=True, host=domain) as backend:
+        with user.gpg_keyring(default_trust=True, domain=domain) as backend:
             for contact_key in contact_gpg_recipients.values():  #
                 backend.import_key(contact_key)
 
