@@ -102,11 +102,11 @@ def set_email_task(user_pk, to, language, address, fingerprint=None, key=None, *
     user = User.objects.get(pk=user_pk)
     address = Address.objects.get_or_create(address=address)[0]
 
-    if fingerprint:
+    if key:
+        payload['gpg_recv_pub'] = key
+    elif fingerprint:
         payload['gpg_recv_fp'] = fingerprint  # just so we know what was submitted
         payload['gpg_recv_pub'] = gpg_backend.fetch_key('0x%s' % fingerprint).decode('utf-8')
-    elif key:
-        payload['gpg_recv_pub'] = key
     else:
         payload['gpg_recv_pub'] = None  # do not encrypt
 
