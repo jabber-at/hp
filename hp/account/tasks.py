@@ -13,13 +13,20 @@
 # You should have received a copy of the GNU General Public License along with django-xmpp-account.
 # If not, see <http://www.gnu.org/licenses/>.
 
+from datetime import timedelta
+from urllib.error import URLError
+
 from celery import shared_task
 from celery.utils.log import get_task_logger
-from django.contrib.auth import get_user_model
-from django.utils import translation
 from gpgmime.django import gpg_backend
 
+from django.contrib.auth import get_user_model
+from django.contrib.messages import constants as messages
+from django.utils import translation
+from django.utils.translation import ugettext as _
+
 from core.models import Address
+from core.utils import format_timedelta
 
 from .models import Confirmation
 from .models import UserLogEntry
@@ -29,8 +36,8 @@ User = get_user_model()
 log = get_task_logger(__name__)
 
 
-@shared_task
-def add_gpg_key_task(user_pk, address, language, fingerprint=None, key=None):
+@shared_task(bind=True)
+def add_gpg_key_task(self, user_pk, address, language, fingerprint=None, key=None):
     """Task to add or update a submitted GPG key.
 
     You need to pass either the fingerprint or the raw key. If neither is passed, the task will
@@ -56,7 +63,25 @@ def add_gpg_key_task(user_pk, address, language, fingerprint=None, key=None):
 
     user = User.objects.get(pk=user_pk)
     with translation.override(language):
-        user.add_gpg_key(keys=key, fingerprint=fingerprint, language=language, address=address)
+        try:
+            user.add_gpg_key(keys=key, fingerprint=fingerprint, language=language, address=address)
+        except URLError as e:
+            retries = self.request.retries
+            if retries == self.max_retries:
+                msg = _(
+                    'Could not reach keyserver. This was our final attempt. Giving up and sending '
+                    'mail unencrypted. Sorry.')
+                log.exception(e)
+                user.message(messages.ERROR, msg)
+
+            delta = timedelta(seconds=60)
+            delta_formatted = format_timedelta(delta)
+
+            log.info('This is %s of %s tries.', self.request.retries, self.max_retries)
+            msg = _('Could not reach keyserver. Will try again in %s (%s of %s tries)') % (
+                delta_formatted, retries + 1, self.max_retries)
+            user.message(messages.ERROR, msg)
+            self.retry(exc=e, countdown=delta.seconds)
 
 
 @shared_task
