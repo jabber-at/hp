@@ -59,7 +59,7 @@ class BaseModelAdmin(admin.ModelAdmin):
 class BasePageAdmin(BaseModelAdmin):
     formfield_overrides = {
         models.TextField: {
-            'widget': TinyMCE(attrs={'cols': 80, 'rows': 10}, mce_attrs={
+            'widget': TinyMCE(attrs={'cols': 80, 'rows': 20}, mce_attrs={
                 'theme': "advanced",
             }),
         },
