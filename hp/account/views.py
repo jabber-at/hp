@@ -150,9 +150,11 @@ confirmation link in that email.""" % (user.username, user.email)))
             user.backend = settings.AUTHENTICATION_BACKENDS[0]
             login(self.request, user)
 
+        # TODO: Remove old 'server' key when it should be present everywhere.
         task = send_confirmation_task.si(
             user_pk=user.pk, purpose=PURPOSE_REGISTER, language=lang, address=address,
-            to=user.email, base_url=base_url, server=request.site['NAME'])
+            to=user.email, base_url=base_url, server=request.site['NAME'],
+            hostname=request.site['NAME'])
 
         # Store GPG key if any
         fp, key = form.get_gpg_data()
@@ -276,9 +278,11 @@ class ResetPasswordView(BlacklistMixin, DnsBlMixin, RateLimitMixin, AnonymousReq
         user.log(_('Requested password reset.'), request.META['REMOTE_ADDR'])
         AddressActivity.objects.log(request, ACTIVITY_RESET_PASSWORD, user=user)
 
+        # TODO: Remove old 'server' key when it should be present everywhere.
         send_confirmation_task.delay(
             user_pk=user.pk, purpose=PURPOSE_RESET_PASSWORD, language=lang, address=address,
-            to=user.email, base_url=base_url, server=request.site['NAME'])
+            to=user.email, base_url=base_url, server=request.site['NAME'],
+            hostname=request.site['NAME'])
 
         return self.render_to_response(self.get_context_data(form=form))
 
@@ -343,9 +347,10 @@ class SetEmailView(LoginRequiredMixin, AccountPageMixin, FormView):
         to = form.cleaned_data['email']
 
         fp, key = form.get_gpg_data()
+        # TODO: Remove old 'server' key when it should be present everywhere.
         set_email_task.delay(
             user_pk=user.pk, to=to, language=lang, address=address, fingerprint=fp, key=key,
-            base_url=base_url, server=request.site['NAME'])
+            base_url=base_url, server=request.site['NAME'], hostname=request.site['NAME'])
 
         messages.success(request, _(
             'We sent you an email to your new email address (%s). Click on the link in it to '
