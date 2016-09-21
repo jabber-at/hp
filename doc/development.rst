@@ -95,6 +95,12 @@ user          BenutzerIn      "A *user* needs to...."
 users         BenutzerInnen   "*Users* are required to..."
 ============= =============== ====================================================================
 
+.. seealso::
+
+   Django also has some similar standard:
+
+   https://docs.djangoproject.com/en/dev/internals/contributing/writing-documentation/#commonly-used-terms
+
 The website addresses a user as "you", in German, we use the polite form in lower case:
 
 * English: "Please make sure you know what you're doing."
