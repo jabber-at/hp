@@ -49,6 +49,11 @@ def send_contact_email(hostname, subject, message, recipient=None, user_pk=None,
     recv_fps = None
     recipient_list = [host['CONTACT_ADDRESS']]
 
+    # We add the connecting IP-Address and the user (if any).
+    headers = {
+        'X-Homepage-Submit-Address': address,
+    }
+
     if user_pk is None:
         reply_to = [recipient, host['CONTACT_ADDRESS']]
     else:
@@ -56,12 +61,7 @@ def send_contact_email(hostname, subject, message, recipient=None, user_pk=None,
         recipient_list.append(user.email)
         reply_to = [user.email, host['CONTACT_ADDRESS']]
         recv_fps = list(user.gpg_keys.valid().values_list('fingerprint', flat=True))
-
-    # We add the connecting IP-Address and the user (if any).
-    headers = {
-        'X-Homepage-Logged-In-User': user,
-        'X-Homepage-Submit-Address': address,
-    }
+        headers['X-Homepage-Logged-In-User'] = user
 
     # If we have a GPG fingerprint for the user AND we have fingerprints for the contact addresses,
     # we use GPG.
