@@ -67,13 +67,11 @@ def homepage(task, language_param='language'):
                 old_language = translation.get_language()
                 translation.activate(language)
 
-            response = task(*args, **kwargs)
+            return task(*args, **kwargs)
         finally:
             # Reactivate old language
             if language is not None:
                 translation.activate(old_language)
-
-            return response
 
     return wraps(task)(_decorator)
 
