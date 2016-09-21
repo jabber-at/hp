@@ -14,12 +14,24 @@
 # not, see <http://www.gnu.org/licenses/>.
 
 from django import template
+from django.utils.html import format_html
 
 register = template.Library()
 
 
-@register.simple_tag(takes_context=True)
-def render(context, variable):
-    variable = '{%% load blog core bootstrap %%}%s' % variable
-    t = template.Template(variable)
-    return t.render(context)
+@register.simple_tag
+def glyph(glyph, context=None):
+    css_class = 'glyphicon glyphicon-%s' % glyph
+    if context is not None:
+        css_class += ' text-%s' % context
+    return format_html('<span class="{}" aria-hidden="true"></span>', css_class)
+
+
+@register.simple_tag
+def glyph_yes():
+    return glyph('ok', context='success')
+
+
+@register.simple_tag
+def glyph_no():
+    return glyph('remove', context='danger')
