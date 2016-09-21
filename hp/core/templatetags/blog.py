@@ -25,6 +25,28 @@ register = template.Library()
 
 @register.simple_tag
 def page(pk, title=None, anchor=None):
+    """Get a link to a page based on its primary key.
+
+    This template tag allows you to generate a HTML link based on the database primary key of a
+    page object. The link (which uses the editable slug) will adapt if the slug is changed.
+
+    Example::
+
+        {% page 23 %} -> <a href="/p/slug-of-page-23/">title-of-page-23</a>.
+        {% page 23 title="foobar" %} -> <a href="/p/slug-of-page-23/">foobar</a>.
+
+    Parameters
+    ----------
+
+    pk : int
+        The database primary key of the page to link to. The easiest way to get this is from the
+        URL of the admin interface.
+    title : str, optional
+        The link to use. If not given, the page title in the current language will be used.
+    anchor : str, optional
+        Optionally adds an anchor tag to the link.
+    """
+
     page = Page.objects.get(pk=pk)
     title = title or page.title.current
     url = page.get_absolute_url()
@@ -36,6 +58,11 @@ def page(pk, title=None, anchor=None):
 
 @register.simple_tag
 def post(pk, title=None, anchor=None):
+    """Get a link to blog post based on its primary key.
+
+    This templatetag works the same as :py:func:`~core.templatetags.blog.page`, except that it
+    links to blog posts.
+    """
     post = BlogPost.objects.get(pk=pk)
     title = title or post.title.current
     url = post.get_absolute_url()

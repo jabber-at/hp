@@ -21,6 +21,27 @@ register = template.Library()
 
 @register.simple_tag
 def glyph(glyph, context=None):
+    """Outputs the HTML for a glyphicon.
+
+    .. seealso::
+
+       * `Available glyphs <http://getbootstrap.com/components/#glyphicons-glyphs>`_
+       * `Available context <http://getbootstrap.com/css/#helper-classes-colors>`_
+
+    Examples::
+
+        {% glyph "ok" %}
+        {% glyph "remove" context="danger" %}
+
+    Parameters
+    ----------
+
+    glyph : str
+        Name of the glyphicon. You only have to give the bare name, e.g. ``"ok"``.
+    context : str, optional
+        Contextual color of the glyphicon, e.g. ``"danger"``.
+
+    """
     css_class = 'glyphicon glyphicon-%s' % glyph
     if context is not None:
         css_class += ' text-%s' % context
@@ -29,9 +50,17 @@ def glyph(glyph, context=None):
 
 @register.simple_tag
 def glyph_yes():
+    """An alias for an "ok" glyph in success context.
+
+    This is the same as ``{% glyph "ok" context="success" %}``.
+    """
     return glyph('ok', context='success')
 
 
 @register.simple_tag
 def glyph_no():
+    """An alias for a "remove" glyph in danger context.
+
+    This is the same as ``{% glyph "remove" context="danger" %}``.
+    """
     return glyph('remove', context='danger')
