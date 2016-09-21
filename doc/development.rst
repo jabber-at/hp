@@ -6,6 +6,11 @@ Development
 Initial setup
 *************
 
+The python libraries have some dependencies, on Debian/Ubuntu, install them
+with::
+
+   apt-get install python3-dev libgpgme11-dev
+
 To start, clone the project and initialize the virtualenv::
 
    git clone https://github.com/jabber-at/hp
