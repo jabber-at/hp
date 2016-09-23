@@ -145,7 +145,10 @@ XMPP_HOSTS = {
 
         # The "brand name" of this site, used in various user interface elements. The default is
         # the domain name.
-        #BRAND='...'
+        #BRAND='...',
+
+        # Primary URL used for this page. The default is https://<hostname>.
+        #PRIMARY_URL='https://example.com',
 
         # The "Form" address used in confirmation emails and by the contact form. If not set, the
         # global DEFAULT_FROM_EMAIL setting will be used.
@@ -182,7 +185,9 @@ CONTACT_ADDRESS = 'contact@example.com'
 # Default email used when a host in XMPP_HOSTS does not define one.
 DEFAULT_FROM_EMAIL = 'noreply@example.com'
 
-# Default selection in form selection fields
+# The default host used on this site. This affects the default selection in some <select> HTML form
+# elements, as well as for content that should be the same accross all hosts, e.g. the canonical
+# URL of a blog post.
 DEFAULT_XMPP_HOST = 'example.com'
 
 ########################
