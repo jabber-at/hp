@@ -16,17 +16,19 @@
 import inspect
 
 from datetime import timedelta
+from functools import wraps
 from urllib.error import URLError
 
 from celery import shared_task
 from celery.utils.log import get_task_logger
 from gpgmime.django import gpg_backend
-from functools import wraps
 
+from django.conf import settings
 from django.contrib.auth import get_user_model
 from django.contrib.messages import constants as messages
 from django.utils import translation
 from django.utils.translation import ugettext as _
+from django_xmpp_backends import backend
 
 from core.models import Address
 from core.utils import format_timedelta
@@ -173,3 +175,18 @@ def resend_confirmations(*conf_pks):
 def cleanup():
     UserLogEntry.objects.expired().delete()
     Confirmation.objects.expired().delete()
+
+    # Remove users that are gone from the real XMPP server
+    for hostname in settings.XMPP_HOSTS:
+        existing_users = set([u.lower() for u in backend.all_users(hostname)])
+
+        if len(existing_users) < 100:
+            # A safety check if the backend for some reason does not return any users and does not
+            # raise an exception.
+            log.warn('Skipping %s: Only %s users received.', hostname, len(existing_users))
+            continue
+
+        for user in User.objects.has_no_confirmations().host(hostname):
+            username = user.node.lower()
+            if username not in existing_users:
+                log.info('%s: Remove user (gone from backend).')
