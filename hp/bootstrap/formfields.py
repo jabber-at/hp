@@ -169,5 +169,9 @@ class BootstrapPasswordField(BootstrapMixin, forms.CharField):
     add_success = False
 
 
+class BootstrapChoiceField(BootstrapMixin, forms.ChoiceField):
+    widget = widgets.BootstrapSelect
+
+
 class BootstrapFileField(BootstrapMixin, forms.FileField):
     widget = widgets.BootstrapFileInput

@@ -110,6 +110,10 @@ class BootstrapPasswordInput(BootstrapWidgetMixin, forms.PasswordInput):
     feedback = True
 
 
+class BootstrapSelect(BootstrapWidgetMixin, forms.Select):
+    pass
+
+
 class BootstrapFileInput(BootstrapWidgetMixin, forms.ClearableFileInput):
     input_class = 'upload-button'
 
