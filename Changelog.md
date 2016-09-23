@@ -2,6 +2,11 @@
 
 ## 2016-09-23
 
+* Interface
+  * the right sidebar no longer wraps in "small" devices (e.g. a half-width window on a full-hd
+    screen).
+  * Add a `- and/or -` note between GPG fingerprint and key upload, to make sure it's clear you
+    don't have to do both.
 * Check if the domain of an email address exists when registering or setting a new email address.
 * Remove users from the database that (no longer) exist on the XMPP server.
 * More consistently use variable names.
