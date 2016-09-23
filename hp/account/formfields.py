@@ -112,7 +112,7 @@ class FingerprintField(BootstrapCharField):
         kwargs.setdefault('required', False)
         kwargs.setdefault('help_text', _(
             'Add your fingerprint ("gpg --fingerprint &lt;you@example.com&gt;") if your key is '
-            'available on the public key servers.'))
+            'available on public key servers...'))
 
         # define error messages
         kwargs.setdefault('error_messages', {})
@@ -143,7 +143,7 @@ class KeyUploadField(BootstrapFileField):
         kwargs.setdefault('required', False)
         kwargs.setdefault('label', _('GPG Key'))
         kwargs.setdefault('help_text', _(
-            '... or upload your ASCII armored GPG key directly '
+            '... upload your ASCII armored GPG key directly '
             '("gpg --armor --export &lt;fingerprint&gt;").'
         ))
 
