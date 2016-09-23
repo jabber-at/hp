@@ -1,0 +1,6 @@
+table#clients-table th {
+    text-align: center;
+}
+table#clients-table th.two-rows {
+    vertical-align: bottom;
+}

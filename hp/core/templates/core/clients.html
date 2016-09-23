@@ -1,9 +1,20 @@
 {% extends "page.html" %}
-{% load i18n %}
+{% load i18n staticfiles %}
 
 {% block title %}{% trans "Clients" %}{% endblock title %}
 
+{% block extracss %}
+<link href="{% static 'core/css/clients.css' %}" rel="stylesheet">
+{% endblock extracss %}
+
+{% block extrajs %}
+<script src="{% static 'core/js/clients.js' %}"></script>
+{% endblock extrajs %}
+
 {% block content %}
+
+<div class="alert alert-danger"><strong>This is just a demo-page so far. It contains no real info!</strong></div>
+
 {% blocktrans with hostname=site.BRAND %}Jabber is an open protocol and anyone may develop a client for it. This
 means there are many different clients to connect to {{ hostname }}.{% endblocktrans %}
 
@@ -16,8 +27,8 @@ another one might work best for Voice/Video calls.{% endblocktrans %}</p>
 
 <p>{% trans "That being said, here is what we have found works best:" %}</p>
 
-<small>(Note: we could highlight the users platform and put it first? Also:
-    Nice-looking logos for each platform?)</small>
+<p><small>(Note: we could highlight the users platform and put it first? Also:
+    Nice-looking logos for each platform?)</small></p>
 
 <ul>
     <li>Windows: Gajim</li>
@@ -28,22 +39,26 @@ another one might work best for Voice/Video calls.{% endblocktrans %}</p>
 
 <h2>{% trans "Can you be more specific?" %}</h2>
 
-{% trans "Sure we can:" %}
-<small>(Note: We could preselect the users OS here, and table below is completely made up data)</small>
+<p><small>(Note: We could preselect the users OS here, and table below is completely made up data)</small></p>
 
-<form class="form-horizontal">
+{% trans "Sure we can:" %}
+
+<form id="clients-form" class="form-horizontal">
     <div class="form-group">
         {{ form.os.formgroup }}
     </div>
 </form>
 
-<table class="table table-bordered">
-<tr>
-    <th rowspan="2">Client</th>
+<p><small>(Note: Maybe a second selector with something like "Good for filetransfer", "good for Voice/Video",
+"Good end-to-end encryption", ...?)</small></p>
+
+<table id="clients-table" class="table table-bordered">
+<tr class="header-row">
+    <th rowspan="2" class="two-rows">Client</th>
     <th colspan="5">XEP</th>
-    <th rowspan="2">Notes</th>
+    <th rowspan="2" class="two-rows">Notes</th>
 </tr>
-<tr>
+<tr class="header-row">
     <th><a href="http://xmpp.org/extensions/xep-0045.html">0045</a></th>
     <th><a href="http://xmpp.org/extensions/xep-0280.html">0280</a></th>
     <th><a href="http://xmpp.org/extensions/xep-0313.html">0313</a></th>
@@ -51,46 +66,49 @@ another one might work best for Voice/Video calls.{% endblocktrans %}</p>
     <th><a href="http://xmpp.org/extensions/xep-0364.html">0364</a></th>
 </tr>
 <tr class="osx">
-    <td>Adium</td>
+    <th>Adium</th>
     <td>{{y}}</td><td>{{n}}</td><td>{{y}}</td><td>{{y}}</td><td>{{y}}</td>
     <td></td>
 </tr>
 <tr class="ios android">
-    <td>ChatSecure</td>
+    <th>ChatSecure</th>
     <td>{{y}}</td><td>{{y}}</td><td>{{y}}</td><td>{{y}}</td><td>{{y}}</td>
     <td>bla</td>
 </tr>
 <tr class="android">
-    <td>Conversations</td>
+    <th>Conversations</th>
     <td>{{y}}</td><td>{{y}}</td><td>{{y}}</td><td>{{y}}</td><td>{{y}}</td>
     <td>whatever</td>
 </tr>
 <tr class="win linux">
-    <td>Gajim</td>
+    <th>Gajim</th>
     <td>{{y}}</td><td>{{n}}</td><td>{{y}}</td><td>{{n}}</td><td>{{y}}</td>
     <td>Ur super</td>
 </tr>
 <tr class="win linux osx">
-    <td>Jitsi</td>
+    <th>Jitsi</th>
     <td>{{n}}</td><td>{{n}}</td><td>{{y}}</td><td>{{y}}</td><td>{{y}}</td>
     <td>lorem ipsum</td>
 </tr>
 <tr class="linux">
-    <td>mcabber</td>
+    <th>mcabber</th>
     <td>{{n}}</td><td>{{n}}</td><td>{{n}}</td><td>{{n}}</td><td>{{y}}</td>
     <td>wuhu</td>
 </tr>
 <tr class="win linux">
-    <td>Pidgin</td>
+    <th>Pidgin</th>
     <td>{{y}}</td><td>{{n}}</td><td>{{y}}</td><td>{{y}}</td><td>{{y}}</td>
     <td>irgendein text</td>
 </tr>
 <tr class="linux">
-    <td>Profanity</td>
+    <th>Profanity</th>
     <td>{{n}}</td><td>{{n}}</td><td>{{n}}</td><td>{{n}}</td><td>{{y}}</td>
     <td>Oida!</td>
 </tr>
-
 </table>
+
+<div class="alert alert-info">{% blocktrans %}
+If you want to request add a client or notify us of an update on supported XEPs,
+please contact us.{% endblocktrans %}</div>
 
 {% endblock content %}
