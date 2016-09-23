@@ -57,10 +57,16 @@ class RSS2Feed(FeedMixin, View):
     .. seealso::
 
        * `Specification <http://www.rssboard.org/rss-specification>`_
-       * `Validator <http://www.rssboard.org/rss-validator>`_
+       * `Validator <http://www.feedvalidator.org/>`_
     """
     def serialize_items(self, request, language, queryset):
-        root = etree.Element("rss", version="2.0")
+        # see: http://www.feedvalidator.org/docs/warning/MissingAtomSelfLink.html
+        atom_ns = 'http://www.w3.org/2005/Atom'
+        href = request.build_absolute_uri(request.get_full_path())
+
+        root = etree.Element("rss", version="2.0", nsmap={
+            'atom': atom_ns,
+        })
         channel = self.sub(root, 'channel')
 
         self.sub(channel, 'title', _('%s - Recent updates') % request.site['BRAND'])
@@ -70,6 +76,9 @@ class RSS2Feed(FeedMixin, View):
         self.sub(channel, 'lastBuildDate', http_date())
         # TODO: image, skipHours
 
+        # add url (NOTE: This does not have anything to do with the Atom standard)
+        self.sub(channel, '{%s}link' % atom_ns, rel='self', type='application/rss+xml', href=href)
+
         for post in queryset:
             path = reverse('core:blogpost', kwargs={'slug': post.slug.current})
 
@@ -77,8 +86,10 @@ class RSS2Feed(FeedMixin, View):
             self.sub(item, 'title', post.title.current)
             self.sub(item, 'description', post.text.current[:160])
             self.sub(item, 'link', request.build_absolute_uri(path))
-            self.sub(item, 'author', post.author.node)
             self.sub(item, 'guid', 'https://jabber.at%s' % path, isPermaLink='true')
             self.sub(item, 'pubDate', http_date(post.created.timestamp()))
+
+            # We do not add an author element, because this *requires* an email address.
+            #self.sub(item, 'author', post.author.node)
 
         return root
