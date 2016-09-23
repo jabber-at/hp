@@ -29,7 +29,7 @@ from django_xmpp_backends import backend
 
 from core.models import Address
 from core.utils import format_timedelta
-from core.tasks import homepage_task
+from core.tasks import activate_language
 
 from .models import Confirmation
 from .models import UserLogEntry
@@ -40,6 +40,7 @@ log = get_task_logger(__name__)
 
 
 @shared_task(bind=True)
+@activate_language
 def add_gpg_key_task(self, user_pk, address, language, fingerprint=None, key=None):
     """Task to add or update a submitted GPG key.
 
@@ -64,30 +65,30 @@ def add_gpg_key_task(self, user_pk, address, language, fingerprint=None, key=Non
         log.error('Neither fingerprint nor key passed.')
 
     user = User.objects.get(pk=user_pk)
-    with translation.override(language):
-        try:
-            user.add_gpg_key(keys=key, fingerprint=fingerprint, language=language, address=address)
-        except URLError as e:
-            retries = self.request.retries
-            if retries == self.max_retries:
-                msg = _(
-                    'Could not reach keyserver. This was our final attempt. Giving up and sending '
-                    'mail unencrypted. Sorry.')
-                log.exception(e)
-                user.message(messages.ERROR, msg)
 
-            delta = timedelta(seconds=60)
-            delta_formatted = format_timedelta(delta)
-
-            log.info('This is %s of %s tries.', self.request.retries, self.max_retries)
-            msg = _('Could not reach keyserver. Will try again in %s (%s of %s tries)') % (
-                delta_formatted, retries + 1, self.max_retries)
+    try:
+        user.add_gpg_key(keys=key, fingerprint=fingerprint, language=language, address=address)
+    except URLError as e:
+        retries = self.request.retries
+        if retries == self.max_retries:
+            msg = _(
+                'Could not reach keyserver. This was our final attempt. Giving up and sending '
+                'mail unencrypted. Sorry.')
+            log.exception(e)
             user.message(messages.ERROR, msg)
-            self.retry(exc=e, countdown=delta.seconds)
+
+        delta = timedelta(seconds=60)
+        delta_formatted = format_timedelta(delta)
+
+        log.info('This is %s of %s tries.', self.request.retries, self.max_retries)
+        msg = _('Could not reach keyserver. Will try again in %s (%s of %s tries)') % (
+            delta_formatted, retries + 1, self.max_retries)
+        user.message(messages.ERROR, msg)
+        self.retry(exc=e, countdown=delta.seconds)
 
 
 @shared_task(bind=True)
-@homepage_task
+@activate_language
 def send_confirmation_task(self, user_pk, to, purpose, language, address=None, **payload):
     user = User.objects.get(pk=user_pk)
     if address is not None:
@@ -99,7 +100,7 @@ def send_confirmation_task(self, user_pk, to, purpose, language, address=None, *
 
 
 @shared_task
-@homepage_task
+@activate_language
 def set_email_task(user_pk, to, language, address, fingerprint=None, key=None, **payload):
     """A custom task because we might need to send the email with a custom set of GPG keys."""
 

@@ -38,11 +38,21 @@ User = get_user_model()
 log = get_task_logger(__name__)
 
 
-def homepage_task(task, language_param='language'):
+def activate_language(task, language_param='language'):
     """Decorator for tasks that activates the language passed to it.
 
     Decorate a task that accepts the ``language`` parameter to automatically activate the passed
-    language for this task.
+    language for this task. For example, given the task::
+
+        from django.utils.translation import ugettext as _
+
+        @shared_task
+        @activate_language
+        def my_task(language):
+            log.info(_('Text in English'))
+
+    ... will output the text in the language passed to it (assuming you have created the propper
+    translations, of course.
 
     Parameters
     ----------
