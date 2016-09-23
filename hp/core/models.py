@@ -35,6 +35,7 @@ from .modelfields import LocalizedCharField
 from .modelfields import LocalizedTextField
 from .querysets import AddressActivityQuerySet
 from .querysets import AddressQuerySet
+from .querysets import BlogPostQuerySet
 
 
 class BaseModel(models.Model):
@@ -66,6 +67,8 @@ class Page(BasePage):
 
 
 class BlogPost(BasePage):
+    objects = BlogPostQuerySet.as_manager()
+
     sticky = models.BooleanField(default=False, help_text=_(
         'Pinned at the top of any list of blog posts.'))
 

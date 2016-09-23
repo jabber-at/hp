@@ -195,7 +195,7 @@ class PageView(TranslateSlugViewMixin, DetailView):
 
 
 class BlogPostListView(ListView):
-    queryset = BlogPost.objects.filter(published=True).order_by('-sticky', '-created')
+    queryset = BlogPost.objects.published().blog_order()
     paginate_by = 10
 
 
