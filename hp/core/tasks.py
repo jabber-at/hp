@@ -13,7 +13,10 @@
 # You should have received a copy of the GNU General Public License along with django-xmpp-account.
 # If not, see <http://www.gnu.org/licenses/>.
 
+import inspect
+
 from datetime import timedelta
+from functools import wraps
 
 from celery import shared_task
 from celery.utils.log import get_task_logger
@@ -23,6 +26,7 @@ from django.conf import settings
 from django.contrib.auth import get_user_model
 from django.core.mail import EmailMessage
 from django.utils import timezone
+from django.utils import translation
 from .models import Address
 from .models import AddressActivity
 from .models import CachedMessage
@@ -32,6 +36,46 @@ from xmpp_http_upload.models import Upload
 
 User = get_user_model()
 log = get_task_logger(__name__)
+
+
+def homepage_task(task, language_param='language'):
+    """Decorator for tasks that activates the language passed to it.
+
+    Decorate a task that accepts the ``language`` parameter to automatically activate the passed
+    language for this task.
+
+    Parameters
+    ----------
+
+    language_param : str, optional
+        Name of the language parameter used to pass the language.
+    """
+    def _decorator(*args, **kwargs):
+        sig = inspect.signature(task)
+        bound = sig.bind(*args, **kwargs)
+
+        # Requires Python 3.5
+        #bound.apply_defaults()
+
+        # Find out if any language was passed to the task
+        old_language = None
+        language = None
+        if language_param in sig.parameters:
+            # TODO/NOTE: Might not work if default is used (see apply_defaults above)
+            language = bound.arguments[language_param]
+
+        try:
+            if language is not None:
+                old_language = translation.get_language()
+                translation.activate(language)
+
+            return task(*args, **kwargs)
+        finally:
+            # Reactivate old language
+            if language is not None:
+                translation.activate(old_language)
+
+    return wraps(task)(_decorator)
 
 
 @shared_task

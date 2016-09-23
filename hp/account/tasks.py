@@ -13,10 +13,7 @@
 # You should have received a copy of the GNU General Public License along with django-xmpp-account.
 # If not, see <http://www.gnu.org/licenses/>.
 
-import inspect
-
 from datetime import timedelta
-from functools import wraps
 from urllib.error import URLError
 
 from celery import shared_task
@@ -32,6 +29,7 @@ from django_xmpp_backends import backend
 
 from core.models import Address
 from core.utils import format_timedelta
+from core.tasks import homepage_task
 
 from .models import Confirmation
 from .models import UserLogEntry
@@ -39,43 +37,6 @@ from .constants import PURPOSE_SET_EMAIL
 
 User = get_user_model()
 log = get_task_logger(__name__)
-
-
-def homepage(task, language_param='language'):
-    def _decorator(*args, **kwargs):
-        sig = inspect.signature(task)
-
-        # If the task accepts a "user" argument, get it from the user_pk passed to the task
-        if 'user' in sig.parameters:
-            if 'user_pk' in kwargs:
-                kwargs['user'] = User.objects.get(pk=kwargs.pop('user_pk'))
-            else:
-                arg_index = list(sig.parameters).index('user')
-                args[arg_index] = User.objects.get(pk=kwargs.pop('user_pk'))
-
-        bound = sig.bind(*args, **kwargs)
-
-        # Requires Python 3.5
-        #bound.apply_defaults()
-
-        # Find out if any language was passed to the task
-        old_language = None
-        language = None
-        if 'language' in sig.parameters:
-            language = bound.arguments['language']  # TODO/NOTE: Might not work if default is used
-
-        try:
-            if language is not None:
-                old_language = translation.get_language()
-                translation.activate(language)
-
-            return task(*args, **kwargs)
-        finally:
-            # Reactivate old language
-            if language is not None:
-                translation.activate(old_language)
-
-    return wraps(task)(_decorator)
 
 
 @shared_task(bind=True)
@@ -126,8 +87,9 @@ def add_gpg_key_task(self, user_pk, address, language, fingerprint=None, key=Non
 
 
 @shared_task(bind=True)
-@homepage
-def send_confirmation_task(self, user, to, purpose, language, address=None, **payload):
+@homepage_task
+def send_confirmation_task(self, user_pk, to, purpose, language, address=None, **payload):
+    user = User.objects.get(pk=user_pk)
     if address is not None:
         address = Address.objects.get_or_create(address=address)[0]
 
@@ -137,10 +99,11 @@ def send_confirmation_task(self, user, to, purpose, language, address=None, **pa
 
 
 @shared_task
-@homepage
-def set_email_task(user, to, language, address, fingerprint=None, key=None, **payload):
+@homepage_task
+def set_email_task(user_pk, to, language, address, fingerprint=None, key=None, **payload):
     """A custom task because we might need to send the email with a custom set of GPG keys."""
 
+    user = User.objects.get(pk=user_pk)
     address = Address.objects.get_or_create(address=address)[0]
 
     if key:
