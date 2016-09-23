@@ -193,4 +193,4 @@ def cleanup():
                 log.info('%s: Remove user (gone from backend).')
                 count += 1
 
-            log.info('%s: Removed %s users.', hostname, username)
+        log.info('%s: Removed %s users.', hostname, count)
