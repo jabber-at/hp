@@ -202,13 +202,11 @@ class EmailVerifiedDomainField(BootstrapEmailField):
             resolver = dns.resolver.Resolver()
 
             for typ in ['A', 'AAAA', 'MX']:
-                print('Query %s for %s record' % (domain, typ))
                 try:
                     resolver.query(domain, typ)
                     exists = True
-                    #break
-                except dns.resolver.NXDOMAIN:
-                    print('NXDOMAIN')
+                    break
+                except (dns.resolver.NXDOMAIN, dns.resolver.NoAnswer):
                     continue
 
             if exists is False:
