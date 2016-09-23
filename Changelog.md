@@ -1,5 +1,16 @@
 # Changelog
 
+## 2016-09-23
+
+* Check if the domain of an email address exists when registering or setting a new email address.
+* Remove users from the database that (no longer) exist on the XMPP server.
+* More consistently use variable names.
+
+## 2016-09-21
+
+* Fix anonymous contact form.
+* Verious documentation updates (templatetags, dependencies, use numpydoc, ...)
+
 ## 2016-09-16
 
 * Various admin interface improvements:
