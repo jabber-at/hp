@@ -22,6 +22,7 @@ def basic(request):
     context = {
         'menuitems': MenuItem.objects.all(),
         'site': request.site,
+        'default_site': settings.XMPP_HOSTS[settings.DEFAULT_XMPP_HOST],
         # language switcher
         'other_langs': [(k, v) for k, v in settings.LANGUAGES if k != request.LANGUAGE_CODE],
     }
