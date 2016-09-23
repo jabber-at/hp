@@ -26,13 +26,17 @@ from django.utils import timezone
 from django.utils.http import is_safe_url
 from django.utils.translation import LANGUAGE_SESSION_KEY
 from django.utils.translation import ugettext as _
+from django.views.generic import TemplateView
 from django.views.generic.base import RedirectView
 from django.views.generic.detail import DetailView
 from django.views.generic.edit import FormView
 from django.views.generic.list import ListView
 
+from bootstrap.templatetags.bootstrap import glyph
+
 from .forms import AnonymousContactForm
 from .forms import ContactForm
+from .forms import SelectOSForm
 from .models import Page
 from .models import BlogPost
 from .utils import check_dnsbl
@@ -198,6 +202,17 @@ class BlogPostListView(ListView):
 class BlogPostView(TranslateSlugViewMixin, DetailView):
     queryset = BlogPost.objects.filter(published=True)
     context_object_name = 'post'
+
+
+class ClientsView(TemplateView):
+    template_name = 'core/clients.html'
+
+    def get_context_data(self, *args, **kwargs):
+        context = super(ClientsView, self).get_context_data()
+        context['form'] = SelectOSForm()
+        context['y'] = glyph('ok', context='success')
+        context['n'] = glyph('remove', context='danger')
+        return context
 
 
 class ContactView(BlacklistMixin, DnsBlMixin, FormView):

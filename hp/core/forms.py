@@ -18,6 +18,7 @@ from django.conf import settings
 from django.utils.translation import ugettext_lazy as _
 
 from bootstrap.formfields import BootstrapCharField
+from bootstrap.formfields import BootstrapChoiceField
 from bootstrap.formfields import BootstrapEmailField
 from bootstrap.formfields import BootstrapTextField
 
@@ -52,3 +53,16 @@ class ContactForm(forms.Form):
 
 class AnonymousContactForm(CaptchaFormMixin, ContactForm):
     email = BootstrapEmailField(help_text=_('Your address, so we can get back to you.'))
+
+
+class SelectOSForm(forms.Form):
+    os = BootstrapChoiceField(
+        label=_('Operating System'),
+        choices=[
+            ('any', _('Any operating system')),
+            ('android', 'Android'),
+            ('linux', 'Linux'),
+            ('osx', 'iOS (iPhone)'),
+            ('osx', 'macOS (Mac OS X)'),
+            ('win', 'Windows'),
+        ])

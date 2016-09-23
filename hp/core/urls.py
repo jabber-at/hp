@@ -21,6 +21,7 @@ from . import views
 app_name = 'core'
 urlpatterns = [
     url(_(r'^contact/$'), views.ContactView.as_view(), name='contact'),
+    url(_(r'^clients/$'), views.ClientsView.as_view(), name='clients'),
     url(r'^b/(?P<slug>[a-z0-9-_äöüß]+)/$', views.BlogPostView.as_view(), name='blogpost'),
     url(r'^p/(?P<slug>[a-z0-9-_äöüß]+)/$', views.PageView.as_view(), name='page'),
     url(r'^api/set-lang/$', views.SetLanguageView.as_view(), name='api-set-lang'),

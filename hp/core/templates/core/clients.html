@@ -1,0 +1,96 @@
+{% extends "page.html" %}
+{% load i18n %}
+
+{% block title %}{% trans "Clients" %}{% endblock title %}
+
+{% block content %}
+{% blocktrans with hostname=site.BRAND %}Jabber is an open protocol and anyone may develop a client for it. This
+means there are many different clients to connect to {{ hostname }}.{% endblocktrans %}
+
+<h2>{% trans "So what's the best client?" %}</h2>
+
+<p>{% blocktrans %}Naturally, there are many different opinions on that subject, depending on
+personal preference and what set of features is particularly important to you.
+For example, one client may offer better support for file transfers, while
+another one might work best for Voice/Video calls.{% endblocktrans %}</p>
+
+<p>{% trans "That being said, here is what we have found works best:" %}</p>
+
+<small>(Note: we could highlight the users platform and put it first? Also:
+    Nice-looking logos for each platform?)</small>
+
+<ul>
+    <li>Windows: Gajim</li>
+    <li>Linux: Gajim</li>
+    <li>Android: Conversations</li>
+    <li>...</li>
+</ul>
+
+<h2>{% trans "Can you be more specific?" %}</h2>
+
+{% trans "Sure we can:" %}
+<small>(Note: We could preselect the users OS here, and table below is completely made up data)</small>
+
+<form class="form-horizontal">
+    <div class="form-group">
+        {{ form.os.formgroup }}
+    </div>
+</form>
+
+<table class="table table-bordered">
+<tr>
+    <th rowspan="2">Client</th>
+    <th colspan="5">XEP</th>
+    <th rowspan="2">Notes</th>
+</tr>
+<tr>
+    <th><a href="http://xmpp.org/extensions/xep-0045.html">0045</a></th>
+    <th><a href="http://xmpp.org/extensions/xep-0280.html">0280</a></th>
+    <th><a href="http://xmpp.org/extensions/xep-0313.html">0313</a></th>
+    <th><a href="http://xmpp.org/extensions/xep-0363.html">0363</a></th>
+    <th><a href="http://xmpp.org/extensions/xep-0364.html">0364</a></th>
+</tr>
+<tr class="osx">
+    <td>Adium</td>
+    <td>{{y}}</td><td>{{n}}</td><td>{{y}}</td><td>{{y}}</td><td>{{y}}</td>
+    <td></td>
+</tr>
+<tr class="ios android">
+    <td>ChatSecure</td>
+    <td>{{y}}</td><td>{{y}}</td><td>{{y}}</td><td>{{y}}</td><td>{{y}}</td>
+    <td>bla</td>
+</tr>
+<tr class="android">
+    <td>Conversations</td>
+    <td>{{y}}</td><td>{{y}}</td><td>{{y}}</td><td>{{y}}</td><td>{{y}}</td>
+    <td>whatever</td>
+</tr>
+<tr class="win linux">
+    <td>Gajim</td>
+    <td>{{y}}</td><td>{{n}}</td><td>{{y}}</td><td>{{n}}</td><td>{{y}}</td>
+    <td>Ur super</td>
+</tr>
+<tr class="win linux osx">
+    <td>Jitsi</td>
+    <td>{{n}}</td><td>{{n}}</td><td>{{y}}</td><td>{{y}}</td><td>{{y}}</td>
+    <td>lorem ipsum</td>
+</tr>
+<tr class="linux">
+    <td>mcabber</td>
+    <td>{{n}}</td><td>{{n}}</td><td>{{n}}</td><td>{{n}}</td><td>{{y}}</td>
+    <td>wuhu</td>
+</tr>
+<tr class="win linux">
+    <td>Pidgin</td>
+    <td>{{y}}</td><td>{{n}}</td><td>{{y}}</td><td>{{y}}</td><td>{{y}}</td>
+    <td>irgendein text</td>
+</tr>
+<tr class="linux">
+    <td>Profanity</td>
+    <td>{{n}}</td><td>{{n}}</td><td>{{n}}</td><td>{{n}}</td><td>{{y}}</td>
+    <td>Oida!</td>
+</tr>
+
+</table>
+
+{% endblock content %}
