@@ -5,6 +5,10 @@
 <link href="{% static 'css/blog.css' %}" rel="stylesheet">
 {% endblock head %}
 
+{% block extrahead %}
+<link rel="alternate" type="application/rss+xml" title="RSS" href="http://feeds.feedburner.com/TheRssBlog">
+{% endblock extrahead %}
+
 {% block title %}{% trans "jabber.at blog" %}{% endblock title %}
 
 {% block content %}
