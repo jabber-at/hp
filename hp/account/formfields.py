@@ -15,6 +15,8 @@
 
 import re
 
+import dns.resolver
+
 from django import forms
 from django.conf import settings
 from django.core.validators import RegexValidator
@@ -22,6 +24,7 @@ from django.utils.html import format_html
 from django.utils.translation import ugettext_lazy as _
 
 from bootstrap.formfields import BootstrapCharField
+from bootstrap.formfields import BootstrapEmailField
 from bootstrap.formfields import BootstrapFileField
 from bootstrap.formfields import BootstrapMixin
 
@@ -165,3 +168,51 @@ class KeyUploadField(BootstrapFileField):
             })
 
         return value
+
+
+class EmailVerifiedDomainField(BootstrapEmailField):
+    """An email formfield that verifies that the domain actually exists.
+
+    Parameters
+    ----------
+
+    verify_domain : bool, optional
+        Pass ``False`` if you don't want to verify the domain. If you do, this class
+        behaves no differently then its parent class.
+    kwargs
+        All passed to the parent class.
+    """
+    def __init__(self, verify_domain=True, **kwargs):
+        self._verify_domain = verify_domain
+        if verify_domain is True:
+            kwargs.setdefault('error_messages', {})
+            kwargs['error_messages'].setdefault(
+                'domain-does-not-exist', _('The domain "%(domain)s" does not exist.'))
+
+        super(EmailVerifiedDomainField, self).__init__(**kwargs)
+
+    def clean(self, *args, **kwargs):
+        email = super(EmailVerifiedDomainField, self).clean(*args, **kwargs)
+        if not email:
+            return email
+
+        _node, domain = email.rsplit('@', 1)
+        if domain and self._verify_domain:
+            exists = False
+            resolver = dns.resolver.Resolver()
+
+            for typ in ['A', 'AAAA', 'MX']:
+                print('Query %s for %s record' % (domain, typ))
+                try:
+                    resolver.query(domain, typ)
+                    exists = True
+                    #break
+                except dns.resolver.NXDOMAIN:
+                    print('NXDOMAIN')
+                    continue
+
+            if exists is False:
+                raise forms.ValidationError(self.error_messages['domain-does-not-exist'] % {
+                    'domain': domain,
+                })
+        return email

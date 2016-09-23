@@ -18,16 +18,16 @@ from django.conf import settings
 from django.contrib.auth.forms import AuthenticationForm
 from django.utils.translation import ugettext_lazy as _
 
-from bootstrap.formfields import BootstrapEmailField
 from bootstrap.formfields import BootstrapPasswordField
 from bootstrap.widgets import BootstrapPasswordInput
 
 from core.forms import CaptchaFormMixin
 
-from .models import User
-from .formfields import UsernameField
+from .formfields import EmailVerifiedDomainField
 from .formfields import FingerprintField
 from .formfields import KeyUploadField
+from .formfields import UsernameField
+from .models import User
 
 _BANNED_EMAIL_DOMAINS = getattr(settings, 'BANNED_EMAIL_DOMAINS', set())
 _MIN_USERNAME_LENGTH = getattr(settings, 'MIN_USERNAME_LENGTH', 2)
@@ -92,7 +92,7 @@ class CreateUserForm(GPGMixin, CaptchaFormMixin, forms.ModelForm):
             'MAX_LENGTH': _MAX_USERNAME_LENGTH,
         }
     )
-    email = BootstrapEmailField(
+    email = EmailVerifiedDomainField(
         help_text=_('Required, a confirmation email will be sent to this address.')
     )
 
@@ -158,7 +158,7 @@ class SetPasswordForm(forms.Form):
 
 
 class SetEmailForm(GPGMixin, forms.Form):
-    email = BootstrapEmailField(
+    email = EmailVerifiedDomainField(
         help_text=_('Required, an email will be sent to this address to confirm the change.')
     )
 
