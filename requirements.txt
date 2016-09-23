@@ -11,6 +11,7 @@ django-xmpp-backends==0.1
 django-xmpp-http-upload==0.4.1
 dnspython==1.14.0
 hiredis==0.2.0
+lxml==3.6.4
 pip>=8.1.2
 pygpgme==0.3
 setuptools>=26.0.0
