@@ -183,7 +183,7 @@ def cleanup():
         if len(existing_users) < 100:
             # A safety check if the backend for some reason does not return any users and does not
             # raise an exception.
-            log.warn('Skipping %s: Only %s users received.', hostname, len(existing_users))
+            log.info('Skipping %s: Only %s users received.', hostname, len(existing_users))
             continue
 
         count = 0
