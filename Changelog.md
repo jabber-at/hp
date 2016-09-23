@@ -7,6 +7,7 @@
     screen).
   * Add a `- and/or -` note between GPG fingerprint and key upload, to make sure it's clear you
     don't have to do both.
+* Add a RSS 2.0 feed to the main page and individual blog posts.
 * Check if the domain of an email address exists when registering or setting a new email address.
 * Remove users from the database that (no longer) exist on the XMPP server.
 * More consistently use variable names.
