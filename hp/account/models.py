@@ -234,8 +234,8 @@ class Confirmation(BaseModel):
     }
 
     def send(self):
-        hostname = self.payload['server']
-        server = settings.XMPP_HOSTS[hostname]
+        hostname = self.payload['hostname']
+        host = settings.XMPP_HOSTS[hostname]
         path = reverse('account:%s_confirm' % self.purpose, kwargs={'key': self.key})
 
         context = {
@@ -254,7 +254,7 @@ class Confirmation(BaseModel):
             text = render_to_string('account/confirm/%s.txt' % self.purpose, context)
             html = render_to_string('account/confirm/%s.html' % self.purpose, context)
 
-        frm = server['DEFAULT_FROM_EMAIL']
+        frm = host['DEFAULT_FROM_EMAIL']
 
         custom_key = self.payload.get('gpg_recv_pub')  # key from the payload
 
@@ -266,7 +266,7 @@ class Confirmation(BaseModel):
             keys = list(self.user.gpg_keys.valid().values_list('fingerprint', flat=True))
 
         if custom_key or keys:
-            sign_fp = server.get('GPG_FINGERPRINT')
+            sign_fp = host.get('GPG_FINGERPRINT')
 
             with self.user.gpg_keyring(default_trust=True, hostname=hostname) as backend:
                 if custom_key:

@@ -101,7 +101,7 @@ class UserAdmin(BaseUserAdmin):
             else:
                 send_confirmation_task.delay(
                     user_pk=user.pk, purpose=PURPOSE_REGISTER, language='en', to=user.email,
-                    base_url=base_url, server=user.domain)
+                    base_url=base_url, hostname=user.domain)
 
     send_registration.short_description = _('Send new registration confirmations')
 
