@@ -55,6 +55,7 @@ from .managers import UserLogEntryManager
 from .querysets import ConfirmationQuerySet
 from .querysets import GpgKeyQuerySet
 from .querysets import UserLogEntryQuerySet
+from .querysets import UserQuerySet
 
 
 log = logging.getLogger(__name__)
@@ -93,7 +94,7 @@ class User(XmppBackendUser, PermissionsMixin):
     # have an email address).
     created_in_backend = models.BooleanField(default=False)
 
-    objects = UserManager()
+    objects = UserManager.from_queryset(UserQuerySet)()
 
     USERNAME_FIELD = 'username'
     REQUIRED_FIELDS = ('email', )

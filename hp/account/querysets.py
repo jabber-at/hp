@@ -18,6 +18,20 @@ from django.db import models
 from django.utils import timezone
 
 
+class UserQuerySet(models.QuerySet):
+    def count_confirmations(self):
+        return self.annotate(count_confirmations=models.Count('confirmations', distinct=True))
+
+    def has_no_confirmations(self):
+        return self.filter(confirmations__isnull=True).distinct()
+
+    def has_confirmations(self):
+        return self.filter(confirmations__isnull=False).distinct()
+
+    def host(self, hostname):
+        return self.filter(username__endswith='@%s' % hostname)
+
+
 class GpgKeyQuerySet(models.QuerySet):
     def valid(self, now=None):
         if now is None:
