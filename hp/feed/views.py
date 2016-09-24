@@ -14,9 +14,12 @@
 # not, see <http://www.gnu.org/licenses/>.
 
 from lxml import etree
+from strict_rfc3339 import timestamp_to_rfc3339_utcoffset
 
+from django.conf import settings
 from django.core.urlresolvers import reverse
 from django.http import HttpResponse
+from django.utils import timezone
 from django.utils import translation
 from django.utils.http import http_date
 from django.utils.translation import ugettext as _
@@ -29,6 +32,7 @@ from core.models import BlogPost
 class FeedMixin(MultipleObjectMixin):
     queryset = BlogPost.objects.published().blog_order()
     content_type = 'application/xml'
+    atom_ns = 'http://www.w3.org/2005/Atom'
 
     def sub(self, root, tag, text=None, **attrs):
         e = etree.SubElement(root, tag, **attrs)
@@ -39,6 +43,9 @@ class FeedMixin(MultipleObjectMixin):
     def get_content_type(self):
         return self.content_type
 
+    def get_feed_title(self, request):
+        return _('%s - Recent updates') % request.site['BRAND']
+
     def get(self, request, language):
         ctype = self.get_content_type()
 
@@ -48,7 +55,51 @@ class FeedMixin(MultipleObjectMixin):
 
 
 class AtomFeed(FeedMixin, View):
-        pass
+    """Generate an Atom feed.
+
+    .. seealso::
+
+        https://validator.w3.org/feed/docs/atom.html
+    """
+
+    def serialize_items(self, request, language, queryset):
+        default_host = settings.XMPP_HOSTS[settings.DEFAULT_XMPP_HOST]
+        feed_id = '%s%s' % (default_host['PRIMARY_URL'], request.get_full_path())
+
+        root = etree.Element("feed", nsmap={'atom': self.atom_ns, })
+        self.sub(root, 'title', self.get_feed_title(request))
+        self.sub(root, 'id', feed_id)
+        updated_stamps = []
+
+        # TODO: link elements to other languages?
+        root.sub('link', href=feed_id, rel=self)
+
+        # TODO: icon, logo, rights, subtitle
+
+        for post in queryset:
+            updated_stamps.append(post.updated)
+            path = reverse('core:blogpost', kwargs={'slug': post.slug.current})
+            canonical_url = '%s%s' % (default_host['PRIMARY_URL'], path)
+
+            entry = self.sub(root, 'entry')
+            self.sub(entry, 'id', canonical_url)
+            self.sub(entry, 'title', post.title.current)
+            self.sub(entry, 'updated', timestamp_to_rfc3339_utcoffset(post.updated.timestamp()))
+            self.sub(entry, 'published', timestamp_to_rfc3339_utcoffset(post.created.timestamp()))
+            self.sub(entry, 'link', href=canonical_url)
+            self.sub(entry, 'content', post.text.current, type="html")
+            self.sub(entry, 'summary', post.text.current[:160], type="html")
+
+            author = self.sub(entry, 'author')
+            self.sub(author, 'name', post.author.node)
+
+        if updated_stamps:
+            feed_updated = min(updated_stamps)
+        else:
+            feed_updated = timezone.now()
+        self.sub(root, 'updated', timestamp_to_rfc3339_utcoffset(feed_updated.timestamp()))
+
+        return root
 
 
 class RSS2Feed(FeedMixin, View):
@@ -61,15 +112,16 @@ class RSS2Feed(FeedMixin, View):
     """
     def serialize_items(self, request, language, queryset):
         # see: http://www.feedvalidator.org/docs/warning/MissingAtomSelfLink.html
-        atom_ns = 'http://www.w3.org/2005/Atom'
         href = request.build_absolute_uri(request.get_full_path())
 
+        default_host = settings.XMPP_HOSTS[settings.DEFAULT_XMPP_HOST]
+
         root = etree.Element("rss", version="2.0", nsmap={
-            'atom': atom_ns,
+            'atom': self.atom_ns,
         })
         channel = self.sub(root, 'channel')
 
-        self.sub(channel, 'title', _('%s - Recent updates') % request.site['BRAND'])
+        self.sub(channel, 'title', self.get_feed_title(request))
         self.sub(channel, 'link', request.build_absolute_uri(reverse('core:home')))
         self.sub(channel, 'description', _('Follow recent updates for %s') % request.site['BRAND'])
         self.sub(channel, 'language', language)
@@ -77,16 +129,18 @@ class RSS2Feed(FeedMixin, View):
         # TODO: image, skipHours
 
         # add url (NOTE: This does not have anything to do with the Atom standard)
-        self.sub(channel, '{%s}link' % atom_ns, rel='self', type='application/rss+xml', href=href)
+        self.sub(channel, '{%s}link' % self.atom_ns, rel='self', type='application/rss+xml',
+                 href=href)
 
         for post in queryset:
             path = reverse('core:blogpost', kwargs={'slug': post.slug.current})
+            guid = '%s%s' % (default_host['PRIMARY_URL'], path)
 
             item = self.sub(channel, 'item')
             self.sub(item, 'title', post.title.current)
             self.sub(item, 'description', post.text.current[:160])
             self.sub(item, 'link', request.build_absolute_uri(path))
-            self.sub(item, 'guid', 'https://jabber.at%s' % path, isPermaLink='true')
+            self.sub(item, 'guid', guid, isPermaLink='true')
             self.sub(item, 'pubDate', http_date(post.created.timestamp()))
 
             # We do not add an author element, because this *requires* an email address.

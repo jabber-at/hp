@@ -20,4 +20,5 @@ from . import views
 app_name = 'feed'
 urlpatterns = [
     url(r'^rss2/(?P<language>[a-z][a-z])/$', views.RSS2Feed.as_view(), name='rss2'),
+    url(r'^atom/(?P<language>[a-z][a-z])/$', views.AtomFeed.as_view(), name='atom'),
 ]
