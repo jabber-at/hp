@@ -94,6 +94,9 @@ class User(XmppBackendUser, PermissionsMixin):
     # have an email address).
     created_in_backend = models.BooleanField(default=False)
 
+    # If the user is blocked.
+    blocked = models.BooleanField(default=False)
+
     objects = UserManager.from_queryset(UserQuerySet)()
 
     USERNAME_FIELD = 'username'

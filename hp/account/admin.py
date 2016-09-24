@@ -79,7 +79,8 @@ class UserAdmin(BaseUserAdmin):
     )
     fieldsets = (
         (None, {
-            'fields': ('username', 'email', 'registered', 'registration_method', 'confirmed', )
+            'fields': ('username', 'email', 'registered', 'registration_method', 'confirmed',
+                       'blocked', )
         }),
     )
     list_display = ('username', 'email', 'registered', 'confirmed', )
