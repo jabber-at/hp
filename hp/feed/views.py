@@ -72,7 +72,7 @@ class AtomFeed(FeedMixin, View):
         updated_stamps = []
 
         # TODO: link elements to other languages?
-        root.sub('link', href=feed_id, rel=self)
+        self.sub('link', href=feed_id, rel=self)
 
         # TODO: icon, logo, rights, subtitle
 
