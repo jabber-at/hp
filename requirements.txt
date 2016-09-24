@@ -15,5 +15,6 @@ lxml==3.6.4
 pip>=8.1.2
 pygpgme==0.3
 setuptools>=26.0.0
+strict-rfc3339==0.7
 # not yet released
 git+https://github.com/mathiasertl/gpg-mime.git
