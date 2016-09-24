@@ -70,19 +70,54 @@ class BasePage(BaseModel):
 
     def get_text_summary(self):
         text = html.fromstring(self.text.current).text_content()
-        return re.sub('[\r\n]+', '\n', text).split('\n', 1)[0]
+        return re.sub('[\r\n]+', '\n', text).split('\n', 1)[0].strip(' \n')
+
+    def get_sentences(self, summary):
+        return [m.strip(' .') for m in re.split('\. +', summary)]
+
+    def crop_summary(self, summary, length):
+        summary = ''
+        sentences = self.get_sentences(summary)
+        for sentence in sentences:
+            new_summary = '%s %s.' % (summary, sentence)
+            if len(new_summary) > length:
+                # If summary is currently Falsy, we return new_summary instead. This happens when
+                # the first sentence is already longer then 160 chars.
+                return summary or new_summary
+            summary = new_summary
+        return summary
 
     def get_meta_summary(self):
-        pass
+        if self.meta_summary.current:
+            return self.meta_summary.current
+
+        full_summary = self.get_text_summary()
+        if len(full_summary) <= 160:
+            return full_summary
+        return self.crop_summary(full_summary, 160)
 
     def get_twitter_summary(self):
-        pass
+        if self.twitter_summary.current:
+            return self.twitter_summary.current
+
+        full_summary = self.get_text_summary()
+        if len(full_summary) <= 200:
+            return full_summary
+        return self.crop_summary(full_summary, 200)
 
     def get_opengraph_summary(self):
-        pass
+        if self.opengraph_summary.current:
+            return self.opengraph_summary.current
+
+        summary = self.get_text_summary()
+        return self.get_sentences(summary)[:3]
 
     def get_html_summary(self):
-        pass
+        if self.html_summary.current:
+            return self.html_summary.current
+
+        # TODO: Not yet implemented. For blog preview, RSS and Atom feeds.
+        return self.text.current
 
     def get_canonical_url(self):
         """Get the full canonical URL of this object."""
