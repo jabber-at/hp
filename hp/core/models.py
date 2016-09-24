@@ -110,7 +110,7 @@ class BasePage(BaseModel):
             return self.opengraph_summary.current
 
         summary = self.get_text_summary()
-        return self.get_sentences(summary)[:3]
+        return '. '.join(self.get_sentences(summary)[:3]) + '.'
 
     def get_html_summary(self):
         if self.html_summary.current:
@@ -121,7 +121,8 @@ class BasePage(BaseModel):
 
     def get_canonical_url(self):
         """Get the full canonical URL of this object."""
-        return '%s%s' % (settings.CANONICAL_HOST, self.get_absolute_url())
+        host = settings.XMPP_HOSTS[settings.DEFAULT_XMPP_HOST]
+        return '%s%s' % (host['CANONICAL_BASE_URL'], self.get_absolute_url())
 
     class Meta:
         abstract = True
