@@ -66,7 +66,7 @@ class BasePage(BaseModel):
         help_text=_('At most 200 characters.'))
     opengraph_summary = LocalizedCharField(
         max_length=255, blank=True, null=True, verbose_name=_('Facebook'), help_text=_(
-            'Two tp four sentences, default: first three sentences.'))
+            'Two to four sentences, default: first three sentences.'))
     html_summary = LocalizedTextField(blank=True, null=True, verbose_name="HTML", help_text=_(
         'Any length, but must be valid HTML. Shown in RSS feeds.'))
 
