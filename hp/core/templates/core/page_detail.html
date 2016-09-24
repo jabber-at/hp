@@ -4,8 +4,8 @@
 {% block title %}{{ object.title.current }}{% endblock title %}
 
 {% block opengraph %}
-{{ block.super }}
 <meta property="og:type" content="website">
+{{ block.super }}
 {% include "core/include/basepage_extrahead.html" %}
 {% endblock opengraph %}
 
