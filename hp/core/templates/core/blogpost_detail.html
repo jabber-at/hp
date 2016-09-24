@@ -5,25 +5,34 @@
 <link href="{% static 'css/blog.css' %}" rel="stylesheet">
 {% endblock head %}
 
-{% block extrahead %}
+{% block metatags %}
+{{ block.super }}
 {% get_current_language as LANGUAGE_CODE %}
 <meta name="description" content="{{ post.get_meta_summary }}">
 <link rel="alternate" type="application/rss+xml" title="RSS" href="{{ default_site.CANONICAL_BASE_URL }}{% url "feed:rss2" language=LANGUAGE_CODE %}">
-{% endblock extrahead %}
+{% endblock metatags %}
 
 {% block opengraph %}
-<meta property="og:type" content="article">
+<meta property="og:type" content="article" />
+
 {{ block.super }}
+
 {% with object=post %}
 {% include "core/include/basepage_extrahead.html" %}
 {% endwith %}
 {% if FACEBOOK_PAGE %}
-<meta property="article:author" content="https://facebook.com/{{ FACEBOOK_PAGE }}">
-<meta property="article:publisher" content="https://facebook.com/{{ FACEBOOK_PAGE }}">
+<meta property="article:author" content="https://facebook.com/{{ FACEBOOK_PAGE }}" />
+<meta property="article:publisher" content="https://facebook.com/{{ FACEBOOK_PAGE }}" />
 {% endif %}
-<meta property="article:modified_time" content="{{ post.updated|date:"c" }}">
-<meta property="article:published_time" content="{{ post.created|date:"c" }}">
+<meta property="article:modified_time" content="{{ post.updated|date:"c" }}" />
+<meta property="article:published_time" content="{{ post.created|date:"c" }}" />
 {% endblock opengraph %}
+
+{% block twitter %}
+{{ block.super }}
+<meta name="twitter:title" content="{{ post.title.current }}" />
+<meta name="twitter:description" content="{{ post.get_twitter_summary }}" />
+{% endblock twitter %}
 
 {% block title %}{{ post.title.current }}{% endblock title %}
 

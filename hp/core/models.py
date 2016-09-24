@@ -70,7 +70,7 @@ class BasePage(BaseModel):
 
     def get_text_summary(self):
         text = html.fromstring(self.text.current).text_content()
-        return re.sub('[\r\n]+', '\n', text).split('\n', 1)[0].strip(' \n')
+        return re.sub('[\r\n]+', '\n', text).split('\n', 1)[0].strip(' \n').strip()
 
     def get_sentences(self, summary):
         return [m.strip(' .') for m in re.split('\. +', summary)]
@@ -85,7 +85,7 @@ class BasePage(BaseModel):
                 # the first sentence is already longer then 160 chars.
                 return summary or new_summary
             summary = new_summary
-        return summary
+        return summary.strip()
 
     def get_meta_summary(self):
         if self.meta_summary.current:
@@ -94,7 +94,7 @@ class BasePage(BaseModel):
         full_summary = self.get_text_summary()
         if len(full_summary) <= 160:
             return full_summary
-        return self.crop_summary(full_summary, 160)
+        return self.crop_summary(full_summary, 160).strip()
 
     def get_twitter_summary(self):
         if self.twitter_summary.current:
@@ -103,14 +103,14 @@ class BasePage(BaseModel):
         full_summary = self.get_text_summary()
         if len(full_summary) <= 200:
             return full_summary
-        return self.crop_summary(full_summary, 200)
+        return self.crop_summary(full_summary, 200).strip()
 
     def get_opengraph_summary(self):
         if self.opengraph_summary.current:
-            return self.opengraph_summary.current
+            return self.opengraph_summary.current.strip()
 
         summary = self.get_text_summary()
-        return '. '.join(self.get_sentences(summary)[:3]) + '.'
+        return '. '.join(self.get_sentences(summary)[:3]).strip() + '.'
 
     def get_html_summary(self):
         if self.html_summary.current:
