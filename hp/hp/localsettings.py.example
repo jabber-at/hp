@@ -195,6 +195,7 @@ DEFAULT_XMPP_HOST = 'example.com'
 ################
 # Various social media accounts
 #FACEBOOK_PAGE = 'example.com'
+#FACEBOOK_PAGE_ID = '...'  # find here: http://findmyfbid.com/
 #TWITTER_HANDLE = 'example_com'
 
 ########################

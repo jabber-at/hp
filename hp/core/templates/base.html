@@ -17,6 +17,7 @@
     <meta name="captcha-refresh-url" content="{% url 'captcha-refresh' %}">
     <meta name="account:api-check-user" content="{% url 'account:api-check-user' %}">
     {% block opengraph %}
+    <meta property="fb:app_id" content="{{ FACEBOOK_PAGE_ID }}">
     <meta property="og:site_name" content="{{ default_site.BRAND }}">
     <meta property="og:image" content="{{ default_site.CANONICAL_BASE_URL }}{% static "core/img/fb.png" %}">
     {% if default_site.FACEBOOK_PAGE %}

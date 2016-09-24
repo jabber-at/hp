@@ -26,6 +26,7 @@ def basic(request):
         # language switcher
         'other_langs': [(k, v) for k, v in settings.LANGUAGES if k != request.LANGUAGE_CODE],
         'FACEBOOK_PAGE': settings.FACEBOOK_PAGE,
+        'FACEBOOK_PAGE_ID': settings.FACEBOOK_PAGE_ID,
         'TWITTER_HANDLE': settings.TWITTER_HANDLE,
     }
     return context
