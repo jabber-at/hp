@@ -306,10 +306,10 @@ for key, config in XMPP_HOSTS.items():
     config.setdefault('ALLOWED_HOSTS', [])
     config.setdefault('ALLOW_EMAIL', False)
     config.setdefault('BRAND', key)
+    config.setdefault('CANONICAL_BASE_URL', 'https://%s' % key)
     config.setdefault('CONTACT_ADDRESS', CONTACT_ADDRESS)
     config.setdefault('DEFAULT_FROM_EMAIL', DEFAULT_FROM_EMAIL)
     config.setdefault('REGISTRATION', True)
-    config.setdefault('PRIMARY_URL', 'https://%s' % key)
 
 if not ALLOWED_HOSTS:
     for config in XMPP_HOSTS.values():
