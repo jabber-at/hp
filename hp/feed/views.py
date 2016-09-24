@@ -59,17 +59,26 @@ class AtomFeed(FeedMixin, View):
 
     .. seealso::
 
-        https://validator.w3.org/feed/docs/atom.html
+        * `Specification <https://validator.w3.org/feed/docs/rfc4287.html>`_
+        * `Validator <https://validator.w3.org/feed/docs/atom.html>`_
     """
 
     def serialize_items(self, request, language, queryset):
         default_host = settings.XMPP_HOSTS[settings.DEFAULT_XMPP_HOST]
         feed_id = '%s%s' % (default_host['PRIMARY_URL'], request.get_full_path())
 
-        root = etree.Element("feed", nsmap={'atom': self.atom_ns, })
+        root = etree.Element("feed", nsmap={
+            None: self.atom_ns,
+            'dc': 'http://purl.org/dc/elements/1.1/',
+        })
         self.sub(root, 'title', self.get_feed_title(request))
         self.sub(root, 'id', feed_id)
-        updated_stamps = []
+
+        try:
+            updated = max([q.updated for q in queryset])
+        except ValueError:
+            updated = timezone.now()
+        self.sub(root, 'updated', timestamp_to_rfc3339_utcoffset(updated.timestamp()))
 
         # TODO: link elements to other languages?
         self.sub(root, 'link', href=feed_id, rel='self')
@@ -77,7 +86,6 @@ class AtomFeed(FeedMixin, View):
         # TODO: icon, logo, rights, subtitle
 
         for post in queryset:
-            updated_stamps.append(post.updated)
             path = reverse('core:blogpost', kwargs={'slug': post.slug.current})
             canonical_url = '%s%s' % (default_host['PRIMARY_URL'], path)
 
@@ -92,12 +100,6 @@ class AtomFeed(FeedMixin, View):
 
             author = self.sub(entry, 'author')
             self.sub(author, 'name', post.author.node)
-
-        if updated_stamps:
-            feed_updated = min(updated_stamps)
-        else:
-            feed_updated = timezone.now()
-        self.sub(root, 'updated', timestamp_to_rfc3339_utcoffset(feed_updated.timestamp()))
 
         return root
 
