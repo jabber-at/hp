@@ -54,6 +54,10 @@ class BasePage(BaseModel):
     published = models.BooleanField(default=True, help_text=_(
         'Wether or not the page is public.'))
 
+    def get_canonical_url(self):
+        """Get the full canonical URL of this object."""
+        return '%s%s' % (settings.CANONICAL_HOST, self.get_absolute_url())
+
     class Meta:
         abstract = True
 
