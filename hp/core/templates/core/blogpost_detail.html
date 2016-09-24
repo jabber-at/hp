@@ -21,8 +21,8 @@
 <meta property="article:author" content="https://facebook.com/{{ FACEBOOK_PAGE }}">
 <meta property="article:publisher" content="https://facebook.com/{{ FACEBOOK_PAGE }}">
 {% endif %}
-<meta property="article:modified_time" content="{{ object.updated|date:"c" }}">
-<meta property="article:published_time" content="{{ object.created|date:"c" }}">
+<meta property="article:modified_time" content="{{ post.updated|date:"c" }}">
+<meta property="article:published_time" content="{{ post.created|date:"c" }}">
 {% endblock opengraph %}
 
 {% block title %}{{ post.title.current }}{% endblock title %}
