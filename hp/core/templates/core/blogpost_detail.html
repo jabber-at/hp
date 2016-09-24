@@ -8,6 +8,15 @@
 {% block extrahead %}
 {% get_current_language as LANGUAGE_CODE %}
 <link rel="alternate" type="application/rss+xml" title="RSS" href="{{ default_site.CANONICAL_BASE_URL }}{% url "feed:rss2" language=LANGUAGE_CODE %}">
+
+<meta property="og:type" content="article">
+{% with object=post %}
+{% include "core/include/basepage_extrahead.html" %}
+{% endwith %}
+<meta property="article:author" content="https://facebook.com/jabber.at">
+<meta property="article:publisher" content="https://facebook.com/jabber.at">
+<meta property="article:modified_time" content="{{ object.updated|date:"c" }}">
+<meta property="article:published_time" content="{{ object.created|date:"c" }}">
 {% endblock extrahead %}
 
 {% block title %}{{ post.title.current }}{% endblock title %}
