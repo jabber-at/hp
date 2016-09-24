@@ -6,10 +6,7 @@
 {% endblock head %}
 
 {% block metatags %}
-{{ block.super }}
-{% get_current_language as LANGUAGE_CODE %}
 <meta name="description" content="{{ post.get_meta_summary }}">
-<link rel="alternate" type="application/rss+xml" title="RSS" href="{{ default_site.CANONICAL_BASE_URL }}{% url "feed:rss2" language=LANGUAGE_CODE %}">
 {% endblock metatags %}
 
 {% block opengraph %}
