@@ -53,7 +53,6 @@ DATABASES = {
 #MEDIA_URL = '/media/'
 #STATIC_ROOT = '/var/www/jabber.at/static/'
 
-
 # Set this to True during development
 #DEBUG = True
 
