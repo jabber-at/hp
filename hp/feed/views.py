@@ -79,7 +79,7 @@ class AtomFeed(FeedMixin, View):
             updated = max([q.updated for q in queryset])
         except ValueError:
             updated = timezone.now()
-        self.sub(root, 'updated', timestamp_to_rfc3339_utcoffset(updated.timestamp()))
+        self.sub(root, 'updated', timestamp_to_rfc3339_utcoffset(int(updated.timestamp())))
 
         # TODO: link elements to other languages? They have title attributes?
         self.sub(root, 'link', href=feed_id, rel='self')
@@ -92,8 +92,10 @@ class AtomFeed(FeedMixin, View):
             entry = self.sub(root, 'entry')
             self.sub(entry, 'id', canonical_url)
             self.sub(entry, 'title', post.title.current)
-            self.sub(entry, 'updated', timestamp_to_rfc3339_utcoffset(post.updated.timestamp()))
-            self.sub(entry, 'published', timestamp_to_rfc3339_utcoffset(post.created.timestamp()))
+            self.sub(entry, 'updated', timestamp_to_rfc3339_utcoffset(
+                int(post.updated.timestamp())))
+            self.sub(entry, 'published', timestamp_to_rfc3339_utcoffset(
+                int(post.created.timestamp())))
             self.sub(entry, 'link', href=canonical_url)
             self.sub(entry, 'content', post.text.current, type="html")
             self.sub(entry, 'summary', post.text.current[:160], type="html")
