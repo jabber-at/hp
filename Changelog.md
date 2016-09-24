@@ -1,5 +1,13 @@
 # Changelog
 
+## 2016-09-24
+
+* Add an Atom feed.
+* Add a robots.txt file and a favicon.
+* Add meta tags for Facebook Opengraph and Twitter cards.
+* Add a meta description and canonical URL.
+* Update Readme.md
+
 ## 2016-09-23
 
 * Interface
