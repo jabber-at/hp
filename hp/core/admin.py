@@ -200,8 +200,10 @@ class BlogPostAdmin(BasePageAdmin):
         (None, {
             'fields': ('title', 'slug', 'text'),
         }),
-        (_('Summaries'), {
+        (_('Descriptions'), {
             'fields': ('meta_summary', 'twitter_summary', 'opengraph_summary', 'html_summary', ),
+            'description': _('Descriptions are used by various systems (RSS readers, Facebook, '
+                             '...) to generate previous of this content.'),
         }),
         (_('Meta'), {
             'fields': (('published', 'sticky'), ),
