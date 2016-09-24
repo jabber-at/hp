@@ -42,6 +42,7 @@ form .form-group.fg_captcha input[type="text"] {
  */
 img.rss-logo {
     width: 18px;
+    height: 18px;
     vertical-align: middle;
     margin-right: 4px;
 }
