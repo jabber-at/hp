@@ -11,6 +11,7 @@
 {% endblock extrahead %}
 
 {% block opengraph %}
+{{ block.super }}
 <meta property="og:type" content="article">
 {% with object=post %}
 {% include "core/include/basepage_extrahead.html" %}
