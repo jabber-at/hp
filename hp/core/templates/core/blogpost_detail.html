@@ -13,8 +13,10 @@
 {% with object=post %}
 {% include "core/include/basepage_extrahead.html" %}
 {% endwith %}
-<meta property="article:author" content="https://facebook.com/jabber.at">
-<meta property="article:publisher" content="https://facebook.com/jabber.at">
+{% if FACEBOOK_PAGE %}
+<meta property="article:author" content="https://facebook.com/{{ FACEBOOK_PAGE }}">
+<meta property="article:publisher" content="https://facebook.com/{{ FACEBOOK_PAGE }}">
+{% endif %}
 <meta property="article:modified_time" content="{{ object.updated|date:"c" }}">
 <meta property="article:published_time" content="{{ object.created|date:"c" }}">
 {% endblock extrahead %}
