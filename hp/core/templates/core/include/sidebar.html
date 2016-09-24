@@ -14,7 +14,7 @@
 
 <div class="panel panel-default">
   <div class="panel-heading">
-    <h3 class="panel-title">{% trans "Social media" %}</h3>
+    <h3 class="panel-title">{% trans "Updates" %}</h3>
   </div>
   <ul class="list-group">
     <li class="list-group-item">
@@ -26,6 +26,13 @@
         {% with facebook="jabber.at" %}
             {% include "core/include/facebook_link.html" %}
         {% endwith %}
+    <li class="list-group-item">
+        <a href="{% url "feed:rss2" language=LANGUAGE_CODE %}">
+            <img src="{% static "core/img/rss.svg" %}" class="rss-logo">RSS feed</a>
+    </li>
+    <li class="list-group-item">
+        <a href="{% url "feed:atom" language=LANGUAGE_CODE %}">
+            <img src="{% static "core/img/rss.svg" %}" class="rss-logo">Atom feed</a>
     </li>
   </ul>
 </div>
