@@ -196,7 +196,17 @@ class AuthorFilter(admin.SimpleListFilter):
 
 @admin.register(BlogPost)
 class BlogPostAdmin(BasePageAdmin):
-    fields = ['title', 'slug', 'text', ('published', 'sticky'), ]
+    fieldsets = (
+        (None, {
+            'fields': ('title', 'slug', 'text'),
+        }),
+        (_('Summaries'), {
+            'fields': ('meta_summary', 'twitter_summary', 'opengraph_summary', 'html_summary', ),
+        }),
+        (_('Meta'), {
+            'fields': (('published', 'sticky'), ),
+        }),
+    )
     list_display = ['__str__', 'created', ]
     list_filter = [AuthorFilter, 'published', 'sticky', ]
     ordering = ('sticky', '-created', )
