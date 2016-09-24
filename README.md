@@ -1,46 +1,57 @@
-This project is a loose attempt to replace the homepage at https://jabber.at.
+This repository hosts the code for our homepage at https://jabber.at.
 
-It is not yet a finished project or anything.
+The homepage is still an evolving project, with many features unifinished, maybe buggy, etc.
 
-### Ideas
+### Requirements
 
-What we definetly need:
+* Python 3.4+, Django 1.10+
+* A webserver and a database (anything that works with Django)
+* An XMPP-server, this project interfaces with it via 
+  [django-xmpp-backends](https://github.com/mathiasertl/django-xmpp-backends).
 
-1. blog posts
-2. static pages
-3. site-like framework (so we can show a different hostname depending on the URL)
-4. i18n support (also for articles and pages)
+### Features
 
-More advanced features
+* A pretty standard blog including static pages.
+* Vary some behavior depending on the hostname used, e.g. a different logo on example.com,
+  example.net and example.zone.
+* A contact page, with GPG encryption if the user added keys.
+* Verious tasks are performed asynchronously using a Celery worker. This adds fast response times
+  even if an operation takes a while (e.g. fetching keys, keyservers are notoriously slow) and
+  dynamic retries (e.g. fetching keys, keyservers are notoriously unreliable).
 
-1. accounts.jabber.at integration
-2. test.jabber.at integration
-3. comments on blog posts
+#### User management
 
-Just a brain storming
+* Registration and password reset for XMPP users directly on the homepage.
+* Authentication is performed against the XMPP server, the password is never stored locally.
+* Users can add GPG keys to encrypt emails (password reset, ...) with GPG.
+* Overview of XEP-0363 uploads.
 
-1. some account settings integration (e.g. ability to configure MAM settings)
-2. security stuff (e.g. from where you logged in recently, ...)
-3. notifications/verifications of new logins (e.g. from new countries), maybe?
-4. finally a webclient (shouldn't be to hard, there are js libs for it)
-5. better social media integration (twitter cards, facebook opengraph tags)
-6. calendar export of scheduled downtimes
+### Documentation
+
+The documentation is located at https://jabber.at/doc.
+
+### ChangeLog
+
+See [ChangeLog.md](https://github.com/jabber-at/hp/blob/master/Changelog.md)
 
 ### TODOs
 
-There are obviously still plenty of todos before the page can go live, without order:
+* Improve internationalization (interface text is rarely translated yet).
+* Better management of XEP-0363 uploads (deleting uploads).
+* Tags and comments on blog posts.
+* Add a webclient again (JSXC or converse.js?).
+* Better social media integration (twitter cards, facebook opengraph tags).
+* Calendar export of scheduled downtimes.
+* Minimize Javascript and CSS.
+* Search functionality.
 
-2. Tags for blog posts
-3. Importer for data from account.jabber.at
-4. Internationalized URLs for URL paths (`/contact/` vs. `/kontakt/`)
-5. Provide a webchat
-6. Minimized JavaScript/CSS
-7. Import Tags from Drupal
-8. Automatically convert at least some links from imported Drupal data
-9. Add the ability to edit your email address
-10. RSS feed
-11. Search functionality
-12. Comments?
+#### Ideas
+
+These are a bit further down the road.
+
+1. Some account settings integration (e.g. ability to configure MAM settings)
+2. Security stuff (e.g. from where you logged in recently, ...)
+3. Notifications/verifications of new logins (e.g. from new countries), maybe?
 
 ### Notes
 
@@ -48,54 +59,3 @@ bootrap inspiration for styling the blog:
 
 * http://blackrockdigital.github.io/startbootstrap-blog-home/
 * http://blackrockdigital.github.io/startbootstrap-blog-post/
-
-### Deployment
-
-In your local git checkout (see Development), create a fabric configuration file:
-
-```
-(hp)user@host ~/git/hp $ cat fab.conf 
-[jabber.at]
-# The domain to deploy to
-hostname = jabber.at
-# You should be able to ssh into the target server with this command.
-host = user@example.com
-```
-
-Install the projects dependencies. On Debian/Ubuntu, do (on the target server):
-
-````
-apt-get install virtualenv libgpgme11-dev  libmysqlclient-dev
-```
-
-Next you can locally execute:
-
-```
-fab setup:section=jabber.at
-```
-
-To perform the pasic setup steps. You will still write a localsettings.py file and
-do the Django setup.
-
-
-### Development
-
-Clone the project, install dependencies and locally initialize the virtualenv.
-
-```
-git clone https://github.com/jabber-at/hp
-cd hp
-virtualenv -p /usr/bin/python3 .
-pip install -U pip setuptools
-pip install -r requirements.txt -r reqirements-dev.txt
-cd hp
-python manage.py migrate
-```
-
-Do build the (still sparse) documentation, execute
-
-```
-make -C doc html
-```
-
-... and go to the `doc/_build/html` directory.
