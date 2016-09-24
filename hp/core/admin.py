@@ -199,12 +199,14 @@ class BlogPostAdmin(BasePageAdmin):
     fields = ['title', 'slug', 'text', ('published', 'sticky'), ]
     list_display = ['__str__', 'created', ]
     list_filter = [AuthorFilter, 'published', 'sticky', ]
+    ordering = ('sticky', '-created', )
     search_fields = ['title_de', 'title_en', 'text_en', 'text_de']
 
 
 @admin.register(Page)
 class PageAdmin(BasePageAdmin):
     fields = ['title', 'slug', 'text', 'published', ]
+    ordering = ('-title', )
     search_fields = ['title_de', 'title_en', 'text_en', 'text_de']
 
 
