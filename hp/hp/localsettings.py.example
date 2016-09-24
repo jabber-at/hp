@@ -190,6 +190,13 @@ DEFAULT_FROM_EMAIL = 'noreply@example.com'
 # URL of a blog post.
 DEFAULT_XMPP_HOST = 'example.com'
 
+################
+# Social media #
+################
+# Various social media accounts
+#FACEBOOK_PAGE = 'example.com'
+#TWITTER_HANDLE = 'example_com'
+
 ########################
 # Celery configuration #
 ########################

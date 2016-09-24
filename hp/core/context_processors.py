@@ -25,5 +25,7 @@ def basic(request):
         'default_site': settings.XMPP_HOSTS[settings.DEFAULT_XMPP_HOST],
         # language switcher
         'other_langs': [(k, v) for k, v in settings.LANGUAGES if k != request.LANGUAGE_CODE],
+        'FACEBOOK_PAGE': settings.FACEBOOK_PAGE,
+        'TWITTER_HANDLE': settings.TWITTER_HANDLE,
     }
     return context

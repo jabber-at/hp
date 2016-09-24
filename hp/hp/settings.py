@@ -189,6 +189,9 @@ LOG_FORMAT = '[%(asctime).19s %(levelname)-8s] %(message)s'  # .19s = only first
 LIBRARY_LOG_LEVEL = 'WARN'
 LOG_LEVEL = 'INFO'
 
+FACEBOOK_PAGE = ''
+TWITTER_HANDLE = ''
+
 ################
 # GPG settings #
 ################
