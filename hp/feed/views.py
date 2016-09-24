@@ -59,6 +59,7 @@ class AtomFeed(FeedMixin, View):
 
     .. seealso::
 
+        * `Introduction <https://validator.w3.org/feed/docs/atom.html>`_
         * `Specification <https://validator.w3.org/feed/docs/rfc4287.html>`_
         * `Validator <https://validator.w3.org/feed/docs/atom.html>`_
     """
@@ -80,7 +81,7 @@ class AtomFeed(FeedMixin, View):
             updated = timezone.now()
         self.sub(root, 'updated', timestamp_to_rfc3339_utcoffset(updated.timestamp()))
 
-        # TODO: link elements to other languages?
+        # TODO: link elements to other languages? They have title attributes?
         self.sub(root, 'link', href=feed_id, rel='self')
 
         # TODO: icon, logo, rights, subtitle
