@@ -13,6 +13,10 @@
 # You should have received a copy of the GNU General Public License along with django-xmpp-account.
 # If not, see <http://www.gnu.org/licenses/>.
 
+import re
+
+from lxml import html
+
 from django.conf import settings
 from django.core.urlresolvers import reverse
 from django.db import models
@@ -53,6 +57,32 @@ class BasePage(BaseModel):
     author = models.ForeignKey(settings.AUTH_USER_MODEL)
     published = models.BooleanField(default=True, help_text=_(
         'Wether or not the page is public.'))
+
+    meta_summary = LocalizedCharField(max_length=160, blank=True, null=True, help_text=_(
+        'The meta summary should is a maximum of 160 characters and shows up in search engines. '
+        '<a href="https://support.google.com/webmasters/answer/35624">More info</a>.'))
+    twitter_summary = LocalizedCharField(max_length=200, blank=True, null=True, help_text=_(
+        'At most 200 characters.'))
+    opengraph_summary = LocalizedCharField(max_length=255, blank=True, null=True, help_text=_(
+        'Between two and four sentences, defaults to first three sentences.'))
+    html_summary = LocalizedTextField(blank=True, null=True, help_text=_(
+        'Any length, but must be valid HTML.'))
+
+    def get_text_summary(self):
+        text = html.fromstring(self.text.current).text_content()
+        return re.sub('[\r\n]+', '\n', text).split('\n', 1)[0]
+
+    def get_meta_summary(self):
+        pass
+
+    def get_twitter_summary(self):
+        pass
+
+    def get_opengraph_summary(self):
+        pass
+
+    def get_html_summary(self):
+        pass
 
     def get_canonical_url(self):
         """Get the full canonical URL of this object."""
