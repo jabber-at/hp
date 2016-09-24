@@ -18,7 +18,7 @@
     <meta name="account:api-check-user" content="{% url 'account:api-check-user' %}">
     {% block opengraph %}
     <meta property="og:site_name" content="{{ default_site.BRAND }}">
-    <meta property="og:image" content="{% static "core/img/fb.png" %}">
+    <meta property="og:image" content="{{ default_site.CANONICAL_BASE_URL }}{% static "core/img/fb.png" %}">
     {% if default_site.FACEBOOK_PAGE %}
         <meta property="fb:pages" content="{{ default_site.FACEBOOK_PAGE }}">
     {% endif %}
