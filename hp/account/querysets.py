@@ -28,6 +28,12 @@ class UserQuerySet(models.QuerySet):
     def has_confirmations(self):
         return self.filter(confirmations__isnull=False).distinct()
 
+    def blocked(self):
+        return self.filter(blocked=True)
+
+    def not_blocked(self):
+        return self.filter(blocked=False)
+
     def host(self, hostname):
         return self.filter(username__endswith='@%s' % hostname)
 
