@@ -76,8 +76,8 @@ class BasePage(BaseModel):
         return [m.strip(' .') for m in re.split('\. +', summary)]
 
     def crop_summary(self, summary, length):
-        summary = ''
         sentences = self.get_sentences(summary)
+        summary = ''
         for sentence in sentences:
             new_summary = '%s %s.' % (summary, sentence)
             if len(new_summary) > length:
