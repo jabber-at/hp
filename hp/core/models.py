@@ -58,15 +58,17 @@ class BasePage(BaseModel):
     published = models.BooleanField(default=True, help_text=_(
         'Wether or not the page is public.'))
 
-    meta_summary = LocalizedCharField(max_length=160, blank=True, null=True, help_text=_(
-        'The meta summary should is a maximum of 160 characters and shows up in search engines. '
-        '<a href="https://support.google.com/webmasters/answer/35624">More info</a>.'))
-    twitter_summary = LocalizedCharField(max_length=200, blank=True, null=True, help_text=_(
-        'At most 200 characters.'))
-    opengraph_summary = LocalizedCharField(max_length=255, blank=True, null=True, help_text=_(
-        'Between two and four sentences, defaults to first three sentences.'))
-    html_summary = LocalizedTextField(blank=True, null=True, help_text=_(
-        'Any length, but must be valid HTML.'))
+    meta_summary = LocalizedCharField(
+        max_length=160, blank=True, null=True, verbose_name=_('Meta'), help_text=_(
+            'For search engines, max. of 160 characters.'))
+    twitter_summary = LocalizedCharField(
+        max_length=200, blank=True, null=True, verbose_name=_('Twitter'),
+        help_text=_('At most 200 characters.'))
+    opengraph_summary = LocalizedCharField(
+        max_length=255, blank=True, null=True, verbose_name=_('Facebook'), help_text=_(
+            'Two tp four sentences, default: first three sentences.'))
+    html_summary = LocalizedTextField(blank=True, null=True, verbose_name="HTML", help_text=_(
+        'Any length, but must be valid HTML. Shown in RSS feeds.'))
 
     def get_text_summary(self):
         text = html.fromstring(self.text.current).text_content()

@@ -1,0 +1,6 @@
+fieldset.description label {
+    width: 100px;
+}
+fieldset.description input + p.help {
+    margin-left: 100px;
+}

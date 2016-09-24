@@ -180,6 +180,11 @@ class BasePageAdmin(BaseModelAdmin):
         queryset.update(published=False)
     make_unpublish.short_description = _('Unpublish selected %(models)s')
 
+    class Media:
+        css = {
+            'all': ('core/admin/css/basepage.css', ),
+        }
+
 
 class AuthorFilter(admin.SimpleListFilter):
     title = _('Author')
@@ -204,6 +209,7 @@ class BlogPostAdmin(BasePageAdmin):
             'fields': ('meta_summary', 'twitter_summary', 'opengraph_summary', 'html_summary', ),
             'description': _('Descriptions are used by various systems (RSS readers, Facebook, '
                              '...) to generate previous of this content.'),
+            'classes': ('description', ),
         }),
         (_('Meta'), {
             'fields': (('published', 'sticky'), ),
