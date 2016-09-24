@@ -108,7 +108,8 @@ class UserAdmin(BaseUserAdmin):
 
 @admin.register(UserLogEntry)
 class UserLogEntryAdmin(admin.ModelAdmin):
-    list_display = ('__str__', 'created')
+    list_display = ('__str__', 'address', 'created')
+    search_fields = ('message', 'address', 'user__username', 'user__email', )
     ordering = ('-created', )
 
 
