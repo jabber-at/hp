@@ -3,10 +3,11 @@
 
 {% block title %}{{ object.title.current }}{% endblock title %}
 
-{% block extrahead %}
+{% block opengraph %}
+{{ block.super }}
 <meta property="og:type" content="website">
 {% include "core/include/basepage_extrahead.html" %}
-{% endblock extrahead %}
+{% endblock opengraph %}
 
 {% block content %}
 {% render object.text.current %}

@@ -20,10 +20,11 @@
     <meta property="fb:app_id" content="{{ FACEBOOK_PAGE_ID }}">
     <meta property="og:site_name" content="{{ default_site.BRAND }}">
     <meta property="og:image" content="{{ default_site.CANONICAL_BASE_URL }}{% static "core/img/fb.png" %}">
-    {% if default_site.FACEBOOK_PAGE %}
-        <meta property="fb:pages" content="{{ default_site.FACEBOOK_PAGE }}">
+    {% if FACEBOOK_PAGE %}
+        <meta property="fb:pages" content="{{ FACEBOOK_PAGE }}">
     {% endif %}
     {% endblock opengraph %}
+
     {% block extrahead %}{% endblock extrahead %}
   </head>
   <body>
