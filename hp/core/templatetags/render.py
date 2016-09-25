@@ -20,6 +20,4 @@ register = template.Library()
 
 @register.simple_tag(takes_context=True)
 def render(context, variable):
-    variable = '{%% load blog core bootstrap %%}%s' % variable
-    t = template.Template(variable)
-    return t.render(context)
+    return variable.render(context)

@@ -17,6 +17,7 @@ import re
 
 from lxml import html
 
+from django import template
 from django.conf import settings
 from django.core.urlresolvers import reverse
 from django.db import models
@@ -69,6 +70,17 @@ class BasePage(BaseModel):
             'Two to four sentences, default: first three sentences.'))
     html_summary = LocalizedTextField(blank=True, null=True, verbose_name="HTML", help_text=_(
         'Any length, but must be valid HTML. Shown in RSS feeds.'))
+
+    def render(self, context):
+        t = '{%% load blog core bootstrap %%}%s' % self.text.current
+        return template.Template(t).render(context)
+
+    def render_from_request(self, request, extra_context=None):
+        if extra_context is None:
+            extra_context = {}
+        context = template.RequestContext(request, extra_context)
+
+        return self.render(context)
 
     def get_text_summary(self):
         text = html.fromstring(self.text.current).text_content()

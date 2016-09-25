@@ -18,7 +18,7 @@
 <h3><a href="{{ post.get_absolute_url }}">{{ post.title.current }}</a>
     <small>{% blocktrans with date=post.created user=post.author.node %}{{ date }} by {{ user}}{% endblocktrans %}</small>
 </h3>
-    {% render post.text.current %}
+    {% render post %}
 </div>
     <hr>
 {% empty %}
