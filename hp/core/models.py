@@ -15,6 +15,8 @@
 
 import re
 
+import bleach
+
 from lxml import html
 
 from django import template
@@ -131,12 +133,21 @@ class BasePage(BaseModel):
         summary = self.get_text_summary()
         return '. '.join(self.get_sentences(summary)[:3]).strip() + '.'
 
+    def cleanup_html(self, html):
+        tags = ['a', 'p', ]
+        attrs = {
+            'a': ['href', ],
+        }
+        return bleach.clean(html, tags=tags, attributes=attrs, strip=True)
+
     def get_html_summary(self, request):
         if self.html_summary.current:
-            return self.html_summary.current
+            return self.cleanup_html(self.html_summary.current)
 
-        # TODO: Not yet implemented. For blog preview, RSS and Atom feeds.
-        return self.render_from_request(request)
+        summary = self.render_from_request(request)
+
+        html = '. '.join(self.get_sentences(summary)[:3]).strip() + '.'
+        return self.cleanup_html(html)
 
     def get_canonical_url(self):
         """Get the full canonical URL of this object."""
