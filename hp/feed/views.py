@@ -97,8 +97,8 @@ class AtomFeed(FeedMixin, View):
             self.sub(entry, 'published', timestamp_to_rfc3339_utcoffset(
                 int(post.created.timestamp())))
             self.sub(entry, 'link', href=canonical_url)
-            self.sub(entry, 'content', post.text.current, type="html")
-            self.sub(entry, 'summary', post.text.current[:160], type="html")
+            self.sub(entry, 'content', post.render_from_request(request), type="html")
+            self.sub(entry, 'summary', post.get_html_summary(request), type="html")
 
             author = self.sub(entry, 'author')
             self.sub(author, 'name', post.author.node)
@@ -139,7 +139,7 @@ class RSS2Feed(FeedMixin, View):
 
             item = self.sub(channel, 'item')
             self.sub(item, 'title', post.title.current)
-            self.sub(item, 'description', post.text.current[:160])
+            self.sub(item, 'description', post.get_html_summary(request))
             self.sub(item, 'link', canonical_url)
             self.sub(item, 'guid', canonical_url, isPermaLink='true')
             self.sub(item, 'pubDate', http_date(post.created.timestamp()))

@@ -126,12 +126,12 @@ class BasePage(BaseModel):
         summary = self.get_text_summary()
         return '. '.join(self.get_sentences(summary)[:3]).strip() + '.'
 
-    def get_html_summary(self):
+    def get_html_summary(self, request):
         if self.html_summary.current:
             return self.html_summary.current
 
         # TODO: Not yet implemented. For blog preview, RSS and Atom feeds.
-        return self.text.current
+        return self.render_from_request(request)
 
     def get_canonical_url(self):
         """Get the full canonical URL of this object."""
