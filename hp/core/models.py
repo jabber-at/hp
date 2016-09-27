@@ -113,6 +113,8 @@ class BasePage(BaseModel):
     def get_twitter_summary(self):
         if self.twitter_summary.current:
             return self.twitter_summary.current
+        if self.meta_summary.current:
+            return self.meta_summary.current
 
         full_summary = self.get_text_summary()
         if len(full_summary) <= 200:
@@ -122,6 +124,9 @@ class BasePage(BaseModel):
     def get_opengraph_summary(self):
         if self.opengraph_summary.current:
             return self.opengraph_summary.current.strip()
+        twitter_summary = self.get_twitter_summary()
+        if twitter_summary:
+            return twitter_summary
 
         summary = self.get_text_summary()
         return '. '.join(self.get_sentences(summary)[:3]).strip() + '.'
