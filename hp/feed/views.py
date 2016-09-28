@@ -134,7 +134,10 @@ class RSS2Feed(FeedMixin, View):
         self.sub(channel, 'description', _('Follow recent updates for %s') % request.site['BRAND'])
         self.sub(channel, 'language', language)
         self.sub(channel, 'lastBuildDate', http_date())
-        # TODO: image, skipHours
+
+        skipHours = self.sub(channel, 'skipHours')
+        for i in range(0, 7):
+            self.sub(skipHours, 'hour', text=str(i))
 
         # add url (NOTE: This does not have anything to do with the Atom standard)
         self.sub(channel, '{%s}link' % self.atom_ns, rel='self', type='application/rss+xml',
