@@ -27,6 +27,7 @@ from django.views.generic.base import View
 from django.views.generic.list import MultipleObjectMixin
 
 from core.models import BlogPost
+from core.utils import absolutify_html
 
 
 class FeedMixin(MultipleObjectMixin):
@@ -66,7 +67,8 @@ class AtomFeed(FeedMixin, View):
 
     def serialize_items(self, request, language, queryset):
         default_host = settings.XMPP_HOSTS[settings.DEFAULT_XMPP_HOST]
-        feed_id = '%s%s' % (default_host['CANONICAL_BASE_URL'], request.get_full_path())
+        base_url = default_host['CANONICAL_BASE_URL']
+        feed_id = '%s%s' % (base_url, request.get_full_path())
 
         root = etree.Element("feed", nsmap={
             None: self.atom_ns,
@@ -85,9 +87,10 @@ class AtomFeed(FeedMixin, View):
         self.sub(root, 'link', href=feed_id, rel='self')
 
         # TODO: icon, logo, rights, subtitle
-
         for post in queryset:
             canonical_url = post.get_canonical_url()
+            content = absolutify_html(post.render_from_request(request), base_url)
+            summary = absolutify_html(post.get_html_summary(request), base_url)
 
             entry = self.sub(root, 'entry')
             self.sub(entry, 'id', canonical_url)
@@ -97,8 +100,8 @@ class AtomFeed(FeedMixin, View):
             self.sub(entry, 'published', timestamp_to_rfc3339_utcoffset(
                 int(post.created.timestamp())))
             self.sub(entry, 'link', href=canonical_url)
-            self.sub(entry, 'content', post.render_from_request(request), type="html")
-            self.sub(entry, 'summary', post.get_html_summary(request), type="html")
+            self.sub(entry, 'content', content, type="html")
+            self.sub(entry, 'summary', summary, type="html")
 
             author = self.sub(entry, 'author')
             self.sub(author, 'name', post.author.node)
@@ -115,6 +118,9 @@ class RSS2Feed(FeedMixin, View):
        * `Validator <http://www.feedvalidator.org/>`_
     """
     def serialize_items(self, request, language, queryset):
+        default_host = settings.XMPP_HOSTS[settings.DEFAULT_XMPP_HOST]
+        base_url = default_host['CANONICAL_BASE_URL']
+
         # see: http://www.feedvalidator.org/docs/warning/MissingAtomSelfLink.html
         href = request.build_absolute_uri(request.get_full_path())
 
@@ -136,10 +142,11 @@ class RSS2Feed(FeedMixin, View):
 
         for post in queryset:
             canonical_url = post.get_canonical_url()
+            content = absolutify_html(post.get_html_summary(request), base_url)
 
             item = self.sub(channel, 'item')
             self.sub(item, 'title', post.title.current)
-            self.sub(item, 'description', post.get_html_summary(request))
+            self.sub(item, 'description', content)
             self.sub(item, 'link', canonical_url)
             self.sub(item, 'guid', canonical_url, isPermaLink='true')
             self.sub(item, 'pubDate', http_date(post.created.timestamp()))
