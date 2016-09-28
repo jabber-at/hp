@@ -14,7 +14,11 @@
 # If not, see <http://www.gnu.org/licenses
 
 import os
+
+from urllib.parse import urljoin
+
 import dns.resolver
+import html5lib
 
 from django.conf import settings
 from django.core.cache import cache
@@ -113,3 +117,44 @@ def check_dnsbl(ip):
 
     cache.set(cache_key, blocks, 3600)  # cache this for an hour
     return blocks
+
+
+def absolutify_html(html, base_url):
+    """Make relative links in the given html absolute.
+
+    This code is copied from `here <http://garethrees.org/2009/10/09/feed/>`_.
+
+    Examle::
+
+        >>> absolutify_html('<a href="/foobar">test</a>', 'https://example.com')
+        '<a href="https://example.com/foobar">test</a>
+    """
+
+    attributes = [
+        ('a', 'href'),
+        ('img', 'src'),
+        ('link', 'href'),
+        ('script', 'src')
+    ]
+
+    # Parse SRC as HTML.
+    tree_builder = html5lib.treebuilders.getTreeBuilder('dom')
+    parser = html5lib.html5parser.HTMLParser(tree=tree_builder)
+    dom = parser.parse(html)
+
+    # Change all relative URLs to absolute URLs by resolving them relative to
+    # BASE_URL. Note that we need to do this even for URLs that consist only of
+    # a fragment identifier, because Google Reader changes href=#foo to
+    # href=http://site/#foo
+    for tag, attr in attributes:
+        for e in dom.getElementsByTagName(tag):
+            u = e.getAttribute(attr)
+            if u:
+                e.setAttribute(attr, urljoin(base_url, u))
+
+    # Return the HTML5 serialization of the <BODY> of the result (we don't want
+    # the <HEAD>: this breaks feed readers).
+    body = dom.getElementsByTagName('body')[0]
+    tree_walker = html5lib.treewalkers.getTreeWalker('dom')
+    html_serializer = html5lib.serializer.htmlserializer.HTMLSerializer()
+    return ''.join(html_serializer.serialize(tree_walker(body)))
