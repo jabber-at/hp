@@ -18,6 +18,7 @@ from strict_rfc3339 import timestamp_to_rfc3339_utcoffset
 
 from django.conf import settings
 from django.core.urlresolvers import reverse
+from django.contrib.staticfiles.templatetags.staticfiles import static
 from django.http import HttpResponse
 from django.utils import timezone
 from django.utils import translation
@@ -83,10 +84,11 @@ class AtomFeed(FeedMixin, View):
             updated = timezone.now()
         self.sub(root, 'updated', timestamp_to_rfc3339_utcoffset(int(updated.timestamp())))
 
-        # TODO: link elements to other languages? They have title attributes?
         self.sub(root, 'link', href=feed_id, rel='self')
+        self.sub(root, 'icon', static('feed/atom_icon.png'))
+        self.sub(root, 'logo', static('feed/atom.png'))
+        self.sub(root, 'rights', '© 2010-%s, jabber.at' % updated.year)
 
-        # TODO: icon, logo, rights, subtitle
         for post in queryset:
             canonical_url = post.get_canonical_url()
             content = absolutify_html(post.render_from_request(request), base_url)
@@ -120,6 +122,8 @@ class RSS2Feed(FeedMixin, View):
     def serialize_items(self, request, language, queryset):
         default_host = settings.XMPP_HOSTS[settings.DEFAULT_XMPP_HOST]
         base_url = default_host['CANONICAL_BASE_URL']
+        title = self.get_feed_title(request)
+        feed_url = request.build_absolute_uri(reverse('core:home'))
 
         # see: http://www.feedvalidator.org/docs/warning/MissingAtomSelfLink.html
         href = request.build_absolute_uri(request.get_full_path())
@@ -129,8 +133,8 @@ class RSS2Feed(FeedMixin, View):
         })
         channel = self.sub(root, 'channel')
 
-        self.sub(channel, 'title', self.get_feed_title(request))
-        self.sub(channel, 'link', request.build_absolute_uri(reverse('core:home')))
+        self.sub(channel, 'title', title)
+        self.sub(channel, 'link', feed_url)
         self.sub(channel, 'description', _('Follow recent updates for %s') % request.site['BRAND'])
         self.sub(channel, 'language', language)
         self.sub(channel, 'lastBuildDate', http_date())
@@ -138,6 +142,14 @@ class RSS2Feed(FeedMixin, View):
         skipHours = self.sub(channel, 'skipHours')
         for i in range(0, 7):
             self.sub(skipHours, 'hour', text=str(i))
+
+        # add image
+        image = self.sub(channel, 'image')
+        self.sub(image, 'title', title)
+        self.sub(image, 'link', feed_url)
+        self.sub(image, 'url', request.build_absolute_uri(static('feed/rss.png')))
+        self.sub(image, 'width', '120')
+        self.sub(image, 'height', '120')
 
         # add url (NOTE: This does not have anything to do with the Atom standard)
         self.sub(channel, '{%s}link' % self.atom_ns, rel='self', type='application/rss+xml',
