@@ -19,5 +19,5 @@ register = template.Library()
 
 
 @register.simple_tag(takes_context=True)
-def render(context, variable):
-    return variable.render(context)
+def render(context, variable, summary=False):
+    return variable.render(context, summary=summary)

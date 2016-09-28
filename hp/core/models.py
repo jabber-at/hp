@@ -23,6 +23,7 @@ from django import template
 from django.conf import settings
 from django.core.urlresolvers import reverse
 from django.db import models
+from django.utils.safestring import mark_safe
 from django.utils.translation import ugettext_lazy as _
 
 #from composite_field.l10n import LocalizedCharField
@@ -73,9 +74,12 @@ class BasePage(BaseModel):
     html_summary = LocalizedTextField(blank=True, null=True, verbose_name="HTML", help_text=_(
         'Any length, but must be valid HTML. Shown in RSS feeds.'))
 
-    def render(self, context):
-        t = '{%% load blog core bootstrap %%}%s' % self.text.current
-        return template.Template(t).render(context)
+    def render(self, context, summary=False):
+        if summary is True:
+            return mark_safe(self.get_html_summary(context['request']))
+        else:
+            t = '{%% load blog core bootstrap %%}%s' % self.text.current
+            return template.Template(t).render(context)
 
     def render_from_request(self, request, extra_context=None):
         if extra_context is None:
@@ -89,7 +93,15 @@ class BasePage(BaseModel):
         return re.sub('[\r\n]+', '\n', text).split('\n', 1)[0].strip(' \n').strip()
 
     def get_sentences(self, summary):
-        return ['%s.' % m.strip(' .') for m in re.split('(?<![.0-9])\. +', summary)]
+        """Split a text into sentences.
+
+        At the most basic level, this function splits the given text on occurence of a dot (".")
+        and one or more spaces. A semicolon is recognized as a sentence, so "foo: bar." counts as
+        two sentences and the semicolon will not be preserved. A dot does not count as a sentence
+        if it is preceeded by a number ("16. February") and only if followed by a space, a "<" (for
+        HTML tags) or as end of string.
+        """
+        return ['%s.' % m.strip(' .:') for m in re.split('(?<![.0-9])[:.](?=[ <\Z])', summary)]
 
     def crop_summary(self, summary, length):
         sentences = self.get_sentences(summary)
@@ -134,7 +146,7 @@ class BasePage(BaseModel):
         return ' '.join(self.get_sentences(summary)[:3]).strip()
 
     def cleanup_html(self, html):
-        tags = ['a', 'p', ]
+        tags = ['a', 'p', 'strong']
         attrs = {
             'a': ['href', ],
         }
