@@ -89,7 +89,7 @@ class BasePage(BaseModel):
         return re.sub('[\r\n]+', '\n', text).split('\n', 1)[0].strip(' \n').strip()
 
     def get_sentences(self, summary):
-        return [m.strip(' .') for m in re.split('\. +', summary)]
+        return ['%s.' % m.strip(' .') for m in re.split('(?<![.0-9])\. +', summary)]
 
     def crop_summary(self, summary, length):
         sentences = self.get_sentences(summary)
@@ -131,7 +131,7 @@ class BasePage(BaseModel):
             return twitter_summary
 
         summary = self.get_text_summary()
-        return '. '.join(self.get_sentences(summary)[:3]).strip() + '.'
+        return ' '.join(self.get_sentences(summary)[:3]).strip()
 
     def cleanup_html(self, html):
         tags = ['a', 'p', ]
@@ -146,7 +146,7 @@ class BasePage(BaseModel):
 
         summary = self.render_from_request(request)
 
-        html = '. '.join(self.get_sentences(summary)[:3]).strip() + '.'
+        html = ' '.join(self.get_sentences(summary)[:3]).strip()
         return self.cleanup_html(html)
 
     def get_canonical_url(self):
