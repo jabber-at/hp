@@ -40,7 +40,7 @@ form .form-group.fg_captcha input[type="text"] {
 /**
  * RSS icon
  */
-img.rss-logo {
+.follow-panel img.follow-logo {
     width: 18px;
     height: 18px;
     vertical-align: middle;
