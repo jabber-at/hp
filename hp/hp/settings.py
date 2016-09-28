@@ -60,6 +60,7 @@ INSTALLED_APPS = [
     'core',
     'bootstrap',  # bootstrap enhancements
     'account',  # account management
+    'feed',  # RSS/Atom feeds
     'jsxc',  # webchat
 ]
 
