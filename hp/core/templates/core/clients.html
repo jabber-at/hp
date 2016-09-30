@@ -49,7 +49,7 @@ means there are many different clients to connect to {{ hostname }}.{% endblockt
 </tr>
 <tr class="header-row">
     <th><a href="http://xmpp.org/extensions/xep-0027.html">0027</a></th>
-    <th><a href="http://xmpp.org/extensions/xep-0198.html">0167</a></th>
+    <th><a href="http://xmpp.org/extensions/xep-0167.html">0167</a></th>
     <th><a href="http://xmpp.org/extensions/xep-0198.html">0198</a></th>
     <th><a href="http://xmpp.org/extensions/xep-0280.html">0280</a></th>
     <th><a href="http://xmpp.org/extensions/xep-0313.html">0313</a></th>
@@ -162,17 +162,29 @@ means there are many different clients to connect to {{ hostname }}.{% endblockt
     <td class="xep omemo">{{n}}</td>
     <td></td>
 </tr>
-<tr class="win">
-    {% comment %}http://wiki.miranda-im.org/Jabber{% endcomment %}
-    <th><a href="http://miranda-im.org">Miranda</a></th>
-    <td class="xep xep0027">{{n}}</td>
+<tr class="console">
+    <th><a href="https://mcabber.com/">mcabber</a></th>
+    <td class="xep xep0027">{{y}}</td>
     <td class="xep xep0167">{{n}}</td>
-    <td class="xep xep0198">{{n}}</td>
-    <td class="xep xep0280">{{n}}</td>
-    <td class="xep xep0313">{{n}}</td>
-    <td class="xep xep0352">{{n}}</td>
-    <td class="xep xep0357">{{n}}</td>
-    <td class="xep xep0363">{{n}}</td>
+    <td class="xep xep0198">{{u}}</td>
+    <td class="xep xep0280">{{u}}</td>
+    <td class="xep xep0313">{{u}}</td>
+    <td class="xep xep0352">{{u}}</td>
+    <td class="xep xep0357">{{u}}</td>
+    <td class="xep xep0363">{{u}}</td>
+    <td class="xep omemo">{{n}}</td>
+    <td></td>
+</tr>
+<tr class="osx ios">
+    <th><a href="https://monal.im/">Monal</a></th>
+    <td class="xep xep0027">{{u}}</td>
+    <td class="xep xep0167">{{u}}</td>
+    <td class="xep xep0198">{{u}}</td>
+    <td class="xep xep0280">{{u}}</td>
+    <td class="xep xep0313">{{u}}</td>
+    <td class="xep xep0352">{{u}}</td>
+    <td class="xep xep0357">{{u}}</td>
+    <td class="xep xep0363">{{u}}</td>
     <td class="xep omemo">{{n}}</td>
     <td></td>
 </tr>
@@ -190,6 +202,20 @@ means there are many different clients to connect to {{ hostname }}.{% endblockt
     <td></td>
 </tr>
 <tr class="linux console">
+    {% comment %}https://doc.poez.io/0.9/dev/xep.html?highlight=xep{% endcomment %}
+    <th><a href="http://poez.io/en/">poezio</a></th>
+    <td class="xep xep0027">{{y}}</td>
+    <td class="xep xep0167">{{n}}</td>
+    <td class="xep xep0198">{{n}}</td>
+    <td class="xep xep0280">{{y}}</td>
+    <td class="xep xep0313">{{n}}</td>
+    <td class="xep xep0352">{{n}}</td>
+    <td class="xep xep0357">{{n}}</td>
+    <td class="xep xep0363">{{n}}</td>
+    <td class="xep omemo">{{n}}</td>
+    <td></td>
+</tr>
+<tr class="linux console">
     <th><a href="http://profanity.im/">Profanity</a></th>
     <td class="xep xep0027">{{y}}</td>
     <td class="xep xep0167">{{n}}</td>
@@ -201,7 +227,7 @@ means there are many different clients to connect to {{ hostname }}.{% endblockt
     <td class="xep xep0363">{{y}}</td>
     <td class="xep omemo">{{n}}</td>
     <td></td>
-</tr>
+9/tr>
 <tr class="win linux osx">
     <th><a href="https://swift.im/swift.html">Swift</a></th>
     <td class="xep xep0027">{{u}}</td>
