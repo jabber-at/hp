@@ -87,7 +87,7 @@ means there are many different clients to connect to {{ hostname }}.{% endblockt
     <td></td>
 </tr>
 <tr class="android">
-    <th><a href="https://conversations.im/">Conversations</a></th>
+    <th><a href="https://conversations.im/">Conversations</a><span class="footnote" data-toggle="tooltip", title="{% trans "version 1.14.4" %}"></span></th>
     <td class="xep xep0027">{{y}}</td>
     <td class="xep xep0167">{{n}}</td>
     <td class="xep xep0198">{{y}}</td>
@@ -113,7 +113,7 @@ means there are many different clients to connect to {{ hostname }}.{% endblockt
     <td></td>
 </tr>
 <tr class="win linux">
-    <th><a href="https://gajim.org/">Gajim</a></th>
+    <th><a href="https://gajim.org/">Gajim</a><span class="footnote" data-toggle="tooltip", title="{% trans "version 0.16.5" %}"></span></th>
     <td class="xep xep0027">{{y}}</td>
     <td class="xep xep0167">{{n}}</td>
     <td class="xep xep0198">{{y}}</td>
@@ -122,13 +122,13 @@ means there are many different clients to connect to {{ hostname }}.{% endblockt
     <td class="xep xep0352 mobile">{{n}}</td>
     <td class="xep xep0357 mobile">{{n}}</td>
     <td class="xep xep0363">{{y}}</td>
-    <td class="xep omemo">{{y}}</td>
+    <td class="xep omemo">{{y}}<span class='footnote' data-toggle="tooltip" title='{% trans 'With <a href="https://github.com/omemo/gajim-omemo">Plugin</a>' %}'></span></td>
     <td></td>
 </tr>
 <tr class="win linux osx">
     <th><a href="https://jitsi.org/">Jitsi</a></th>
     <td class="xep xep0027">{{u}}</td>
-    <td class="xep xep0167">{{n}}</td>
+    <td class="xep xep0167">{{y}}</td>
     <td class="xep xep0198">{{u}}</td>
     <td class="xep xep0280">{{u}}</td>
     <td class="xep xep0313">{{u}}</td>
@@ -149,22 +149,9 @@ means there are many different clients to connect to {{ hostname }}.{% endblockt
     <td class="xep xep0357 mobile">{{u}}</td>
     <td class="xep xep0363">{{u}}</td>
     <td class="xep omemo">{{n}}</td>
-    <td>{% trans "Requires you to host your own instance." %}</td>
+    <td>{% trans "You have to host your own instance." %}</td>
 </tr>
 <tr class="linux console">
-    <th><a href="https://mcabber.com/">mcabber</a></th>
-    <td class="xep xep0027">{{y}}</td>
-    <td class="xep xep0167">{{n}}</td>
-    <td class="xep xep0198">{{u}}</td>
-    <td class="xep xep0280">{{u}}</td>
-    <td class="xep xep0313">{{u}}</td>
-    <td class="xep xep0352 mobile">{{u}}</td>
-    <td class="xep xep0357 mobile">{{u}}</td>
-    <td class="xep xep0363">{{u}}</td>
-    <td class="xep omemo">{{n}}</td>
-    <td></td>
-</tr>
-<tr class="console">
     <th><a href="https://mcabber.com/">mcabber</a></th>
     <td class="xep xep0027">{{y}}</td>
     <td class="xep xep0167">{{n}}</td>
@@ -205,7 +192,7 @@ means there are many different clients to connect to {{ hostname }}.{% endblockt
 </tr>
 <tr class="linux console">
     {% comment %}https://doc.poez.io/0.9/dev/xep.html?highlight=xep{% endcomment %}
-    <th><a href="http://poez.io/en/">poezio</a></th>
+    <th><a href="http://poez.io/en/">poezio</a><span class="footnote" data-toggle="tooltip", title="{% trans "version 0.9" %}"></span></th>
     <td class="xep xep0027">{{y}}</td>
     <td class="xep xep0167">{{n}}</td>
     <td class="xep xep0198">{{n}}</td>
@@ -218,7 +205,7 @@ means there are many different clients to connect to {{ hostname }}.{% endblockt
     <td></td>
 </tr>
 <tr class="linux console">
-    <th><a href="http://profanity.im/">Profanity</a></th>
+    <th><a href="http://profanity.im/">Profanity</a><span class="footnote" data-toggle="tooltip", title="{% trans "version 0.5" %}"></span></th>
     <td class="xep xep0027">{{y}}</td>
     <td class="xep xep0167">{{n}}</td>
     <td class="xep xep0198">{{n}}</td>
@@ -245,7 +232,7 @@ means there are many different clients to connect to {{ hostname }}.{% endblockt
 </tr>
 <tr class="android">
     {% comment %}https://github.com/redsolution/xabber-android#supported-protocols{% endcomment %}
-    <th><a href="https://www.xabber.com/">Xabber</a></th>
+    <th><a href="https://www.xabber.com/">Xabber</a><span class="footnote" data-toggle="tooltip", title="{% trans "version 1.0.74" %}"></span></th>
     <td class="xep xep0027">{{n}}</td>
     <td class="xep xep0167">{{n}}</td>
     <td class="xep xep0198">{{n}}</td>
@@ -259,7 +246,7 @@ means there are many different clients to connect to {{ hostname }}.{% endblockt
         on <a href="https://f-droid.org/repository/browse/?fdfilter=xabber&fdid=com.xabber.androiddev">F-Droid</a></td>
 </tr>
 <tr class="android">
-    <th><a href="http://yaxim.org/">yaxim</a></th>
+    <th><a href="http://yaxim.org/">yaxim</a><span class="footnote" data-toggle="tooltip", title="{% trans "version 0.8.8" %}"></span></th>
     {% comment %}http://yaxim.org/features/{% endcomment %}
     <td class="xep xep0027">{{n}}</td>
     <td class="xep xep0167">{{n}}</td>
