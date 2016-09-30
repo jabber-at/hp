@@ -25216,9 +25216,9 @@ return __p;
              */
             if ($.browser.webkit) {
                 var conversejs = document.getElementById('conversejs');
-                conversejs.style.display = 'none-utils.js';
+                conversejs.style.display = 'none';
                 var tmp = conversejs.offsetHeight; // jshint ignore:line
-                conversejs.style.display = 'block-utils.js';
+                conversejs.style.display = 'block';
             }
         },
 
@@ -33253,10 +33253,10 @@ return __p;
                     view = this.positionContact(contact).render();
                     if (view.mayBeShown()) {
                         if (this.model.get('state') === converse.CLOSED) {
-                            if (view.$el[0].style.display !== "none-rosterview.js") { view.$el.hide(); }
+                            if (view.$el[0].style.display !== "none") { view.$el.hide(); }
                             if (!this.$el.is(':visible')) { this.$el.show(); }
                         } else {
-                            if (this.$el[0].style.display !== "block-rosterview.js") { this.show(); }
+                            if (this.$el[0].style.display !== "block") { this.show(); }
                         }
                     }
                 },
