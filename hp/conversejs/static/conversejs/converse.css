@@ -1841,9 +1841,7 @@
   overflow: hidden;
   padding: 0;
   padding-bottom: 3em;
-  /**
-   * Custom styles for removed inline-css.
-   */ }
+  /* Custom addition for CSP */ }
   #conversejs #converse-roster.no-contact-requests {
     height: calc(100% - 25px - 20px); }
   #conversejs #converse-roster #online-count {
