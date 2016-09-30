@@ -4,11 +4,11 @@
 
 
 {% block extracss %}
-<link rel="stylesheet" type="text/css" media="screen" href="https://cdn.conversejs.org/css/converse.min.css">
+<link rel="stylesheet" type="text/css" media="screen" href="{% static "conversejs/converse.min.css" %}">
 {% endblock extracss %}
 
 {% block extrajs %}
-<script src="https://cdn.conversejs.org/dist/converse.min.js"></script>
+<script src="{% static "conversejs/converse.min.js" %}"></script>
 <script src="{% static "conversejs/init.js" %}"></script>
 {% endblock extrajs %}
 
