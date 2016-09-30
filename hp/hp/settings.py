@@ -62,6 +62,7 @@ INSTALLED_APPS = [
     'account',  # account management
     'feed',  # RSS/Atom feeds
     'jsxc',  # webchat
+    'conversejs',  # webchat2
 ]
 
 MIDDLEWARE_CLASSES = [

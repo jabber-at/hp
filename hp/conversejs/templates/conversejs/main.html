@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+
+{% load i18n static %}
+
+
+{% block extracss %}
+<link rel="stylesheet" type="text/css" media="screen" href="https://cdn.conversejs.org/css/converse.min.css">
+{% endblock extracss %}
+
+{% block extrajs %}
+<script src="https://cdn.conversejs.org/dist/converse.min.js"></script>
+<script src="{% static "conversejs/init.js" %}"></script>
+{% endblock extrajs %}
+
+{% block page %}
+{% endblock page %}
