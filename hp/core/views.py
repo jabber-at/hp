@@ -14,6 +14,7 @@
 # If not, see <http://www.gnu.org/licenses/>.
 
 import ipaddress
+import logging
 
 from django.conf import settings
 from django.core.cache import cache
@@ -31,6 +32,7 @@ from django.views.generic.base import RedirectView
 from django.views.generic.detail import DetailView
 from django.views.generic.edit import FormView
 from django.views.generic.list import ListView
+from ua_parser import user_agent_parser
 
 from bootstrap.templatetags.bootstrap import glyph
 
@@ -42,6 +44,7 @@ from .models import BlogPost
 from .utils import check_dnsbl
 from .tasks import send_contact_email
 
+log = logging.getLogger(__name__)
 _BLACKLIST = getattr(settings, 'SPAM_BLACKLIST', set())
 _RATELIMIT_WHITELIST = getattr(settings, 'RATELIMIT_WHITELIST', set())
 _RATELIMIT_CONFIG = getattr(settings, 'RATELIMIT_CONFIG', {})
@@ -208,8 +211,25 @@ class ClientsView(TemplateView):
     template_name = 'core/clients.html'
 
     def get_context_data(self, *args, **kwargs):
+        ua = user_agent_parser.Parse(self.request.META['HTTP_USER_AGENT'])
+        family = ua['os']['family']
+
+        initial = None
+        if family == 'Mac OS X':
+            initial = 'osx'
+        elif family == 'iOS':
+            initial = 'ios'
+        elif family in ['Linux', 'Ubuntu', ]:
+            initial = 'linux'
+        elif family == 'Android':
+            initial = 'android'
+        elif family.startswith('Windows'):
+            initial = 'win'
+        else:
+            log.warn('Unknown os family: %s', family)
+
         context = super(ClientsView, self).get_context_data()
-        context['form'] = SelectOSForm()
+        context['form'] = SelectOSForm(initial={'os': initial})
         context['y'] = glyph('ok', context='success')
         context['u'] = glyph('question-sign', context='muted')
         context['n'] = glyph('remove', context='danger')
