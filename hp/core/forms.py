@@ -58,6 +58,8 @@ class AnonymousContactForm(CaptchaFormMixin, ContactForm):
 class SelectOSForm(forms.Form):
     os = BootstrapChoiceField(
         label=_('Operating System'),
+        label_cols=4,
+        input_cols=8,
         choices=[
             ('any', _('Any operating system')),
             ('android', 'Android'),
