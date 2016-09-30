@@ -10,8 +10,10 @@ var update_client_list = function(elem) {
 
     if (value == 'android' || value == 'ios' || value == 'any') {
         $('table#clients-table .mobile').show();
+        $('table#clients-table th.xep-wrapper').attr('colspan', 9);
     } else {
         $('table#clients-table .mobile').hide();
+        $('table#clients-table th.xep-wrapper').attr('colspan', 7);
     }
 };
 
