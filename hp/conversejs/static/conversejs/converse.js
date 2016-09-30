@@ -32120,7 +32120,7 @@ __p+='<dl class="add-converse-contact dropdown">\n    <dt id="xmpp-contact-searc
 ((__t=(label_click_to_chat))==null?'':__t)+
 '"> '+
 ((__t=(label_add_contact))==null?'':__t)+
-'</a>\n    </dt>\n    <dd class="search-xmpp" style="display:none"><ul></ul></dd>\n</dl>\n';
+'</a>\n    </dt>\n    <dd class="search-xmpp"><ul></ul></dd>\n</dl>\n';
 }
 return __p;
 }; });
