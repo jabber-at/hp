@@ -32240,7 +32240,7 @@ var __t,__p='',__j=Array.prototype.join,print=function(){__p+=__j.call(arguments
 with(obj||{}){
 __p+='<span class="conn-feedback">'+
 ((__t=(label_toggle))==null?'':__t)+
-'</span>\n<span style="display: none" id="online-count">(0)</span>\n';
+'</span>\n<span id="online-count">(0)</span>\n';
 }
 return __p;
 }; });
