@@ -32,8 +32,6 @@ means there are many different clients to connect to {{ hostname }}.{% endblockt
 
 <h2>{% trans "Can you be more specific?" %}</h2>
 
-<p><small>(Note: We could preselect the users OS here, and table below is completely made up data)</small></p>
-
 {% trans "Sure we can:" %}
 
 <form id="clients-form" class="form-horizontal">
@@ -42,6 +40,7 @@ means there are many different clients to connect to {{ hostname }}.{% endblockt
     </div>
 </form>
 
+<div class="table-responsive">
 <table id="clients-table" class="table table-bordered">
 <tr class="header-row">
     <th rowspan="2" class="two-rows">Client</th>
@@ -94,8 +93,8 @@ means there are many different clients to connect to {{ hostname }}.{% endblockt
     <td class="xep omemo">{{y}}</td>
     <td></td>
 </tr>
-<tr class="win linux">
-    <th><a href="https://gajim.org/">Gajim</a></th>
+<tr class="web">
+    <th><a href="https://conversejs.org/">Converse.js</a></th>
     <td class="xep xep0027">{{u}}</td>
     <td class="xep xep0198">{{u}}</td>
     <td class="xep xep0280">{{u}}</td>
@@ -103,6 +102,18 @@ means there are many different clients to connect to {{ hostname }}.{% endblockt
     <td class="xep xep0352">{{u}}</td>
     <td class="xep xep0357">{{u}}</td>
     <td class="xep xep0363">{{u}}</td>
+    <td class="xep omemo">{{n}}</td>
+    <td></td>
+</tr>
+<tr class="win linux">
+    <th><a href="https://gajim.org/">Gajim</a></th>
+    <td class="xep xep0027">{{y}}</td>
+    <td class="xep xep0198">{{y}}</td>
+    <td class="xep xep0280">{{y}}</td>
+    <td class="xep xep0313">{{y}}</td>
+    <td class="xep xep0352">{{n}}</td>
+    <td class="xep xep0357">{{n}}</td>
+    <td class="xep xep0363">{{y}}</td>
     <td class="xep omemo">{{y}}</td>
     <td></td>
 </tr>
@@ -117,6 +128,18 @@ means there are many different clients to connect to {{ hostname }}.{% endblockt
     <td class="xep xep0363">{{u}}</td>
     <td class="xep omemo">{{n}}</td>
     <td></td>
+</tr>
+<tr class="win linux osx">
+    <th><a href="https://www.jsxc.org/">JSXC</a></th>
+    <td class="xep xep0027">{{u}}</td>
+    <td class="xep xep0198">{{u}}</td>
+    <td class="xep xep0280">{{u}}</td>
+    <td class="xep xep0313">{{u}}</td>
+    <td class="xep xep0352">{{u}}</td>
+    <td class="xep xep0357">{{u}}</td>
+    <td class="xep xep0363">{{u}}</td>
+    <td class="xep omemo">{{n}}</td>
+    <td>{% trans "Requires you to host your own instance." %}</td>
 </tr>
 <tr class="linux console">
     <th><a href="https://mcabber.com/">mcabber</a></th>
@@ -154,6 +177,45 @@ means there are many different clients to connect to {{ hostname }}.{% endblockt
     <td class="xep omemo">{{n}}</td>
     <td></td>
 </tr>
+<tr class="win linux osx">
+    <th><a href="https://swift.im/swift.html">Swift</a></th>
+    <td class="xep xep0027">{{u}}</td>
+    <td class="xep xep0198">{{u}}</td>
+    <td class="xep xep0280">{{u}}</td>
+    <td class="xep xep0313">{{u}}</td>
+    <td class="xep xep0352">{{u}}</td>
+    <td class="xep xep0357">{{u}}</td>
+    <td class="xep xep0363">{{u}}</td>
+    <td class="xep omemo">{{n}}</td>
+    <td></td>
+</tr>
+<tr class="win linux osx">
+    {% comment %}https://github.com/redsolution/xabber-android#supported-protocols{% endcomment %}
+    <th><a href="https://www.xabber.com/">Xabber</a></th>
+    <td class="xep xep0027">{{n}}</td>
+    <td class="xep xep0198">{{n}}</td>
+    <td class="xep xep0280">{{n}}</td>
+    <td class="xep xep0313">{{n}}</td>
+    <td class="xep xep0352">{{y}}</td>
+    <td class="xep xep0357">{{n}}</td>
+    <td class="xep xep0363">{{n}}</td>
+    <td class="xep omemo">{{n}}</td>
+    <td>on <a href="https://play.google.com/store/apps/details?id=com.xabber.android.beta">Google play</a>,
+        on <a href="https://f-droid.org/repository/browse/?fdfilter=xabber&fdid=com.xabber.androiddev">F-Droid</a></td>
+</tr>
+<tr class="android">
+    <th><a href="http://yaxim.org/">yaxim</a></th>
+    {% comment %}http://yaxim.org/features/{% endcomment %}
+    <td class="xep xep0027">{{n}}</td>
+    <td class="xep xep0198">{{y}}</td>
+    <td class="xep xep0280">{{y}}</td>
+    <td class="xep xep0313">{{n}}</td>
+    <td class="xep xep0352">{{n}}</td>
+    <td class="xep xep0357">{{n}}</td>
+    <td class="xep xep0363">{{n}}</td>
+    <td class="xep omemo">{{n}}</td>
+    <td></td>
+</tr>
 <tr class="ios android">
     <th><a href="https://zom.im/">Zom</a></th>
     <td class="xep xep0027">{{u}}</td>
@@ -166,10 +228,11 @@ means there are many different clients to connect to {{ hostname }}.{% endblockt
     <td class="xep omemo">{{n}}</td>
     <td></td>
 </table>
+</div>
 
-<div class="alert alert-info">{% blocktrans %}
-
-If you want to request add a client or notify us of an update on supported XEPs,
-please contact us.{% endblocktrans %}</div>
+<div class="alert alert-info client-contact">
+{% url "core:contact" as contact_url %}
+{% blocktrans with url=contact_url %}Feel information on this page is missing or out of date? Please just <a href="{{ url }}">contact
+us</a>.{% endblocktrans %}</div>
 
 {% endblock content %}

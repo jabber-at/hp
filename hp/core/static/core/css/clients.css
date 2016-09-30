@@ -2,7 +2,12 @@ table#clients-table th,
 table#clients-table td.xep
 {
     text-align: center;
+    vertical-align: middle;
 }
 table#clients-table th.two-rows {
     vertical-align: bottom;
+}
+
+.alert.client-contact {
+    margin-top: 15px;
 }
