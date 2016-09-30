@@ -1,4 +1,6 @@
-table#clients-table th {
+table#clients-table th,
+table#clients-table td.xep
+{
     text-align: center;
 }
 table#clients-table th.two-rows {
