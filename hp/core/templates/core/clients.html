@@ -13,28 +13,21 @@
 
 {% block content %}
 
-<div class="alert alert-danger"><strong>This is just a demo-page so far. It contains no real info!</strong></div>
-
 {% blocktrans with hostname=site.BRAND %}Jabber is an open protocol and anyone may develop a client for it. This
 means there are many different clients to connect to {{ hostname }}.{% endblocktrans %}
 
 <h2>{% trans "So what's the best client?" %}</h2>
 
-<p>{% blocktrans %}Naturally, there are many different opinions on that subject, depending on
-personal preference and what set of features is particularly important to you.
-For example, one client may offer better support for file transfers, while
-another one might work best for Voice/Video calls.{% endblocktrans %}</p>
-
-<p>{% trans "That being said, here is what we have found works best:" %}</p>
-
-<p><small>(Note: we could highlight the users platform and put it first? Also:
-    Nice-looking logos for each platform?)</small></p>
+<p>{% trans "Here is what we have found works best:" %}</p>
 
 <ul>
-    <li>Windows: Gajim</li>
-    <li>Linux: Gajim</li>
-    <li>Android: Conversations</li>
-    <li>...</li>
+    <li>Android: <a href="https://conversations.im/">Conversations</a> (on <a href="https://play.google.com/store/apps/details?id=eu.siacs.conversations">Google Play</a>)</li>
+    <li>Linux (console): <a href="https://mcabber.com/">mcabber</a> or <a href="http://profanity.im/">Profanity</a></li>
+    <li>Linux: <a href="https://gajim.org/">Gajim</a></li>
+    <li>Windows: <a href="https://gajim.org/">Gajim</a></li>
+    <li>iOS (iPhone): <a href="https://chatsecure.org/">ChatSecure</a> (in the <a href="https://itunes.apple.com/us/app/chatsecure/id464200063">App Store</a>)</li>
+    <li>macOS: <a href="https://adium.im/">Adium</a></li>
+    <li>Web (in the Browser): <a href="https://conversejs.org/">ConverseJS</a></li>
 </ul>
 
 <h2>{% trans "Can you be more specific?" %}</h2>
@@ -48,9 +41,6 @@ another one might work best for Voice/Video calls.{% endblocktrans %}</p>
         {{ form.os.formgroup }}
     </div>
 </form>
-
-<p><small>(Note: Maybe a second selector with something like "Good for filetransfer", "good for Voice/Video",
-"Good end-to-end encryption", ...?)</small></p>
 
 <table id="clients-table" class="table table-bordered">
 <tr class="header-row">
