@@ -1,0 +1,19 @@
+/* define local font family */
+@font-face {
+    font-family: Converse-js-local;
+    src: url(/static/conversejs/fonts/icomoon.eot?-mnoxh0);
+    src: url(/static/conversejs/fonts/icomoon.eot?#iefix-mnoxh0) format("embedded-opentype"),
+         url(/static/conversejs/fonts/icomoon.woff?-mnoxh0) format("woff"),
+         url(/static/conversejs/fonts/icomoon.ttf?-mnoxh0) format("truetype"),
+         url(/static/conversejs/fonts/icomoon.svg?-mnoxh0#icomoon) format("svg");
+    font-weight:400;
+    font-style:normal
+}
+
+/* use local font */
+#conversejs [class*=" icon-"]:before, #conversejs [class^=icon-]:before, #conversejs [data-icon]:before, .icon-conversejs {
+    font-family: Converse-js-local !important;
+}
+#conversejs .spinner:before{
+    font-family: Converse-js-local !important;
+}
