@@ -44,11 +44,12 @@ means there are many different clients to connect to {{ hostname }}.{% endblockt
 <table id="clients-table" class="table table-bordered">
 <tr class="header-row">
     <th rowspan="2" class="two-rows">Client</th>
-    <th colspan="8">XEP</th>
+    <th colspan="9">XEP</th>
     <th rowspan="2" class="two-rows">Notes</th>
 </tr>
 <tr class="header-row">
     <th><a href="http://xmpp.org/extensions/xep-0027.html">0027</a></th>
+    <th><a href="http://xmpp.org/extensions/xep-0198.html">0167</a></th>
     <th><a href="http://xmpp.org/extensions/xep-0198.html">0198</a></th>
     <th><a href="http://xmpp.org/extensions/xep-0280.html">0280</a></th>
     <th><a href="http://xmpp.org/extensions/xep-0313.html">0313</a></th>
@@ -60,6 +61,7 @@ means there are many different clients to connect to {{ hostname }}.{% endblockt
 <tr class="osx">
     <th><a href="https://adium.im/">Adium</a></th>
     <td class="xep xep0027">{{u}}</td>
+    <td class="xep xep0167">{{n}}</td>
     <td class="xep xep0198">{{u}}</td>
     <td class="xep xep0280">{{u}}</td>
     <td class="xep xep0313">{{u}}</td>
@@ -72,6 +74,7 @@ means there are many different clients to connect to {{ hostname }}.{% endblockt
 <tr class="ios">
     <th><a href="https://chatsecure.org/">ChatSecure</a></th>
     <td class="xep xep0027">{{u}}</td>
+    <td class="xep xep0167">{{n}}</td>
     <td class="xep xep0198">{{u}}</td>
     <td class="xep xep0280">{{u}}</td>
     <td class="xep xep0313">{{u}}</td>
@@ -84,6 +87,7 @@ means there are many different clients to connect to {{ hostname }}.{% endblockt
 <tr class="android">
     <th><a href="https://conversations.im/">Conversations</a></th>
     <td class="xep xep0027">{{y}}</td>
+    <td class="xep xep0167">{{n}}</td>
     <td class="xep xep0198">{{y}}</td>
     <td class="xep xep0280">{{y}}</td>
     <td class="xep xep0313">{{y}}</td>
@@ -93,9 +97,10 @@ means there are many different clients to connect to {{ hostname }}.{% endblockt
     <td class="xep omemo">{{y}}</td>
     <td></td>
 </tr>
-<tr class="web">
+<tr class="browser">
     <th><a href="https://conversejs.org/">Converse.js</a></th>
     <td class="xep xep0027">{{u}}</td>
+    <td class="xep xep0167">{{n}}</td>
     <td class="xep xep0198">{{u}}</td>
     <td class="xep xep0280">{{u}}</td>
     <td class="xep xep0313">{{u}}</td>
@@ -108,6 +113,7 @@ means there are many different clients to connect to {{ hostname }}.{% endblockt
 <tr class="win linux">
     <th><a href="https://gajim.org/">Gajim</a></th>
     <td class="xep xep0027">{{y}}</td>
+    <td class="xep xep0167">{{n}}</td>
     <td class="xep xep0198">{{y}}</td>
     <td class="xep xep0280">{{y}}</td>
     <td class="xep xep0313">{{y}}</td>
@@ -120,6 +126,7 @@ means there are many different clients to connect to {{ hostname }}.{% endblockt
 <tr class="win linux osx">
     <th><a href="https://jitsi.org/">Jitsi</a></th>
     <td class="xep xep0027">{{u}}</td>
+    <td class="xep xep0167">{{n}}</td>
     <td class="xep xep0198">{{u}}</td>
     <td class="xep xep0280">{{u}}</td>
     <td class="xep xep0313">{{u}}</td>
@@ -127,11 +134,12 @@ means there are many different clients to connect to {{ hostname }}.{% endblockt
     <td class="xep xep0357">{{u}}</td>
     <td class="xep xep0363">{{u}}</td>
     <td class="xep omemo">{{n}}</td>
-    <td></td>
+    <td>{% trans "Good for voice- or video calls" %}</td>
 </tr>
-<tr class="win linux osx">
+<tr class="browser">
     <th><a href="https://www.jsxc.org/">JSXC</a></th>
     <td class="xep xep0027">{{u}}</td>
+    <td class="xep xep0167">{{n}}</td>
     <td class="xep xep0198">{{u}}</td>
     <td class="xep xep0280">{{u}}</td>
     <td class="xep xep0313">{{u}}</td>
@@ -144,6 +152,7 @@ means there are many different clients to connect to {{ hostname }}.{% endblockt
 <tr class="linux console">
     <th><a href="https://mcabber.com/">mcabber</a></th>
     <td class="xep xep0027">{{y}}</td>
+    <td class="xep xep0167">{{n}}</td>
     <td class="xep xep0198">{{u}}</td>
     <td class="xep xep0280">{{u}}</td>
     <td class="xep xep0313">{{u}}</td>
@@ -153,9 +162,24 @@ means there are many different clients to connect to {{ hostname }}.{% endblockt
     <td class="xep omemo">{{n}}</td>
     <td></td>
 </tr>
+<tr class="win">
+    {% comment %}http://wiki.miranda-im.org/Jabber{% endcomment %}
+    <th><a href="http://miranda-im.org">Miranda</a></th>
+    <td class="xep xep0027">{{n}}</td>
+    <td class="xep xep0167">{{n}}</td>
+    <td class="xep xep0198">{{n}}</td>
+    <td class="xep xep0280">{{n}}</td>
+    <td class="xep xep0313">{{n}}</td>
+    <td class="xep xep0352">{{n}}</td>
+    <td class="xep xep0357">{{n}}</td>
+    <td class="xep xep0363">{{n}}</td>
+    <td class="xep omemo">{{n}}</td>
+    <td></td>
+</tr>
 <tr class="win linux">
     <th><a href="http://pidgin.im/">Pidgin</a></th>
     <td class="xep xep0027">{{u}}</td>
+    <td class="xep xep0167">{{n}}</td>
     <td class="xep xep0198">{{u}}</td>
     <td class="xep xep0280">{{u}}</td>
     <td class="xep xep0313">{{u}}</td>
@@ -168,6 +192,7 @@ means there are many different clients to connect to {{ hostname }}.{% endblockt
 <tr class="linux console">
     <th><a href="http://profanity.im/">Profanity</a></th>
     <td class="xep xep0027">{{y}}</td>
+    <td class="xep xep0167">{{n}}</td>
     <td class="xep xep0198">{{n}}</td>
     <td class="xep xep0280">{{y}}</td>
     <td class="xep xep0313">{{n}}</td>
@@ -180,6 +205,7 @@ means there are many different clients to connect to {{ hostname }}.{% endblockt
 <tr class="win linux osx">
     <th><a href="https://swift.im/swift.html">Swift</a></th>
     <td class="xep xep0027">{{u}}</td>
+    <td class="xep xep0167">{{n}}</td>
     <td class="xep xep0198">{{u}}</td>
     <td class="xep xep0280">{{u}}</td>
     <td class="xep xep0313">{{u}}</td>
@@ -189,10 +215,11 @@ means there are many different clients to connect to {{ hostname }}.{% endblockt
     <td class="xep omemo">{{n}}</td>
     <td></td>
 </tr>
-<tr class="win linux osx">
+<tr class="android">
     {% comment %}https://github.com/redsolution/xabber-android#supported-protocols{% endcomment %}
     <th><a href="https://www.xabber.com/">Xabber</a></th>
     <td class="xep xep0027">{{n}}</td>
+    <td class="xep xep0167">{{n}}</td>
     <td class="xep xep0198">{{n}}</td>
     <td class="xep xep0280">{{n}}</td>
     <td class="xep xep0313">{{n}}</td>
@@ -207,6 +234,7 @@ means there are many different clients to connect to {{ hostname }}.{% endblockt
     <th><a href="http://yaxim.org/">yaxim</a></th>
     {% comment %}http://yaxim.org/features/{% endcomment %}
     <td class="xep xep0027">{{n}}</td>
+    <td class="xep xep0167">{{n}}</td>
     <td class="xep xep0198">{{y}}</td>
     <td class="xep xep0280">{{y}}</td>
     <td class="xep xep0313">{{n}}</td>
@@ -219,6 +247,7 @@ means there are many different clients to connect to {{ hostname }}.{% endblockt
 <tr class="ios android">
     <th><a href="https://zom.im/">Zom</a></th>
     <td class="xep xep0027">{{u}}</td>
+    <td class="xep xep0167">{{n}}</td>
     <td class="xep xep0198">{{u}}</td>
     <td class="xep xep0280">{{u}}</td>
     <td class="xep xep0313">{{u}}</td>
@@ -234,5 +263,10 @@ means there are many different clients to connect to {{ hostname }}.{% endblockt
 {% url "core:contact" as contact_url %}
 {% blocktrans with url=contact_url %}Feel information on this page is missing or out of date? Please just <a href="{{ url }}">contact
 us</a>.{% endblocktrans %}</div>
+<p>{% blocktrans %}
+You can also find other lists of clients on <a href="http://xmpp.org/software/clients.shtml">xmpp.org</a>,
+<a href="http://en.wikipedia.org/wiki/List_of_XMPP_client_software">Wikipedia</a>, on
+<a href="https://www.zash.se/xmpp-clients.html">zash.se</a>, or, in French, at
+<a href="https://wiki.jabberfr.org/Clients">jabberfr.org</a>.{% endblocktrans %}
 
 {% endblock content %}

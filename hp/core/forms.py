@@ -63,6 +63,7 @@ class SelectOSForm(forms.Form):
         choices=[
             ('any', _('Any operating system')),
             ('android', 'Android'),
+            ('browser', 'Browser'),
             ('ios', 'iOS (iPhone)'),
             ('linux', 'Linux'),
             ('console', 'Linux (console)'),
