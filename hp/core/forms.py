@@ -63,6 +63,7 @@ class SelectOSForm(forms.Form):
             ('android', 'Android'),
             ('ios', 'iOS (iPhone)'),
             ('linux', 'Linux'),
+            ('console', 'Linux (console)'),
             ('osx', 'macOS (Mac OS X)'),
             ('win', 'Windows'),
         ])
