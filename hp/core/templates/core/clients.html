@@ -21,9 +21,9 @@ means there are many different clients to connect to {{ hostname }}.{% endblockt
 <p>{% trans "Here is what we have found works best:" %}</p>
 
 <ul>
-    <li>Android: <a href="https://conversations.im/">Conversations</a> (for € 2,39 
+    <li>Android: <a href="https://conversations.im/">Conversations</a> (€ 2,39 on
         <a href="https://play.google.com/store/apps/details?id=eu.siacs.conversations">Google Play</a> 
-        or for free on 
+        or free on 
         <a href="https://f-droid.org/repository/browse/?fdfilter=conversations&fdid=eu.siacs.conversations">F-Droid</a>)
     </li>
     <li>iOS (iPhone): <a href="https://chatsecure.org/">ChatSecure</a> (in the <a href="https://itunes.apple.com/us/app/chatsecure/id464200063">App Store</a>)</li>
@@ -57,8 +57,8 @@ means there are many different clients to connect to {{ hostname }}.{% endblockt
     <th><a href="http://xmpp.org/extensions/xep-0198.html">0198</a></th>
     <th><a href="http://xmpp.org/extensions/xep-0280.html">0280</a></th>
     <th><a href="http://xmpp.org/extensions/xep-0313.html">0313</a></th>
-    <th><a href="http://xmpp.org/extensions/xep-0352.html">0352</a></th>
-    <th><a href="http://xmpp.org/extensions/xep-0357.html">0357</a></th>
+    <th class="mobile"><a href="http://xmpp.org/extensions/xep-0352.html">0352</a></th>
+    <th class="mobile"><a href="http://xmpp.org/extensions/xep-0357.html">0357</a></th>
     <th><a href="http://xmpp.org/extensions/xep-0363.html">0363</a></th>
     <th><a href="https://conversations.im/xeps/multi-end.html">OMEMO</a></th>
 </tr>
@@ -69,8 +69,8 @@ means there are many different clients to connect to {{ hostname }}.{% endblockt
     <td class="xep xep0198">{{u}}</td>
     <td class="xep xep0280">{{u}}</td>
     <td class="xep xep0313">{{u}}</td>
-    <td class="xep xep0352">{{u}}</td>
-    <td class="xep xep0357">{{u}}</td>
+    <td class="xep xep0352 mobile">{{u}}</td>
+    <td class="xep xep0357 mobile">{{u}}</td>
     <td class="xep xep0363">{{u}}</td>
     <td class="xep omemo">{{n}}</td>
     <td></td>
@@ -82,8 +82,8 @@ means there are many different clients to connect to {{ hostname }}.{% endblockt
     <td class="xep xep0198">{{u}}</td>
     <td class="xep xep0280">{{u}}</td>
     <td class="xep xep0313">{{u}}</td>
-    <td class="xep xep0352">{{u}}</td>
-    <td class="xep xep0357">{{u}}</td>
+    <td class="xep xep0352 mobile">{{u}}</td>
+    <td class="xep xep0357 mobile">{{u}}</td>
     <td class="xep xep0363">{{u}}</td>
     <td class="xep omemo">{{n}}</td>
     <td></td>
@@ -95,8 +95,8 @@ means there are many different clients to connect to {{ hostname }}.{% endblockt
     <td class="xep xep0198">{{y}}</td>
     <td class="xep xep0280">{{y}}</td>
     <td class="xep xep0313">{{y}}</td>
-    <td class="xep xep0352">{{y}}</td>
-    <td class="xep xep0357">{{n}}</td>
+    <td class="xep xep0352 mobile">{{y}}</td>
+    <td class="xep xep0357 mobile">{{n}}</td>
     <td class="xep xep0363">{{y}}</td>
     <td class="xep omemo">{{y}}</td>
     <td>on <a href="https://f-droid.org/repository/browse/?fdfilter=conversations&fdid=eu.siacs.conversations">Google play</a> (€ 2,39), on <a href="https://f-droid.org/repository/browse/?fdfilter=conversations&fdid=eu.siacs.conversations">F-Droid</a> (free)</td>
@@ -108,8 +108,8 @@ means there are many different clients to connect to {{ hostname }}.{% endblockt
     <td class="xep xep0198">{{u}}</td>
     <td class="xep xep0280">{{u}}</td>
     <td class="xep xep0313">{{u}}</td>
-    <td class="xep xep0352">{{u}}</td>
-    <td class="xep xep0357">{{u}}</td>
+    <td class="xep xep0352 mobile">{{u}}</td>
+    <td class="xep xep0357 mobile">{{u}}</td>
     <td class="xep xep0363">{{u}}</td>
     <td class="xep omemo">{{n}}</td>
     <td></td>
@@ -121,8 +121,8 @@ means there are many different clients to connect to {{ hostname }}.{% endblockt
     <td class="xep xep0198">{{y}}</td>
     <td class="xep xep0280">{{y}}</td>
     <td class="xep xep0313">{{y}}</td>
-    <td class="xep xep0352">{{n}}</td>
-    <td class="xep xep0357">{{n}}</td>
+    <td class="xep xep0352 mobile">{{n}}</td>
+    <td class="xep xep0357 mobile">{{n}}</td>
     <td class="xep xep0363">{{y}}</td>
     <td class="xep omemo">{{y}}</td>
     <td></td>
@@ -134,11 +134,11 @@ means there are many different clients to connect to {{ hostname }}.{% endblockt
     <td class="xep xep0198">{{u}}</td>
     <td class="xep xep0280">{{u}}</td>
     <td class="xep xep0313">{{u}}</td>
-    <td class="xep xep0352">{{u}}</td>
-    <td class="xep xep0357">{{u}}</td>
+    <td class="xep xep0352 mobile">{{u}}</td>
+    <td class="xep xep0357 mobile">{{u}}</td>
     <td class="xep xep0363">{{u}}</td>
     <td class="xep omemo">{{n}}</td>
-    <td>{% trans "Good for voice- or video calls" %}</td>
+    <td>{% trans "Good for voice/video calls" %}</td>
 </tr>
 <tr class="browser">
     <th><a href="https://www.jsxc.org/">JSXC</a></th>
@@ -147,8 +147,8 @@ means there are many different clients to connect to {{ hostname }}.{% endblockt
     <td class="xep xep0198">{{u}}</td>
     <td class="xep xep0280">{{u}}</td>
     <td class="xep xep0313">{{u}}</td>
-    <td class="xep xep0352">{{u}}</td>
-    <td class="xep xep0357">{{u}}</td>
+    <td class="xep xep0352 mobile">{{u}}</td>
+    <td class="xep xep0357 mobile">{{u}}</td>
     <td class="xep xep0363">{{u}}</td>
     <td class="xep omemo">{{n}}</td>
     <td>{% trans "Requires you to host your own instance." %}</td>
@@ -160,8 +160,8 @@ means there are many different clients to connect to {{ hostname }}.{% endblockt
     <td class="xep xep0198">{{u}}</td>
     <td class="xep xep0280">{{u}}</td>
     <td class="xep xep0313">{{u}}</td>
-    <td class="xep xep0352">{{u}}</td>
-    <td class="xep xep0357">{{u}}</td>
+    <td class="xep xep0352 mobile">{{u}}</td>
+    <td class="xep xep0357 mobile">{{u}}</td>
     <td class="xep xep0363">{{u}}</td>
     <td class="xep omemo">{{n}}</td>
     <td></td>
@@ -173,8 +173,8 @@ means there are many different clients to connect to {{ hostname }}.{% endblockt
     <td class="xep xep0198">{{u}}</td>
     <td class="xep xep0280">{{u}}</td>
     <td class="xep xep0313">{{u}}</td>
-    <td class="xep xep0352">{{u}}</td>
-    <td class="xep xep0357">{{u}}</td>
+    <td class="xep xep0352 mobile">{{u}}</td>
+    <td class="xep xep0357 mobile">{{u}}</td>
     <td class="xep xep0363">{{u}}</td>
     <td class="xep omemo">{{n}}</td>
     <td></td>
@@ -186,8 +186,8 @@ means there are many different clients to connect to {{ hostname }}.{% endblockt
     <td class="xep xep0198">{{u}}</td>
     <td class="xep xep0280">{{u}}</td>
     <td class="xep xep0313">{{u}}</td>
-    <td class="xep xep0352">{{u}}</td>
-    <td class="xep xep0357">{{u}}</td>
+    <td class="xep xep0352 mobile">{{u}}</td>
+    <td class="xep xep0357 mobile">{{u}}</td>
     <td class="xep xep0363">{{u}}</td>
     <td class="xep omemo">{{n}}</td>
     <td></td>
@@ -199,8 +199,8 @@ means there are many different clients to connect to {{ hostname }}.{% endblockt
     <td class="xep xep0198">{{u}}</td>
     <td class="xep xep0280">{{u}}</td>
     <td class="xep xep0313">{{u}}</td>
-    <td class="xep xep0352">{{u}}</td>
-    <td class="xep xep0357">{{u}}</td>
+    <td class="xep xep0352 mobile">{{u}}</td>
+    <td class="xep xep0357 mobile">{{u}}</td>
     <td class="xep xep0363">{{u}}</td>
     <td class="xep omemo">{{n}}</td>
     <td></td>
@@ -213,8 +213,8 @@ means there are many different clients to connect to {{ hostname }}.{% endblockt
     <td class="xep xep0198">{{n}}</td>
     <td class="xep xep0280">{{y}}</td>
     <td class="xep xep0313">{{n}}</td>
-    <td class="xep xep0352">{{n}}</td>
-    <td class="xep xep0357">{{n}}</td>
+    <td class="xep xep0352 mobile">{{n}}</td>
+    <td class="xep xep0357 mobile">{{n}}</td>
     <td class="xep xep0363">{{n}}</td>
     <td class="xep omemo">{{n}}</td>
     <td></td>
@@ -226,8 +226,8 @@ means there are many different clients to connect to {{ hostname }}.{% endblockt
     <td class="xep xep0198">{{n}}</td>
     <td class="xep xep0280">{{y}}</td>
     <td class="xep xep0313">{{n}}</td>
-    <td class="xep xep0352">{{n}}</td>
-    <td class="xep xep0357">{{n}}</td>
+    <td class="xep xep0352 mobile">{{n}}</td>
+    <td class="xep xep0357 mobile">{{n}}</td>
     <td class="xep xep0363">{{y}}</td>
     <td class="xep omemo">{{n}}</td>
     <td></td>
@@ -239,8 +239,8 @@ means there are many different clients to connect to {{ hostname }}.{% endblockt
     <td class="xep xep0198">{{u}}</td>
     <td class="xep xep0280">{{u}}</td>
     <td class="xep xep0313">{{u}}</td>
-    <td class="xep xep0352">{{u}}</td>
-    <td class="xep xep0357">{{u}}</td>
+    <td class="xep xep0352 mobile">{{u}}</td>
+    <td class="xep xep0357 mobile">{{u}}</td>
     <td class="xep xep0363">{{u}}</td>
     <td class="xep omemo">{{n}}</td>
     <td></td>
@@ -253,8 +253,8 @@ means there are many different clients to connect to {{ hostname }}.{% endblockt
     <td class="xep xep0198">{{n}}</td>
     <td class="xep xep0280">{{n}}</td>
     <td class="xep xep0313">{{n}}</td>
-    <td class="xep xep0352">{{y}}</td>
-    <td class="xep xep0357">{{n}}</td>
+    <td class="xep xep0352 mobile">{{y}}</td>
+    <td class="xep xep0357 mobile">{{n}}</td>
     <td class="xep xep0363">{{n}}</td>
     <td class="xep omemo">{{n}}</td>
     <td>on <a href="https://play.google.com/store/apps/details?id=com.xabber.android.beta">Google play</a>,
@@ -268,8 +268,8 @@ means there are many different clients to connect to {{ hostname }}.{% endblockt
     <td class="xep xep0198">{{y}}</td>
     <td class="xep xep0280">{{y}}</td>
     <td class="xep xep0313">{{n}}</td>
-    <td class="xep xep0352">{{n}}</td>
-    <td class="xep xep0357">{{n}}</td>
+    <td class="xep xep0352 mobile">{{n}}</td>
+    <td class="xep xep0357 mobile">{{n}}</td>
     <td class="xep xep0363">{{n}}</td>
     <td class="xep omemo">{{n}}</td>
     <td></td>
@@ -281,8 +281,8 @@ means there are many different clients to connect to {{ hostname }}.{% endblockt
     <td class="xep xep0198">{{u}}</td>
     <td class="xep xep0280">{{u}}</td>
     <td class="xep xep0313">{{u}}</td>
-    <td class="xep xep0352">{{u}}</td>
-    <td class="xep xep0357">{{u}}</td>
+    <td class="xep xep0352 mobile">{{u}}</td>
+    <td class="xep xep0357 mobile">{{u}}</td>
     <td class="xep xep0363">{{u}}</td>
     <td class="xep omemo">{{n}}</td>
     <td></td>

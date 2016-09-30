@@ -7,6 +7,12 @@ var update_client_list = function(elem) {
         $('table#clients-table tr.header-row').show();
         $('table#clients-table tr.' + value).show();
     }
+
+    if (value == 'android' || value == 'ios' || value == 'any') {
+        $('table#clients-table .mobile').show();
+    } else {
+        $('table#clients-table .mobile').hide();
+    }
 };
 
 $(document).ready(function() {
