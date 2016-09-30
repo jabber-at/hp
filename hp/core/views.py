@@ -211,6 +211,7 @@ class ClientsView(TemplateView):
         context = super(ClientsView, self).get_context_data()
         context['form'] = SelectOSForm()
         context['y'] = glyph('ok', context='success')
+        context['u'] = glyph('question-sign', context='muted')
         context['n'] = glyph('remove', context='danger')
         return context
 

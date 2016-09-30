@@ -45,56 +45,126 @@ means there are many different clients to connect to {{ hostname }}.{% endblockt
 <table id="clients-table" class="table table-bordered">
 <tr class="header-row">
     <th rowspan="2" class="two-rows">Client</th>
-    <th colspan="5">XEP</th>
+    <th colspan="8">XEP</th>
     <th rowspan="2" class="two-rows">Notes</th>
 </tr>
 <tr class="header-row">
-    <th><a href="http://xmpp.org/extensions/xep-0045.html">0045</a></th>
+    <th><a href="http://xmpp.org/extensions/xep-0027.html">0027</a></th>
+    <th><a href="http://xmpp.org/extensions/xep-0198.html">0198</a></th>
     <th><a href="http://xmpp.org/extensions/xep-0280.html">0280</a></th>
     <th><a href="http://xmpp.org/extensions/xep-0313.html">0313</a></th>
+    <th><a href="http://xmpp.org/extensions/xep-0352.html">0352</a></th>
+    <th><a href="http://xmpp.org/extensions/xep-0357.html">0357</a></th>
     <th><a href="http://xmpp.org/extensions/xep-0363.html">0363</a></th>
-    <th><a href="http://xmpp.org/extensions/xep-0364.html">0364</a></th>
+    <th><a href="https://conversations.im/xeps/multi-end.html">OMEMO</a></th>
 </tr>
 <tr class="osx">
-    <th>Adium</th>
-    <td>{{y}}</td><td>{{n}}</td><td>{{y}}</td><td>{{y}}</td><td>{{y}}</td>
+    <th><a href="https://adium.im/">Adium</a></th>
+    <td class="xep xep0027">{{u}}</td>
+    <td class="xep xep0198">{{u}}</td>
+    <td class="xep xep0280">{{u}}</td>
+    <td class="xep xep0313">{{u}}</td>
+    <td class="xep xep0352">{{u}}</td>
+    <td class="xep xep0357">{{u}}</td>
+    <td class="xep xep0363">{{u}}</td>
+    <td class="xep omemo">{{n}}</td>
+    <td></td>
+</tr>
+<tr class="ios">
+    <th><a href="https://chatsecure.org/">ChatSecure</a></th>
+    <td class="xep xep0027">{{u}}</td>
+    <td class="xep xep0198">{{u}}</td>
+    <td class="xep xep0280">{{u}}</td>
+    <td class="xep xep0313">{{u}}</td>
+    <td class="xep xep0352">{{u}}</td>
+    <td class="xep xep0357">{{u}}</td>
+    <td class="xep xep0363">{{u}}</td>
+    <td class="xep omemo">{{u}}</td>
+    <td></td>
+</tr>
+<tr class="android">
+    <th><a href="https://conversations.im/">Conversations</a></th>
+    <td class="xep xep0027">{{y}}</td>
+    <td class="xep xep0198">{{y}}</td>
+    <td class="xep xep0280">{{y}}</td>
+    <td class="xep xep0313">{{y}}</td>
+    <td class="xep xep0352">{{y}}</td>
+    <td class="xep xep0357">{{n}}</td>
+    <td class="xep xep0363">{{y}}</td>
+    <td class="xep omemo">{{y}}</td>
+    <td></td>
+</tr>
+<tr class="win linux">
+    <th><a href="https://gajim.org/">Gajim</a></th>
+    <td class="xep xep0027">{{u}}</td>
+    <td class="xep xep0198">{{u}}</td>
+    <td class="xep xep0280">{{u}}</td>
+    <td class="xep xep0313">{{u}}</td>
+    <td class="xep xep0352">{{u}}</td>
+    <td class="xep xep0357">{{u}}</td>
+    <td class="xep xep0363">{{u}}</td>
+    <td class="xep omemo">{{y}}</td>
+    <td></td>
+</tr>
+<tr class="win linux osx">
+    <th><a href="https://jitsi.org/">Jitsi</a></th>
+    <td class="xep xep0027">{{u}}</td>
+    <td class="xep xep0198">{{u}}</td>
+    <td class="xep xep0280">{{u}}</td>
+    <td class="xep xep0313">{{u}}</td>
+    <td class="xep xep0352">{{u}}</td>
+    <td class="xep xep0357">{{u}}</td>
+    <td class="xep xep0363">{{u}}</td>
+    <td class="xep omemo">{{n}}</td>
+    <td></td>
+</tr>
+<tr class="console">
+    <th><a href="https://mcabber.com/">mcabber</a></th>
+    <td class="xep xep0027">{{y}}</td>
+    <td class="xep xep0198">{{u}}</td>
+    <td class="xep xep0280">{{u}}</td>
+    <td class="xep xep0313">{{u}}</td>
+    <td class="xep xep0352">{{u}}</td>
+    <td class="xep xep0357">{{u}}</td>
+    <td class="xep xep0363">{{u}}</td>
+    <td class="xep omemo">{{n}}</td>
+    <td></td>
+</tr>
+<tr class="win linux">
+    <th><a href="http://pidgin.im/">Pidgin</a></th>
+    <td class="xep xep0027">{{u}}</td>
+    <td class="xep xep0198">{{u}}</td>
+    <td class="xep xep0280">{{u}}</td>
+    <td class="xep xep0313">{{u}}</td>
+    <td class="xep xep0352">{{u}}</td>
+    <td class="xep xep0357">{{u}}</td>
+    <td class="xep xep0363">{{u}}</td>
+    <td class="xep omemo">{{n}}</td>
+    <td></td>
+</tr>
+<tr class="console">
+    <th><a href="http://profanity.im/">Profanity</a></th>
+    <td class="xep xep0027">{{y}}</td>
+    <td class="xep xep0198">{{n}}</td>
+    <td class="xep xep0280">{{y}}</td>
+    <td class="xep xep0313">{{n}}</td>
+    <td class="xep xep0352">{{n}}</td>
+    <td class="xep xep0357">{{n}}</td>
+    <td class="xep xep0363">{{y}}</td>
+    <td class="xep omemo">{{n}}</td>
     <td></td>
 </tr>
 <tr class="ios android">
-    <th>ChatSecure</th>
-    <td>{{y}}</td><td>{{y}}</td><td>{{y}}</td><td>{{y}}</td><td>{{y}}</td>
-    <td>bla</td>
-</tr>
-<tr class="android">
-    <th>Conversations</th>
-    <td>{{y}}</td><td>{{y}}</td><td>{{y}}</td><td>{{y}}</td><td>{{y}}</td>
-    <td>whatever</td>
-</tr>
-<tr class="win linux">
-    <th>Gajim</th>
-    <td>{{y}}</td><td>{{n}}</td><td>{{y}}</td><td>{{n}}</td><td>{{y}}</td>
-    <td>Ur super</td>
-</tr>
-<tr class="win linux osx">
-    <th>Jitsi</th>
-    <td>{{n}}</td><td>{{n}}</td><td>{{y}}</td><td>{{y}}</td><td>{{y}}</td>
-    <td>lorem ipsum</td>
-</tr>
-<tr class="linux">
-    <th>mcabber</th>
-    <td>{{n}}</td><td>{{n}}</td><td>{{n}}</td><td>{{n}}</td><td>{{y}}</td>
-    <td>wuhu</td>
-</tr>
-<tr class="win linux">
-    <th>Pidgin</th>
-    <td>{{y}}</td><td>{{n}}</td><td>{{y}}</td><td>{{y}}</td><td>{{y}}</td>
-    <td>irgendein text</td>
-</tr>
-<tr class="linux">
-    <th>Profanity</th>
-    <td>{{n}}</td><td>{{n}}</td><td>{{n}}</td><td>{{n}}</td><td>{{y}}</td>
-    <td>Oida!</td>
-</tr>
+    <th><a href="https://zom.im/">Zom</a></th>
+    <td class="xep xep0027">{{u}}</td>
+    <td class="xep xep0198">{{u}}</td>
+    <td class="xep xep0280">{{u}}</td>
+    <td class="xep xep0313">{{u}}</td>
+    <td class="xep xep0352">{{u}}</td>
+    <td class="xep xep0357">{{u}}</td>
+    <td class="xep xep0363">{{u}}</td>
+    <td class="xep omemo">{{u}}</td>
+    <td></td>
 </table>
 
 <div class="alert alert-info">{% blocktrans %}
