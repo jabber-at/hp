@@ -98,6 +98,9 @@ class User(XmppBackendUser, PermissionsMixin):
     # If the user is blocked.
     blocked = models.BooleanField(default=False)
 
+    # When the user last logged in.
+    last_activity = models.DateTimeField(auto_now_add=True, null=True, blank=True)
+
     objects = UserManager.from_queryset(UserQuerySet)()
 
     USERNAME_FIELD = 'username'
