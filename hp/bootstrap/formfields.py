@@ -32,8 +32,9 @@ class BoundField(forms.boundfield.BoundField):
     def formgroup(self):
         help_text = ''
         if self.help_text or self.errors:
-            help_text = format_html('<p id="{}" class="help-block">{}{}</p>', self.help_id,
-                                    mark_safe(self.help_text), self.errors)
+            extra_help = self.field.get_extra_help()
+            help_text = format_html('<p id="{}" class="help-block">{}{}{}</p>', self.help_id,
+                                    mark_safe(self.help_text), extra_help, self.errors)
 
         fg_attrs = dict(self.field.formgroup_attrs)
         fg_attrs.setdefault('id', 'fg_%s' % self.html_name)
@@ -147,6 +148,9 @@ class BootstrapMixin(object):
 
     def get_bound_field(self, form, field_name):
         return BoundField(form, self, field_name)
+
+    def get_extra_help(self):
+        return ''
 
 
 class BootstrapCharField(BootstrapMixin, forms.CharField):
