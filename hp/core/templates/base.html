@@ -47,7 +47,7 @@
 
     {% block opengraph %}
     <meta property="og:site_name" content="{{ default_site.BRAND }}" />
-    <meta property="og:image" content="{{ default_site.CANONICAL_BASE_URL }}{% static "core/img/fb.png" %}" />
+    <meta property="og:image" content="{% canonical_static "core/img/fb.png" %}" />
     {% if FACEBOOK_PAGE %}
         <meta property="fb:pages" content="{{ FACEBOOK_PAGE }}" />
     {% endif %}
@@ -58,7 +58,7 @@
     {% if TWITTER_HANDLE %}
     <meta name="twitter:site" content="@{{ TWITTER_HANDLE }}" />
     {% endif %}
-    <meta name="twitter:image" content="{{ default_site.CANONICAL_BASE_URL }}{% static "core/img/twitter.png" %}" />
+    <meta name="twitter:image" content="{% canonical_static "core/img/twitter.png" %}" />
     {% endblock twitter %}
 
     {% block extrahead %}{% endblock extrahead %}

@@ -24,6 +24,7 @@ from django.conf import settings
 from django.core.cache import cache
 from django.utils.translation import ungettext
 from django.utils.translation import ugettext as _
+from django.contrib.staticfiles.templatetags.staticfiles import static
 
 
 def format_timedelta(delta):
@@ -119,6 +120,20 @@ def check_dnsbl(ip):
     return blocks
 
 
+def canonical_link(path):
+    """Get the canonical link of a relative URL path.
+
+    Uses the ``CANONICAL_BASE_URL`` setting in the default ``XMPP_HOST`` as base URL.
+
+    Example::
+
+        >>> canonical_link('/foo/bar')
+        'https://example.com/foo/bar'
+    """
+    base_url = settings.XMPP_HOSTS[settings.DEFAULT_XMPP_HOST]['CANONICAL_BASE_URL']
+    return urljoin(base_url, path)
+
+
 def absolutify_html(html, base_url):
     """Make relative links in the given html absolute.
 
@@ -158,3 +173,5 @@ def absolutify_html(html, base_url):
     tree_walker = html5lib.treewalkers.getTreeWalker('dom')
     html_serializer = html5lib.serializer.htmlserializer.HTMLSerializer()
     return ''.join(html_serializer.serialize(tree_walker(body)))
+
+

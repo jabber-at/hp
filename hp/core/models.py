@@ -45,6 +45,7 @@ from .modelfields import LocalizedTextField
 from .querysets import AddressActivityQuerySet
 from .querysets import AddressQuerySet
 from .querysets import BlogPostQuerySet
+from .utils import canonical_link
 
 
 class BaseModel(models.Model):
@@ -164,8 +165,7 @@ class BasePage(BaseModel):
 
     def get_canonical_url(self):
         """Get the full canonical URL of this object."""
-        host = settings.XMPP_HOSTS[settings.DEFAULT_XMPP_HOST]
-        return '%s%s' % (host['CANONICAL_BASE_URL'], self.get_absolute_url())
+        return canonical_link(self.get_absolute_url())
 
     class Meta:
         abstract = True
