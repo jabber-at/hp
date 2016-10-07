@@ -1,7 +1,7 @@
-.form-group-username p#status-check span#username-available,
-.form-group-username p#status-check span#username-not-available,
-.form-group-username p#status-check span#error,
-.form-group-username p#status-check span#invalid
+.form-group-username span#status-check span#username-available,
+.form-group-username span#status-check span#username-not-available,
+.form-group-username span#status-check span#error,
+.form-group-username span#status-check span#invalid
 {
     display: none;
 }
