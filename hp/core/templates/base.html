@@ -30,11 +30,11 @@
     <link rel="icon" type="image/png" href="{% static "favicon/favicon-128.png" sizes="128x128" %}" />
     <meta name="application-name" content="&nbsp;"/>
     <meta name="msapplication-TileColor" content="#FFFFFF" />
-    <meta name="msapplication-TileImage" content="mstile-144x144.png" />
-    <meta name="msapplication-square70x70logo" content="mstile-70x70.png" />
-    <meta name="msapplication-square150x150logo" content="mstile-150x150.png" />
-    <meta name="msapplication-wide310x150logo" content="mstile-310x150.png" />
-    <meta name="msapplication-square310x310logo" content="mstile-310x310.png" />
+    <meta name="msapplication-TileImage" content="{% static "mstile-144x144.png" %}" />
+    <meta name="msapplication-square70x70logo" content="{% static "mstile-70x70.png" %}" />
+    <meta name="msapplication-square150x150logo" content="{% static "mstile-150x150.png" %}" />
+    <meta name="msapplication-wide310x150logo" content="{% static "mstile-310x150.png" %}" />
+    <meta name="msapplication-square310x310logo" content="{% static "mstile-310x310.png" %}" />
 
     {% get_current_language as LANGUAGE_CODE %}
     <link rel="alternate" type="application/rss+xml" title="{% blocktrans with brand=request.site.BRAND %}{{ brand }} - Recent updates (RSS feed){% endblocktrans %}" href="{% canonical "feed:rss2" language=LANGUAGE_CODE %}">
