@@ -5,8 +5,25 @@
 <link href="{% static 'css/blog.css' %}" rel="stylesheet">
 {% endblock head %}
 
-{% block extrahead %}
-{% endblock extrahead %}
+{% block metatags %}
+<link rel="canonical" href="{{ default_site.CANONICAL_BASE_URL }}" />
+<meta name="description" content="{% blocktrans %}A free, stable, secure and feature-rich Jabber/XMPP server. Join the free and open Jabber instant messaging network today!{% endblocktrans %}">
+{{ block.super }}
+{% endblock metatags %}
+
+{% block twitter %}
+<meta name="twitter:title" content="{% trans "A free, secure, feature-rich Jabber/XMPP server." %}" />
+<meta name="twitter:description" content="{% blocktrans %}A free, stable, secure and feature-rich Jabber/XMPP server. Join the free and open Jabber instant messaging network today!{% endblocktrans %}" />
+{{ block.super }}
+{% endblock twitter %}
+
+{% block opengraph %}
+{{ block.super }}
+<meta property="og:updated_time" content="{{ object_list.0.updated|date:"c" }}" />
+<meta property="og:url" content="{{ default_site.CANONICAL_BASE_URL }}" />
+<meta property="og:title" content="{% trans "A free, secure, feature-rich Jabber/XMPP server." %}" />
+<meta property="og:description" content="{% blocktrans %}A free, stable, secure and feature-rich Jabber/XMPP server. Join the free and open Jabber instant messaging network today!{% endblocktrans %}" />
+{% endblock opengraph %}
 
 {% block title %}{% trans "jabber.at blog" %}{% endblock title %}
 
