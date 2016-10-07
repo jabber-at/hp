@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-10-07 15:09+0200\n"
+"POT-Creation-Date: 2016-10-07 15:49+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -332,6 +332,59 @@ msgstr "Also was ist der beste Client?"
 msgid "Here is what we have found works best:"
 msgstr "Was unserer Meinung nach am besten funktioniert:"
 
+#: templates/core/clients.html:24
+msgid ""
+"Android: <a href=\"https://conversations.im/\">Conversations</a> (€ 2,39 on\n"
+"<a href=\"https://play.google.com/store/apps/details?id=eu.siacs."
+"conversations\">Google Play</a> \n"
+"or free on \n"
+"<a href=\"https://f-droid.org/repository/browse/?"
+"fdfilter=conversations&fdid=eu.siacs.conversations\">F-Droid</a>)"
+msgstr ""
+"Android: <a href=\"https://conversations.im/\">Conversations</a> (€ 2,39 "
+"auf\n"
+"<a href=\"https://play.google.com/store/apps/details?id=eu.siacs."
+"conversations\">Google Play</a> \n"
+"oder gratis auf \n"
+"<a href=\"https://f-droid.org/repository/browse/?"
+"fdfilter=conversations&fdid=eu.siacs.conversations\">F-Droid</a>)"
+
+#: templates/core/clients.html:29
+msgid ""
+"iOS (iPhone): <a href=\"https://chatsecure.org/\">ChatSecure</a> (in the <a "
+"href=\"https://itunes.apple.com/us/app/chatsecure/id464200063\">App Store</"
+"a>)"
+msgstr ""
+"iOS (iPhone): <a href=\"https://chatsecure.org/\">ChatSecure</a> (im <a href="
+"\"https://itunes.apple.com/us/app/chatsecure/id464200063\">App Store</a>)"
+
+#: templates/core/clients.html:30
+msgid "Linux: <a href=\"https://gajim.org/\">Gajim</a>"
+msgstr ""
+
+#: templates/core/clients.html:31
+msgid ""
+"Linux (console): <a href=\"https://mcabber.com/\">mcabber</a> or <a href="
+"\"http://profanity.im/\">Profanity</a>"
+msgstr ""
+"Linux (Konsole): <a href=\"https://mcabber.com/\">mcabber</a> oder <a href="
+"\"http://profanity.im/\">Profanity</a>"
+
+#: templates/core/clients.html:32
+msgid "macOS (Mac OS X): <a href=\"https://adium.im/\">Adium</a>"
+msgstr ""
+
+#: templates/core/clients.html:33
+msgid ""
+"Web (in the Browser): <a href=\"https://conversejs.org/\">Converse.js</a>"
+msgstr "Web (im Browser): <a href=\"https://conversejs.org/\">Converse.js</a>"
+
+#: templates/core/clients.html:34
+#, fuzzy
+#| msgid "With <a href=\"https://github.com/omemo/gajim-omemo\">Plugin</a>"
+msgid "Windows: <a href=\"https://gajim.org/\">Gajim</a>"
+msgstr "Mit <a href=\"https://github.com/omemo/gajim-omemo\">Plugin</a>"
+
 #: templates/core/clients.html:37
 msgid "Can you be more specific?"
 msgstr "Geht es bitte etwas genauer?"
@@ -419,10 +472,9 @@ msgid ""
 "<a href=\"xmpp:chat@jabber.at\">chat@jabber.at</a>. If you have trouble\n"
 "registering or connecting, use this form and we will get back to you."
 msgstr ""
-"Der beste weg um uns zu kontaktieren ist unser chatroom unter "
-"<a href=\"xmpp:chat@jabber.at\">chat@jabber.at</a>. Falls sie Probleme "
-"haben sich zu registrieren oder zu verbinden, können sie dieses Formular "
-"nutzen."
+"Der beste weg um uns zu kontaktieren ist unser chatroom unter <a href=\"xmpp:"
+"chat@jabber.at\">chat@jabber.at</a>. Falls sie Probleme haben sich zu "
+"registrieren oder zu verbinden, können sie dieses Formular nutzen."
 
 #: templates/core/contact.html:18
 msgid ""
@@ -432,8 +484,9 @@ msgid ""
 "using? ...and so on."
 msgstr ""
 "Bitte versuchen sie so genau wie möglich ihr Problem zu beschreiben: Welche "
-"Schritte haben dazu geführt? Falls sie eine Fehlermeldung bekommen, wie genau"
-"lautet sie und wo sehen sie sie? Welchen Client benutzen sie? ... und so weiter."
+"Schritte haben dazu geführt? Falls sie eine Fehlermeldung bekommen, wie "
+"genaulautet sie und wo sehen sie sie? Welchen Client benutzen sie? ... und "
+"so weiter."
 
 #: templates/core/contact.html:34
 msgid "Send"
@@ -462,7 +515,8 @@ msgstr "Aktualisierungen"
 
 #: templates/core/include/sidebar.html:19
 msgid "If you use our server, we strongly encourage you to stay up to date."
-msgstr "Wir raten allen, die unseren Server nutzen, auf dem Laufenden zu bleiben."
+msgstr ""
+"Wir raten allen, die unseren Server nutzen, auf dem Laufenden zu bleiben."
 
 #: templates/core/include/twitter_follow.html:4
 #, python-format
@@ -480,7 +534,9 @@ msgstr "Ooops! Nicht so schnell."
 
 #: templates/core/rate.html:8
 msgid "You have performed this activity to often in a short period of time."
-msgstr "Sie haben diese Aktivität zu oft ausgeführt. Bitte versuchen sie es später erneut."
+msgstr ""
+"Sie haben diese Aktivität zu oft ausgeführt. Bitte versuchen sie es später "
+"erneut."
 
 #: templates/core/rate.html:11
 msgid ""
