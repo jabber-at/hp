@@ -140,7 +140,7 @@ class RegistrationView(BlacklistMixin, DnsBlMixin, RateLimitMixin, AnonymousRequ
 
             # log user creation, display help message.
             user.log(address=address, message=_('Account created.'))
-            AddressActivity.objects.log(request, ACTIVITY_REGISTER, user=user)
+            AddressActivity.objects.log(request, ACTIVITY_REGISTER, user=user, note=user.email)
 
             messages.success(request, _(
                 """Successfully created the account %s. A confirmation email was just sent to the
