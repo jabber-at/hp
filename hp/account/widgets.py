@@ -39,7 +39,6 @@ class NodeWidget(BootstrapTextInput):
 
     def build_attrs(self, *args, **kwargs):
         attrs = super(NodeWidget, self).build_attrs(*args, **kwargs)
-        print('build attrs')
         attrs['title'] = _(
             'At least %(MIN_LENGTH)s and up to %(MAX_LENGTH)s characters. No "@" or spaces.') % {
             'MIN_LENGTH': _MIN_USERNAME_LENGTH,
