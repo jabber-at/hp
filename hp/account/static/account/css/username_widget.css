@@ -6,6 +6,11 @@
     display: none;
 }
 
+#fg_username select#id_username_1 {
+    /* The has-feedback class adds additional padding for the glyph, which we don't have here. */
+    padding-right: 16px;
+}
+
 @media (min-width: 768px) {
 #fg_username .row .col-sm-4 {
     padding-left: 0px;
