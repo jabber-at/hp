@@ -257,7 +257,8 @@ DNSBL = (
 # Ratelimit
 RATELIMIT_CONFIG = {
     ACTIVITY_REGISTER: (
-        (timedelta(hours=1), 5, ),
+        (timedelta(hours=1), 3, ),
+        (timedelta(days=1), 5, ),
     ),
     ACTIVITY_FAILED_LOGIN: (
         (timedelta(minutes=30), 3, ),
