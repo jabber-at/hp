@@ -81,6 +81,7 @@ class UsernameField(BootstrapMixin, forms.MultiValueField):
         self.widget = UsernameWidget(widgets=widgets, attrs=attrs)
         super(UsernameField, self).__init__(fields=fields, require_all_fields=True, **kwargs)
 
+    def get_extra_help(self):
         if self.register is True:
             default = format_html('<span id="default">{}</span>',
                                   _('Type to see if the username is still available.'))
@@ -92,9 +93,10 @@ class UsernameField(BootstrapMixin, forms.MultiValueField):
                                   _('The username is invalid.'))
             error = format_html('<span id="error">{}</span>',
                                 _('An error occured, please try again later.'))
-            self.help_text += format_html(
-                '''<p class="help-block" id="status-check">{}{}{}{}{}</p>''',
+            return format_html(
+                '''<span class="help-block" id="status-check">{}{}{}{}{}</span>''',
                 default, available, not_available, invalid, error)
+        return ''
 
     def compress(self, data_list):
         node, domain = data_list

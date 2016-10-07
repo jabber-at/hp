@@ -5,15 +5,15 @@
 {% block form %}
 <p>
 {% blocktrans %}Please complete the form below to register for an account on jabber.at. You
-will receive an email to confirm the address provided. Click on the link in the email to 
-complete your registration.{% endblocktrans %}
+will receive an email to confirm the address provided. Click on the link in
+the email to complete your registration.{% endblocktrans %}
 </p>
 <div class="alert alert-info alert-dismissable with-header" role="alert">
     <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
     <h5><strong>{% trans "Why do we require your email address?" %}</strong></h5>
-{% blocktrans %}By default, the email address is used only if you want to reset your password
-or if your account hasn't been used for a year and is about to be removed.
-{% endblocktrans %}
+{% blocktrans %}By default, the email address is used only if you want to reset your
+password or if your account hasn't been used for a year and is about to be
+removed.{% endblocktrans %}
 </div>
 <form enctype="multipart/form-data" class="form-horizontal" action="" method="post">{% csrf_token %}
 {{ form.username.formgroup }}
@@ -34,9 +34,9 @@ or if your account hasn't been used for a year and is about to be removed.
         <div class="help-block"><p>
 {% blocktrans %}You can add a GPG key to have jabber.at encrypt all emails sent to you.{% endblocktrans %}</p>
             <div class="alert alert-warning" role="alert">
-{% blocktrans %}<strong>Warning:</strong> Please note the obvious: If you ever loose your GPG key and
-do not upload a new one here, you can no longer read any emails (e.g. when you
-have forgotton your password) we send to you.{% endblocktrans %}
+{% blocktrans %}<strong>Warning:</strong> Please note the obvious: If you ever loose your
+GPG key and do not upload a new one here, you can no longer read any emails
+(e.g. when you have forgotton your password) we send to you.{% endblocktrans %}
             </div>
         </p></div>
     </div></div>

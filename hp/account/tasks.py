@@ -81,8 +81,12 @@ def add_gpg_key_task(self, user_pk, address, language, fingerprint=None, key=Non
         delta_formatted = format_timedelta(delta)
 
         log.info('This is %s of %s tries.', self.request.retries, self.max_retries)
-        msg = _('Could not reach keyserver. Will try again in %s (%s of %s tries)') % (
-            delta_formatted, retries + 1, self.max_retries)
+        msg = _('Could not reach keyserver. '
+                'Will try again in %(time)s (%(retry)s of %(max_retries)s tries)') % {
+                    'time': delta_formatted,
+                    'retry': retries + 1,
+                    'max_retries': self.max_retries,
+        }
         user.message(messages.ERROR, msg)
         self.retry(exc=e, countdown=delta.seconds)
 
