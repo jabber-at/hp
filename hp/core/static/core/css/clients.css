@@ -1,3 +1,6 @@
+table#clients-table {
+    font-size: smaller;
+}
 table#clients-table th,
 table#clients-table td.xep
 {
