@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-10-07 17:00+0200\n"
+"POT-Creation-Date: 2016-10-07 17:57+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -77,89 +77,99 @@ msgstr "Der Benutzername darf maximal %(limit_value)d Zeichen lang sein."
 msgid "Username contains invalid characters."
 msgstr "Der Benutzername enthält ungültige Zeichen."
 
-#: formfields.py:86
+#: formfields.py:87
 msgid "Type to see if the username is still available."
 msgstr ""
 "Geben sie den gewünschen Benutzernamen ein, um zu sehen, ob er noch "
 "verfügbar ist."
 
-#: formfields.py:88
+#: formfields.py:89
 msgid "The username is still available."
 msgstr "Der Benutzername ist verfügbar."
 
-#: formfields.py:90
+#: formfields.py:91
 msgid "The username is no longer available."
 msgstr "Der Benutzername ist nicht mehr verfügbar"
 
-#: formfields.py:92
+#: formfields.py:93
 msgid "The username is invalid."
 msgstr "Der Benutzername ist ungültig."
 
-#: formfields.py:94
+#: formfields.py:95
 msgid "An error occured, please try again later."
 msgstr ""
 
-#: formfields.py:110 templates/account/user_gpg.html:11
+#: formfields.py:112 templates/account/user_gpg.html:11
 msgid "Fingerprint"
-msgstr ""
+msgstr "Fingerabdruck"
 
-#: formfields.py:115
+#: formfields.py:117
 msgid ""
-"Add your fingerprint (\"gpg --fingerprint &lt;you@example.com&gt;\") if your "
-"key is available on public key servers..."
+"Add your fingerprint (<code>gpg --fingerprint &lt;you@example.com&gt;</"
+"code>) if your key is available on public key servers..."
 msgstr ""
+"Geben sie den Fingerabdruck (<code>gpg --fingerprint &lt;you@example.com&gt;"
+"</code>) des Schlüssels an, wenn er auf den öffentlichen Schlüsselservern "
+"verfügbar ist..."
 
-#: formfields.py:120 formfields.py:153
+#: formfields.py:122 formfields.py:155
 msgid "GPG not enabled."
-msgstr ""
-
-#: formfields.py:122
-msgid "Fingerprint should be 40 characters long."
-msgstr ""
+msgstr "GPG ist nicht aktiviert."
 
 #: formfields.py:124
-msgid "Fingerprint contains invalid characters."
-msgstr ""
+msgid "Fingerprint should be 40 characters long."
+msgstr "Der Fingerabdruck muss exakt 40 Zeichen lang sein."
 
-#: formfields.py:145
-msgid "GPG Key"
-msgstr ""
+#: formfields.py:126
+msgid "Fingerprint contains invalid characters."
+msgstr "Der Fingerabdruck enthält ungültige Zeichen."
 
 #: formfields.py:147
-msgid ""
-"... upload your ASCII armored GPG key directly (\"gpg --armor --export &lt;"
-"fingerprint&gt;\")."
-msgstr ""
+msgid "GPG Key"
+msgstr "GPG Schlüssel"
 
-#: formfields.py:155
+#: formfields.py:149
+msgid ""
+"... upload your ASCII armored GPG key directly (<code>gpg --armor --export "
+"&lt;fingerprint&gt;</code>)."
+msgstr ""
+"... laden sie ihren GPG Schlüssel im ASCII-Format direkt hoch (<code>gpg --"
+"armor --export &lt;fingerprint&gt;</code>)"
+
+#: formfields.py:157
 #, python-format
 msgid "Only plain-text files are allowed (was: %(content-type)s)!"
 msgstr ""
 
-#: formfields.py:191
+#: formfields.py:193
 #, python-format
 msgid "The domain \"%(domain)s\" does not exist."
 msgstr ""
 
-#: forms.py:90
+#: forms.py:90 widgets.py:44
 #, python-format
 msgid ""
 "At least %(MIN_LENGTH)s and up to %(MAX_LENGTH)s characters. No \"@\" or "
 "spaces."
 msgstr ""
+"Mindestens %(MIN_LENGTH)s und maximal %(MAX_LENGTH)s Zeichen. Keine \"@\" "
+"oder Abstände."
 
 #: forms.py:96
 msgid "Required, a confirmation email will be sent to this address."
 msgstr ""
+"Pflichtfeld, benötigt um eine Bestätigung an diese Adresse zu schicken."
 
 #: forms.py:108
 msgid "Malformed email address."
-msgstr ""
+msgstr "Ungültige E-Mail-Adresse."
 
 #: forms.py:114
 #, python-format
 msgid "Please give your own email address, %(domain)s does not provide one."
 msgstr ""
+"Bitte geben sie ihre eigene E-Mail-Addresse an, %(domain)s stellt keine zur "
+"Verfüugung."
 
 #: forms.py:118
 #, python-format
@@ -463,6 +473,7 @@ msgid "No recent log entries found."
 msgstr ""
 
 #: templates/account/user_register.html:4
+#: templates/account/user_register.html:54
 msgid "Register"
 msgstr ""
 
@@ -472,7 +483,7 @@ msgid ""
 "will receive an email to confirm the address provided. Click on the link in\n"
 "the email to complete your registration."
 msgstr ""
-"Um sich ein Konto auf jabber.at anzulegen, verfolständigen sie bitte unten "
+"Um sich ein Konto auf jabber.at anzulegen, vervollständigen sie bitte unten "
 "stehendes Formular. Wir werden ihnen eine Bestätigungs-E-Mail schicken, die "
 "einen Link enthält, bei dem sie ihre Registrierung abschließen können."
 
@@ -499,7 +510,7 @@ msgstr "GPG Optionen"
 #: templates/account/user_set_email.html:25
 msgid "You can add a GPG key to have jabber.at encrypt all emails sent to you."
 msgstr ""
-"Wenn sie einen GPG SChlüssel hinzufügen, werden alle E-Mails, die wir ihnen "
+"Wenn sie einen GPG Schlüssel hinzufügen, werden alle E-Mails, die wir ihnen "
 "schicken, automatisch verschlüsselt."
 
 #: templates/account/user_register.html:37
@@ -511,6 +522,10 @@ msgstr ""
 "<strong>Warnung:</strong> Wenn sie je ihren GPG Schlüssel verlieren und "
 "keinen neuen hier hochladen, können sie E-Mails, die wir ihnen schicken, "
 "nicht mehr lesen."
+
+#: templates/account/user_register.html:46
+msgid "- and/or -"
+msgstr "- und/oder -"
 
 #: templates/account/user_register_confirm.html:4
 msgid "Confirm registration"
@@ -683,15 +698,17 @@ msgstr ""
 msgid "Confirmed email address change to %s."
 msgstr ""
 
-#: widgets.py:34
-msgid "At least 2 characters, no \"@\" or spaces."
-msgstr "Mindestens zwei Zeichen, keine \"@\" oder Abstände."
-
-#: widgets.py:59
+#: widgets.py:72
 msgid ""
 "The hex-encoded value of the fingerprint: digits, letters A-F (case-"
 "insensitive)."
 msgstr ""
+
+#~ msgid "At least 2 characters, no \"@\" or spaces."
+#~ msgstr "Mindestens zwei Zeichen, keine \"@\" oder Abstände."
+
+#~ msgid "englisch text"
+#~ msgstr "Deutscher text"
 
 #~ msgid "Login"
 #~ msgstr "Anmelden"

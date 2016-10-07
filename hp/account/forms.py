@@ -84,14 +84,7 @@ class GPGMixin(forms.Form):
 
 
 class CreateUserForm(GPGMixin, CaptchaFormMixin, forms.ModelForm):
-    username = UsernameField(
-        register=True,
-        help_text=_(
-            'At least %(MIN_LENGTH)s and up to %(MAX_LENGTH)s characters. No "@" or spaces.') % {
-            'MIN_LENGTH': _MIN_USERNAME_LENGTH,
-            'MAX_LENGTH': _MAX_USERNAME_LENGTH,
-        }
-    )
+    username = UsernameField(register=True)
     email = EmailVerifiedDomainField(
         help_text=_('Required, a confirmation email will be sent to this address.')
     )
