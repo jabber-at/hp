@@ -1,5 +1,15 @@
 {% extends "account/base.html" %}
-{% load i18n core bootstrap %}
+{% load i18n core bootstrap staticfiles %}
+
+{% block extrajs %}
+{{ block.super }}
+<script src="{% static 'account/js/xep0363.js' %}"></script>
+{% endblock extrajs %}
+
+{% block extracss %}
+{{ block.super }}
+<link href="{% static 'account/css/xep0363.css' %}" rel="stylesheet">
+{% endblock extracss %}
 
 {% block title %}{% trans "HTTP uploads" %}{% endblock title %}
 
@@ -17,11 +27,11 @@ encrypt files before they are uploaded, so viewing them via the links below is
 not possible in the browser.{% endblocktrans %}</div>
 
 {% if uploads %}
-<table class="table table-bordered">
+<table class="table">
     <tr>
         <th>{% trans "Created" %}</th>
         <th>{% trans "File" %}</th>
-        <th>{% trans "Delete" %}</th>
+        <th></th>
     </tr>
 {% for upload in uploads %}
     <tr>
@@ -29,7 +39,7 @@ not possible in the browser.{% endblocktrans %}</div>
         <td><a href="{{ upload.file.url }}">
                 {{ upload.name }}</a> ({{ upload.size|format_filesize}})
         </td>
-        <td data-delete-url="{% url "account:api-xep0363-delete" pk=upload.pk %}">{% glyph "trash" %}</td>
+        <td class="delete" data-delete-url="{% url "account:api-xep0363-delete" pk=upload.pk %}">{% glyph "trash" %}</td>
     </tr>
 {% endfor %}
 </table>
