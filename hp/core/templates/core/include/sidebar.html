@@ -2,14 +2,15 @@
 
 <div class="panel panel-default">
   <div class="panel-heading">
-    <h3 class="panel-title">{% trans "Site tools" %}</h3>
+    <h3 class="panel-title">{% trans "Language" %}</h3>
   </div>
-  <div class="panel-body">
-    {% trans "View this page in:" %}
-    {% for code, name in other_langs %}
-    <a href="{% url "core:api-set-lang" %}?lang={{ code }}&next={{ request.get_full_path|urlencode }}" rel="nofollow">{{ name }}</a>{% if not forloop.last %},{% endif %}
-    {% endfor %}
-  </div>
+  <ul class="list-group">
+  {% for code, name in other_langs %}
+    <li class="list-group-item">
+        <img src="{% static "core/img/" %}{{ code }}.svg" class="bullet"> <a href="{% url "core:api-set-lang" %}?lang={{ code }}&next={{ request.get_full_path|urlencode }}" rel="nofollow">{{ name }}</a>
+    </li>
+  {% endfor %}
+  </ul>
 </div>
 
 <div class="panel panel-default follow-panel">
@@ -20,19 +21,19 @@
   <ul class="list-group">
     <li class="list-group-item">
         <a href="https://twitter.com/jabber_at">
-            <img src="{% static "core/img/smtw.svg" %}" class="follow-logo">@jabber_at</a>
+            <img src="{% static "core/img/smtw.svg" %}" class="bullet">@jabber_at</a>
     </li>
     <li class="list-group-item">
         <a href="https://facebook.com/jabber.at">
-            <img src="{% static "core/img/629hwmjt.svg" %}" class="follow-logo">/jabber.at</a>
+            <img src="{% static "core/img/629hwmjt.svg" %}" class="bullet">/jabber.at</a>
     </li>
     <li class="list-group-item">
         <a href="{% url "feed:rss2" language=LANGUAGE_CODE %}">
-            <img src="{% static "core/img/rss.svg" %}" class="follow-logo">RSS feed</a>
+            <img src="{% static "core/img/rss.svg" %}" class="bullet">RSS feed</a>
     </li>
     <li class="list-group-item">
         <a href="{% url "feed:atom" language=LANGUAGE_CODE %}">
-            <img src="{% static "core/img/rss.svg" %}" class="follow-logo">Atom feed</a>
+            <img src="{% static "core/img/rss.svg" %}" class="bullet">Atom feed</a>
     </li>
   </ul>
 </div>
