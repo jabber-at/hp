@@ -36,6 +36,7 @@ from django.utils.translation import ugettext as _
 from django.views.generic import View
 from django.views.generic import DetailView
 from django.views.generic.base import RedirectView
+from django.views.generic.detail import SingleObjectMixin
 from django.views.generic.edit import CreateView
 from django.views.generic.edit import FormView
 
@@ -443,3 +444,19 @@ class UserAvailableView(View):
         else:
             cache.set(cache_key, False, 30)
             return HttpResponse('')
+
+
+class DeleteHttpUploadView(LoginRequiredMixin, SingleObjectMixin, View):
+    queryset = Upload.objects.all()
+
+    def get_object(self, queryset=None):
+        if queryset is None:
+            queryset = self.get_queryset()
+
+        queryset = queryset.filter(jid=self.request.user.get_username())
+
+        return super(DeleteHttpUploadView, self).get_object(queryset=queryset)
+
+    def delete(self, request, pk):
+        self.get_object().delete()
+        return HttpResponse('ok')
