@@ -24,7 +24,6 @@ from django.conf import settings
 from django.core.cache import cache
 from django.utils.translation import ungettext
 from django.utils.translation import ugettext as _
-from django.contrib.staticfiles.templatetags.staticfiles import static
 
 
 def format_timedelta(delta):
@@ -173,5 +172,3 @@ def absolutify_html(html, base_url):
     tree_walker = html5lib.treewalkers.getTreeWalker('dom')
     html_serializer = html5lib.serializer.htmlserializer.HTMLSerializer()
     return ''.join(html_serializer.serialize(tree_walker(body)))
-
-
