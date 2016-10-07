@@ -87,7 +87,8 @@ or free on
     <td></td>
 </tr>
 <tr class="android">
-    <th><a href="https://conversations.im/">Conversations</a><span class="footnote" data-toggle="tooltip", title="{% trans "version 1.14.4" %}"></span></th>
+    <th><a href="https://conversations.im/">Conversations</a>
+        <span class="footnote" data-toggle="tooltip", title="{% blocktrans with version="1.14.4" %}version {{ version }}{% endblocktrans %}"></span>
     <td class="xep xep0027">{{y}}</td>
     <td class="xep xep0167">{{n}}</td>
     <td class="xep xep0198">{{y}}</td>
@@ -113,7 +114,8 @@ or free on
     <td></td>
 </tr>
 <tr class="win linux">
-    <th><a href="https://gajim.org/">Gajim</a><span class="footnote" data-toggle="tooltip", title="{% trans "version 0.16.5" %}"></span></th>
+    <th><a href="https://gajim.org/">Gajim</a>
+        <span class="footnote" data-toggle="tooltip", title="{% blocktrans with version="0.16.5" %}version {{ version }}{% endblocktrans %}"></span>
     <td class="xep xep0027">{{y}}</td>
     <td class="xep xep0167">{{n}}</td>
     <td class="xep xep0198">{{y}}</td>
@@ -152,7 +154,9 @@ or free on
     <td>{% trans "You have to host your own instance." %}</td>
 </tr>
 <tr class="linux console">
-    <th><a href="https://mcabber.com/">mcabber</a></th>
+    <th><a href="https://mcabber.com/">mcabber</a>
+        <span class="footnote" data-toggle="tooltip", title="{% blocktrans with version="1.0.3" %}version {{ version }}{% endblocktrans %}"></span>
+    </th>
     <td class="xep xep0027">{{y}}</td>
     <td class="xep xep0167">{{n}}</td>
     <td class="xep xep0198">{{n}}</td>
@@ -192,7 +196,9 @@ or free on
 </tr>
 <tr class="linux console">
     {% comment %}https://doc.poez.io/0.9/dev/xep.html?highlight=xep{% endcomment %}
-    <th><a href="http://poez.io/en/">poezio</a><span class="footnote" data-toggle="tooltip", title="{% trans "version 0.9" %}"></span></th>
+    <th><a href="http://poez.io/en/">poezio</a>
+        <span class="footnote" data-toggle="tooltip", title="{% blocktrans with version="0.9" %}version {{ version }}{% endblocktrans %}"></span>
+    </th>
     <td class="xep xep0027">{{y}}</td>
     <td class="xep xep0167">{{n}}</td>
     <td class="xep xep0198">{{n}}</td>
@@ -205,7 +211,9 @@ or free on
     <td></td>
 </tr>
 <tr class="linux console">
-    <th><a href="http://profanity.im/">Profanity</a><span class="footnote" data-toggle="tooltip", title="{% trans "version 0.5" %}"></span></th>
+    <th><a href="http://profanity.im/">Profanity</a>
+        <span class="footnote" data-toggle="tooltip", title="{% blocktrans with version="0.5" %}version {{ version }}{% endblocktrans %}"></span>
+    </th>
     <td class="xep xep0027">{{y}}</td>
     <td class="xep xep0167">{{n}}</td>
     <td class="xep xep0198">{{n}}</td>
@@ -232,7 +240,9 @@ or free on
 </tr>
 <tr class="android">
     {% comment %}https://github.com/redsolution/xabber-android#supported-protocols{% endcomment %}
-    <th><a href="https://www.xabber.com/">Xabber</a><span class="footnote" data-toggle="tooltip", title="{% trans "version 1.0.74" %}"></span></th>
+    <th><a href="https://www.xabber.com/">Xabber</a>
+        <span class="footnote" data-toggle="tooltip", title="{% blocktrans with version="1.0.74" %}version {{ version }}{% endblocktrans %}"></span>
+    </th>
     <td class="xep xep0027">{{n}}</td>
     <td class="xep xep0167">{{n}}</td>
     <td class="xep xep0198">{{n}}</td>
@@ -246,8 +256,10 @@ or free on
         on <a href="https://f-droid.org/repository/browse/?fdfilter=xabber&fdid=com.xabber.androiddev">F-Droid</a></td>
 </tr>
 <tr class="android">
-    <th><a href="http://yaxim.org/">yaxim</a><span class="footnote" data-toggle="tooltip", title="{% trans "version 0.8.8" %}"></span></th>
     {% comment %}http://yaxim.org/features/{% endcomment %}
+    <th><a href="http://yaxim.org/">yaxim</a>
+        <span class="footnote" data-toggle="tooltip", title="{% blocktrans with version="0.8.8" %}version {{ version }}{% endblocktrans %}"></span>
+    </th>
     <td class="xep xep0027">{{n}}</td>
     <td class="xep xep0167">{{n}}</td>
     <td class="xep xep0198">{{y}}</td>

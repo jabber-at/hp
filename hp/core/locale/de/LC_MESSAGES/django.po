@@ -3,12 +3,11 @@
 # This file is distributed under the same license as the PACKAGE package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 #
-#, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-10-07 15:49+0200\n"
+"POT-Creation-Date: 2016-10-07 16:14+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -37,10 +36,6 @@ msgid "Descriptions"
 msgstr "Beschreibung"
 
 #: admin.py:210
-#, fuzzy
-#| msgid ""
-#| "Descriptions are used by various systems (RSS readers, Facebook, ...) to "
-#| "generate previous of this content."
 msgid ""
 "Descriptions are used by various systems (RSS readers, Facebook, ...) to "
 "generate previews of this content."
@@ -380,10 +375,8 @@ msgid ""
 msgstr "Web (im Browser): <a href=\"https://conversejs.org/\">Converse.js</a>"
 
 #: templates/core/clients.html:34
-#, fuzzy
-#| msgid "With <a href=\"https://github.com/omemo/gajim-omemo\">Plugin</a>"
 msgid "Windows: <a href=\"https://gajim.org/\">Gajim</a>"
-msgstr "Mit <a href=\"https://github.com/omemo/gajim-omemo\">Plugin</a>"
+msgstr ""
 
 #: templates/core/clients.html:37
 msgid "Can you be more specific?"
@@ -393,51 +386,37 @@ msgstr "Geht es bitte etwas genauer?"
 msgid "Sure we can:"
 msgstr "Aber klar doch:"
 
-#: templates/core/clients.html:90
-msgid "version 1.14.4"
-msgstr "Version 1.14.4"
+#: templates/core/clients.html:91 templates/core/clients.html:118
+#: templates/core/clients.html:158 templates/core/clients.html:201
+#: templates/core/clients.html:216 templates/core/clients.html:246
+#: templates/core/clients.html:264
+#, python-format
+msgid "version %(version)s"
+msgstr "Version %(version)s"
 
-#: templates/core/clients.html:116
-msgid "version 0.16.5"
-msgstr "Version 0.16.5"
-
-#: templates/core/clients.html:125
+#: templates/core/clients.html:127
 msgid "With <a href=\"https://github.com/omemo/gajim-omemo\">Plugin</a>"
 msgstr "Mit <a href=\"https://github.com/omemo/gajim-omemo\">Plugin</a>"
 
-#: templates/core/clients.html:139
+#: templates/core/clients.html:141
 msgid "Good for voice/video calls"
 msgstr "Gut für Sprach- und Videotelephonie."
 
-#: templates/core/clients.html:152
+#: templates/core/clients.html:154
 msgid "You have to host your own instance."
 msgstr "Muss selbst gehostet werden."
 
-#: templates/core/clients.html:196
-msgid "version 0.9"
-msgstr "Version 0.9"
-
-#: templates/core/clients.html:209
-msgid "version 0.5"
-msgstr "Version 0.5"
-
-#: templates/core/clients.html:237
-msgid "version 1.0.74"
-msgstr "Version 1.0.74"
-
-#: templates/core/clients.html:251
-msgid "version 0.8.8"
-msgstr "Version 0.8.8"
-
-#: templates/core/clients.html:282
+#: templates/core/clients.html:294
 #, python-format
 msgid ""
 "Feel information on this page is missing or out of date? Please just <a href="
 "\"%(url)s\">contact\n"
 "us</a>."
 msgstr ""
+"Falls ihnen auffällt, das Information nicht mehr aktuell ist, <a href= "
+"\"%(url)s\">kontaktieren sie uns</a> bitte einfach."
 
-#: templates/core/clients.html:284
+#: templates/core/clients.html:296
 msgid ""
 "\n"
 "You can also find other lists of clients on <a href=\"http://xmpp.org/"
@@ -448,6 +427,14 @@ msgid ""
 "French, at\n"
 "<a href=\"https://wiki.jabberfr.org/Clients\">jabberfr.org</a>."
 msgstr ""
+"\n"
+"Weitere Listen von Clients finden sich auch auf <a href=\"http://xmpp.org/"
+"software/clients.shtml\">xmpp.org</a>,\n"
+"<a href=\"http://en.wikipedia.org/wiki/List_of_XMPP_client_software"
+"\">Wikipedia</a>, \n"
+"<a href=\"https://www.zash.se/xmpp-clients.html\">zash.se</a>, oder, auf "
+"Französisch, auf\n"
+"<a href=\"https://wiki.jabberfr.org/Clients\">jabberfr.org</a>."
 
 #: templates/core/contact.html:4
 msgid "Contact"
@@ -502,18 +489,14 @@ msgid ""
 msgstr ""
 
 #: templates/core/include/sidebar.html:5
-msgid "Site tools"
+msgid "Language"
 msgstr ""
 
-#: templates/core/include/sidebar.html:8
-msgid "View this page in:"
-msgstr ""
-
-#: templates/core/include/sidebar.html:17
+#: templates/core/include/sidebar.html:18
 msgid "Updates"
 msgstr "Aktualisierungen"
 
-#: templates/core/include/sidebar.html:19
+#: templates/core/include/sidebar.html:20
 msgid "If you use our server, we strongly encourage you to stay up to date."
 msgstr ""
 "Wir raten allen, die unseren Server nutzen, auf dem Laufenden zu bleiben."
