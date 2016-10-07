@@ -173,7 +173,7 @@ class RateLimitMixin(object):
 
         for delta, ratelimit in config:
             offset = now - delta
-            if len([t for t in timestamps if t > offset]) > ratelimit:
+            if len([t for t in timestamps if t >= offset]) > ratelimit:
                 return False
         return True
 
@@ -187,9 +187,8 @@ class RateLimitMixin(object):
             return
 
         cache_key = self.get_rate_cache_key(request)
-        now = timezone.now()
         timestamps = cache.get(cache_key) or []
-        timestamps.append(now)
+        timestamps.append(timezone.now())
         cache.set(cache_key, timestamps, timeout=86400)
 
 
