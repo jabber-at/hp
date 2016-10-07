@@ -1,5 +1,5 @@
 {% extends "account/base.html" %}
-{% load i18n core %}
+{% load i18n core bootstrap %}
 
 {% block title %}{% trans "HTTP uploads" %}{% endblock title %}
 
@@ -21,6 +21,7 @@ not possible in the browser.{% endblocktrans %}</div>
     <tr>
         <th>{% trans "Created" %}</th>
         <th>{% trans "File" %}</th>
+        <th>{% trans "Delete" %}</th>
     </tr>
 {% for upload in uploads %}
     <tr>
@@ -28,6 +29,7 @@ not possible in the browser.{% endblocktrans %}</div>
         <td><a href="{{ upload.file.url }}">
                 {{ upload.name }}</a> ({{ upload.size|format_filesize}})
         </td>
+        <td>{% glyph "trash" %}</td>
     </tr>
 {% endfor %}
 </table>
