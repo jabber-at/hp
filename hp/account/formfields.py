@@ -103,7 +103,7 @@ class UsernameField(BootstrapMixin, forms.MultiValueField):
             return format_html(
                 '''{}<span class="help-block" id="status-check">{}{}{}{}{}</span>''',
                 help_text, default, available, not_available, invalid, error)
-        return 'foo'
+        return ''
 
     def compress(self, data_list):
         node, domain = data_list
