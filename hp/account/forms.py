@@ -127,7 +127,7 @@ class CreateUserForm(GPGMixin, CaptchaFormMixin, forms.ModelForm):
 
 class LoginForm(CaptchaFormMixin, AuthenticationForm):
     username = UsernameField()
-    password = BootstrapPasswordField()
+    password = BootstrapPasswordField(label=_('Password'))
 
 
 class SetPasswordForm(forms.Form):

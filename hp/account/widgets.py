@@ -16,7 +16,7 @@
 from django import forms
 from django.conf import settings
 from django.utils.html import format_html
-from django.utils.translation import ugettext as _
+from django.utils.translation import ugettext_lazy as _
 
 from bootstrap.widgets import BootstrapMultiWidget
 from bootstrap.widgets import BootstrapTextInput

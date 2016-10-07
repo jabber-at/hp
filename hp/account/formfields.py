@@ -43,6 +43,7 @@ class UsernameField(BootstrapMixin, forms.MultiValueField):
     def __init__(self, **kwargs):
         self.register = kwargs.pop('register', False)
         self.status_check = kwargs.pop('status_check', self.register)
+        kwargs.setdefault('label', _('Username'))
 
         hosts = getattr(settings, 'XMPP_HOSTS', {})
         if self.register is True:
