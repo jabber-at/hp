@@ -6,8 +6,6 @@
 {% endblock head %}
 
 {% block extrahead %}
-{% get_current_language as LANGUAGE_CODE %}
-<link rel="alternate" type="application/rss+xml" title="RSS" href="{{ default_site.CANONICAL_BASE_URL }}{% url "feed:rss2" language=LANGUAGE_CODE %}">
 {% endblock extrahead %}
 
 {% block title %}{% trans "jabber.at blog" %}{% endblock title %}
