@@ -276,7 +276,7 @@ class AddressAdmin(admin.ModelAdmin):
 @admin.register(AddressActivity)
 class AddressActivityAdmin(admin.ModelAdmin):
     list_filter = ('activity', )
-    list_display = ('address', 'activity', 'user', 'note', )
+    list_display = ('address', 'activity', 'user', 'note', 'timestamp', )
     list_select_related = ('user', 'address', )
     ordering = ('-timestamp', )
     search_fields = ['user__username', 'address__address', 'note', ]
