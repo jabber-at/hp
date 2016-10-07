@@ -25,4 +25,5 @@ class AddressActivityManager(models.Manager):
         user = user or request.user
         Address = self.model._meta.get_field('address').rel.to
         address = Address.objects.get_or_create(address=request.META['REMOTE_ADDR'])[0]
-        return self.create(address=address, user=user, activity=activity, note=note)
+        return self.create(address=address, user=user, activity=activity, note=note,
+                           headers=request.META)
