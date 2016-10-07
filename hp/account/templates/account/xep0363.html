@@ -29,7 +29,7 @@ not possible in the browser.{% endblocktrans %}</div>
         <td><a href="{{ upload.file.url }}">
                 {{ upload.name }}</a> ({{ upload.size|format_filesize}})
         </td>
-        <td>{% glyph "trash" %}</td>
+        <td data-delete-url="{% url "account:api-xep0363-delete" pk=upload.pk %}">{% glyph "trash" %}</td>
     </tr>
 {% endfor %}
 </table>
