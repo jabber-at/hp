@@ -15,6 +15,13 @@
 
 from django.db import models
 
+_LOGGED_HEADERS = {
+    'CONTENT_LENGTH',
+    'CONTENT_TYPE',
+    'REMOTE_ADDR',
+    'REQUEST_METHOD',
+}
+
 
 class AddressManager(models.Manager):
     pass
@@ -25,5 +32,8 @@ class AddressActivityManager(models.Manager):
         user = user or request.user
         Address = self.model._meta.get_field('address').rel.to
         address = Address.objects.get_or_create(address=request.META['REMOTE_ADDR'])[0]
+        headers = {k: v for k, v in request.META.items()
+                   if k in _LOGGED_HEADERS or k.startswith('HTTP_')}
+
         return self.create(address=address, user=user, activity=activity, note=note,
-                           headers=request.META)
+                           headers=headers)
