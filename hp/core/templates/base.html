@@ -1,4 +1,4 @@
-{% load i18n staticfiles mptt_tags %}<!DOCTYPE html>
+{% load i18n staticfiles mptt_tags canonical %}<!DOCTYPE html>
 <html lang="en">
   <head>
     <meta charset="utf-8">
@@ -37,8 +37,8 @@
     <meta name="msapplication-square310x310logo" content="mstile-310x310.png" />
 
     {% get_current_language as LANGUAGE_CODE %}
-    <link rel="alternate" type="application/rss+xml" title="{% blocktrans with brand=request.site.BRAND %}{{ brand }} - Recent updates (RSS feed){% endblocktrans %}" href="{{ default_site.CANONICAL_BASE_URL }}{% url "feed:rss2" language=LANGUAGE_CODE %}">
-    <link rel="alternate" type="application/atom+xml" title="{% blocktrans with brand=request.site.BRAND %}{{ brand }} - Recent updates (Atom feed){% endblocktrans %}" href="{{ default_site.CANONICAL_BASE_URL }}{% url "feed:atom" language=LANGUAGE_CODE %}">
+    <link rel="alternate" type="application/rss+xml" title="{% blocktrans with brand=request.site.BRAND %}{{ brand }} - Recent updates (RSS feed){% endblocktrans %}" href="{% canonical "feed:rss2" language=LANGUAGE_CODE %}">
+    <link rel="alternate" type="application/atom+xml" title="{% blocktrans with brand=request.site.BRAND %}{{ brand }} - Recent updates (Atom feed){% endblocktrans %}" href="{% canonical "feed:atom" language=LANGUAGE_CODE %}">
 
     <meta name="captcha-refresh-url" content="{% url 'captcha-refresh' %}">
     <meta name="account:api-check-user" content="{% url 'account:api-check-user' %}">
