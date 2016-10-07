@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-07-03 15:23+0000\n"
+"POT-Creation-Date: 2016-10-07 15:09+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,69 +18,101 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: core/admin.py:175
+#: admin.py:177
 #, python-format
 msgid "Publish selected %(models)s"
-msgstr ""
+msgstr "Ausgewählte %(models)s online stellen"
 
-#: core/admin.py:179
+#: admin.py:181
 #, python-format
 msgid "Unpublish selected %(models)s"
-msgstr ""
+msgstr "Ausgewählte %(models)s offline nehmen"
 
-#: core/admin.py:183
+#: admin.py:190
 msgid "Author"
+msgstr "Autor"
+
+#: admin.py:208
+msgid "Descriptions"
+msgstr "Beschreibung"
+
+#: admin.py:210
+#, fuzzy
+#| msgid ""
+#| "Descriptions are used by various systems (RSS readers, Facebook, ...) to "
+#| "generate previous of this content."
+msgid ""
+"Descriptions are used by various systems (RSS readers, Facebook, ...) to "
+"generate previews of this content."
+msgstr ""
+"Beschreibungen werden von verschiedenen Systemen (RSS reader, Facebook, ...) "
+"dazu verwendet, um eine Vorschau der Seite zu erstellen."
+
+#: admin.py:214 models.py:68
+msgid "Meta"
 msgstr ""
 
-#: core/constants.py:24
+#: admin.py:263
+msgid "Timerange of activities"
+msgstr "Zeitspanne der Aktivitäten"
+
+#: admin.py:267
+msgid "Number of activities"
+msgstr "Anzahl der Aktivitäten"
+
+#: admin.py:272
+msgid "Number of confirmations"
+msgstr "Anzahl der Bestätigungen"
+
+#: constants.py:24
 msgid "Via Website"
 msgstr ""
 
-#: core/constants.py:25
+#: constants.py:25
 msgid "In-Band Registration"
 msgstr ""
 
-#: core/constants.py:26
+#: constants.py:26
 msgid "Manually"
-msgstr ""
+msgstr "Manuell"
 
-#: core/constants.py:27
+#: constants.py:27
 msgid "Unknown"
-msgstr ""
+msgstr "Unbekannt"
 
-#: core/constants.py:34
+#: constants.py:34
 msgid "URL"
 msgstr ""
 
-#: core/constants.py:35
+#: constants.py:35
 msgid "URL Name"
 msgstr ""
 
-#: core/constants.py:36 core/formfields.py:90
+#: constants.py:36 formfields.py:90
 msgid "Model"
 msgstr ""
 
-#: core/formfields.py:41
+#: formfields.py:41
 msgid "CAPTCHA"
 msgstr ""
 
-#: core/formfields.py:80
+#: formfields.py:80
 msgid "URL/URL name"
 msgstr ""
 
-#: core/formfields.py:83
+#: formfields.py:83
 msgid "args"
 msgstr ""
 
-#: core/formfields.py:86
+#: formfields.py:86
 msgid "kwargs"
 msgstr ""
 
-#: core/formfields.py:95
+#: formfields.py:96
 msgid "Object"
-msgstr ""
+msgstr "Objekt"
 
-#: core/forms.py:30
+#: forms.py:31
 msgid ""
 "This <a href=\"https://en.wikipedia.org/wiki/CAPTCHA\">CAPTCHA</a> prevents "
 "automated SPAM. If you can't read it, just <a class=\"captcha-refresh"
@@ -88,66 +120,443 @@ msgid ""
 msgstr ""
 "Dieses <a href=\"https://de.wikipedia.org/wiki/Captcha\">CAPTCHA</a> "
 "verhindert automatisierten SPAM. Wenn du es nicht lesen kannst, kannst du es "
-"<a class=\"captcha-refresh\">&#8634; neu ladenreload</a>."
+"<a class=\"captcha-refresh\">&#8634; neu laden</a>."
 
-#: core/forms.py:52
+#: forms.py:49
+msgid "At least 12, at most 30 characters. What is you message about?"
+msgstr "Mindestens 12, maximal 30 Zeichen. Um was geht es?"
+
+#: forms.py:51
+msgid "Please describe your issue as detailed as possible!"
+msgstr "Bitte beschreiben sie so genau wie möglich, worum es geht!"
+
+#: forms.py:55
 msgid "Your address, so we can get back to you."
-msgstr "Ihre Addresse, damit wir sie kontaktieren können."
+msgstr "Ihre Adresse, damit wir sie kontaktieren können."
 
-#: core/models.py:39 core/models.py:69
+#: forms.py:60
+msgid "Operating System"
+msgstr "Betriebssystem"
+
+#: forms.py:64
+msgid "Any operating system"
+msgstr "Alle Betriebssysteme"
+
+#: models.py:60 models.py:196
 msgid "Page title"
-msgstr ""
+msgstr "Titel"
 
-#: core/models.py:40
+#: models.py:61
 msgid "Slug (used in URLs)"
-msgstr ""
+msgstr "Slug (in URLs verwendet)"
 
-#: core/models.py:44
+#: models.py:65
 msgid "Wether or not the page is public."
+msgstr "Ob die Seite gerade öffentlich ist."
+
+#: models.py:69
+msgid "For search engines, max. of 160 characters."
+msgstr "Für Suchmaschinen, maximal 160 Zeichen."
+
+#: models.py:71
+msgid "Twitter"
 msgstr ""
 
-#: core/models.py:59
+#: models.py:72
+msgid "At most 200 characters."
+msgstr "Maximal 200 Zeichen."
+
+#: models.py:74
+msgid "Facebook"
+msgstr ""
+
+#: models.py:75
+msgid "Two to four sentences, default: first three sentences."
+msgstr "Zwei bis vier Sätze, Default: die ersten drei Sätze."
+
+#: models.py:77
+msgid "Any length, but must be valid HTML. Shown in RSS feeds."
+msgstr ""
+"Beliebige Länge, aber muss valides HTML sein. Wird in RSS feeds angezeigt."
+
+#: models.py:186
 msgid "Pinned at the top of any list of blog posts."
-msgstr ""
+msgstr "Ganz oben in der Liste der Blog-Einträge."
 
-#: core/templates/base.html:49
+#: models.py:220
+msgid "IP-Address"
+msgstr "IP-Adresse"
+
+#: models.py:221
+msgid "IP-Addresses"
+msgstr "IP-Adressen"
+
+#: models.py:234
+msgid "Failed login"
+msgstr "Fehlgeschlagener Login"
+
+#: models.py:235
+msgid "Registration"
+msgstr "Registrierung"
+
+#: models.py:236
+msgid "Reset password"
+msgstr "Passwort neu setzen"
+
+#: models.py:237
+msgid "Set email"
+msgstr "E-Mail setzen"
+
+#: models.py:238
+msgid "Set password"
+msgstr "Passwort setzen"
+
+#: models.py:245
+msgid "Request headers used."
+msgstr "HTTP header vom Request"
+
+#: models.py:248
+msgid "IP-Address Activity"
+msgstr "Aktivität einer IP-Adresse"
+
+#: models.py:249
+msgid "IP-Address Activities"
+msgstr "Aktivitäten einer IP-Adresse"
+
+#: templates/base.html:41
+#, python-format
+msgid "%(brand)s - Recent updates (RSS feed)"
+msgstr "%(brand)s - Neueste Artikel (RSS feed)"
+
+#: templates/base.html:42
+#, python-format
+msgid "%(brand)s - Recent updates (Atom feed)"
+msgstr "%(brand)s - Neueste Artikel (Atom feed)"
+
+#: templates/base.html:96
 msgid "Account"
 msgstr "Konto"
 
-#: core/templates/base.html:50
+#: templates/base.html:97
 msgid "Logout"
-msgstr "Ausloggen"
+msgstr "Abmelden"
 
-#: core/templates/base.html:52
+#: templates/base.html:99
 msgid "Register"
 msgstr "Registrieren"
 
-#: core/templates/base.html:53
+#: templates/base.html:100
 msgid "Login"
 msgstr "Einloggen"
 
-#: core/templates/core/blogpost_list.html:8
+#: templates/base.html:112
+msgid "&copy; 2010-2016, jabber.at."
+msgstr ""
+
+#: templates/base.html:113
+msgid ""
+"This homepage is Free Software, you can find the source \n"
+"<a href=\"https://github.com/jabber-at/hp\">on github</a>."
+msgstr ""
+"Diese Homepage ist Freie Software, den Quellcode gibt es <a href=\"https://"
+"github.com/jabber-at/hp\">auf github</a>."
+
+#: templates/core/blacklist.html:4 templates/core/dnsbl.html:4
+msgid "Ooops! You're blocked."
+msgstr "Ooops! Sie wurden blockiert."
+
+#: templates/core/blacklist.html:8 templates/core/dnsbl.html:8
+msgid "You are not allowed to perform this function."
+msgstr "Sie dürfen diese Funktion leider nicht ausführen."
+
+#: templates/core/blacklist.html:13
+msgid ""
+"Your IP-Address was manually blocked by us. This means you cannot perform "
+"this operation\n"
+"until we lift the ban."
+msgstr ""
+
+#: templates/core/blogpost_list.html:10 templates/core/blogpost_list.html:16
+#: templates/core/blogpost_list.html:25
+msgid ""
+"A free, stable, secure and feature-rich Jabber/XMPP server. Join the free "
+"and open Jabber instant messaging network today!"
+msgstr ""
+"Ein freier, stabiler, sicherer und aktueller Jabber/XMPP server. Werde noch "
+"heute Teil des Jabber Instant Messaging Netzwerkes!"
+
+#: templates/core/blogpost_list.html:15 templates/core/blogpost_list.html:24
+msgid "A free, secure, feature-rich Jabber/XMPP server."
+msgstr "Ein freier, sicherer und aktueller Jabber/XMPP server."
+
+#: templates/core/blogpost_list.html:28
 msgid "jabber.at blog"
 msgstr ""
 
-#: core/templates/core/blogpost_list.html:14
+#: templates/core/blogpost_list.html:34
 #, python-format
 msgid "%(date)s by %(user)s"
-msgstr ""
+msgstr "%(date)s von %(user)s"
 
-#: core/templates/core/blogpost_list.html:20
+#: templates/core/blogpost_list.html:36
+msgid "... read more"
+msgstr "... Weiter lesen"
+
+#: templates/core/blogpost_list.html:40
 msgid "No articles found."
+msgstr "Keine Artikel gefunden"
+
+#: templates/core/blogpost_list.html:44
+msgid "Pager"
 msgstr ""
 
-#: core/templates/core/contact.html:16
+#: templates/core/clients.html:4
+msgid "Clients"
+msgstr ""
+
+#: templates/core/clients.html:16
+#, python-format
+msgid ""
+"Jabber is an open protocol and anyone may develop a client for it. This\n"
+"means there are many different clients to connect to %(hostname)s."
+msgstr ""
+"Jabber ist ein offenes Protokoll, daher kann auch jedeR einen Client dafür "
+"entwickeln. Es gibt daher eine Unzahl an Clients, um sich zu %(hostname)s zu "
+"verbinden."
+
+#: templates/core/clients.html:19
+msgid "So what's the best client?"
+msgstr "Also was ist der beste Client?"
+
+#: templates/core/clients.html:21
+msgid "Here is what we have found works best:"
+msgstr "Was unserer Meinung nach am besten funktioniert:"
+
+#: templates/core/clients.html:37
+msgid "Can you be more specific?"
+msgstr "Geht es bitte etwas genauer?"
+
+#: templates/core/clients.html:39
+msgid "Sure we can:"
+msgstr "Aber klar doch:"
+
+#: templates/core/clients.html:90
+msgid "version 1.14.4"
+msgstr "Version 1.14.4"
+
+#: templates/core/clients.html:116
+msgid "version 0.16.5"
+msgstr "Version 0.16.5"
+
+#: templates/core/clients.html:125
+msgid "With <a href=\"https://github.com/omemo/gajim-omemo\">Plugin</a>"
+msgstr "Mit <a href=\"https://github.com/omemo/gajim-omemo\">Plugin</a>"
+
+#: templates/core/clients.html:139
+msgid "Good for voice/video calls"
+msgstr "Gut für Sprach- und Videotelephonie."
+
+#: templates/core/clients.html:152
+msgid "You have to host your own instance."
+msgstr "Muss selbst gehostet werden."
+
+#: templates/core/clients.html:196
+msgid "version 0.9"
+msgstr "Version 0.9"
+
+#: templates/core/clients.html:209
+msgid "version 0.5"
+msgstr "Version 0.5"
+
+#: templates/core/clients.html:237
+msgid "version 1.0.74"
+msgstr "Version 1.0.74"
+
+#: templates/core/clients.html:251
+msgid "version 0.8.8"
+msgstr "Version 0.8.8"
+
+#: templates/core/clients.html:282
+#, python-format
+msgid ""
+"Feel information on this page is missing or out of date? Please just <a href="
+"\"%(url)s\">contact\n"
+"us</a>."
+msgstr ""
+
+#: templates/core/clients.html:284
+msgid ""
+"\n"
+"You can also find other lists of clients on <a href=\"http://xmpp.org/"
+"software/clients.shtml\">xmpp.org</a>,\n"
+"<a href=\"http://en.wikipedia.org/wiki/List_of_XMPP_client_software"
+"\">Wikipedia</a>, on\n"
+"<a href=\"https://www.zash.se/xmpp-clients.html\">zash.se</a>, or, in "
+"French, at\n"
+"<a href=\"https://wiki.jabberfr.org/Clients\">jabberfr.org</a>."
+msgstr ""
+
+#: templates/core/contact.html:4
+msgid "Contact"
+msgstr "Kontakt"
+
+#: templates/core/contact.html:9
+msgid "Thank you for contacting us."
+msgstr "Danke, dass du uns kontaktiert hast."
+
+#: templates/core/contact.html:10
+msgid "We will get back to you as soon as possible."
+msgstr "Wir melden uns so bald als möglich."
+
+#: templates/core/contact.html:12
+msgid "You should have received a copy your message in your email inbox."
+msgstr ""
+"Sie sollten eine Kopie der Nachricht in ihrem Posteingang erhalten haben."
+
+#: templates/core/contact.html:15
+msgid ""
+"The best way to contact is to join our chatroom at\n"
+"<a href=\"xmpp:chat@jabber.at\">chat@jabber.at</a>. If you have trouble\n"
+"registering or connecting, use this form and we will get back to you."
+msgstr ""
+"Der beste weg um uns zu kontaktieren ist unser chatroom unter "
+"<a href=\"xmpp:chat@jabber.at\">chat@jabber.at</a>. Falls sie Probleme "
+"haben sich zu registrieren oder zu verbinden, können sie dieses Formular "
+"nutzen."
+
+#: templates/core/contact.html:18
+msgid ""
+"Please try to be as specific as possible to describe your problem: What\n"
+"exactly have you done that led to your issue? If you get an error message,\n"
+"what does it say and where exactly do you see it? What client are you\n"
+"using? ...and so on."
+msgstr ""
+"Bitte versuchen sie so genau wie möglich ihr Problem zu beschreiben: Welche "
+"Schritte haben dazu geführt? Falls sie eine Fehlermeldung bekommen, wie genau"
+"lautet sie und wo sehen sie sie? Welchen Client benutzen sie? ... und so weiter."
+
+#: templates/core/contact.html:34
 msgid "Send"
+msgstr "Absenden"
+
+#: templates/core/dnsbl.html:10
+msgid ""
+"Your IP-Address appears on one or more \n"
+"<a href=\"https://en.wikipedia.org/wiki/DNSBL\">DNS-based Blackhole List "
+"(DNSBL)</a>.\n"
+"This is most likely due to you using an open proxy server or your computer "
+"sending a lot of SPAM.\n"
 msgstr ""
 
-#: core/urls.py:23
+#: templates/core/include/sidebar.html:5
+msgid "Site tools"
+msgstr ""
+
+#: templates/core/include/sidebar.html:8
+msgid "View this page in:"
+msgstr ""
+
+#: templates/core/include/sidebar.html:17
+msgid "Updates"
+msgstr "Aktualisierungen"
+
+#: templates/core/include/sidebar.html:19
+msgid "If you use our server, we strongly encourage you to stay up to date."
+msgstr "Wir raten allen, die unseren Server nutzen, auf dem Laufenden zu bleiben."
+
+#: templates/core/include/twitter_follow.html:4
+#, python-format
+msgid "Follow <strong>@%(twitter)s</strong>"
+msgstr ""
+
+#: templates/core/include/twitter_link.html:5
+#, python-format
+msgid "@%(twitter)s"
+msgstr ""
+
+#: templates/core/rate.html:4
+msgid "Ooops! Not so fast."
+msgstr "Ooops! Nicht so schnell."
+
+#: templates/core/rate.html:8
+msgid "You have performed this activity to often in a short period of time."
+msgstr "Sie haben diese Aktivität zu oft ausgeführt. Bitte versuchen sie es später erneut."
+
+#: templates/core/rate.html:11
+msgid ""
+"We automatically block IP address temporarily if they perform this activity\n"
+"too often. Please wait a while before trying again."
+msgstr ""
+
+#: templatetags/core.py:65
+#, python-format
+msgid "%s bytes"
+msgstr "%s Bytes"
+
+#: templatetags/core.py:67
+#, python-format
+msgid "%.2f kilobyte"
+msgstr "%.2f Kilobyte"
+
+#: templatetags/core.py:69
+#, python-format
+msgid "%.2f megabyte"
+msgstr "%.2f Megabyte"
+
+#: urls.py:23
 msgid "^contact/$"
 msgstr "^kontakt/$"
 
-#: core/views.py:84
+#: urls.py:24
+msgid "^clients/$"
+msgstr ""
+
+#: utils.py:36
+#, python-format
+msgid "one day"
+msgid_plural "%(count)d days"
+msgstr[0] "Ein Tag"
+msgstr[1] "%(count)d Tage"
+
+#: utils.py:38
+#, python-format
+msgid "one hour"
+msgid_plural "%(count)d hours"
+msgstr[0] "eine Stunde"
+msgstr[1] "%(count)d Stunden"
+
+#: utils.py:40
+#, python-format
+msgid "one minute"
+msgid_plural "%(count)d minutes"
+msgstr[0] "eine Minute"
+msgstr[1] "%(count)d Minuten"
+
+#: utils.py:44
+#, python-format
+msgid "%(days)s, %(hours)s and %(minutes)s"
+msgstr "%(days)s, %(hours)s und %(minutes)s"
+
+#: utils.py:47
+#, python-format
+msgid "%(days)s and %(hours)s"
+msgstr "%(days)s und %(hours)s"
+
+#: utils.py:49
+#, python-format
+msgid "%(days)s and %(minutes)s"
+msgstr "%(days)s und %(minutes)s"
+
+#: utils.py:53
+#, python-format
+msgid "%(hours)s and %(minutes)s"
+msgstr "%(hours)s und %(minutes)s"
+
+#: utils.py:59
+msgid "Now"
+msgstr "Jetzt"
+
+#: views.py:104
 #, python-format
 msgid "No %(verbose_name)s found matching the query"
-msgstr ""
+msgstr "Kein %(verbose_name)s unter dieser Adresse gefunden."
