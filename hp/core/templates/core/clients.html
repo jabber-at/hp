@@ -65,7 +65,7 @@ or free on
     <td class="xep xep0027">{{u}}</td>
     <td class="xep xep0167">{{n}}</td>
     <td class="xep xep0198">{{u}}</td>
-    <td class="xep xep0280">{{u}}</td>
+    <td class="xep xep0280">{{y}}</td>{% comment %}According to zash.se list{% endcomment %}
     <td class="xep xep0313">{{u}}</td>
     <td class="xep xep0352 mobile">{{u}}</td>
     <td class="xep xep0357 mobile">{{u}}</td>
@@ -87,6 +87,7 @@ or free on
     <td></td>
 </tr>
 <tr class="android">
+    {% comment %}https://github.com/siacs/Conversations/blob/master/docs/XEPs.md{% endcomment %}
     <th><a href="https://conversations.im/">Conversations</a>
         <span class="footnote" data-toggle="tooltip", title="{% blocktrans with version="1.14.4" %}version {{ version }}{% endblocktrans %}"></span>
     <td class="xep xep0027">{{y}}</td>
@@ -95,7 +96,7 @@ or free on
     <td class="xep xep0280">{{y}}</td>
     <td class="xep xep0313">{{y}}</td>
     <td class="xep xep0352 mobile">{{y}}</td>
-    <td class="xep xep0357 mobile">{{n}}</td>
+    <td class="xep xep0357 mobile">{{y}}</td>
     <td class="xep xep0363">{{y}}</td>
     <td class="xep omemo">{{y}}</td>
     <td>on <a href="https://f-droid.org/repository/browse/?fdfilter=conversations&fdid=eu.siacs.conversations">Google play</a> (€ 2,39), on <a href="https://f-droid.org/repository/browse/?fdfilter=conversations&fdid=eu.siacs.conversations">F-Droid</a> (free)</td>
@@ -171,9 +172,9 @@ or free on
 <tr class="osx ios">
     <th><a href="https://monal.im/">Monal</a></th>
     <td class="xep xep0027">{{u}}</td>
-    <td class="xep xep0167">{{u}}</td>
-    <td class="xep xep0198">{{u}}</td>
-    <td class="xep xep0280">{{u}}</td>
+    <td class="xep xep0167">{{n}}</td>
+    <td class="xep xep0198">{{y}}</td>{% comment %}According to zash.se list{% endcomment %}
+    <td class="xep xep0280">{{y}}</td>{% comment %}According to zash.se list{% endcomment %}
     <td class="xep xep0313">{{y}}</td>{% comment %}Mentioned in Changelog for 2.9.1{% endcomment %}
     <td class="xep xep0352 mobile">{{y}}</td>
     <td class="xep xep0357 mobile">
@@ -185,12 +186,16 @@ or free on
     <td></td>
 </tr>
 <tr class="win linux">
+    {% comment %}incomplete list: https://developer.pidgin.im/wiki/SupportedXEPs{% endcomment %}
     <th><a href="http://pidgin.im/">Pidgin</a></th>
-    <td class="xep xep0027">{{u}}</td>
+    <td class="xep xep0027">
+        {{y}}
+        <span class="footnote" data-toggle="tooltip", title='{% trans 'With <a href="https://github.com/segler-alex/Pidgin-GPG">Plugin</a>' %}'></span>
+    </td>
     <td class="xep xep0167">{{n}}</td>
-    <td class="xep xep0198">{{u}}</td>
-    <td class="xep xep0280">{{u}}</td>
-    <td class="xep xep0313">{{u}}</td>
+    <td class="xep xep0198">{{n}}</td>{% comment %}https://developer.pidgin.im/ticket/14252{% endcomment %}
+    <td class="xep xep0280">{{n}}</td>{% comment %}https://developer.pidgin.im/ticket/15508{% endcomment %}
+    <td class="xep xep0313">{{n}}</td>{% comment %}https://developer.pidgin.im/ticket/15653{% endcomment %}
     <td class="xep xep0352 mobile">{{u}}</td>
     <td class="xep xep0357 mobile">{{u}}</td>
     <td class="xep xep0363">{{u}}</td>
