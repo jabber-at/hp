@@ -28,10 +28,9 @@ from .modelfields import LinkTargetDict
 
 class MenuItemAdminForm(forms.ModelForm):
     def clean_target(self):
-        target = self.cleaned_data['target']
-        print(target, type(target))
-        target = LinkTargetDict(target)
-        return target
+        # NOTE: we don't need this in development, but in production without this the value
+        #       for the target is never saved. :/
+        return LinkTargetDict(self.cleaned_data['target'])
 
 
 class CaptchaFormMixin(forms.Form):
