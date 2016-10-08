@@ -1,4 +1,5 @@
 var update_client_list = function(elem) {
+    elem.height('300px');
     var value = elem.val();
     if (value == "any") {
         $('table#clients-table tr').show();

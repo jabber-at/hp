@@ -490,7 +490,7 @@ msgstr ""
 
 #: templates/core/include/sidebar.html:5
 msgid "Language"
-msgstr ""
+msgstr "Sprache"
 
 #: templates/core/include/sidebar.html:18
 msgid "Updates"
