@@ -30,7 +30,9 @@ class MenuItemAdminForm(forms.ModelForm):
     def clean_target(self):
         # NOTE: we don't need this in development, but in production without this the value
         #       for the target is never saved. :/
-        return LinkTargetDict(self.cleaned_data['target'])
+        target = LinkTargetDict(self.cleaned_data['target'])
+        target.validate()
+        return target
 
 
 class CaptchaFormMixin(forms.Form):

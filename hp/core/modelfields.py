@@ -17,6 +17,7 @@ import logging
 
 from django.contrib.admin.widgets import AdminTextareaWidget
 from django.contrib.contenttypes.models import ContentType
+from django.core.exceptions import ValidationError
 from django.core.urlresolvers import reverse
 
 from jsonfield import JSONField
@@ -40,6 +41,26 @@ class LocalizedTextField(_LocalizedTextField):
 
 
 class LinkTargetDict(dict):
+    def validate(self):
+        """Validate that this object points to a valid object."""
+
+        typ = int(self.get('typ', TARGET_URL))
+
+        if typ == TARGET_URL:
+            if not self.get('url'):
+                raise ValidationError('URL must not be empty.')
+        elif typ == TARGET_NAMED_URL:
+            try:
+                reverse(self['name'], *self['args'], **self['kwargs'])
+            except Exception as e:
+                raise ValidationError('%s: %s' % (type(e).__name__, e))
+        elif typ == TARGET_MODEL:
+            try:
+                ct = ContentType.objects.get_for_id(self['content_type'])
+                ct.get_object_for_this_type(pk=self['object_id'])
+            except Exception as e:
+                raise ValidationError('%s: %s' % (type(e).__name__, e))
+
     @property
     def href(self):
         typ = int(self.get('typ', TARGET_URL))
