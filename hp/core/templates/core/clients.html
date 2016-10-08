@@ -142,15 +142,18 @@ or free on
     <td>{% trans "Good for voice/video calls" %}</td>
 </tr>
 <tr class="browser">
-    <th><a href="https://www.jsxc.org/">JSXC</a></th>
-    <td class="xep xep0027">{{u}}</td>
+    {% comment %}https://www.jsxc.org/features.html{% endcomment %}
+    <th><a href="https://www.jsxc.org/">JSXC</a>
+        <span class="footnote" data-toggle="tooltip", title="{% blocktrans with version="3.0.0" %}version {{ version }}{% endblocktrans %}"></span>
+    </th>
+    <td class="xep xep0027">{{n}}</td>
     <td class="xep xep0167">{{n}}</td>
-    <td class="xep xep0198">{{u}}</td>
-    <td class="xep xep0280">{{u}}</td>
-    <td class="xep xep0313">{{u}}</td>
-    <td class="xep xep0352 mobile">{{u}}</td>
-    <td class="xep xep0357 mobile">{{u}}</td>
-    <td class="xep xep0363">{{u}}</td>
+    <td class="xep xep0198">{{n}}</td>
+    <td class="xep xep0280">{{y}}</td>
+    <td class="xep xep0313">{{n}}</td>
+    <td class="xep xep0352 mobile">{{n}}</td>
+    <td class="xep xep0357 mobile">{{n}}</td>
+    <td class="xep xep0363">{{n}}</td>{% comment %}WIP: https://github.com/jsxc/jsxc/pull/352{% endcomment %}
     <td class="xep omemo">{{n}}</td>
     <td>{% trans "You have to host your own instance." %}</td>
 </tr>

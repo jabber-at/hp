@@ -6,6 +6,7 @@ table#clients-table td.xep
 {
     text-align: center;
     vertical-align: middle;
+    white-space: nowrap;
 }
 table#clients-table th.two-rows {
     vertical-align: bottom;
