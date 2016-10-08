@@ -11,7 +11,7 @@
     </tr>
     <tr>
         <td>{% trans "Email address" %}</td>
-        <td>{{ object.email }} (<a href="{% url "account:set_email" %}">change</a>)</td>
+        <td>{{ object.email }} (<a href="{% url "account:set_email" %}">{% trans "change" %}</a>)</td>
     </tr>
     <tr class="{% if object.confirmed %}success{% else %}danger{% endif %}">
         <td>{% trans "Email confirmed" %}</td>

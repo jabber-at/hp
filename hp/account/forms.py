@@ -86,6 +86,7 @@ class GPGMixin(forms.Form):
 class CreateUserForm(GPGMixin, CaptchaFormMixin, forms.ModelForm):
     username = UsernameField(register=True)
     email = EmailVerifiedDomainField(
+        label=_('Email'),
         help_text=_('Required, a confirmation email will be sent to this address.')
     )
 
@@ -125,7 +126,7 @@ class LoginForm(CaptchaFormMixin, AuthenticationForm):
 
 class SetPasswordForm(forms.Form):
     password = BootstrapPasswordField(
-        min_length=6, widget=BootstrapPasswordInput(glyphicon=True),
+        min_length=6, widget=BootstrapPasswordInput(glyphicon=True), label=_('Password'),
         help_text=_('Passwords must be at least six characters.'))
     password2 = BootstrapPasswordField(
         min_length=6, widget=BootstrapPasswordInput(glyphicon=True), label=_('Confirm'),
@@ -152,6 +153,7 @@ class SetPasswordForm(forms.Form):
 
 class SetEmailForm(GPGMixin, forms.Form):
     email = EmailVerifiedDomainField(
+        label=_('Email'),
         help_text=_('Required, an email will be sent to this address to confirm the change.')
     )
 

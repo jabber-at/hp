@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-10-07 17:57+0200\n"
+"POT-Creation-Date: 2016-10-08 14:19+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -77,76 +77,7 @@ msgstr "Der Benutzername darf maximal %(limit_value)d Zeichen lang sein."
 msgid "Username contains invalid characters."
 msgstr "Der Benutzername enthält ungültige Zeichen."
 
-#: formfields.py:87
-msgid "Type to see if the username is still available."
-msgstr ""
-"Geben sie den gewünschen Benutzernamen ein, um zu sehen, ob er noch "
-"verfügbar ist."
-
-#: formfields.py:89
-msgid "The username is still available."
-msgstr "Der Benutzername ist verfügbar."
-
-#: formfields.py:91
-msgid "The username is no longer available."
-msgstr "Der Benutzername ist nicht mehr verfügbar"
-
-#: formfields.py:93
-msgid "The username is invalid."
-msgstr "Der Benutzername ist ungültig."
-
-#: formfields.py:95
-msgid "An error occured, please try again later."
-msgstr ""
-
-#: formfields.py:112 templates/account/user_gpg.html:11
-msgid "Fingerprint"
-msgstr "Fingerabdruck"
-
-#: formfields.py:117
-msgid ""
-"Add your fingerprint (<code>gpg --fingerprint &lt;you@example.com&gt;</"
-"code>) if your key is available on public key servers..."
-msgstr ""
-"Geben sie den Fingerabdruck (<code>gpg --fingerprint &lt;you@example.com&gt;"
-"</code>) des Schlüssels an, wenn er auf den öffentlichen Schlüsselservern "
-"verfügbar ist..."
-
-#: formfields.py:122 formfields.py:155
-msgid "GPG not enabled."
-msgstr "GPG ist nicht aktiviert."
-
-#: formfields.py:124
-msgid "Fingerprint should be 40 characters long."
-msgstr "Der Fingerabdruck muss exakt 40 Zeichen lang sein."
-
-#: formfields.py:126
-msgid "Fingerprint contains invalid characters."
-msgstr "Der Fingerabdruck enthält ungültige Zeichen."
-
-#: formfields.py:147
-msgid "GPG Key"
-msgstr "GPG Schlüssel"
-
-#: formfields.py:149
-msgid ""
-"... upload your ASCII armored GPG key directly (<code>gpg --armor --export "
-"&lt;fingerprint&gt;</code>)."
-msgstr ""
-"... laden sie ihren GPG Schlüssel im ASCII-Format direkt hoch (<code>gpg --"
-"armor --export &lt;fingerprint&gt;</code>)"
-
-#: formfields.py:157
-#, python-format
-msgid "Only plain-text files are allowed (was: %(content-type)s)!"
-msgstr ""
-
-#: formfields.py:193
-#, python-format
-msgid "The domain \"%(domain)s\" does not exist."
-msgstr ""
-
-#: forms.py:90 widgets.py:44
+#: formfields.py:87 widgets.py:43
 #, python-format
 msgid ""
 "At least %(MIN_LENGTH)s and up to %(MAX_LENGTH)s characters. No \"@\" or "
@@ -155,60 +86,133 @@ msgstr ""
 "Mindestens %(MIN_LENGTH)s und maximal %(MAX_LENGTH)s Zeichen. Keine \"@\" "
 "oder Abstände."
 
-#: forms.py:96
+#: formfields.py:94
+msgid "Type to see if the username is still available."
+msgstr ""
+"Geben sie den gewünschen Benutzernamen ein, um zu sehen, ob er noch "
+"verfügbar ist."
+
+#: formfields.py:96
+msgid "The username is still available."
+msgstr "Der Benutzername ist verfügbar."
+
+#: formfields.py:98
+msgid "The username is no longer available."
+msgstr "Der Benutzername ist nicht mehr verfügbar"
+
+#: formfields.py:100
+msgid "The username is invalid."
+msgstr "Der Benutzername ist ungültig."
+
+#: formfields.py:102
+msgid "An error occured, please try again later."
+msgstr ""
+
+#: formfields.py:119 templates/account/user_gpg.html:11
+msgid "Fingerprint"
+msgstr "Fingerabdruck"
+
+#: formfields.py:124
+msgid ""
+"Add your fingerprint (<code>gpg --fingerprint &lt;you@example.com&gt;</"
+"code>) if your key is available on public key servers..."
+msgstr ""
+"Geben sie den Fingerabdruck (<code>gpg --fingerprint &lt;you@example.com&gt;"
+"</code>) des Schlüssels an, wenn er auf den öffentlichen Schlüsselservern "
+"verfügbar ist..."
+
+#: formfields.py:129 formfields.py:162
+msgid "GPG not enabled."
+msgstr "GPG ist nicht aktiviert."
+
+#: formfields.py:131
+msgid "Fingerprint should be 40 characters long."
+msgstr "Der Fingerabdruck muss exakt 40 Zeichen lang sein."
+
+#: formfields.py:133
+msgid "Fingerprint contains invalid characters."
+msgstr "Der Fingerabdruck enthält ungültige Zeichen."
+
+#: formfields.py:154
+msgid "GPG Key"
+msgstr "Schlüssel"
+
+#: formfields.py:156
+msgid ""
+"... upload your ASCII armored GPG key directly (<code>gpg --armor --export "
+"&lt;fingerprint&gt;</code>)."
+msgstr ""
+"... laden sie ihren GPG Schlüssel im ASCII-Format direkt hoch (<code>gpg --"
+"armor --export &lt;fingerprint&gt;</code>)"
+
+#: formfields.py:164
+#, python-format
+msgid "Only plain-text files are allowed (was: %(content-type)s)!"
+msgstr "Es sind ausschließlich Textdateien erlaubt (nicht %(content-type)s)!"
+
+#: formfields.py:200
+#, python-format
+msgid "The domain \"%(domain)s\" does not exist."
+msgstr "Die Domain %(domain)s\" existiert nicht."
+
+#: forms.py:89 forms.py:156 models.py:84
+msgid "Email"
+msgstr "E-Mail"
+
+#: forms.py:90
 msgid "Required, a confirmation email will be sent to this address."
 msgstr ""
 "Pflichtfeld, benötigt um eine Bestätigung an diese Adresse zu schicken."
 
-#: forms.py:108
+#: forms.py:102
 msgid "Malformed email address."
 msgstr "Ungültige E-Mail-Adresse."
 
-#: forms.py:114
+#: forms.py:108
 #, python-format
 msgid "Please give your own email address, %(domain)s does not provide one."
 msgstr ""
 "Bitte geben sie ihre eigene E-Mail-Addresse an, %(domain)s stellt keine zur "
 "Verfüugung."
 
-#: forms.py:118
+#: forms.py:112
 #, python-format
 msgid ""
 "Sorry, you cannot use an address on %(domain)s. The domain was blocked "
 "because it was used to by Spammers."
 msgstr ""
+"E-Mail-Adressen auf der Domain %(domain)s können nicht genutzt werden, da "
+"sie von Spammern genutzt wurde."
 
-#: forms.py:130
+#: forms.py:124 forms.py:129
 msgid "Password"
 msgstr "Passwort"
 
-#: forms.py:136
+#: forms.py:130
 msgid "Passwords must be at least six characters."
 msgstr "Das Passwort muss mindestens sechs Zeichen haben."
 
-#: forms.py:138
+#: forms.py:132
 msgid "Confirm"
 msgstr "Bestätigen"
 
-#: forms.py:139
+#: forms.py:133
 msgid "Confirm the password to make sure you spelled it correctly."
-msgstr ""
+msgstr "Bestätigen sie das Passwort, um Tippfehler auszuschließen."
 
-#: forms.py:142
+#: forms.py:136
 msgid "The two password fields didn't match."
-msgstr ""
+msgstr "Die beiden Passwörter stimmen nicht überein."
 
-#: forms.py:162
+#: forms.py:157
 msgid "Required, an email will be sent to this address to confirm the change."
 msgstr ""
-
-#: models.py:84
-msgid "Email"
-msgstr "E-Mail"
+"Pflichtfeld, eine E-Mail wird an diese Adresse gesendet um die Änderung zu "
+"bestätigen."
 
 #: models.py:200
 msgid "Error importing GPG key."
-msgstr ""
+msgstr "Fehler beim importieren des GPG SChlüssels."
 
 #: models.py:213
 #, python-format
@@ -260,15 +264,17 @@ msgstr "Ihr Konto wurde noch nicht bestätigt!"
 #: templates/account/base.html:26
 #, python-format
 msgid ""
-"You have not yet confirmed your email address. Your account registration is "
-"not\n"
-"complete until you have. We just sent you an email to %(email)s, click\n"
+"You have not yet confirmed your email address. Your account registration is\n"
+"not complete until you have. We just sent you an email to %(email)s, click\n"
 "on the link in it and give us a password to complete the registration."
 msgstr ""
+"Sie haben ihre E-Mail-Adresse noch nicht bestätigt. Ihre Registrierung ist "
+"daher nicht abgeschlossen. Wir haben eine E-Mail an %(email)s geschickt, "
+"klicken sie auf den Link in der E-Mail um die Registrierung abzuschließen. "
 
 #: templates/account/base.html:36
 msgid "Show menu"
-msgstr ""
+msgstr "Menü"
 
 #: templates/account/confirm/register.html:3
 #: templates/account/confirm/register.txt:1
@@ -278,16 +284,18 @@ msgstr ""
 #: templates/account/confirm/set_email.txt:1
 #, python-format
 msgid "Dear %(jid)s,"
-msgstr ""
+msgstr "LiebeR %(jid)s,"
 
 #: templates/account/confirm/register.html:5
 #, python-format
 msgid ""
 "You have registered the account %(jid)s with this email address.\n"
-"To complete your registration, please <a href=\"%(uri)s\">click here</a> "
-"and\n"
-"provide a password for your new account."
+"To complete your registration, please <a href=\"%(uri)s\">click here</a>\n"
+"and provide a password for your new account."
 msgstr ""
+"Sie haben das Konto %(jid)s mit dieser E-Mail-Adresse registriert. Um die "
+"Registrierung abzuschließen, <a href=\"%(uri)s\">klicken sie hier</a> und "
+"geben ein Passwort an."
 
 #: templates/account/confirm/register.html:9
 #: templates/account/confirm/register.txt:9
@@ -295,15 +303,17 @@ msgid ""
 "If you haven't registered for an account, you can simply disregard this\n"
 "Email."
 msgstr ""
+"Falls sie kein Konto registriert haben, können sie diese E-Mail einfach "
+"ignorieren."
 
 #: templates/account/confirm/register.html:12
 #: templates/account/confirm/register.txt:12
-#: templates/account/confirm/reset_password.html:14
+#: templates/account/confirm/reset_password.html:11
 #: templates/account/confirm/reset_password.txt:10
 #: templates/account/confirm/set_email.html:12
 #: templates/account/confirm/set_email.txt:10
 msgid "greetings,"
-msgstr ""
+msgstr "alles liebe,"
 
 #: templates/account/confirm/register.txt:3
 #, python-format
@@ -312,6 +322,9 @@ msgid ""
 "To complete your registration, please click on the following link and\n"
 "provide a password for your new account:"
 msgstr ""
+"Sie haben das Konto %(jid)s mit dieser E-Mail-Adresse registriert. Um die "
+"Registrierung abzuschließen, gehen sie bitte auf folgenden Link und geben "
+"ein Passwort an."
 
 #: templates/account/confirm/reset_password.html:5
 #, python-format
@@ -319,19 +332,17 @@ msgid ""
 "You requested to change the password for your Jabber account %(jid)s.\n"
 "To complete the change, please <a href=\"%(uri)s\">click here</a>."
 msgstr ""
+"Sie wollten das Passwort für ihr Jabber-Konto %(jid)s ändern. Um den Vorgang "
+"abzuschließen, <a href=\"%(uri)s\">klicken sie hier</a>."
 
 #: templates/account/confirm/reset_password.html:8
-msgid ""
-"Please note that this server stores passwords as plain text. We can only\n"
-"encourage you to choose a safe password you use nowhere else."
-msgstr ""
-
-#: templates/account/confirm/reset_password.html:11
 #: templates/account/confirm/reset_password.txt:8
 #: templates/account/confirm/set_email.html:10
 #: templates/account/confirm/set_email.txt:8
 msgid "If you haven't made this change, simply disregard this email."
 msgstr ""
+"Falls sie ihr Passwort nicht ändern wollten, können sie diese E-Mail einfach "
+"ignorieren."
 
 #: templates/account/confirm/reset_password.txt:3
 #, python-format
@@ -339,6 +350,8 @@ msgid ""
 "You requested to change the password for your Jabber account %(jid)s.\n"
 "To complete the change, please go to this address:"
 msgstr ""
+"Sie wollten das Passwort für ihr Jabber-Konto %(jid)s ändern. Um den Vorgang "
+"abzuschließen, klicken sie bitte auf diesen Link:"
 
 #: templates/account/confirm/set_email.html:7
 #, python-format
@@ -346,6 +359,8 @@ msgid ""
 "You have changed the email address for your Jabber account %(jid)s.\n"
 "To complete the change, please <a href=\"%(uri)s\">click here</a>."
 msgstr ""
+"Sie haben die E-Mail-Addresse für ihr Jabber-Konto %(jid)s geändert. Um den "
+"Vorgang abzuschließen, <a href=\"%(uri)s\">klicken sie hier</a>."
 
 #: templates/account/confirm/set_email.txt:3
 #, python-format
@@ -353,18 +368,27 @@ msgid ""
 "You have changed the email address for your Jabber account %(jid)s.\n"
 "To complete the change, please go to this address:"
 msgstr ""
+"Sie haben die E-Mail-Addresse für ihr Jabber-Konto %(jid)s geändert. Um den "
+"Vorgang abzuschließen, gehen sie bitte auf diese URL:"
 
 #: templates/account/requires_confirmation.html:4
 msgid "Requires confirmation"
-msgstr ""
+msgstr "Benötigt Bestätigung"
 
 #: templates/account/requires_confirmation.html:6
 msgid "This functionality requires that you have confirmed your email address."
 msgstr ""
+"Für diese Funktionalität müssen sie ihre E-MailAdresse bestätigt haben."
 
 #: templates/account/set_password.html:4 views.py:82
 msgid "Set password"
-msgstr ""
+msgstr "Passwort setzen"
+
+#: templates/account/set_password.html:12
+#: templates/account/user_register_confirm.html:22
+#: templates/account/user_set_email.html:51
+msgid "Submit"
+msgstr "Bestätigen"
 
 #: templates/account/user_detail.html:9
 msgid "Registered"
@@ -373,6 +397,10 @@ msgstr "Registriert"
 #: templates/account/user_detail.html:13
 msgid "Email address"
 msgstr "E-Mail-Adresse"
+
+#: templates/account/user_detail.html:14
+msgid "change"
+msgstr "ändern"
 
 #: templates/account/user_detail.html:17
 msgid "Email confirmed"
@@ -396,15 +424,15 @@ msgstr "Erstellt"
 
 #: templates/account/user_gpg.html:10
 msgid "Expires"
-msgstr ""
+msgstr "Gültig bis"
 
 #: templates/account/user_login.html:4 templates/account/user_login.html:25
 msgid "Log in"
-msgstr ""
+msgstr "Anmelden"
 
 #: templates/account/user_login.html:11
 msgid "Please login to see this page."
-msgstr ""
+msgstr "Bitte melden sie sich an, um diese Seite zu sehen."
 
 #: templates/account/user_login.html:20
 msgid "Forgot your password?"
@@ -413,17 +441,19 @@ msgstr "Passwort vergessen?"
 #: templates/account/user_password_reset.html:4
 #: templates/account/user_password_reset_confirm.html:4
 msgid "Reset password"
-msgstr ""
+msgstr "Passwort neu setzen"
 
 #: templates/account/user_password_reset.html:8
 msgid "Please check your email inbox!"
-msgstr ""
+msgstr "Bitte überprüfen sie ihre E-Mail Inbox!"
 
 #: templates/account/user_password_reset.html:9
 msgid ""
 "We just sent you an email containing a link where you can reset your "
 "password."
 msgstr ""
+"Wir haben ihnen eine E-Mail mit einem Link geschickt, unter dem sie ihr "
+"Passwort neu setzen können."
 
 #: templates/account/user_password_reset.html:12
 msgid ""
@@ -433,28 +463,30 @@ msgstr ""
 
 #: templates/account/user_password_reset.html:19
 msgid "Send"
-msgstr ""
+msgstr "Abschicken"
 
 #: templates/account/user_recent_activity.html:4 views.py:86
 msgid "Recent activity"
-msgstr ""
+msgstr "Letzte Aktivitäten"
 
 #: templates/account/user_recent_activity.html:7
 #, python-format
 msgid ""
-"This page shows any recent activity for your account. This information is "
-"useful\n"
-"if you suspect someone is trying to take over your account. The log entries "
-"are\n"
-"removed after %(delta)s."
+"This page shows any recent activity for your account. This information is \n"
+"useful if you suspect someone is trying to take over your account. The log\n"
+"entries are removed after %(delta)s."
 msgstr ""
+"Auf dieser Seite sind ihre letzten Aktivitäten aufgelistet. Diese "
+"Information ist nützlich, falls jemand versucht, in ihr Konto einzubrechen. "
+"Die Einträge werden nach %(delta)s gelöscht."
 
 #: templates/account/user_recent_activity.html:12
 msgid ""
-"Please note that this log only includes activity on this homepage. Failed "
-"login\n"
-"attempts on the Jabber/XMPP server itself will not show up here."
+"Please note that this log only includes activity on this homepage. Failed\n"
+"login attempts on the Jabber/XMPP server itself will not show up here."
 msgstr ""
+"Hier werden nur Aktivitäten auf dieser Homepage erfasst. Fehlgeschlagene "
+"Logins am Jabber/XMPP server selbst werden hier nicht erfasst."
 
 #: templates/account/user_recent_activity.html:18
 msgid "IP"
@@ -462,20 +494,20 @@ msgstr ""
 
 #: templates/account/user_recent_activity.html:19
 msgid "Date"
-msgstr ""
+msgstr "Datum"
 
 #: templates/account/user_recent_activity.html:20
 msgid "Action"
-msgstr ""
+msgstr "Aktion"
 
 #: templates/account/user_recent_activity.html:31
 msgid "No recent log entries found."
-msgstr ""
+msgstr "Keine Aktivitäten gefunden."
 
 #: templates/account/user_register.html:4
 #: templates/account/user_register.html:54
 msgid "Register"
-msgstr ""
+msgstr "Registrieren"
 
 #: templates/account/user_register.html:7
 msgid ""
@@ -514,6 +546,7 @@ msgstr ""
 "schicken, automatisch verschlüsselt."
 
 #: templates/account/user_register.html:37
+#: templates/account/user_set_email.html:35
 msgid ""
 "<strong>Warning:</strong> Please note the obvious: If you ever loose your\n"
 "GPG key and do not upload a new one here, you can no longer read any emails\n"
@@ -524,6 +557,7 @@ msgstr ""
 "nicht mehr lesen."
 
 #: templates/account/user_register.html:46
+#: templates/account/user_set_email.html:44
 msgid "- and/or -"
 msgstr "- und/oder -"
 
@@ -536,6 +570,8 @@ msgid ""
 "Please enter a password to complete your registration. You will be\n"
 "able to use your new account immediately."
 msgstr ""
+"Bitte geben sie ein Passwort ein, um die Registrierung abzuschließen. Sie "
+"können ihr neues Konto sofort nutzen."
 
 #: templates/account/user_register_confirm.html:11
 #, python-format
@@ -545,10 +581,14 @@ msgid ""
 "registration, please proceed to your <a class=\"alert-link\" href="
 "\"%(account_page_url)s\">your account-page</a>."
 msgstr ""
+"<strong>Achtung:</strong>\n"
+"Dieser Link ist nur einmal gültig. Wenn sie ihre Registrierung bereits "
+"abgeschlossen haben, gehen sie bitte einfach auf <a class=\"alert-link\" "
+"href=\"%(account_page_url)s\">ihre Übersichtsseite</a>."
 
 #: templates/account/user_register_confirmation_not_found.html:10
 msgid "Confirmation key not found"
-msgstr ""
+msgstr "Bestätigung nicht gefunden"
 
 #: templates/account/user_register_confirmation_not_found.html:11
 #, python-format
@@ -567,7 +607,7 @@ msgstr ""
 
 #: templates/account/user_set_email.html:4
 msgid "Set new email address"
-msgstr ""
+msgstr "Neue E-Mail-Addresse setzen"
 
 #: templates/account/user_set_email.html:31
 msgid ""
@@ -576,19 +616,6 @@ msgid ""
 "this email. Add a key here if you want to continue using GPG. Any existing "
 "GPG keys will be removed\n"
 "once you confirm this change."
-msgstr ""
-
-#: templates/account/user_set_email.html:35
-msgid ""
-"<strong>Warning:</strong> Please note the obvious: If you ever loose your "
-"GPG key and\n"
-"do not upload a new one here, you can no longer read any emails (e.g. when "
-"you\n"
-"have forgotton your password) we send to you."
-msgstr ""
-
-#: templates/account/user_set_email.html:51
-msgid "Submit"
 msgstr ""
 
 #: templates/account/xep0363.html:14 views.py:84
@@ -622,83 +649,86 @@ msgstr ""
 
 #: templates/account/xep0363.html:33
 msgid "File"
-msgstr ""
+msgstr "Datei"
 
 #: templates/account/xep0363.html:47
 msgid "There are currently no file uploads."
-msgstr ""
+msgstr "Sie haben noch keine Dateien hochgeladen."
 
 #: views.py:81
 msgid "Overview"
-msgstr ""
+msgstr "Übersicht"
 
 #: views.py:83
 msgid "Set E-Mail"
-msgstr ""
+msgstr "E-Mail setzen"
 
-#: views.py:143
+#: views.py:148
 msgid "Account created."
-msgstr ""
+msgstr "Konto erstellt."
 
-#: views.py:147
+#: views.py:152
 #, python-format
 msgid ""
-"Successfully created the account %(username)s. A confirmation email was just "
-"sent to the\n"
-"email address you provided (%(email)s). Before you can use your account, you "
-"must click on the\n"
-"confirmation link in that email."
+"Successfully created the account %(username)s. A confirmation email was\n"
+"just sent to the email address you provided (%(email)s). Before you can use\n"
+"your account, you must click on the confirmation link in that email."
 msgstr ""
-
-#: views.py:206
-#, python-format
-msgid "Email address %(email)s confirmed."
-msgstr ""
+"Das Konto %(username)s wurde erfolgreich angelegt. Eine E-Mail wurde an ihre "
+"Adresse (%(email)s) versandt. Bevor sie ihr Konto nutzen können, müssen sie "
+"den Link in der E-Mail bestätigen."
 
 #: views.py:211
+#, python-format
+msgid "Email address %(email)s confirmed."
+msgstr "E-Mail-Addresse %(email)s bestätigt."
+
+#: views.py:216
 msgid ""
 "Successfully confirmed your email address. You can now use your account."
 msgstr ""
+"Ihre E-Mail-Adresse wurde erfolgreich bestätigt. Sie können nun ihr Konto "
+"nutzen."
 
-#: views.py:272
+#: views.py:277
 msgid "User not found."
-msgstr ""
+msgstr "Benutzer nicht gefunden."
 
-#: views.py:280
+#: views.py:285
 msgid "Requested password reset."
-msgstr ""
+msgstr "Neues Passwort angefordert."
 
-#: views.py:305 views.py:328
+#: views.py:310 views.py:333
 msgid "Set new password."
-msgstr ""
+msgstr "Neues Passwort gesetzt."
 
-#: views.py:306 views.py:330
+#: views.py:311 views.py:335
 msgid "Successfully changed your password."
-msgstr ""
+msgstr "Passwort erfolgreich geändert."
 
-#: views.py:355
+#: views.py:360
 #, python-format
 msgid ""
 "We sent you an email to your new email address (%s). Click on the link in it "
 "to confirm it."
 msgstr ""
 
-#: views.py:357
+#: views.py:362
 #, python-format
 msgid "Requested change of email address to %s."
 msgstr ""
 
-#: views.py:390
+#: views.py:395
 #, python-format
 msgid "Changed email address to %s."
 msgstr ""
 
-#: views.py:391
+#: views.py:396
 #, python-format
 msgid "Confirmed email address change to %s."
 msgstr ""
 
-#: widgets.py:72
+#: widgets.py:71
 msgid ""
 "The hex-encoded value of the fingerprint: digits, letters A-F (case-"
 "insensitive)."

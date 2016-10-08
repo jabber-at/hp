@@ -23,8 +23,8 @@ Base template for user setting views when the user is logged in.
         {% if not user.created_in_backend %}
             <div class="alert alert-warning" role="alert">
                 <h4>{% trans "Your account is not yet confirmed!" %}</h4>
-                {% blocktrans with email=user.email %}You have not yet confirmed your email address. Your account registration is not
-complete until you have. We just sent you an email to {{ email }}, click
+                {% blocktrans with email=user.email %}You have not yet confirmed your email address. Your account registration is
+not complete until you have. We just sent you an email to {{ email }}, click
 on the link in it and give us a password to complete the registration.{% endblocktrans %}
             </div>
         {% endif %}

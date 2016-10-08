@@ -32,7 +32,7 @@ from django.shortcuts import resolve_url
 from django.template.response import TemplateResponse
 from django.utils import timezone
 from django.utils.http import is_safe_url
-from django.utils.translation import ugettext as _
+from django.utils.translation import ugettext_lazy as _
 from django.views.generic import View
 from django.views.generic import DetailView
 from django.views.generic.base import RedirectView
@@ -149,9 +149,9 @@ class RegistrationView(BlacklistMixin, DnsBlMixin, RateLimitMixin, AnonymousRequ
             AddressActivity.objects.log(request, ACTIVITY_REGISTER, user=user, note=user.email)
 
             messages.success(request, _(
-                """Successfully created the account %(username)s. A confirmation email was just sent to the
-email address you provided (%(email)s). Before you can use your account, you must click on the
-confirmation link in that email.""" % {
+                """Successfully created the account %(username)s. A confirmation email was
+just sent to the email address you provided (%(email)s). Before you can use
+your account, you must click on the confirmation link in that email.""" % {
                     'username': user.username,
                     'email': user.email,
                 }))
