@@ -23,6 +23,15 @@ from bootstrap.formfields import BootstrapEmailField
 from bootstrap.formfields import BootstrapTextField
 
 from .formfields import CaptchaField
+from .modelfields import LinkTargetDict
+
+
+class MenuItemAdminForm(forms.ModelForm):
+    def clean_target(self):
+        target = self.cleaned_data['target']
+        print(target, type(target))
+        target = LinkTargetDict(target)
+        return target
 
 
 class CaptchaFormMixin(forms.Form):

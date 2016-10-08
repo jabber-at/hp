@@ -24,6 +24,7 @@ from composite_field.base import CompositeField
 from mptt.admin import DraggableMPTTAdmin
 from tinymce.widgets import TinyMCE
 
+from .forms import MenuItemAdminForm
 from .models import Address
 from .models import AddressActivity
 from .models import BlogPost
@@ -230,6 +231,7 @@ class PageAdmin(BasePageAdmin):
 
 @admin.register(MenuItem)
 class MenuItemAdmin(DraggableMPTTAdmin):
+    form = MenuItemAdminForm
     list_display = (
         'tree_actions',
         'indented_title',
