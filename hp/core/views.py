@@ -209,23 +209,28 @@ class BlogPostView(TranslateSlugViewMixin, DetailView):
 class ClientsView(TemplateView):
     template_name = 'core/clients.html'
 
-    def get_context_data(self, *args, **kwargs):
+    def get_os(self):
         ua = user_agent_parser.Parse(self.request.META['HTTP_USER_AGENT'])
         family = ua['os']['family']
 
-        initial = None
         if family == 'Mac OS X':
-            initial = 'osx'
+            return 'osx'
         elif family == 'iOS':
-            initial = 'ios'
+            return 'ios'
         elif family in ['Linux', 'Ubuntu', ]:
-            initial = 'linux'
+            return 'linux'
         elif family == 'Android':
-            initial = 'android'
+            return 'android'
         elif family.startswith('Windows'):
-            initial = 'win'
+            return 'win'
         else:
             log.warn('Unknown os family: %s', family)
+
+    def get_context_data(self, *args, **kwargs):
+        initial = self.request.GET.get('os')
+
+        if initial is None:
+            initial = self.get_os()
 
         context = super(ClientsView, self).get_context_data()
         context['form'] = SelectOSForm(initial={'os': initial})
