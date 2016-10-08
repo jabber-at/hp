@@ -13,6 +13,8 @@
 # You should have received a copy of the GNU General Public License along with django-xmpp-account.
 # If not, see <http://www.gnu.org/licenses/>.
 
+import logging
+
 from django.contrib.admin.widgets import AdminTextareaWidget
 from django.contrib.contenttypes.models import ContentType
 from django.core.urlresolvers import reverse
@@ -25,6 +27,8 @@ from .constants import TARGET_MODEL
 from .constants import TARGET_NAMED_URL
 from .constants import TARGET_URL
 from .formfields import LinkTargetField
+
+log = logging.getLogger(__name__)
 
 
 class LocalizedCharField(_LocalizedCharField):
