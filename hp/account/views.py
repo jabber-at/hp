@@ -90,7 +90,12 @@ class AccountPageMixin(object):
 
     def dispatch(self, request, *args, **kwargs):
         if self.requires_confirmation and not request.user.created_in_backend:
-            context = self.get_context_data()
+            kwargs = {}
+            if isinstance(self, SingleObjectMixin):
+                self.object = self.get_object()
+                kwargs['object'] = self.object
+            context = self.get_context_data(**kwargs)
+
             return TemplateResponse(request, 'account/requires_confirmation.html', context)
 
         return super(AccountPageMixin, self).dispatch(request, *args, **kwargs)
