@@ -61,7 +61,7 @@ msgstr "Unbekannt"
 
 #: formfields.py:46 models.py:83
 msgid "Username"
-msgstr "Benutzername"
+msgstr "Name"
 
 #: formfields.py:62
 #, python-format
@@ -172,7 +172,7 @@ msgstr "Ungültige E-Mail-Adresse."
 #, python-format
 msgid "Please give your own email address, %(domain)s does not provide one."
 msgstr ""
-"Bitte geben sie ihre eigene E-Mail-Addresse an, %(domain)s stellt keine zur "
+"Bitte geben sie ihre eigene E-Mail-Adresse an, %(domain)s stellt keine zur "
 "Verfüugung."
 
 #: forms.py:112
@@ -362,7 +362,7 @@ msgid ""
 "You have changed the email address for your Jabber account %(jid)s.\n"
 "To complete the change, please <a href=\"%(uri)s\">click here</a>."
 msgstr ""
-"Sie haben die E-Mail-Addresse für ihr Jabber-Konto %(jid)s geändert. Um den "
+"Sie haben die E-Mail-Adresse für ihr Jabber-Konto %(jid)s geändert. Um den "
 "Vorgang abzuschließen, <a href=\"%(uri)s\">klicken sie hier</a>."
 
 #: templates/account/confirm/set_email.txt:3
@@ -371,7 +371,7 @@ msgid ""
 "You have changed the email address for your Jabber account %(jid)s.\n"
 "To complete the change, please go to this address:"
 msgstr ""
-"Sie haben die E-Mail-Addresse für ihr Jabber-Konto %(jid)s geändert. Um den "
+"Sie haben die E-Mail-Adresse für ihr Jabber-Konto %(jid)s geändert. Um den "
 "Vorgang abzuschließen, gehen sie bitte auf diese URL:"
 
 #: templates/account/requires_confirmation.html:4
@@ -399,7 +399,7 @@ msgstr "Registriert"
 
 #: templates/account/user_detail.html:13
 msgid "Email address"
-msgstr "E-Mail-Adresse"
+msgstr "E-Mail"
 
 #: templates/account/user_detail.html:14
 msgid "change"
@@ -613,7 +613,7 @@ msgstr ""
 
 #: templates/account/user_set_email.html:4
 msgid "Set new email address"
-msgstr "Neue E-Mail-Addresse setzen"
+msgstr "Neue E-Mail-Adresse setzen"
 
 #: templates/account/user_set_email.html:31
 msgid ""
@@ -694,7 +694,7 @@ msgstr ""
 #: views.py:211
 #, python-format
 msgid "Email address %(email)s confirmed."
-msgstr "E-Mail-Addresse %(email)s bestätigt."
+msgstr "E-Mail-Adresse %(email)s bestätigt."
 
 #: views.py:216
 msgid ""
@@ -737,7 +737,7 @@ msgstr "Änderung der E-Mail-Adresse auf %(email)s."
 #, fuzzy, python-format
 #| msgid "Email address %(email)s confirmed."
 msgid "Changed email address to %(email)s."
-msgstr "E-Mail-Addresse %(email)s bestätigt."
+msgstr "E-Mail-Adresse %(email)s bestätigt."
 
 #: views.py:398
 #, python-format
