@@ -137,6 +137,7 @@ class BootstrapMixin(object):
     formgroup_class = None
     label_cols = 2
     input_cols = 10
+    col_class = 'sm'
 
     def __init__(self, **kwargs):
         self.formgroup_attrs = kwargs.pop('formgroup_attrs', {})
@@ -145,6 +146,7 @@ class BootstrapMixin(object):
 
         self.label_cols = kwargs.pop('label_cols', self.label_cols)
         self.input_cols = kwargs.pop('input_cols', self.input_cols)
+        self.col_class = kwargs.pop('col_class', self.col_class)
 
         super(BootstrapMixin, self).__init__(**kwargs)
 
