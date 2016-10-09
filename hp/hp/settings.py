@@ -45,6 +45,13 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    'core',
+    'bootstrap',  # bootstrap enhancements
+    'account',  # account management
+    'feed',  # RSS/Atom feeds
+    'jsxc',  # webchat
+    'conversejs',  # webchat2
+
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -57,12 +64,6 @@ INSTALLED_APPS = [
     'tinymce',  # Rich text editor
     'xmpp_http_upload',  # XEP-0363
 
-    'core',
-    'bootstrap',  # bootstrap enhancements
-    'account',  # account management
-    'feed',  # RSS/Atom feeds
-    'jsxc',  # webchat
-    'conversejs',  # webchat2
 ]
 
 MIDDLEWARE_CLASSES = [
