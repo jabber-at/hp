@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-10-09 13:00+0200\n"
+"POT-Creation-Date: 2016-10-09 13:47+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -161,8 +161,7 @@ msgstr "E-Mail"
 
 #: forms.py:90
 msgid "Required, a confirmation email will be sent to this address."
-msgstr ""
-"Pflichtfeld, benötigt um eine Bestätigung an diese Adresse zu schicken."
+msgstr "Pflichtfeld, eine Bestätigung wird an diese Adresse geschickt."
 
 #: forms.py:102
 msgid "Malformed email address."
