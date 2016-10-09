@@ -60,9 +60,11 @@ class BoundField(forms.boundfield.BoundField):
         if getattr(self.field.widget, 'feedback', False):
             fg_attrs['class'] += ' has-feedback'  # used by glyphicons
 
+        input_grid_class = self.field.get_input_grid_class()
+
         return format_html(
-            '<div {}>{}<div class="col-sm-{}">{}{}</div></div>',
-            flatatt(fg_attrs), self.label_tag(), self.field.input_cols, self, help_text)
+            '<div {}>{}<div class="{}">{}{}</div></div>',
+            flatatt(fg_attrs), self.label_tag(), input_grid_class, self, help_text)
 
     @property
     def help_id(self):
@@ -123,9 +125,9 @@ class BoundField(forms.boundfield.BoundField):
 
         attrs = attrs or {}
         if 'class' in attrs:
-            attrs['class'] += ' control-label col-sm-%s' % self.field.label_cols
+            attrs['class'] += ' control-label %s' % self.field.get_label_grid_class()
         else:
-            attrs['class'] = 'control-label col-sm-%s' % self.field.label_cols
+            attrs['class'] = 'control-label %s' % self.field.get_label_grid_class()
 
         return super(BoundField, self).label_tag(contents, attrs=attrs, label_suffix=label_suffix)
 
@@ -149,6 +151,12 @@ class BootstrapMixin(object):
         self.col_class = kwargs.pop('col_class', self.col_class)
 
         super(BootstrapMixin, self).__init__(**kwargs)
+
+    def get_label_grid_class(self):
+        return 'col-%s-%s' % (self.col_class, self.label_cols)
+
+    def get_input_grid_class(self):
+        return 'col-%s-%s' % (self.col_class, self.input_cols)
 
     def get_bound_field(self, form, field_name):
         return BoundField(form, self, field_name)
