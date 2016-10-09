@@ -357,9 +357,10 @@ class SetEmailView(LoginRequiredMixin, AccountPageMixin, FormView):
             base_url=base_url, hostname=request.site['NAME'])
 
         messages.success(request, _(
-            'We sent you an email to your new email address (%s). Click on the link in it to '
-            'confirm it.') % to)
-        user.log(_('Requested change of email address to %s.') % to, address=address)
+            'We sent you an email to your new email address %(email)s). Click on the link in it '
+            'to confirm it.') % {'email': to})
+        user.log(_('Requested change of email address to %(email)s.') % {'email': to},
+                 address=address)
         AddressActivity.objects.log(request, ACTIVITY_SET_EMAIL, note=to)
 
         return super(SetEmailView, self).form_valid(form)
@@ -392,8 +393,9 @@ class ConfirmSetEmailView(LoginRequiredMixin, RedirectView):
             user.save()
             key.delete()
 
-            messages.success(request, _('Changed email address to %s.') % user.email)
-            user.log(_('Confirmed email address change to %s.') % key.to,
+            messages.success(request,
+                             _('Changed email address to %(email)s.') % {'email': user.email, })
+            user.log(_('Confirmed email address change to %(email)s.') % {'email': key.to, },
                      self.request.META['REMOTE_ADDR'])
 
             return super(ConfirmSetEmailView, self).get_redirect_url()

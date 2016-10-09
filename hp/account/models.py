@@ -210,9 +210,9 @@ class User(XmppBackendUser, PermissionsMixin):
                 user=self, fingerprint=fp, defaults={'key': key, 'expires': expires, })
 
             if created is True:
-                message = _('Added GPG key 0x%s.') % fp
+                message = _('Added GPG key 0x%(fingerprint)s.') % {'fingerprint': fp, }
             else:
-                message = _('Updated GPG key 0x%s.') % fp
+                message = _('Updated GPG key 0x%(fingerprint)s.') % {'fingerprint': fp, }
 
             self.log(address=address, message=message)
             self.message(messages.INFO, message)

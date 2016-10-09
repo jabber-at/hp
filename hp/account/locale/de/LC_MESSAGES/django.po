@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-10-08 14:19+0200\n"
+"POT-Creation-Date: 2016-10-09 13:00+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -24,16 +24,16 @@ msgstr ""
 
 #: admin.py:55
 msgid "created in backend"
-msgstr ""
+msgstr "Im Backend erstellt"
 
 #: admin.py:107
 msgid "Send new registration confirmations"
-msgstr ""
+msgstr "Neue Registrierungsbestätigung schicken"
 
 #: admin.py:144
 #, python-format
 msgid "Error importing %(fingerprint)s: %(error)s"
-msgstr ""
+msgstr "Fehler beim importieren von  %(fingerprint)s: %(error)s"
 
 #: admin.py:148
 msgid "Refresh keys from keyserver"
@@ -216,13 +216,13 @@ msgstr "Fehler beim importieren des GPG SChlüssels."
 
 #: models.py:213
 #, python-format
-msgid "Added GPG key 0x%s."
-msgstr ""
+msgid "Added GPG key 0x%(fingerprint)s."
+msgstr "GPG Schlüssel 0x%(fingerprint)s hinzugefügt."
 
 #: models.py:215
 #, python-format
-msgid "Updated GPG key 0x%s."
-msgstr "GPG Schlüssel 0x%s aktualisiert."
+msgid "Updated GPG key 0x%(fingerprint)s."
+msgstr "GPG Schlüssel 0x%(fingerprint)s aktualisiert."
 
 #: models.py:229
 msgid "Recipient"
@@ -239,6 +239,7 @@ msgstr "Passwort auf {{ user.domain }} neu setzen"
 #: models.py:246
 msgid "Confirm new email address for your {{ user.domain }} account"
 msgstr ""
+"Bestätigen sie die neue E-Mail-Adresse für ihr {{ user.domain }} Konto."
 
 #: tasks.py:75
 msgid ""
@@ -252,6 +253,8 @@ msgid ""
 "Could not reach keyserver. Will try again in %(time)s (%(retry)s of "
 "%(max_retries)s tries)"
 msgstr ""
+"Der Keyserver ist derzeit nicht erreichbar. Wir versuchen es in %(time)s "
+"erneut (%(retry)s von %(max_retries)s Versuchen)."
 
 #: templates/account/base.html:14
 msgid "User settings"
@@ -460,6 +463,9 @@ msgid ""
 "If you have forgotten your password, please give us your username and we "
 "will send you a link where you can reset your password."
 msgstr ""
+"Wenn sie ihr Passwort vergessen haben, geben sie hier ihren Benutzernamen an "
+"und wir schicken ihnen eine E-Mail mit einem Link, unter dem sie das "
+"Passwort neu setzen können."
 
 #: templates/account/user_password_reset.html:19
 msgid "Send"
@@ -628,24 +634,31 @@ msgid ""
 "<a href=\"http://xmpp.org/extensions/xep-0363.html\">XEP-0363: HTTP File "
 "Upload</a>."
 msgstr ""
+"Hier finden sie alle Dateien, die sie mittels <a href=\"http://xmpp.org/"
+"extensions/xep-0363.html\">XEP-0363: HTTP File Upoad</a> mit anderen "
+"BenutzerInnen geteilt haben."
 
 #: templates/account/xep0363.html:20
 msgid ""
-"There are many ways your client might choose to share files with other "
-"users\n"
-"or in multi user chatrooms. Clients that use XEP-0363 upload files to this\n"
-"homepage, which enables us to list them here. Some methods directly "
-"transfer\n"
-"files to the other client, so there is no way we can list them here."
+"There are many ways your client might choose to share files with other\n"
+"users or in multi user chatrooms. Clients that use XEP-0363 upload files to\n"
+"this homepage, which enables us to list them here. Some methods directly\n"
+"transfer files to the other client, so there is no way we can list them here."
 msgstr ""
+"Es gibt mehrere Möglichkeiten wie ein Client Dateien mit anderen Nutzern "
+"teilt. Mit XEP-0363 werden Dateien hier hoch geladen und können daher auch "
+"hier verwaltet werden. Andere Verfahren bauen direkte Verbindungen zu "
+"anderen Nutzern auf und scheinen daher hier auch nicht auf."
 
 #: templates/account/xep0363.html:25
 msgid ""
 "<strong>Note:</strong> Some clients (most notably conversations)\n"
-"encrypt files before they are uploaded, so viewing them via the links below "
-"is\n"
-"not possible in the browser."
+"encrypt files before they are uploaded, so viewing them via the links below\n"
+"is not possible in the browser."
 msgstr ""
+"<strong>Anmerkung:</strong> Manche Clients (z.b. Conversations)verschlüsseln "
+"Dateien, bevor sie auf den Server hoch geladen werden. Sie können daher "
+"nicht einfach im Browser angesehen werden."
 
 #: templates/account/xep0363.html:33
 msgid "File"
@@ -709,36 +722,32 @@ msgstr "Passwort erfolgreich geändert."
 #: views.py:360
 #, python-format
 msgid ""
-"We sent you an email to your new email address (%s). Click on the link in it "
-"to confirm it."
+"We sent you an email to your new email address %(email)s). Click on the link "
+"in it to confirm it."
 msgstr ""
+"Wir haben ihnen eine E-Mail an ihre neue Adresse %(email)s geschickt. "
+"Klicken sie auf den Link in der E-Mail, um die Änderung zu bestätigen."
 
 #: views.py:362
 #, python-format
-msgid "Requested change of email address to %s."
-msgstr ""
+msgid "Requested change of email address to %(email)s."
+msgstr "Änderung der E-Mail-Adresse auf %(email)s."
 
-#: views.py:395
-#, python-format
-msgid "Changed email address to %s."
-msgstr ""
+#: views.py:397
+#, fuzzy, python-format
+#| msgid "Email address %(email)s confirmed."
+msgid "Changed email address to %(email)s."
+msgstr "E-Mail-Addresse %(email)s bestätigt."
 
-#: views.py:396
+#: views.py:398
 #, python-format
-msgid "Confirmed email address change to %s."
-msgstr ""
+msgid "Confirmed email address change to %(email)s."
+msgstr "E-Mail-Adressänderung auf %(email)s bestätigt."
 
 #: widgets.py:71
 msgid ""
 "The hex-encoded value of the fingerprint: digits, letters A-F (case-"
 "insensitive)."
 msgstr ""
-
-#~ msgid "At least 2 characters, no \"@\" or spaces."
-#~ msgstr "Mindestens zwei Zeichen, keine \"@\" oder Abstände."
-
-#~ msgid "englisch text"
-#~ msgstr "Deutscher text"
-
-#~ msgid "Login"
-#~ msgstr "Anmelden"
+"Der Fingerabdruck im hex-format: Ziffern, Buchstaben A-F (Groß-/"
+"Kleinschreibung ist egal)."
