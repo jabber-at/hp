@@ -242,7 +242,7 @@ msgstr "Registrieren"
 
 #: templates/base.html:100
 msgid "Login"
-msgstr "Einloggen"
+msgstr "Anmelden"
 
 #: templates/base.html:112
 msgid "&copy; 2010-2016, jabber.at."
@@ -490,7 +490,7 @@ msgstr ""
 
 #: templates/core/include/sidebar.html:5
 msgid "Language"
-msgstr ""
+msgstr "Sprache"
 
 #: templates/core/include/sidebar.html:18
 msgid "Updates"
