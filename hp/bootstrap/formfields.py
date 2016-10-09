@@ -135,13 +135,16 @@ class BootstrapMixin(object):
 
     add_success = True
     formgroup_class = None
+    label_cols = 2
+    input_cols = 10
 
     def __init__(self, **kwargs):
         self.formgroup_attrs = kwargs.pop('formgroup_attrs', {})
         if 'add_success' in kwargs:
             self.add_success = kwargs.pop('add_success')
-        self.label_cols = kwargs.pop('label_cols', 2)
-        self.input_cols = kwargs.pop('input_cols', 10)
+
+        self.label_cols = kwargs.pop('label_cols', self.label_cols)
+        self.input_cols = kwargs.pop('input_cols', self.input_cols)
 
         super(BootstrapMixin, self).__init__(**kwargs)
 
