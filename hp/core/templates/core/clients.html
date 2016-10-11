@@ -116,7 +116,7 @@ or free on
 </tr>
 <tr class="win linux">
     <th><a href="https://gajim.org/">Gajim</a>
-        <span class="footnote" data-toggle="tooltip", title="{% blocktrans with version="0.16.5" %}version {{ version }}{% endblocktrans %}"></span>
+        <span class="footnote" data-toggle="tooltip", title="{% blocktrans with version="0.16.6" %}version {{ version }}{% endblocktrans %}"></span>
     <td class="xep xep0027">{{y}}</td>
     <td class="xep xep0167">{{n}}</td>
     <td class="xep xep0198">{{y}}</td>
@@ -129,15 +129,16 @@ or free on
     <td></td>
 </tr>
 <tr class="win linux osx">
+    {% comment %}https://github.com/jitsi/jitsi/issues/298{% endcomment %}
     <th><a href="https://jitsi.org/">Jitsi</a></th>
-    <td class="xep xep0027">{{u}}</td>
+    <td class="xep xep0027">{{n}}</td>
     <td class="xep xep0167">{{y}}</td>
-    <td class="xep xep0198">{{u}}</td>
-    <td class="xep xep0280">{{u}}</td>
+    <td class="xep xep0198">{{n}}</td>
+    <td class="xep xep0280">{{y}}</td>
     <td class="xep xep0313">{{n}}</td>{% comment %}https://github.com/jitsi/jitsi/issues/205{% endcomment %}
-    <td class="xep xep0352 mobile">{{u}}</td>
-    <td class="xep xep0357 mobile">{{u}}</td>
-    <td class="xep xep0363">{{u}}</td>
+    <td class="xep xep0352 mobile">{{n}}</td>
+    <td class="xep xep0357 mobile">{{n}}</td>
+    <td class="xep xep0363">{{n}}</td>
     <td class="xep omemo">{{n}}</td>
     <td>{% trans "Good for voice/video calls" %}</td>
 </tr>
@@ -208,14 +209,14 @@ or free on
 <tr class="linux console">
     {% comment %}https://doc.poez.io/0.9/dev/xep.html?highlight=xep{% endcomment %}
     <th><a href="http://poez.io/en/">poezio</a>
-        <span class="footnote" data-toggle="tooltip", title="{% blocktrans with version="0.9" %}version {{ version }}{% endblocktrans %}"></span>
+        <span class="footnote" data-toggle="tooltip", title="{% blocktrans with version="0.10" %}version {{ version }}{% endblocktrans %}"></span>
     </th>
     <td class="xep xep0027">{{y}}</td>
     <td class="xep xep0167">{{n}}</td>
-    <td class="xep xep0198">{{n}}</td>
+    <td class="xep xep0198">{{y}}</td>
     <td class="xep xep0280">{{y}}</td>
     <td class="xep xep0313">{{n}}</td>
-    <td class="xep xep0352 mobile">{{n}}</td>
+    <td class="xep xep0352 mobile">{{y}}</td>
     <td class="xep xep0357 mobile">{{n}}</td>
     <td class="xep xep0363">{{n}}</td>
     <td class="xep omemo">{{n}}</td>
