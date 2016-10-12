@@ -1,5 +1,12 @@
 # Changelog
 
+## 2016-10-12
+
+* Add social media and meta tags for clients and registration page.
+* Add a sitemap to help search engines discover content
+* The past few days saw massive updates to the German translation as well as some more content
+  updates to the clients page.
+
 ## 2016-10-07
 
 * Email address used in registration is now stored as note to address activities.
