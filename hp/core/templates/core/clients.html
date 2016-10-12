@@ -11,7 +11,7 @@
 
 {% block twitter %}
 <meta name="twitter:title" content="{% trans "Recommended Jabber/XMPP clients" %}" />
-<meta name="twitter:description" content="{% blocktrans %}Don't know what client you could use? Here are some free clients that we have found work well for your operating system or platform.{% endblocktrans %}" />
+<meta name="twitter:description" content="{% blocktrans %}Don't know what client you could use? Here are some free clients that we have found work well for your operating system.{% endblocktrans %}" />
 {{ block.super }}
 {% endblock twitter %}
 
@@ -19,7 +19,7 @@
 {{ block.super }}
 <meta property="og:url" content="{% canonical "core:clients" %}" />
 <meta property="og:title" content="{% trans "Recommended Jabber/XMPP clients" %}" />
-<meta property="og:description" content="{% blocktrans %}Don't know what client you could use? Here are some free clients that we have found work well for your operating system or platform.{% endblocktrans %}" />
+<meta property="og:description" content="{% blocktrans %}Don't know what client you could use? Here are some free clients that we have found work well for your operating system or platform. The page also includes an overview over the most important XEPs.{% endblocktrans %}" />
 {% endblock opengraph %}
 
 {% block extracss %}

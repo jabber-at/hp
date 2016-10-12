@@ -11,7 +11,7 @@
 
 {% block twitter %}
 <meta name="twitter:title" content="{% blocktrans with domain=site.NAME %}Register at {{ domain }}{% endblocktrans %}" />
-<meta name="twitter:description" content="{% blocktrans %}Register for an account at jabber.at, jabber.zone or xmpp.zone. Its fast, free, easy and safe!{% endblocktrans %}" />
+<meta name="twitter:description" content="{% blocktrans %}Register now for an account at jabber.at, jabber.zone or xmpp.zone. Its fast, free, easy and safe!{% endblocktrans %}" />
 {{ block.super }}
 {% endblock twitter %}
 
@@ -19,7 +19,7 @@
 {{ block.super }}
 <meta property="og:url" content="{% canonical "core:home" %}" />
 <meta property="og:title" content="{% blocktrans with domain=site.NAME %}Register at {{ domain }}{% endblocktrans %}" />
-<meta property="og:description" content="{% blocktrans %}Register for an account at jabber.at, jabber.zone or xmpp.zone. Its fast, free, easy and safe!{% endblocktrans %}" />
+<meta property="og:description" content="{% blocktrans %}Register now for an account at jabber.at, jabber.zone or xmpp.zone. Its fast, free, easy and safe!{% endblocktrans %}" />
 {% endblock opengraph  %}
 
 {% block form %}
