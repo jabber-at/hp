@@ -12,7 +12,7 @@
 {% endblock metatags %}
 
 {% block twitter %}
-<meta name="twitter:title" content="{% trans "A free, secure, feature-rich Jabber/XMPP server." %}" />
+<meta name="twitter:title" content="{% trans "A free, secure, feature-rich Jabber/XMPP server" %}" />
 <meta name="twitter:description" content="{% blocktrans %}A free, stable, secure and feature-rich Jabber/XMPP server. Join the free and open Jabber instant messaging network today!{% endblocktrans %}" />
 {{ block.super }}
 {% endblock twitter %}
@@ -21,11 +21,11 @@
 {{ block.super }}
 <meta property="og:updated_time" content="{{ object_list.0.updated|date:"c" }}" />
 <meta property="og:url" content="{% canonical "core:home" %}" />
-<meta property="og:title" content="{% trans "A free, secure, feature-rich Jabber/XMPP server." %}" />
+<meta property="og:title" content="{% trans "A free, secure, feature-rich Jabber/XMPP server" %}" />
 <meta property="og:description" content="{% blocktrans %}A free, stable, secure and feature-rich Jabber/XMPP server. Join the free and open Jabber instant messaging network today!{% endblocktrans %}" />
 {% endblock opengraph %}
 
-{% block title %}{% trans "Free, secure, feature-rich Jabber/XMPP server" %}{% endblock title %}
+{% block title %}{% trans "Free Jabber/XMPP server" %}{% endblock title %}
 
 {% block content %}
 {% for post in object_list %}
