@@ -17,7 +17,7 @@
 
 {% block opengraph %}
 {{ block.super }}
-<meta property="og:url" content="{% canonical "core:register" %}" />
+<meta property="og:url" content="{% canonical "account:register" %}" />
 <meta property="og:title" content="{% blocktrans with domain=site.NAME %}Register at {{ domain }}{% endblocktrans %}" />
 <meta property="og:description" content="{% blocktrans %}Register now for an account at jabber.at, jabber.zone or xmpp.zone. Its fast, free, easy and safe!{% endblocktrans %}" />
 {% endblock opengraph  %}
