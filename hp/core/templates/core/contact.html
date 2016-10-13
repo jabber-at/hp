@@ -9,13 +9,13 @@
 
 {% block twitter %}
 <meta name="twitter:title" content="{% trans "Contact us" %}" />
-<meta name="twitter:description" content="{% trans "If you can't register an account or have trouble connecting to our server, please use this contact form. You can also contact us via Chatroom, Twitter or Facebook." %}" />
+<meta name="twitter:description" content="{% trans "If you can't register an account or have trouble connecting to our server, please use this contact form." %}" />
 {{ block.super }}
 {% endblock twitter %}
 
 {% block opengraph %}
 {{ block.super }}
-<meta property="og:url" content="{% canonical "account:register" %}" />
+<meta property="og:url" content="{% canonical "core:contact" %}" />
 <meta property="og:title" content="{% trans "Contact us" %}" />
 <meta property="og:description" content="{% trans "If you can't register an account or have trouble connecting to our server, please use this contact form. You can also contact us via Chatroom, Twitter or Facebook." %}" />
 {% endblock opengraph  %}
