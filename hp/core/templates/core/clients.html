@@ -108,7 +108,7 @@ or free on
 <tr class="android">
     {% comment %}https://github.com/siacs/Conversations/blob/master/docs/XEPs.md{% endcomment %}
     <th><a href="https://conversations.im/">Conversations</a>
-        <span class="footnote" data-toggle="tooltip", title="{% blocktrans with version="1.14.4" %}version {{ version }}{% endblocktrans %}"></span>
+        <span class="footnote" data-toggle="tooltip", title="{% blocktrans with version="1.14.6" %}version {{ version }}{% endblocktrans %}"></span>
     <td class="xep xep0027">{{y}}</td>
     <td class="xep xep0167">{{n}}</td>
     <td class="xep xep0198">{{y}}</td>
@@ -121,16 +121,18 @@ or free on
     <td>on <a href="https://f-droid.org/repository/browse/?fdfilter=conversations&fdid=eu.siacs.conversations">Google play</a> (€ 2,39), on <a href="https://f-droid.org/repository/browse/?fdfilter=conversations&fdid=eu.siacs.conversations">F-Droid</a> (free)</td>
 </tr>
 <tr class="browser">
-    <th><a href="https://conversejs.org/">Converse.js</a></th>
+    <th><a href="https://conversejs.org/">Converse.js</a>
+        <span class="footnote" data-toggle="tooltip", title="{% blocktrans with version="2.0.0" %}version {{ version }}{% endblocktrans %}"></span>
+    </th>
     <td class="xep xep0027">{{n}}</td>
     <td class="xep xep0167">{{n}}</td>
-    <td class="xep xep0198">{{u}}</td>
+    <td class="xep xep0198">{{n}}</td>{% comment %}https://github.com/jcbrand/converse.js/issues/316{% endcomment %}
     <td class="xep xep0280">{{y}}</td>
     <td class="xep xep0313">{{y}}</td>
-    <td class="xep xep0352 mobile">{{u}}</td>
+    <td class="xep xep0352 mobile">{{y}}</td>
     <td class="xep xep0357 mobile">{{u}}</td>
-    <td class="xep xep0363">{{n}}</td>
-    <td class="xep omemo">{{n}}</td>
+    <td class="xep xep0363">{{n}}</td>{% comment %}https://github.com/jcbrand/converse.js/issues/466{% endcomment %}
+    <td class="xep omemo">{{n}}</td>{% comment %}https://github.com/jcbrand/converse.js/issues/497{% endcomment %}
     <td></td>
 </tr>
 <tr class="win linux">
@@ -193,7 +195,10 @@ or free on
     <td></td>
 </tr>
 <tr class="osx ios">
-    <th><a href="https://monal.im/">Monal</a></th>
+    <th><a href="https://monal.im/">Monal</a>
+        <span class="footnote" data-toggle="tooltip", title="{% blocktrans with version="2.9.1" %}version {{ version }}{% endblocktrans %}"></span>
+    </th>
+    </th>
     <td class="xep xep0027">{{u}}</td>
     <td class="xep xep0167">{{n}}</td>
     <td class="xep xep0198">{{y}}</td>{% comment %}According to zash.se list{% endcomment %}
