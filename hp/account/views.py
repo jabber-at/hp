@@ -61,6 +61,8 @@ from .constants import PURPOSE_SET_EMAIL
 from .forms import CreateUserForm
 from .forms import LoginForm
 from .forms import ConfirmResetPasswordForm
+from .forms import DeleteAccountForm
+from .forms import NotificationsForm
 from .forms import SetEmailForm
 from .forms import SetPasswordForm
 from .forms import ResetPasswordForm
@@ -319,8 +321,10 @@ class ConfirmResetPasswordView(FormView):
         return super(ConfirmResetPasswordView, self).form_valid(form)
 
 
-class NotificationsView(LoginRequiredMixin, AccountPageMixin, FormView):
-    pass
+class NotificationsView(LoginRequiredMixin, AccountPageMixin, UserDetailView):
+    usermenu_item = 'account:notifications'
+    form_class = NotificationsForm
+    template_name = 'account/notifications.html'
 
 
 class SetPasswordView(LoginRequiredMixin, AccountPageMixin, FormView):
@@ -437,8 +441,10 @@ class RecentActivityView(LoginRequiredMixin, AccountPageMixin, UserDetailView):
         return context
 
 
-class DeleteAccountView(LoginRequiredMixin, AccountPageMixin, FormView):
-    pass
+class DeleteAccountView(LoginRequiredMixin, AccountPageMixin, UserDetailView):
+    usermenu_item = 'account:delete'
+    form_class = DeleteAccountForm
+    template_name = 'account/delete.html'
 
 
 class ConfirmDeleteAccountView(LoginRequiredMixin, RedirectView):

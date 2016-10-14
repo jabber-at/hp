@@ -124,6 +124,14 @@ class LoginForm(CaptchaFormMixin, AuthenticationForm):
     password = BootstrapPasswordField(label=_('Password'))
 
 
+class NotificationsForm(forms.ModelForm):
+    pass
+
+
+class DeleteAccountForm(forms.ModelForm):
+    pass
+
+
 class SetPasswordForm(forms.Form):
     password = BootstrapPasswordField(
         min_length=6, widget=BootstrapPasswordInput(glyphicon=True), label=_('Password'),

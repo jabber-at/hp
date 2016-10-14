@@ -1,0 +1,9 @@
+{% extends "account/base.html" %}
+{% load i18n %}
+
+{% block title %}{% trans "Notifications" %}{% endblock title %}
+
+{% block content %}
+<form class="form-horizontal" action="" method="post">{% csrf_token %}
+</form>
+{% endblock content %}
