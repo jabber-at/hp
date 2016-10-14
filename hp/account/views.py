@@ -327,6 +327,10 @@ class NotificationsView(LoginRequiredMixin, AccountPageMixin, UpdateView):
     def get_object(self):
         return self.request.user.notifications
 
+    def form_valid(self, form):
+        self.object = form.save()
+        return HttpResponse('Ok.')
+
     usermenu_item = 'account:notifications'
     form_class = NotificationsForm
     template_name = 'account/notifications.html'
