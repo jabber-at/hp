@@ -79,11 +79,13 @@ class AccountPageMixin(object):
 
     usermenu = (
         ('account:detail', _('Overview'), False),
+        ('account:notifications', _('Notifications'), False),
         ('account:set_password', _('Set password'), True),
         ('account:set_email', _('Set E-Mail'), True),
         ('account:xep0363', _('HTTP uploads'), True),
         ('account:gpg', _('GPG keys'), True),
         ('account:log', _('Recent activity'), False),
+        ('account:delete', _('Delete account'), True),
     )
     usermenu_item = None
     requires_confirmation = True
@@ -317,6 +319,10 @@ class ConfirmResetPasswordView(FormView):
         return super(ConfirmResetPasswordView, self).form_valid(form)
 
 
+class NotificationsView(LoginRequiredMixin, AccountPageMixin, FormView):
+    pass
+
+
 class SetPasswordView(LoginRequiredMixin, AccountPageMixin, FormView):
     form_class = SetPasswordForm
     success_url = reverse_lazy('account:detail')
@@ -429,6 +435,14 @@ class RecentActivityView(LoginRequiredMixin, AccountPageMixin, UserDetailView):
         context = super(RecentActivityView, self).get_context_data(**kwargs)
         context['logentry_expires'] = settings.USER_LOGENTRY_EXPIRES
         return context
+
+
+class DeleteAccountView(LoginRequiredMixin, AccountPageMixin, FormView):
+    pass
+
+
+class ConfirmDeleteAccountView(LoginRequiredMixin, RedirectView):
+    pass
 
 
 class UserAvailableView(View):

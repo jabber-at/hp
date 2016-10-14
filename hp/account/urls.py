@@ -25,6 +25,7 @@ urlpatterns = [
     url(r'^register/(?P<key>\w+)/$', views.ConfirmRegistrationView.as_view(),
         name='register_confirm'),
     url(r'^login/$', views.LoginView.as_view(), name='login'),
+    url(r'^notifications/$', views.NotificationsView.as_view(), name='notifications'),
     url(r'^password/$', views.SetPasswordView.as_view(), name='set_password'),
     url(r'^password/reset/$', views.ResetPasswordView.as_view(), name='reset_password'),
     url(r'^password/reset/(?P<key>\w+)/$', views.ConfirmResetPasswordView.as_view(),
@@ -38,5 +39,7 @@ urlpatterns = [
     url(r'^api/check-user/$', views.UserAvailableView.as_view(), name='api-check-user'),
     url(r'^api/xep0363/(?P<pk>\d+)/$$', views.DeleteHttpUploadView.as_view(),
         name='api-xep0363-delete'),
+    url(r'^delete/$', views.DeleteAccountView.as_view(), name='delete'),
+    url(r'^delete/(?P<key>\w+)/$', views.DeleteAccountView.as_view(), name='delete_confirm'),
     url(r'^$', views.UserView.as_view(), name='detail'),
 ]
