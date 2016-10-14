@@ -203,7 +203,8 @@ class User(XmppBackendUser, PermissionsMixin):
                     raise
 
         for key, fp, expires in imported:
-            expires = timezone.make_aware(expires)
+            if expires:  # None if the key does not expire
+                expires = timezone.make_aware(expires)
 
             # Create or update the GPG key
             dbkey, created = GpgKey.objects.update_or_create(
