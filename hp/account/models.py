@@ -229,11 +229,10 @@ class Notifications(BaseModel):
         settings.AUTH_USER_MODEL, on_delete=models.CASCADE, primary_key=True,
         related_name='notifications')
 
-    account_expires = models.BooleanField(default=False, help_text=_(
-        'Accounts are deleted if they are not used for a year. Warn me a week before mine would '
-        'be deleted.'))
-    gpg_expires = models.BooleanField(default=False, help_text=_(
-        'Warn me a week before any of my GPG keys is about to expire.'))
+    account_expires = models.BooleanField(default=True, help_text=_(
+        'Send user an email when the account is about to be deleted.'))
+    gpg_expires = models.BooleanField(default=True, help_text=_(
+        'Send user an email when his GPG key is about to expire.'))
 
 
 class Confirmation(BaseModel):
