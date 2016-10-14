@@ -1,15 +1,28 @@
 {% extends "account/base.html" %}
-{% load i18n %}
+{% load i18n staticfiles bootstrap %}
+
+{% block extrajs %}
+{{ block.super }}
+<script src="{% static 'account/js/notifications.js' %}"></script>
+{% endblock extrajs %}
+
+{% block extracss %}
+{{ block.super }}
+<link href="{% static 'account/css/notifications.css' %}" rel="stylesheet">
+{% endblock extracss %}
 
 {% block title %}{% trans "Notifications" %}{% endblock title %}
 
 {% block content %}
-<form class="form-horizontal" action="" method="post">{% csrf_token %}
+<p>{% blocktrans %}We send out emails warning you if your account or a gpg key expires. You can turn off these warnings here.{% endblocktrans %}</p>
+
+<p><strong>{% trans "Send me an email when:" %}</strong></p>
+<form class="form-horizontal user-notifications" action="" method="post">{% csrf_token %}
     {% for field in form %}
     <div class="form-group">
         <div class="col-sm-offset-1 col-sm-11">
             <div class="checkbox">
-                <label>{{ field }} {{ field.label }}</label>
+                <label>{{ field }} {{ field.label }} {% glyph_yes %}</label>
             </div>
             <p class="help-block">{{ field.help_text }}</p>
         </div>
