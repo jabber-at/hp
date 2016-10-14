@@ -28,6 +28,7 @@ from .formfields import FingerprintField
 from .formfields import KeyUploadField
 from .formfields import UsernameField
 from .models import User
+from .models import Notifications
 
 _BANNED_EMAIL_DOMAINS = getattr(settings, 'BANNED_EMAIL_DOMAINS', set())
 _MIN_USERNAME_LENGTH = getattr(settings, 'MIN_USERNAME_LENGTH', 2)
@@ -125,7 +126,18 @@ class LoginForm(CaptchaFormMixin, AuthenticationForm):
 
 
 class NotificationsForm(forms.ModelForm):
-    pass
+    class Meta:
+        model = Notifications
+        exclude = ['user']
+        labels = {
+            'account_expires': _('my account expires'),
+            'gpg_expires': _('my GPG key expires'),
+        }
+        help_texts = {
+            'account_expires': _(
+                "Accounts are automatically removed if they haven't been used for a year."),
+            'gpg_expires': _('If you have uploaded a GPG key and it is about to expire.'),
+        }
 
 
 class DeleteAccountForm(forms.ModelForm):
