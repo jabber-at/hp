@@ -39,6 +39,7 @@ from django.views.generic.base import RedirectView
 from django.views.generic.detail import SingleObjectMixin
 from django.views.generic.edit import CreateView
 from django.views.generic.edit import FormView
+from django.views.generic.edit import UpdateView
 
 from celery import chain
 from xmpp_http_upload.models import Upload
@@ -321,7 +322,11 @@ class ConfirmResetPasswordView(FormView):
         return super(ConfirmResetPasswordView, self).form_valid(form)
 
 
-class NotificationsView(LoginRequiredMixin, AccountPageMixin, UserDetailView):
+class NotificationsView(LoginRequiredMixin, AccountPageMixin, UpdateView):
+
+    def get_object(self):
+        return self.request.user.notifications
+
     usermenu_item = 'account:notifications'
     form_class = NotificationsForm
     template_name = 'account/notifications.html'
