@@ -5,5 +5,15 @@
 
 {% block content %}
 <form class="form-horizontal" action="" method="post">{% csrf_token %}
+    {% for field in form %}
+    <div class="form-group">
+        <div class="col-sm-offset-1 col-sm-11">
+            <div class="checkbox">
+                <label>{{ field }} {{ field.label }}</label>
+            </div>
+            <p class="help-block">{{ field.help_text }}</p>
+        </div>
+    </div>
+    {% endfor %}
 </form>
 {% endblock content %}
