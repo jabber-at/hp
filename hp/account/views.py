@@ -82,13 +82,13 @@ class AccountPageMixin(object):
 
     usermenu = (
         ('account:detail', _('Overview'), False),
-        ('account:notifications', _('Notifications'), False),
+        ('account:notifications', _('Notifications'), True),
         ('account:set_password', _('Set password'), True),
         ('account:set_email', _('Set E-Mail'), True),
         ('account:xep0363', _('HTTP uploads'), True),
         ('account:gpg', _('GPG keys'), True),
         ('account:log', _('Recent activity'), False),
-        ('account:delete', _('Delete account'), True),
+        #('account:delete', _('Delete account'), True),
     )
     usermenu_item = None
     requires_confirmation = True
