@@ -222,6 +222,18 @@ class User(XmppBackendUser, PermissionsMixin):
         return self.username
 
 
+class Notifications(BaseModel):
+    user = models.OneToOneField(
+        settings.AUTH_USER_MODEL, on_delete=models.CASCADE, primary_key=True,
+        related_name='notifications')
+
+    account_expires = models.BooleanField(default=False, help_text=_(
+        'Accounts are deleted if they are not used for a year. Warn me a week before mine would '
+        'be deleted.'))
+    gpg_expires = models.BooleanField(default=False, help_text=_(
+        'Warn me a week before any of my GPG keys is about to expire.'))
+
+
 class Confirmation(BaseModel):
     objects = ConfirmationQuerySet.as_manager()
 
