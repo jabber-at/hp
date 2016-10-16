@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-10-09 13:47+0200\n"
+"POT-Creation-Date: 2016-10-16 13:57+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -59,7 +59,7 @@ msgstr "Manuell"
 msgid "Unknown"
 msgstr "Unbekannt"
 
-#: formfields.py:46 models.py:83
+#: formfields.py:46 models.py:85
 msgid "Username"
 msgstr "Name"
 
@@ -155,26 +155,26 @@ msgstr "Es sind ausschließlich Textdateien erlaubt (nicht %(content-type)s)!"
 msgid "The domain \"%(domain)s\" does not exist."
 msgstr "Die Domain %(domain)s\" existiert nicht."
 
-#: forms.py:89 forms.py:156 models.py:84
+#: forms.py:91 forms.py:179 models.py:86
 msgid "Email"
 msgstr "E-Mail"
 
-#: forms.py:90
+#: forms.py:92
 msgid "Required, a confirmation email will be sent to this address."
 msgstr "Pflichtfeld, eine Bestätigung wird an diese Adresse geschickt."
 
-#: forms.py:102
+#: forms.py:104
 msgid "Malformed email address."
 msgstr "Ungültige E-Mail-Adresse."
 
-#: forms.py:108
+#: forms.py:110
 #, python-format
 msgid "Please give your own email address, %(domain)s does not provide one."
 msgstr ""
 "Bitte geben sie ihre eigene E-Mail-Adresse an, %(domain)s stellt keine zur "
 "Verfüugung."
 
-#: forms.py:112
+#: forms.py:114
 #, python-format
 msgid ""
 "Sorry, you cannot use an address on %(domain)s. The domain was blocked "
@@ -183,59 +183,95 @@ msgstr ""
 "E-Mail-Adressen auf der Domain %(domain)s können nicht genutzt werden, da "
 "sie von Spammern genutzt wurde."
 
-#: forms.py:124 forms.py:129
+#: forms.py:126 forms.py:146 forms.py:152
 msgid "Password"
 msgstr "Passwort"
 
-#: forms.py:130
+#: forms.py:134
+msgid "my account expires"
+msgstr "mein Konto abläuft"
+
+#: forms.py:135
+msgid "my GPG key expires"
+msgstr "mein GPG-Schlüssel abläuft"
+
+#: forms.py:139
+msgid ""
+"Accounts are automatically removed if they haven't been used for a year."
+msgstr ""
+"Ihr Konto wird automatisch gelöscht, wenn sie ihn ein Jahr lang nicht mehr "
+"genutzt haben."
+
+#: forms.py:140
+msgid "If you have uploaded a GPG key and it is about to expire."
+msgstr "wenn sie einen GPG-Schlüssel hochgeladen haben und dieser abläuft."
+
+#: forms.py:147
+msgid ""
+"Your password, to make sure that you really want to delete your account."
+msgstr "Ihr Passwort, damit sie sich auch ganz sicher sind."
+
+#: forms.py:153
 msgid "Passwords must be at least six characters."
 msgstr "Das Passwort muss mindestens sechs Zeichen haben."
 
-#: forms.py:132
+#: forms.py:155
 msgid "Confirm"
 msgstr "Bestätigen"
 
-#: forms.py:133
+#: forms.py:156
 msgid "Confirm the password to make sure you spelled it correctly."
 msgstr "Bestätigen sie das Passwort, um Tippfehler auszuschließen."
 
-#: forms.py:136
+#: forms.py:159
 msgid "The two password fields didn't match."
 msgstr "Die beiden Passwörter stimmen nicht überein."
 
-#: forms.py:157
+#: forms.py:180
 msgid "Required, an email will be sent to this address to confirm the change."
 msgstr ""
 "Pflichtfeld, eine E-Mail wird an diese Adresse gesendet um die Änderung zu "
 "bestätigen."
 
-#: models.py:200
+#: models.py:202
 msgid "Error importing GPG key."
 msgstr "Fehler beim importieren des GPG SChlüssels."
 
-#: models.py:213
+#: models.py:216
 #, python-format
 msgid "Added GPG key 0x%(fingerprint)s."
 msgstr "GPG Schlüssel 0x%(fingerprint)s hinzugefügt."
 
-#: models.py:215
+#: models.py:218
 #, python-format
 msgid "Updated GPG key 0x%(fingerprint)s."
 msgstr "GPG Schlüssel 0x%(fingerprint)s aktualisiert."
 
-#: models.py:229
+#: models.py:233
+msgid "Send user an email when the account is about to be deleted."
+msgstr ""
+
+#: models.py:235
+msgid "Send user an email when his GPG key is about to expire."
+msgstr ""
+
+#: models.py:243
 msgid "Recipient"
 msgstr "Empfänger"
 
-#: models.py:244
+#: models.py:258
+msgid "Delete your account on {{ user.domain }}"
+msgstr "Löschung ihres Kontos auf {{ user.domain }}"
+
+#: models.py:259
 msgid "Your new account on {{ user.domain }}"
 msgstr "Ihr neues Konto auf {{ user.domain }}"
 
-#: models.py:245
+#: models.py:260
 msgid "Reset your password on {{ user.domain }}"
 msgstr "Passwort auf {{ user.domain }} neu setzen"
 
-#: models.py:246
+#: models.py:261
 msgid "Confirm new email address for your {{ user.domain }} account"
 msgstr ""
 "Bestätigen sie die neue E-Mail-Adresse für ihr {{ user.domain }} Konto."
@@ -278,6 +314,8 @@ msgstr ""
 msgid "Show menu"
 msgstr "Menü"
 
+#: templates/account/confirm/delete.html:3
+#: templates/account/confirm/delete.txt:1
 #: templates/account/confirm/register.html:3
 #: templates/account/confirm/register.txt:1
 #: templates/account/confirm/reset_password.html:3
@@ -287,6 +325,44 @@ msgstr "Menü"
 #, python-format
 msgid "Dear %(jid)s,"
 msgstr "LiebeR %(jid)s,"
+
+#: templates/account/confirm/delete.html:5
+#, python-format
+msgid ""
+"You requested to delete your account %(jid)s. Please \n"
+"<a href=\"%(uri)s\">click here</a> to permanently delete your account. This\n"
+"change cannot be undone."
+msgstr ""
+"Sie wollten ihr Konto %(jid)s löschen. Bitte <a href=\"%(uri)s\">klicken sie "
+"hier</a> um ihr Konto endgültig zu löschen. Dies kann nicht mehr rückgängig "
+"gemacht werden."
+
+#: templates/account/confirm/delete.html:9
+#: templates/account/confirm/delete.txt:8
+msgid "If you haven't made this request, you can simply disregard this email."
+msgstr ""
+"Falls sie ihr Konto nicht löschen wollen, können sie diese E-Mail einfach "
+"ignorieren."
+
+#: templates/account/confirm/delete.html:11
+#: templates/account/confirm/delete.txt:10
+#: templates/account/confirm/register.html:12
+#: templates/account/confirm/register.txt:12
+#: templates/account/confirm/reset_password.html:11
+#: templates/account/confirm/reset_password.txt:10
+#: templates/account/confirm/set_email.html:12
+#: templates/account/confirm/set_email.txt:10
+msgid "greetings,"
+msgstr "alles liebe,"
+
+#: templates/account/confirm/delete.txt:3
+#, python-format
+msgid ""
+"You requested to delete your account %(jid)s. To confirm\n"
+"this, please go here:"
+msgstr ""
+"Sie wollten ihr Konto %(jid)s löschen lassen. Um das zu bestätigen, klicken "
+"sie bitte auf diesen Link:"
 
 #: templates/account/confirm/register.html:5
 #, python-format
@@ -307,15 +383,6 @@ msgid ""
 msgstr ""
 "Falls sie kein Konto registriert haben, können sie diese E-Mail einfach "
 "ignorieren."
-
-#: templates/account/confirm/register.html:12
-#: templates/account/confirm/register.txt:12
-#: templates/account/confirm/reset_password.html:11
-#: templates/account/confirm/reset_password.txt:10
-#: templates/account/confirm/set_email.html:12
-#: templates/account/confirm/set_email.txt:10
-msgid "greetings,"
-msgstr "alles liebe,"
 
 #: templates/account/confirm/register.txt:3
 #, python-format
@@ -373,6 +440,32 @@ msgstr ""
 "Sie haben die E-Mail-Adresse für ihr Jabber-Konto %(jid)s geändert. Um den "
 "Vorgang abzuschließen, gehen sie bitte auf diese URL:"
 
+#: templates/account/delete.html:4 templates/account/delete_confirm.html:4
+#: views.py:93
+msgid "Delete account"
+msgstr "Konto löschen"
+
+#: templates/account/delete.html:11 templates/account/delete_confirm.html:11
+msgid "Delete"
+msgstr "Löschen"
+
+#: templates/account/notifications.html:14 views.py:87
+msgid "Notifications"
+msgstr "Benachrichtigungen"
+
+#: templates/account/notifications.html:17
+msgid ""
+"We send out emails warning you if your account or a gpg key expires. You can "
+"turn off these warnings here."
+msgstr ""
+"Wir schicken ihnen Warnungen per E-Mail, wenn ihr Konto automatisch gelöscht "
+"wird oder ihr GPG-Schlüssel abläuft. Sie können diese Warnungen hier "
+"deaktivieren."
+
+#: templates/account/notifications.html:19
+msgid "Send me an email when:"
+msgstr "Schicken sie mir eine E-Mail wenn:"
+
 #: templates/account/requires_confirmation.html:4
 msgid "Requires confirmation"
 msgstr "Benötigt Bestätigung"
@@ -382,7 +475,7 @@ msgid "This functionality requires that you have confirmed your email address."
 msgstr ""
 "Für diese Funktionalität müssen sie ihre E-MailAdresse bestätigt haben."
 
-#: templates/account/set_password.html:4 views.py:82
+#: templates/account/set_password.html:4 views.py:88
 msgid "Set password"
 msgstr "Passwort setzen"
 
@@ -416,7 +509,7 @@ msgstr "Ja"
 msgid "No"
 msgstr "Nein"
 
-#: templates/account/user_gpg.html:4 views.py:85
+#: templates/account/user_gpg.html:4 views.py:91
 msgid "GPG keys"
 msgstr "GPG Schlüssel"
 
@@ -470,7 +563,7 @@ msgstr ""
 msgid "Send"
 msgstr "Abschicken"
 
-#: templates/account/user_recent_activity.html:4 views.py:86
+#: templates/account/user_recent_activity.html:4 views.py:92
 msgid "Recent activity"
 msgstr "Letzte Aktivitäten"
 
@@ -510,11 +603,40 @@ msgid "No recent log entries found."
 msgstr "Keine Aktivitäten gefunden."
 
 #: templates/account/user_register.html:4
-#: templates/account/user_register.html:54
+#: templates/account/user_register.html:74
 msgid "Register"
 msgstr "Registrieren"
 
-#: templates/account/user_register.html:7
+#: templates/account/user_register.html:8
+msgid ""
+"Register for an account at jabber.at, jabber.zone or xmpp.zone. Its fast, "
+"free, easy and safe!"
+msgstr ""
+
+#: templates/account/user_register.html:13
+#: templates/account/user_register.html:21
+#, python-format
+msgid "Register at %(domain)s"
+msgstr "Auf %(domain)s registrieren"
+
+#: templates/account/user_register.html:14
+msgid ""
+"Register now for an account at jabber.at, jabber.zone or xmpp.zone. Its "
+"fast, free, easy and safe!"
+msgstr ""
+"Registrieren sie sich jetzt auf jabber.at, jabber.zone oder xmpp.zone. "
+"Schnell, einfach und sicher!"
+
+#: templates/account/user_register.html:22
+msgid ""
+"Jabber is a free and open instant messaging network. Register now for an "
+"account at jabber.at, jabber.zone or xmpp.zone. It's fast, free, easy and "
+"safe!"
+msgstr ""
+"Jabber ist ein offens und freies Chat-Netzwerk. Registrieren sie sich noch "
+"heute auf unseren Domains jabber.at, jabber.zone oder xmpp.zone."
+
+#: templates/account/user_register.html:27
 msgid ""
 "Please complete the form below to register for an account on jabber.at. You\n"
 "will receive an email to confirm the address provided. Click on the link in\n"
@@ -524,11 +646,11 @@ msgstr ""
 "stehendes Formular. Wir werden ihnen eine Bestätigungs-E-Mail schicken, die "
 "einen Link enthält, bei dem sie ihre Registrierung abschließen können."
 
-#: templates/account/user_register.html:13
+#: templates/account/user_register.html:33
 msgid "Why do we require your email address?"
 msgstr "Warum verlangen wir ihre E-Mail-Adresse?"
 
-#: templates/account/user_register.html:14
+#: templates/account/user_register.html:34
 msgid ""
 "By default, the email address is used only if you want to reset your\n"
 "password or if your account hasn't been used for a year and is about to be\n"
@@ -538,19 +660,19 @@ msgstr ""
 "wollen oder ihr Konto gelöscht wird, weil es ein Jahr lang nicht genutzt "
 "wurde."
 
-#: templates/account/user_register.html:27
+#: templates/account/user_register.html:47
 #: templates/account/user_set_email.html:16
 msgid "GPG options"
 msgstr "GPG Optionen"
 
-#: templates/account/user_register.html:35
+#: templates/account/user_register.html:55
 #: templates/account/user_set_email.html:25
 msgid "You can add a GPG key to have jabber.at encrypt all emails sent to you."
 msgstr ""
 "Wenn sie einen GPG Schlüssel hinzufügen, werden alle E-Mails, die wir ihnen "
 "schicken, automatisch verschlüsselt."
 
-#: templates/account/user_register.html:37
+#: templates/account/user_register.html:57
 #: templates/account/user_set_email.html:35
 msgid ""
 "<strong>Warning:</strong> Please note the obvious: If you ever loose your\n"
@@ -561,7 +683,7 @@ msgstr ""
 "keinen neuen hier hochladen, können sie E-Mails, die wir ihnen schicken, "
 "nicht mehr lesen."
 
-#: templates/account/user_register.html:46
+#: templates/account/user_register.html:66
 #: templates/account/user_set_email.html:44
 msgid "- and/or -"
 msgstr "- und/oder -"
@@ -623,7 +745,7 @@ msgid ""
 "once you confirm this change."
 msgstr ""
 
-#: templates/account/xep0363.html:14 views.py:84
+#: templates/account/xep0363.html:14 views.py:90
 msgid "HTTP uploads"
 msgstr ""
 
@@ -655,9 +777,9 @@ msgid ""
 "encrypt files before they are uploaded, so viewing them via the links below\n"
 "is not possible in the browser."
 msgstr ""
-"<strong>Anmerkung:</strong> Manche Clients (z.b. Conversations)verschlüsseln "
-"Dateien, bevor sie auf den Server hoch geladen werden. Sie können daher "
-"nicht einfach im Browser angesehen werden."
+"<strong>Anmerkung:</strong> Manche Clients (z.b. Conversations) "
+"verschlüsseln Dateien, bevor sie auf den Server hoch geladen werden. Sie "
+"können daher nicht einfach im Browser angesehen werden."
 
 #: templates/account/xep0363.html:33
 msgid "File"
@@ -667,19 +789,19 @@ msgstr "Datei"
 msgid "There are currently no file uploads."
 msgstr "Sie haben noch keine Dateien hochgeladen."
 
-#: views.py:81
+#: views.py:86
 msgid "Overview"
 msgstr "Übersicht"
 
-#: views.py:83
+#: views.py:89
 msgid "Set E-Mail"
 msgstr "E-Mail setzen"
 
-#: views.py:148
+#: views.py:155
 msgid "Account created."
 msgstr "Konto erstellt."
 
-#: views.py:152
+#: views.py:159
 #, python-format
 msgid ""
 "Successfully created the account %(username)s. A confirmation email was\n"
@@ -690,35 +812,35 @@ msgstr ""
 "Adresse (%(email)s) versandt. Bevor sie ihr Konto nutzen können, müssen sie "
 "den Link in der E-Mail bestätigen."
 
-#: views.py:211
+#: views.py:218
 #, python-format
 msgid "Email address %(email)s confirmed."
 msgstr "E-Mail-Adresse %(email)s bestätigt."
 
-#: views.py:216
+#: views.py:222
 msgid ""
 "Successfully confirmed your email address. You can now use your account."
 msgstr ""
 "Ihre E-Mail-Adresse wurde erfolgreich bestätigt. Sie können nun ihr Konto "
 "nutzen."
 
-#: views.py:277
+#: views.py:283
 msgid "User not found."
 msgstr "Benutzer nicht gefunden."
 
-#: views.py:285
+#: views.py:291
 msgid "Requested password reset."
 msgstr "Neues Passwort angefordert."
 
-#: views.py:310 views.py:333
+#: views.py:316 views.py:353
 msgid "Set new password."
 msgstr "Neues Passwort gesetzt."
 
-#: views.py:311 views.py:335
+#: views.py:317 views.py:355
 msgid "Successfully changed your password."
 msgstr "Passwort erfolgreich geändert."
 
-#: views.py:360
+#: views.py:380
 #, python-format
 msgid ""
 "We sent you an email to your new email address %(email)s). Click on the link "
@@ -727,21 +849,30 @@ msgstr ""
 "Wir haben ihnen eine E-Mail an ihre neue Adresse %(email)s geschickt. "
 "Klicken sie auf den Link in der E-Mail, um die Änderung zu bestätigen."
 
-#: views.py:362
+#: views.py:382
 #, python-format
 msgid "Requested change of email address to %(email)s."
-msgstr "Änderung der E-Mail-Adresse auf %(email)s."
+msgstr "Änderung der E-Mail-Adresse auf %(email)s beantragt."
 
-#: views.py:397
-#, fuzzy, python-format
-#| msgid "Email address %(email)s confirmed."
-msgid "Changed email address to %(email)s."
-msgstr "E-Mail-Adresse %(email)s bestätigt."
-
-#: views.py:398
+#: views.py:417 views.py:419
 #, python-format
 msgid "Confirmed email address change to %(email)s."
 msgstr "E-Mail-Adressänderung auf %(email)s bestätigt."
+
+#: views.py:466 views.py:499
+msgid "The password is incorrect."
+msgstr "Das Passwort stimmt nicht."
+
+#: views.py:478
+#, python-format
+msgid "We sent you an email to %(email)s to confirm your request."
+msgstr ""
+"Wir haben ihnen eine E-Mail an %(email)s geschickt, um das Löschen ihres "
+"Kontos zu bestätigen."
+
+#: views.py:480
+msgid "Requested deletion of account."
+msgstr "Löschung ihres Kontos beantragt."
 
 #: widgets.py:71
 msgid ""
