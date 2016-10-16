@@ -479,7 +479,7 @@ class DeleteAccountView(LoginRequiredMixin, AccountPageMixin, FormView):
         user.log(_('Requested deletion of account.'))
         AddressActivity.objects.log(request, ACTIVITY_SET_EMAIL, note=user.email)
 
-        return HttpResponseRedirect(reverse('core:home'))
+        return HttpResponseRedirect(reverse('account:detail'))
 
 
 class ConfirmDeleteAccountView(LoginRequiredMixin, RedirectView):
