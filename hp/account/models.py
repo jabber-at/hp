@@ -120,8 +120,8 @@ class User(XmppBackendUser, PermissionsMixin):
     def is_staff(self):
         return self.is_superuser
 
-    def log(self, message, address=None):
-        self.log_entries.create(message=message, address=address)
+    def log(self, message, address=None, **kwargs):
+        self.log_entries.create(message=message, address=address, payload=kwargs)
 
     def message(self, level, message):
         return CachedMessage.objects.create(user=self, level=level, message=message)
@@ -324,6 +324,10 @@ class UserLogEntry(BaseModel):
     class Meta:
         verbose_name = 'User activity log'
         verbose_name_plural = 'User activity logs'
+
+    @property
+    def localized(self):
+        return _(self.message) % self.payload
 
     def __str__(self):
         return '%s: %s' % (self.user, self.message)
