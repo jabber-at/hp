@@ -18,8 +18,6 @@ from django.conf import settings
 from django.contrib.auth.forms import AuthenticationForm
 from django.utils.translation import ugettext_lazy as _
 
-from django_xmpp_backends import backend
-
 from bootstrap.formfields import BootstrapPasswordField
 from bootstrap.widgets import BootstrapPasswordInput
 from core.forms import CaptchaFormMixin
