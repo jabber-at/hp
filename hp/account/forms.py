@@ -18,9 +18,10 @@ from django.conf import settings
 from django.contrib.auth.forms import AuthenticationForm
 from django.utils.translation import ugettext_lazy as _
 
+from django_xmpp_backends import backend
+
 from bootstrap.formfields import BootstrapPasswordField
 from bootstrap.widgets import BootstrapPasswordInput
-
 from core.forms import CaptchaFormMixin
 
 from .formfields import EmailVerifiedDomainField
@@ -140,8 +141,10 @@ class NotificationsForm(forms.ModelForm):
         }
 
 
-class DeleteAccountForm(forms.ModelForm):
-    pass
+class DeleteAccountForm(forms.Form):
+    password = BootstrapPasswordField(
+        label=_('Password'), help_text=_(
+            'Your password, to make sure that you really want to delete your account.'))
 
 
 class SetPasswordForm(forms.Form):
