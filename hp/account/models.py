@@ -319,6 +319,7 @@ class UserLogEntry(BaseModel):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, related_name='log_entries')
     address = models.GenericIPAddressField(null=True)
     message = models.TextField()
+    payload = JSONField(default=default_payload)
 
     class Meta:
         verbose_name = 'User activity log'
