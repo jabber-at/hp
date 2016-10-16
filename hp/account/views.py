@@ -474,7 +474,7 @@ class DeleteAccountView(LoginRequiredMixin, AccountPageMixin, FormView):
             to=user.email, base_url=base_url, hostname=request.site['NAME'])
 
         messages.success(request, _(
-            'We sent you an email to %(email) to confirm your request.') %
+            'We sent you an email to %(email)s to confirm your request.') %
             {'email': user.email, })
         user.log(_('Requested deletion of account.'))
         AddressActivity.objects.log(request, ACTIVITY_SET_EMAIL, note=user.email)
@@ -482,8 +482,32 @@ class DeleteAccountView(LoginRequiredMixin, AccountPageMixin, FormView):
         return HttpResponseRedirect(reverse('account:detail'))
 
 
-class ConfirmDeleteAccountView(LoginRequiredMixin, RedirectView):
-    pass
+class ConfirmDeleteAccountView(LoginRequiredMixin, AccountPageMixin, FormView):
+    usermenu_item = 'account:delete'
+    form_class = DeleteAccountForm
+    template_name = 'account/delete_confirm.html'
+    queryset = _confirmation_qs.purpose(PURPOSE_DELETE)
+
+    def form_valid(self, form):
+        password = form.cleaned_data['password']
+        request = self.request
+        user = request.user
+
+        # Check the password of the user again
+        if not backend.check_password(user.node, user.domain, password=password):
+            form.add_error('password', _('Password does not match.'))
+            return self.form_invalid(form)
+
+        # Verify the confirmation key
+        key = get_object_or_404(self.queryset.filter(user=user), key=self.kwargs['key'])
+
+        # Log the user out, delete data
+        logout(request)
+        backend.remove_user(user.node, user.domain)
+        key.delete()
+        user.delete()
+
+        return HttpResponseRedirect(reverse('core:home'))
 
 
 class UserAvailableView(View):

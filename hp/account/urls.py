@@ -40,6 +40,7 @@ urlpatterns = [
     url(r'^api/xep0363/(?P<pk>\d+)/$$', views.DeleteHttpUploadView.as_view(),
         name='api-xep0363-delete'),
     url(r'^delete/$', views.DeleteAccountView.as_view(), name='delete'),
-    url(r'^delete/(?P<key>\w+)/$', views.DeleteAccountView.as_view(), name='delete_confirm'),
+    url(r'^delete/(?P<key>\w+)/$', views.ConfirmDeleteAccountView.as_view(),
+        name='delete_confirm'),
     url(r'^$', views.UserView.as_view(), name='detail'),
 ]
