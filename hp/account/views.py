@@ -33,6 +33,7 @@ from django.template.response import TemplateResponse
 from django.utils import timezone
 from django.utils.http import is_safe_url
 from django.utils.translation import ugettext_lazy as _
+from django.utils.translation import ugettext_noop
 from django.views.generic import View
 from django.views.generic import DetailView
 from django.views.generic.base import RedirectView
@@ -151,7 +152,7 @@ class RegistrationView(BlacklistMixin, DnsBlMixin, RateLimitMixin, AnonymousRequ
             user = self.object
 
             # log user creation, display help message.
-            user.log(address=address, message=_('Account created.'))
+            user.log(ugettext_noop('Account created.'), address=address)
             AddressActivity.objects.log(request, ACTIVITY_REGISTER, user=user, note=user.email)
 
             messages.success(request, _(
@@ -214,9 +215,8 @@ class ConfirmRegistrationView(FormView):
             backend.create_user(username=key.user.node, domain=key.user.domain, password=password,
                                 email=key.user.email)
 
-            key.user.log(_('Email address %(email)s confirmed.') % {
-                'email': key.user.email,
-            }, address)
+            key.user.log(ugettext_noop('Email address %(email)s confirmed.'), address,
+                         email=key.user.email)
             # TODO: More meaningful help message on a webchat, usable clients, follow updates, ...
             messages.success(request, _(
                 "Successfully confirmed your email address. You can now use your account."))
@@ -288,7 +288,7 @@ class ResetPasswordView(BlacklistMixin, DnsBlMixin, RateLimitMixin, AnonymousReq
         lang = request.LANGUAGE_CODE
         base_url = '%s://%s' % (request.scheme, request.get_host())
 
-        user.log(_('Requested password reset.'), request.META['REMOTE_ADDR'])
+        user.log(ugettext_noop('Requested password reset.'), address)
         AddressActivity.objects.log(request, ACTIVITY_RESET_PASSWORD, user=user)
 
         send_confirmation_task.delay(
@@ -313,7 +313,7 @@ class ConfirmResetPasswordView(FormView):
             backend.set_password(username=key.user.node, domain=key.user.domain,
                                  password=form.cleaned_data['password'])
 
-            key.user.log(_('Set new password.'), address)
+            key.user.log(ugettext_noop('Set new password.'), address)
             messages.success(request, _('Successfully changed your password.'))
 
             key.user.backend = settings.AUTHENTICATION_BACKENDS[0]
@@ -350,7 +350,7 @@ class SetPasswordView(LoginRequiredMixin, AccountPageMixin, FormView):
         password = form.cleaned_data['password']
 
         backend.set_password(username=user.node, domain=user.domain, password=password)
-        user.log(_('Set new password.'), address)
+        user.log(ugettext_noop('Set new password.'), address)
         AddressActivity.objects.log(request, ACTIVITY_SET_PASSWORD)
         messages.success(request, _('Successfully changed your password.'))
         return super(SetPasswordView, self).form_valid(form)
@@ -379,8 +379,8 @@ class SetEmailView(LoginRequiredMixin, AccountPageMixin, FormView):
         messages.success(request, _(
             'We sent you an email to your new email address %(email)s). Click on the link in it '
             'to confirm it.') % {'email': to})
-        user.log(_('Requested change of email address to %(email)s.') % {'email': to},
-                 address=address)
+        user.log(ugettext_noop('Requested change of email address to %(email)s.'), address,
+                 email=to)
         AddressActivity.objects.log(request, ACTIVITY_SET_EMAIL, note=to)
 
         return super(SetEmailView, self).form_valid(form)
@@ -414,9 +414,10 @@ class ConfirmSetEmailView(LoginRequiredMixin, RedirectView):
             key.delete()
 
             messages.success(request,
-                             _('Changed email address to %(email)s.') % {'email': user.email, })
-            user.log(_('Confirmed email address change to %(email)s.') % {'email': key.to, },
-                     self.request.META['REMOTE_ADDR'])
+                             _('Confirmed email address change to %(email)s.')
+                             % {'email': user.email, })
+            user.log(ugettext_noop('Confirmed email address change to %(email)s.'),
+                     request.META['REMOTE_ADDR'], email=key.to)
 
             return super(ConfirmSetEmailView, self).get_redirect_url()
 
@@ -462,7 +463,7 @@ class DeleteAccountView(LoginRequiredMixin, AccountPageMixin, FormView):
         user = request.user
 
         if not backend.check_password(user.node, user.domain, password=password):
-            form.add_error('password', _('Password does not match.'))
+            form.add_error('password', _('The password is incorrect.'))
             return self.form_invalid(form)
 
         address = request.META['REMOTE_ADDR']
@@ -476,7 +477,7 @@ class DeleteAccountView(LoginRequiredMixin, AccountPageMixin, FormView):
         messages.success(request, _(
             'We sent you an email to %(email)s to confirm your request.') %
             {'email': user.email, })
-        user.log(_('Requested deletion of account.'))
+        user.log(ugettext_noop('Requested deletion of account.'), address)
         AddressActivity.objects.log(request, ACTIVITY_SET_EMAIL, note=user.email)
 
         return HttpResponseRedirect(reverse('account:detail'))
@@ -495,7 +496,7 @@ class ConfirmDeleteAccountView(LoginRequiredMixin, AccountPageMixin, FormView):
 
         # Check the password of the user again
         if not backend.check_password(user.node, user.domain, password=password):
-            form.add_error('password', _('Password does not match.'))
+            form.add_error('password', _('The password is incorrect.'))
             return self.form_invalid(form)
 
         # Verify the confirmation key

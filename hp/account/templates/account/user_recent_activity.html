@@ -23,7 +23,7 @@ login attempts on the Jabber/XMPP server itself will not show up here.{% endbloc
     <tr>
         <td>{{ entry.address }}</td>
         <td>{{ entry.created|date:"SHORT_DATETIME_FORMAT" }}</td>
-        <td>{{ entry.message }}</tr>
+        <td>{{ entry.localized }}</tr>
     </tr>
 {% endfor %}
 </table>
