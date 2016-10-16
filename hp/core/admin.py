@@ -225,6 +225,8 @@ class BlogPostAdmin(BasePageAdmin):
 @admin.register(Page)
 class PageAdmin(BasePageAdmin):
     fields = ['title', 'slug', 'text', 'published', ]
+    list_display = ['__str__', 'updated', ]
+    list_filter = ['published', ]
     ordering = ('-title', )
     search_fields = ['title_de', 'title_en', 'text_en', 'text_de']
 
