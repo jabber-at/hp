@@ -56,6 +56,7 @@ from core.views import BlacklistMixin
 from core.views import DnsBlMixin
 from core.views import RateLimitMixin
 
+from .constants import PURPOSE_DELETE
 from .constants import PURPOSE_REGISTER
 from .constants import PURPOSE_RESET_PASSWORD
 from .constants import PURPOSE_SET_EMAIL
@@ -88,7 +89,7 @@ class AccountPageMixin(object):
         ('account:xep0363', _('HTTP uploads'), True),
         ('account:gpg', _('GPG keys'), True),
         ('account:log', _('Recent activity'), False),
-        #('account:delete', _('Delete account'), True),
+        ('account:delete', _('Delete account'), True),
     )
     usermenu_item = None
     requires_confirmation = True
@@ -450,10 +451,35 @@ class RecentActivityView(LoginRequiredMixin, AccountPageMixin, UserDetailView):
         return context
 
 
-class DeleteAccountView(LoginRequiredMixin, AccountPageMixin, UserDetailView):
+class DeleteAccountView(LoginRequiredMixin, AccountPageMixin, FormView):
     usermenu_item = 'account:delete'
     form_class = DeleteAccountForm
     template_name = 'account/delete.html'
+
+    def form_valid(self, form):
+        password = form.cleaned_data['password']
+        request = self.request
+        user = request.user
+
+        if not backend.check_password(user.node, user.domain, password=password):
+            form.add_error('password', _('Password does not match.'))
+            return self.form_invalid(form)
+
+        address = request.META['REMOTE_ADDR']
+        lang = request.LANGUAGE_CODE
+        base_url = '%s://%s' % (request.scheme, request.get_host())
+
+        send_confirmation_task.delay(
+            user_pk=user.pk, purpose=PURPOSE_DELETE, language=lang, address=address,
+            to=user.email, base_url=base_url, hostname=request.site['NAME'])
+
+        messages.success(request, _(
+            'We sent you an email to %(email) to confirm your request.') %
+            {'email': user.email, })
+        user.log(_('Requested deletion of account.'))
+        AddressActivity.objects.log(request, ACTIVITY_SET_EMAIL, note=user.email)
+
+        return HttpResponseRedirect(reverse('core:home'))
 
 
 class ConfirmDeleteAccountView(LoginRequiredMixin, RedirectView):
