@@ -47,7 +47,7 @@ from core.models import BaseModel
 from core.models import CachedMessage
 from core.utils import load_private_key
 
-#from .constants import PURPOSE_DELETE
+from .constants import PURPOSE_DELETE
 from .constants import PURPOSE_REGISTER
 from .constants import PURPOSE_RESET_PASSWORD
 from .constants import PURPOSE_SET_EMAIL
@@ -255,6 +255,7 @@ class Confirmation(BaseModel):
                                 related_name='confirmations')
 
     SUBJECTS = {
+        PURPOSE_DELETE: _('Delete your account on {{ user.domain }}'),
         PURPOSE_REGISTER: _('Your new account on {{ user.domain }}'),
         PURPOSE_RESET_PASSWORD: _('Reset your password on {{ user.domain }}'),
         PURPOSE_SET_EMAIL: _('Confirm new email address for your {{ user.domain }} account'),
