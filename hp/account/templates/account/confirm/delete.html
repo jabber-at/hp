@@ -1,0 +1,13 @@
+{% load i18n %}<!DOCTYPE HTML>
+<html><head><title>{{ subject }}</title></head><body>
+<p>{% blocktrans with jid=jid %}Dear {{ jid }},{% endblocktrans %}</p>
+
+<p>{% blocktrans with jid=jid uri=uri %}You requested to delete your account {{ jid }}.
+Please <a href="{{ uri }}">click here</a> to permanently delete your account.
+This change cannot be undone.{% endblocktrans %}
+
+<p>{% trans "If you haven't made this request, you can simply disregard this email." %}</p>
+
+<p>{% trans "greetings," %}<br />
+<p style="padding-left: 4em;">{{ domain }}</p>
+</body></html>
