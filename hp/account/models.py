@@ -330,7 +330,7 @@ class UserLogEntry(BaseModel):
         return _(self.message) % self.payload
 
     def __str__(self):
-        return '%s: %s' % (self.user, self.message)
+        return self.message % self.payload
 
 
 class GpgKey(BaseModel):
