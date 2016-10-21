@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-10-16 13:57+0200\n"
+"POT-Creation-Date: 2016-10-21 16:56+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -155,26 +155,26 @@ msgstr "Es sind ausschließlich Textdateien erlaubt (nicht %(content-type)s)!"
 msgid "The domain \"%(domain)s\" does not exist."
 msgstr "Die Domain %(domain)s\" existiert nicht."
 
-#: forms.py:91 forms.py:179 models.py:86
+#: forms.py:89 forms.py:177 models.py:86
 msgid "Email"
 msgstr "E-Mail"
 
-#: forms.py:92
+#: forms.py:90
 msgid "Required, a confirmation email will be sent to this address."
 msgstr "Pflichtfeld, eine Bestätigung wird an diese Adresse geschickt."
 
-#: forms.py:104
+#: forms.py:102
 msgid "Malformed email address."
 msgstr "Ungültige E-Mail-Adresse."
 
-#: forms.py:110
+#: forms.py:108
 #, python-format
 msgid "Please give your own email address, %(domain)s does not provide one."
 msgstr ""
 "Bitte geben sie ihre eigene E-Mail-Adresse an, %(domain)s stellt keine zur "
 "Verfüugung."
 
-#: forms.py:114
+#: forms.py:112
 #, python-format
 msgid ""
 "Sorry, you cannot use an address on %(domain)s. The domain was blocked "
@@ -183,51 +183,51 @@ msgstr ""
 "E-Mail-Adressen auf der Domain %(domain)s können nicht genutzt werden, da "
 "sie von Spammern genutzt wurde."
 
-#: forms.py:126 forms.py:146 forms.py:152
+#: forms.py:124 forms.py:144 forms.py:150
 msgid "Password"
 msgstr "Passwort"
 
-#: forms.py:134
+#: forms.py:132
 msgid "my account expires"
 msgstr "mein Konto abläuft"
 
-#: forms.py:135
+#: forms.py:133
 msgid "my GPG key expires"
 msgstr "mein GPG-Schlüssel abläuft"
 
-#: forms.py:139
+#: forms.py:137
 msgid ""
 "Accounts are automatically removed if they haven't been used for a year."
 msgstr ""
 "Ihr Konto wird automatisch gelöscht, wenn sie ihn ein Jahr lang nicht mehr "
 "genutzt haben."
 
-#: forms.py:140
+#: forms.py:138
 msgid "If you have uploaded a GPG key and it is about to expire."
 msgstr "wenn sie einen GPG-Schlüssel hochgeladen haben und dieser abläuft."
 
-#: forms.py:147
+#: forms.py:145
 msgid ""
 "Your password, to make sure that you really want to delete your account."
 msgstr "Ihr Passwort, damit sie sich auch ganz sicher sind."
 
-#: forms.py:153
+#: forms.py:151
 msgid "Passwords must be at least six characters."
 msgstr "Das Passwort muss mindestens sechs Zeichen haben."
 
-#: forms.py:155
+#: forms.py:153
 msgid "Confirm"
 msgstr "Bestätigen"
 
-#: forms.py:156
+#: forms.py:154
 msgid "Confirm the password to make sure you spelled it correctly."
 msgstr "Bestätigen sie das Passwort, um Tippfehler auszuschließen."
 
-#: forms.py:159
+#: forms.py:157
 msgid "The two password fields didn't match."
 msgstr "Die beiden Passwörter stimmen nicht überein."
 
-#: forms.py:180
+#: forms.py:178
 msgid "Required, an email will be sent to this address to confirm the change."
 msgstr ""
 "Pflichtfeld, eine E-Mail wird an diese Adresse gesendet um die Änderung zu "
