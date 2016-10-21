@@ -21,6 +21,7 @@ from django.http import HttpResponseRedirect
 from django.http.request import split_domain_port
 from django.http.request import validate_host
 
+from .exceptions import HttpResponseException
 from .models import CachedMessage
 
 
@@ -62,3 +63,9 @@ class CeleryMessageMiddleware(object):
                     messages.add_message(request, msg.level, msg.message)
 
                 stored_msgs.delete()
+
+
+class HttpResponseExceptionMiddleware(object):
+    def process_exception(self, request, exception):
+        if isinstance(exception, HttpResponseException):
+            return exception.get_response(request)

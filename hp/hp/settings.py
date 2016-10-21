@@ -80,6 +80,7 @@ MIDDLEWARE_CLASSES = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'core.middleware.TranslatedUrlConfigMiddleware',
     'core.middleware.CeleryMessageMiddleware',
+    'core.middleware.HttpResponseExceptionMiddleware',
 ]
 
 ROOT_URLCONF = 'hp.urls'
