@@ -13,6 +13,8 @@
 # You should have received a copy of the GNU General Public License along with django-xmpp-account.
 # If not, see <http://www.gnu.org/licenses/>.
 
+import logging
+
 from django.conf import settings
 from django.contrib import messages
 from django.core.urlresolvers import reverse
@@ -20,9 +22,13 @@ from django.db import transaction
 from django.http import HttpResponseRedirect
 from django.http.request import split_domain_port
 from django.http.request import validate_host
+from django.template.response import TemplateResponse
+from xmpp_backends.base import BackendError
 
 from .exceptions import HttpResponseException
 from .models import CachedMessage
+
+log = logging.getLogger(__name__)
 
 
 class SiteMiddleware(object):
@@ -68,4 +74,9 @@ class CeleryMessageMiddleware(object):
 class HttpResponseExceptionMiddleware(object):
     def process_exception(self, request, exception):
         if isinstance(exception, HttpResponseException):
+            log.exception(exception)
             return exception.get_response(request)
+        if isinstance(exception, BackendError):
+            log.exception(exception)
+            return TemplateResponse(
+                request, template='core/errors/xmpp_backend.html', status=503)

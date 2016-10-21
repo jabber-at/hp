@@ -1,0 +1,18 @@
+{% extends "error.html" %}
+{% load i18n %}
+
+{% block title %}Jabber server unavailable{% endblock title %}
+
+{% block content %}
+<div class="alert alert-danger">{% blocktrans %}<strong>Error:</strong> The Jabber server itself is currently unavailable.
+Please try again later!{% endblocktrans %}</div>
+
+{% url 'core:contact' as contact_url %}
+<p>{% blocktrans %}Our <a href="https://twitter.com/{{ TWITTER_HANDLE }}">Twitter page</a>
+usually is the first place were we inform users of minor outages and what
+we are doing to fix the problem. So please check there to see if we are
+already working on the problem.{% endblocktrans %}</p>
+
+<p>{% blocktrans %}Please <a href="{{ contact_url }}">contact us</a> if the problem persists
+and nothing is mentioned on our Twitter page.{% endblocktrans %}</p>
+{% endblock content %}
