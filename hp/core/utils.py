@@ -113,7 +113,7 @@ def check_dnsbl(ip):
         except dns.exception.Timeout as e:
             # This happens when nameservers are down
             log.exception(e)
-            raise TemporaryError("Could not check DNS-based blocklists.")
+            raise TemporaryError(_("Could not check DNS-based blocklists."))
         except dns.resolver.NXDOMAIN:  # not blacklisted
             continue
 
