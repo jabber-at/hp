@@ -13,6 +13,7 @@
 # You should have received a copy of the GNU General Public License along with django-xmpp-account.
 # If not, see <http://www.gnu.org/licenses
 
+import logging
 import os
 
 from urllib.parse import urljoin
@@ -24,6 +25,10 @@ from django.conf import settings
 from django.core.cache import cache
 from django.utils.translation import ungettext
 from django.utils.translation import ugettext as _
+
+from .exceptions import TemporaryError
+
+log = logging.getLogger(__name__)
 
 
 def format_timedelta(delta):
@@ -105,6 +110,10 @@ def check_dnsbl(ip):
 
         try:
             resolver.query(query, "A")
+        except dns.exception.Timeout as e:
+            # This happens when nameservers are down
+            log.exception(e)
+            raise TemporaryError("Could not check DNS-based blocklists.")
         except dns.resolver.NXDOMAIN:  # not blacklisted
             continue
 
