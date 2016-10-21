@@ -14,6 +14,7 @@
 # If not, see <http://www.gnu.org/licenses/>.
 
 from django.template.response import TemplateResponse
+from django.utils.translation import ugettext_lazy as _
 
 
 class HomepageException(Exception):
@@ -31,6 +32,8 @@ class HttpResponseException(HomepageException):
     context = None
     content_type = None
     status = None
+    template = 'error.html'
+    title = None
 
     def __init__(self, *args, template=None, context=None, status=None, **kwargs):
         # Only set self-values if actual values are passed, this way the class values of
@@ -54,12 +57,18 @@ class HttpResponseException(HomepageException):
         if default_context is None:
             default_context = {}
         default_context.update(self.context)
+        default_context['exception'] = self
 
         return TemplateResponse(
             request, template=self.template, context=default_context,
             content_type=self.content_type, status=self.status)
 
+    def get_title(self):
+        if self.title:
+            return self.title
+        return self.__class__.__name__
+
 
 class TemporaryError(HttpResponseException):
     status = 503
-    template = 'temporary_error.html'
+    title = _('Temporary error')
