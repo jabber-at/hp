@@ -110,7 +110,8 @@ def check_dnsbl(ip):
 
         try:
             resolver.query(query, "A")
-        except dns.exception.Timeout as e:  # Nameservers are unreachable
+        except (dns.exception.NoNameservers, dns.exception.Timeout) as e:
+            # Nameservers are unreachable
             log.exception(e)
             raise TemporaryError(
                 _("Could not check DNS-based blocklists. Please try again later."))
