@@ -36,7 +36,6 @@ from ua_parser import user_agent_parser
 
 from bootstrap.templatetags.bootstrap import glyph
 
-from .exceptions import TemporaryError
 from .forms import AnonymousContactForm
 from .forms import ContactForm
 from .forms import SelectOSForm
