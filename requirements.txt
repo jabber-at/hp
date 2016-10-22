@@ -1,5 +1,5 @@
 Django==1.10.2
-Pillow==3.4.1
+Pillow==3.4.2
 bleach==1.4.3
 celery==3.1.24
 django-composite-field==0.7.6
