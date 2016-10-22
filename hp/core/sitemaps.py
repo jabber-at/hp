@@ -24,6 +24,9 @@ class SitemapMixin(object):
     protocol = 'https'
     i18n = True
 
+    def changefreq(self, item):
+        return 'daily'
+
     def get_urls(self, **kwargs):
         """Overwritten to remove duplicate URLs.
 
@@ -59,9 +62,6 @@ class StaticSitemap(SitemapMixin, Sitemap):
             'core:contact', 'core:clients',
             'account:register', 'account:login', 'account:reset_password',
         ]
-
-    def changefreq(self, item):
-        return 'weekly'
 
     def location(self, item):
         return reverse(item)
