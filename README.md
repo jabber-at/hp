@@ -24,7 +24,7 @@ The homepage is still an evolving project, with many features unifinished, maybe
 * Registration and password reset for XMPP users directly on the homepage.
 * Authentication is performed against the XMPP server, the password is never stored locally.
 * Users can add GPG keys to encrypt emails (password reset, ...) with GPG.
-* Overview of XEP-0363 uploads.
+* Manage XEP-0363 uploads.
 
 ### Documentation
 
@@ -36,11 +36,8 @@ See [ChangeLog.md](https://github.com/jabber-at/hp/blob/master/Changelog.md)
 
 ### TODOs
 
-* Improve internationalization (interface text is rarely translated yet).
-* Better management of XEP-0363 uploads (deleting uploads).
 * Tags and comments on blog posts.
 * Add a webclient again (JSXC or converse.js?).
-* Better social media integration (twitter cards, facebook opengraph tags).
 * Calendar export of scheduled downtimes.
 * Minimize Javascript and CSS.
 * Search functionality.
