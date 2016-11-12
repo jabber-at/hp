@@ -8,6 +8,7 @@
 
 import os
 from datetime import timedelta
+from django.utils.translation import ugettext_lazy as _
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -63,6 +64,11 @@ SECRET_KEY = ''
 # General configuration #
 #########################
 
+# The copyright notice at the bottom of the page. "%(year)s is replaced with the current year, and
+# "%(brand)s" is replaced with the "BRAND" key of the current site.
+#COPYRIGHT_NOTICE = _('© 2010-%(year)s, %(brand)s.')
+
+# Minimum and maximum username length allowed by the interface.
 #MIN_USERNAME_LENGTH = 2
 #MAX_USERNAME_LENGTH = 64
 

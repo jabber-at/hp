@@ -193,6 +193,7 @@ USER_CONFIRMATION_TIMEOUT = timedelta(hours=48)
 LOG_FORMAT = '[%(asctime).19s %(levelname)-8s] %(message)s'  # .19s = only first 19 chars
 LIBRARY_LOG_LEVEL = 'WARN'
 LOG_LEVEL = 'INFO'
+COPYRIGHT_NOTICE = _('© 2010-%(year)s, %(brand)s.')
 
 FACEBOOK_PAGE = ''
 TWITTER_HANDLE = ''

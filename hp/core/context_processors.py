@@ -13,6 +13,8 @@
 # You should have received a copy of the GNU General Public License along with django-xmpp-account.
 # If not, see <http://www.gnu.org/licenses/.
 
+from datetime import date
+
 from django.conf import settings
 
 from .models import MenuItem
@@ -20,6 +22,10 @@ from .models import MenuItem
 
 def basic(request):
     context = {
+        'COPYRIGHT_NOTICE': settings.COPYRIGHT_NOTICE % {
+            'brand': request.site['BRAND'],
+            'year': date.today().year,
+        },
         'menuitems': MenuItem.objects.all(),
         'site': request.site,
         'default_site': settings.XMPP_HOSTS[settings.DEFAULT_XMPP_HOST],
