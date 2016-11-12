@@ -1,11 +1,11 @@
-Django==1.10.2
+Django==1.10.3
 Pillow==3.4.2
 bleach==1.4.3
-celery==3.1.24
+celery==3.1.25
 django-composite-field==0.7.6
 django-jsonfield==1.0.1
 django-mptt==0.8.6
-django-redis==4.5.0
+django-redis==4.6.0
 django-simple-captcha==0.5.3
 django-tinymce==2.4.0
 django-xmpp-backends==0.1
@@ -17,6 +17,6 @@ pip>=8.1.2
 pygpgme==0.3
 setuptools>=26.0.0
 strict-rfc3339==0.7
-ua-parser==0.7.1
+ua-parser==0.7.2
 # not yet released
 git+https://github.com/mathiasertl/gpg-mime.git
