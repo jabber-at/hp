@@ -17,6 +17,10 @@
     {% endif %}
 
     {% render post summary=summary %}
+    {% if summary %}
+        <a href="{{ post.get_absolute_url }}">{% trans "... read more" %}</a>
+        <hr>
+    {% endif %}
 
     <div itemprop="publisher" itemscope itemtype="https://schema.org/Organization">
         <div itemprop="logo" itemscope itemtype="https://schema.org/ImageObject">
