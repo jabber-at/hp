@@ -33,6 +33,6 @@
 
 {% block title %}{{ post.title.current }}{% endblock title %}
 
-{% block content %}
-{% render post %}
-{% endblock content %}
+{% block page-inner %}
+{% include "core/include/blogpost.html" %}
+{% endblock page-inner%}

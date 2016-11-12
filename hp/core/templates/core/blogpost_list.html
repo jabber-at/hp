@@ -1,5 +1,5 @@
 {% extends "page.html" %}
-{% load i18n staticfiles render canonical %}
+{% load i18n staticfiles canonical %}
 
 {% block head %}{{ block.super }}
 <link href="{% static 'css/blog.css' %}" rel="stylesheet">
@@ -28,17 +28,12 @@
 {% block title %}{% trans "Free Jabber/XMPP server" %}{% endblock title %}
 
 {% block content %}
-{% for post in object_list %}
-<div class="blog-post">
-<h3><a href="{{ post.get_absolute_url }}">{{ post.title.current }}</a>
-    <small>{% blocktrans with date=post.created user=post.author.node %}{{ date }} by {{ user}}{% endblocktrans %}</small>
-</h3>
-    {% render post summary=True%} <a href="{{ post.get_absolute_url }}">{% trans "... read more" %}</a>
-</div>
-    <hr>
-{% empty %}
-{% trans "No articles found." %}
-{% endfor %}
+
+{% with summary=True %}
+    {% for post in object_list %}
+        {% include "core/include/blogpost.html" %}
+    {% endfor %}
+{% endwith %}
 
 {% if is_paginated %}
 <nav aria-label="{% trans "Pager" %}" class="paginator">

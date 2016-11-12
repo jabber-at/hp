@@ -1,0 +1,30 @@
+{% load i18n render canonical %}
+<div itemscope itemtype="http://schema.org/NewsArticle" class="blog-post">
+    {% if summary %}
+    <h3><a href="{{ post.get_absolute_url }}">
+    {% else %}
+        <meta itemscope itemprop="mainEntityOfPage" itemType="https://schema.org/WebPage" itemid="https://google.com/article"/> 
+        <div class="page-header"><h1>
+    {% endif %}
+
+    <span itemprop="headline">{{ post.title.current }}</span>
+    {% if summary %}</a>{% endif %}
+    <small>{% blocktrans with date=post.created user=post.author.node %}{{ date }} by {{ user}}{% endblocktrans %}</small>
+    {% if summary %}
+        </h3>
+    {% else %}
+        </h1></div>
+    {% endif %}
+
+    {% render post summary=summary %}
+
+    <div itemprop="publisher" itemscope itemtype="https://schema.org/Organization">
+        <div itemprop="logo" itemscope itemtype="https://schema.org/ImageObject">
+            <meta itemprop="url" content="{% canonical_static "core/img/itemprop.png" %}">
+            <meta itemprop="width" content="60">
+            <meta itemprop="height" content="60">
+        </div>
+    </div>
+    <meta itemprop="datePublished" content="{{ post.created|date:"c" }}"/>
+    <meta itemprop="dateModified" content="{{ post.updated|date:"c" }}"/>
+</div>
