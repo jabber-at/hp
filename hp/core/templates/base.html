@@ -106,13 +106,16 @@
 <div class="container" role="main">
     <div class="row">{% block page %}{% endblock page %}</div>
 </div>
+
 <footer class="footer">
+{% block footer %}
     <div class="container">
 <p class="text-muted">{% blocktrans %}&copy; 2010-2016, jabber.at.{% endblocktrans %}</p>
 <p class="text-muted">{% blocktrans %}This homepage is Free Software, you can find the source 
 <a href="https://github.com/jabber-at/hp">on github</a>.{% endblocktrans %}
        </p>
     </div>
+{% endblock footer %}
 </footer>
 
 <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
