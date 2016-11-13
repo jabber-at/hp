@@ -150,10 +150,10 @@ XMPP_HOSTS = {
 
         # The "brand name" of this site, used in various user interface elements. The default is
         # the domain name.
-        #BRAND='...',
+        #'BRAND': '...',
 
         # The base URL used for creating absolute links. The default is https://<hostname>.
-        #CANONICAL_BASE_URL='https://example.com',
+        #'CANONICAL_BASE_URL': 'https://example.com',
 
         # The "Form" address used in confirmation emails and by the contact form. If not set, the
         # global DEFAULT_FROM_EMAIL setting will be used.
