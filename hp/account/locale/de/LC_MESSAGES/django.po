@@ -199,7 +199,7 @@ msgstr "mein GPG-Schlüssel abläuft"
 msgid ""
 "Accounts are automatically removed if they haven't been used for a year."
 msgstr ""
-"Ihr Konto wird automatisch gelöscht, wenn sie ihn ein Jahr lang nicht mehr "
+"Ihr Konto wird automatisch gelöscht, wenn sie es ein Jahr lang nicht mehr "
 "genutzt haben."
 
 #: forms.py:138
