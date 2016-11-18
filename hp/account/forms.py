@@ -138,6 +138,12 @@ class CreateUserForm(GPGMixin, CaptchaFormMixin, EmailValidationMixin, forms.Mod
         help_text=_('Required, a confirmation email will be sent to this address.')
     )
 
+    def clean_email(self):
+        email = super(CreateUserForm, self).clean_email()
+        if settings.REQUIRE_UNIQUE_EMAIL and email and User.objects.filter(email=email).exists():
+            raise forms.ValidationError(_('Email address is already used by another account.'))
+        return email
+
     class Meta:
         model = User
         fields = ['username', 'email', 'gpg_fingerprint']

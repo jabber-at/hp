@@ -74,6 +74,9 @@ SECRET_KEY = ''
 #MIN_USERNAME_LENGTH = 2
 #MAX_USERNAME_LENGTH = 64
 
+# Require a unique email address. By default an address can be used by multiple accounts.
+#REQUIRE_UNIQUE_EMAIL = True
+
 ##########
 # Caches #
 ##########

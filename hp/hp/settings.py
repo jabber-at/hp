@@ -278,6 +278,7 @@ SPAM_BLACKLIST = set()
 BANNED_EMAIL_DOMAINS = set()
 EMAIL_BLACKLIST = tuple()
 EMAIL_WHITELIST = tuple()
+REQUIRE_UNIQUE_EMAIL = False
 
 ####################
 # Privacy settings #

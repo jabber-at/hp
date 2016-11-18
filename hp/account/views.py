@@ -366,10 +366,16 @@ class SetEmailView(LoginRequiredMixin, AccountPageMixin, FormView):
         request = self.request
         user = request.user
         address = request.META['REMOTE_ADDR']
+        to = form.cleaned_data['email']
+
+        # If REQUIRE_UNIQUE_EMAIL is true, validate uniquenss
+        qs = User.objects.exclude(pk=user.pk).filter(email=to)
+        if settings.REQUIRE_UNIQUE_EMAIL and qs.exists():
+            form.add_error('email', _('Email address is already used by another account.'))
+            return self.form_invalid(form)
 
         lang = request.LANGUAGE_CODE
         base_url = '%s://%s' % (request.scheme, request.get_host())
-        to = form.cleaned_data['email']
 
         fp, key = form.get_gpg_data()
         set_email_task.delay(
