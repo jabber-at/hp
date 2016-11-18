@@ -54,8 +54,17 @@ class NodeWidget(BootstrapTextInput):
 class DomainWidget(forms.Select):
     """The widget used for rendering the domain part of a username."""
 
-    def render(self, *args, **kwargs):
-        html = super(DomainWidget, self).render(*args, **kwargs)
+    def render(self, name, value, attrs):
+        # If there is just one choice, we set the 'disabled' property to the select widget. Since
+        # "disabled" widgets are not submitted, we add an additional hidden input with the correct
+        # name.
+        if len(self.choices) == 1:
+            attrs['disabled'] = 'disabled'
+            html = super(DomainWidget, self).render('', value, attrs)
+            html += forms.HiddenInput().render(name, self.choices[0][0], {})
+        else:
+            html = super(DomainWidget, self).render(name, value, attrs)
+
         return format_html('<div class="col-sm-4">{}</div>', html)
 
 

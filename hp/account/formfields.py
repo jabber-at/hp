@@ -66,8 +66,8 @@ class UsernameField(BootstrapMixin, forms.MultiValueField):
                     RegexValidator(r'^[^@\s]+$', _('Username contains invalid characters.')),
                 ],
             ),
-            forms.ChoiceField(initial=settings.DEFAULT_XMPP_HOST, choices=choices,
-                              disabled=len(hosts) == 1, widget=DomainWidget),
+            forms.ChoiceField(initial=settings.DEFAULT_XMPP_HOST,
+                              choices=choices, widget=DomainWidget),
         )
         widgets = [f.widget for f in fields]
 
