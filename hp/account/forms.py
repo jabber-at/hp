@@ -83,6 +83,10 @@ class GPGMixin(forms.Form):
         }
 
 
+class AdminUserForm(forms.ModelForm):
+    pass
+
+
 class CreateUserForm(GPGMixin, CaptchaFormMixin, forms.ModelForm):
     username = UsernameField(register=True)
     email = EmailVerifiedDomainField(

@@ -23,6 +23,7 @@ from django.utils import timezone
 from django.utils.translation import ugettext_lazy as _
 
 from .constants import PURPOSE_REGISTER
+from .forms import AdminUserForm
 from .models import Confirmation
 from .models import GpgKey
 from .models import User
@@ -83,6 +84,7 @@ class UserAdmin(BaseUserAdmin):
                        'blocked', )
         }),
     )
+    form = AdminUserForm
     list_display = ('username', 'email', 'registered', 'confirmed', )
     list_filter = (ConfirmedFilter, CreatedInBackendFilter, 'is_superuser', )
     ordering = ('-registered', )
