@@ -218,7 +218,7 @@ class BlogPostAdmin(BasePageAdmin):
     )
     list_display = ['__str__', 'created', ]
     list_filter = [AuthorFilter, 'published', 'sticky', ]
-    ordering = ('sticky', '-created', )
+    ordering = ('-sticky', '-created', )
     search_fields = ['title_de', 'title_en', 'text_en', 'text_de']
 
 
