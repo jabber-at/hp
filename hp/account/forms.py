@@ -109,6 +109,21 @@ class EmailValidationMixin(object):
             raise forms.ValidationError(_(
                 'Sorry, we do not allow email addresses on %(domain)s.' % {'domain': domain}))
 
+        # check if the address is in settings.EMAIL_BLACKLIST
+        for regex in settings.EMAIL_BLACKLIST:
+            if regex.search(email):
+                raise forms.ValidationError(_('Sorry, this email address cannot be used.'))
+
+        if settings.EMAIL_WHITELIST:
+            matched = False
+            for regex in settings.EMAIL_WHITELIST:
+                if regex.search(email):
+                    matched = True
+                    break
+
+            if matched is False:
+                raise forms.ValidationError(_('Sorry, this email address cannot be used.'))
+
         return email
 
 

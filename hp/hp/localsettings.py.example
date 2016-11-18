@@ -7,6 +7,8 @@
 # Mandatory settings used by this HP: XMPP_HOSTS, CONTACT_ADDRESS, DEFAULT_XMPP_HOST
 
 import os
+import re
+
 from datetime import timedelta
 from django.utils.translation import ugettext_lazy as _
 
@@ -263,6 +265,20 @@ DEFAULT_XMPP_HOST = 'example.com'
 
 # Domains that cannot be used for registration because they are used for SPAM
 #BANNED_EMAIL_DOMAINS = {'spam.com', 'spam.net', }
+
+# Do not allow registrations using email addresses matching any of the given regular expressions.
+# If you just want to match a specific domain, please use BANNED_EMAIL_DOMAINS instead, it will
+# display a more specific error message and the check is a lot faster.
+#EMAIL_BLACKLIST = (
+#    re.compile('^[a-z]@'),  # one-letter email addresses are mean for some reason ;-)
+#)
+
+# If set, only allow registrations if the users email address matches any of the listed regular
+# expressions. Note that BANNED_EMAIL_DOMAINS and EMAIL_BLACKLIST is checked first.
+#EMAIL_WHITELIST = (
+#    re.compile('@example\.com$'),
+#    re.compile('@example\.net$'),
+#)
 
 #####################
 # GPG configuration #

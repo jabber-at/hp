@@ -274,8 +274,10 @@ RATELIMIT_CONFIG = {
 }
 SPAM_BLACKLIST = set()
 
-# domains not allowed for registration
+# Email addresses using these domains cannot be used for registration
 BANNED_EMAIL_DOMAINS = set()
+EMAIL_BLACKLIST = tuple()
+EMAIL_WHITELIST = tuple()
 
 ####################
 # Privacy settings #
