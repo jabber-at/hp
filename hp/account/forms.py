@@ -29,7 +29,6 @@ from .formfields import UsernameField
 from .models import User
 from .models import Notifications
 
-_BANNED_EMAIL_DOMAINS = getattr(settings, 'BANNED_EMAIL_DOMAINS', set())
 _MIN_USERNAME_LENGTH = getattr(settings, 'MIN_USERNAME_LENGTH', 2)
 _MAX_USERNAME_LENGTH = getattr(settings, 'MAX_USERNAME_LENGTH', 64)
 
@@ -106,7 +105,7 @@ class EmailValidationMixin(object):
                 'Please give your own email address, %(domain)s does not provide one.')
                 % {'domain': domain})
 
-        if domain in _BANNED_EMAIL_DOMAINS:
+        if domain in settings.BANNED_EMAIL_DOMAINS:
             raise forms.ValidationError(_(
                 'Sorry, we do not allow email addresses on %(domain)s.' % {'domain': domain}))
 
