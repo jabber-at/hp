@@ -6,9 +6,11 @@
   </div>
   <ul class="list-group">
   {% for code, name in other_langs %}
+    {% language code %}
     <li class="list-group-item">
         <img src="{% static "core/img/" %}{{ code }}.svg" class="bullet"> <a href="{% url "core:api-set-lang" %}?lang={{ code }}&next={{ request.get_full_path|urlencode }}" rel="nofollow">{{ name }}</a>
     </li>
+    {% endlanguage %}
   {% endfor %}
   </ul>
 </div>
