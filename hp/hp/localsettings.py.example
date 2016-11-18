@@ -187,6 +187,9 @@ XMPP_HOSTS = {
 # Default address the contact form sends emails to.
 CONTACT_ADDRESS = 'contact@example.com'
 
+# If set, the contact form will name this MUC as primary contact address.
+#CONTACT_MUC = 'chat@conference.example.com'
+
 # Default email used when a host in XMPP_HOSTS does not define one.
 DEFAULT_FROM_EMAIL = 'noreply@example.com'
 

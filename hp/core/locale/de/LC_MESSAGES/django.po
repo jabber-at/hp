@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-10-21 16:53+0200\n"
+"POT-Creation-Date: 2016-11-18 14:41+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -248,11 +248,7 @@ msgstr "Registrieren"
 msgid "Login"
 msgstr "Anmelden"
 
-#: templates/base.html:112
-msgid "&copy; 2010-2016, jabber.at."
-msgstr ""
-
-#: templates/base.html:113
+#: templates/base.html:115
 msgid ""
 "This homepage is Free Software, you can find the source \n"
 "<a href=\"https://github.com/jabber-at/hp\">on github</a>."
@@ -292,20 +288,7 @@ msgstr "Ein freier, sicherer und aktueller Jabber/XMPP server."
 msgid "Free Jabber/XMPP server"
 msgstr "Freier Jabber/XMPP server."
 
-#: templates/core/blogpost_list.html:34
-#, python-format
-msgid "%(date)s by %(user)s"
-msgstr "%(date)s von %(user)s"
-
-#: templates/core/blogpost_list.html:36
-msgid "... read more"
-msgstr "... Weiter lesen"
-
-#: templates/core/blogpost_list.html:40
-msgid "No articles found."
-msgstr "Keine Artikel gefunden"
-
-#: templates/core/blogpost_list.html:44
+#: templates/core/blogpost_list.html:39
 msgid "Pager"
 msgstr ""
 
@@ -520,29 +503,30 @@ msgid "You should have received a copy your message in your email inbox."
 msgstr ""
 "Sie sollten eine Kopie der Nachricht in ihrem Posteingang erhalten haben."
 
-#: templates/core/contact.html:34
+#: templates/core/contact.html:35
+#, python-format
 msgid ""
 "The best way to contact is to join our chatroom at\n"
-"<a href=\"xmpp:chat@jabber.at\">chat@jabber.at</a>. If you have trouble\n"
-"registering or connecting, use this form and we will get back to you."
+"<a href=\"xmpp:%(CONTACT_MUC)s\">%(CONTACT_MUC)s</a>."
 msgstr ""
-"Der beste weg um uns zu kontaktieren ist unser chatroom unter <a href=\"xmpp:"
-"chat@jabber.at\">chat@jabber.at</a>. Falls sie Probleme haben sich zu "
-"registrieren oder zu verbinden, können sie dieses Formular nutzen."
+"Der beste Weg uns zu kontaktieren ist über unseren Multi-User chat unter <a "
+"href=\"xmpp:%(CONTACT_MUC)s\">%(CONTACT_MUC)s</a>."
 
-#: templates/core/contact.html:37
+#: templates/core/contact.html:39
 msgid ""
-"Please try to be as specific as possible to describe your problem: What\n"
-"exactly have you done that led to your issue? If you get an error message,\n"
-"what does it say and where exactly do you see it? What client are you\n"
-"using? ...and so on."
+"If you have trouble registering or connecting, use this form and we will\n"
+"get back to you. Please try to be as specific as possible to describe your\n"
+"problem: What exactly have you done that led to your issue? If you get an\n"
+"error message, what does it say and where exactly do you see it? What\n"
+"client are you using? ...and so on."
 msgstr ""
-"Bitte versuchen sie so genau wie möglich ihr Problem zu beschreiben: Welche "
-"Schritte haben dazu geführt? Falls sie eine Fehlermeldung bekommen, wie "
-"genaulautet sie und wo sehen sie sie? Welchen Client benutzen sie? ... und "
-"so weiter."
+"Falls sie Probleme haben sich zu registrieren oder zu verbinden, können sie "
+"dieses Formular nutzen. Bitte versuchen sie so genau wie möglich ihr Problem "
+"zu beschreiben: Welche Schritte haben dazu geführt? Falls sie eine "
+"Fehlermeldung bekommen, wie genaulautet sie und wo sehen sie sie? Welchen "
+"Client benutzen sie? ... und so weiter."
 
-#: templates/core/contact.html:53
+#: templates/core/contact.html:56
 msgid "Send"
 msgstr "Absenden"
 
@@ -584,15 +568,24 @@ msgstr ""
 "Bitte <a href=\"%(contact_url)s\">kontaktieren</a> sie uns, falls das "
 "Problemlänger besteht."
 
+#: templates/core/include/blogpost.html:12
+#, python-format
+msgid "%(date)s by %(user)s"
+msgstr "%(date)s von %(user)s"
+
+#: templates/core/include/blogpost.html:21
+msgid "... read more"
+msgstr "... Weiter lesen"
+
 #: templates/core/include/sidebar.html:5
 msgid "Language"
 msgstr "Sprache"
 
-#: templates/core/include/sidebar.html:18
+#: templates/core/include/sidebar.html:20
 msgid "Updates"
 msgstr "Aktualisierungen"
 
-#: templates/core/include/sidebar.html:20
+#: templates/core/include/sidebar.html:22
 msgid "If you use our server, we strongly encourage you to stay up to date."
 msgstr ""
 "Wir raten allen, die unseren Server nutzen, auf dem Laufenden zu bleiben."
@@ -693,9 +686,13 @@ msgstr "Jetzt"
 
 #: utils.py:116
 msgid "Could not check DNS-based blocklists. Please try again later."
-msgstr "Konnte DNS-Blocklisten nicht abfragen. Bitte versuchen sie es später erneut."
+msgstr ""
+"Konnte DNS-Blocklisten nicht abfragen. Bitte versuchen sie es später erneut."
 
 #: views.py:104
 #, python-format
 msgid "No %(verbose_name)s found matching the query"
 msgstr "Kein %(verbose_name)s unter dieser Adresse gefunden."
+
+#~ msgid "No articles found."
+#~ msgstr "Keine Artikel gefunden"

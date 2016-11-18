@@ -31,13 +31,16 @@
 {% trans "You should have received a copy your message in your email inbox." %}{% endif %}</p>
 </div>
 {% else %}
+{% if CONTACT_MUC %}
 <p>{% blocktrans %}The best way to contact is to join our chatroom at
-<a href="xmpp:chat@jabber.at">chat@jabber.at</a>. If you have trouble
-registering or connecting, use this form and we will get back to you.{% endblocktrans %}</p>
-<p>{% blocktrans %}Please try to be as specific as possible to describe your problem: What
-exactly have you done that led to your issue? If you get an error message,
-what does it say and where exactly do you see it? What client are you
-using? ...and so on.{% endblocktrans %}</p>
+<a href="xmpp:{{ CONTACT_MUC }}">{{ CONTACT_MUC}}</a>.{% endblocktrans %}</p>
+{% endif %}
+
+<p>{% blocktrans %}If you have trouble registering or connecting, use this form and we will
+get back to you. Please try to be as specific as possible to describe your
+problem: What exactly have you done that led to your issue? If you get an
+error message, what does it say and where exactly do you see it? What
+client are you using? ...and so on.{% endblocktrans %}</p>
 
 <form class="form-horizontal" method="post" action="{% url 'core:contact' %}">{% csrf_token %}
 {% if not request.user.is_authenticated %}
