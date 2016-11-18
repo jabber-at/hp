@@ -83,17 +83,11 @@ class GPGMixin(forms.Form):
         }
 
 
-class AdminUserForm(forms.ModelForm):
-    pass
+class EmailValidationMixin(object):
+    """Mixin that validates the email field of a form.
 
-
-class CreateUserForm(GPGMixin, CaptchaFormMixin, forms.ModelForm):
-    username = UsernameField(register=True)
-    email = EmailVerifiedDomainField(
-        label=_('Email'),
-        help_text=_('Required, a confirmation email will be sent to this address.')
-    )
-
+    Ensures that email address is not banned and that the xmpp server domain is not used.
+    """
     def clean_email(self):
         email = self.cleaned_data['email']
 
@@ -111,12 +105,24 @@ class CreateUserForm(GPGMixin, CaptchaFormMixin, forms.ModelForm):
             raise forms.ValidationError(_(
                 'Please give your own email address, %(domain)s does not provide one.')
                 % {'domain': domain})
+
         if domain in _BANNED_EMAIL_DOMAINS:
             raise forms.ValidationError(_(
-                'Sorry, you cannot use an address on %(domain)s. The domain was blocked because '
-                'it was used to by Spammers.') % {'domain': domain})
+                'Sorry, we do not allow email addresses on %(domain)s.' % {'domain': domain}))
 
         return email
+
+
+class AdminUserForm(forms.ModelForm):
+    pass
+
+
+class CreateUserForm(GPGMixin, CaptchaFormMixin, EmailValidationMixin, forms.ModelForm):
+    username = UsernameField(register=True)
+    email = EmailVerifiedDomainField(
+        label=_('Email'),
+        help_text=_('Required, a confirmation email will be sent to this address.')
+    )
 
     class Meta:
         model = User
@@ -176,7 +182,7 @@ class SetPasswordForm(forms.Form):
         )
 
 
-class SetEmailForm(GPGMixin, forms.Form):
+class SetEmailForm(GPGMixin, EmailValidationMixin, forms.Form):
     email = EmailVerifiedDomainField(
         label=_('Email'),
         help_text=_('Required, an email will be sent to this address to confirm the change.')
