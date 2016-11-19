@@ -27,6 +27,7 @@ from .constants import REGISTRATION_MANUAL
 class UserManager(BaseUserManager):
     def create_user(self, username, email, password=None):
         user = self.model(username=username, email=email, confirmed=timezone.now(),
+                          created_in_backend=True,
                           registration_method=REGISTRATION_MANUAL)
 
         with transaction.atomic():
