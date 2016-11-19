@@ -24,9 +24,9 @@
 
 {% block form %}
 <p>
-{% blocktrans %}Please complete the form below to register for an account on jabber.at. You
-will receive an email to confirm the address provided. Click on the link in
-the email to complete your registration.{% endblocktrans %}
+{% blocktrans with domain=site.NAME %}Please complete the form below to register for an account on {{ domain }}.
+You will receive an email to confirm the address provided. Click on the
+link in the email to complete your registration.{% endblocktrans %}
 </p>
 <div class="alert alert-info alert-dismissable with-header" role="alert">
     <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
