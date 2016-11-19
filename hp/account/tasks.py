@@ -148,7 +148,7 @@ def cleanup():
     for hostname in settings.XMPP_HOSTS:
         existing_users = set([u.lower() for u in backend.all_users(hostname)])
 
-        if len(existing_users) < 100:
+        if len(existing_users) < 50:
             # A safety check if the backend for some reason does not return any users and does not
             # raise an exception.
             log.info('Skipping %s: Only %s users received.', hostname, len(existing_users))
