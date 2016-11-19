@@ -28,11 +28,11 @@
     <p><strong>{% trans "Thank you for contacting us." %}</strong></p>
     <p>{% trans "We will get back to you as soon as possible." %}
 {% if user.is_authenticated %}
-{% trans "You should have received a copy your message in your email inbox." %}{% endif %}</p>
+{% trans "You should have received a copy of your message in your email inbox." %}{% endif %}</p>
 </div>
 {% else %}
 {% if CONTACT_MUC %}
-<p>{% blocktrans %}The best way to contact is to join our chatroom at
+<p>{% blocktrans %}The best way to contact us is to join our chatroom at
 <a href="xmpp:{{ CONTACT_MUC }}">{{ CONTACT_MUC}}</a>.{% endblocktrans %}</p>
 {% endif %}
 

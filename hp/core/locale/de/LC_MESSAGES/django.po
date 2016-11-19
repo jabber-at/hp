@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-11-18 14:41+0100\n"
+"POT-Creation-Date: 2016-11-19 08:51+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -89,7 +89,7 @@ msgstr ""
 
 #: exceptions.py:74
 msgid "Temporary error"
-msgstr "Verübergehender Fehler"
+msgstr "Vorübergehender Fehler"
 
 #: formfields.py:41
 msgid "CAPTCHA"
@@ -404,47 +404,55 @@ msgid "Sure we can:"
 msgstr "Aber klar doch:"
 
 #: templates/core/clients.html:115 templates/core/clients.html:129
-#: templates/core/clients.html:147 templates/core/clients.html:179
-#: templates/core/clients.html:195 templates/core/clients.html:210
-#: templates/core/clients.html:256 templates/core/clients.html:271
-#: templates/core/clients.html:303 templates/core/clients.html:321
+#: templates/core/clients.html:147 templates/core/clients.html:181
+#: templates/core/clients.html:197 templates/core/clients.html:212
+#: templates/core/clients.html:258 templates/core/clients.html:273
+#: templates/core/clients.html:305 templates/core/clients.html:323
 #, python-format
 msgid "version %(version)s"
 msgstr "Version %(version)s"
 
 #: templates/core/clients.html:156
+msgid ""
+"With <a href=\"https://trac-plugins.gajim.org/wiki/HttpUploadPlugin"
+"\">Plugin</a>"
+msgstr ""
+"Mit <a href=\"https://trac-plugins.gajim.org/wiki/HttpUploadPlugin"
+"\">Plugin</a>"
+
+#: templates/core/clients.html:158
 msgid "With <a href=\"https://github.com/omemo/gajim-omemo\">Plugin</a>"
 msgstr "Mit <a href=\"https://github.com/omemo/gajim-omemo\">Plugin</a>"
 
-#: templates/core/clients.html:173
+#: templates/core/clients.html:175
 msgid "Good for voice/video calls"
-msgstr "Gut für Sprach- und Videotelephonie."
+msgstr "Gut für Sprach- und Videotelefonie."
 
-#: templates/core/clients.html:191
+#: templates/core/clients.html:193
 msgid "You have to host your own instance."
 msgstr "Muss selbst gehostet werden."
 
-#: templates/core/clients.html:224
+#: templates/core/clients.html:226
 msgid ""
 "See <a href=\"https://github.com/anurodhp/Monal/issues/5\">github issue</a>"
 msgstr ""
 "Siehe <a href=\"https://github.com/anurodhp/Monal/issues/5\">github issue</a>"
 
-#: templates/core/clients.html:237
+#: templates/core/clients.html:239
 msgid "With <a href=\"https://github.com/segler-alex/Pidgin-GPG\">Plugin</a>"
 msgstr "Mit <a href=\"https://github.com/segler-alex/Pidgin-GPG\">Plugin</a>"
 
-#: templates/core/clients.html:351
+#: templates/core/clients.html:353
 #, python-format
 msgid ""
 "Feel information on this page is missing or out of date? Please just <a href="
 "\"%(url)s\">contact\n"
 "us</a>."
 msgstr ""
-"Falls ihnen auffällt, das Information nicht mehr aktuell ist, <a href= "
+"Falls ihnen auffällt, dass Informationen nicht mehr aktuell sind, <a href= "
 "\"%(url)s\">kontaktieren sie uns</a> bitte einfach."
 
-#: templates/core/clients.html:353
+#: templates/core/clients.html:355
 msgid ""
 "\n"
 "You can also find other lists of clients on <a href=\"http://xmpp.org/"
@@ -496,20 +504,20 @@ msgstr "Danke, dass du uns kontaktiert hast."
 
 #: templates/core/contact.html:29
 msgid "We will get back to you as soon as possible."
-msgstr "Wir melden uns so bald als möglich."
+msgstr "Wir melden uns so bald wie möglich."
 
 #: templates/core/contact.html:31
-msgid "You should have received a copy your message in your email inbox."
+msgid "You should have received a copy of your message in your email inbox."
 msgstr ""
 "Sie sollten eine Kopie der Nachricht in ihrem Posteingang erhalten haben."
 
 #: templates/core/contact.html:35
 #, python-format
 msgid ""
-"The best way to contact is to join our chatroom at\n"
+"The best way to contact us is to join our chatroom at\n"
 "<a href=\"xmpp:%(CONTACT_MUC)s\">%(CONTACT_MUC)s</a>."
 msgstr ""
-"Der beste Weg uns zu kontaktieren ist über unseren Multi-User chat unter <a "
+"Der beste Weg uns zu kontaktieren ist über unseren Multi User Chat unter <a "
 "href=\"xmpp:%(CONTACT_MUC)s\">%(CONTACT_MUC)s</a>."
 
 #: templates/core/contact.html:39
@@ -521,9 +529,9 @@ msgid ""
 "client are you using? ...and so on."
 msgstr ""
 "Falls sie Probleme haben sich zu registrieren oder zu verbinden, können sie "
-"dieses Formular nutzen. Bitte versuchen sie so genau wie möglich ihr Problem "
-"zu beschreiben: Welche Schritte haben dazu geführt? Falls sie eine "
-"Fehlermeldung bekommen, wie genaulautet sie und wo sehen sie sie? Welchen "
+"dieses Formular nutzen. Bitte versuchen sie, ihr Problem so genau wie "
+"möglich zu beschreiben: Welche Schritte haben dazu geführt? Falls sie eine "
+"Fehlermeldung bekommen, wie genau lautet sie und wo sehen sie sie? Welchen "
 "Client benutzen sie? ... und so weiter."
 
 #: templates/core/contact.html:56
@@ -533,11 +541,15 @@ msgstr "Absenden"
 #: templates/core/dnsbl.html:10
 msgid ""
 "Your IP-Address appears on one or more \n"
-"<a href=\"https://en.wikipedia.org/wiki/DNSBL\">DNS-based Blackhole List "
+"<a href=\"https://en.wikipedia.org/wiki/DNSBL\">DNS-based Blackhole Lists "
 "(DNSBL)</a>.\n"
 "This is most likely due to you using an open proxy server or your computer "
 "sending a lot of SPAM.\n"
 msgstr ""
+"Ihre IP-Adresse steht auf einer oder mehreren <a href=\"https://de.wikipedia."
+"org/wiki/DNSBL\">DNS-based Blackhole Lists (DNSBL)</a>.\n"
+"Das liegt vermutlich daran, dass sie einen offenen Proxy-Server nutzen "
+"oder ihr Computer eine Menge SPAM verschickt."
 
 #: templates/core/errors/xmpp_backend.html:7
 msgid ""
@@ -566,7 +578,7 @@ msgid ""
 "and nothing is mentioned on our Twitter page."
 msgstr ""
 "Bitte <a href=\"%(contact_url)s\">kontaktieren</a> sie uns, falls das "
-"Problemlänger besteht."
+"Problem länger besteht."
 
 #: templates/core/include/blogpost.html:12
 #, python-format
@@ -615,6 +627,8 @@ msgid ""
 "We automatically block IP address temporarily if they perform this activity\n"
 "too often. Please wait a while before trying again."
 msgstr ""
+"Wir blockieren IP-Adressen automatisch für eine kurze Zeit die diese "
+"Aktivität zu oft ausführen. Bitte versuchen sie es später erneut."
 
 #: templatetags/core.py:65
 #, python-format
@@ -693,6 +707,3 @@ msgstr ""
 #, python-format
 msgid "No %(verbose_name)s found matching the query"
 msgstr "Kein %(verbose_name)s unter dieser Adresse gefunden."
-
-#~ msgid "No articles found."
-#~ msgstr "Keine Artikel gefunden"
