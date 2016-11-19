@@ -549,7 +549,7 @@ msgstr ""
 "Ihre IP-Adresse steht auf einer oder mehreren <a href=\"https://de.wikipedia."
 "org/wiki/DNSBL\">DNS-based Blackhole Lists (DNSBL)</a>.\n"
 "Das liegt vermutlich daran, dass sie einen offenen Proxy-Server nutzen "
-"oder ihr Computer eine Menge SPAM verschickt."
+"oder ihr Computer eine Menge SPAM verschickt.\n"
 
 #: templates/core/errors/xmpp_backend.html:7
 msgid ""
