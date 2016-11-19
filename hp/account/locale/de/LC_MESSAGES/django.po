@@ -3,12 +3,11 @@
 # This file is distributed under the same license as the PACKAGE package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 #
-#, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-10-21 16:56+0200\n"
+"POT-Creation-Date: 2016-11-19 09:28+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,28 +17,28 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: admin.py:37
+#: admin.py:38
 msgid "confirmed email"
-msgstr ""
+msgstr "Bestätigte E-Mail"
 
-#: admin.py:55
+#: admin.py:56
 msgid "created in backend"
 msgstr "Im Backend erstellt"
 
-#: admin.py:107
+#: admin.py:109
 msgid "Send new registration confirmations"
 msgstr "Neue Registrierungsbestätigung schicken"
 
-#: admin.py:144
+#: admin.py:146
 #, python-format
 msgid "Error importing %(fingerprint)s: %(error)s"
 msgstr "Fehler beim importieren von  %(fingerprint)s: %(error)s"
 
-#: admin.py:148
+#: admin.py:150
 msgid "Refresh keys from keyserver"
 msgstr "Schlüssel vom Keyserver aktualisieren"
 
-#: admin.py:161
+#: admin.py:163
 msgid "Resend confirmations"
 msgstr "E-Mail erneut schicken"
 
@@ -106,7 +105,7 @@ msgstr "Der Benutzername ist ungültig."
 
 #: formfields.py:102
 msgid "An error occured, please try again later."
-msgstr ""
+msgstr "Ein Fehler ist aufgetreten, bitte versuchen sie es später erneut."
 
 #: formfields.py:119 templates/account/user_gpg.html:11
 msgid "Fingerprint"
@@ -142,7 +141,7 @@ msgid ""
 "... upload your ASCII armored GPG key directly (<code>gpg --armor --export "
 "&lt;fingerprint&gt;</code>)."
 msgstr ""
-"... laden sie ihren GPG Schlüssel im ASCII-Format direkt hoch (<code>gpg --"
+"... laden sie ihren GPG-Schlüssel im ASCII-Format direkt hoch (<code>gpg --"
 "armor --export &lt;fingerprint&gt;</code>)"
 
 #: formfields.py:164
@@ -153,81 +152,85 @@ msgstr "Es sind ausschließlich Textdateien erlaubt (nicht %(content-type)s)!"
 #: formfields.py:200
 #, python-format
 msgid "The domain \"%(domain)s\" does not exist."
-msgstr "Die Domain %(domain)s\" existiert nicht."
+msgstr "Die Domain \"%(domain)s\" existiert nicht."
 
-#: forms.py:89 forms.py:177 models.py:86
-msgid "Email"
-msgstr "E-Mail"
-
-#: forms.py:90
-msgid "Required, a confirmation email will be sent to this address."
-msgstr "Pflichtfeld, eine Bestätigung wird an diese Adresse geschickt."
-
-#: forms.py:102
+#: forms.py:99
 msgid "Malformed email address."
 msgstr "Ungültige E-Mail-Adresse."
 
-#: forms.py:108
+#: forms.py:105
 #, python-format
 msgid "Please give your own email address, %(domain)s does not provide one."
 msgstr ""
 "Bitte geben sie ihre eigene E-Mail-Adresse an, %(domain)s stellt keine zur "
 "Verfüugung."
 
-#: forms.py:112
+#: forms.py:110
 #, python-format
-msgid ""
-"Sorry, you cannot use an address on %(domain)s. The domain was blocked "
-"because it was used to by Spammers."
-msgstr ""
-"E-Mail-Adressen auf der Domain %(domain)s können nicht genutzt werden, da "
-"sie von Spammern genutzt wurde."
+msgid "Sorry, we do not allow email addresses on %(domain)s."
+msgstr "Entschuldigung, wir erlauben keine E-Mail-Adressen von %(domain)s."
 
-#: forms.py:124 forms.py:144 forms.py:150
+#: forms.py:115 forms.py:125
+msgid "Sorry, this email address cannot be used."
+msgstr "Entschuldigung, diese E-Mail-Adresse kann nicht verwendet werden."
+
+#: forms.py:137 forms.py:207 models.py:86
+msgid "Email"
+msgstr "E-Mail"
+
+#: forms.py:138
+msgid "Required, a confirmation email will be sent to this address."
+msgstr "Pflichtfeld, eine Bestätigung wird an diese Adresse geschickt."
+
+#: forms.py:144 views.py:374
+msgid "Email address is already used by another account."
+msgstr "E-Mail-Adresse wird bereits für ein anderes Konto verwendet."
+
+#: forms.py:154 forms.py:174 forms.py:180
 msgid "Password"
 msgstr "Passwort"
 
-#: forms.py:132
+#: forms.py:162
 msgid "my account expires"
 msgstr "mein Konto abläuft"
 
-#: forms.py:133
+#: forms.py:163
 msgid "my GPG key expires"
 msgstr "mein GPG-Schlüssel abläuft"
 
-#: forms.py:137
+#: forms.py:167
 msgid ""
 "Accounts are automatically removed if they haven't been used for a year."
 msgstr ""
 "Ihr Konto wird automatisch gelöscht, wenn sie es ein Jahr lang nicht mehr "
 "genutzt haben."
 
-#: forms.py:138
+#: forms.py:168
 msgid "If you have uploaded a GPG key and it is about to expire."
 msgstr "wenn sie einen GPG-Schlüssel hochgeladen haben und dieser abläuft."
 
-#: forms.py:145
+#: forms.py:175
 msgid ""
 "Your password, to make sure that you really want to delete your account."
 msgstr "Ihr Passwort, damit sie sich auch ganz sicher sind."
 
-#: forms.py:151
+#: forms.py:181
 msgid "Passwords must be at least six characters."
 msgstr "Das Passwort muss mindestens sechs Zeichen haben."
 
-#: forms.py:153
+#: forms.py:183
 msgid "Confirm"
 msgstr "Bestätigen"
 
-#: forms.py:154
+#: forms.py:184
 msgid "Confirm the password to make sure you spelled it correctly."
-msgstr "Bestätigen sie das Passwort, um Tippfehler auszuschließen."
+msgstr "Bestätigen sie das Passwort um Tippfehler auszuschließen."
 
-#: forms.py:157
+#: forms.py:187
 msgid "The two password fields didn't match."
 msgstr "Die beiden Passwörter stimmen nicht überein."
 
-#: forms.py:178
+#: forms.py:208
 msgid "Required, an email will be sent to this address to confirm the change."
 msgstr ""
 "Pflichtfeld, eine E-Mail wird an diese Adresse gesendet um die Änderung zu "
@@ -235,25 +238,25 @@ msgstr ""
 
 #: models.py:202
 msgid "Error importing GPG key."
-msgstr "Fehler beim importieren des GPG SChlüssels."
+msgstr "Fehler beim importieren des GPG-Schlüssels."
 
 #: models.py:216
 #, python-format
 msgid "Added GPG key 0x%(fingerprint)s."
-msgstr "GPG Schlüssel 0x%(fingerprint)s hinzugefügt."
+msgstr "GPG-Schlüssel 0x%(fingerprint)s hinzugefügt."
 
 #: models.py:218
 #, python-format
 msgid "Updated GPG key 0x%(fingerprint)s."
-msgstr "GPG Schlüssel 0x%(fingerprint)s aktualisiert."
+msgstr "GPG-Schlüssel 0x%(fingerprint)s aktualisiert."
 
 #: models.py:233
 msgid "Send user an email when the account is about to be deleted."
-msgstr ""
+msgstr "Sende NutzerIn eine E-Mail wenn das Konto gelöscht zu werden droht."
 
 #: models.py:235
 msgid "Send user an email when his GPG key is about to expire."
-msgstr ""
+msgstr "Sende NutzerIn eine E-Mail wenn der GPG-Schlüssel abzulaufen droht."
 
 #: models.py:243
 msgid "Recipient"
@@ -281,6 +284,8 @@ msgid ""
 "Could not reach keyserver. This was our final attempt. Giving up and sending "
 "mail unencrypted. Sorry."
 msgstr ""
+"Konnte Schlüsselserver nicht erreichen. Dies war unser letzter Versuch, wir "
+"geben auf und senden E-Mails unverschlüsselt. Entschuldigung."
 
 #: tasks.py:84
 #, python-format
@@ -473,7 +478,7 @@ msgstr "Benötigt Bestätigung"
 #: templates/account/requires_confirmation.html:6
 msgid "This functionality requires that you have confirmed your email address."
 msgstr ""
-"Für diese Funktionalität müssen sie ihre E-MailAdresse bestätigt haben."
+"Für diese Funktionalität müssen sie ihre E-Mail-Adresse bestätigt haben."
 
 #: templates/account/set_password.html:4 views.py:88
 msgid "Set password"
@@ -511,7 +516,7 @@ msgstr "Nein"
 
 #: templates/account/user_gpg.html:4 views.py:91
 msgid "GPG keys"
-msgstr "GPG Schlüssel"
+msgstr "GPG-Schlüssel"
 
 #: templates/account/user_gpg.html:9 templates/account/xep0363.html:32
 msgid "Created"
@@ -612,6 +617,8 @@ msgid ""
 "Register for an account at jabber.at, jabber.zone or xmpp.zone. Its fast, "
 "free, easy and safe!"
 msgstr ""
+"Registrieren sie sich auf jabber.at, jabber.zone oder xmpp.zone. Schnell, "
+"einfach und sicher!"
 
 #: templates/account/user_register.html:13
 #: templates/account/user_register.html:21
@@ -663,13 +670,13 @@ msgstr ""
 #: templates/account/user_register.html:47
 #: templates/account/user_set_email.html:16
 msgid "GPG options"
-msgstr "GPG Optionen"
+msgstr "GPG-Optionen"
 
 #: templates/account/user_register.html:55
 #: templates/account/user_set_email.html:25
 msgid "You can add a GPG key to have jabber.at encrypt all emails sent to you."
 msgstr ""
-"Wenn sie einen GPG Schlüssel hinzufügen, werden alle E-Mails, die wir ihnen "
+"Wenn sie einen GPG-Schlüssel hinzufügen, werden alle E-Mails, die wir ihnen "
 "schicken, automatisch verschlüsselt."
 
 #: templates/account/user_register.html:57
@@ -679,7 +686,7 @@ msgid ""
 "GPG key and do not upload a new one here, you can no longer read any emails\n"
 "(e.g. when you have forgotton your password) we send to you."
 msgstr ""
-"<strong>Warnung:</strong> Wenn sie je ihren GPG Schlüssel verlieren und "
+"<strong>Warnung:</strong> Wenn sie je ihren GPG-Schlüssel verlieren und "
 "keinen neuen hier hochladen, können sie E-Mails, die wir ihnen schicken, "
 "nicht mehr lesen."
 
@@ -744,10 +751,14 @@ msgid ""
 "GPG keys will be removed\n"
 "once you confirm this change."
 msgstr ""
+"<strong>Warnung:</strong> früher konfigurierte GPG-Schlüssel werden nicht "
+"verwendet um diese E-Mail zu verschicken. Fügen Sie hier einen GPG-Schlüssel "
+"hinzu um weiterhin GPG zu verwenden. Alle vorhandenen GPG-Schlüssel werden "
+"entfernt when sie diese Änderung bestätigen."
 
 #: templates/account/xep0363.html:14 views.py:90
 msgid "HTTP uploads"
-msgstr ""
+msgstr "HTTP Uploads"
 
 #: templates/account/xep0363.html:17
 msgid ""
@@ -769,7 +780,7 @@ msgstr ""
 "Es gibt mehrere Möglichkeiten wie ein Client Dateien mit anderen Nutzern "
 "teilt. Mit XEP-0363 werden Dateien hier hoch geladen und können daher auch "
 "hier verwaltet werden. Andere Verfahren bauen direkte Verbindungen zu "
-"anderen Nutzern auf und scheinen daher hier auch nicht auf."
+"anderen Nutzern auf und werden hier dementsprechend auch nicht aufgeführt."
 
 #: templates/account/xep0363.html:25
 msgid ""
@@ -840,7 +851,7 @@ msgstr "Neues Passwort gesetzt."
 msgid "Successfully changed your password."
 msgstr "Passwort erfolgreich geändert."
 
-#: views.py:380
+#: views.py:386
 #, python-format
 msgid ""
 "We sent you an email to your new email address %(email)s). Click on the link "
@@ -849,32 +860,32 @@ msgstr ""
 "Wir haben ihnen eine E-Mail an ihre neue Adresse %(email)s geschickt. "
 "Klicken sie auf den Link in der E-Mail, um die Änderung zu bestätigen."
 
-#: views.py:382
+#: views.py:388
 #, python-format
 msgid "Requested change of email address to %(email)s."
 msgstr "Änderung der E-Mail-Adresse auf %(email)s beantragt."
 
-#: views.py:417 views.py:419
+#: views.py:423 views.py:425
 #, python-format
 msgid "Confirmed email address change to %(email)s."
 msgstr "E-Mail-Adressänderung auf %(email)s bestätigt."
 
-#: views.py:466 views.py:499
+#: views.py:472 views.py:505
 msgid "The password is incorrect."
 msgstr "Das Passwort stimmt nicht."
 
-#: views.py:478
+#: views.py:484
 #, python-format
 msgid "We sent you an email to %(email)s to confirm your request."
 msgstr ""
 "Wir haben ihnen eine E-Mail an %(email)s geschickt, um das Löschen ihres "
 "Kontos zu bestätigen."
 
-#: views.py:480
+#: views.py:486
 msgid "Requested deletion of account."
 msgstr "Löschung ihres Kontos beantragt."
 
-#: widgets.py:71
+#: widgets.py:80
 msgid ""
 "The hex-encoded value of the fingerprint: digits, letters A-F (case-"
 "insensitive)."
