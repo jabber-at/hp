@@ -22,7 +22,7 @@
         <div class="row">
             <div class="col-sm-12">
                 <div class="help-block">
-                    <p>{% blocktrans %}You can add a GPG key to have jabber.at encrypt all emails sent to you.{% endblocktrans %}</p>
+                    <p>{% blocktrans with domain=site.NAME %}You can add a GPG key to have {{ domain }} encrypt all emails sent to you.{% endblocktrans %}</p>
 
                     <div class="alert alert-warning" role="alert">
                     {% comment %}Warning is different if user already uses GPG (we assume he knows the risks).{% endcomment %}
