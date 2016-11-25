@@ -60,7 +60,6 @@ class BasePage(BaseModel):
     title = LocalizedCharField(max_length=255, help_text=_('Page title'))
     slug = LocalizedCharField(max_length=255, unique=True, help_text=_('Slug (used in URLs)'))
     text = LocalizedTextField()
-    author = models.ForeignKey(settings.AUTH_USER_MODEL, models.SET_NULL, null=True, blank=True)
     published = models.BooleanField(default=True, help_text=_(
         'Wether or not the page is public.'))
 
@@ -172,6 +171,8 @@ class BasePage(BaseModel):
 
 
 class Page(BasePage):
+    author = models.ForeignKey(settings.AUTH_USER_MODEL, models.SET_NULL, null=True, blank=True)
+
     def get_absolute_url(self):
         return reverse('core:page', kwargs={'slug': self.slug.current})
 
@@ -180,6 +181,8 @@ class Page(BasePage):
 
 
 class BlogPost(BasePage):
+    author = models.ForeignKey(settings.AUTH_USER_MODEL, models.SET_NULL, null=True, blank=True)
+
     objects = BlogPostQuerySet.as_manager()
 
     sticky = models.BooleanField(default=False, help_text=_(
