@@ -155,7 +155,7 @@ def cleanup():
             continue
 
         count = 0
-        for user in User.objects.has_no_confirmations().host(hostname):
+        for user in User.objects.exclude(is_superuser=True).has_no_confirmations().host(hostname):
             username = user.node.lower()
             if username not in existing_users:
                 log.info('%s: Remove user (gone from backend).', user.username)
