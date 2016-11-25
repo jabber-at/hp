@@ -59,7 +59,8 @@ class LinkTargetField(forms.MultiValueField):
         is_admin = kwargs.pop('admin', False)  # if we're on an admin page
 
         model_choices = []
-        for model in kwargs.pop('models', ['core.page', 'core.blogpost']):
+        # TODO: make default models configurable
+        for model in kwargs.pop('models', ['blog.page', 'blog.blogpost']):
             if isinstance(model, str):
                 app_label, model = model.split('.', 1)
                 model_choices.append(ContentType.objects.get_by_natural_key(app_label, model))
