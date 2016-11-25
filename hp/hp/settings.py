@@ -46,6 +46,7 @@ ALLOWED_HOSTS = []
 
 INSTALLED_APPS = [
     'core',
+    'blog',  # blog posts and pages
     'bootstrap',  # bootstrap enhancements
     'account',  # account management
     'feed',  # RSS/Atom feeds
