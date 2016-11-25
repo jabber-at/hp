@@ -171,7 +171,8 @@ class BasePage(BaseModel):
 
 
 class Page(BasePage):
-    author = models.ForeignKey(settings.AUTH_USER_MODEL, models.SET_NULL, null=True, blank=True)
+    author = models.ForeignKey(settings.AUTH_USER_MODEL, models.SET_NULL, null=True, blank=True,
+                               related_name='old_author_page')
 
     def get_absolute_url(self):
         return reverse('core:page', kwargs={'slug': self.slug.current})
@@ -181,7 +182,8 @@ class Page(BasePage):
 
 
 class BlogPost(BasePage):
-    author = models.ForeignKey(settings.AUTH_USER_MODEL, models.SET_NULL, null=True, blank=True)
+    author = models.ForeignKey(settings.AUTH_USER_MODEL, models.SET_NULL, null=True, blank=True,
+                               related_name='old_author_post')
 
     objects = BlogPostQuerySet.as_manager()
 
