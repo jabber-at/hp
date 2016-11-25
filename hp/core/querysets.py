@@ -16,14 +16,6 @@
 from django.db import models
 
 
-class BlogPostQuerySet(models.QuerySet):
-    def published(self):
-        return self.filter(published=True)
-
-    def blog_order(self):
-        return self.order_by('-sticky', '-created')
-
-
 class AddressQuerySet(models.QuerySet):
     def count_activities(self):
         return self.annotate(count_activities=models.Count('addressactivity', distinct=True))
