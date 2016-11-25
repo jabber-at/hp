@@ -58,6 +58,7 @@ class BaseModelAdmin(admin.ModelAdmin):
 
 
 class BasePageAdmin(BaseModelAdmin):
+    actions = ['make_publish', 'make_unpublish']
     formfield_overrides = {
         models.TextField: {
             'widget': TinyMCE(attrs={'cols': 80, 'rows': 20}, mce_attrs={
@@ -78,20 +79,16 @@ class BasePageAdmin(BaseModelAdmin):
             fields.append('author')
         return fields
 
-    def get_actions(self, request):
-        actions = super(BasePageAdmin, self).get_actions(request)
+    def get_action(self, action):
+        func, act, desc = super(BasePageAdmin, self).get_action(action)
 
-        context = {
-            'models': self.model._meta.verbose_name_plural,
-        }
+        if action in ['make_publish', 'make_unpublish']:
+            context = {
+                'models': self.model._meta.verbose_name_plural,
+            }
+            desc = desc % context
 
-        actions['make_publish'] = (
-            self.make_publish, 'make_publish', self.make_publish.short_description % context,
-        )
-        actions['make_unpublish'] = (
-            self.make_unpublish, 'make_unpublish', self.make_unpublish.short_description % context,
-        )
-        return actions
+        return func, act, desc
 
     def _get_composite_field_tuple(self, fields):
         new_fields = []
