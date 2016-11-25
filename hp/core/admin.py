@@ -73,12 +73,6 @@ class BasePageAdmin(BaseModelAdmin):
             fields.append('author')
         return fields
 
-    def get_readonly_fields(self, request, obj=None):
-        fields = list(super(BasePageAdmin, self).get_readonly_fields(request, obj=obj))
-        if obj is not None and 'author' not in fields:
-            fields.append('author')
-        return fields
-
     def get_action(self, action):
         func, act, desc = super(BasePageAdmin, self).get_action(action)
 
@@ -156,7 +150,13 @@ class BasePageAdmin(BaseModelAdmin):
         added. The form for adding/changing an object is identical, so there is no way to only
         act when adding a form (and you don't normally want to change existing slugs, since they're
         part of the URL).
+
+        Also filters the users of the author field to admins, otherwise the select box would be too
+        large.
         """
+
+        qs = context['adminform'].form.fields['author'].queryset
+        context['adminform'].form.fields['author'].queryset = qs.filter(is_superuser=True)
 
         if add:
             context['media'] += forms.Media(js=("core/js/basepage-add.js", ))
@@ -210,7 +210,7 @@ class BlogPostAdmin(BasePageAdmin):
             'classes': ('description', ),
         }),
         (_('Meta'), {
-            'fields': (('published', 'sticky'), ),
+            'fields': (('published', 'sticky'), 'author', ),
         }),
     )
     list_display = ['__str__', 'created', ]

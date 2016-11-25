@@ -60,7 +60,7 @@ class BasePage(BaseModel):
     title = LocalizedCharField(max_length=255, help_text=_('Page title'))
     slug = LocalizedCharField(max_length=255, unique=True, help_text=_('Slug (used in URLs)'))
     text = LocalizedTextField()
-    author = models.ForeignKey(settings.AUTH_USER_MODEL)
+    author = models.ForeignKey(settings.AUTH_USER_MODEL, models.SET_NULL, null=True, blank=True)
     published = models.BooleanField(default=True, help_text=_(
         'Wether or not the page is public.'))
 
