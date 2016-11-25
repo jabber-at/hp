@@ -1,7 +1,7 @@
 Fabric3==1.12.post1
-Sphinx==1.4.8
+Sphinx==1.4.9
 fabric-webbuilders==0.3
-flake8==3.2.0
+flake8==3.2.1
 ipython>=5.1.0
 numpydoc==0.6.0
 pyflakes==1.3.0
