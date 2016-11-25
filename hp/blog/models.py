@@ -26,11 +26,11 @@ from django.db import models
 from django.utils.safestring import mark_safe
 from django.utils.translation import ugettext_lazy as _
 
+from core.modelfields import LocalizedCharField
+from core.modelfields import LocalizedTextField
 from core.models import BaseModel
 from core.utils import canonical_link
 
-from .modelfields import LocalizedCharField
-from .modelfields import LocalizedTextField
 from .querysets import BlogPostQuerySet
 
 
