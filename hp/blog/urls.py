@@ -14,22 +14,13 @@
 # If not, see <http://www.gnu.org/licenses/>.
 
 from django.conf.urls import url
-from django.contrib.sitemaps.views import sitemap
 
 from . import views
-from .sitemaps import BlogPostSitemap
-from .sitemaps import PageSitemap
-
-sitemaps = {
-    'blog': BlogPostSitemap,
-    'page': PageSitemap,
-}
 
 
-app_name = 'core'
+app_name = 'blog'
 urlpatterns = [
-    url(r'^sitemap\.xml$', sitemap, {'sitemaps': sitemaps, },
-        name='django.contrib.sitemaps.views.sitemap'),
-    url(r'^api/set-lang/$', views.SetLanguageView.as_view(), name='api-set-lang'),
+    url(r'^b/(?P<slug>[a-z0-9-_äöüß]+)/$', views.BlogPostView.as_view(), name='blogpost'),
+    url(r'^p/(?P<slug>[a-z0-9-_äöüß]+)/$', views.PageView.as_view(), name='page'),
     url(r'^$', views.BlogPostListView.as_view(), name='home'),
 ]

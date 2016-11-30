@@ -17,9 +17,10 @@ from django.conf.urls import url
 from django.contrib.sitemaps.views import sitemap
 from django.utils.translation import ugettext_lazy as _
 
+from blog.sitemaps import BlogPostSitemap
+from blog.sitemaps import PageSitemap
+
 from . import views
-from .sitemaps import BlogPostSitemap
-from .sitemaps import PageSitemap
 from .sitemaps import StaticSitemap
 
 sitemaps = {
