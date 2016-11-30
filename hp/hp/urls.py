@@ -29,4 +29,5 @@ urlpatterns = [
     url(r'^conversejs/', include('conversejs.urls')),
     url(r'^xep0363/', include('xmpp_http_upload.urls', namespace='xmpp-http-upload')),
     i18n_url(r'^', include('core.urls')),
+    url(r'^', include('blog.urls')),
 ]
