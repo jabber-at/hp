@@ -174,7 +174,7 @@ class Page(BasePage):
                                related_name='old_author_page')
 
     def get_absolute_url(self):
-        return reverse('core:page', kwargs={'slug': self.slug.current})
+        return reverse('blog:page', kwargs={'slug': self.slug.current})
 
     def __str__(self):
         return self.title.current
@@ -188,7 +188,7 @@ class BlogPost(BasePage):
         'Pinned at the top of any list of blog posts.'))
 
     def get_absolute_url(self):
-        return reverse('core:blogpost', kwargs={'slug': self.slug.current})
+        return reverse('blog:blogpost', kwargs={'slug': self.slug.current})
 
     def __str__(self):
         return self.title.current
