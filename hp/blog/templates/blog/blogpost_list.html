@@ -6,7 +6,7 @@
 {% endblock head %}
 
 {% block metatags %}
-<link rel="canonical" href="{% canonical "core:home" %}" />
+<link rel="canonical" href="{% canonical "blog:home" %}" />
 <meta name="description" content="{% blocktrans %}A free, stable, secure and feature-rich Jabber/XMPP server. Join the free and open Jabber instant messaging network today!{% endblocktrans %}">
 {{ block.super }}
 {% endblock metatags %}
@@ -20,7 +20,7 @@
 {% block opengraph %}
 {{ block.super }}
 <meta property="og:updated_time" content="{{ object_list.0.updated|date:"c" }}" />
-<meta property="og:url" content="{% canonical "core:home" %}" />
+<meta property="og:url" content="{% canonical "blog:home" %}" />
 <meta property="og:title" content="{% trans "A free, secure, feature-rich Jabber/XMPP server" %}" />
 <meta property="og:description" content="{% blocktrans %}A free, stable, secure and feature-rich Jabber/XMPP server. Join the free and open Jabber instant messaging network today!{% endblocktrans %}" />
 {% endblock opengraph %}

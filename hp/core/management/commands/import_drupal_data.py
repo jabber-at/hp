@@ -107,7 +107,7 @@ class Command(BaseCommand):
                 '/en/register': {'path': 'account:register'},
                 '/stats': {'url': 'https://stats.jabber.at'},
                 '/logs': {'url': '/logs'},
-                '/': {'path': 'core:home'},
+                '/': {'path': 'blog:home'},
                 '/presence/themes': {'url': 'https://http.jabber.at/presence/themes'},
 
                 '/de/node/25': Page.objects.get(slug_de='apt-repository'),

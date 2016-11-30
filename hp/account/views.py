@@ -514,7 +514,7 @@ class ConfirmDeleteAccountView(LoginRequiredMixin, AccountPageMixin, FormView):
         key.delete()
         user.delete()
 
-        return HttpResponseRedirect(reverse('core:home'))
+        return HttpResponseRedirect(reverse('blog:home'))
 
 
 class UserAvailableView(View):

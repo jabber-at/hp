@@ -123,7 +123,7 @@ class RSS2Feed(FeedMixin, View):
         default_host = settings.XMPP_HOSTS[settings.DEFAULT_XMPP_HOST]
         base_url = default_host['CANONICAL_BASE_URL']
         title = self.get_feed_title(request)
-        feed_url = request.build_absolute_uri(reverse('core:home'))
+        feed_url = request.build_absolute_uri(reverse('blog:home'))
 
         # see: http://www.feedvalidator.org/docs/warning/MissingAtomSelfLink.html
         href = request.build_absolute_uri(request.get_full_path())
