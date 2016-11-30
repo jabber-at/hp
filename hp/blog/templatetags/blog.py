@@ -25,8 +25,8 @@ log = logging.getLogger(__name__)
 register = template.Library()
 
 
-@register.simple_tag
-def page(pk, title=None, anchor=None):
+@register.simple_tag(takes_context=True)
+def page(context, pk, title=None, anchor=None):
     """Get a link to a page based on its primary key.
 
     This template tag allows you to generate a HTML link based on the database primary key of a
@@ -52,7 +52,7 @@ def page(pk, title=None, anchor=None):
     try:
         page = Page.objects.get(pk=pk)
     except Page.DoesNotExist:
-        log.error('Page %s does not exist.', pk)
+        log.error('%s: Page %s does not exist.', context['request'].path, pk)
         return title or ''
 
     title = title or page.title.current
@@ -63,8 +63,8 @@ def page(pk, title=None, anchor=None):
     return format_html('<a href="{}">{}</a>', url, title)
 
 
-@register.simple_tag
-def post(pk, title=None, anchor=None):
+@register.simple_tag(takes_context=True)
+def post(context, pk, title=None, anchor=None):
     """Get a link to blog post based on its primary key.
 
     This templatetag works the same as :py:func:`~core.templatetags.blog.page`, except that it
@@ -73,7 +73,7 @@ def post(pk, title=None, anchor=None):
     try:
         post = BlogPost.objects.get(pk=pk)
     except BlogPost.DoesNotExist:
-        log.error('BlogPost %s does not exist.', pk)
+        log.error('%s: BlogPost %s does not exist.', context['request'].path, pk)
         return title or ''
 
     title = title or post.title.current
