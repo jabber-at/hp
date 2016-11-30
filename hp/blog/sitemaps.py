@@ -14,36 +14,23 @@
 # not, see <http://www.gnu.org/licenses/>.
 
 from django.contrib.sitemaps import Sitemap
-from django.urls import reverse
+
+from core.sitemaps import SitemapMixin
+
+from .models import BlogPost
+from .models import Page
 
 
-class SitemapMixin(object):
-    protocol = 'https'
-    i18n = True
-
-    def changefreq(self, item):
-        return 'daily'
-
-    def get_urls(self, **kwargs):
-        """Overwritten to remove duplicate URLs.
-
-        In some cases, URLs are identical for different languages.
-        """
-        done = set()
-        for url in super(SitemapMixin, self).get_urls(**kwargs):
-            if url['location'] in done:
-                continue
-
-            done.add(url['location'])
-            yield url
+class BasePageSitemap(Sitemap):
+    def lastmod(self, item):
+        return item.updated
 
 
-class StaticSitemap(SitemapMixin, Sitemap):
+class BlogPostSitemap(SitemapMixin, BasePageSitemap):
     def items(self):
-        return [
-            'core:contact', 'core:clients',
-            'account:register', 'account:login', 'account:reset_password',
-        ]
+        return BlogPost.objects.filter(published=True)
 
-    def location(self, item):
-        return reverse(item)
+
+class PageSitemap(SitemapMixin, BasePageSitemap):
+    def items(self):
+        return Page.objects.filter(published=True)
