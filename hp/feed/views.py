@@ -27,7 +27,7 @@ from django.utils.translation import ugettext as _
 from django.views.generic.base import View
 from django.views.generic.list import MultipleObjectMixin
 
-from core.models import BlogPost
+from blog.models import BlogPost
 from core.utils import absolutify_html
 
 
