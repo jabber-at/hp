@@ -15,26 +15,21 @@
 
 from django.conf.urls import url
 from django.contrib.sitemaps.views import sitemap
-from django.utils.translation import ugettext_lazy as _
 
 from . import views
 from .sitemaps import BlogPostSitemap
 from .sitemaps import PageSitemap
-from .sitemaps import StaticSitemap
 
 sitemaps = {
     'blog': BlogPostSitemap,
     'page': PageSitemap,
-    'static': StaticSitemap,
 }
 
 
 app_name = 'core'
 urlpatterns = [
-    url(_(r'^contact/$'), views.ContactView.as_view(), name='contact'),
-    url(_(r'^clients/$'), views.ClientsView.as_view(), name='clients'),
-    url(r'^sitemap\.xml$', sitemap, {'sitemaps': sitemaps},
+    url(r'^sitemap\.xml$', sitemap, {'sitemaps': sitemaps, },
         name='django.contrib.sitemaps.views.sitemap'),
     url(r'^api/set-lang/$', views.SetLanguageView.as_view(), name='api-set-lang'),
-    #url(r'^$', views.BlogPostListView.as_view(), name='home'),
+    url(r'^$', views.BlogPostListView.as_view(), name='home'),
 ]

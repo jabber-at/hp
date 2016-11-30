@@ -29,9 +29,7 @@ from django.utils.translation import LANGUAGE_SESSION_KEY
 from django.utils.translation import ugettext as _
 from django.views.generic import TemplateView
 from django.views.generic.base import RedirectView
-from django.views.generic.detail import DetailView
 from django.views.generic.edit import FormView
-from django.views.generic.list import ListView
 from ua_parser import user_agent_parser
 
 from bootstrap.templatetags.bootstrap import glyph
@@ -39,8 +37,6 @@ from bootstrap.templatetags.bootstrap import glyph
 from .forms import AnonymousContactForm
 from .forms import ContactForm
 from .forms import SelectOSForm
-from .models import Page
-from .models import BlogPost
 from .utils import check_dnsbl
 from .tasks import send_contact_email
 
@@ -190,20 +186,6 @@ class RateLimitMixin(object):
         timestamps = cache.get(cache_key) or []
         timestamps.append(timezone.now())
         cache.set(cache_key, timestamps, timeout=86400)
-
-
-class PageView(TranslateSlugViewMixin, DetailView):
-    queryset = Page.objects.filter(published=True)
-
-
-class BlogPostListView(ListView):
-    queryset = BlogPost.objects.published().blog_order()
-    paginate_by = 10
-
-
-class BlogPostView(TranslateSlugViewMixin, DetailView):
-    queryset = BlogPost.objects.filter(published=True)
-    context_object_name = 'post'
 
 
 class ClientsView(TemplateView):
