@@ -37,5 +37,4 @@ urlpatterns = [
     url(r'^sitemap\.xml$', sitemap, {'sitemaps': sitemaps},
         name='django.contrib.sitemaps.views.sitemap'),
     url(r'^api/set-lang/$', views.SetLanguageView.as_view(), name='api-set-lang'),
-    #url(r'^$', views.BlogPostListView.as_view(), name='home'),
 ]
