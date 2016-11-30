@@ -19,7 +19,7 @@ from django.conf import settings
 from django.views.generic.detail import DetailView
 from django.views.generic.list import ListView
 
-from core.modles import TranslateSlugViewMixin
+from core.views import TranslateSlugViewMixin
 
 from .models import Page
 from .models import BlogPost
