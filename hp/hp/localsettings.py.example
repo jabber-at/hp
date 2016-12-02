@@ -210,6 +210,15 @@ DEFAULT_XMPP_HOST = 'example.com'
 #FACEBOOK_PAGE = 'example.com'
 #TWITTER_HANDLE = 'example_com'
 
+# You can (and should) customize social media texts for static pages. This is a dictionary of view
+# names and you can set the keys "meta_desc", "twitter_title", "twitter_desc", "og_title" and
+# "og_desc" for every named view.
+#SOCIAL_MEDIA_TEXTS = {
+#   'blog:home': {
+#       'meta_desc': _('Start page description (will show up on e.g. Google)'),
+#   }
+#}
+
 ########################
 # Celery configuration #
 ########################

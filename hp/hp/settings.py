@@ -200,6 +200,20 @@ COPYRIGHT_NOTICE = _('© 2010-%(year)s, %(brand)s.')
 FACEBOOK_PAGE = ''
 TWITTER_HANDLE = ''
 
+_DEFAULT_SOCIAL_MEDIA_TEXTS = {
+    'blog:home': {
+        'meta_desc': _('A free, stable, secure and feature-rich Jabber/XMPP server. '
+                       'Join the free and open Jabber instant messaging network today!'),
+        'twitter_title': _('A free, secure, feature-rich Jabber/XMPP server'),
+        'twitter_desc': _('A free, stable, secure and feature-rich Jabber/XMPP server. '
+                          'Join the free and open Jabber instant messaging network today!'),
+        'og_title': _('A free, secure, feature-rich Jabber/XMPP server'),
+        'og_desc': _('A free, stable, secure and feature-rich Jabber/XMPP server. '
+                     'Join the free and open Jabber instant messaging network today!'),
+    },
+}
+SOCIAL_MEDIA_TEXTS = {}
+
 ################
 # GPG settings #
 ################
@@ -310,6 +324,13 @@ if CELERYD_TASK_LOG_FORMAT is None:
     CELERYD_TASK_LOG_FORMAT = '[%(asctime).19s %(levelname)-8s] [%(task_name)s] %(message)s'
 
 SPAM_BLACKLIST = set([ipaddress.ip_network(addr) for addr in SPAM_BLACKLIST])
+
+# set social media text defaults
+for key, value in _DEFAULT_SOCIAL_MEDIA_TEXTS.items():
+    if key in SOCIAL_MEDIA_TEXTS:
+        SOCIAL_MEDIA_TEXTS[key].update(value)
+    else:
+        SOCIAL_MEDIA_TEXTS[key] = value
 
 # Make sure GPG home directories exist
 for backend, config in GPG_BACKENDS.items():
