@@ -16,11 +16,9 @@
 import logging
 
 from django.conf import settings
-from django.core.urlresolvers import reverse
 from django.views.generic.detail import DetailView
 from django.views.generic.list import ListView
 
-from core.utils import canonical_link
 from core.views import StaticContextMixin
 from core.views import TranslateSlugViewMixin
 
@@ -59,10 +57,7 @@ class BlogPostListView(StaticContextMixin, ListView):
     def get_context_data(self, **kwargs):
         context = super(BlogPostListView, self).get_context_data(**kwargs)
         newest = max(context['object_list'], key=lambda o: o.updated)
-        context.update({
-            'canonical_url': canonical_link(reverse('blog:home')),
-            'updated': newest.updated,
-        })
+        context['updated'] = newest.updated
         return context
 
 
