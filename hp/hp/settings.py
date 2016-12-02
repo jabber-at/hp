@@ -204,7 +204,7 @@ _DEFAULT_SOCIAL_MEDIA_TEXTS = {
     'blog:home': {
         'meta_desc': _('A free, stable, secure and feature-rich Jabber/XMPP server. '
                        'Join the free and open Jabber instant messaging network today!'),
-        'twitter_title': _('A free, secure, feature-rich Jabber/XMPP server'),
+        'twitter_title': _('A free and secure Jabber/XMPP server'),
         'og_title': _('A free, secure, feature-rich Jabber/XMPP server'),
     },
     'core:clients': {
