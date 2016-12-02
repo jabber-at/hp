@@ -212,7 +212,7 @@ class RateLimitMixin(object):
         cache.set(cache_key, timestamps, timeout=86400)
 
 
-class ClientsView(TemplateView):
+class ClientsView(StaticContextMixin, TemplateView):
     template_name = 'core/clients.html'
 
     def get_os(self):
@@ -246,7 +246,7 @@ class ClientsView(TemplateView):
         return context
 
 
-class ContactView(BlacklistMixin, DnsBlMixin, FormView):
+class ContactView(BlacklistMixin, DnsBlMixin, StaticContextMixin, FormView):
     # TODO: Use ratelimit mixin as well
     template_name = 'core/contact.html'
     success_url = reverse_lazy('core:contact')

@@ -205,11 +205,15 @@ _DEFAULT_SOCIAL_MEDIA_TEXTS = {
         'meta_desc': _('A free, stable, secure and feature-rich Jabber/XMPP server. '
                        'Join the free and open Jabber instant messaging network today!'),
         'twitter_title': _('A free, secure, feature-rich Jabber/XMPP server'),
-        'twitter_desc': _('A free, stable, secure and feature-rich Jabber/XMPP server. '
-                          'Join the free and open Jabber instant messaging network today!'),
         'og_title': _('A free, secure, feature-rich Jabber/XMPP server'),
-        'og_desc': _('A free, stable, secure and feature-rich Jabber/XMPP server. '
-                     'Join the free and open Jabber instant messaging network today!'),
+    },
+    'core:clients': {
+        'meta_desc': _('There are many different clients for using Jabber/XMPP, here are our '
+                       'favourites.'),
+    },
+    'core:contact': {
+        'meta_desc': _('Contact us here if you cannot connect or have issues with our service '
+                       'best solved privately.'),
     },
 }
 SOCIAL_MEDIA_TEXTS = {}
