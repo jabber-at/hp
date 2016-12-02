@@ -34,6 +34,7 @@ from django.views.generic.edit import FormView
 from ua_parser import user_agent_parser
 
 from bootstrap.templatetags.bootstrap import glyph
+from core.utils import canonical_link
 
 from .forms import AnonymousContactForm
 from .forms import ContactForm
@@ -123,6 +124,9 @@ class StaticContextMixin(object):
                 if isinstance(value, (str, Promise)):
                     value = value % self.request.site
                 context[key] = value
+
+        # set default canonical URL
+        context.setdefault('canonical_url', canonical_link(self.request.path))
 
         return context
 
