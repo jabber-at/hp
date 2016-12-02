@@ -43,24 +43,7 @@
     <meta name="captcha-refresh-url" content="{% url 'captcha-refresh' %}">
     <meta name="account:api-check-user" content="{% url 'account:api-check-user' %}">
 
-    {% block metatags %}{% endblock metatags %}
-
-    {% block opengraph %}
-    <meta property="og:site_name" content="{{ default_site.BRAND }}" />
-    <meta property="og:image" content="{% canonical_static "core/img/fb.png" %}" />
-    {% if FACEBOOK_PAGE %}
-        <meta property="fb:pages" content="{{ FACEBOOK_PAGE }}" />
-    {% endif %}
-    {% endblock opengraph %}
-
-    {% block twitter %}
-    <meta name="twitter:card" content="summary" />
-    {% if TWITTER_HANDLE %}
-    <meta name="twitter:site" content="@{{ TWITTER_HANDLE }}" />
-    {% endif %}
-    <meta name="twitter:image" content="{% canonical_static "core/img/twitter.png" %}" />
-    {% endblock twitter %}
-
+    {% include "core/include/metadata.html" %}
     {% block extrahead %}{% endblock extrahead %}
   </head>
   <body>
