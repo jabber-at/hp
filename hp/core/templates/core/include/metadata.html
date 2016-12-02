@@ -1,21 +1,34 @@
+{% load canonical %}
+{% comment %}Metatags{% endcomment %}
+{% if meta_desc %}<meta name="description" content="{{ meta_desc }}">{% endif %}
+
 {% comment %}TWITTER{% endcomment %}
+{% if TWITTER_HANDLE %}<meta name="twitter:site" content="@{{ TWITTER_HANDLE }}" />{% endif %}
+<meta name="twitter:card" content="summary" />
+<meta name="twitter:image" content="{% canonical_static "core/img/twitter.png" %}" />
 {% if twitter_title %}<meta name="twitter:title" content="{{ twitter_title }}" />{% endif %}
 {% if twitter_desc %}<meta name="twitter:description" content="{{ twitter_desc }}" />{% endif %}
 
 {% comment %}FACEBOOK{% endcomment %}
-{% if FACEBOOK_PAGE %}
-<meta property="article:author" content="https://facebook.com/{{ FACEBOOK_PAGE }}" />
-<meta property="article:publisher" content="https://facebook.com/{{ FACEBOOK_PAGE }}" />
-{% endif %}
 
 <meta property="og:type" content="{{ og_type|default:"webpage" }}" />
+<meta property="og:site_name" content="{{ default_site.BRAND }}" />
+<meta property="og:image" content="{% canonical_static "core/img/fb.png" %}" />
 {% if og_type == "article" %}
+    {% if FACEBOOK_PAGE %}
+        <meta property="article:author" content="https://facebook.com/{{ FACEBOOK_PAGE }}" />
+        <meta property="article:publisher" content="https://facebook.com/{{ FACEBOOK_PAGE }}" />
+    {% endif %}
 {% if updated %}<meta property="article:modified_time" content="{{ updated|date:"c" }}" />{% endif %}
 {% if created %}<meta property="article:published_time" content="{{ created|date:"c" }}" />{% endif %}
 {% endif %}
 
-{% if og_updated %}<meta property="og:updated_time" content="{{ og_updated|date:"c" }}" />{% endif %}
-{% if og_url %}<meta property="og:url" content="{{ og_url }}" />{% endif %}
+{% if FACEBOOK_PAGE %}
+<meta property="fb:pages" content="{{ FACEBOOK_PAGE }}" />
+{% endif %}
+
+{% if updated %}<meta property="og:updated_time" content="{{ updated|date:"c" }}" />{% endif %}
+{% if canonical_url %}<meta property="og:url" content="{{ canonical_url }}" />{% endif %}
 {% if og_title %}<meta property="og:title" content="{{ og_title }}" />{% endif %}
 {% if og_desc %}<meta property="og:description" content="{{ og_desc }}" />{% endif %}
 {% comment %}TODO: image, locales {% endcomment %}
