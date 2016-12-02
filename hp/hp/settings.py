@@ -201,6 +201,8 @@ FACEBOOK_PAGE = ''
 TWITTER_HANDLE = ''
 
 _DEFAULT_SOCIAL_MEDIA_TEXTS = {
+    'account:register': {
+    },
     'blog:home': {
         'meta_desc': _('A free, stable, secure and feature-rich Jabber/XMPP server. '
                        'Join the free and open Jabber instant messaging network today!'),
@@ -218,7 +220,8 @@ _DEFAULT_SOCIAL_MEDIA_TEXTS = {
         'meta_desc': _('Contact us here if you cannot connect or have issues with our service '
                        'best solved privately.'),
         'og_desc': _('Contact us here if you cannot connect or have issues with our service '
-                     'best solved privately. We will reply via email as soon as possible.'),
+                     'best solved privately. We will reply via email as soon as possible. '
+                     'You can also contact us via chatroom, Twitter or Facebook.'),
         'title': _('Contact %(BRAND)s support'),
     },
 }
@@ -341,6 +344,10 @@ for key, value in _DEFAULT_SOCIAL_MEDIA_TEXTS.items():
         SOCIAL_MEDIA_TEXTS[key].update(value)
     else:
         SOCIAL_MEDIA_TEXTS[key] = value
+
+    # set empty values by default, otherwise we might get VariableLookup issues
+    SOCIAL_MEDIA_TEXTS[key].setdefault('title', '')
+    SOCIAL_MEDIA_TEXTS[key].setdefault('meta_desc', '')
 
 # Make sure GPG home directories exist
 for backend, config in GPG_BACKENDS.items():

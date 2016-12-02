@@ -1,25 +1,6 @@
 {% extends "page.html" %}
 {% load i18n canonical %}
 
-{% block metatags %}
-<link rel="canonical" href="{% canonical "core:contact" %}" />
-<meta name="description" content="{% trans "If you can't register an account or have trouble connecting to our server, please use this contact form. You can also contact us via Chatroom, Twitter or Facebook." %}">
-{{ block.super }}
-{% endblock metatags %}
-
-{% block twitter %}
-<meta name="twitter:title" content="{% trans "Contact us" %}" />
-<meta name="twitter:description" content="{% trans "If you can't register an account or have trouble connecting to our server, please use this contact form." %}" />
-{{ block.super }}
-{% endblock twitter %}
-
-{% block opengraph %}
-{{ block.super }}
-<meta property="og:url" content="{% canonical "core:contact" %}" />
-<meta property="og:title" content="{% trans "Contact us" %}" />
-<meta property="og:description" content="{% trans "If you can't register an account or have trouble connecting to our server, please use this contact form. You can also contact us via Chatroom, Twitter or Facebook." %}" />
-{% endblock opengraph  %}
-
 {% block title %}{% trans "Contact" %}{% endblock title %}
 
 {% block content %}
