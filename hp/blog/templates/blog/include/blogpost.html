@@ -33,7 +33,7 @@
 
     <div class="metadata">
         <meta itemprop="author" itemscope itemtype="https://schema.org/Person">
-            <meta itemprop="name" content="{{ post.author.node }}">
+            <meta itemprop="name" content="{{ post.author.node }}">{{ post.author.node }}</meta>
         </meta>
         <div itemprop="image" itemscope itemtype="https://schema.org/ImageObject">
             <img src="{% canonical_static "core/img/itemprop.png" %}"/>
