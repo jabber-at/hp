@@ -56,6 +56,7 @@ from core.views import AnonymousRequiredMixin
 from core.views import BlacklistMixin
 from core.views import DnsBlMixin
 from core.views import RateLimitMixin
+from core.views import StaticContextMixin
 
 from .constants import PURPOSE_DELETE
 from .constants import PURPOSE_REGISTER
@@ -79,7 +80,7 @@ log = logging.getLogger(__name__)
 _confirmation_qs = Confirmation.objects.valid().select_related('user')
 
 
-class AccountPageMixin(object):
+class AccountPageMixin(StaticContextMixin):
     """Mixin that adds the usermenu on the left to views where the user is logged in."""
 
     usermenu = (
@@ -133,7 +134,7 @@ class UserDetailView(DetailView):
 
 
 class RegistrationView(BlacklistMixin, DnsBlMixin, RateLimitMixin, AnonymousRequiredMixin,
-                       CreateView):
+                       StaticContextMixin, CreateView):
     form_class = CreateUserForm
     model = User
     rate_activity = ACTIVITY_REGISTER
