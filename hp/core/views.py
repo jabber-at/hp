@@ -24,6 +24,7 @@ from django.http import Http404
 from django.http import HttpResponseRedirect
 from django.template.response import TemplateResponse
 from django.utils import timezone
+from django.utils.functional import Promise
 from django.utils.http import is_safe_url
 from django.utils.translation import LANGUAGE_SESSION_KEY
 from django.utils.translation import ugettext as _
@@ -119,8 +120,8 @@ class StaticContextMixin(object):
             texts = settings.SOCIAL_MEDIA_TEXTS[urlname]
 
             for key, value in texts.items():
-                if isinstance(value, str):
-                    value = value.format(self.request.SITE)
+                if isinstance(value, (str, Promise)):
+                    value = value % self.request.site
                 context[key] = value
 
         return context
