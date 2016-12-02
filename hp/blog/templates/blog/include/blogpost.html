@@ -32,9 +32,9 @@
     </div>
 
     <div class="metadata">
-        <meta itemprop="author" itemscope itemtype="https://schema.org/Person">
-            <meta itemprop="name" content="{{ post.author.node }}">{{ post.author.node }}</meta>
-        </meta>
+        <span itemprop="author" itemscope itemtype="https://schema.org/Person">
+            <span itemprop="name">{{ post.author.node }}</span>
+        </span>
         <div itemprop="image" itemscope itemtype="https://schema.org/ImageObject">
             <img src="{% canonical_static "core/img/itemprop.png" %}"/>
             <meta itemprop="url" content="{% canonical_static "core/img/itemprop.png" %}">
