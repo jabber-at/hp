@@ -7,7 +7,9 @@
 {% if TWITTER_HANDLE %}<meta name="twitter:site" content="@{{ TWITTER_HANDLE }}" />{% endif %}
 <meta name="twitter:card" content="summary" />
 <meta name="twitter:image" content="{% canonical_static "core/img/twitter.png" %}" />
-{% if twitter_title %}<meta name="twitter:title" content="{{ twitter_title }}" />{% endif %}
+{% with title=twitter_title|default:title %}
+{% if title %}<meta name="twitter:title" content="{{ title }}" />{% endif %}
+{% endwith %}
 {% with desc=twitter_desc|default:meta_desc %}
 {% if desc %}<meta name="twitter:description" content="{{ desc }}" />{% endif %}
 {% endwith %}
@@ -32,7 +34,9 @@
 
 {% if updated %}<meta property="og:updated_time" content="{{ updated|date:"c" }}" />{% endif %}
 {% if canonical_url %}<meta property="og:url" content="{{ canonical_url }}" />{% endif %}
-{% if og_title %}<meta property="og:title" content="{{ og_title }}" />{% endif %}
+{% with title=og_title|default:title %}
+{% if title %}<meta property="og:title" content="{{ title }}" />{% endif %}
+{% endwith %}
 {% with desc=og_desc|default:meta_desc %}
 {% if desc %}<meta property="og:description" content="{{ desc }}" /> {% endif %}
 {% endwith %}
