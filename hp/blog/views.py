@@ -52,7 +52,7 @@ class PageView(TranslateSlugViewMixin, BasePageMixin, StaticContextMixin, Detail
     queryset = Page.objects.filter(published=True)
 
 
-class BlogPostListView(ListView):
+class BlogPostListView(StaticContextMixin, ListView):
     queryset = BlogPost.objects.published().blog_order()
     paginate_by = 10
 
