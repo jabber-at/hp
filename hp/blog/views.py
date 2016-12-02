@@ -19,6 +19,7 @@ from django.conf import settings
 from django.views.generic.detail import DetailView
 from django.views.generic.list import ListView
 
+from core.views import StaticContextMixin
 from core.views import TranslateSlugViewMixin
 
 from .models import Page
@@ -30,7 +31,22 @@ _RATELIMIT_WHITELIST = getattr(settings, 'RATELIMIT_WHITELIST', set())
 _RATELIMIT_CONFIG = getattr(settings, 'RATELIMIT_CONFIG', {})
 
 
-class PageView(TranslateSlugViewMixin, DetailView):
+class BasePageMixin(object):
+    def get_context_data(self, object, **kwargs):
+        # TODO: og_type (article/website)
+        context = super(BasePageMixin, self).get_context_data(**kwargs)
+        context['meta_desc'] = object.get_meta_summary()
+        context['updated'] = object.updated
+        context['created'] = object.created
+        context['og_title'] = object.title.current
+        context['og_desc'] = object.get_opengraph_summary()
+        context['canonical_url'] = object.get_canonical_url()
+        context['twitter_title'] = object.title.current
+        context['twitter_desc'] = object.get_twitter_summary()
+        return context
+
+
+class PageView(TranslateSlugViewMixin, BasePageMixin, StaticContextMixin, DetailView):
     queryset = Page.objects.filter(published=True)
 
 
@@ -39,6 +55,9 @@ class BlogPostListView(ListView):
     paginate_by = 10
 
 
-class BlogPostView(TranslateSlugViewMixin, DetailView):
+class BlogPostView(TranslateSlugViewMixin, BasePageMixin, StaticContextMixin, DetailView):
     queryset = BlogPost.objects.filter(published=True)
     context_object_name = 'post'
+    static_context = {
+        'og_type': 'article',
+    }
