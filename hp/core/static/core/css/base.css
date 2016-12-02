@@ -140,3 +140,8 @@ div.smfb-btn a .fb-label {
     position: relative;
     top: -5px;
 }
+
+/* hide metadata */
+div.metadata {
+    display: none;
+}
