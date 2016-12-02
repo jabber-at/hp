@@ -8,7 +8,9 @@
 <meta name="twitter:card" content="summary" />
 <meta name="twitter:image" content="{% canonical_static "core/img/twitter.png" %}" />
 {% if twitter_title %}<meta name="twitter:title" content="{{ twitter_title }}" />{% endif %}
-{% if twitter_desc %}<meta name="twitter:description" content="{{ twitter_desc }}" />{% endif %}
+{% with desc=twitter_desc|default:meta_desc %}
+{% if desc %}<meta name="twitter:description" content="{{ desc }}" />{% endif %}
+{% endwith %}
 
 {% comment %}FACEBOOK{% endcomment %}
 
@@ -31,5 +33,7 @@
 {% if updated %}<meta property="og:updated_time" content="{{ updated|date:"c" }}" />{% endif %}
 {% if canonical_url %}<meta property="og:url" content="{{ canonical_url }}" />{% endif %}
 {% if og_title %}<meta property="og:title" content="{{ og_title }}" />{% endif %}
-{% if og_desc %}<meta property="og:description" content="{{ og_desc }}" />{% endif %}
+{% with desc=og_desc|default:meta_desc %}
+{% if desc %}<meta property="og:description" content="{{ desc }}" /> {% endif %}
+{% endwith %}
 {% comment %}TODO: image, locales {% endcomment %}
