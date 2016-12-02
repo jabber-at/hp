@@ -221,7 +221,12 @@ class ClientsView(StaticContextMixin, TemplateView):
     template_name = 'core/clients.html'
 
     def get_os(self):
-        ua = user_agent_parser.Parse(self.request.META['HTTP_USER_AGENT'])
+        header = self.request.META.get('HTTP_USER_AGENT',
+                                       self.request.META.get('HTTP_USERAGENT'))
+        if not header:
+            return
+
+        ua = user_agent_parser.Parse(header)
         family = ua['os']['family']
 
         if family == 'Mac OS X':
