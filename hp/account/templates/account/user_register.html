@@ -3,20 +3,6 @@
 
 {% block title %}{% trans "Register" %}{% endblock title %}
 
-{% block metatags %}
-<link rel="canonical" href="{% canonical "account:register" %}" />
-{{ block.super }}
-{% endblock metatags %}
-
-{% block twitter %}
-{{ block.super }}
-{% endblock twitter %}
-
-{% block opengraph %}
-{{ block.super }}
-<meta property="og:url" content="{% canonical "account:register" %}" />
-{% endblock opengraph  %}
-
 {% block form %}
 <p>
 {% blocktrans with domain=site.NAME %}Please complete the form below to register for an account on {{ domain }}.
