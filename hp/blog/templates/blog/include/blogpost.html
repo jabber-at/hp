@@ -23,6 +23,7 @@
     {% endif %}
 
     <div itemprop="publisher" itemscope itemtype="https://schema.org/Organization">
+        <meta itemprop="name" content="{{ post.author.node }}">
         <div itemprop="logo" itemscope itemtype="https://schema.org/ImageObject">
             <meta itemprop="url" content="{% canonical_static "core/img/itemprop.png" %}">
             <meta itemprop="width" content="60">
@@ -32,7 +33,7 @@
 
     <div class="metadata">
         <meta itemprop="author" itemscope itemtype="https://schema.org/Person">
-            <meta itemprop="name">{{ post.author.node }}</meta>
+            <meta itemprop="name" content="{{ post.author.node }}">
         </meta>
         <div itemprop="image" itemscope itemtype="https://schema.org/ImageObject">
             <img src="{% canonical_static "core/img/itemprop.png" %}"/>
