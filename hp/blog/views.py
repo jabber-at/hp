@@ -43,6 +43,7 @@ class BasePageMixin(object):
         context['canonical_url'] = object.get_canonical_url()
         context['twitter_title'] = object.title.current
         context['twitter_desc'] = object.get_twitter_summary()
+        context['title'] = 'foo'
         return context
 
 
