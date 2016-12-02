@@ -3,22 +3,6 @@
 
 {% block title %}{{ object.title.current }}{% endblock title %}
 
-{% block metatags %}
-<meta name="description" content="{{ post.get_meta_summary }}">
-{% endblock metatags %}
-
-{% block opengraph %}
-<meta property="og:type" content="website">
-{{ block.super }}
-{% include "core/include/basepage_extrahead.html" %}
-{% endblock opengraph %}
-
-{% block twitter %}
-{{ block.super }}
-<meta name="twitter:title" content="{{ object.title.current }}" />
-<meta name="twitter:description" content="{{ object.get_twitter_summary }}" />
-{% endblock twitter %}
-
 {% block content %}
 {% render object %}
 {% endblock content %}
