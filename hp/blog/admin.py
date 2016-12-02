@@ -195,7 +195,20 @@ class BlogPostAdmin(BasePageAdmin):
 
 @admin.register(Page)
 class PageAdmin(BasePageAdmin):
-    fields = ['title', 'slug', 'text', 'published', ]
+    fieldsets = (
+        (None, {
+            'fields': ('title', 'slug', 'text'),
+        }),
+        (_('Descriptions'), {
+            'fields': ('meta_summary', 'twitter_summary', 'opengraph_summary', ),
+            'description': _('Descriptions are used by various systems (Facebook, '
+                             '...) to generate previews of this content.'),
+            'classes': ('description', ),
+        }),
+        (_('Meta'), {
+            'fields': ('published', 'author', ),
+        }),
+    )
     list_display = ['__str__', 'updated', ]
     list_filter = ['published', ]
     ordering = ('-title', )
