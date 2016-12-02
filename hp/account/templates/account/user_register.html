@@ -5,21 +5,16 @@
 
 {% block metatags %}
 <link rel="canonical" href="{% canonical "account:register" %}" />
-<meta name="description" content="{% blocktrans %}Register for an account at jabber.at, jabber.zone or xmpp.zone. Its fast, free, easy and safe!{% endblocktrans %}">
 {{ block.super }}
 {% endblock metatags %}
 
 {% block twitter %}
-<meta name="twitter:title" content="{% blocktrans with domain=site.NAME %}Register at {{ domain }}{% endblocktrans %}" />
-<meta name="twitter:description" content="{% blocktrans %}Register now for an account at jabber.at, jabber.zone or xmpp.zone. Its fast, free, easy and safe!{% endblocktrans %}" />
 {{ block.super }}
 {% endblock twitter %}
 
 {% block opengraph %}
 {{ block.super }}
 <meta property="og:url" content="{% canonical "account:register" %}" />
-<meta property="og:title" content="{% blocktrans with domain=site.NAME %}Register at {{ domain }}{% endblocktrans %}" />
-<meta property="og:description" content="{% blocktrans %}Jabber is a free and open instant messaging network. Register now for an account at jabber.at, jabber.zone or xmpp.zone. It's fast, free, easy and safe!{% endblocktrans %}" />
 {% endblock opengraph  %}
 
 {% block form %}

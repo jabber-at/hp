@@ -202,6 +202,14 @@ TWITTER_HANDLE = ''
 
 _DEFAULT_SOCIAL_MEDIA_TEXTS = {
     'account:register': {
+        'meta_desc': _('Register for an account at jabber.at, jabber.zone or xmpp.zone. Its fast, '
+                       'free, easy and safe!'),
+        'title': _('Register at %(BRAND)s'),
+        'twitter_desc': _('Register now for an account at jabber.at, jabber.zone or xmpp.zone. '
+                          'It\'s fast, free, easy and safe!'),
+        'og_desc': _('Jabber is a free and open instant messaging network. Register now for an '
+                     'account at jabber.at, jabber.zone or xmpp.zone. It\'s fast, free, easy and '
+                     'safe!'),
     },
     'blog:home': {
         'meta_desc': _('A free, stable, secure and feature-rich Jabber/XMPP server. '
