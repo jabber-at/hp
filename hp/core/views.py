@@ -111,6 +111,18 @@ class StaticContextMixin(object):
         context = super(StaticContextMixin, self).get_context_data(**kwargs)
         if self.static_context is not None:
             context.update(self.static_context)
+
+        urlname = '%s:%s' % (self.request.resolver_match.namespace,
+                             self.request.resolver_match.url_name)
+
+        if urlname in settings.SOCIAL_MEDIA_TEXTS:
+            texts = settings.SOCIAL_MEDIA_TEXTS[urlname]
+
+            for key, value in texts.items():
+                if isinstance(value, str):
+                    value = value.format(self.request.SITE)
+                context[key] = value
+
         return context
 
 
