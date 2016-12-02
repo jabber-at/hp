@@ -1,6 +1,7 @@
 {% load canonical %}
 {% comment %}Metatags{% endcomment %}
 {% if meta_desc %}<meta name="description" content="{{ meta_desc }}">{% endif %}
+{% if canonical_url %}<link rel="canonical" href="{{ canonical_url }}" />{% endif %}
 
 {% comment %}TWITTER{% endcomment %}
 {% if TWITTER_HANDLE %}<meta name="twitter:site" content="@{{ TWITTER_HANDLE }}" />{% endif %}
