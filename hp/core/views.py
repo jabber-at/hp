@@ -102,6 +102,18 @@ class TranslateSlugViewMixin(object):
         return obj
 
 
+class StaticContextMixin(object):
+    """Simple mixin that allows you to add a static dictionary to the template context."""
+
+    static_context = None
+
+    def get_context_data(self, **kwargs):
+        context = super(StaticContextMixin, self).get_context_data(**kwargs)
+        if self.static_context is not None:
+            context.update(self.static_context)
+        return context
+
+
 class BlacklistMixin(object):
     blacklist_template = 'core/blacklist.html'
 
