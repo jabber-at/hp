@@ -263,7 +263,7 @@ CELERY_TASK_SERIALIZER = 'json'
 CELERY_SEND_TASK_ERROR_EMAILS = True
 
 # Periodic tasks
-CELERYBEAT_SCHEDULE = {
+CELERY_BEAT_SCHEDULE = {
     'core cleanup': {
         'task': 'core.tasks.cleanup',
         'schedule': crontab(hour=3, minute=0),
@@ -273,8 +273,8 @@ CELERYBEAT_SCHEDULE = {
         'schedule': crontab(hour=3, minute=5),
     },
 }
-CELERYD_LOG_FORMAT = None
-CELERYD_TASK_LOG_FORMAT = None
+CELERY_WORKER_LOG_FORMAT = None
+CELERY_WORKER_TASK_LOG_FORMAT = None
 
 ######################
 # Anti-Spam settings #
@@ -338,11 +338,11 @@ elif DEFAULT_XMPP_HOST not in XMPP_HOSTS:
 if not DEFAULT_FROM_EMAIL:
     raise ImproperlyConfigured("The DEFAULT_FROM_EMAIL setting is undefined.")
 
-if CELERYD_LOG_FORMAT is None:
-    CELERYD_LOG_FORMAT = LOG_FORMAT
-if CELERYD_TASK_LOG_FORMAT is None:
+if CELERY_WORKER_LOG_FORMAT is None:
+    CELERY_WORKER_LOG_FORMAT = LOG_FORMAT
+if CELERY_WORKER_TASK_LOG_FORMAT is None:
     # The default includes the task_name
-    CELERYD_TASK_LOG_FORMAT = '[%(asctime).19s %(levelname)-8s] [%(task_name)s] %(message)s'
+    CELERY_WORKER_TASK_LOG_FORMAT = '[%(asctime).19s %(levelname)-8s] [%(task_name)s] %(message)s'
 
 SPAM_BLACKLIST = set([ipaddress.ip_network(addr) for addr in SPAM_BLACKLIST])
 

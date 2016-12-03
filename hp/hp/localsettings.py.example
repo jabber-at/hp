@@ -224,15 +224,15 @@ DEFAULT_XMPP_HOST = 'example.com'
 ########################
 # See also: http://docs.celeryproject.org/en/latest/configuration.html
 
-#BROKER_URL = 'redis://localhost:6379/0'
+#CELERY_BROKER_URL = 'redis://localhost:6379/0'
 
 # The log format used by the celery loggers. If None (the default), the same as LOG_FORMAT will be
 # used.
-#CELERYD_LOG_FORMAT = None
+#CELERY_WORKER_LOG_FORMAT = None
 
 # The format used for Celery task loggers (-> get_task_logger()). The default is the same as the
 # normal default, except that the task name is added.
-#CELERYD_TASK_LOG_FORMAT = '[%(asctime).19s %(levelname)-8s] [%(task_name)s] %(message)s'
+#CELERY_WORKER_TASK_LOG_FORMAT = '[%(asctime).19s %(levelname)-8s] [%(task_name)s] %(message)s'
 
 ######################
 # Anti-Spam settings #
