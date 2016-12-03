@@ -105,9 +105,9 @@ class DeployTask(DeploymentTaskMixin, Task):
 
         # push source code
         local('git push origin master')
-#        self.sudo('git pull origin master', chdir=self.path)
-#        self.pip('install -U pip setuptools mysqlclient')
-#        self.pip('install -U -r %s/requirements.txt' % self.path)
+        self.sudo('git pull origin master', chdir=self.path)
+        self.pip('install -U pip setuptools mysqlclient')
+        self.pip('install -U -r %s/requirements.txt' % self.path)
 
         self.sudo('mkdir -p /var/www/%s/static /var/www/%s/media' % (self.hostname, self.hostname))
 
