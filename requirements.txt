@@ -1,4 +1,4 @@
-Django==1.10.3
+Django==1.10.4
 Pillow==3.4.2
 bleach==1.4.3
 celery==3.1.25
@@ -15,7 +15,7 @@ hiredis==0.2.0
 lxml==3.6.4
 pip>=8.1.2
 pygpgme==0.3
-setuptools>=26.0.0
+setuptools>=30.0.0
 strict-rfc3339==0.7
 ua-parser==0.7.2
 # not yet released
