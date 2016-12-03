@@ -54,6 +54,14 @@ class BasePage(BaseModel):
     html_summary = LocalizedTextField(blank=True, null=True, verbose_name="HTML", help_text=_(
         'Any length, but must be valid HTML. Shown in RSS feeds.'))
 
+    def render_template(self, text, request, extra_context=None):
+        if extra_context is None:
+            extra_context = {}
+        context = template.RequestContext(request, extra_context)
+
+        t = '{%% load blog core bootstrap %%}%s' % text
+        return template.Template(t).render(context)
+
     def render(self, context, summary=False):
         if summary is True:
             return mark_safe(self.get_html_summary(context['request']))
@@ -102,7 +110,7 @@ class BasePage(BaseModel):
         full_summary = self.get_text_summary()
         if len(full_summary) <= 160:
             return full_summary
-        return self.crop_summary(full_summary, 160).strip()
+        return self.render_template(self.crop_summary(full_summary, 160).strip(), request)
 
     def get_twitter_summary(self, request):
         if self.twitter_summary.current:
@@ -113,7 +121,7 @@ class BasePage(BaseModel):
         full_summary = self.get_text_summary()
         if len(full_summary) <= 200:
             return full_summary
-        return self.crop_summary(full_summary, 200).strip()
+        return self.render_template(self.crop_summary(full_summary, 200).strip(), request)
 
     def get_opengraph_summary(self, request):
         if self.opengraph_summary.current:
@@ -123,7 +131,7 @@ class BasePage(BaseModel):
             return twitter_summary
 
         summary = self.get_text_summary()
-        return ' '.join(self.get_sentences(summary)[:3]).strip()
+        return self.render_template(' '.join(self.get_sentences(summary)[:3]).strip(), request)
 
     def cleanup_html(self, html):
         tags = ['a', 'p', 'strong']
