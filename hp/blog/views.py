@@ -35,14 +35,14 @@ class BasePageMixin(object):
     def get_context_data(self, object, **kwargs):
         # TODO: og_type (article/website)
         context = super(BasePageMixin, self).get_context_data(**kwargs)
-        context['meta_desc'] = object.get_meta_summary()
+        context['meta_desc'] = object.get_meta_summary() % self.request.site
         context['updated'] = object.updated
         context['created'] = object.created
-        context['og_title'] = object.title.current
-        context['og_desc'] = object.get_opengraph_summary()
+        context['og_title'] = object.title.current % self.request.site
+        context['og_desc'] = object.get_opengraph_summary() % self.request.site
         context['canonical_url'] = object.get_canonical_url()
-        context['twitter_title'] = object.title.current
-        context['twitter_desc'] = object.get_twitter_summary()
+        context['twitter_title'] = object.title.current % self.request.site
+        context['twitter_desc'] = object.get_twitter_summary() % self.request.site
         context['title'] = 'foo'
         return context
 
