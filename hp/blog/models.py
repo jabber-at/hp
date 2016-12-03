@@ -95,7 +95,7 @@ class BasePage(BaseModel):
             summary = new_summary
         return summary.strip()
 
-    def get_meta_summary(self):
+    def get_meta_summary(self, request):
         if self.meta_summary.current:
             return self.meta_summary.current
 
@@ -104,7 +104,7 @@ class BasePage(BaseModel):
             return full_summary
         return self.crop_summary(full_summary, 160).strip()
 
-    def get_twitter_summary(self):
+    def get_twitter_summary(self, request):
         if self.twitter_summary.current:
             return self.twitter_summary.current
         if self.meta_summary.current:
@@ -115,10 +115,10 @@ class BasePage(BaseModel):
             return full_summary
         return self.crop_summary(full_summary, 200).strip()
 
-    def get_opengraph_summary(self):
+    def get_opengraph_summary(self, request):
         if self.opengraph_summary.current:
             return self.opengraph_summary.current.strip()
-        twitter_summary = self.get_twitter_summary()
+        twitter_summary = self.get_twitter_summary(request)
         if twitter_summary:
             return twitter_summary
 
