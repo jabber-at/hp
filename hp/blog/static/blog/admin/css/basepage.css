@@ -4,3 +4,6 @@ fieldset.description label {
 fieldset.description input + p.help {
     margin-left: 100px;
 }
+fieldset.description p.help span.test-length {
+    font-weight: bold;
+}
