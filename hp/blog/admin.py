@@ -25,6 +25,7 @@ from tinymce.widgets import TinyMCE
 
 from core.admin import BaseModelAdmin
 
+from .forms import BasePageAdminForm
 from .models import BlogPost
 from .models import Page
 
@@ -33,6 +34,7 @@ User = get_user_model()
 
 class BasePageAdmin(BaseModelAdmin):
     actions = ['make_publish', 'make_unpublish']
+    form = BasePageAdminForm
     formfield_overrides = {
         models.TextField: {
             'widget': TinyMCE(attrs={'cols': 80, 'rows': 20}, mce_attrs={
