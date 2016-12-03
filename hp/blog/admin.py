@@ -156,7 +156,7 @@ class BasePageAdmin(BaseModelAdmin):
 
     class Media:
         css = {
-            'all': ('core/admin/css/basepage.css', ),
+            'all': ('blog/admin/css/basepage.css', ),
         }
 
 
