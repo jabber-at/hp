@@ -158,6 +158,9 @@ class BasePageAdmin(BaseModelAdmin):
         css = {
             'all': ('blog/admin/css/basepage.css', ),
         }
+        js = (
+            'blog/admin/js/basepage.js',
+        )
 
 
 class AuthorFilter(admin.SimpleListFilter):

@@ -16,15 +16,18 @@
 from django import forms
 from django.utils.translation import gettext_lazy as _
 
-_meta_help = _('At most 160 characters. <span data-max="200" class="test-length">160</span> '
-               'chars left.')
-_twitter_help = _('At most 200 characters. <span data-max="200" class="test-length">200</span> '
-                  'chars left.')
+_meta_help = _('For search engines. Max. 160 characters, '
+               '<span data-max="200" class="test-length">160</span> left.')
+_twitter_help = _('At most 200 characters, <span data-max="200" class="test-length">200</span> '
+                  'left.')
 
 
 class BasePageAdminForm(forms.ModelForm):
     class Meta:
+        # TODO: dynamically adapt to enabled langs?
         help_texts = {
+            'meta_summary_de': _meta_help,
+            'meta_summary_en': _meta_help,
             'twitter_summary_de': _twitter_help,
             'twitter_summary_en': _twitter_help,
         }
