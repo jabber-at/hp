@@ -105,33 +105,33 @@ class BasePage(BaseModel):
 
     def get_meta_summary(self, request):
         if self.meta_summary.current:
-            return self.meta_summary.current
+            return self.render_template(self.meta_summary.current, request)
 
-        full_summary = self.get_text_summary()
+        full_summary = self.render_template(self.get_text_summary(), request)
         if len(full_summary) <= 160:
             return full_summary
-        return self.render_template(self.crop_summary(full_summary, 160).strip(), request)
+        return self.crop_summary(full_summary, 160).strip()
 
     def get_twitter_summary(self, request):
         if self.twitter_summary.current:
-            return self.twitter_summary.current
+            return self.render_template(self.twitter_summary.current, request)
         if self.meta_summary.current:
-            return self.meta_summary.current
+            return self.render_template(self.meta_summary.current, request)
 
-        full_summary = self.get_text_summary()
+        full_summary = self.render_template(self.get_text_summary(), request)
         if len(full_summary) <= 200:
             return full_summary
-        return self.render_template(self.crop_summary(full_summary, 200).strip(), request)
+        return self.crop_summary(full_summary, 200).strip()
 
     def get_opengraph_summary(self, request):
         if self.opengraph_summary.current:
-            return self.opengraph_summary.current.strip()
+            return self.render_template(self.opengraph_summary.current.strip(), request)
         twitter_summary = self.get_twitter_summary(request)
         if twitter_summary:
             return twitter_summary
 
-        summary = self.get_text_summary()
-        return self.render_template(' '.join(self.get_sentences(summary)[:3]).strip(), request)
+        summary = self.render_template(self.get_text_summary(), request)
+        return ' '.join(self.get_sentences(summary)[:3]).strip()
 
     def cleanup_html(self, html):
         tags = ['a', 'p', 'strong']
