@@ -17,6 +17,8 @@
 <meta property="og:type" content="{{ og_type|default:"website" }}" />
 <meta property="og:site_name" content="{{ default_site.BRAND }}" />
 <meta property="og:image" content="{% canonical_static "core/img/fb.png" %}" />
+<meta property="og:image:width" content="300" />
+<meta property="og:image:height" content="300" />
 {% if og_type == "article" %}
     {% if FACEBOOK_PAGE %}
         <meta property="article:author" content="https://facebook.com/{{ FACEBOOK_PAGE }}" />
