@@ -76,8 +76,9 @@ class BasePage(BaseModel):
 
         return self.render(context)
 
-    def get_text_summary(self):
-        text = html.fromstring(self.text.current).text_content()
+    def get_text_summary(self, request):
+        rendered = self.render_template(self.text.current, request)
+        text = html.fromstring(rendered).text_content()
         return re.sub('[\r\n]+', '\n', text).split('\n', 1)[0].strip(' \n').strip()
 
     def get_sentences(self, summary):
@@ -107,7 +108,7 @@ class BasePage(BaseModel):
         if self.meta_summary.current:
             return self.render_template(self.meta_summary.current, request)
 
-        full_summary = self.render_template(self.get_text_summary(), request)
+        full_summary = self.get_text_summary(request)
         if len(full_summary) <= 160:
             return full_summary
         return self.crop_summary(full_summary, 160).strip()
@@ -118,7 +119,7 @@ class BasePage(BaseModel):
         if self.meta_summary.current:
             return self.render_template(self.meta_summary.current, request)
 
-        full_summary = self.render_template(self.get_text_summary(), request)
+        full_summary = self.get_text_summary(request)
         if len(full_summary) <= 200:
             return full_summary
         return self.crop_summary(full_summary, 200).strip()
@@ -130,7 +131,7 @@ class BasePage(BaseModel):
         if twitter_summary:
             return twitter_summary
 
-        summary = self.render_template(self.get_text_summary(), request)
+        summary = self.get_text_summary(request)
         return ' '.join(self.get_sentences(summary)[:3]).strip()
 
     def cleanup_html(self, html):
