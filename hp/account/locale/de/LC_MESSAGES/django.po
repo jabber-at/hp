@@ -415,8 +415,8 @@ msgstr ""
 #: templates/account/confirm/set_email.txt:8
 msgid "If you haven't made this change, simply disregard this email."
 msgstr ""
-"Falls sie ihr Passwort nicht ändern wollten, können sie diese E-Mail einfach "
-"ignorieren."
+"Falls sie diese Änderung nicht vorgenommen haben, können sie diese E-Mail "
+"einfach ignorieren."
 
 #: templates/account/confirm/reset_password.txt:3
 #, python-format
