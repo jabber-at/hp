@@ -189,10 +189,11 @@ class BootstrapPasswordField(BootstrapMixin, forms.CharField):
     add_success = False
 
     def __init__(self, *args, **kwargs):
-        for validator in password_validation.get_default_password_validators():
-            if isinstance(validator, password_validation.MinimumLengthValidator):
-                kwargs.setdefault('min_length', validator.min_length)
-                break
+        if kwargs.get('add_min_length'):
+            for validator in password_validation.get_default_password_validators():
+                if isinstance(validator, password_validation.MinimumLengthValidator):
+                    kwargs.setdefault('min_length', validator.min_length)
+                    break
         super(BootstrapPasswordField, self).__init__(*args, **kwargs)
 
 
