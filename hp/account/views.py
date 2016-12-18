@@ -126,8 +126,8 @@ class AccountPageMixin(StaticContextMixin):
         return context
 
 
-class UserDetailView(DetailView):
-    """Custom detail view to use the current user."""
+class UserObjectMixin(object):
+    """Mixin that returns the current user as object for views using SingleObjectMixin."""
 
     def get_object(self):
         return self.request.user
@@ -261,7 +261,7 @@ class LoginView(BlacklistMixin, DnsBlMixin, RateLimitMixin, AnonymousRequiredMix
         return context
 
 
-class UserView(LoginRequiredMixin, AccountPageMixin, UserDetailView):
+class UserView(LoginRequiredMixin, AccountPageMixin, UserObjectMixin, DetailView):
     """Main user settings view (/account)."""
 
     usermenu_item = 'account:detail'
@@ -370,6 +370,7 @@ class SetEmailView(LoginRequiredMixin, AccountPageMixin, FormView):
         to = form.cleaned_data['email']
 
         # If REQUIRE_UNIQUE_EMAIL is true, validate uniquenss
+
         qs = User.objects.exclude(pk=user.pk).filter(email=to)
         if settings.REQUIRE_UNIQUE_EMAIL and qs.exists():
             form.add_error('email', _('Email address is already used by another account.'))
@@ -429,7 +430,7 @@ class ConfirmSetEmailView(LoginRequiredMixin, RedirectView):
             return super(ConfirmSetEmailView, self).get_redirect_url()
 
 
-class HttpUploadView(LoginRequiredMixin, AccountPageMixin, UserDetailView):
+class HttpUploadView(LoginRequiredMixin, AccountPageMixin, UserObjectMixin, DetailView):
     usermenu_item = 'account:xep0363'
     template_name = 'account/xep0363.html'
 
@@ -439,14 +440,14 @@ class HttpUploadView(LoginRequiredMixin, AccountPageMixin, UserDetailView):
         return context
 
 
-class GpgView(LoginRequiredMixin, AccountPageMixin, UserDetailView):
+class GpgView(LoginRequiredMixin, AccountPageMixin, UserObjectMixin, DetailView):
     """Main user settings view (/account)."""
 
     usermenu_item = 'account:gpg'
     template_name = 'account/user_gpg.html'
 
 
-class RecentActivityView(LoginRequiredMixin, AccountPageMixin, UserDetailView):
+class RecentActivityView(LoginRequiredMixin, AccountPageMixin, UserObjectMixin, DetailView):
     """Main user settings view (/account)."""
 
     requires_confirmation = False
