@@ -191,18 +191,33 @@ class ConfirmRegistrationView(FormView):
     success_url = reverse_lazy('account:detail')
     template_name = 'account/user_register_confirm.html'
 
+    def dispatch(self, request, *args, **kwargs):
+        try:
+            self.key = self.queryset.get(key=self.kwargs['key'])
+        except Confirmation.DoesNotExist:
+            # We set None here because we only want to show a 404 when the user actually submits a
+            # form. This is a minor protection against guessing attacks.
+            self.key = None
+
+        return super(ConfirmRegistrationView, self).dispatch(request, *args, **kwargs)
+
+    def get_form_kwargs(self):
+        kwargs = super(ConfirmRegistrationView, self).get_form_kwargs()
+        if self.key is not None:
+            kwargs['instance'] = self.key.user
+        return kwargs
+
     def form_valid(self, form):
+        key = self.key
         request = self.request
         address = request.META['REMOTE_ADDR']
         password = form.cleaned_data['password']
 
-        with transaction.atomic():
-            try:
-                key = self.queryset.get(key=self.kwargs['key'])
-            except Confirmation.DoesNotExist:
-                return TemplateResponse(
-                    request, 'account/user_register_confirmation_not_found.html', {}, status=404)
+        if self.key is None:
+            return TemplateResponse(
+                request, 'account/user_register_confirmation_not_found.html', {}, status=404)
 
+        with transaction.atomic():
             key.user.confirmed = timezone.now()
             key.user.created_in_backend = True
             key.user.save()
@@ -343,6 +358,11 @@ class SetPasswordView(LoginRequiredMixin, AccountPageMixin, FormView):
     success_url = reverse_lazy('account:detail')
     template_name = 'account/set_password.html'
     usermenu_item = 'account:set_password'
+
+    def get_form_kwargs(self):
+        kwargs = super(SetPasswordView, self).get_form_kwargs()
+        kwargs['instance'] = self.request.user
+        return kwargs
 
     def form_valid(self, form):
         request = self.request
