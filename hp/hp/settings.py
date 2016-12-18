@@ -168,7 +168,7 @@ LOGIN_REDIRECT_URL = reverse_lazy('account:detail')
 
 # Authenticate against the XMPP server
 AUTHENTICATION_BACKENDS = [
-    'django_xmpp_backends.auth_backends.XmppBackendBackend',
+    'xmpp_backends.django.auth_backends.XmppBackendBackend',
 ]
 
 ###################

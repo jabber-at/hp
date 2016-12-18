@@ -19,7 +19,7 @@ from django.db import models
 from django.db import transaction
 from django.utils import timezone
 
-from django_xmpp_backends import backend
+from xmpp_backends.django import xmpp_backend
 
 from .constants import REGISTRATION_MANUAL
 
@@ -34,9 +34,9 @@ class UserManager(BaseUserManager):
             user.save(using=self.db)
 
             if password is None and settings.XMPP_HOSTS[user.domain].get('reserve', False):
-                backend.create_reservation(user.node, user.domain, email=email)
+                xmpp_backend.create_reservation(user.node, user.domain, email=email)
             elif password is not None:
-                backend.create_user(user.node, user.domain, password, email=email)
+                xmpp_backend.create_user(user.node, user.domain, password, email=email)
         return user
 
     def create_superuser(self, username, email, password):

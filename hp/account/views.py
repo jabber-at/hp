@@ -44,7 +44,7 @@ from django.views.generic.edit import UpdateView
 
 from celery import chain
 from xmpp_http_upload.models import Upload
-from django_xmpp_backends import backend
+from xmpp_backends.django import xmpp_backend
 
 from core.constants import ACTIVITY_REGISTER
 from core.constants import ACTIVITY_RESET_PASSWORD
@@ -213,8 +213,8 @@ class ConfirmRegistrationView(FormView):
                 login(request, key.user)
 
             # Actually create the user on the XMPP server
-            backend.create_user(username=key.user.node, domain=key.user.domain, password=password,
-                                email=key.user.email)
+            xmpp_backend.create_user(username=key.user.node, domain=key.user.domain,
+                                     password=password, email=key.user.email)
 
             key.user.log(ugettext_noop('Email address %(email)s confirmed.'), address,
                          email=key.user.email)
@@ -311,8 +311,8 @@ class ConfirmResetPasswordView(FormView):
 
         with transaction.atomic():
             key = self.queryset.get(key=self.kwargs['key'])
-            backend.set_password(username=key.user.node, domain=key.user.domain,
-                                 password=form.cleaned_data['password'])
+            xmpp_backend.set_password(username=key.user.node, domain=key.user.domain,
+                                      password=form.cleaned_data['password'])
 
             key.user.log(ugettext_noop('Set new password.'), address)
             messages.success(request, _('Successfully changed your password.'))
@@ -350,7 +350,7 @@ class SetPasswordView(LoginRequiredMixin, AccountPageMixin, FormView):
         user = request.user
         password = form.cleaned_data['password']
 
-        backend.set_password(username=user.node, domain=user.domain, password=password)
+        xmpp_backend.set_password(username=user.node, domain=user.domain, password=password)
         user.log(ugettext_noop('Set new password.'), address)
         AddressActivity.objects.log(request, ACTIVITY_SET_PASSWORD)
         messages.success(request, _('Successfully changed your password.'))
@@ -469,7 +469,7 @@ class DeleteAccountView(LoginRequiredMixin, AccountPageMixin, FormView):
         request = self.request
         user = request.user
 
-        if not backend.check_password(user.node, user.domain, password=password):
+        if not xmpp_backend.check_password(user.node, user.domain, password=password):
             form.add_error('password', _('The password is incorrect.'))
             return self.form_invalid(form)
 
@@ -502,7 +502,7 @@ class ConfirmDeleteAccountView(LoginRequiredMixin, AccountPageMixin, FormView):
         user = request.user
 
         # Check the password of the user again
-        if not backend.check_password(user.node, user.domain, password=password):
+        if not xmpp_backend.check_password(user.node, user.domain, password=password):
             form.add_error('password', _('The password is incorrect.'))
             return self.form_invalid(form)
 
@@ -511,7 +511,7 @@ class ConfirmDeleteAccountView(LoginRequiredMixin, AccountPageMixin, FormView):
 
         # Log the user out, delete data
         logout(request)
-        backend.remove_user(user.node, user.domain)
+        xmpp_backend.remove_user(user.node, user.domain)
         key.delete()
         user.delete()
 

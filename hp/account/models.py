@@ -36,11 +36,11 @@ from django.utils.crypto import get_random_string
 from django.utils.crypto import salted_hmac
 from django.utils.translation import ugettext_lazy as _
 
-from django_xmpp_backends import backend
-from django_xmpp_backends.models import XmppBackendUser
-from jsonfield import JSONField
-from gpgmime.django import gpg_backend
 from gpgmime.django import GpgEmailMessage
+from gpgmime.django import gpg_backend
+from jsonfield import JSONField
+from xmpp_backends.django import xmpp_backend
+from xmpp_backends.django.models import XmppBackendUser
 
 from core.models import Address
 from core.models import BaseModel
@@ -136,7 +136,7 @@ class User(XmppBackendUser, PermissionsMixin):
         self.blocked = True
         self.save()
         self.log('You have been blocked. Sorry.')
-        backend.block_user(username=self.node, domain=self.domain)
+        xmpp_backend.block_user(username=self.node, domain=self.domain)
 
     @contextmanager
     def gpg_keyring(self, init=True, hostname=None, **kwargs):

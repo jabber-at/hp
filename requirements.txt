@@ -8,7 +8,6 @@ django-mptt==0.8.6
 django-redis==4.6.0
 django-simple-captcha==0.5.3
 django-tinymce==2.4.0
-django-xmpp-backends==0.1
 django-xmpp-http-upload==0.4.1
 dnspython==1.15.0
 hiredis==0.2.0

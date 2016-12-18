@@ -25,7 +25,7 @@ from django.contrib.auth import get_user_model
 from django.contrib.messages import constants as messages
 from django.utils import translation
 from django.utils.translation import ugettext as _
-from django_xmpp_backends import backend
+from xmpp_backends.django import xmpp_backend
 
 from core.models import Address
 from core.utils import format_timedelta
@@ -146,7 +146,7 @@ def cleanup():
 
     # Remove users that are gone from the real XMPP server
     for hostname in settings.XMPP_HOSTS:
-        existing_users = set([u.lower() for u in backend.all_users(hostname)])
+        existing_users = set([u.lower() for u in xmpp_backend.all_users(hostname)])
 
         if len(existing_users) < 50:
             # A safety check if the backend for some reason does not return any users and does not
