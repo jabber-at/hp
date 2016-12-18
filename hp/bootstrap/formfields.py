@@ -14,6 +14,7 @@
 # If not, see <http://www.gnu.org/licenses/>.
 
 from django import forms
+from django.contrib.auth import password_validation
 from django.forms.utils import flatatt
 from django.utils.encoding import force_text
 from django.utils.html import format_html
@@ -186,6 +187,13 @@ class BootstrapEmailField(BootstrapMixin, forms.EmailField):
 class BootstrapPasswordField(BootstrapMixin, forms.CharField):
     widget = widgets.BootstrapPasswordInput
     add_success = False
+
+    def __init__(self, *args, **kwargs):
+        for validator in password_validation.get_default_password_validators():
+            if isinstance(validator, password_validation.MinimumLengthValidator):
+                kwargs.setdefault('min_length', validator.min_length)
+                break
+        super(BootstrapPasswordField, self).__init__(*args, **kwargs)
 
 
 class BootstrapChoiceField(BootstrapMixin, forms.ChoiceField):
