@@ -189,7 +189,12 @@ class BlogPostAdmin(BasePageAdmin):
                              '...) to generate previews of this content.</p>'
                              '<p><strong>NOTE:</strong> Longer variants fall back to shorter '
                              'variants if not set.</p>'),
-            'classes': ('description', ),
+            'classes': ('collapse', 'meta-descriptions', ),
+        }),
+        (_('Calendar'), {
+            'fields': ('start', 'end', ),
+            'description': _('<p>If set, the page will show up in the iCal calender.</p>'),
+            'classes': ('collapse', ),
         }),
         (_('Meta'), {
             'fields': (('published', 'sticky'), 'author', ),

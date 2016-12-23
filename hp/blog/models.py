@@ -178,6 +178,10 @@ class BlogPost(BasePage):
 
     sticky = models.BooleanField(default=False, help_text=_(
         'Pinned at the top of any list of blog posts.'))
+    start = models.DateTimeField(null=True, blank=True, help_text=_(
+        'When the event starts.'))
+    end = models.DateTimeField(null=True, blank=True, help_text=_(
+        'When the event stops, defaults to an hour after start.'))
 
     def get_absolute_url(self):
         return reverse('blog:blogpost', kwargs={'slug': self.slug.current})

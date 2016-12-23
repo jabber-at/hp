@@ -1,9 +1,9 @@
-fieldset.description label {
+fieldset.meta-descriptions label {
     width: 100px;
 }
-fieldset.description input + p.help {
+fieldset.meta-descriptions input + p.help {
     margin-left: 100px;
 }
-fieldset.description p.help span.test-length {
+fieldset.meta-descriptions p.help span.test-length {
     font-weight: bold;
 }
