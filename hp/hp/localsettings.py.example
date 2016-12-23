@@ -60,6 +60,7 @@ DATABASES = {
 # useful if your MEDIA_URL is on a separate domain (e.g. because XEP-0363 uploads should be served
 # from somewhere else) and still want your own uploaded files saved to a different directory.
 #BLOG_MEDIA_ROOT = '/var/www/other.example.com/media/'
+#BLOG_MEDIA_URL = '/media/'
 
 # Set this to True during development
 #DEBUG = True

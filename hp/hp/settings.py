@@ -185,6 +185,7 @@ MESSAGE_TAGS = {
 
 # Custom media root directory for Images uploaded via admin
 BLOG_MEDIA_ROOT = None
+BLOG_MEDIA_URL = None
 
 XMPP_HOSTS = {}
 CONTACT_ADDRESS = None
