@@ -21,6 +21,8 @@ from lxml import html
 
 from django import template
 from django.conf import settings
+from django.core.files.storage import FileSystemStorage
+from django.core.files.storage import default_storage
 from django.core.urlresolvers import reverse
 from django.db import models
 from django.utils.safestring import mark_safe
@@ -32,6 +34,11 @@ from core.models import BaseModel
 from core.utils import canonical_link
 
 from .querysets import BlogPostQuerySet
+
+if settings.BLOG_MEDIA_ROOT:
+    fs = FileSystemStorage(location=settings.BLOG_MEDIA_ROOT)
+else:
+    fs = default_storage
 
 
 class BasePage(BaseModel):
@@ -177,3 +184,11 @@ class BlogPost(BasePage):
 
     def __str__(self):
         return self.title.current
+
+
+class Image(BaseModel):
+    name = models.CharField(max_length=32)
+    image = models.ImageField(storage=fs)
+
+    def __str__(self):
+        return self.name

@@ -183,6 +183,9 @@ MESSAGE_TAGS = {
     messages.DEBUG: 'info debug',
 }
 
+# Custom media root directory for Images uploaded via admin
+BLOG_MEDIA_ROOT = None
+
 XMPP_HOSTS = {}
 CONTACT_ADDRESS = None
 CONTACT_MUC = None
