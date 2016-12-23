@@ -94,6 +94,7 @@ class AccountPageMixin(StaticContextMixin):
         ('account:delete', _('Delete account'), True),
     )
     usermenu_item = None
+    requires_email = False
     requires_confirmation = True
 
     def dispatch(self, request, *args, **kwargs):
@@ -105,6 +106,14 @@ class AccountPageMixin(StaticContextMixin):
             context = self.get_context_data(**kwargs)
 
             return TemplateResponse(request, 'account/requires_confirmation.html', context)
+        elif self.requires_email and not request.user.email:
+            kwargs = {}
+            if isinstance(self, SingleObjectMixin):
+                self.object = self.get_object()
+                kwargs['object'] = self.object
+            context = self.get_context_data(**kwargs)
+
+            return TemplateResponse(request, 'account/requires_email.html', context)
 
         return super(AccountPageMixin, self).dispatch(request, *args, **kwargs)
 
@@ -351,6 +360,7 @@ class NotificationsView(LoginRequiredMixin, AccountPageMixin, UpdateView):
     usermenu_item = 'account:notifications'
     form_class = NotificationsForm
     template_name = 'account/notifications.html'
+    requires_email = True
 
 
 class SetPasswordView(LoginRequiredMixin, AccountPageMixin, FormView):
@@ -484,6 +494,7 @@ class DeleteAccountView(LoginRequiredMixin, AccountPageMixin, FormView):
     usermenu_item = 'account:delete'
     form_class = DeleteAccountForm
     template_name = 'account/delete.html'
+    requires_email = True
 
     def form_valid(self, form):
         password = form.cleaned_data['password']

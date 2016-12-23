@@ -1,0 +1,8 @@
+{% extends "account/base.html" %}
+{% load i18n %}
+
+{% block title %}{% trans "Requires email address" %}{% endblock title %}
+{% block content %}
+{% url 'account:set_email' as url %}
+<p>{% blocktrans %}This functionality requires that you have <a href="{{ url }}">set your email address</a>.{% endblocktrans %}</p>
+{% endblock content %}
