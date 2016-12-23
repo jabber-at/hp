@@ -349,6 +349,10 @@ class ConfirmResetPasswordView(FormView):
 
 
 class NotificationsView(LoginRequiredMixin, AccountPageMixin, UpdateView):
+    form_class = NotificationsForm
+    requires_email = True
+    template_name = 'account/notifications.html'
+    usermenu_item = 'account:notifications'
 
     def get_object(self):
         return self.request.user.notifications
@@ -356,11 +360,6 @@ class NotificationsView(LoginRequiredMixin, AccountPageMixin, UpdateView):
     def form_valid(self, form):
         self.object = form.save()
         return HttpResponse('Ok.')
-
-    usermenu_item = 'account:notifications'
-    form_class = NotificationsForm
-    template_name = 'account/notifications.html'
-    requires_email = True
 
 
 class SetPasswordView(LoginRequiredMixin, AccountPageMixin, FormView):
