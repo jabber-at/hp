@@ -9,9 +9,15 @@
         <td>{% trans "Registered" %}</td>
         <td>{{ object.registered }}</td>
     </tr>
-    <tr>
+    <tr{% if not object.email %} class="danger"{% endif %}>
         <td>{% trans "Email address" %}</td>
-        <td>{{ object.email }} (<a href="{% url "account:set_email" %}">{% trans "change" %}</a>)</td>
+        <td>
+            {% if object.email %}
+                {{ object.email }} (<a href="{% url "account:set_email" %}">{% trans "change" %}</a>)
+            {% else %}
+                <a href="{% url "account:set_email" %}">{% trans "Not set" %}</a>
+            {% endif %}
+        </td>
     </tr>
     <tr class="{% if object.confirmed %}success{% else %}danger{% endif %}">
         <td>{% trans "Email confirmed" %}</td>
