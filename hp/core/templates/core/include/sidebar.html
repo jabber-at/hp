@@ -42,5 +42,9 @@
         <a href="{% url "feed:atom" language=LANGUAGE_CODE %}">
             <img src="{% static "core/img/rss.svg" %}" class="bullet">Atom feed</a>
     </li>
+    <li class="list-group-item">
+        <a href="{% url "feed:ical" language=LANGUAGE_CODE %}">
+            <img src="{% static "feed/ical.svg" %}" class="bullet">iCal import</a>
+    </li>
   </ul>
 </div>
