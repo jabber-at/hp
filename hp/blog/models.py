@@ -36,7 +36,7 @@ from core.utils import canonical_link
 from .querysets import BlogPostQuerySet
 
 if settings.BLOG_MEDIA_ROOT:
-    fs = FileSystemStorage(location=settings.BLOG_MEDIA_ROOT)
+    fs = FileSystemStorage(location=settings.BLOG_MEDIA_ROOT, base_url=settings.BLOG_MEDIA_URL)
 else:
     fs = default_storage
 
