@@ -183,7 +183,7 @@ class ICalView(View):
             cal.add('prodid', '-//%s//%s' % (settings.DEFAULT_XMPP_HOST, language))
             cal.add('version', '2.0')
 
-            for post in BlogPost.objects.published().filter(start__gt=timezone.now()):
+            for post in BlogPost.objects.published():
                 event = Event()
                 event.add('summary', post.title.current)
                 event.add('dtstart', post.start)
