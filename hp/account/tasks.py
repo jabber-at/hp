@@ -147,7 +147,7 @@ def update_last_activity():
     qs = User.objects.order_by('?')
 
     # Update some random users with recent activity
-    for user in qs.filter(last_activity__isnull=False, last_activity__gt=cutoff)[:30]:
+    for user in qs.filter(last_activity__isnull=False, last_activity__gt=cutoff)[:50]:
         last_activity = xmpp_backend.get_last_activity(user.node, user.domain)
         user.last_activity = timezone.make_aware(last_activity)
         user.save()
