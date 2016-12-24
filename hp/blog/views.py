@@ -16,6 +16,7 @@
 import logging
 
 from django.conf import settings
+from django.utils import timezone
 from django.views.generic.detail import DetailView
 from django.views.generic.list import ListView
 
@@ -57,8 +58,11 @@ class BlogPostListView(StaticContextMixin, ListView):
 
     def get_context_data(self, **kwargs):
         context = super(BlogPostListView, self).get_context_data(**kwargs)
-        newest = max(context['object_list'], key=lambda o: o.updated)
-        context['updated'] = newest.updated
+        if context['object_list']:
+            newest = max(context['object_list'], key=lambda o: o.updated)
+            context['updated'] = newest.updated
+        else:
+            context['updated'] = timezone.now()
         return context
 
 
