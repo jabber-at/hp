@@ -245,6 +245,9 @@ _DEFAULT_ACCOUNT_USER_MENU = [
         'title': 'Overview',
         'requires_confirmation': False,
     }),
+    ('account:sessions', {
+        'title': 'Current sessions',
+    }),
     ('account:notifications', {
         'title': 'Notifications',
     }),

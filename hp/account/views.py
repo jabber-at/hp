@@ -37,6 +37,7 @@ from django.utils.translation import ugettext_noop
 from django.views.generic import View
 from django.views.generic import DetailView
 from django.views.generic.base import RedirectView
+from django.views.generic.base import TemplateView
 from django.views.generic.detail import SingleObjectMixin
 from django.views.generic.edit import CreateView
 from django.views.generic.edit import FormView
@@ -358,6 +359,17 @@ class ConfirmResetPasswordView(FormView):
         return super(ConfirmResetPasswordView, self).form_valid(form)
 
 
+class SessionsView(LoginRequiredMixin, AccountPageMixin, TemplateView):
+    template_name = 'account/sessions.html'
+    usermenu_item = 'account:sessions'
+
+    def get_context_data(self, **kwargs):
+        context = super(SessionsView, self).get_context_data(**kwargs)
+        user = self.request.user
+        context['sessions'] = xmpp_backend.user_sessions(user.node, user.domain)
+        return context
+
+
 class NotificationsView(LoginRequiredMixin, AccountPageMixin, UpdateView):
     form_class = NotificationsForm
     requires_email = True
@@ -582,6 +594,15 @@ class UserAvailableView(View):
         else:
             cache.set(cache_key, False, 30)
             return HttpResponse('')
+
+
+class StopUserSessionView(LoginRequiredMixin, View):
+    def delete(self, request, resource):
+        user = request.user
+
+        # TODO: improve message
+        xmpp_backend.stop_user_session(user.node, user.domain, resource, 'Request via homepage.')
+        return HttpResponse('ok')
 
 
 class DeleteHttpUploadView(LoginRequiredMixin, SingleObjectMixin, View):
