@@ -80,12 +80,12 @@ class UserAdmin(BaseUserAdmin):
     )
     fieldsets = (
         (None, {
-            'fields': ('username', 'email', 'registered', 'registration_method', 'confirmed',
-                       'blocked', )
+            'fields': ('username', 'email', ('registered', 'confirmed', 'last_activity', ),
+                       'registration_method', 'blocked', ),
         }),
     )
     form = AdminUserForm
-    list_display = ('username', 'email', 'registered', 'confirmed', )
+    list_display = ('username', 'email', 'registered', 'confirmed', 'last_activity', )
     list_filter = (ConfirmedFilter, CreatedInBackendFilter, 'is_superuser', )
     ordering = ('-registered', )
     readonly_fields = ['username', 'registered', ]
