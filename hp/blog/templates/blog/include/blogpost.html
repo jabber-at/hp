@@ -9,7 +9,7 @@
 
     <span itemprop="headline">{{ post.title.current }}</span>
     {% if summary %}</a>{% endif %}
-    <small>{% blocktrans with date=post.created user=post.author.node %}{{ date }} by {{ user}}{% endblocktrans %}</small>
+    <small>{% blocktrans with date=post.publication_date user=post.author.node %}{{ date }} by {{ user}}{% endblocktrans %}</small>
     {% if summary %}
         </h3>
     {% else %}
@@ -41,7 +41,7 @@
             <meta itemprop="width" content="60">
             <meta itemprop="height" content="60">
         </div>
-        <meta itemprop="datePublished" content="{{ post.created|date:"c" }}"/>
+        <meta itemprop="datePublished" content="{{ post.publication_date|date:"c" }}"/>
         <meta itemprop="dateModified" content="{{ post.updated|date:"c" }}"/>
     </div>
 </div>

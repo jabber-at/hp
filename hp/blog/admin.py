@@ -197,7 +197,7 @@ class BlogPostAdmin(BasePageAdmin):
             'classes': ('collapse', ),
         }),
         (_('Meta'), {
-            'fields': (('published', 'sticky'), 'author', ),
+            'fields': (('published', 'sticky'), 'author', 'publication_date', ),
         }),
     )
     list_display = ['__str__', 'created', ]

@@ -25,6 +25,7 @@ from django.core.files.storage import FileSystemStorage
 from django.core.files.storage import default_storage
 from django.core.urlresolvers import reverse
 from django.db import models
+from django.utils import timezone
 from django.utils.safestring import mark_safe
 from django.utils.translation import ugettext_lazy as _
 
@@ -176,6 +177,9 @@ class Page(BasePage):
 class BlogPost(BasePage):
     objects = BlogPostQuerySet.as_manager()
 
+    publication_date = models.DateTimeField(default=timezone.now, help_text=_(
+        'When the article was published. You can also set this to a future date, if you want to '
+        'publish this post in the future.'))
     sticky = models.BooleanField(default=False, help_text=_(
         'Pinned at the top of any list of blog posts.'))
     start = models.DateTimeField(null=True, blank=True, help_text=_(

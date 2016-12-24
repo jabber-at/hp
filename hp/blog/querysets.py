@@ -14,11 +14,15 @@
 # If not, see <http://www.gnu.org/licenses/>.
 
 from django.db import models
+from django.utils import timezone
 
 
 class BlogPostQuerySet(models.QuerySet):
-    def published(self):
-        return self.filter(published=True)
+    def published(self, now=None):
+        if now is None:
+            now = timezone.now()
+
+        return self.filter(published=True, publication_date__lt=now)
 
     def blog_order(self):
         return self.order_by('-sticky', '-created')
