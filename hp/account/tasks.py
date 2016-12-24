@@ -24,6 +24,7 @@ from django.conf import settings
 from django.contrib.auth import get_user_model
 from django.contrib.messages import constants as messages
 from django.utils import translation
+from django.utils import timezone
 from django.utils.translation import ugettext as _
 from xmpp_backends.django import xmpp_backend
 
@@ -137,6 +138,29 @@ def resend_confirmations(*conf_pks):
     for pk in conf_pks:
         conf = Confirmation.objects.get(pk=pk)
         conf.send()
+
+
+@shared_task
+def update_last_activity():
+    cutoff = timezone.now() - timedelta(days=350)
+
+    # Update some random users with recent activity
+    for user in User.objects.filter(last_activity__isnull=False, last_activity__gt=cutoff):
+        last_activity = xmpp_backend.get_last_activity(user.node, user.domain)
+        user.last_activity = timezone.make_aware(last_activity)
+        user.save()
+
+    # Update last activity of some random 20 users
+    for user in User.objects.filter(last_activity__isnull=True).order_by('?')[:20]:
+        last_activity = xmpp_backend.get_last_activity(user.node, user.domain)
+        user.last_activity = timezone.make_aware(last_activity)
+        user.save()
+
+    # Update last activity of users with more then 350 days of inactivity
+    for user in User.objects.filter(last_activity__isnull=False, last_activity__lt=cutoff):
+        last_activity = xmpp_backend.get_last_activity(user.node, user.domain)
+        user.last_activity = timezone.make_aware(last_activity)
+        user.save()
 
 
 @shared_task

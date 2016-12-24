@@ -306,6 +306,10 @@ CELERY_BEAT_SCHEDULE = {
         'task': 'account.tasks.cleanup',
         'schedule': crontab(hour=3, minute=5),
     },
+    'account last activity': {
+        'task': 'account.tasks.update_last_activity',
+        'schedule': crontab(minute=12),
+    },
 }
 CELERY_WORKER_LOG_FORMAT = None
 CELERY_WORKER_TASK_LOG_FORMAT = None
