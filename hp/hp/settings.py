@@ -239,6 +239,36 @@ _DEFAULT_SOCIAL_MEDIA_TEXTS = {
 }
 SOCIAL_MEDIA_TEXTS = {}
 
+ACCOUNT_USER_MENU = None
+_DEFAULT_ACCOUNT_USER_MENU = [
+    ('account:detail', {
+        'title': 'Overview',
+        'requires_confirmation': False,
+    }),
+    ('account:notifications', {
+        'title': 'Notifications',
+    }),
+    ('account:set_password', {
+        'title': 'Set password',
+    }),
+    ('account:set_email', {
+        'title': 'Set E-Mail',
+    }),
+    ('account:xep0363', {
+        'title': 'HTTP uploads',
+    }),
+    ('account:gpg', {
+        'title': 'GPG keys',
+    }),
+    ('account:log', {
+        'title': 'Recent activity',
+        'requires_confirmation': False,
+    }),
+    ('account:delete', {
+        'title': 'Delete account',
+    }),
+]
+
 ################
 # GPG settings #
 ################
@@ -347,6 +377,12 @@ if CELERY_WORKER_LOG_FORMAT is None:
 if CELERY_WORKER_TASK_LOG_FORMAT is None:
     # The default includes the task_name
     CELERY_WORKER_TASK_LOG_FORMAT = '[%(asctime).19s %(levelname)-8s] [%(task_name)s] %(message)s'
+
+# If ACCOUNT_USER_MENU is None, set the default value, if it's a callable, pass default to it
+if ACCOUNT_USER_MENU is None:
+    ACCOUNT_USER_MENU = _DEFAULT_ACCOUNT_USER_MENU
+elif callable(ACCOUNT_USER_MENU):
+    ACCOUNT_USER_MENU = ACCOUNT_USER_MENU(_DEFAULT_ACCOUNT_USER_MENU)
 
 SPAM_BLACKLIST = set([ipaddress.ip_network(addr) for addr in SPAM_BLACKLIST])
 

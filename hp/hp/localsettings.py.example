@@ -298,6 +298,12 @@ DEFAULT_XMPP_HOST = 'example.com'
 #    re.compile('@example\.net$'),
 #)
 
+# You can configure the user menu (visible on all /account pages to disable or even add
+# functionality. This can be a list of tuples replacing the initial value, or a callable
+# that manipulates the default value. For more information, please see:
+#   https://jabber.at/doc/settings.html
+#ACCOUNT_USER_MENU = [... ]
+
 #####################
 # GPG configuration #
 #####################

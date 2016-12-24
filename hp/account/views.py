@@ -117,21 +117,23 @@ class AccountPageMixin(StaticContextMixin):
 
         return super(AccountPageMixin, self).dispatch(request, *args, **kwargs)
 
-    def get_context_data(self, **kwargs):
-        context = super(AccountPageMixin, self).get_context_data(**kwargs)
-
+    def get_usermenu(self):
         usermenu = []
-        for urlname, title, requires_confirmation in self.usermenu:
-            if self.request.user.created_in_backend is False and requires_confirmation is True:
+        for urlname, config in settings.ACCOUNT_USER_MENU:
+            req_confirmation = config.get('requires_confirmation', True)
+            if self.request.user.created_in_backend is False and req_confirmation is True:
                 continue
 
             usermenu.append({
                 'path': reverse(urlname),
-                'title': title,
+                'title': config.get('title', 'No title'),
                 'active': ' active' if urlname == self.usermenu_item else '',
             })
-        context['usermenu'] = usermenu
+        return usermenu
 
+    def get_context_data(self, **kwargs):
+        context = super(AccountPageMixin, self).get_context_data(**kwargs)
+        context['usermenu'] = self.get_usermenu()
         return context
 
 
