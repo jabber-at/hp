@@ -278,7 +278,9 @@ class LoginView(BlacklistMixin, DnsBlMixin, RateLimitMixin, AnonymousRequiredMix
         # Okay, security check complete. Log the user in.
         login(self.request, user)
         user.last_activity = now
-        xmpp_backend.set_last_activity(user.node, user.domain, now)
+        xmpp_backend.set_last_activity(user.node, user.domain,
+                                       status='Logged in via homepage.',
+                                       timestamp=now)
         return HttpResponseRedirect(redirect_to)
 
     def form_invalid(self, form):
