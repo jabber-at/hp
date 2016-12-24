@@ -272,8 +272,13 @@ class LoginView(BlacklistMixin, DnsBlMixin, RateLimitMixin, AnonymousRequiredMix
         if not is_safe_url(url=redirect_to, host=self.request.get_host()):
             redirect_to = resolve_url(settings.LOGIN_REDIRECT_URL)
 
+        user = form.get_user()
+        now = timezone.now()
+
         # Okay, security check complete. Log the user in.
-        login(self.request, form.get_user())
+        login(self.request, user)
+        user.last_activity = now
+        xmpp_backend.set_last_activity(user.node, user.domain, now)
         return HttpResponseRedirect(redirect_to)
 
     def form_invalid(self, form):
