@@ -144,14 +144,16 @@ def resend_confirmations(*conf_pks):
 def update_last_activity():
     cutoff = timezone.now() - timedelta(days=350)
 
+    qs = User.objects.order_by('?')
+
     # Update some random users with recent activity
-    for user in User.objects.filter(last_activity__isnull=False, last_activity__gt=cutoff):
+    for user in qs.filter(last_activity__isnull=False, last_activity__gt=cutoff)[:30]:
         last_activity = xmpp_backend.get_last_activity(user.node, user.domain)
         user.last_activity = timezone.make_aware(last_activity)
         user.save()
 
     # Update last activity of some random 20 users
-    for user in User.objects.filter(last_activity__isnull=True).order_by('?')[:20]:
+    for user in qs.filter(last_activity__isnull=True)[:20]:
         last_activity = xmpp_backend.get_last_activity(user.node, user.domain)
         user.last_activity = timezone.make_aware(last_activity)
         user.save()
