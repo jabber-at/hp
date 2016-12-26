@@ -67,7 +67,7 @@ class BlogPostListView(StaticContextMixin, ListView):
 
 
 class BlogPostView(TranslateSlugViewMixin, BasePageMixin, StaticContextMixin, DetailView):
-    queryset = BlogPost.objects.filter(published=True)
+    queryset = BlogPost.objects.published()
     context_object_name = 'post'
     static_context = {
         'og_type': 'article',
