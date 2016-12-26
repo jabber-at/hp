@@ -68,6 +68,12 @@ DATABASES = {
 # Set this to something long and unique
 SECRET_KEY = ''
 
+# If you want to configure INSTALLED_APPS to add your own Django apps, you can either completely
+# override the INSTALLED_APPS setting or set it to a callable that will receive the default value
+# must return your modified value. For more information, see:
+#     https://jabber.at/doc/settings.html
+#INSTALLED_APPS = [...]
+
 #########################
 # General configuration #
 #########################

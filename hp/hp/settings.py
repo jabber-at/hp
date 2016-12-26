@@ -44,7 +44,8 @@ ALLOWED_HOSTS = []
 
 # Application definition
 
-INSTALLED_APPS = [
+INSTALLED_APPS = None
+_DEFAULT_INSTALLED_APPS = [
     'core',
     'blog',  # blog posts and pages
     'bootstrap',  # bootstrap enhancements
@@ -65,7 +66,6 @@ INSTALLED_APPS = [
     'mptt',  # Tree structure for MenuItem
     'tinymce',  # Rich text editor
     'xmpp_http_upload',  # XEP-0363
-
 ]
 
 MIDDLEWARE_CLASSES = [
@@ -384,6 +384,13 @@ if CELERY_WORKER_LOG_FORMAT is None:
 if CELERY_WORKER_TASK_LOG_FORMAT is None:
     # The default includes the task_name
     CELERY_WORKER_TASK_LOG_FORMAT = '[%(asctime).19s %(levelname)-8s] [%(task_name)s] %(message)s'
+
+
+# Process any local INSTALLED_APPS config
+if INSTALLED_APPS is None:
+    INSTALLED_APPS = _DEFAULT_INSTALLED_APPS
+elif callable(INSTALLED_APPS):
+    INSTALLED_APPS = INSTALLED_APPS(_DEFAULT_INSTALLED_APPS)
 
 # If ACCOUNT_USER_MENU is None, set the default value, if it's a callable, pass default to it
 if ACCOUNT_USER_MENU is None:
