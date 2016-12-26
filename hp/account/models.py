@@ -83,7 +83,7 @@ def default_payload():
 class User(XmppBackendUser, PermissionsMixin):
     # NOTE: MySQL only allows a 255 character limit
     username = models.CharField(max_length=255, unique=True, verbose_name=_('Username'))
-    email = models.EmailField(null=True, blank=True, verbose_name=_('Email'))
+    email = models.EmailField(blank=True, verbose_name=_('Email'))
 
     # when the account was first registered
     registered = models.DateTimeField(auto_now_add=True)
@@ -242,11 +242,11 @@ class Confirmation(BaseModel):
 
     # NOTE: This is *not* necessarily the same as the email address of the user (a new address
     #       might have been added).
-    to = models.EmailField(null=True, blank=True, verbose_name=_('Recipient'))
+    to = models.EmailField(blank=True, verbose_name=_('Recipient'))
 
     key = models.CharField(max_length=40, default=default_key)
     expires = models.DateTimeField(default=default_expires)
-    purpose = models.CharField(null=True, blank=True, max_length=16)
+    purpose = models.CharField(max_length=16)
     payload = JSONField(default=default_payload)
 
     # NOTE: Do not add choices here, or changing settings.LANGUAGES will trigger a migration
@@ -319,7 +319,7 @@ class UserLogEntry(BaseModel):
     objects = UserLogEntryManager.from_queryset(UserLogEntryQuerySet)()
 
     user = models.ForeignKey(settings.AUTH_USER_MODEL, related_name='log_entries')
-    address = models.GenericIPAddressField(null=True)
+    address = models.GenericIPAddressField(null=True, blank=True)
     message = models.TextField()
     payload = JSONField(default=default_payload)
 
