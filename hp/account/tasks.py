@@ -23,10 +23,10 @@ from gpgmime.django import gpg_backend
 from django.conf import settings
 from django.contrib.auth import get_user_model
 from django.contrib.messages import constants as messages
-from django.core.mail import send_mail
-from django.template import Context
-from django.template import Template
-from django.template.loader import render_to_string
+#from django.core.mail import send_mail
+#from django.template import Context
+#from django.template import Template
+#from django.template.loader import render_to_string
 from django.utils import translation
 from django.utils import timezone
 from django.utils.translation import ugettext as _
