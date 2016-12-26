@@ -155,12 +155,6 @@ def update_last_activity():
         user.last_activity = timezone.make_aware(last_activity)
         user.save()
 
-    # Update last activity of some random 20 users
-    for user in qs.filter(last_activity__isnull=True)[:20]:
-        last_activity = xmpp_backend.get_last_activity(user.node, user.domain)
-        user.last_activity = timezone.make_aware(last_activity)
-        user.save()
-
     # Update last activity of users with more then 350 days of inactivity
     for user in User.objects.filter(last_activity__isnull=False, last_activity__lt=cutoff):
         last_activity = xmpp_backend.get_last_activity(user.node, user.domain)
