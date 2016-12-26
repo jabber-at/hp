@@ -17,6 +17,7 @@ import configparser
 from datetime import datetime
 
 from fabric.api import local
+from fabric.api import task
 from fabric.tasks import Task
 
 from fabric_webbuilders import BuildBootstrapTask
@@ -142,6 +143,13 @@ class UploadDoc(DeploymentTaskMixin, Task):
         local('make -C doc html')
         local('rsync -a --rsync-path="sudo rsync" doc/_build/html/ %s:/var/www/%s/doc/'
               % (config['host'], config['hostname']))
+
+
+@task
+def autodoc():
+    """Automatically rebuild documentation on source changes."""
+    local('sphinx-autobuild -p 8080 doc/ doc/_build/html/')
+
 
 setup = SetupTask()
 deploy = DeployTask()
