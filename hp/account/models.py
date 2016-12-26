@@ -231,8 +231,10 @@ class Notifications(BaseModel):
 
     account_expires = models.BooleanField(default=True, help_text=_(
         'Send user an email when the account is about to be deleted.'))
+    account_expires_notified = models.BooleanField(default=False)
     gpg_expires = models.BooleanField(default=True, help_text=_(
         'Send user an email when his GPG key is about to expire.'))
+    gpg_expires_notified = models.BooleanField(default=False)
 
 
 class Confirmation(BaseModel):
