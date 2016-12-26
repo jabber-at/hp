@@ -19,6 +19,14 @@ from django.utils import timezone
 
 
 class UserQuerySet(models.QuerySet):
+    def has_email(self):
+        """Users that have an email address."""
+        return self.exclude(email='')
+
+    def confirmed(self):
+        """Users that have a confirmed email address."""
+        return self.exclude(email='').exclude(confirmed__isnull=True)
+
     def count_confirmations(self):
         return self.annotate(count_confirmations=models.Count('confirmations', distinct=True))
 
