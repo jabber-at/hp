@@ -23,6 +23,10 @@ from gpgmime.django import gpg_backend
 from django.conf import settings
 from django.contrib.auth import get_user_model
 from django.contrib.messages import constants as messages
+from django.core.mail import send_mail
+from django.template import Context
+from django.template import Template
+from django.template.loader import render_to_string
 from django.utils import translation
 from django.utils import timezone
 from django.utils.translation import ugettext as _
@@ -144,10 +148,8 @@ def resend_confirmations(*conf_pks):
 def update_last_activity():
     cutoff = timezone.now() - timedelta(days=350)
 
-    qs = User.objects.order_by('?')
-
     # Update some random users with recent activity
-    for user in qs.filter(last_activity__isnull=False, last_activity__gt=cutoff)[:50]:
+    for user in User.objects.order_by('?').filter(last_activity__gt=cutoff)[:50]:
         last_activity = xmpp_backend.get_last_activity(user.node, user.domain)
         if last_activity is None:
             log.warn('%s: Could not get last activity.', user)
@@ -156,12 +158,33 @@ def update_last_activity():
         user.save()
 
     # Update last activity of users with more then 350 days of inactivity
-    for user in User.objects.filter(last_activity__isnull=False, last_activity__lt=cutoff):
+    for user in User.objects.select_related('notifications').filter(last_activity__lt=cutoff):
         last_activity = xmpp_backend.get_last_activity(user.node, user.domain)
         if last_activity is None:
+            # This may happen when the user was already deleted in the backend (handled by cleanup)
             log.warn('%s: Could not get last activity.', user)
             continue
+
         user.last_activity = timezone.make_aware(last_activity)
+
+        # TODO: This account is untested - for now we just update the last activity.
+        # If the last activity is still over the threshold and the user hasn't yet been notified,
+        # we send an email to warn the user.
+        #if user.last_activity > cutoff and user.notifications.account_expires_notified is False:
+        #    host = settings.XMPP_HOSTS[user.domain]
+        #    frm = host['DEFAULT_FROM_EMAIL']
+        #
+        #    context = {'user': user}
+        #    subject = _('Your account on {{ user.domain }} is about to expire')
+        #    subject = Template(subject).render(Context(context))
+        #    txt = render_to_string('account/email/user_expires.txt', context)
+        #    html = render_to_string('account/email/user_expires.html', context)
+
+        #    send_mail(subject, txt, frm, [user.email], html_message=html)
+
+        #    user.notifications.account_expires_notified = True
+        #    user.notifications.save()
+
         user.save()
 
 
