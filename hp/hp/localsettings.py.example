@@ -56,12 +56,6 @@ DATABASES = {
 #MEDIA_URL = '/media/'
 #STATIC_ROOT = '/var/www/example.com/static/'
 
-# You can define a different root directory for uploaded images via the admin interface. This is
-# useful if your MEDIA_URL is on a separate domain (e.g. because XEP-0363 uploads should be served
-# from somewhere else) and still want your own uploaded files saved to a different directory.
-#BLOG_MEDIA_ROOT = '/var/www/other.example.com/media/'
-#BLOG_MEDIA_URL = '/media/'
-
 # Set this to True during development
 #DEBUG = True
 
@@ -82,12 +76,28 @@ SECRET_KEY = ''
 # "%(brand)s" is replaced with the "BRAND" key of the current site.
 #COPYRIGHT_NOTICE = _('© 2010-%(year)s, %(brand)s.')
 
+# You can define a different root directory for uploaded images via the admin interface. This is
+# useful if your MEDIA_URL is on a separate domain (e.g. because XEP-0363 uploads should be served
+# from somewhere else) and still want your own uploaded files saved to a different directory.
+#BLOG_MEDIA_ROOT = '/var/www/other.example.com/media/'
+#BLOG_MEDIA_URL = '/media/'
+
+#########################
+# Account configuration #
+#########################
+
 # Minimum and maximum username length allowed by the interface.
 #MIN_USERNAME_LENGTH = 2
 #MAX_USERNAME_LENGTH = 64
 
 # Require a unique email address. By default an address can be used by multiple accounts.
 #REQUIRE_UNIQUE_EMAIL = True
+
+# You can configure the user menu (visible on all /account pages to disable or even add
+# functionality. This can be a list of tuples replacing the initial value, or a callable
+# that manipulates the default value. For more information, please see:
+#   https://jabber.at/doc/settings.html
+#ACCOUNT_USER_MENU = [... ]
 
 ##########
 # Caches #
@@ -304,12 +314,6 @@ DEFAULT_XMPP_HOST = 'example.com'
 #    re.compile('@example\.com$'),
 #    re.compile('@example\.net$'),
 #)
-
-# You can configure the user menu (visible on all /account pages to disable or even add
-# functionality. This can be a list of tuples replacing the initial value, or a callable
-# that manipulates the default value. For more information, please see:
-#   https://jabber.at/doc/settings.html
-#ACCOUNT_USER_MENU = [... ]
 
 #####################
 # GPG configuration #
