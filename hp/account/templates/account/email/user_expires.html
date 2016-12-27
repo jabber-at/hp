@@ -2,15 +2,15 @@
 {% comment %}TODO: somehow decide on the language used{% endcomment %}
 <p>{% blocktrans with jid=jid %}Dear {{ jid }},{% endblocktrans %}</p>
 
-<p>{% blocktrans with when=when|date:"SHORT_DATE_FORMAT" %}Your account {{ jid }} hasn't been used for a while and will
-be removed on {{ when }}, that is in {{ when_days }} days. We automatically
-remove unused accounts after {{ expires_days }} days of inactivity.{% endblocktrans %}</p>
+<p>{% blocktrans with when=when|date:"SHORT_DATE_FORMAT" %}Your account {{ jid }} hasn't been used for a while and will be removed on
+{{ when }}, that is in {{ when_days }} days. We automatically remove unused
+accounts after {{ expires_days }} days of inactivity.{% endblocktrans %}</p>
 
-<p>{% blocktrans %}If you want to keep your account, all you have to do is login
-with any client or <a href="{{ login_url }}">via our homepage</a>. If you have lost your password, you
-can <a href="{{ password_url }}">reset it here</a>.{% endblocktrans %}</p>
+<p>{% blocktrans %}If you want to keep your account, all you have to do is login with any
+client or <a href="{{ login_url }}">via our homepage</a>. If you have lost
+your password, you can <a href="{{ password_url }}">reset it here</a>.{% endblocktrans %}</p>
 
-<p>{% blocktrans %}If you don't want to keep your account, you do not have to do anything and this
-will be the last email you will ever receive from us.{% endblocktrans %}</p>
+<p>{% blocktrans %}If you don't want to keep your account, you do not have to do anything and
+this will be the last email you will ever receive from us.{% endblocktrans %}</p>
 
 <p>{% blocktrans %}greetings, {{ domain }}{% endblocktrans %}</p>
