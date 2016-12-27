@@ -21,6 +21,7 @@ from django.utils.html import format_html
 from django.utils.translation import ugettext as _
 
 from ..utils import format_timedelta as _format_timedelta
+from ..utils import mailformat
 
 log = logging.getLogger(__name__)
 register = template.Library()
@@ -101,3 +102,20 @@ def format_filesize(size):
         return _('%.2f kilobyte') % (size / 1024)
     else:
         return _('%.2f megabyte') % (size / 1024 / 1024)
+
+
+@register.tag('mailformat')
+def do_mailformat(parser, token):
+    """Tag to format the enclosed text as a plain-text email."""
+
+    nodelist = parser.parse(('endmailformat',))
+    parser.delete_first_token()
+    return UpperNode(nodelist)
+
+
+class UpperNode(template.Node):
+    def __init__(self, nodelist):
+        self.nodelist = nodelist
+
+    def render(self, context):
+        return mailformat(self.nodelist.render(context))
