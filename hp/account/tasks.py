@@ -181,7 +181,7 @@ def update_last_activity(random_update=50):
 
         log.debug('%s: Updated last_activity from %s to %s.', user, user.last_activity,
                   last_activity)
-        #user.last_activity = timezone.make_aware(last_activity)
+        user.last_activity = timezone.make_aware(last_activity)
 
         # If the updated last_activity still isn't more recent, the user requested a notification
         # and has a confirmed email address, we send a mail to the user.
@@ -214,8 +214,8 @@ def update_last_activity(random_update=50):
 
             send_mail(subject, txt, frm, [user.email], html_message=html)
 
-            #user.notifications.account_expires_notified = True
-            #user.notifications.save()
+            user.notifications.account_expires_notified = True
+            user.notifications.save()
 
         user.save()
 
