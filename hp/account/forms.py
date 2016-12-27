@@ -158,7 +158,7 @@ class LoginForm(CaptchaFormMixin, AuthenticationForm):
 class NotificationsForm(forms.ModelForm):
     class Meta:
         model = Notifications
-        exclude = ['user']
+        fields = ['account_expires', 'gpg_expires', ]
         labels = {
             'account_expires': _('my account expires'),
             'gpg_expires': _('my GPG key expires'),
