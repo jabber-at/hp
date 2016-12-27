@@ -26,14 +26,16 @@ from django.contrib.messages import constants as messages
 from django.core.mail import send_mail
 from django.template import Context
 from django.template import Template
-#from django.template.loader import render_to_string
-from django.utils import translation
+from django.template.loader import render_to_string
+from django.urls import reverse
 from django.utils import timezone
+from django.utils import translation
 from django.utils.translation import ugettext as _
-from xmpp_backends.django import xmpp_backend
 from xmpp_backends.base import UserNotFound
+from xmpp_backends.django import xmpp_backend
 
 from core.models import Address
+from core.utils import format_text_email
 from core.utils import format_timedelta
 from core.tasks import activate_language
 
@@ -178,9 +180,9 @@ def update_last_activity(random_update=50):
             log.warn('%s: Could not get last activity.', user)
             continue
 
-        log.debug('%s: Updated last_activity from %s to %s.', user, last_activity,
-                  user.last_activity)
-        user.last_activity = timezone.make_aware(last_activity)
+        log.debug('%s: Updated last_activity from %s to %s.', user, user.last_activity,
+                  last_activity)
+        #user.last_activity = timezone.make_aware(last_activity)
 
         # If the updated last_activity still isn't more recent, the user requested a notification
         # and has a confirmed email address, we send a mail to the user.
@@ -188,21 +190,33 @@ def update_last_activity(random_update=50):
                 user.notifications.account_expires_notified is False:
             log.debug('%s: Notifying user at %s', user, user.email)
 
+            when = user.last_activity + settings.ACCOUNT_EXPIRES_DAYS
+            delta = when - timezone.now()
+
             host = settings.XMPP_HOSTS[user.domain]
             frm = host['DEFAULT_FROM_EMAIL']
+            base_url = host['CANONICAL_BASE_URL'].rstrip('/')
 
-            context = {'user': user, }
+            context = {
+                'domain': user.domain,
+                'expires_days': settings.ACCOUNT_EXPIRES_DAYS.days,
+                'host': host,
+                'jid': user.username,
+                'login_url': '%s%s' % (base_url, reverse('account:login')),
+                'password_url': '%s%s' % (base_url, reverse('account:reset_password')),
+                'user': user,
+                'when': when,
+                'when_days': delta.days,
+            }
             subject = _('Your account on {{ user.domain }} is about to expire')
             subject = Template(subject).render(Context(context))
-            #txt = render_to_string('account/email/user_expires.txt', context)
-            #html = render_to_string('account/email/user_expires.html', context)
-            txt = 'Dear %(user)s, your account is about to expire.' % context
-            html = 'Dear %(user)s, your account is about to expire.' % context
+            txt = format_text_email(render_to_string('account/email/user_expires.txt', context))
+            html = render_to_string('account/email/user_expires.html', context).strip()
 
             send_mail(subject, txt, frm, [user.email], html_message=html)
 
-            user.notifications.account_expires_notified = True
-            user.notifications.save()
+            #user.notifications.account_expires_notified = True
+            #user.notifications.save()
 
         user.save()
 

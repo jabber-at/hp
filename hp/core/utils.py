@@ -15,6 +15,8 @@
 
 import logging
 import os
+import re
+import textwrap
 
 from urllib.parse import urljoin
 
@@ -181,3 +183,14 @@ def absolutify_html(html, base_url):
     tree_walker = html5lib.treewalkers.getTreeWalker('dom')
     html_serializer = html5lib.serializer.htmlserializer.HTMLSerializer()
     return ''.join(html_serializer.serialize(tree_walker(body)))
+
+
+def format_text_email(text, width=78):
+    text = re.sub('[\r\n][\r\n]+', '\n\n', text.strip())
+
+    ps = []
+    for p in text.split('\n\n'):
+        ps.append(textwrap.fill(p, width=78))
+        ps.append('')
+
+    return '\n'.join(ps)
