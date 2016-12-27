@@ -121,6 +121,10 @@ class User(XmppBackendUser, PermissionsMixin):
         return self.is_superuser
 
     @property
+    def is_confirmed(self):
+        return self.email and self.confirmed
+
+    @property
     def is_expiring(self):
         return self.last_activity < timezone.now() - settings.ACCOUNT_EXPIRES_NOTIFICATION_DAYS
 
