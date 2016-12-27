@@ -27,6 +27,7 @@ from django.conf import settings
 from django.core.cache import cache
 from django.utils.translation import ungettext
 from django.utils.translation import ugettext as _
+from django.utils.text import normalize_newlines
 
 from .exceptions import TemporaryError
 
@@ -185,12 +186,13 @@ def absolutify_html(html, base_url):
     return ''.join(html_serializer.serialize(tree_walker(body)))
 
 
-def format_text_email(text, width=78):
-    text = re.sub('[\r\n][\r\n]+', '\n\n', text.strip())
+def mailformat(text, width=78):
+    text = normalize_newlines(text.strip())
+    text = re.sub('\n\n+', '\n\n', text)
 
     ps = []
     for p in text.split('\n\n'):
-        ps.append(textwrap.fill(p, width=78))
+        ps.append(textwrap.fill(p, width=width))
         ps.append('')
 
     return '\n'.join(ps)
