@@ -149,7 +149,7 @@ class UploadDoc(DeploymentTaskMixin, Task):
 def autodoc():
     """Automatically rebuild documentation on source changes."""
     local('make -C doc clean')
-    ignore = '-i *.sw[pmnox] -i *.rst~ -i */4913'
+    ignore = '-i *.sw[pmnox] -i *~ -i */4913'
     local('sphinx-autobuild -p 8080 --watch hp %s doc/ doc/_build/html/' % ignore)
 
 
