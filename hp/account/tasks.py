@@ -167,10 +167,11 @@ def update_last_activity():
 
         user.last_activity = timezone.make_aware(last_activity)
 
-        # TODO: This account is untested - for now we just update the last activity.
-        # If the last activity is still over the threshold and the user hasn't yet been notified,
-        # we send an email to warn the user.
-        if user.is_expiring and user.notifications.account_expires_notified is False:
+        # If the updated last_activity still isn't more recent, the user requested a notification
+        # and has a confirmed email address, we send a mail to the user.
+        if user.is_confirmed and user.is_expiring and \
+                user.notifications.account_expires_notified is False:
+
             host = settings.XMPP_HOSTS[user.domain]
             frm = host['DEFAULT_FROM_EMAIL']
 
