@@ -10,11 +10,24 @@ the ``use`` templatetag::
 
    Please see {% page 23 title="this page" %}
 
+******************
+Core functionality
+******************
+
+.. automodule:: core.templatetags.core
+   :members:
+
+.. automodule:: core.templatetags.canonical
+   :members:
+
+.. automodule:: core.templatetags.render
+   :members:
+
 ***********
 Blogs/Pages
 ***********
 
-.. automodule:: core.templatetags.blog
+.. automodule:: blog.templatetags.blog
    :members:
 
 *********

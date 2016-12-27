@@ -28,15 +28,34 @@ register = template.Library()
 
 @register.simple_tag
 def path(urlname, text='', title=None, anchor=None, **kwargs):
+    """Return a HTML link to the given urlname.
+
+    The difference to this tag and Django's builtin ``{% url %}`` template tag is that this tag
+    returns a complete HTML link. The primary use is to use dynamic links to paths in rendered blog
+    posts or pages.
+
+    Parameters
+    ----------
+
+    urlname : str
+        The URL name to resolve and link to. URL names are configured in an apps ``url.py``,
+        examples are ``"account:register"`` or ``"feed:rss2"``.
+    text : str
+        The link text. If omitted, a warning is logged and the ``urlname`` will be used instead.
+    title : str, optional
+        A link title attribute.
+
+        .. seealso:: https://www.w3.org/TR/html401/struct/links.html#h-12.1.4
+
+    anchor : str, optional
+        Any HTML anchor to be added to the resolved URL.
+    **kwargs
+        Any keyword arguments will be passed as kwargs to the URL resolver.
+
+    """
     if not text:
         log.warn('No text received path %s', urlname)
         text = urlname
-
-    if 'alt' in kwargs:
-        alt = kwargs.pop('alt')
-        log.warn('Legacy alt-attribute found: %s', alt)
-        if not title:
-            title = alt
 
     try:
         path = reverse(urlname, kwargs=kwargs)
@@ -61,6 +80,21 @@ def format_timedelta(delta):
 
 @register.filter
 def format_filesize(size):
+    """Format a filesize according to the current translation.
+
+    A few example, given the template::
+
+        {% format_filesize 200 %}
+        {% format_filesize 3000 %}
+        {% format_filesize 30000000 %}
+
+    You will get::
+
+        200 bytes
+        2.93 kilobyte
+        28.61 megabyte
+
+    """
     if size < 2000:
         return _('%s bytes') % size
     elif size < 1024 * 900:  # starting at ~900 KB, we display in MB
