@@ -35,7 +35,6 @@ from xmpp_backends.base import UserNotFound
 from xmpp_backends.django import xmpp_backend
 
 from core.models import Address
-from core.utils import format_text_email
 from core.utils import format_timedelta
 from core.tasks import activate_language
 
@@ -210,7 +209,7 @@ def update_last_activity(random_update=50):
             }
             subject = _('Your account on {{ user.domain }} is about to expire')
             subject = Template(subject).render(Context(context))
-            txt = format_text_email(render_to_string('account/email/user_expires.txt', context))
+            txt = render_to_string('account/email/user_expires.txt', context).strip()
             html = render_to_string('account/email/user_expires.html', context).strip()
 
             send_mail(subject, txt, frm, [user.email], html_message=html)
