@@ -100,12 +100,13 @@ SECRET_KEY = ''
 # NOTE: The project NEVER automatically removes accounts from the XMPP server. The settings here
 #       only configure the warning messages to users.
 #
-# Accounts are automatically removed after this many days (may also be a timedelta). If None (the
-# default), accounts are not automatically removed.
-#ACCOUNT_EXPIRES = 365
+# Accounts are automatically removed after this many days. If None (the default), accounts are not
+# automatically removed.
+#ACCOUNT_EXPIRES_DAYS = 365
 
-# Notify users this many days ahead of the scheduled account removal.
-#ACCOUNT_EXPIRES_WARNING_THRESHOLD = 14
+# Notify users after this many days of inactivity about pending account removal. The default is
+# seven days before ACCOUNT_EXPIRES_DAYS.
+#ACCOUNT_EXPIRES_NOTIFICATION_DAYS = 358
 
 # You can configure the user menu (visible on all /account pages to disable or even add
 # functionality. This can be a list of tuples replacing the initial value, or a callable
