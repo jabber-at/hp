@@ -120,6 +120,10 @@ class User(XmppBackendUser, PermissionsMixin):
     def is_staff(self):
         return self.is_superuser
 
+    @property
+    def is_expiring(self):
+        return self.last_activity < timezone.now() - settings.ACCOUNT_EXPIRES_NOTIFICATION_DAYS
+
     def log(self, message, address=None, **kwargs):
         self.log_entries.create(message=message, address=address, payload=kwargs)
 
