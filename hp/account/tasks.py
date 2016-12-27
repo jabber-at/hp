@@ -31,6 +31,7 @@ from django.utils import translation
 from django.utils import timezone
 from django.utils.translation import ugettext as _
 from xmpp_backends.django import xmpp_backend
+from xmpp_backends.base import UserNotFound
 
 from core.models import Address
 from core.utils import format_timedelta
@@ -145,11 +146,16 @@ def resend_confirmations(*conf_pks):
 
 
 @shared_task
-def update_last_activity():
+def update_last_activity(random_update=50):
     # Update some random users with recent activity so we have at least a vague picture of
     # how recent users are active.
-    for user in User.objects.order_by('?').not_expiring()[:50]:
-        last_activity = xmpp_backend.get_last_activity(user.node, user.domain)
+    for user in User.objects.order_by('?').not_expiring()[:random_update]:
+        try:
+            last_activity = xmpp_backend.get_last_activity(user.node, user.domain)
+        except UserNotFound:
+            log.warn('%s: User not found in XMPP backend.', user)
+            continue
+
         if last_activity is None:
             log.warn('%s: Could not get last activity.', user)
             continue
@@ -159,18 +165,28 @@ def update_last_activity():
 
     # Update last activity of users with more then 350 days of inactivity
     for user in User.objects.select_related('notifications').expiring():
-        last_activity = xmpp_backend.get_last_activity(user.node, user.domain)
+        log.debug('%s: Updating last activity.', user)
+
+        try:
+            last_activity = xmpp_backend.get_last_activity(user.node, user.domain)
+        except UserNotFound:
+            log.warn('%s: User not found in XMPP backend.', user)
+            continue
+
         if last_activity is None:
             # This may happen when the user was already deleted in the backend (handled by cleanup)
             log.warn('%s: Could not get last activity.', user)
             continue
 
+        log.debug('%s: Updated last_activity from %s to %s.', user, last_activity,
+                  user.last_activity)
         user.last_activity = timezone.make_aware(last_activity)
 
         # If the updated last_activity still isn't more recent, the user requested a notification
         # and has a confirmed email address, we send a mail to the user.
         if user.is_confirmed and user.is_expiring and \
                 user.notifications.account_expires_notified is False:
+            log.debug('%s: Notifying user at %s', user, user.email)
 
             host = settings.XMPP_HOSTS[user.domain]
             frm = host['DEFAULT_FROM_EMAIL']
@@ -180,8 +196,8 @@ def update_last_activity():
             subject = Template(subject).render(Context(context))
             #txt = render_to_string('account/email/user_expires.txt', context)
             #html = render_to_string('account/email/user_expires.html', context)
-            txt = 'Dear %(user)s, your account is about to expire.' % user
-            html = 'Dear %(user)s, your account is about to expire.' % user
+            txt = 'Dear %(user)s, your account is about to expire.' % context
+            html = 'Dear %(user)s, your account is about to expire.' % context
 
             send_mail(subject, txt, frm, [user.email], html_message=html)
 
