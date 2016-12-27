@@ -93,6 +93,20 @@ SECRET_KEY = ''
 # Require a unique email address. By default an address can be used by multiple accounts.
 #REQUIRE_UNIQUE_EMAIL = True
 
+# If your XMPP server automatically removes unused accounts (e.g. via
+# "ejabberdctl delete_old_users", the project supports sending emails to users that their account
+# is about to be removed.
+#
+# NOTE: The project NEVER automatically removes accounts from the XMPP server. The settings here
+#       only configure the warning messages to users.
+#
+# Accounts are automatically removed after this many days (may also be a timedelta). If None (the
+# default), accounts are not automatically removed.
+#ACCOUNT_EXPIRES = 365
+
+# Notify users this many days ahead of the scheduled account removal.
+#ACCOUNT_EXPIRES_WARNING_THRESHOLD = 14
+
 # You can configure the user menu (visible on all /account pages to disable or even add
 # functionality. This can be a list of tuples replacing the initial value, or a callable
 # that manipulates the default value. For more information, please see:

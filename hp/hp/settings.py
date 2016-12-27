@@ -182,6 +182,8 @@ MESSAGE_TAGS = {
     messages.ERROR: 'danger error',
     messages.DEBUG: 'info debug',
 }
+ACCOUNT_EXPIRES = None
+ACCOUNT_EXPIRES_WARNING_THRESHOLD = 14
 
 # Custom media root directory for Images uploaded via admin
 BLOG_MEDIA_ROOT = None
@@ -385,7 +387,6 @@ if CELERY_WORKER_TASK_LOG_FORMAT is None:
     # The default includes the task_name
     CELERY_WORKER_TASK_LOG_FORMAT = '[%(asctime).19s %(levelname)-8s] [%(task_name)s] %(message)s'
 
-
 # Process any local INSTALLED_APPS config
 if INSTALLED_APPS is None:
     INSTALLED_APPS = _DEFAULT_INSTALLED_APPS
@@ -397,6 +398,10 @@ if ACCOUNT_USER_MENU is None:
     ACCOUNT_USER_MENU = _DEFAULT_ACCOUNT_USER_MENU
 elif callable(ACCOUNT_USER_MENU):
     ACCOUNT_USER_MENU = ACCOUNT_USER_MENU(_DEFAULT_ACCOUNT_USER_MENU)
+
+if ACCOUNT_EXPIRES is not None:
+    ACCOUNT_EXPIRES = timedelta(days=ACCOUNT_EXPIRES)
+ACCOUNT_EXPIRES_WARNING_THRESHOLD = timedelta(days=ACCOUNT_EXPIRES_WARNING_THRESHOLD)
 
 SPAM_BLACKLIST = set([ipaddress.ip_network(addr) for addr in SPAM_BLACKLIST])
 
