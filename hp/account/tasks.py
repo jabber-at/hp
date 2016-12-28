@@ -178,11 +178,12 @@ def update_last_activity(random_update=50):
         log.debug('%s: Updated last_activity from %s to %s.', user, user.last_activity,
                   last_activity)
         user.last_activity = timezone.make_aware(last_activity)
+        notifs = user.notifications
 
         # If the updated last_activity still isn't more recent, the user requested a notification
         # and has a confirmed email address, we send a mail to the user.
-        if user.is_confirmed and user.is_expiring and \
-                user.notifications.account_expires_notified is False:
+        if user.is_confirmed and user.is_expiring and notifs.account_expires and \
+                notifs.account_expires_notified is False:
             log.debug('%s: Notifying user at %s', user, user.email)
 
             when = user.last_activity + settings.ACCOUNT_EXPIRES_DAYS
@@ -207,8 +208,8 @@ def update_last_activity(random_update=50):
             with translation.override(user.default_language):
                 user.send_mail_template('account/email/user_expires', context, subject)
 
-            user.notifications.account_expires_notified = True
-            user.notifications.save()
+            notifs.account_expires_notified = True
+            notifs.save()
 
         user.save()
 
