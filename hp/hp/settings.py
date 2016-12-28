@@ -244,33 +244,33 @@ SOCIAL_MEDIA_TEXTS = {}
 ACCOUNT_USER_MENU = None
 _DEFAULT_ACCOUNT_USER_MENU = [
     ('account:detail', {
-        'title': 'Overview',
+        'title': _('Overview'),
         'requires_confirmation': False,
     }),
     ('account:sessions', {
-        'title': 'Current sessions',
+        'title': _('Current sessions'),
     }),
     ('account:notifications', {
-        'title': 'Notifications',
+        'title': _('Notifications'),
     }),
     ('account:set_password', {
-        'title': 'Set password',
+        'title': _('Set password'),
     }),
     ('account:set_email', {
-        'title': 'Set E-Mail',
+        'title': _('Set E-Mail'),
     }),
     ('account:xep0363', {
-        'title': 'HTTP uploads',
+        'title': _('HTTP uploads'),
     }),
     ('account:gpg', {
-        'title': 'GPG keys',
+        'title': _('GPG keys'),
     }),
     ('account:log', {
-        'title': 'Recent activity',
+        'title': _('Recent activity'),
         'requires_confirmation': False,
     }),
     ('account:delete', {
-        'title': 'Delete account',
+        'title': _('Delete account'),
     }),
 ]
 

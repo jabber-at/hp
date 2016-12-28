@@ -1,0 +1,142 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2016-12-28 19:37+0100\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: settings.py:144
+msgid "German"
+msgstr ""
+
+#: settings.py:145
+msgid "English"
+msgstr ""
+
+#: settings.py:204
+#, python-format
+msgid "© 2010-%(year)s, %(brand)s."
+msgstr ""
+
+#: settings.py:211
+msgid ""
+"Register for an account at jabber.at, jabber.zone or xmpp.zone. Its fast, "
+"free, easy and safe!"
+msgstr ""
+
+#: settings.py:213
+#, python-format
+msgid "Register at %(BRAND)s"
+msgstr ""
+
+#: settings.py:214
+msgid ""
+"Register now for an account at jabber.at, jabber.zone or xmpp.zone. It's "
+"fast, free, easy and safe!"
+msgstr ""
+
+#: settings.py:216
+msgid ""
+"Jabber is a free and open instant messaging network. Register now for an "
+"account at jabber.at, jabber.zone or xmpp.zone. It's fast, free, easy and "
+"safe!"
+msgstr ""
+
+#: settings.py:221
+msgid ""
+"A free, stable, secure and feature-rich Jabber/XMPP server. Join the free "
+"and open Jabber instant messaging network today!"
+msgstr ""
+
+#: settings.py:223
+msgid "A free and secure Jabber/XMPP server"
+msgstr ""
+
+#: settings.py:224
+msgid "A free, secure, feature-rich Jabber/XMPP server"
+msgstr ""
+
+#: settings.py:227
+msgid "Recommended Jabber/XMPP clients"
+msgstr ""
+
+#: settings.py:228
+#, python-format
+msgid ""
+"There are many different Jabber/XMPP clients to connect to %(BRAND)s, here "
+"are our favourites."
+msgstr ""
+
+#: settings.py:230
+#, python-format
+msgid ""
+"There are many different Jabber/XMPP clients to connect to %(BRAND)s. We "
+"have compiled a list of the best clients for your convenience."
+msgstr ""
+
+#: settings.py:234
+msgid ""
+"Contact us here if you cannot connect or have issues with our service best "
+"solved privately."
+msgstr ""
+
+#: settings.py:236
+msgid ""
+"Contact us here if you cannot connect or have issues with our service best "
+"solved privately. We will reply via email as soon as possible. You can also "
+"contact us via chatroom, Twitter or Facebook."
+msgstr ""
+
+#: settings.py:239
+#, python-format
+msgid "Contact %(BRAND)s support"
+msgstr ""
+
+#: settings.py:247
+msgid "Overview"
+msgstr ""
+
+#: settings.py:251
+msgid "Current sessions"
+msgstr ""
+
+#: settings.py:254
+msgid "Notifications"
+msgstr ""
+
+#: settings.py:257
+msgid "Set password"
+msgstr ""
+
+#: settings.py:260
+msgid "Set E-Mail"
+msgstr ""
+
+#: settings.py:263
+msgid "HTTP uploads"
+msgstr ""
+
+#: settings.py:266
+msgid "GPG keys"
+msgstr ""
+
+#: settings.py:269
+msgid "Recent activity"
+msgstr ""
+
+#: settings.py:273
+msgid "Delete account"
+msgstr ""
