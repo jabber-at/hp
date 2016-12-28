@@ -103,6 +103,11 @@ class User(XmppBackendUser, PermissionsMixin):
     # When the user last logged in.
     last_activity = models.DateTimeField(default=timezone.now)
 
+    # The default language of this user. This is set when the user is created or manually sets his
+    # language on the homepage. The value is only used in situations where there is no direct
+    # connection to a browser session, e.g. for mails about expiring accounts.
+    default_language = models.CharField(max_length=2, default='en')
+
     objects = UserManager.from_queryset(UserQuerySet)()
 
     USERNAME_FIELD = 'username'
