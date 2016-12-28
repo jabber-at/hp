@@ -205,9 +205,9 @@ def update_last_activity(random_update=50):
             }
             subject = _('Your account on {{ domain }} is about to expire')  # NOQA
 
-            #with translation.override(user.default_language):
-            #    user.send_mail_template('account/email/user_expires', context, subject)
-            log.info('%s: Sending email to %s.', user, user.email)
+            log.info('%s: Sending expiration notice to %s.', user, user.email)
+            with translation.override(user.default_language):
+                user.send_mail_template('account/email/user_expires', context, subject)
 
             notifs.account_expires_notified = True
             notifs.save()
