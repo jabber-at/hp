@@ -164,6 +164,10 @@ class RegistrationView(BlacklistMixin, DnsBlMixin, RateLimitMixin, AnonymousRequ
             response = super(RegistrationView, self).form_valid(form)
             user = self.object
 
+            # save default language
+            user.default_language = lang
+            user.save()
+
             # log user creation, display help message.
             user.log(ugettext_noop('Account created.'), address=address)
             AddressActivity.objects.log(request, ACTIVITY_REGISTER, user=user, note=user.email)
