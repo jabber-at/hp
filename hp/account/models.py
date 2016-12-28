@@ -258,17 +258,17 @@ class User(XmppBackendUser, PermissionsMixin):
         if gpg_key is not False or keys:
             sign_fp = host.get('GPG_FINGERPRINT')
 
-            with self.user.gpg_keyring(default_trust=True, hostname=host['NAME']) as backend:
+            with self.gpg_keyring(default_trust=True, hostname=host['NAME']) as backend:
                 if gpg_key:
                     log.info('Imported custom keys.')
                     keys = backend.import_key(gpg_key)
 
-                msg = GpgEmailMessage(subject, message, frm, [self.to],
+                msg = GpgEmailMessage(subject, message, frm, [self.email],
                                       gpg_backend=backend, gpg_recipients=keys, gpg_signer=sign_fp)
                 msg.attach_alternative(html_message, 'text/html')
                 msg.send()
         else:
-            msg = EmailMultiAlternatives(subject, message, frm, [self.to])
+            msg = EmailMultiAlternatives(subject, message, frm, [self.email])
             msg.attach_alternative(html_message, 'text/html')
             msg.send()
 
