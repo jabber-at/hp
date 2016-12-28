@@ -200,7 +200,7 @@ def update_last_activity(random_update=50):
                 'password_url': '%s%s' % (base_url, reverse('account:reset_password')),
                 'user': user,
                 'when': when,
-                'when_days': delta.days,
+                'when_days': delta.days + 1,
             }
             subject = _('Your account on {{ domain }} is about to expire')
 
