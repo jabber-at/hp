@@ -81,7 +81,7 @@ class UserAdmin(BaseUserAdmin):
     fieldsets = (
         (None, {
             'fields': ('username', 'email', ('registered', 'confirmed', 'last_activity', ),
-                       'registration_method', 'blocked', ),
+                       'registration_method', 'blocked', 'default_language', ),
         }),
     )
     form = AdminUserForm
