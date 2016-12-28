@@ -203,7 +203,9 @@ def update_last_activity(random_update=50):
                 'when_days': delta.days,
             }
             subject = _('Your account on {{ domain }} is about to expire')
-            user.send_mail_template('account/email/user_expires', context, subject)
+
+            with translation.override(user.default_language):
+                user.send_mail_template('account/email/user_expires', context, subject)
 
             user.notifications.account_expires_notified = True
             user.notifications.save()
