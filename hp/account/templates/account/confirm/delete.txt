@@ -1,11 +1,10 @@
-{% load i18n %}{% language lang %}{% blocktrans with jid=jid %}Dear {{ jid }},{% endblocktrans %}
+{% load i18n core %}{% language lang %}{% blocktrans with jid=jid %}Dear {{ jid }},{% endblocktrans %}
 
-{% blocktrans with jid=jid %}You requested to delete your account {{ jid }}. To confirm
-this, please go here:{% endblocktrans %}
+{% mailformat %}{% blocktrans with jid=jid %}You requested to delete your account {{ jid }}. To confirm
+this, please go here:{% endblocktrans %}{% endmailformat %}
 
     {{ uri }}
 
 {% trans "If you haven't made this request, you can simply disregard this email." %}
 
-{% trans "greetings," %}
-    {{ domain }}{% endlanguage %}
+{% blocktrans %}greetings, {{ domain }}{% endblocktrans %}{% endlanguage %}
