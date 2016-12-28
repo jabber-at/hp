@@ -192,7 +192,7 @@ def update_last_activity(random_update=50):
             host = settings.XMPP_HOSTS[user.domain]
             base_url = host['CANONICAL_BASE_URL'].rstrip('/')
 
-            context = {
+            context = {  # NOQA
                 'domain': user.domain,
                 'expires_days': settings.ACCOUNT_EXPIRES_DAYS.days,
                 'host': host,
@@ -203,10 +203,11 @@ def update_last_activity(random_update=50):
                 'when': when,
                 'when_days': delta.days + 1,
             }
-            subject = _('Your account on {{ domain }} is about to expire')
+            subject = _('Your account on {{ domain }} is about to expire')  # NOQA
 
-            with translation.override(user.default_language):
-                user.send_mail_template('account/email/user_expires', context, subject)
+            #with translation.override(user.default_language):
+            #    user.send_mail_template('account/email/user_expires', context, subject)
+            log.info('%s: Sending email to %s.', user, user.email)
 
             notifs.account_expires_notified = True
             notifs.save()
