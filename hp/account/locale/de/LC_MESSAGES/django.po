@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-12-28 18:25+0100\n"
+"POT-Creation-Date: 2016-12-28 18:59+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -293,10 +293,8 @@ msgstr ""
 "erneut (%(retry)s von %(max_retries)s Versuchen)."
 
 #: tasks.py:205
-#, fuzzy
-#| msgid "Your new account on {{ user.domain }}"
 msgid "Your account on {{ domain }} is about to expire"
-msgstr "Ihr neues Konto auf {{ user.domain }}"
+msgstr "Ihr Konto auf {{ domain }} läuft bald ab"
 
 #: templates/account/base.html:14
 msgid "User settings"
@@ -354,11 +352,18 @@ msgstr ""
 "ignorieren."
 
 #: templates/account/confirm/delete.html:11
+#: templates/account/confirm/delete.txt:10
 #: templates/account/confirm/register.html:12
+#: templates/account/confirm/register.txt:12
 #: templates/account/confirm/reset_password.html:11
+#: templates/account/confirm/reset_password.txt:10
 #: templates/account/confirm/set_email.html:12
-msgid "greetings,"
-msgstr "alles liebe,"
+#: templates/account/confirm/set_email.txt:10
+#: templates/account/email/user_expires.html:17
+#: templates/account/email/user_expires.txt:17
+#, python-format
+msgid "greetings, %(domain)s"
+msgstr "alles Liebe, %(domain)s"
 
 #: templates/account/confirm/delete.txt:3
 #, python-format
@@ -368,16 +373,6 @@ msgid ""
 msgstr ""
 "Sie wollten ihr Konto %(jid)s löschen lassen. Um das zu bestätigen, klicken "
 "sie bitte auf diesen Link:"
-
-#: templates/account/confirm/delete.txt:10
-#: templates/account/confirm/register.txt:12
-#: templates/account/confirm/reset_password.txt:10
-#: templates/account/confirm/set_email.txt:10
-#: templates/account/email/user_expires.html:17
-#: templates/account/email/user_expires.txt:17
-#, python-format
-msgid "greetings, %(domain)s"
-msgstr "alles Liebe, %(domain)s"
 
 #: templates/account/confirm/register.html:5
 #, python-format
@@ -556,6 +551,9 @@ msgid ""
 "looks suspicious to you, you can stop the session from here with a click on\n"
 "the trash icon."
 msgstr ""
+"Auf dieser Seite sehen sie ihre gerade aktiven Jabber/XMPP-Verbindungen. "
+"Falls ihnen eine Verbindung verdächtig vorkommt, können sie die Verbindung "
+"mit einem Klick auf das Müll-Icon beenden."
 
 #: templates/account/sessions.html:24
 #: templates/account/user_recent_activity.html:18
