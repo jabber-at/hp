@@ -258,7 +258,7 @@ class User(XmppBackendUser, PermissionsMixin):
         ValueError
             If the user does not have an email address defined and ``to`` is not passed.
         """
-        if to is not None:
+        if to is None:
             to = self.email
 
         if not to:
@@ -270,7 +270,7 @@ class User(XmppBackendUser, PermissionsMixin):
         frm = host['DEFAULT_FROM_EMAIL']
         keys = list(self.gpg_keys.valid().values_list('fingerprint', flat=True))
 
-        if gpg_key is not False and keys:
+        if gpg_key is not False and (keys or gpg_key):
             sign_fp = host.get('GPG_FINGERPRINT')
 
             with self.gpg_keyring(default_trust=True, hostname=host['NAME']) as backend:
@@ -312,7 +312,7 @@ class User(XmppBackendUser, PermissionsMixin):
         subject = Template(subject).render(Context(context))
         txt = render_to_string('%s.txt' % template_base, context).strip()
         html = render_to_string('%s.html' % template_base, context).strip()
-        self.send_mail(subject, txt, html, host=host, to=None, gpg_key=gpg_key)
+        self.send_mail(subject, txt, html, host=host, to=to, gpg_key=gpg_key)
 
     def __str__(self):
         return self.username
@@ -358,6 +358,8 @@ class Confirmation(BaseModel):
     }
 
     def send(self):
+        template_base = 'account/confirm/%s' % self.purpose
+        subject = self.SUBJECTS[self.purpose]
         hostname = self.payload['hostname']
         host = settings.XMPP_HOSTS[hostname]
         path = reverse('account:%s_confirm' % self.purpose, kwargs={'key': self.key})
@@ -371,40 +373,13 @@ class Confirmation(BaseModel):
             'uri': '%s%s' % (self.payload['base_url'], path),
         }
 
+        gpg_key = self.payload.get('gpg_recv_pub')
+        if gpg_key:
+            gpg_key = gpg_key.encode()
+
         with translation.override(self.language):
-            subject = Template(self.SUBJECTS[self.purpose]).render(Context(context))
-
-            context['subject'] = subject
-            text = render_to_string('account/confirm/%s.txt' % self.purpose, context)
-            html = render_to_string('account/confirm/%s.html' % self.purpose, context)
-
-        frm = host['DEFAULT_FROM_EMAIL']
-
-        custom_key = self.payload.get('gpg_recv_pub')  # key from the payload
-
-        # Only use the GPG keys stored for the user if the payload does not explicity specify
-        # a GPG key to use.  This is used e.g. when the user sets an email address and wants to use
-        # a different GPG key or none at all.
-        keys = None
-        if 'gpg_recv_pub' not in self.payload:
-            keys = list(self.user.gpg_keys.valid().values_list('fingerprint', flat=True))
-
-        if custom_key or keys:
-            sign_fp = host.get('GPG_FINGERPRINT')
-
-            with self.user.gpg_keyring(default_trust=True, hostname=hostname) as backend:
-                if custom_key:
-                    log.info('Imported custom keys.')
-                    keys = backend.import_key(custom_key.encode())
-
-                msg = GpgEmailMessage(subject, text, frm, [self.to],
-                                      gpg_backend=backend, gpg_recipients=keys, gpg_signer=sign_fp)
-                msg.attach_alternative(html, 'text/html')
-                msg.send()
-        else:
-            msg = EmailMultiAlternatives(subject, text, frm, [self.to])
-            msg.attach_alternative(html, 'text/html')
-            msg.send()
+            self.user.send_mail_template(template_base, context, subject, host=host, to=self.to,
+                                         gpg_key=gpg_key)
 
 
 class UserLogEntry(BaseModel):
