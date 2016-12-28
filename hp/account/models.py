@@ -263,9 +263,9 @@ class User(XmppBackendUser, PermissionsMixin):
             host = settings.XMPP_HOSTS[self.domain]
 
         frm = host['DEFAULT_FROM_EMAIL']
-        keys = list(self.user.gpg_keys.valid().values_list('fingerprint', flat=True))
+        keys = list(self.gpg_keys.valid().values_list('fingerprint', flat=True))
 
-        if gpg_key is not False or keys:
+        if gpg_key is not False and keys:
             sign_fp = host.get('GPG_FINGERPRINT')
 
             with self.gpg_keyring(default_trust=True, hostname=host['NAME']) as backend:
