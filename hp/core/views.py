@@ -292,16 +292,22 @@ class ContactView(BlacklistMixin, DnsBlMixin, StaticContextMixin, FormView):
 
 class SetLanguageView(RedirectView):
     def get_redirect_url(self, *args, **kwargs):
+        request = self.request
+
         # Some bots might attempt to use this link without the lang parameter. If not present, this
         # view basically does nothing.
-        lang = self.request.GET.get('lang')
+        lang = request.GET.get('lang')
         if lang:
-            self.request.session[LANGUAGE_SESSION_KEY] = lang
+            request.session[LANGUAGE_SESSION_KEY] = lang
 
-        redirect_to = self.request.GET.get('next')
+        redirect_to = request.GET.get('next')
+
+        if not request.user.is_anonymous():
+            request.user.default_language = lang
+            request.user.save()
 
         # Ensure the user-originating redirection url is safe.
-        if not redirect_to or not is_safe_url(url=redirect_to, host=self.request.get_host()):
+        if not redirect_to or not is_safe_url(url=redirect_to, host=request.get_host()):
             redirect_to = '/'
 
         return redirect_to
