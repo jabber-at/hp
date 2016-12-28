@@ -249,9 +249,19 @@ class User(XmppBackendUser, PermissionsMixin):
         gpg_key : bytes or False, optional
             A bytestring to use as a GPG key instead of any key set for the user. Pass ``False`` to
             send a plaintext email even if the user has GPG keys defined.
+
+        Raises
+        ------
+
+        ValueError
+            If the user does not have an email address defined.
         """
+        if not self.email:
+            raise ValueError("The user does not have an email address.")
+
         if host is None:
             host = settings.XMPP_HOSTS[self.domain]
+
         frm = host['DEFAULT_FROM_EMAIL']
         keys = list(self.user.gpg_keys.valid().values_list('fingerprint', flat=True))
 
