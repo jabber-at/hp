@@ -282,6 +282,26 @@ class User(XmppBackendUser, PermissionsMixin):
             msg.attach_alternative(html_message, 'text/html')
             msg.send()
 
+    def send_mail_template(self, template_base, context, subject, host=None, gpg_key=None):
+        """Render mail from template and send to user.
+
+        Parameters
+        ----------
+
+        template_base : str
+            The template base name to use. The function appends ``".txt"`` for the plain text
+            version and ``".html"`` for the html version of the email body.
+        context : dict
+            The context used when rendering the template.
+        subject : str
+            The subject for the email. The subject is also rendered as template string with the
+            context passed to this function.
+        """
+        subject = Template(subject).render(Context(context))
+        txt = render_to_string('%s.txt' % template_base, context).strip()
+        html = render_to_string('%s.html' % template_base, context).strip()
+        self.send_mail(subject, txt, html, host=host, gpg_key=gpg_key)
+
     def __str__(self):
         return self.username
 
