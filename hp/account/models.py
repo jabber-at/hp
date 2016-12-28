@@ -228,7 +228,7 @@ class User(XmppBackendUser, PermissionsMixin):
             self.log(address=address, message=message)
             self.message(messages.INFO, message)
 
-    def send_mail(self, subject, message, html_message, host=None, gpg_key=None):
+    def send_mail(self, subject, message, html_message, host=None, to=None, gpg_key=None):
         """Send an email to the user.
 
         Parameters
@@ -246,6 +246,8 @@ class User(XmppBackendUser, PermissionsMixin):
 
             .. TODO:: Check if this parameter is really necessary.
 
+        to : str, optional
+            Override the recipient email address. By default, the users email address is used.
         gpg_key : bytes or False, optional
             A bytestring to use as a GPG key instead of any key set for the user. Pass ``False`` to
             send a plaintext email even if the user has GPG keys defined.
@@ -254,9 +256,12 @@ class User(XmppBackendUser, PermissionsMixin):
         ------
 
         ValueError
-            If the user does not have an email address defined.
+            If the user does not have an email address defined and ``to`` is not passed.
         """
-        if not self.email:
+        if to is not None:
+            to = self.email
+
+        if not to:
             raise ValueError("The user does not have an email address.")
 
         if host is None:
@@ -273,16 +278,17 @@ class User(XmppBackendUser, PermissionsMixin):
                     log.info('Imported custom keys.')
                     keys = backend.import_key(gpg_key)
 
-                msg = GpgEmailMessage(subject, message, frm, [self.email],
+                msg = GpgEmailMessage(subject, message, frm, [to],
                                       gpg_backend=backend, gpg_recipients=keys, gpg_signer=sign_fp)
                 msg.attach_alternative(html_message, 'text/html')
                 msg.send()
         else:
-            msg = EmailMultiAlternatives(subject, message, frm, [self.email])
+            msg = EmailMultiAlternatives(subject, message, frm, [to])
             msg.attach_alternative(html_message, 'text/html')
             msg.send()
 
-    def send_mail_template(self, template_base, context, subject, host=None, gpg_key=None):
+    def send_mail_template(self, template_base, context, subject, host=None, to=None,
+                           gpg_key=None):
         """Render mail from template and send to user.
 
         Parameters
@@ -296,11 +302,17 @@ class User(XmppBackendUser, PermissionsMixin):
         subject : str
             The subject for the email. The subject is also rendered as template string with the
             context passed to this function.
+        host
+            Passed to :py:class:`~account.models.User.send_mail`.
+        to
+            Passed to :py:class:`~account.models.User.send_mail`.
+        gpg_key
+            Passed to :py:class:`~account.models.User.send_mail`.
         """
         subject = Template(subject).render(Context(context))
         txt = render_to_string('%s.txt' % template_base, context).strip()
         html = render_to_string('%s.html' % template_base, context).strip()
-        self.send_mail(subject, txt, html, host=host, gpg_key=gpg_key)
+        self.send_mail(subject, txt, html, host=host, to=None, gpg_key=gpg_key)
 
     def __str__(self):
         return self.username
