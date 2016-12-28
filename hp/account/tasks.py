@@ -120,7 +120,7 @@ def set_email_task(user_pk, to, language, address, fingerprint=None, key=None, *
         payload['gpg_recv_fp'] = fingerprint  # just so we know what was submitted
         payload['gpg_recv_pub'] = gpg_backend.fetch_key('0x%s' % fingerprint).decode('utf-8')
     else:
-        payload['gpg_recv_pub'] = None  # do not encrypt
+        payload['gpg_recv_pub'] = False  # do not encrypt
 
     with translation.override(language):
         conf = Confirmation.objects.create(user=user, purpose=PURPOSE_SET_EMAIL, language=language,
