@@ -23,9 +23,6 @@ from gpgmime.django import gpg_backend
 from django.conf import settings
 from django.contrib.auth import get_user_model
 from django.contrib.messages import constants as messages
-from django.template import Context
-from django.template import Template
-from django.template.loader import render_to_string
 from django.urls import reverse
 from django.utils import timezone
 from django.utils import translation
@@ -205,12 +202,8 @@ def update_last_activity(random_update=50):
                 'when': when,
                 'when_days': delta.days,
             }
-            subject = _('Your account on {{ user.domain }} is about to expire')
-            subject = Template(subject).render(Context(context))
-            txt = render_to_string('account/email/user_expires.txt', context).strip()
-            html = render_to_string('account/email/user_expires.html', context).strip()
-
-            user.send_mail(subject, txt, html)
+            subject = _('Your account on {{ domain }} is about to expire')
+            user.send_mail_template('account/email/user_expires', context, subject)
 
             user.notifications.account_expires_notified = True
             user.notifications.save()
