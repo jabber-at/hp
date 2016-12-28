@@ -228,6 +228,50 @@ class User(XmppBackendUser, PermissionsMixin):
             self.log(address=address, message=message)
             self.message(messages.INFO, message)
 
+    def send_mail(self, subject, message, html_message, host=None, gpg_key=None):
+        """Send an email to the user.
+
+        Parameters
+        ----------
+
+        subject : str
+            The subject to use.
+        message : str
+            The email message in plain text format.
+        html_message : str
+            The email message in html format.
+        host : str, optional
+            The XMPP_HOST configuration to use getting from-address and signing GPG keys. Defaults
+            to the domain-part of the username.
+
+            .. TODO:: Check if this parameter is really necessary.
+
+        gpg_key : bytes or False, optional
+            A bytestring to use as a GPG key instead of any key set for the user. Pass ``False`` to
+            send a plaintext email even if the user has GPG keys defined.
+        """
+        if host is None:
+            host = settings.XMPP_HOSTS[self.domain]
+        frm = host['DEFAULT_FROM_EMAIL']
+        keys = list(self.user.gpg_keys.valid().values_list('fingerprint', flat=True))
+
+        if gpg_key is not False or keys:
+            sign_fp = host.get('GPG_FINGERPRINT')
+
+            with self.user.gpg_keyring(default_trust=True, hostname=host['NAME']) as backend:
+                if gpg_key:
+                    log.info('Imported custom keys.')
+                    keys = backend.import_key(gpg_key)
+
+                msg = GpgEmailMessage(subject, message, frm, [self.to],
+                                      gpg_backend=backend, gpg_recipients=keys, gpg_signer=sign_fp)
+                msg.attach_alternative(html_message, 'text/html')
+                msg.send()
+        else:
+            msg = EmailMultiAlternatives(subject, message, frm, [self.to])
+            msg.attach_alternative(html_message, 'text/html')
+            msg.send()
+
     def __str__(self):
         return self.username
 
