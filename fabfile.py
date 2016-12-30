@@ -126,6 +126,12 @@ class DeployTask(DeploymentTaskMixin, Task):
         # reload apache
         self.sudo('systemctl reload apache2')
 
+        # update systemd files
+        systemd_dir = '%s/files/systemd' % self.path
+        self.sudo('cp %s/hp-celery.tmpfiles /etc/tmpfiles.d/hp-celery.conf' % systemd_dir)
+        self.sudo('cp %s/hp-celery.service /etc/systemd/system/hp-celery.service' % systemd_dir)
+        self.sudo('cp %s/hp-celery.conf /etc/conf.d/' % systemd_dir)
+
         # handle celery
         self.sudo('systemctl daemon-reload')
         self.sudo('systemctl restart hp-celery')
