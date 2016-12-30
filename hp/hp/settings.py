@@ -185,6 +185,8 @@ MESSAGE_TAGS = {
 ACCOUNT_EXPIRES_DAYS = None
 ACCOUNT_EXPIRES_NOTIFICATION_DAYS = None
 
+ADMIN_URL = '/admin/'
+
 # Custom media root directory for Images uploaded via admin
 BLOG_MEDIA_ROOT = None
 BLOG_MEDIA_URL = None

@@ -76,6 +76,9 @@ SECRET_KEY = ''
 # "%(brand)s" is replaced with the "BRAND" key of the current site.
 #COPYRIGHT_NOTICE = _('© 2010-%(year)s, %(brand)s.')
 
+# Location of the admin interface
+#ADMIN_URL = 'admin/'
+
 # You can define a different root directory for uploaded images via the admin interface. This is
 # useful if your MEDIA_URL is on a separate domain (e.g. because XEP-0363 uploads should be served
 # from somewhere else) and still want your own uploaded files saved to a different directory.
