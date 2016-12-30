@@ -4,6 +4,7 @@
         rotate 14
         compress
         delaycompress
+        dateext
         notifempty
         create 640 hp hp
         postrotate
@@ -17,6 +18,7 @@
         rotate 14
         compress
         delaycompress
+        dateext
         notifempty
         create 640 hp hp
 }
