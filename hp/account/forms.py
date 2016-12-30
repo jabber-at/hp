@@ -30,9 +30,6 @@ from .formfields import UsernameField
 from .models import User
 from .models import Notifications
 
-_MIN_USERNAME_LENGTH = getattr(settings, 'MIN_USERNAME_LENGTH', 2)
-_MAX_USERNAME_LENGTH = getattr(settings, 'MAX_USERNAME_LENGTH', 64)
-
 
 class GPGMixin(forms.Form):
     """A mixin that adds the GPG fields to a form."""

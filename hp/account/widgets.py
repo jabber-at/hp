@@ -21,9 +21,6 @@ from django.utils.translation import ugettext_lazy as _
 from bootstrap.widgets import BootstrapMultiWidget
 from bootstrap.widgets import BootstrapTextInput
 
-_MIN_USERNAME_LENGTH = getattr(settings, 'MIN_USERNAME_LENGTH', 2)
-_MAX_USERNAME_LENGTH = getattr(settings, 'MAX_USERNAME_LENGTH', 64)
-
 
 class NodeWidget(BootstrapTextInput):
     """The widget used for rendering the node part (before the "@") of a username.
@@ -33,7 +30,8 @@ class NodeWidget(BootstrapTextInput):
 
     def __init__(self, attrs=None, **kwargs):
         attrs = attrs or {}
-        attrs['pattern'] = '[^@ ]{%s,%s}' % (_MIN_USERNAME_LENGTH, _MAX_USERNAME_LENGTH)
+        attrs['pattern'] = '[^@ ]{%s,%s}' % (settings.MIN_USERNAME_LENGTH,
+                                             settings.MAX_USERNAME_LENGTH)
         #attrs['title'] = _('At least 2 characters, no "@" or spaces.')
         super(NodeWidget, self).__init__(attrs=attrs, **kwargs)
 
@@ -41,8 +39,8 @@ class NodeWidget(BootstrapTextInput):
         attrs = super(NodeWidget, self).build_attrs(*args, **kwargs)
         attrs['title'] = _(
             'At least %(MIN_LENGTH)s and up to %(MAX_LENGTH)s characters. No "@" or spaces.') % {
-            'MIN_LENGTH': _MIN_USERNAME_LENGTH,
-            'MAX_LENGTH': _MAX_USERNAME_LENGTH,
+            'MIN_LENGTH': settings.MIN_USERNAME_LENGTH,
+            'MAX_LENGTH': settings.MAX_USERNAME_LENGTH,
         }
         return attrs
 

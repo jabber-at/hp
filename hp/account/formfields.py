@@ -33,9 +33,6 @@ from .widgets import NodeWidget
 from .widgets import UsernameWidget
 from .widgets import FingerprintWidget
 
-_MIN_USERNAME_LENGTH = getattr(settings, 'MIN_USERNAME_LENGTH', 2)
-_MAX_USERNAME_LENGTH = getattr(settings, 'MAX_USERNAME_LENGTH', 64)
-
 
 class UsernameField(BootstrapMixin, forms.MultiValueField):
     formgroup_class = 'form-group-username'
@@ -56,8 +53,8 @@ class UsernameField(BootstrapMixin, forms.MultiValueField):
         fields = (
             forms.CharField(
                 widget=NodeWidget(glyphicon=self.register),
-                min_length=_MIN_USERNAME_LENGTH,
-                max_length=_MAX_USERNAME_LENGTH,
+                min_length=settings.MIN_USERNAME_LENGTH,
+                max_length=settings.MAX_USERNAME_LENGTH,
                 error_messages={
                     'min_length': _('Username must have at least %(limit_value)d characters.'),
                     'max_length': _('Username must have at most %(limit_value)d characters.'),
@@ -86,8 +83,8 @@ class UsernameField(BootstrapMixin, forms.MultiValueField):
             help_text = _(
                 'At least %(MIN_LENGTH)s and up to %(MAX_LENGTH)s characters. No "@" or spaces.'
             ) % {
-                'MIN_LENGTH': _MIN_USERNAME_LENGTH,
-                'MAX_LENGTH': _MAX_USERNAME_LENGTH,
+                'MIN_LENGTH': settings.MIN_USERNAME_LENGTH,
+                'MAX_LENGTH': settings.MAX_USERNAME_LENGTH,
             }
 
             default = format_html('<span id="default">{}</span>',
