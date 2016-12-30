@@ -44,6 +44,12 @@ Project settings
 Project settings are settings used by this project and are not native to Django. Most are
 documented in :file:`localsettings.py.example`.
 
+.. WARNING::
+
+   This section is very incomplete. Currently, :file:`localsettings.py.example` should be
+   considered the authoritative source.
+
+
 .. _setting-account_expires_days:
 
 ACCOUNT_EXPIRES_DAYS
@@ -51,7 +57,7 @@ ACCOUNT_EXPIRES_DAYS
 
 Default: ``None``
 
-.. _setting-account_expires_days:
+.. _setting-account_expires_notification_days:
 
 ACCOUNT_EXPIRES_NOTIFICATION_DAYS
 =================================
@@ -66,7 +72,7 @@ ACCOUNT_USER_MENU
 Default: (please see :file:`settings.py`)
 
 Configure the user menu displayed on all pages under /account, if the user is logged in. Just like
-with :ref:`settings-installed_apps`, you can either override the default value by setting a list or
+with :ref:`setting-installed_apps`, you can either override the default value by setting a list or
 extend the default value by setting a callable.
 
 The value is a list of two-tuples, the first being a resolvable URL name (with no arguments) and
