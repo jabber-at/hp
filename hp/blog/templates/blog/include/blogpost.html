@@ -1,4 +1,4 @@
-{% load i18n render canonical %}
+{% load i18n admin_urls render canonical %}
 <div itemscope itemtype="http://schema.org/NewsArticle" class="blog-post">
     {% if summary %}
     <h3><a href="{{ post.get_absolute_url }}">
@@ -9,12 +9,20 @@
 
     <span itemprop="headline">{{ post.title.current }}</span>
     {% if summary %}</a>{% endif %}
-    <small>{% blocktrans with date=post.publication_date user=post.author.node %}{{ date }} by {{ user}}{% endblocktrans %}</small>
+    <small>{% blocktrans with date=post.publication_date user=post.author.node %}{{ date }} by {{ user}}{% endblocktrans %}
+    </small>
     {% if summary %}
+        {% if perms.change_blogpost %}
+        <a class="btn btn-default btn-xs" href="{% url 'admin:blog_blogpost_change' post.pk%}" role="button">{% trans "Change" %}</a>
+        {% endif %}
         </h3>
     {% else %}
         </h1></div>
+        {% if perms.change_blogpost %}
+        <p><a class="btn btn-default" href="{% url 'admin:blog_blogpost_change' post.pk%}" role="button">{% trans "Change" %}</a></p>
+        {% endif %}
     {% endif %}
+
 
     {% render post summary=summary %}
     {% if summary %}

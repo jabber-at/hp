@@ -4,5 +4,9 @@
 {% block title %}{{ object.title.current }}{% endblock title %}
 
 {% block content %}
+{% if perms.change_page %}
+<p><a class="btn btn-default" href="{% url 'admin:blog_page_change' page.pk%}" role="button">{% trans "Change" %}</a></p>
+{% endif %}
+
 {% render object %}
 {% endblock content %}
