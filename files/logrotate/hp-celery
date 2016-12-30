@@ -1,0 +1,22 @@
+/var/log/hp/uwsgi.log {
+        daily
+        missingok
+        rotate 14
+        compress
+        delaycompress
+        notifempty
+        create 640 hp hp
+        postrotate
+                touch /etc/uwsgi-emperor/vassals/jabber.at.ini
+        endscript
+}
+
+/var/log/hp/celery.log {
+        daily
+        missingok
+        rotate 14
+        compress
+        delaycompress
+        notifempty
+        create 640 hp hp
+}
