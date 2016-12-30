@@ -127,7 +127,7 @@ class DeployTask(DeploymentTaskMixin, Task):
         self.sudo('systemctl reload apache2')
 
         # copy logrotate config
-        self.sudo('cp %s/files/logrotate/hp-celery /etc/logrotate.d/')
+        self.sudo('cp %s/files/logrotate/hp-celery /etc/logrotate.d/' % self.path)
 
         # update systemd files
         systemd_dir = '%s/files/systemd' % self.path
