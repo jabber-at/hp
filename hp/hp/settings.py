@@ -51,8 +51,7 @@ _DEFAULT_INSTALLED_APPS = [
     'bootstrap',  # bootstrap enhancements
     'account',  # account management
     'feed',  # RSS/Atom feeds
-    'jsxc',  # webchat
-    'conversejs',  # webchat2
+    'conversejs',  # webchat
 
     'django.contrib.admin',
     'django.contrib.auth',
@@ -478,10 +477,11 @@ LOGGING = {
             'level': 'ERROR',
             'propagate': True,
         },
+        'requests': {'level': LIBRARY_LOG_LEVEL, },
+
         'account': {'level': LOG_LEVEL, },
         'bootstrap': {'level': LOG_LEVEL, },
         'core': {'level': LOG_LEVEL, },
-        'jsxc': {'level': LOG_LEVEL, },
         'gpgmime': {'level': LOG_LEVEL, },
     },
     'root': {
