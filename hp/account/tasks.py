@@ -13,6 +13,7 @@
 # You should have received a copy of the GNU General Public License along with django-xmpp-account.
 # If not, see <http://www.gnu.org/licenses/>.
 
+from datetime import date
 from datetime import timedelta
 from urllib.error import URLError
 
@@ -186,8 +187,8 @@ def update_last_activity(random_update=50):
                 notifs.account_expires_notified is False:
             log.debug('%s: Notifying user at %s', user, user.email)
 
-            when = user.last_activity + settings.ACCOUNT_EXPIRES_DAYS
-            delta = when - timezone.now()
+            when = user.last_activity.date() + settings.ACCOUNT_EXPIRES_DAYS
+            delta = when - date.today()
 
             host = settings.XMPP_HOSTS[user.domain]
             base_url = host['CANONICAL_BASE_URL'].rstrip('/')
@@ -201,7 +202,7 @@ def update_last_activity(random_update=50):
                 'password_url': '%s%s' % (base_url, reverse('account:reset_password')),
                 'user': user,
                 'when': when,
-                'when_days': delta.days + 1,
+                'when_days': delta.days,
             }
             subject = _('Your account on {{ domain }} is about to expire')  # NOQA
 
