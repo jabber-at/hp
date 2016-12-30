@@ -181,14 +181,15 @@ def update_last_activity(random_update=50):
         user.last_activity = timezone.make_aware(last_activity)
         notifs = user.notifications
 
+        # On what date the user will be removed and how many days this is from now
+        when = user.last_activity.date() + settings.ACCOUNT_EXPIRES_DAYS
+        delta = when - date.today()
+
         # If the updated last_activity still isn't more recent, the user requested a notification
         # and has a confirmed email address, we send a mail to the user.
         if user.is_confirmed and user.is_expiring and notifs.account_expires and \
-                notifs.account_expires_notified is False:
+                notifs.account_expires_notified is False and delta > timedelta():
             log.debug('%s: Notifying user at %s', user, user.email)
-
-            when = user.last_activity.date() + settings.ACCOUNT_EXPIRES_DAYS
-            delta = when - date.today()
 
             host = settings.XMPP_HOSTS[user.domain]
             base_url = host['CANONICAL_BASE_URL'].rstrip('/')
