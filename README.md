@@ -6,8 +6,8 @@ The homepage is still an evolving project, with many features unifinished, maybe
 
 * Python 3.4+, Django 1.10+
 * A webserver and a database (anything that works with Django)
-* An XMPP-server, this project interfaces with it via 
-  [django-xmpp-backends](https://github.com/mathiasertl/django-xmpp-backends).
+* An XMPP-server, this project interfaces with it via
+  [xmpp-backends](https://github.com/mathiasertl/xmpp-backends).
 
 ### Features
 
