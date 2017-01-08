@@ -5,6 +5,6 @@ To complete the change, please go to this address:{% endblocktrans %}{% endmailf
 
     {{ uri }}
 
-{% trans "If you haven't made this change, simply disregard this email." %}
+{% mailformat %}{% trans "If you haven't made this change, simply disregard this email." %}{% endmailformat %}
 
 {% blocktrans %}greetings, {{ domain }}{% endblocktrans %}
