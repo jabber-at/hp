@@ -440,7 +440,7 @@ class SetEmailView(LoginRequiredMixin, AccountPageMixin, FormView):
             base_url=base_url, hostname=request.site['NAME'])
 
         messages.success(request, _(
-            'We sent you an email to your new email address %(email)s). Click on the link in it '
+            'We sent you an email to your new email address (%(email)s). Click on the link in it '
             'to confirm it.') % {'email': to})
         user.log(ugettext_noop('Requested change of email address to %(email)s.'), address,
                  email=to)
