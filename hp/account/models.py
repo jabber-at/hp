@@ -134,8 +134,9 @@ class User(XmppBackendUser, PermissionsMixin):
     def log(self, message, address=None, **kwargs):
         self.log_entries.create(message=message, address=address, payload=kwargs)
 
-    def message(self, level, message):
-        return CachedMessage.objects.create(user=self, level=level, message=message)
+    def message(self, level, message, **kwargs):
+        return CachedMessage.objects.create(
+            user=self, level=level, message=message, payload=kwargs)
 
     def logs(self):
         return self.log_entries.order_by('-created')
