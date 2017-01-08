@@ -13,10 +13,12 @@
 # You should have received a copy of the GNU General Public License along with django-xmpp-account.
 # If not, see <http://www.gnu.org/licenses/>.
 
+import socket
 from datetime import date
 from datetime import timedelta
 from urllib.error import URLError
 
+from celery import Task
 from celery import shared_task
 from celery.utils.log import get_task_logger
 from gpgliblib.django import gpg_backend
@@ -41,6 +43,55 @@ from .constants import PURPOSE_SET_EMAIL
 
 User = get_user_model()
 log = get_task_logger(__name__)
+
+
+class FetchKeyTask(Task):
+    """A base class that handles fetching GPG keys."""
+
+    def fetch_key(self, fingerprint, user):
+        """Fetch given GPG key.
+
+        This function will retry the task if fetching fails and inform the user of any errors.
+        If the final retry fails (or an error not related to fetching the key is raised), the
+        function does not handle the exception.
+
+        Parameters
+        ----------
+
+        fingerprint : str
+        user : User
+            The user to logg error messages to.
+        """
+        try:
+            return gpg_backend.fetch_key('0x%s' % fingerprint).decode('utf-8')
+        except (URLError, socket.timeout) as e:
+            retries = self.request.retries
+
+            # Log exception using standard logging
+            log.info('Failed fetching key %s: %s/%s tries', fingerprint, retries, self.max_retries)
+            log.exception(e)
+
+            delta = timedelta(seconds=60 * 10)
+
+            if retries == self.max_retries:
+                msg = _('Unable to fetch GPG key. Giving up and sending mail unencrypted. Sorry.')
+                user.log(msg)
+                user.message(messages.ERROR, msg)
+                raise
+
+            else:
+                delta_formatted = format_timedelta(delta)
+                payload = {
+                    'max': self.max_retries + 1,
+                    'retry': retries + 1,
+                    'time': delta_formatted,
+                }
+                msg = _(
+                    'Unable to fetch GPG key (%(retry)s of %(max)s tries). '
+                    'Will try again in %(time)s.')
+                user.log(msg, **payload)
+                user.message(messages.ERROR, msg % payload)
+                self.retry(exc=e, countdown=delta.seconds)
 
 
 @shared_task(bind=True)
@@ -107,9 +158,9 @@ def send_confirmation_task(self, user_pk, to, purpose, language, address=None, *
     conf.send()
 
 
-@shared_task
+@shared_task(bind=True, base=FetchKeyTask)
 @activate_language
-def set_email_task(user_pk, to, language, address, fingerprint=None, key=None, **payload):
+def set_email_task(self, user_pk, to, language, address, fingerprint=None, key=None, **payload):
     """A custom task because we might need to send the email with a custom set of GPG keys."""
 
     user = User.objects.get(pk=user_pk)
@@ -118,11 +169,15 @@ def set_email_task(user_pk, to, language, address, fingerprint=None, key=None, *
     if key:
         payload['gpg_recv_pub'] = key
     elif fingerprint:
-        payload['gpg_recv_fp'] = fingerprint  # just so we know what was submitted
-        payload['gpg_recv_pub'] = gpg_backend.fetch_key('0x%s' % fingerprint).decode('utf-8')
+        try:
+            payload['gpg_recv_pub'] = self.fetch_key(fingerprint, user)
+            payload['gpg_recv_fp'] = fingerprint  # just so we know what was submitted
+        except (URLError, socket.timeout) as e:
+            payload['gpg_recv_pub'] = False  # do not encrypt
     else:
         payload['gpg_recv_pub'] = False  # do not encrypt
 
+    # TODO: CM no longer necessary?
     with translation.override(language):
         conf = Confirmation.objects.create(user=user, purpose=PURPOSE_SET_EMAIL, language=language,
                                            to=to, address=address, payload=payload)
