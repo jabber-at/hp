@@ -1,11 +1,11 @@
-Django==1.10.4
-Pillow==3.4.2
+Django==1.10.5
+Pillow==4.0.0
 bleach==1.5.0
 celery==4.0.2
 django-composite-field==0.7.6
 django-jsonfield==1.0.1
 django-mptt==0.8.7
-django-redis==4.6.0
+django-redis==4.7.0
 django-simple-captcha==0.5.3
 django-tinymce==2.4.0
 django-xmpp-http-upload==0.4.1
@@ -17,7 +17,7 @@ icalendar==3.11.1
 lxml==3.7.1
 pip>=9.0.1
 pygpgme==0.3
-setuptools>=32.3.0
+setuptools>=32.3.1
 strict-rfc3339==0.7
 ua-parser==0.7.2
 xmpp-backends==0.3.0
