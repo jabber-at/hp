@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-12-28 18:59+0100\n"
+"POT-Creation-Date: 2017-01-08 17:38+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -58,25 +58,25 @@ msgstr "Manuell"
 msgid "Unknown"
 msgstr "Unbekannt"
 
-#: formfields.py:46 models.py:85
+#: formfields.py:43 models.py:84
 msgid "Username"
 msgstr "Name"
 
-#: formfields.py:62
+#: formfields.py:59
 #, python-format
 msgid "Username must have at least %(limit_value)d characters."
 msgstr "Der Benutzername muss mindestens %(limit_value)d Zeichen lang sein."
 
-#: formfields.py:63
+#: formfields.py:60
 #, python-format
 msgid "Username must have at most %(limit_value)d characters."
 msgstr "Der Benutzername darf maximal %(limit_value)d Zeichen lang sein."
 
-#: formfields.py:66
+#: formfields.py:63
 msgid "Username contains invalid characters."
 msgstr "Der Benutzername enthält ungültige Zeichen."
 
-#: formfields.py:87 widgets.py:43
+#: formfields.py:84 widgets.py:41
 #, python-format
 msgid ""
 "At least %(MIN_LENGTH)s and up to %(MAX_LENGTH)s characters. No \"@\" or "
@@ -85,33 +85,33 @@ msgstr ""
 "Mindestens %(MIN_LENGTH)s und maximal %(MAX_LENGTH)s Zeichen. Keine \"@\" "
 "oder Abstände."
 
-#: formfields.py:94
+#: formfields.py:91
 msgid "Type to see if the username is still available."
 msgstr ""
 "Geben sie den gewünschen Benutzernamen ein, um zu sehen, ob er noch "
 "verfügbar ist."
 
-#: formfields.py:96
+#: formfields.py:93
 msgid "The username is still available."
 msgstr "Der Benutzername ist verfügbar."
 
-#: formfields.py:98
+#: formfields.py:95
 msgid "The username is no longer available."
 msgstr "Der Benutzername ist nicht mehr verfügbar"
 
-#: formfields.py:100
+#: formfields.py:97
 msgid "The username is invalid."
 msgstr "Der Benutzername ist ungültig."
 
-#: formfields.py:102
+#: formfields.py:99
 msgid "An error occured, please try again later."
 msgstr "Ein Fehler ist aufgetreten, bitte versuchen sie es später erneut."
 
-#: formfields.py:119 templates/account/user_gpg.html:11
+#: formfields.py:116 templates/account/user_gpg.html:11
 msgid "Fingerprint"
 msgstr "Fingerabdruck"
 
-#: formfields.py:124
+#: formfields.py:121
 msgid ""
 "Add your fingerprint (<code>gpg --fingerprint &lt;you@example.com&gt;</"
 "code>) if your key is available on public key servers..."
@@ -120,23 +120,23 @@ msgstr ""
 "</code>) des Schlüssels an, wenn er auf den öffentlichen Schlüsselservern "
 "verfügbar ist..."
 
-#: formfields.py:129 formfields.py:162
+#: formfields.py:126 formfields.py:159
 msgid "GPG not enabled."
 msgstr "GPG ist nicht aktiviert."
 
-#: formfields.py:131
+#: formfields.py:128
 msgid "Fingerprint should be 40 characters long."
 msgstr "Der Fingerabdruck muss exakt 40 Zeichen lang sein."
 
-#: formfields.py:133
+#: formfields.py:130
 msgid "Fingerprint contains invalid characters."
 msgstr "Der Fingerabdruck enthält ungültige Zeichen."
 
-#: formfields.py:154
+#: formfields.py:151
 msgid "GPG Key"
 msgstr "Schlüssel"
 
-#: formfields.py:156
+#: formfields.py:153
 msgid ""
 "... upload your ASCII armored GPG key directly (<code>gpg --armor --export "
 "&lt;fingerprint&gt;</code>)."
@@ -144,155 +144,153 @@ msgstr ""
 "... laden sie ihren GPG-Schlüssel im ASCII-Format direkt hoch (<code>gpg --"
 "armor --export &lt;fingerprint&gt;</code>)"
 
-#: formfields.py:164
+#: formfields.py:161
 #, python-format
 msgid "Only plain-text files are allowed (was: %(content-type)s)!"
 msgstr "Es sind ausschließlich Textdateien erlaubt (nicht %(content-type)s)!"
 
-#: formfields.py:200
+#: formfields.py:197
 #, python-format
 msgid "The domain \"%(domain)s\" does not exist."
 msgstr "Die Domain \"%(domain)s\" existiert nicht."
 
-#: forms.py:100
+#: forms.py:97
 msgid "Malformed email address."
 msgstr "Ungültige E-Mail-Adresse."
 
-#: forms.py:106
+#: forms.py:103
 #, python-format
 msgid "Please give your own email address, %(domain)s does not provide one."
 msgstr ""
 "Bitte geben sie ihre eigene E-Mail-Adresse an, %(domain)s stellt keine zur "
 "Verfüugung."
 
-#: forms.py:111
+#: forms.py:108
 #, python-format
 msgid "Sorry, we do not allow email addresses on %(domain)s."
 msgstr "Entschuldigung, wir erlauben keine E-Mail-Adressen von %(domain)s."
 
-#: forms.py:116 forms.py:126
+#: forms.py:113 forms.py:123
 msgid "Sorry, this email address cannot be used."
 msgstr "Entschuldigung, diese E-Mail-Adresse kann nicht verwendet werden."
 
-#: forms.py:138 forms.py:217 models.py:86
+#: forms.py:135 forms.py:214 models.py:85
 msgid "Email"
 msgstr "E-Mail"
 
-#: forms.py:139
+#: forms.py:136
 msgid "Required, a confirmation email will be sent to this address."
 msgstr "Pflichtfeld, eine Bestätigung wird an diese Adresse geschickt."
 
-#: forms.py:145 views.py:427
+#: forms.py:142 views.py:430
 msgid "Email address is already used by another account."
 msgstr "E-Mail-Adresse wird bereits für ein anderes Konto verwendet."
 
-#: forms.py:155 forms.py:175 forms.py:181
+#: forms.py:152 forms.py:172 forms.py:178
 msgid "Password"
 msgstr "Passwort"
 
-#: forms.py:163
+#: forms.py:160
 msgid "my account expires"
 msgstr "mein Konto abläuft"
 
-#: forms.py:164
+#: forms.py:161
 msgid "my GPG key expires"
 msgstr "mein GPG-Schlüssel abläuft"
 
-#: forms.py:168
+#: forms.py:165
 msgid ""
 "Accounts are automatically removed if they haven't been used for a year."
 msgstr ""
 "Ihr Konto wird automatisch gelöscht, wenn sie es ein Jahr lang nicht mehr "
 "genutzt haben."
 
-#: forms.py:169
+#: forms.py:166
 msgid "If you have uploaded a GPG key and it is about to expire."
 msgstr "wenn sie einen GPG-Schlüssel hochgeladen haben und dieser abläuft."
 
-#: forms.py:176
+#: forms.py:173
 msgid ""
 "Your password, to make sure that you really want to delete your account."
 msgstr "Ihr Passwort, damit sie sich auch ganz sicher sind."
 
-#: forms.py:184
+#: forms.py:181
 msgid "Confirm"
 msgstr "Bestätigen"
 
-#: forms.py:185
+#: forms.py:182
 msgid "Confirm the password to make sure you spelled it correctly."
 msgstr "Bestätigen sie das Passwort um Tippfehler auszuschließen."
 
-#: forms.py:188
+#: forms.py:185
 msgid "The two password fields didn't match."
 msgstr "Die beiden Passwörter stimmen nicht überein."
 
-#: forms.py:218
+#: forms.py:215
 msgid "Required, an email will be sent to this address to confirm the change."
 msgstr ""
 "Pflichtfeld, eine E-Mail wird an diese Adresse gesendet um die Änderung zu "
 "bestätigen."
 
-#: models.py:210
+#: models.py:204
 msgid "Error importing GPG key."
 msgstr "Fehler beim importieren des GPG-Schlüssels."
 
-#: models.py:224
+#: models.py:219
 #, python-format
 msgid "Added GPG key 0x%(fingerprint)s."
 msgstr "GPG-Schlüssel 0x%(fingerprint)s hinzugefügt."
 
-#: models.py:226
+#: models.py:221
 #, python-format
 msgid "Updated GPG key 0x%(fingerprint)s."
 msgstr "GPG-Schlüssel 0x%(fingerprint)s aktualisiert."
 
-#: models.py:327
+#: models.py:322
 msgid "Send user an email when the account is about to be deleted."
 msgstr "Sende NutzerIn eine E-Mail wenn das Konto gelöscht zu werden droht."
 
-#: models.py:330
+#: models.py:325
 msgid "Send user an email when his GPG key is about to expire."
 msgstr "Sende NutzerIn eine E-Mail wenn der GPG-Schlüssel abzulaufen droht."
 
-#: models.py:339
+#: models.py:334
 msgid "Recipient"
 msgstr "Empfänger"
 
-#: models.py:354
+#: models.py:349
 msgid "Delete your account on {{ user.domain }}"
 msgstr "Löschung ihres Kontos auf {{ user.domain }}"
 
-#: models.py:355
+#: models.py:350
 msgid "Your new account on {{ user.domain }}"
 msgstr "Ihr neues Konto auf {{ user.domain }}"
 
-#: models.py:356
+#: models.py:351
 msgid "Reset your password on {{ user.domain }}"
 msgstr "Passwort auf {{ user.domain }} neu setzen"
 
-#: models.py:357
+#: models.py:352
 msgid "Confirm new email address for your {{ user.domain }} account"
 msgstr ""
 "Bestätigen sie die neue E-Mail-Adresse für ihr {{ user.domain }} Konto."
 
-#: tasks.py:78
-msgid ""
-"Could not reach keyserver. This was our final attempt. Giving up and sending "
-"mail unencrypted. Sorry."
+#: tasks.py:79
+msgid "Unable to fetch GPG key. Giving up and sending mail unencrypted. Sorry."
 msgstr ""
-"Konnte Schlüsselserver nicht erreichen. Dies war unser letzter Versuch, wir "
-"geben auf und senden E-Mails unverschlüsselt. Entschuldigung."
+"GPG-Schlüssel konnte nicht heruntergeladen werden. Da dies der letzte "
+"Versuch war, wird die E-Mail unverschlüsselt verschickt."
 
-#: tasks.py:87
+#: tasks.py:92
 #, python-format
 msgid ""
-"Could not reach keyserver. Will try again in %(time)s (%(retry)s of "
-"%(max_retries)s tries)"
+"Unable to fetch GPG key (%(retry)s of %(max)s tries). Will try again in "
+"%(time)s."
 msgstr ""
-"Der Keyserver ist derzeit nicht erreichbar. Wir versuchen es in %(time)s "
-"erneut (%(retry)s von %(max_retries)s Versuchen)."
+"GPG-Schlüssel konnte nicht heruntergeladen werden (%(retry)s von %(max)s "
+"Versuchen). Wir werden es in %(time)s noch einmal versuchen."
 
-#: tasks.py:205
+#: tasks.py:249
 msgid "Your account on {{ domain }} is about to expire"
 msgstr "Ihr Konto auf {{ domain }} läuft bald ab"
 
@@ -566,7 +564,7 @@ msgstr ""
 
 #: templates/account/sessions.html:26
 msgid "Started"
-msgstr ""
+msgstr "Beginn"
 
 #: templates/account/sessions.html:39
 msgid "You are currently not online with any client."
@@ -596,7 +594,7 @@ msgstr "ändern"
 
 #: templates/account/user_detail.html:18
 msgid "Not set"
-msgstr ""
+msgstr "Nicht gesetzt"
 
 #: templates/account/user_detail.html:23
 msgid "Email confirmed"
@@ -736,14 +734,11 @@ msgstr "GPG-Optionen"
 
 #: templates/account/user_register.html:36
 #: templates/account/user_set_email.html:25
-#, fuzzy, python-format
-#| msgid ""
-#| "You can add a GPG key to have %(domain)s encrypt all emails sent to you."
 msgid ""
 "You can add a GPG key to have %(domain)s encrypt all emails sent to you."
 msgstr ""
-"Wenn sie einen GPG-Schlüssel hinzufügen, werden alle E-Mails an sie "
-"automatisch verschlüsselt."
+"Wenn sie einen GPG-Schlüssel hinzufügen, werden alle E-Mails von %(domain)s "
+"an sie automatisch verschlüsselt."
 
 #: templates/account/user_register.html:38
 #: templates/account/user_set_email.html:35
@@ -797,6 +792,9 @@ msgid ""
 "have used it already and you can proceed straight to your\n"
 "<a class=\"alert-link\" href=\"%(account_page_url)s\">your account-page</a>."
 msgstr ""
+"Der Bestätigungslink wurde nicht gefunden. Normalerweise heißt das, dass sie "
+"den Link bereits genutzt haben und <a class=\"alert-link\" href="
+"\"%(account_page_url)s\">ihr Konto bereits nutzen können."
 
 #: templates/account/user_register_confirmation_not_found.html:15
 msgid ""
@@ -804,6 +802,9 @@ msgid ""
 "to protect you from an attacker randomly guessing links, we only present an\n"
 "error message once the form is submitted and you have solved the CAPTCHA."
 msgstr ""
+"Bestätigungslinks die wir ihnen schicken können nur einmal genutzt werden. "
+"Um das Erraten eines Links zu verhindern, wird diese Fehlermeldung erst "
+"jetzt angezeigt (wenn das CAPTCHA gelöst wurde)."
 
 #: templates/account/user_set_email.html:4
 msgid "Set new email address"
@@ -874,11 +875,11 @@ msgstr "Übersicht"
 msgid "Set E-Mail"
 msgstr "E-Mail setzen"
 
-#: views.py:168
+#: views.py:172
 msgid "Account created."
 msgstr "Konto erstellt."
 
-#: views.py:172
+#: views.py:176
 #, python-format
 msgid ""
 "Successfully created the account %(username)s. A confirmation email was\n"
@@ -889,72 +890,79 @@ msgstr ""
 "Adresse (%(email)s) versandt. Bevor sie ihr Konto nutzen können, müssen sie "
 "den Link in der E-Mail bestätigen."
 
-#: views.py:246
+#: views.py:249
 #, python-format
 msgid "Email address %(email)s confirmed."
 msgstr "E-Mail-Adresse %(email)s bestätigt."
 
-#: views.py:250
+#: views.py:253
 msgid ""
 "Successfully confirmed your email address. You can now use your account."
 msgstr ""
 "Ihre E-Mail-Adresse wurde erfolgreich bestätigt. Sie können nun ihr Konto "
 "nutzen."
 
-#: views.py:319
+#: views.py:322
 msgid "User not found."
 msgstr "Benutzer nicht gefunden."
 
-#: views.py:327
+#: views.py:330
 msgid "Requested password reset."
 msgstr "Neues Passwort angefordert."
 
-#: views.py:352 views.py:405
+#: views.py:355 views.py:408
 msgid "Set new password."
 msgstr "Neues Passwort gesetzt."
 
-#: views.py:353 views.py:407
+#: views.py:356 views.py:410
 msgid "Successfully changed your password."
 msgstr "Passwort erfolgreich geändert."
 
-#: views.py:439
+#: views.py:442
 #, python-format
 msgid ""
-"We sent you an email to your new email address %(email)s). Click on the link "
-"in it to confirm it."
+"We sent you an email to your new email address (%(email)s). Click on the "
+"link in it to confirm it."
 msgstr ""
 "Wir haben ihnen eine E-Mail an ihre neue Adresse %(email)s geschickt. "
 "Klicken sie auf den Link in der E-Mail, um die Änderung zu bestätigen."
 
-#: views.py:441
+#: views.py:444
 #, python-format
 msgid "Requested change of email address to %(email)s."
 msgstr "Änderung der E-Mail-Adresse auf %(email)s beantragt."
 
-#: views.py:475 views.py:477
+#: views.py:477 views.py:479
 #, python-format
 msgid "Confirmed email address change to %(email)s."
 msgstr "E-Mail-Adressänderung auf %(email)s bestätigt."
 
-#: views.py:525 views.py:558
+#: views.py:527 views.py:560
 msgid "The password is incorrect."
 msgstr "Das Passwort stimmt nicht."
 
-#: views.py:537
+#: views.py:539
 #, python-format
 msgid "We sent you an email to %(email)s to confirm your request."
 msgstr ""
 "Wir haben ihnen eine E-Mail an %(email)s geschickt, um das Löschen ihres "
 "Kontos zu bestätigen."
 
-#: views.py:539
+#: views.py:541
 msgid "Requested deletion of account."
 msgstr "Löschung ihres Kontos beantragt."
 
-#: widgets.py:80
+#: widgets.py:78
 msgid ""
 "The hex-encoded value of the fingerprint: digits, letters A-F (case-"
 "insensitive)."
 msgstr ""
 "Der Fingerabdruck im hex-format: Ziffern, Buchstaben A-F (Groß-/"
 "Kleinschreibung ist egal)."
+
+#~ msgid ""
+#~ "Could not reach keyserver. Will try again in %(time)s (%(retry)s of "
+#~ "%(max_retries)s tries)"
+#~ msgstr ""
+#~ "Der Keyserver ist derzeit nicht erreichbar. Wir versuchen es in %(time)s "
+#~ "erneut (%(retry)s von %(max_retries)s Versuchen)."
