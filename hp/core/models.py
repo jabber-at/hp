@@ -210,6 +210,7 @@ class CachedMessage(BaseModel):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, db_index=True)
     level = models.IntegerField()
     message = models.TextField()
+    payload = JSONField(default=dict)
 
 
 class Address(models.Model):
