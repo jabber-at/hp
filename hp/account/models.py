@@ -33,6 +33,7 @@ from django.utils import translation
 from django.utils.crypto import get_random_string
 from django.utils.crypto import salted_hmac
 from django.utils.translation import ugettext_lazy as _
+from django.utils.translation import ugettext_noop
 
 from gpgliblib.django import GpgEmailMessage
 from gpgliblib.django import gpg_backend
@@ -200,7 +201,7 @@ class User(XmppBackendUser, PermissionsMixin):
                     imported.append((key, imp_key.fp, imp_key.expires))
                 except Exception as e:
                     log.exception(e)
-                    err = _('Error importing GPG key.')
+                    err = ugettext_noop('Error importing GPG key.')
                     self.log(err, address=address)  # log entry in "Recent activity"
                     self.message(messages.ERROR, err)  # message to user
                     raise
@@ -213,13 +214,14 @@ class User(XmppBackendUser, PermissionsMixin):
             dbkey, created = GpgKey.objects.update_or_create(
                 user=self, fingerprint=fp, defaults={'key': key, 'expires': expires, })
 
+            payload = {'fingerprint': fp, }
             if created is True:
-                message = _('Added GPG key 0x%(fingerprint)s.') % {'fingerprint': fp, }
+                message = ugettext_noop('Added GPG key 0x%(fingerprint)s.')
             else:
-                message = _('Updated GPG key 0x%(fingerprint)s.') % {'fingerprint': fp, }
+                message = ugettext_noop('Updated GPG key 0x%(fingerprint)s.')
 
-            self.log(address=address, message=message)
-            self.message(messages.INFO, message)
+            self.log(message, address=address, **payload)
+            self.message(messages.INFO, message, **payload)
 
     def send_mail(self, subject, message, html_message, host=None, to=None, gpg_key=None):
         """Send an email to the user.
