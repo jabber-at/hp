@@ -23,6 +23,7 @@ from django.http import HttpResponseRedirect
 from django.http.request import split_domain_port
 from django.http.request import validate_host
 from django.template.response import TemplateResponse
+from django.utils.translation import ugettext as _
 from xmpp_backends.base import BackendError
 
 from .exceptions import HttpResponseException
@@ -66,7 +67,7 @@ class CeleryMessageMiddleware(object):
             stored_msgs = CachedMessage.objects.filter(user=request.user)
             if stored_msgs:
                 for msg in stored_msgs:
-                    messages.add_message(request, msg.level, msg.message)
+                    messages.add_message(request, msg.level, _(msg.message) % msg.payload)
 
                 stored_msgs.delete()
 
