@@ -208,9 +208,8 @@ class User(XmppBackendUser, PermissionsMixin):
         with self.gpg_keyring(init=False) as backend:
             for key in keys.split(_gpg_key_delimiter):
                 try:
-                    fp = backend.import_key(keys)[0]
-                    expires = backend.expires(fp)
-                    imported.append((key, fp, expires))
+                    imp_key = backend.import_key(keys)[0]
+                    imported.append((key, imp_key.fp, imp_key.expires))
                 except Exception:
                     err = _('Error importing GPG key.')
                     self.log(err, address=address)  # log entry in "Recent activity"
