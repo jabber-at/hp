@@ -175,10 +175,10 @@ class RegistrationView(BlacklistMixin, DnsBlMixin, RateLimitMixin, AnonymousRequ
             messages.success(request, _(
                 """Successfully created the account %(username)s. A confirmation email was
 just sent to the email address you provided (%(email)s). Before you can use
-your account, you must click on the confirmation link in that email.""" % {
+your account, you must click on the confirmation link in that email.""") % {
                     'username': user.username,
                     'email': user.email,
-                }))
+            })
 
             user.backend = settings.AUTHENTICATION_BACKENDS[0]
             login(self.request, user)
