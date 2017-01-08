@@ -94,7 +94,7 @@ class FetchKeyTask(Task):
                 self.retry(exc=e, countdown=delta.seconds)
 
 
-@shared_task(bind=True)
+@shared_task(bind=True, base=FetchKeyTask)
 @activate_language
 def add_gpg_key_task(self, user_pk, address, language, fingerprint=None, key=None):
     """Task to add or update a submitted GPG key.
@@ -121,29 +121,14 @@ def add_gpg_key_task(self, user_pk, address, language, fingerprint=None, key=Non
 
     user = User.objects.get(pk=user_pk)
 
-    try:
-        user.add_gpg_key(keys=key, fingerprint=fingerprint, language=language, address=address)
-    except URLError as e:
-        retries = self.request.retries
-        if retries == self.max_retries:
-            msg = _(
-                'Could not reach keyserver. This was our final attempt. Giving up and sending '
-                'mail unencrypted. Sorry.')
-            log.exception(e)
-            user.message(messages.ERROR, msg)
+    # Fetch key if we just get the fingerprint
+    if not key and fingerprint:
+        try:
+            key = self.fetch_key(fingerprint, user)
+        except (URLError, socket.timeout) as e:
+            return
 
-        delta = timedelta(seconds=60)
-        delta_formatted = format_timedelta(delta)
-
-        log.info('This is %s of %s tries.', self.request.retries, self.max_retries)
-        msg = _('Could not reach keyserver. '
-                'Will try again in %(time)s (%(retry)s of %(max_retries)s tries)') % {
-                    'time': delta_formatted,
-                    'retry': retries + 1,
-                    'max_retries': self.max_retries,
-        }
-        user.message(messages.ERROR, msg)
-        self.retry(exc=e, countdown=delta.seconds)
+    user.add_gpg_key(keys=key, fingerprint=fingerprint, language=language, address=address)
 
 
 @shared_task(bind=True)
