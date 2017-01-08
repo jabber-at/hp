@@ -204,7 +204,8 @@ class User(XmppBackendUser, PermissionsMixin):
                 try:
                     imp_key = backend.import_key(keys)[0]
                     imported.append((key, imp_key.fp, imp_key.expires))
-                except Exception:
+                except Exception as e:
+                    log.exception(e)
                     err = _('Error importing GPG key.')
                     self.log(err, address=address)  # log entry in "Recent activity"
                     self.message(messages.ERROR, err)  # message to user
