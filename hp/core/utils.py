@@ -195,4 +195,4 @@ def mailformat(text, width=78):
         ps.append(textwrap.fill(p, width=width))
         ps.append('')
 
-    return '\n'.join(ps)
+    return '\n'.join(ps).strip()
