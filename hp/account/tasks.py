@@ -254,6 +254,10 @@ def update_last_activity(random_update=50):
 
             notifs.account_expires_notified = True
             notifs.save()
+        elif not user.is_expiring:
+            # The account is no longer expiring, this means it has logged on in the meantime
+            notifs.account_expires_notified = False
+            notifs.save()
 
         user.save()
 
