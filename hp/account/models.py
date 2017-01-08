@@ -14,8 +14,6 @@
 # If not, see <http://www.gnu.org/licenses/>.
 
 import logging
-import shutil
-import tempfile
 
 from contextlib import contextmanager
 
@@ -174,23 +172,19 @@ class User(XmppBackendUser, PermissionsMixin):
             If set, also import the private key for the given host configured in the ``XMPP_HOSTS``
             setting.
         """
-        home = tempfile.mkdtemp()
         if hostname is not None:
             host_fp, host_key, host_pub = load_private_key(hostname)
 
-        try:
-            with gpg_backend.settings(home=home, **kwargs) as backend:
-                if init is True:  # import existing valid gpg keys
-                    for key in self.gpg_keys.valid():
-                        backend.import_key(key.key.encode('utf-8'))
+        with gpg_backend.temp_keyring(**kwargs) as backend:
+            if init is True:  # import existing valid gpg keys
+                for key in self.gpg_keys.valid():
+                    backend.import_key(key.key.encode('utf-8'))
 
-                if hostname is not None:
-                    backend.import_private_key(host_key)
-                    backend.import_key(host_pub)
+            if hostname is not None:
+                backend.import_private_key(host_key)
+                backend.import_key(host_pub)
 
-                yield backend
-        finally:
-            shutil.rmtree(home)
+            yield backend
 
     def add_gpg_key(self, keys, fingerprint, language, address):
         if fingerprint:
