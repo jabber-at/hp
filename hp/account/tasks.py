@@ -165,11 +165,9 @@ def set_email_task(self, user_pk, to, language, address, fingerprint=None, key=N
     else:
         payload['gpg_recv_pub'] = False  # do not encrypt
 
-    # TODO: CM no longer necessary?
-    with translation.override(language):
-        conf = Confirmation.objects.create(user=user, purpose=PURPOSE_SET_EMAIL, language=language,
-                                           to=to, address=address, payload=payload)
-        conf.send()
+    conf = Confirmation.objects.create(user=user, purpose=PURPOSE_SET_EMAIL, language=language,
+                                       to=to, address=address, payload=payload)
+    conf.send()
 
 
 @shared_task
