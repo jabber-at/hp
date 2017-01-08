@@ -119,8 +119,9 @@ def add_gpg_key_task(self, user_pk, address, language, fingerprint=None, key=Non
     key : str, optional
         The key to add, in ASCII armored text format. This might include multiple keys.
     """
-    if fingerprint is None and key is None:
+    if not fingerprint and not key:
         log.error('Neither fingerprint nor key passed.')
+        return
 
     user = User.objects.get(pk=user_pk)
 
