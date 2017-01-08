@@ -30,6 +30,7 @@ from django.urls import reverse
 from django.utils import timezone
 from django.utils import translation
 from django.utils.translation import ugettext as _
+from django.utils.translation import ugettext_noop
 from xmpp_backends.base import UserNotFound
 from xmpp_backends.django import xmpp_backend
 
@@ -74,7 +75,8 @@ class FetchKeyTask(Task):
             delta = timedelta(seconds=60 * 10)
 
             if retries == self.max_retries:
-                msg = _('Unable to fetch GPG key. Giving up and sending mail unencrypted. Sorry.')
+                msg = ugettext_noop(
+                    'Unable to fetch GPG key. Giving up and sending mail unencrypted. Sorry.')
                 user.log(msg)
                 user.message(messages.ERROR, msg)
                 raise
@@ -86,11 +88,12 @@ class FetchKeyTask(Task):
                     'retry': retries + 1,
                     'time': delta_formatted,
                 }
-                msg = _(
+                msg = ugettext_noop(
                     'Unable to fetch GPG key (%(retry)s of %(max)s tries). '
                     'Will try again in %(time)s.')
+
                 user.log(msg, **payload)
-                user.message(messages.ERROR, msg % payload)
+                user.message(messages.ERROR, msg, **payload)
                 self.retry(exc=e, countdown=delta.seconds)
 
 
