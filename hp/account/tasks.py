@@ -98,8 +98,7 @@ class FetchKeyTask(Task):
 
 
 @shared_task(bind=True, base=FetchKeyTask)
-@activate_language
-def add_gpg_key_task(self, user_pk, address, language, fingerprint=None, key=None):
+def add_gpg_key_task(self, user_pk, address, fingerprint=None, key=None):
     """Task to add or update a submitted GPG key.
 
     You need to pass either the fingerprint or the raw key. If neither is passed, the task will
@@ -132,7 +131,7 @@ def add_gpg_key_task(self, user_pk, address, language, fingerprint=None, key=Non
         except (URLError, socket.timeout) as e:
             return
 
-    user.add_gpg_key(keys=key, fingerprint=fingerprint, language=language, address=address)
+    user.add_gpg_key(keys=key, fingerprint=fingerprint, address=address)
 
 
 @shared_task(bind=True)

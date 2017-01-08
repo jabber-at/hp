@@ -188,7 +188,7 @@ class User(XmppBackendUser, PermissionsMixin):
 
             yield backend
 
-    def add_gpg_key(self, keys, fingerprint, language, address):
+    def add_gpg_key(self, keys, fingerprint, address):
         if isinstance(keys, str):
             keys = keys.encode('utf-8')  # convert to bytes
 

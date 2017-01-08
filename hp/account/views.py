@@ -191,8 +191,7 @@ your account, you must click on the confirmation link in that email.""" % {
         fp, key = form.get_gpg_data()
         if fp or key:
             gpg_task = add_gpg_key_task.si(
-                user_pk=user.pk, address=address, language=lang,
-                fingerprint=fp, key=key)
+                user_pk=user.pk, address=address, fingerprint=fp, key=key)
             task = chain(gpg_task, task)
         task.delay()
 
@@ -469,8 +468,7 @@ class ConfirmSetEmailView(LoginRequiredMixin, RedirectView):
             user.gpg_keys.all().delete()
             gpg_keys = key.payload.get('gpg_recv_pub')
             if gpg_keys:
-                add_gpg_key_task.delay(user_pk=user.pk, address=key.address.address,
-                                       language=request.LANGUAGE_CODE, key=gpg_keys)
+                add_gpg_key_task.delay(user_pk=user.pk, address=key.address.address, key=gpg_keys)
 
             user.save()
             key.delete()
