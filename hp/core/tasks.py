@@ -20,7 +20,7 @@ from functools import wraps
 
 from celery import shared_task
 from celery.utils.log import get_task_logger
-from gpgmime.django import GpgEmailMessage
+from gpgliblib.django import GpgEmailMessage
 
 from django.conf import settings
 from django.contrib.auth import get_user_model

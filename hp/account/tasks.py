@@ -19,7 +19,7 @@ from urllib.error import URLError
 
 from celery import shared_task
 from celery.utils.log import get_task_logger
-from gpgmime.django import gpg_backend
+from gpgliblib.django import gpg_backend
 
 from django.conf import settings
 from django.contrib.auth import get_user_model

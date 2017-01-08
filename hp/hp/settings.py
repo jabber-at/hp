@@ -283,7 +283,7 @@ GPG_KEYSERVER = 'http://pool.sks-keyservers.net:11371'
 # Default GPG backend configuration
 GPG_BACKENDS = {
     'default': {
-        'BACKEND': 'gpgmime.gpgme.GpgMeBackend',
+        'BACKEND': 'gpgliblib.gpgme.GpgMeBackend',
         'HOME': os.path.join(ROOT_DIR, 'gnupg'),
         # Optional settings:
         #'PATH': '/home/...',  # Path to 'gpg' binary
@@ -482,7 +482,7 @@ LOGGING = {
         'account': {'level': LOG_LEVEL, },
         'bootstrap': {'level': LOG_LEVEL, },
         'core': {'level': LOG_LEVEL, },
-        'gpgmime': {'level': LOG_LEVEL, },
+        'gpgliblib': {'level': LOG_LEVEL, },
     },
     'root': {
         'handlers': ['console', ],

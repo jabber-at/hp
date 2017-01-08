@@ -353,7 +353,7 @@ DEFAULT_XMPP_HOST = 'example.com'
 #
 #GPG_BACKENDS = {
 #    'default': {
-#        'BACKEND': 'gpgmime.gpgme.GpgMeBackend',
+#        'BACKEND': 'gpgliblib.gpgme.GpgMeBackend',
 #        'HOME': os.path.join(ROOT_DIR, 'gnupg'),
 #        # Optional settings:
 #        'PATH': '/home/...',  # Path to 'gpg' binary

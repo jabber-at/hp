@@ -36,8 +36,8 @@ from django.utils.crypto import get_random_string
 from django.utils.crypto import salted_hmac
 from django.utils.translation import ugettext_lazy as _
 
-from gpgmime.django import GpgEmailMessage
-from gpgmime.django import gpg_backend
+from gpgliblib.django import GpgEmailMessage
+from gpgliblib.django import gpg_backend
 from jsonfield import JSONField
 from xmpp_backends.django import xmpp_backend
 from xmpp_backends.django.models import XmppBackendUser
