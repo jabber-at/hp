@@ -7,15 +7,15 @@ django-jsonfield==1.0.1
 django-mptt==0.8.7
 django-redis==4.7.0
 django-simple-captcha==0.5.3
-django-tinymce==2.4.0
+django-tinymce==2.6.0
 django-xmpp-http-upload==0.4.1
 dnspython==1.15.0
-gpgliblib==0.1
+gpgliblib==0.2.0
 hiredis==0.2.0
 # bleach requires special html5lib version
 #html5lib=0.999999999
-icalendar==3.11.1
-lxml==3.7.1
+icalendar==3.11.2
+lxml==3.7.2
 pip>=9.0.1
 pygpgme==0.3
 setuptools>=32.3.1
