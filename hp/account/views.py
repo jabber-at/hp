@@ -346,18 +346,21 @@ class ResetPasswordView(BlacklistMixin, DnsBlMixin, RateLimitMixin, AnonymousReq
         return self.render_to_response(self.get_context_data(form=form))
 
 
-class ConfirmResetPasswordView(FormView):
+class ConfirmResetPasswordView(ConfirmationMixin, FormView):
     form_class = ConfirmResetPasswordForm
     queryset = _confirmation_qs.purpose(PURPOSE_RESET_PASSWORD)
     success_url = reverse_lazy('account:detail')
     template_name = 'account/user_password_reset_confirm.html'
 
     def form_valid(self, form):
+        key = self.get_key()
+        if isinstance(key, HttpResponse):
+            return key
+
         request = self.request
         address = request.META['REMOTE_ADDR']
 
         with transaction.atomic():
-            key = self.queryset.get(key=self.kwargs['key'])
             xmpp_backend.set_password(username=key.user.node, domain=key.user.domain,
                                       password=form.cleaned_data['password'])
 
