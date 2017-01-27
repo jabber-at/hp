@@ -14,6 +14,7 @@
 # If not, see <http://www.gnu.org/licenses/>.
 
 import logging
+import os
 
 from django.conf import settings
 from django.contrib import messages
@@ -198,14 +199,7 @@ your account, you must click on the confirmation link in that email.""") % {
         return response
 
 
-class ConfirmRegistrationView(FormView):
-    """View for confirming a registration e-mail."""
-
-    form_class = ConfirmResetPasswordForm
-    queryset = _confirmation_qs.purpose(PURPOSE_REGISTER)
-    success_url = reverse_lazy('account:detail')
-    template_name = 'account/user_register_confirm.html'
-
+class ConfirmationMixin(object):
     def dispatch(self, request, *args, **kwargs):
         try:
             self.key = self.queryset.get(key=self.kwargs['key'])
@@ -214,7 +208,23 @@ class ConfirmRegistrationView(FormView):
             # form. This is a minor protection against guessing attacks.
             self.key = None
 
-        return super(ConfirmRegistrationView, self).dispatch(request, *args, **kwargs)
+        return super(ConfirmationMixin, self).dispatch(request, *args, **kwargs)
+
+    def get_key(self):
+        if self.key is None:
+            name, ext = os.path.splitext(self.template_name)
+            template = '%s_not_found%s' % (name, ext)
+            return TemplateResponse(self.request, template, {}, status=404)
+        return self.key
+
+
+class ConfirmRegistrationView(ConfirmationMixin, FormView):
+    """View for confirming a registration e-mail."""
+
+    form_class = ConfirmResetPasswordForm
+    queryset = _confirmation_qs.purpose(PURPOSE_REGISTER)
+    success_url = reverse_lazy('account:detail')
+    template_name = 'account/user_register_confirm.html'
 
     def get_form_kwargs(self):
         kwargs = super(ConfirmRegistrationView, self).get_form_kwargs()
@@ -223,14 +233,13 @@ class ConfirmRegistrationView(FormView):
         return kwargs
 
     def form_valid(self, form):
-        key = self.key
+        key = self.get_key()
+        if isinstance(key, HttpResponse):
+            return key
+
         request = self.request
         address = request.META['REMOTE_ADDR']
         password = form.cleaned_data['password']
-
-        if self.key is None:
-            return TemplateResponse(
-                request, 'account/user_register_confirmation_not_found.html', {}, status=404)
 
         with transaction.atomic():
             key.user.confirmed = timezone.now()
