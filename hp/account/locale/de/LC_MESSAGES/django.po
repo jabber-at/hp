@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-01-08 17:38+0100\n"
+"POT-Creation-Date: 2017-01-27 14:10+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -182,7 +182,7 @@ msgstr "E-Mail"
 msgid "Required, a confirmation email will be sent to this address."
 msgstr "Pflichtfeld, eine Bestätigung wird an diese Adresse geschickt."
 
-#: forms.py:142 views.py:430
+#: forms.py:142 views.py:439
 msgid "Email address is already used by another account."
 msgstr "E-Mail-Adresse wird bereits für ein anderes Konto verwendet."
 
@@ -290,7 +290,7 @@ msgstr ""
 "GPG-Schlüssel konnte nicht heruntergeladen werden (%(retry)s von %(max)s "
 "Versuchen). Wir werden es in %(time)s noch einmal versuchen."
 
-#: tasks.py:249
+#: tasks.py:252
 msgid "Your account on {{ domain }} is about to expire"
 msgstr "Ihr Konto auf {{ domain }} läuft bald ab"
 
@@ -449,7 +449,7 @@ msgstr ""
 "Vorgang abzuschließen, gehen sie bitte auf diese URL:"
 
 #: templates/account/delete.html:4 templates/account/delete_confirm.html:4
-#: views.py:95
+#: views.py:96
 msgid "Delete account"
 msgstr "Konto löschen"
 
@@ -500,7 +500,7 @@ msgstr ""
 "beliebigen Client oder auf unserer Homepage [1] wieder einloggen. Falls sie "
 "ihr Passwort vergessen haben, können sie es hier [2] neu setzen."
 
-#: templates/account/notifications.html:14 views.py:89
+#: templates/account/notifications.html:14 views.py:90
 msgid "Notifications"
 msgstr "Benachrichtigungen"
 
@@ -570,7 +570,7 @@ msgstr "Beginn"
 msgid "You are currently not online with any client."
 msgstr "Sie sind gegenwärtig mit keinem Client verbunden."
 
-#: templates/account/set_password.html:4 views.py:90
+#: templates/account/set_password.html:4 views.py:91
 msgid "Set password"
 msgstr "Passwort setzen"
 
@@ -608,7 +608,7 @@ msgstr "Ja"
 msgid "No"
 msgstr "Nein"
 
-#: templates/account/user_gpg.html:4 views.py:93
+#: templates/account/user_gpg.html:4 views.py:94
 msgid "GPG keys"
 msgstr "GPG-Schlüssel"
 
@@ -662,7 +662,7 @@ msgstr ""
 msgid "Send"
 msgstr "Abschicken"
 
-#: templates/account/user_recent_activity.html:4 views.py:94
+#: templates/account/user_recent_activity.html:4 views.py:95
 msgid "Recent activity"
 msgstr "Letzte Aktivitäten"
 
@@ -734,6 +734,7 @@ msgstr "GPG-Optionen"
 
 #: templates/account/user_register.html:36
 #: templates/account/user_set_email.html:25
+#, python-format
 msgid ""
 "You can add a GPG key to have %(domain)s encrypt all emails sent to you."
 msgstr ""
@@ -781,11 +782,11 @@ msgstr ""
 "abgeschlossen haben, gehen sie bitte einfach auf <a class=\"alert-link\" "
 "href=\"%(account_page_url)s\">ihre Übersichtsseite</a>."
 
-#: templates/account/user_register_confirmation_not_found.html:10
+#: templates/account/user_register_confirm_not_found.html:10
 msgid "Confirmation key not found"
 msgstr "Bestätigung nicht gefunden"
 
-#: templates/account/user_register_confirmation_not_found.html:11
+#: templates/account/user_register_confirm_not_found.html:11
 #, python-format
 msgid ""
 "The confirmation key could not be found. This usually means that you\n"
@@ -794,9 +795,9 @@ msgid ""
 msgstr ""
 "Der Bestätigungslink wurde nicht gefunden. Normalerweise heißt das, dass sie "
 "den Link bereits genutzt haben und <a class=\"alert-link\" href="
-"\"%(account_page_url)s\">ihr Konto bereits nutzen können."
+"\"%(account_page_url)s\">ihr Konto bereits nutzen können</a>."
 
-#: templates/account/user_register_confirmation_not_found.html:15
+#: templates/account/user_register_confirm_not_found.html:15
 msgid ""
 "You can use the confirmation links we send to you only once. In order\n"
 "to protect you from an attacker randomly guessing links, we only present an\n"
@@ -823,7 +824,7 @@ msgstr ""
 "hinzu um weiterhin GPG zu verwenden. Alle vorhandenen GPG-Schlüssel werden "
 "entfernt when sie diese Änderung bestätigen."
 
-#: templates/account/xep0363.html:14 views.py:92
+#: templates/account/xep0363.html:14 views.py:93
 msgid "HTTP uploads"
 msgstr "HTTP Uploads"
 
@@ -867,19 +868,19 @@ msgstr "Datei"
 msgid "There are currently no file uploads."
 msgstr "Sie haben noch keine Dateien hochgeladen."
 
-#: views.py:88
+#: views.py:89
 msgid "Overview"
 msgstr "Übersicht"
 
-#: views.py:91
+#: views.py:92
 msgid "Set E-Mail"
 msgstr "E-Mail setzen"
 
-#: views.py:172
+#: views.py:173
 msgid "Account created."
 msgstr "Konto erstellt."
 
-#: views.py:176
+#: views.py:177
 #, python-format
 msgid ""
 "Successfully created the account %(username)s. A confirmation email was\n"
@@ -890,35 +891,35 @@ msgstr ""
 "Adresse (%(email)s) versandt. Bevor sie ihr Konto nutzen können, müssen sie "
 "den Link in der E-Mail bestätigen."
 
-#: views.py:249
+#: views.py:258
 #, python-format
 msgid "Email address %(email)s confirmed."
 msgstr "E-Mail-Adresse %(email)s bestätigt."
 
-#: views.py:253
+#: views.py:262
 msgid ""
 "Successfully confirmed your email address. You can now use your account."
 msgstr ""
 "Ihre E-Mail-Adresse wurde erfolgreich bestätigt. Sie können nun ihr Konto "
 "nutzen."
 
-#: views.py:322
+#: views.py:331
 msgid "User not found."
 msgstr "Benutzer nicht gefunden."
 
-#: views.py:330
+#: views.py:339
 msgid "Requested password reset."
 msgstr "Neues Passwort angefordert."
 
-#: views.py:355 views.py:408
+#: views.py:364 views.py:417
 msgid "Set new password."
 msgstr "Neues Passwort gesetzt."
 
-#: views.py:356 views.py:410
+#: views.py:365 views.py:419
 msgid "Successfully changed your password."
 msgstr "Passwort erfolgreich geändert."
 
-#: views.py:442
+#: views.py:451
 #, python-format
 msgid ""
 "We sent you an email to your new email address (%(email)s). Click on the "
@@ -927,28 +928,28 @@ msgstr ""
 "Wir haben ihnen eine E-Mail an ihre neue Adresse %(email)s geschickt. "
 "Klicken sie auf den Link in der E-Mail, um die Änderung zu bestätigen."
 
-#: views.py:444
+#: views.py:453
 #, python-format
 msgid "Requested change of email address to %(email)s."
 msgstr "Änderung der E-Mail-Adresse auf %(email)s beantragt."
 
-#: views.py:477 views.py:479
+#: views.py:486 views.py:488
 #, python-format
 msgid "Confirmed email address change to %(email)s."
 msgstr "E-Mail-Adressänderung auf %(email)s bestätigt."
 
-#: views.py:527 views.py:560
+#: views.py:536 views.py:569
 msgid "The password is incorrect."
 msgstr "Das Passwort stimmt nicht."
 
-#: views.py:539
+#: views.py:548
 #, python-format
 msgid "We sent you an email to %(email)s to confirm your request."
 msgstr ""
 "Wir haben ihnen eine E-Mail an %(email)s geschickt, um das Löschen ihres "
 "Kontos zu bestätigen."
 
-#: views.py:541
+#: views.py:550
 msgid "Requested deletion of account."
 msgstr "Löschung ihres Kontos beantragt."
 
