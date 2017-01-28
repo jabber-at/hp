@@ -193,15 +193,18 @@ class AntiSpamMixin(object):
         bl_addr = ipaddress.ip_address(bl_addr)
         for network in _BLACKLIST:
             if bl_addr in network:
+                log.info('%s: IP is in settings.BLACKLIST.', bl_addr)
                 return TemplateResponse(request, self.blacklist_template, {})
 
         # Check ratelimits
         if self.check_rate(request, rate_addr) is False:
+            log.info('%s: IP is ratelimited.', rate_addr)
             return TemplateResponse(request, self.rate_template, {})
 
         # Check DNS Blacklists
         blocks = check_dnsbl(dnsbl_addr)
         if blocks:
+            log.info('%s: IP is on at least one DNSBL.', dnsbl_addr)
             return TemplateResponse(request, self.dnsbl_template, {
                 'blocks': blocks,
             })
