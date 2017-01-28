@@ -50,15 +50,43 @@ or free on
     <th rowspan="2" class="two-rows">Notes</th>
 </tr>
 <tr class="header-row">
-    <th><a href="http://xmpp.org/extensions/xep-0027.html">0027</a></th>
-    <th><a href="http://xmpp.org/extensions/xep-0167.html">0167</a></th>
-    <th><a href="http://xmpp.org/extensions/xep-0198.html">0198</a></th>
-    <th><a href="http://xmpp.org/extensions/xep-0280.html">0280</a></th>
-    <th><a href="http://xmpp.org/extensions/xep-0313.html">0313</a></th>
-    <th class="mobile"><a href="http://xmpp.org/extensions/xep-0352.html">0352</a></th>
-    <th class="mobile"><a href="http://xmpp.org/extensions/xep-0357.html">0357</a></th>
-    <th><a href="http://xmpp.org/extensions/xep-0363.html">0363</a></th>
-    <th><a href="https://conversations.im/xeps/multi-end.html">OMEMO</a></th>
+    <th>
+        <a href="http://xmpp.org/extensions/xep-0027.html">0027</a>
+        <span class="footnote" data-toggle="tooltip", title="{% trans "XEP-0027: Current Jabber OpenPGP Usage" %}"></span>
+    </th>
+    <th>
+        <a href="http://xmpp.org/extensions/xep-0167.html">0167</a>
+        <span class="footnote" data-toggle="tooltip", title="{% trans "XEP-0167: Jingle RTP Sessions" %}"></span>
+    </th>
+    <th>
+        <a href="http://xmpp.org/extensions/xep-0198.html">0198</a>
+        <span class="footnote" data-toggle="tooltip", title="{% trans "XEP-0198: Stream Management" %}"></span>
+    </th>
+    <th>
+        <a href="http://xmpp.org/extensions/xep-0280.html">0280</a>
+        <span class="footnote" data-toggle="tooltip", title="{% trans "XEP-0280: Message Carbons" %}"></span>
+    </th>
+    <th>
+        <a href="http://xmpp.org/extensions/xep-0313.html">0313</a>
+        <span class="footnote" data-toggle="tooltip", title="{% trans "XEP-0313: Message Archive Management" %}"></span>
+    </th>
+    <th class="mobile">
+        <a href="http://xmpp.org/extensions/xep-0352.html">0352</a>
+        <span class="footnote" data-toggle="tooltip", title="{% trans "XEP-0352: Client State Indication" %}"></span>
+    </th>
+    <th class="mobile">
+        <a href="http://xmpp.org/extensions/xep-0357.html">0357</a>
+        <span class="footnote" data-toggle="tooltip", title="{% trans "XEP-0357: Push Notifications" %}"></span>
+    </th>
+    <th>
+        <a href="http://xmpp.org/extensions/xep-0363.html">0363</a>
+        <span class="footnote" data-toggle="tooltip", title="{% trans "XEP-0363: HTTP File Upload" %}"></span>
+    </th>
+    {% comment %}Omemo client progress: https://omemo.top/ {% endcomment %}
+    <th>
+        <a href="https://xmpp.org/extensions/xep-0384.html">0384</a>
+        <span class="footnote" data-toggle="tooltip", title="{% trans "XEP-0384: OMEMO Encryption" %}"></span>
+    </th>
 </tr>
 <tr class="osx">
     <th><a href="https://adium.im/">Adium</a></th>
@@ -70,7 +98,7 @@ or free on
     <td class="xep xep0352 mobile">{{u}}</td>
     <td class="xep xep0357 mobile">{{u}}</td>
     <td class="xep xep0363">{{u}}</td>
-    <td class="xep omemo">{{n}}</td>
+    <td class="xep xep0384">{{n}}</td>
     <td></td>
 </tr>
 <tr class="ios">
@@ -83,7 +111,7 @@ or free on
     <td class="xep xep0352 mobile">{{y}}</td>{% comment %}Mentioned in changelog for 3.2.3{% endcomment %}
     <td class="xep xep0357 mobile">{{y}}</td>{% comment %}https://chatsecure.org/blog/chatsecure-v323-xmpp-push/{% endcomment %}
     <td class="xep xep0363">{{u}}</td>
-    <td class="xep omemo">{{n}}</td>
+    <td class="xep xep0384">{{y}}</td>{% comment %}According to https://omemo.top/{% endcomment %}
     <td></td>
 </tr>
 <tr class="android">
@@ -98,7 +126,7 @@ or free on
     <td class="xep xep0352 mobile">{{y}}</td>
     <td class="xep xep0357 mobile">{{y}}</td>
     <td class="xep xep0363">{{y}}</td>
-    <td class="xep omemo">{{y}}</td>
+    <td class="xep xep0384">{{y}}</td>
     <td>on <a href="https://f-droid.org/repository/browse/?fdfilter=conversations&fdid=eu.siacs.conversations">Google play</a> (€ 2,39), on <a href="https://f-droid.org/repository/browse/?fdfilter=conversations&fdid=eu.siacs.conversations">F-Droid</a> (free)</td>
 </tr>
 <tr class="browser">
@@ -113,7 +141,7 @@ or free on
     <td class="xep xep0352 mobile">{{y}}</td>
     <td class="xep xep0357 mobile">{{u}}</td>
     <td class="xep xep0363">{{n}}</td>{% comment %}https://github.com/jcbrand/converse.js/issues/466{% endcomment %}
-    <td class="xep omemo">{{n}}</td>{% comment %}https://github.com/jcbrand/converse.js/issues/497{% endcomment %}
+    <td class="xep xep0384">{{n}}</td>{% comment %}https://github.com/jcbrand/converse.js/issues/497{% endcomment %}
     <td></td>
 </tr>
 <tr class="win linux">
@@ -129,7 +157,7 @@ or free on
     <td class="xep xep0363">{{y}}
         <span class='footnote' data-toggle="tooltip" title='{% trans 'With <a href="https://trac-plugins.gajim.org/wiki/HttpUploadPlugin">Plugin</a>' %}'></span>
     </td>
-    <td class="xep omemo">{{y}}<span class='footnote' data-toggle="tooltip" title='{% trans 'With <a href="https://github.com/omemo/gajim-omemo">Plugin</a>' %}'></span></td>
+    <td class="xep xep0384">{{y}}<span class='footnote' data-toggle="tooltip" title='{% trans 'With <a href="https://github.com/omemo/gajim-omemo">Plugin</a>' %}'></span></td>
     <td></td>
 </tr>
 <tr class="win linux osx">
@@ -143,7 +171,7 @@ or free on
     <td class="xep xep0352 mobile">{{n}}</td>
     <td class="xep xep0357 mobile">{{n}}</td>
     <td class="xep xep0363">{{n}}</td>
-    <td class="xep omemo">{{n}}</td>
+    <td class="xep xep0384">{{n}}</td>
     <td>{% trans "Good for voice/video calls" %}</td>
 </tr>
 <tr class="browser">
@@ -159,12 +187,12 @@ or free on
     <td class="xep xep0352 mobile">{{n}}</td>
     <td class="xep xep0357 mobile">{{n}}</td>
     <td class="xep xep0363">{{n}}</td>{% comment %}WIP: https://github.com/jsxc/jsxc/pull/352{% endcomment %}
-    <td class="xep omemo">{{n}}</td>
+    <td class="xep xep0384">{{n}}</td>
     <td>{% trans "You have to host your own instance." %}</td>
 </tr>
 <tr class="linux console">
     <th><a href="https://mcabber.com/">mcabber</a>
-        <span class="footnote" data-toggle="tooltip", title="{% blocktrans with version="1.0.3" %}version {{ version }}{% endblocktrans %}"></span>
+        <span class="footnote" data-toggle="tooltip", title="{% blocktrans with version="1.0.4" %}version {{ version }}{% endblocktrans %}"></span>
     </th>
     <td class="xep xep0027">{{y}}</td>
     <td class="xep xep0167">{{n}}</td>
@@ -174,12 +202,13 @@ or free on
     <td class="xep xep0352 mobile">{{n}}</td>
     <td class="xep xep0357 mobile">{{n}}</td>
     <td class="xep xep0363">{{n}}</td>
-    <td class="xep omemo">{{n}}</td>
+    <td class="xep xep0384">{{n}}</td>
     <td></td>
 </tr>
 <tr class="osx ios">
+    {% comment %}https://github.com/anurodhp/Monal/issues/54{% endcomment %}
     <th><a href="https://monal.im/">Monal</a>
-        <span class="footnote" data-toggle="tooltip", title="{% blocktrans with version="2.9.1" %}version {{ version }}{% endblocktrans %}"></span>
+        <span class="footnote" data-toggle="tooltip", title="{% blocktrans with version="2.9.2" %}version {{ version }}{% endblocktrans %}"></span>
     </th>
     </th>
     <td class="xep xep0027">{{u}}</td>
@@ -193,7 +222,7 @@ or free on
         <span class="footnote" data-toggle="tooltip", title='{% trans 'See <a href="https://github.com/anurodhp/Monal/issues/5">github issue</a>' %}'></span>
     </td>
     <td class="xep xep0363">{{y}}</td>{% comment %}https://github.com/anurodhp/Monal/issues/1{% endcomment %}
-    <td class="xep omemo">{{n}}</td>
+    <td class="xep xep0384">{{n}}</td>
     <td></td>
 </tr>
 <tr class="win linux">
@@ -210,7 +239,7 @@ or free on
     <td class="xep xep0352 mobile">{{u}}</td>
     <td class="xep xep0357 mobile">{{u}}</td>
     <td class="xep xep0363">{{u}}</td>
-    <td class="xep omemo">{{n}}</td>
+    <td class="xep xep0384">{{n}}</td>
     <td></td>
 </tr>
 <tr class="linux console">
@@ -226,7 +255,7 @@ or free on
     <td class="xep xep0352 mobile">{{y}}</td>
     <td class="xep xep0357 mobile">{{n}}</td>
     <td class="xep xep0363">{{n}}</td>
-    <td class="xep omemo">{{n}}</td>
+    <td class="xep xep0384">{{n}}</td>
     <td></td>
 </tr>
 <tr class="linux console">
@@ -241,7 +270,10 @@ or free on
     <td class="xep xep0352 mobile">{{n}}</td>
     <td class="xep xep0357 mobile">{{n}}</td>
     <td class="xep xep0363">{{y}}</td>
-    <td class="xep omemo">{{n}}</td>
+    <td class="xep xep0384">
+        {{y}}
+        <span class='footnote' data-toggle="tooltip" title='{% trans 'With <a href="https://github.com/ReneVolution/profanity-omemo-plugin">Plugin</a>' %}'></span>
+    </td>
     <td></td>
 </tr>
 <tr class="win linux osx">
@@ -254,7 +286,7 @@ or free on
     <td class="xep xep0352 mobile">{{n}}</td>
     <td class="xep xep0357 mobile">{{n}}</td>
     <td class="xep xep0363">{{n}}</td>
-    <td class="xep omemo">{{n}}</td>
+    <td class="xep xep0384">{{n}}</td>
     <td></td>
 </tr>
 <tr class="android">
@@ -270,7 +302,7 @@ or free on
     <td class="xep xep0352 mobile">{{y}}</td>
     <td class="xep xep0357 mobile">{{n}}</td>
     <td class="xep xep0363">{{n}}</td>
-    <td class="xep omemo">{{n}}</td>
+    <td class="xep xep0384">{{n}}</td>
     <td>on <a href="https://play.google.com/store/apps/details?id=com.xabber.android.beta">Google play</a>,
         on <a href="https://f-droid.org/repository/browse/?fdfilter=xabber&fdid=com.xabber.androiddev">F-Droid</a></td>
 </tr>
@@ -287,7 +319,7 @@ or free on
     <td class="xep xep0352 mobile">{{n}}</td>
     <td class="xep xep0357 mobile">{{n}}</td>
     <td class="xep xep0363">{{n}}</td>
-    <td class="xep omemo">{{n}}</td>
+    <td class="xep xep0384">{{n}}</td>
     <td></td>
 </tr>
 <tr class="ios android">
@@ -300,7 +332,7 @@ or free on
     <td class="xep xep0352 mobile">{{u}}</td>
     <td class="xep xep0357 mobile">{{u}}</td>
     <td class="xep xep0363">{{u}}</td>
-    <td class="xep omemo">{{n}}</td>
+    <td class="xep xep0384">{{n}}</td>
     <td></td>
 </table>
 </div>
