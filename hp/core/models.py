@@ -63,15 +63,15 @@ class BasePage(BaseModel):
         'Wether or not the page is public.'))
 
     meta_summary = LocalizedCharField(
-        max_length=160, blank=True, null=True, verbose_name=_('Meta'), help_text=_(
+        max_length=160, blank=True, verbose_name=_('Meta'), help_text=_(
             'For search engines, max. of 160 characters.'))
     twitter_summary = LocalizedCharField(
-        max_length=200, blank=True, null=True, verbose_name=_('Twitter'),
+        max_length=200, blank=True, verbose_name=_('Twitter'),
         help_text=_('At most 200 characters.'))
     opengraph_summary = LocalizedCharField(
-        max_length=255, blank=True, null=True, verbose_name=_('Facebook'), help_text=_(
+        max_length=255, blank=True, verbose_name=_('Facebook'), help_text=_(
             'Two to four sentences, default: first three sentences.'))
-    html_summary = LocalizedTextField(blank=True, null=True, verbose_name="HTML", help_text=_(
+    html_summary = LocalizedTextField(blank=True, verbose_name="HTML", help_text=_(
         'Any length, but must be valid HTML. Shown in RSS feeds.'))
 
     def render(self, context, summary=False):
