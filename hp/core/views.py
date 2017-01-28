@@ -36,6 +36,7 @@ from ua_parser import user_agent_parser
 from bootstrap.templatetags.bootstrap import glyph
 from core.utils import canonical_link
 
+from .constants import ACTIVITY_CONTACT
 from .forms import AnonymousContactForm
 from .forms import ContactForm
 from .forms import SelectOSForm
@@ -268,6 +269,7 @@ class ClientsView(StaticContextMixin, TemplateView):
 
 class ContactView(AntiSpamMixin, StaticContextMixin, FormView):
     template_name = 'core/contact.html'
+    rate_activity = ACTIVITY_CONTACT
     success_url = reverse_lazy('core:contact')
 
     def get_context_data(self, *args, **kwargs):
