@@ -131,38 +131,30 @@ class StaticContextMixin(object):
         return context
 
 
-class BlacklistMixin(object):
-    blacklist_template = 'core/blacklist.html'
+class AntiSpamMixin(object):
+    blacklist_template = 'core/antispam/blacklist.html'
+    dnsbl_template = 'core/antispam/dnsbl.html'
 
     def dispatch(self, request, *args, **kwargs):
-        if settings.DEBUG is True and request.GET.get('blacklist'):
-            addr = request.GET['blacklist']
+        if settings.DEBUG is True:
+            bl_addr = request.GET.get('blacklist', request.META['REMOTE_ADDR'])
+            dnsbl_addr = request.GET.get('dnsbl', request.META['REMOTE_ADDR'])
         else:
-            addr = request.META['REMOTE_ADDR']
+            bl_addr = dnsbl_addr = request.META['REMOTE_ADDR']
 
-        addr = ipaddress.ip_address(addr)
+        # Check static blacklist
+        bl_addr = ipaddress.ip_address(bl_addr)
         for network in _BLACKLIST:
-            if addr in network:
+            if bl_addr in network:
                 return TemplateResponse(request, self.blacklist_template, {})
 
-        return super(BlacklistMixin, self).dispatch(request, *args, **kwargs)
-
-
-class DnsBlMixin(object):
-    dnsbl_template = 'core/dnsbl.html'
-
-    def dispatch(self, request, *args, **kwargs):
-        if settings.DEBUG is True and request.GET.get('dnsbl'):
-            addr = request.GET['dnsbl']
-        else:
-            addr = request.META['REMOTE_ADDR']
-
-        blocks = check_dnsbl(addr)
+        # Check DNS Blacklists
+        blocks = check_dnsbl(dnsbl_addr)
         if blocks:
             return TemplateResponse(request, self.dnsbl_template, {
                 'blocks': blocks,
             })
-        return super(DnsBlMixin, self).dispatch(request, *args, **kwargs)
+        return super(AntiSpamMixin, self).dispatch(request, *args, **kwargs)
 
 
 class AnonymousRequiredMixin(object):
@@ -256,7 +248,7 @@ class ClientsView(StaticContextMixin, TemplateView):
         return context
 
 
-class ContactView(BlacklistMixin, DnsBlMixin, StaticContextMixin, FormView):
+class ContactView(AntiSpamMixin, StaticContextMixin, FormView):
     # TODO: Use ratelimit mixin as well
     template_name = 'core/contact.html'
     success_url = reverse_lazy('core:contact')
