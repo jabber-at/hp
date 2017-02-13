@@ -52,8 +52,14 @@ class PageView(TranslateSlugViewMixin, BasePageMixin, StaticContextMixin, Detail
     queryset = Page.objects.filter(published=True)
 
 
-class BlogPostListView(StaticContextMixin, ListView):
-    queryset = BlogPost.objects.published().blog_order()
+class BlogPostMixin(object):
+    def get_queryset(self):
+        qs = super(BlogPostMixin, self).get_queryset()
+        return qs.published()
+
+
+class BlogPostListView(StaticContextMixin, BlogPostMixin, ListView):
+    queryset = BlogPost.objects.blog_order()
     paginate_by = 10
 
     def get_context_data(self, **kwargs):
@@ -66,8 +72,9 @@ class BlogPostListView(StaticContextMixin, ListView):
         return context
 
 
-class BlogPostView(TranslateSlugViewMixin, BasePageMixin, StaticContextMixin, DetailView):
-    queryset = BlogPost.objects.published()
+class BlogPostView(TranslateSlugViewMixin, BasePageMixin, StaticContextMixin, BlogPostMixin,
+                   DetailView):
+    queryset = BlogPost.objects.all()
     context_object_name = 'post'
     static_context = {
         'og_type': 'article',
