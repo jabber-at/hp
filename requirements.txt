@@ -18,7 +18,7 @@ icalendar==3.11.2
 lxml==3.7.2
 pip>=9.0.1
 pygpgme==0.3
-setuptools>=32.3.1
+setuptools>=34.2.0
 strict-rfc3339==0.7
-ua-parser==0.7.2
+ua-parser==0.7.3
 xmpp-backends==0.3.0
