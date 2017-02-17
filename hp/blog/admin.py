@@ -38,9 +38,7 @@ class BasePageAdmin(BaseModelAdmin):
     form = BasePageAdminForm
     formfield_overrides = {
         models.TextField: {
-            'widget': TinyMCE(attrs={'cols': 60, 'rows': 10}, mce_attrs={
-                'theme': "advanced",
-            }),
+            'widget': TinyMCE(),
         },
     }
 
@@ -157,9 +155,14 @@ class BasePageAdmin(BaseModelAdmin):
 
     class Media:
         css = {
-            'all': ('blog/admin/css/basepage.css', ),
+            'all': (
+                'lib/bootstrap/css/bootstrap.min.css',
+                'lib/bootstrap/css/bootstrap-theme.min.css',
+                'blog/admin/css/basepage.css',
+            ),
         }
         js = (
+            'lib/jquery/jquery-2.2.4.js',
             'blog/admin/js/basepage.js',
         )
 
