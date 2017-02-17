@@ -1,0 +1,9 @@
+body {
+    margin-bottom: 0;
+    padding-top: 0;
+}
+
+table.table {
+    width: 95%;
+    margin-left: 10px;
+}
