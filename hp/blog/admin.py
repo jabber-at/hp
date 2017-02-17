@@ -156,8 +156,6 @@ class BasePageAdmin(BaseModelAdmin):
     class Media:
         css = {
             'all': (
-                'lib/bootstrap/css/bootstrap.min.css',
-                'lib/bootstrap/css/bootstrap-theme.min.css',
                 'blog/admin/css/basepage.css',
             ),
         }
