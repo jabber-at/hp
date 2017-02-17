@@ -24,6 +24,33 @@ django.jQuery(document).ready(function() {
  * TinyMCE setup function.
  */
 var tinymce_setup = function(editor) {
+    /** Buttons for the table menu */
+    ['tablestriped', 'tablebordered', 'tablecondensed', 'tablehover'].forEach(function(cls) {
+        name = cls.substr(5);
+        name = name.charAt(0).toUpperCase() + name.slice(1);
+        editor.addButton(cls, {
+            text: name,
+            onclick: function() {
+                editor.execCommand('mceToggleFormat', false, cls);
+            },
+            onpostrender: function() {
+                /** 
+                 * Note: This is supposed to activate the button when the style is active (e.g.
+                 * like th bold button when you're in bold text), but it only works in the main
+                 * toolbar.
+                 */
+                
+                var btn = this;
+                editor.on('init', function() {
+                    editor.formatter.formatChanged(cls, function(state) {
+                        btn.active(state);
+                    });
+                });
+            }
+        });
+    });
+
+    /** The lables list box */
     editor.addButton('labels', {
         type: 'listbox',
         text: 'Labels',

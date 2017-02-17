@@ -195,22 +195,10 @@ TINYMCE_DEFAULT_CONFIG = {
             {'title': 'Header 3', 'block': 'h4', },
         ], },
         {'title': 'Alerts', 'items': [
-            {'title': 'Success', 'block': 'div', 'classes': 'alert alert-success',
-             'wrapper': True, },
-            {'title': 'Info', 'block': 'div', 'classes': 'alert alert-info',
-             'wrapper': True, },
-            {'title': 'Warning', 'block': 'div', 'classes': 'alert alert-warning',
-             'wrapper': True, },
-            {'title': 'Danger', 'block': 'div', 'classes': 'alert alert-danger',
-             'wrapper': True, },
-        ], },
-        {'title': 'Labels', 'items': [
-            {'title': 'Default', 'inline': 'span', 'classes': 'label label-default'},
-            {'title': 'Primary', 'inline': 'span', 'classes': 'label label-primary'},
-            {'title': 'Success', 'inline': 'span', 'classes': 'label label-success'},
-            {'title': 'Info', 'inline': 'span', 'classes': 'label label-info'},
-            {'title': 'Warning', 'inline': 'span', 'classes': 'label label-warning'},
-            {'title': 'Danger', 'inline': 'span', 'classes': 'label label-danger'},
+            {'title': 'Success', 'block': 'div', 'classes': 'alert alert-success', },
+            {'title': 'Info', 'block': 'div', 'classes': 'alert alert-info', },
+            {'title': 'Warning', 'block': 'div', 'classes': 'alert alert-warning', },
+            {'title': 'Danger', 'block': 'div', 'classes': 'alert alert-danger', },
         ], },
     ],
     'formats': {
@@ -224,6 +212,11 @@ TINYMCE_DEFAULT_CONFIG = {
         'label_info': {'inline': 'span', 'classes': 'label label-info', },
         'label_warning': {'inline': 'span', 'classes': 'label label-warning', },
         'label_danger': {'inline': 'span', 'classes': 'label label-danger', },
+
+        'tablestriped': {'selector': 'table', 'classes': 'table-striped'},
+        'tablebordered': {'selector': 'table', 'classes': 'table-bordered'},
+        'tablehover': {'selector': 'table', 'classes': 'table-hover'},
+        'tablecondensed': {'selector': 'table', 'classes': 'table-condensed'},
     },
     'content_css': [
         '/static/lib/bootstrap/css/bootstrap.min.css',
@@ -233,15 +226,13 @@ TINYMCE_DEFAULT_CONFIG = {
         '/static/core/css/tinymce-preview.css',
     ],
     # Do table styling with bootstrap classes
+    'table_toolbar': "tableprops tabledelete "
+                     "| tablestriped tablebordered tablehover tablecondensed "
+                     "| tableinsertrowbefore tableinsertrowafter tabledeleterow "
+                     "| tableinsertcolbefore tableinsertcolafter tabledeletecol",
     'table_default_attributes': {
-        'class': 'table table-bordered',
+        'class': 'table table-responsive',
     },
-    'table_class_list': [
-        {'title': 'None', 'value': 'table table-bordered', },
-        {'title': 'Hover rows', 'value': 'table table-bordered table-hover', },
-        {'title': 'Striped rows', 'value': 'table table-bordered table-striped', },
-        {'title': 'Less borders', 'value': 'table', },
-    ],
     'table_appearance_options': False,
     'table_advtab': False,
     'table_cell_advtab': False,
@@ -263,7 +254,7 @@ TINYMCE_DEFAULT_CONFIG = {
         {'title': 'Danger', 'value': 'danger'},
     ],
     # Displays the current HTML tree (e.g. "p > strong > ...") at the bottom
-    'statusbar': False,
+    #'statusbar': False,
     'height': 200,
 }
 
