@@ -170,6 +170,103 @@ AUTHENTICATION_BACKENDS = [
     'xmpp_backends.django.auth_backends.XmppBackendBackend',
 ]
 
+############
+# TinyMCE4 #
+############
+TINYMCE_JS_URL = 'lib/tinymce/js/tinymce/tinymce.min.js'
+TINYMCE_DEFAULT_CONFIG = {
+    'selector': 'textarea',
+    'theme': 'modern',
+    'setup': 'tinymce_setup',
+    'plugins': 'link image lists preview contextmenu table code',
+    'toolbar1': 'styleselect | bold italic underline '
+                '| alignleft aligncenter alignright alignjustify '
+                '| bullist numlist | outdent indent | table | link image '
+                '| preview code removeformat',
+    'toolbar2': 'labels',
+    'contextmenu': 'formats | link image',
+    'menubar': False,
+    'inline': False,
+    'style_formats': [
+        {'title': 'Headers', 'items': [
+            # NOTE: <h1> is already the page title, so actual h-level is one level down from tite
+            {'title': 'Header 1', 'block': 'h2', },
+            {'title': 'Header 2', 'block': 'h3', },
+            {'title': 'Header 3', 'block': 'h4', },
+        ], },
+        {'title': 'Alerts', 'items': [
+            {'title': 'Success', 'block': 'div', 'classes': 'alert alert-success',
+             'wrapper': True, },
+            {'title': 'Info', 'block': 'div', 'classes': 'alert alert-info',
+             'wrapper': True, },
+            {'title': 'Warning', 'block': 'div', 'classes': 'alert alert-warning',
+             'wrapper': True, },
+            {'title': 'Danger', 'block': 'div', 'classes': 'alert alert-danger',
+             'wrapper': True, },
+        ], },
+        {'title': 'Labels', 'items': [
+            {'title': 'Default', 'inline': 'span', 'classes': 'label label-default'},
+            {'title': 'Primary', 'inline': 'span', 'classes': 'label label-primary'},
+            {'title': 'Success', 'inline': 'span', 'classes': 'label label-success'},
+            {'title': 'Info', 'inline': 'span', 'classes': 'label label-info'},
+            {'title': 'Warning', 'inline': 'span', 'classes': 'label label-warning'},
+            {'title': 'Danger', 'inline': 'span', 'classes': 'label label-danger'},
+        ], },
+    ],
+    'formats': {
+        'underline': {'inline': 'span', 'classes': 'tinymce-underline', 'exact': True},
+        'customformat': {'inline': 'span', 'styles': {'color': '#00ff00', 'fontSize': '20px'},
+                         'attributes': {'title': 'My custom format'}, 'classes': 'example1'},
+
+        'label_default': {'inline': 'span', 'classes': 'label label-default', },
+        'label_primary': {'inline': 'span', 'classes': 'label label-primary', },
+        'label_success': {'inline': 'span', 'classes': 'label label-success', },
+        'label_info': {'inline': 'span', 'classes': 'label label-info', },
+        'label_warning': {'inline': 'span', 'classes': 'label label-warning', },
+        'label_danger': {'inline': 'span', 'classes': 'label label-danger', },
+    },
+    'content_css': [
+        '/static/lib/bootstrap/css/bootstrap.min.css',
+        '/static/lib/bootstrap/css/bootstrap-theme.min.css',
+        '/static/css/theme.css',
+        '/static/core/css/base.css',
+        '/static/core/css/tinymce-preview.css',
+    ],
+    # Do table styling with bootstrap classes
+    'table_default_attributes': {
+        'class': 'table table-bordered',
+    },
+    'table_class_list': [
+        {'title': 'None', 'value': 'table table-bordered', },
+        {'title': 'Hover rows', 'value': 'table table-bordered table-hover', },
+        {'title': 'Striped rows', 'value': 'table table-bordered table-striped', },
+        {'title': 'Less borders', 'value': 'table', },
+    ],
+    'table_appearance_options': False,
+    'table_advtab': False,
+    'table_cell_advtab': False,
+    'table_row_advtab': False,
+    'table_row_class_list': [
+        {'title': 'None', 'value': ''},
+        {'title': 'Active', 'value': 'active'},
+        {'title': 'Success', 'value': 'success'},
+        {'title': 'Info', 'value': 'info'},
+        {'title': 'Warning', 'value': 'warning'},
+        {'title': 'Danger', 'value': 'danger'},
+    ],
+    'table_cell_class_list': [
+        {'title': 'None', 'value': ''},
+        {'title': 'Active', 'value': 'active'},
+        {'title': 'Success', 'value': 'success'},
+        {'title': 'Info', 'value': 'info'},
+        {'title': 'Warning', 'value': 'warning'},
+        {'title': 'Danger', 'value': 'danger'},
+    ],
+    # Displays the current HTML tree (e.g. "p > strong > ...") at the bottom
+    'statusbar': False,
+    'height': 200,
+}
+
 ###################
 # CUSTOM SETTINGS #
 ###################
