@@ -180,13 +180,13 @@ TINYMCE_DEFAULT_CONFIG = {
     'setup': 'tinymce_setup',
     'plugins': 'link image lists preview contextmenu table code',
     'toolbar1': 'styleselect | bold italic underline '
-                '| alignleft aligncenter alignright alignjustify '
                 '| bullist numlist | outdent indent | table | link image '
                 '| preview code removeformat',
-    'toolbar2': 'labels',
+    'toolbar2': 'labels glyphs',
     'contextmenu': 'formats | link image',
     'menubar': False,
     'inline': False,
+    'extended_valid_elements': 'span[class|aria-hidden]',  # required for glpyhicons
     'style_formats': [
         {'title': 'Headers', 'items': [
             # NOTE: <h1> is already the page title, so actual h-level is one level down from tite

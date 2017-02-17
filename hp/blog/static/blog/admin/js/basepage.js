@@ -18,6 +18,8 @@ django.jQuery(document).ready(function() {
         var input = django.jQuery(e.target);
         calculate_length(input);
     });
+
+    django.jQuery('.mce-menu-item-glyphicon-ok .mce-text').text('foobar1');
 });
 
 /**
@@ -48,6 +50,53 @@ var tinymce_setup = function(editor) {
                 });
             }
         });
+    });
+
+    /**
+     * Glyphicons
+     */
+    editor.addButton('glyphs', {
+        type: 'listbox',
+        text: 'Glyphs',
+        icon: false,
+        onselect: function (e) {
+            /**
+             * NOTE: We append a zero-width space at the end of the span because otherwise adding a
+             * Glyph in an empty paragraph eates the next element.
+             */
+            var val = this.value();
+            editor.insertContent(
+                '<span class="glyphicon glyphicon-' + val + '" aria-hidden="true"></span>&#x200b;'
+            );
+        },
+        onclick: function(e) {
+            $('.mce-menu-item-glyphicon-ok .mce-ico').replaceWith(
+                    '<span class="glyphicon glyphicon-ok"></span>');
+            $('.mce-menu-item-glyphicon-remove .mce-ico').replaceWith(
+                    '<span class="glyphicon glyphicon-remove"></span>');
+            $('.mce-menu-item-glyphicon-refresh .mce-ico').replaceWith(
+                    '<span class="glyphicon glyphicon-refresh"></span>');
+            $('.mce-menu-item-glyphicon-exclamation-sign .mce-ico').replaceWith(
+                    '<span class="glyphicon glyphicon-exclamation-sign"></span>');
+            $('.mce-menu-item-glyphicon-download .mce-ico').replaceWith(
+                    '<span class="glyphicon glyphicon-download"></span>');
+        },
+        values: [
+            {text: 'OK', classes: 'menu-item-glyphicon-ok', value: 'ok' },
+            {text: 'Remove', classes: 'menu-item-glyphicon-remove', value: 'remove' },
+            {text: 'Refresh', classes: 'menu-item-glyphicon-refresh', value: 'refresh' },
+            {text: 'Exclamation', classes: 'menu-item-glyphicon-exclamation-sign', 
+             value: 'exclamation-sign' },
+            {text: 'Download', classes: 'menu-item-glyphicon-download', value: 'download' },
+        ],
+        onPostRender: function () {
+            var button = this;
+            editor.on('NodeChange', function(e) {
+                // Make sure that the listbuton name is always the same
+                button.value('Glyphs');
+            });
+            return;
+        }
     });
 
     /** The lables list box */

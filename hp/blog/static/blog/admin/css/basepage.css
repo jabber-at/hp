@@ -7,3 +7,9 @@ fieldset.meta-descriptions input + p.help {
 fieldset.meta-descriptions p.help span.test-length {
     font-weight: bold;
 }
+
+.mce-menu-item .glyphicon {
+    font-family: 'Glyphicons Halflings';
+    font-weight: 400;
+    line-height: 1;
+}
