@@ -8,8 +8,32 @@ fieldset.meta-descriptions p.help span.test-length {
     font-weight: bold;
 }
 
+@font-face { 
+    font-family: 'Glyphicons Halflings';
+    src: url(/static/lib/bootstrap/fonts/glyphicons-halflings-regular.eot);
+    src: url(/static/lib/bootstrap/fonts/glyphicons-halflings-regular.eot?#iefix) format('embedded-opentype'),url(/static/lib/bootstrap/fonts/glyphicons-halflings-regular.woff2) format('woff2'),url(/static/lib/bootstrap/fonts/glyphicons-halflings-regular.woff) format('woff'),url(/static/lib/bootstrap/fonts/glyphicons-halflings-regular.ttf) format('truetype'),url(/static/lib/bootstrap/fonts/glyphicons-halflings-regular.svg#glyphicons_halflingsregular) format('svg')
+}
+
 .mce-menu-item .glyphicon {
+    font-style: normal;
     font-family: 'Glyphicons Halflings';
     font-weight: 400;
     line-height: 1;
+    -webkit-font-smoothing: antialiased;
+}
+.mce-menu-item .glyphicon-ok:before {
+    box-sizing: border-box;
+    content: "\e013";
+}
+.mce-menu-item .glyphicon-remove:before {
+    content: "\e014";
+}
+.mce-menu-item .glyphicon-refresh:before {
+    content: "\e031";
+}
+.mce-menu-item .glyphicon-exclamation-sign:before {
+    content: "\e101";
+}
+.mce-menu-item .glyphicon-download:before {
+    content: "\e026";
 }
