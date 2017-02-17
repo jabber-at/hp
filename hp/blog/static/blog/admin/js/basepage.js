@@ -29,9 +29,14 @@ var tinymce_setup = function(editor) {
         text: 'Labels',
         icon: false,
         onselect: function (e) {
-            if (tinymce.activeEditor.formatter.match(this.value())) {
-                // format is applied
-                tinymce.activeEditor.formatter.remove(this.value());
+            var val = this.value();
+            if (val == 'Labels') {
+                return;
+            }
+
+            if (tinymce.activeEditor.formatter.match(val)) {
+                // format is already applied, so remove it
+                tinymce.activeEditor.formatter.remove(val);
             } else {
                 tinymce.activeEditor.formatter.remove('label_default');
                 tinymce.activeEditor.formatter.remove('label_primary');
@@ -39,7 +44,7 @@ var tinymce_setup = function(editor) {
                 tinymce.activeEditor.formatter.remove('label_info');
                 tinymce.activeEditor.formatter.remove('label_warning');
                 tinymce.activeEditor.formatter.remove('label_danger');
-                tinymce.activeEditor.formatter.apply(this.value());
+                tinymce.activeEditor.formatter.apply(val);
             }
         },
         values: [
@@ -56,5 +61,23 @@ var tinymce_setup = function(editor) {
             {text: 'Warning', value: 'label_warning', 'classes': 'label label-warning'},
             {text: 'Danger', value: 'label_danger', 'classes': 'label label-danger'},
         ],
+        onpostrender: function() {
+            var button = this;
+
+            editor.on('NodeChange', function(e) {
+                if (! tinymce.activeEditor.formatter) {
+                    return;
+                }
+
+                var matched = tinymce.activeEditor.formatter.matchAll(
+                        ['label_default', 'label_primary', 'label_success', 'label_info',
+                         'label_warning', 'label_danger'])
+                if (matched.length == 0) {
+                    button.value('Labels');
+                } else {
+                    button.value(matched[0]);
+                }
+            });
+        }
     });
 };
