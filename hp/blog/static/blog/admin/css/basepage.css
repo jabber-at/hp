@@ -37,3 +37,31 @@ fieldset.meta-descriptions p.help span.test-length {
 .mce-menu-item .glyphicon-download:before {
     content: "\e026";
 }
+
+.mce-menu-item .glyphicon-home:before {
+    content: "\e021";
+}
+.mce-menu-item .glyphicon-file:before {
+    content: "\e022";
+}
+.mce-menu-item .glyphicon-minus:before {
+    content: "\2212";
+}
+.mce-menu-item .glyphicon-plus:before {
+    content: "\002b";
+}
+.mce-menu-item .glyphicon-pencil:before {
+    content: "\270f";
+}
+.mce-menu-item .glyphicon-repeat:before {
+    content: "\e030";
+}
+.mce-menu-item .glyphicon-zoom-in:before {
+    content: "\e015";
+}
+.mce-menu-item .glyphicon-zoom-out:before {
+    content: "\e016";
+}
+.mce-menu-item .glyphicon-envelope:before {
+    content: "\2709";
+}

@@ -54,10 +54,19 @@ var tinymce_setup = function(editor) {
 
     var glyphs = [
         'download',
+        'envelope',
         'exclamation-sign',
+        'file', 
+        'home', 
+        'minus',
         'ok',
+        'pencil',
+        'plus', 
         'refresh',
         'remove',
+        'repeat',
+        'zoom-in',
+        'zoom-out', 
     ];
     /**
      * Glyphicons
