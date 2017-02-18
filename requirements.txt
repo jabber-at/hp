@@ -18,6 +18,7 @@ icalendar==3.11.3
 lxml==3.7.2
 pip>=9.0.1
 pygpgme==0.3
+requests==2.13.0
 setuptools>=34.2.0
 strict-rfc3339==0.7
 ua-parser==0.7.3
