@@ -52,6 +52,13 @@ var tinymce_setup = function(editor) {
         });
     });
 
+    var glyphs = [
+        'download',
+        'exclamation-sign',
+        'ok',
+        'refresh',
+        'remove',
+    ];
     /**
      * Glyphicons
      */
@@ -70,25 +77,32 @@ var tinymce_setup = function(editor) {
             );
         },
         onclick: function(e) {
-            $('.mce-menu-item-glyphicon-ok .mce-ico').replaceWith(
-                    '<span class="glyphicon glyphicon-ok"></span>');
-            $('.mce-menu-item-glyphicon-remove .mce-ico').replaceWith(
-                    '<span class="glyphicon glyphicon-remove"></span>');
-            $('.mce-menu-item-glyphicon-refresh .mce-ico').replaceWith(
-                    '<span class="glyphicon glyphicon-refresh"></span>');
-            $('.mce-menu-item-glyphicon-exclamation-sign .mce-ico').replaceWith(
-                    '<span class="glyphicon glyphicon-exclamation-sign"></span>');
-            $('.mce-menu-item-glyphicon-download .mce-ico').replaceWith(
-                    '<span class="glyphicon glyphicon-download"></span>');
+            $('.mce-menu-item-glyphicon').each(function() {
+                var elem = $(this);
+                var glyph_cls = elem.attr('class').split(/\s+/).filter(function(e) {
+                    return e.startsWith('mce-menu-item-glyphicon-');
+                })[0];
+                glyph = glyph_cls.substr(24);
+                console.log(glyph_cls);
+                $('.' + glyph_cls + ' .mce-ico').replaceWith(
+                    '<span class="glyphicon glyphicon-' + glyph + '"></span>');
+            });
         },
-        values: [
-            {text: 'OK', classes: 'menu-item-glyphicon-ok', value: 'ok' },
-            {text: 'Remove', classes: 'menu-item-glyphicon-remove', value: 'remove' },
-            {text: 'Refresh', classes: 'menu-item-glyphicon-refresh', value: 'refresh' },
-            {text: 'Exclamation', classes: 'menu-item-glyphicon-exclamation-sign', 
-             value: 'exclamation-sign' },
-            {text: 'Download', classes: 'menu-item-glyphicon-download', value: 'download' },
-        ],
+        values: function() {
+            var vals = [];
+            glyphs.forEach(function(glyph) {
+                var text = glyph.replace(/-/, ' ');
+                var text = text.replace(/\w\S*/g, function(txt) {  // capitalize words
+                    return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
+                });
+                vals.push({
+                    text: text,
+                    value: glyph,
+                    classes: 'menu-item-glyphicon menu-item-glyphicon-' + glyph
+                });
+            });
+            return vals;
+        }(),
         onPostRender: function () {
             var button = this;
             editor.on('NodeChange', function(e) {
