@@ -178,9 +178,9 @@ TINYMCE_DEFAULT_CONFIG = {
     'selector': 'textarea',
     'theme': 'modern',
     'setup': 'tinymce_setup',
-    'plugins': 'link image lists preview contextmenu table code',
-    'toolbar1': 'styleselect | bold italic underline '
-                '| bullist numlist | outdent indent | table | link image '
+    'plugins': 'link image lists preview contextmenu table code codesample',
+    'toolbar1': 'styleselect | bold italic underline strikethrough '
+                '| bullist numlist | outdent indent | table | link image codesample '
                 '| preview code removeformat',
     'toolbar2': 'labels glyphs',
     'contextmenu': 'formats | link image',
@@ -200,11 +200,20 @@ TINYMCE_DEFAULT_CONFIG = {
             {'title': 'Warning', 'block': 'div', 'classes': 'alert alert-warning', },
             {'title': 'Danger', 'block': 'div', 'classes': 'alert alert-danger', },
         ], },
+        {'title': 'Context', 'items': [
+            {'title': 'textmuted', 'inline': 'span', 'classes': 'text-muted', },
+            {'title': 'textprimary', 'inline': 'span', 'classes': 'text-primary', },
+            {'title': 'textsuccess', 'inline': 'span', 'classes': 'text-success', },
+            {'title': 'textinfo', 'inline': 'span', 'classes': 'text-info', },
+            {'title': 'textwarning', 'inline': 'span', 'classes': 'text-warning', },
+            {'title': 'textdanger', 'inline': 'span', 'classes': 'text-danger', },
+        ], },
     ],
     'formats': {
-        'underline': {'inline': 'span', 'classes': 'tinymce-underline', 'exact': True},
-        'customformat': {'inline': 'span', 'styles': {'color': '#00ff00', 'fontSize': '20px'},
-                         'attributes': {'title': 'My custom format'}, 'classes': 'example1'},
+        'underline': {'inline': 'u', 'exact': True},
+        'strikethrough': {'inline': 's', 'exact': True},
+        #'inlinecode': {'inline': 'code', 'exact': True},
+
 
         'label_default': {'inline': 'span', 'classes': 'label label-default', },
         'label_primary': {'inline': 'span', 'classes': 'label label-primary', },
@@ -256,6 +265,21 @@ TINYMCE_DEFAULT_CONFIG = {
     # Displays the current HTML tree (e.g. "p > strong > ...") at the bottom
     #'statusbar': False,
     'height': 200,
+
+    # codesample
+    'codesample_languages': [
+        {'text': 'Apache', 'value': 'apacheconf', },
+        {'text': 'Bash', 'value': 'bash', },
+        {'text': 'C', 'value': 'c', },
+        {'text': 'CSS', 'value': 'css', },
+        {'text': 'Diff', 'value': 'diff', },
+        {'text': 'Django', 'value': 'django', },
+        {'text': 'HTML/XML', 'value': 'markup', },
+        {'text': 'JSON', 'value': 'json', },
+        {'text': 'JavaScript', 'value': 'javascript', },
+        {'text': 'PHP', 'value': 'php', },
+        {'text': 'Python', 'value': 'python', },
+    ],
 }
 
 ###################
