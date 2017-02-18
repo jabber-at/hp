@@ -178,6 +178,7 @@ TINYMCE_DEFAULT_CONFIG = {
     'selector': 'textarea',
     'theme': 'modern',
     'setup': 'tinymce_setup',
+    'convert_urls': False,
     'plugins': 'link image lists preview contextmenu table code codesample',
     'toolbar1': 'styleselect | bold italic underline strikethrough '
                 '| bullist numlist | outdent indent | table | link image codesample '
@@ -427,6 +428,10 @@ CELERY_BEAT_SCHEDULE = {
     'account last activity': {
         'task': 'account.tasks.update_last_activity',
         'schedule': crontab(minute=12),
+    },
+    'download_xmpp_net_badges': {
+        'task': 'blog.download_xmpp_net_badges',
+        'schedule': crontab(hour=9, minute=33),
     },
 }
 CELERY_WORKER_LOG_FORMAT = None
