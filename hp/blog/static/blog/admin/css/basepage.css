@@ -8,6 +8,11 @@ fieldset.meta-descriptions p.help span.test-length {
     font-weight: bold;
 }
 
+/**
+ * CSS for glyphicons
+ *
+ * We add this here because adding the full bootstrap CSS breaks the whole admin page.
+ */
 @font-face { 
     font-family: 'Glyphicons Halflings';
     src: url(/static/lib/bootstrap/fonts/glyphicons-halflings-regular.eot);
