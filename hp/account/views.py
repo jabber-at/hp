@@ -659,6 +659,10 @@ class ManageGpgView(LoginRequiredMixin, SingleObjectMixin, View):
         return super(ManageGpgView, self).get_object(queryset=queryset)
 
     def get(self, request, pk):
+        key = self.get_object()
+        address = request.META['REMOTE_ADDR']
+        add_gpg_key_task.delay(user_pk=self.request.user.pk, address=address,
+                               fingerprint=key.fingerprint)
         return JsonResponse({
             'status': 'success',
             'message': _('Refreshing GPG key...'),
