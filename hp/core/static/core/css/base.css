@@ -12,6 +12,21 @@ body {
   /* Margin bottom by footer height */
   margin-bottom: 60px;
 }
+
+/* basic classes css properties */
+.nowrap {
+    white-space: nowrap;
+}
+.hover-primary:hover {
+    color: #3c763d;  /* same as text-primary */
+}
+.hover-danger:hover {
+    color: #a94442;  /* same as text-tanger */
+}
+.glyph-pointer {
+    cursor: pointer;
+}
+
 nav.paginator {
     text-align: center;
 }
