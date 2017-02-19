@@ -368,6 +368,9 @@ class Confirmation(BaseModel):
             'uri': '%s%s' % (self.payload['base_url'], path),
         }
 
+        # gpg_recv_pub is set when the user sets a new email address. It is `False` when the user
+        # sets a new email address and no new GPG key (-> no longer use GPG). In all other actions,
+        # the key is not present and gpg_key will thus be `None`.
         gpg_key = self.payload.get('gpg_recv_pub')
         if gpg_key:
             gpg_key = gpg_key.encode()
