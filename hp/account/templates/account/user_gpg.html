@@ -4,18 +4,40 @@
 {% block title %}{% trans "GPG keys" %}{% endblock title %}
 
 {% block content %}
-<table class="table table-bordered">
-    <tr>
-        <th>{% trans "Created" %}</th>
-        <th>{% trans "Expires" %}</th>
-        <th>{% trans "Fingerprint" %}</th>
-    </tr>
-{% for key in object.gpg_keys.all %}
-    <tr>
-        <td>{{ key.created|date:"SHORT_DATETIME_FORMAT" }}</td>
-        <td>{{ key.expires|date:"SHORT_DATETIME_FORMAT" }}</td>
-        <td>0x{{ key.fingerprint }}</tr>
-    </tr>
-{% endfor %}
-</table>
+
+<a href="{% url "account:add_gpg" %}">Add a GPG key</a>
+
+{% with keys=object.gpg_keys.all %}
+    {% if keys %}
+        <div class="table-responsive"><table class="table table-bordered">
+            <tr>
+                <th>{% trans "Created" %}</th>
+                <th>{% trans "Expires" %}</th>
+                <th>{% trans "Fingerprint" %}</th>
+                <th></th>
+            </tr>
+        {% for key in keys %}
+            <tr>
+                <td class="nowrap">{{ key.created|date:"SHORT_DATETIME_FORMAT" }}</td>
+                <td class="nowrap">{{ key.expires|date:"SHORT_DATETIME_FORMAT" }}</td>
+                <td>0x{{ key.fingerprint }}</td>
+                <td class="nowrap">
+                    <span class="sr-only">{% trans "Refresh key" %}</span>
+                    <span class="glyphicon glyphicon-refresh glyph-pointer hover-primary" 
+                          data-url="{% url 'account:manage_gpg' pk=key.pk %}"
+                          data-action="notification"
+                          title="{% trans 'Refresh key' %}" aria-hidden="true"></span>
+                    <span class="sr-only">{% trans "Delete key" %}</span>
+                    <span class="glyphicon glyphicon-remove glyph-pointer hover-danger" 
+                          data-url="{% url 'account:manage_gpg' pk=key.pk %}"
+                          data-action="remove-row" data-type="DELETE"
+                          title="{% trans 'Delete key' %}" aria-hidden="true"></span>
+                </td>
+            </tr>
+        {% endfor %}
+        </table></div>
+    {% else %}
+        {% trans "You have no configured GPG keys." %}
+    {% endif %}
+{% endwith %}
 {% endblock content %}
