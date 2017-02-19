@@ -1,5 +1,5 @@
-{% if messages %}
 <div class="messages">
+{% if messages %}
     {% for message in messages %}
         <div class="alert alert-{{ message.tags }}" role="alert">
         {% if message.level == DEFAULT_MESSAGE_LEVELS.ERROR %}<strong>Error:</strong>
@@ -7,5 +7,5 @@
         {% endif %} 
         {{ message }}</div>
     {% endfor %}
-</div>
 {% endif %}
+</div>
