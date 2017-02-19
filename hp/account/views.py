@@ -28,6 +28,7 @@ from django.core.urlresolvers import reverse_lazy
 from django.db import transaction
 from django.http import HttpResponse
 from django.http import HttpResponseRedirect
+from django.http import JsonResponse
 from django.shortcuts import get_object_or_404
 from django.shortcuts import resolve_url
 from django.template.response import TemplateResponse
@@ -644,6 +645,24 @@ class DeleteHttpUploadView(LoginRequiredMixin, SingleObjectMixin, View):
         queryset = queryset.filter(jid=self.request.user.get_username())
 
         return super(DeleteHttpUploadView, self).get_object(queryset=queryset)
+
+    def delete(self, request, pk):
+        self.get_object().delete()
+        return HttpResponse('ok')
+
+
+class ManageGpgView(LoginRequiredMixin, SingleObjectMixin, View):
+    queryset = Upload.objects.all()
+
+    def get_object(self, queryset=None):
+        queryset = self.request.user.gpg_keys.all()
+        return super(ManageGpgView, self).get_object(queryset=queryset)
+
+    def get(self, request, pk):
+        return JsonResponse({
+            'status': 'success',
+            'message': _('Refreshing GPG key...'),
+        })
 
     def delete(self, request, pk):
         self.get_object().delete()
