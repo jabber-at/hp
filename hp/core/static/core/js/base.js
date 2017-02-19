@@ -40,4 +40,29 @@ $(document).ready(function() {
         window.open(href, '_blank');
         return false;
     });
+
+    /**
+     * Generic glyph buttons in table cells, used e.g. GPG key and XEP-0363 overviews.
+     *
+     * TODO: Not yet really used in XEP-0363.
+     */
+    $('td span.glyph-pointer').click(function(e) {
+        console.log('clicked!');
+        var glyph = $(e.currentTarget);
+        var url = glyph.data('url');
+        var type = glyph.data('type') || 'GET';
+        var action = glyph.data('action');
+        console.log(url, type, action);
+        $.ajax({
+            url: url,
+            type: type,
+            success: function(result) {
+                if (action == 'remove-row') {
+                    glyph.parents('tr').remove();
+                } else if (action == 'refresh-row') {
+                    glyph.parents('tr').replaceWith('<tr><td>foo</td></tr>');
+                }
+            }
+        });
+    });
 });
