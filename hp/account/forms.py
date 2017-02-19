@@ -216,6 +216,10 @@ class SetEmailForm(GPGMixin, EmailValidationMixin, forms.Form):
     )
 
 
+class AddGpgForm(GPGMixin, forms.Form):
+    pass
+
+
 class ResetPasswordForm(CaptchaFormMixin, forms.Form):
     """Form used when a user forgot his password and forgot it."""
 
