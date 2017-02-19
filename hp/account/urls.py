@@ -35,6 +35,7 @@ urlpatterns = [
     url(r'^email/(?P<key>\w+)/$', views.ConfirmSetEmailView.as_view(), name='set_email_confirm'),
     url(r'^uploads/$', views.HttpUploadView.as_view(), name='xep0363'),
     url(r'^gpg/$', views.GpgView.as_view(), name='gpg'),
+    url(r'^gpg/add/$', views.AddGpgView.as_view(), name='add_gpg'),
     url(r'^log/$', views.RecentActivityView.as_view(), name='log'),
     url(r'^logout/$', auth_views.logout, name='logout'),
     url(r'^api/check-user/$', views.UserAvailableView.as_view(), name='api-check-user'),

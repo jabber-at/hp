@@ -70,6 +70,7 @@ from .forms import NotificationsForm
 from .forms import SetEmailForm
 from .forms import SetPasswordForm
 from .forms import ResetPasswordForm
+from .forms import AddGpgForm
 from .models import Confirmation
 from .tasks import add_gpg_key_task
 from .tasks import send_confirmation_task
@@ -505,6 +506,25 @@ class GpgView(LoginRequiredMixin, AccountPageMixin, UserObjectMixin, DetailView)
 
     usermenu_item = 'account:gpg'
     template_name = 'account/user_gpg.html'
+
+
+class AddGpgView(LoginRequiredMixin, AccountPageMixin, FormView):
+    form_class = AddGpgForm
+    success_url = reverse_lazy('account:gpg')
+    template_name = 'account/add_gpg.html'
+    usermenu_item = 'account:gpg'
+
+    def form_valid(self, form):
+        request = self.request
+        user = request.user
+        address = request.META['REMOTE_ADDR']
+
+        fp, key = form.get_gpg_data()
+        add_gpg_key_task.delay(user_pk=user.pk, address=address, fingerprint=fp, key=key)
+
+        messages.success(request, _('Processing new GPG key, it will be added in a moment.'))
+
+        return super(AddGpgView, self).form_valid(form)
 
 
 class RecentActivityView(LoginRequiredMixin, AccountPageMixin, UserObjectMixin, DetailView):
