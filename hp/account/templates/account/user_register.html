@@ -42,10 +42,9 @@ GPG key and do not upload a new one here, you can no longer read any emails
         </p></div>
     </div></div>
 
-
-    {{ form.gpg_fingerprint.formgroup }}
-    <div class="row"><div class="col-sm-10 col-sm-offset-2"><p><strong>{% trans "- and/or -" %}</strong></p></div></div>
     {{ form.gpg_key.formgroup }}
+    <div class="row"><div class="col-sm-10 col-sm-offset-2"><p><strong>{% trans "- and/or -" %}</strong></p></div></div>
+    {{ form.gpg_fingerprint.formgroup }}
 </div>
 {{ form.captcha.formgroup }}
 
