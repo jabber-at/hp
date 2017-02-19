@@ -1,3 +1,4 @@
+/* TODO: use generic classes from base.css */
 td.delete:hover {
     color: #a94442;  /* Same as text-danger */
     cursor: pointer;
