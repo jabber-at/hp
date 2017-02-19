@@ -59,6 +59,9 @@ $(document).ready(function() {
             success: function(result) {
                 if (action == 'remove-row') {
                     glyph.parents('tr').remove();
+                } else if (action == 'notification') {
+                    $('div.messages').append(
+                            '<div class="alert alert-' + result.status + '">' + result.message + '</div>');
                 } else if (action == 'refresh-row') {
                     glyph.parents('tr').replaceWith('<tr><td>foo</td></tr>');
                 }
