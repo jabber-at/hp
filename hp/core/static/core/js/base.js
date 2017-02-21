@@ -43,8 +43,6 @@ $(document).ready(function() {
 
     /**
      * Generic glyph buttons in table cells, used e.g. GPG key and XEP-0363 overviews.
-     *
-     * TODO: Not yet really used in XEP-0363.
      */
     $('td span.glyph-pointer').click(function(e) {
         console.log('clicked!');
@@ -63,7 +61,7 @@ $(document).ready(function() {
                     $('div.messages').append(
                             '<div class="alert alert-' + result.status + '">' + result.message + '</div>');
                 } else if (action == 'refresh-row') {
-                    glyph.parents('tr').replaceWith('<tr><td>foo</td></tr>');
+                    glyph.parents('tr').replaceWith(result);
                 }
             }
         });
