@@ -19,6 +19,11 @@ from django.db import models
 from core.models import BaseModel
 
 
+def stat(metric, value):
+    """Just a shortcut."""
+    return Event.objects.create(metric=metric, value=value)
+
+
 class Event(BaseModel):
     metric = models.CharField(max_length=12)
     value = models.IntegerField()
