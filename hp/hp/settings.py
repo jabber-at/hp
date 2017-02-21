@@ -51,6 +51,7 @@ _DEFAULT_INSTALLED_APPS = [
     'bootstrap',  # bootstrap enhancements
     'account',  # account management
     'feed',  # RSS/Atom feeds
+    'stats',  # Statistics gathering
     'conversejs',  # webchat
 
     'django.contrib.admin',
