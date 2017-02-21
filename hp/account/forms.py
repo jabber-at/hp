@@ -50,7 +50,7 @@ class GPGMixin(forms.Form):
             # TODO: Django docs say we should read in chuncks to ensure that large files
             #       don't overwhelm our systems memory. But we need the data in memory anyway.
             #       We should probably enforce a maximum content-length elsewhere.
-            key = self.files['gpg_key'].read().decode('utf-8')
+            key = self.files['gpg_key'].read().decode('utf-8').strip()
 
         return fp, key
 
