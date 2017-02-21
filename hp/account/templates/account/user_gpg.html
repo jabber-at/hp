@@ -11,6 +11,12 @@
 used for encrypting password reset emails and other important <a 
 href="{{ notifications_url }}">notifications</a>.{% endblocktrans %}</p>
 
+<p>{% blocktrans %}
+Keys will be refreshed from the public keyservers before they expire. If your key is not on the
+keyservers and you want to manually update it, simply upload the file as if you uploaded a new key.
+You can manually <span class="glyphicon glyphicon-refresh"></span> refresh a key from the
+keyservers in the table below.{% endblocktrans %}</p>
+
 {% with keys=object.gpg_keys.all %}
     {% if keys %}
         <div class="table-responsive"><table class="table">
