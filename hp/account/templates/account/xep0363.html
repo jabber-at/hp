@@ -1,16 +1,6 @@
 {% extends "account/base.html" %}
 {% load i18n core bootstrap staticfiles %}
 
-{% block extrajs %}
-{{ block.super }}
-<script src="{% static 'account/js/xep0363.js' %}"></script>
-{% endblock extrajs %}
-
-{% block extracss %}
-{{ block.super }}
-<link href="{% static 'account/css/xep0363.css' %}" rel="stylesheet">
-{% endblock extracss %}
-
 {% block title %}{% trans "HTTP uploads" %}{% endblock title %}
 
 {% block content %}
@@ -27,6 +17,7 @@ encrypt files before they are uploaded, so viewing them via the links below
 is not possible in the browser.{% endblocktrans %}</div>
 
 {% if uploads %}
+<div class="table-responsive">
 <table class="table">
     <tr>
         <th>{% trans "Created" %}</th>
@@ -39,10 +30,17 @@ is not possible in the browser.{% endblocktrans %}</div>
         <td><a href="{{ upload.file.url }}">
                 {{ upload.name }}</a> ({{ upload.size|format_filesize}})
         </td>
-        <td class="delete" data-delete-url="{% url "account:api-xep0363-delete" pk=upload.pk %}">{% glyph "trash" %}</td>
+        <td>
+            <span class="sr-only">{% trans "Delete this file" %}</span>
+            <span class="glyphicon glyphicon-remove glyph-pointer hover-danger" 
+                  data-url="{% url "account:api-xep0363-delete" pk=upload.pk %}"
+                  data-action="remove-row" data-type="DELETE"
+                  title="{% trans 'Delete this file' %}" aria-hidden="true"></span>
+        </td>
     </tr>
 {% endfor %}
 </table>
+</div>
 {% else %}
 {% trans "There are currently no file uploads." %}
 {% endif %}
