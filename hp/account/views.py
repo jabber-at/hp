@@ -58,6 +58,7 @@ from core.models import AddressActivity
 from core.views import AnonymousRequiredMixin
 from core.views import AntiSpamMixin
 from core.views import StaticContextMixin
+from stats.models import stat
 
 from .constants import PURPOSE_DELETE
 from .constants import PURPOSE_REGISTER
@@ -171,6 +172,7 @@ class RegistrationView(AntiSpamMixin, AnonymousRequiredMixin, StaticContextMixin
             # log user creation, display help message.
             user.log(ugettext_noop('Account created.'), address=address)
             AddressActivity.objects.log(request, ACTIVITY_REGISTER, user=user, note=user.email)
+            stat('register', 1)
 
             messages.success(request, _(
                 """Successfully created the account %(username)s. A confirmation email was
@@ -259,6 +261,7 @@ class ConfirmRegistrationView(ConfirmationMixin, FormView):
             # TODO: More meaningful help message on a webchat, usable clients, follow updates, ...
             messages.success(request, _(
                 "Successfully confirmed your email address. You can now use your account."))
+            stat('register_confirmed', 1)
 
             # Delete the registration key
             key.delete()
@@ -336,6 +339,7 @@ class ResetPasswordView(AntiSpamMixin, AnonymousRequiredMixin, FormView):
 
         user.log(ugettext_noop('Requested password reset.'), address)
         AddressActivity.objects.log(request, ACTIVITY_RESET_PASSWORD, user=user)
+        stat('password_reset', 1)
 
         send_confirmation_task.delay(
             user_pk=user.pk, purpose=PURPOSE_RESET_PASSWORD, language=lang, address=address,
@@ -453,6 +457,7 @@ class SetEmailView(LoginRequiredMixin, AccountPageMixin, FormView):
             'to confirm it.') % {'email': to})
         user.log(ugettext_noop('Requested change of email address to %(email)s.'), address,
                  email=to)
+        stat('set_email', 1)
         AddressActivity.objects.log(request, ACTIVITY_SET_EMAIL, note=to)
 
         return super(SetEmailView, self).form_valid(form)
@@ -568,6 +573,7 @@ class DeleteAccountView(LoginRequiredMixin, AccountPageMixin, FormView):
             'We sent you an email to %(email)s to confirm your request.') %
             {'email': user.email, })
         user.log(ugettext_noop('Requested deletion of account.'), address)
+        stat('delete_account', 1)
         AddressActivity.objects.log(request, ACTIVITY_SET_EMAIL, note=user.email)
 
         return HttpResponseRedirect(reverse('account:detail'))
