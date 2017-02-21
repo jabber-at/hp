@@ -16,16 +16,15 @@
 
 from django.db import models
 
-from core.models import BaseModel
-
 
 def stat(metric, value):
     """Just a shortcut."""
     return Event.objects.create(metric=metric, value=value)
 
 
-class Event(BaseModel):
-    metric = models.CharField(max_length=12)
+class Event(models.Model):
+    stamp = models.DateTimeField(auto_now_add=True, db_index=True)
+    metric = models.CharField(max_length=16, db_index=True)
     value = models.IntegerField()
 
     def __str__(self):
