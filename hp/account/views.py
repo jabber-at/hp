@@ -27,6 +27,7 @@ from django.core.urlresolvers import reverse
 from django.core.urlresolvers import reverse_lazy
 from django.db import transaction
 from django.http import HttpResponse
+from django.http import HttpResponseForbidden
 from django.http import HttpResponseRedirect
 from django.http import JsonResponse
 from django.shortcuts import get_object_or_404
@@ -630,6 +631,12 @@ class UserAvailableView(View):
         else:
             cache.set(cache_key, False, 30)
             return HttpResponse('')
+
+
+class ResendRegistrationConfirmation(LoginRequiredMixin, View):
+    def get(self, request):
+        if request.user.confirmed is not None:
+            return HttpResponseForbidden(_("Your email address is already confirmed."))
 
 
 class StopUserSessionView(LoginRequiredMixin, View):
