@@ -57,6 +57,10 @@ class UserQuerySet(models.QuerySet):
         """Filter accounts that were used so far."""
         return self.filter(last_activity__gt=models.F('confirmed'))
 
+    def unused(self):
+        """Filter accounts that were never used."""
+        return self.exclude(last_activity__gt=models.F('confirmed'))
+
     def not_expiring(self, now=None):
         """Filter users with a recent activity."""
 

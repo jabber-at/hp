@@ -202,7 +202,7 @@ def update_last_activity(random_update=50):
         user.last_activity = timezone.make_aware(last_activity)
         user.save()
 
-    for user in User.objects.confirmed().new().used():
+    for user in User.objects.confirmed().new().unused():
         try:
             last_activity = xmpp_backend.get_last_activity(user.node, user.domain)
         except UserNotFound:
