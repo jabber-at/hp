@@ -15,6 +15,9 @@
 
 import logging
 
+from xmpp_backends.base import UserNotFound
+from xmpp_backends.django import xmpp_backend
+
 from django.contrib import admin
 from django.contrib import messages
 from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
@@ -72,7 +75,7 @@ class CreatedInBackendFilter(admin.SimpleListFilter):
 
 @admin.register(User)
 class UserAdmin(BaseUserAdmin):
-    actions = ['send_registration', ]
+    actions = ['send_registration', 'block_users', ]
     add_fieldsets = (
         (None, {
             'fields': ('username', 'email'),
@@ -105,8 +108,16 @@ class UserAdmin(BaseUserAdmin):
                 send_confirmation_task.delay(
                     user_pk=user.pk, purpose=PURPOSE_REGISTER, language='en', to=user.email,
                     base_url=base_url, hostname=user.domain)
-
     send_registration.short_description = _('Send new registration confirmations')
+
+    def block_users(self, request, queryset):
+        queryset.update(blocked=True)
+        for user in queryset:
+            try:
+                xmpp_backend.block_user(user.node, user.domain)
+            except UserNotFound:
+                continue
+    block_users.short_description = _('Block selected users')
 
 
 @admin.register(UserLogEntry)
