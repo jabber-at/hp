@@ -25,6 +25,8 @@ from django.contrib.auth.models import Group
 from django.utils import timezone
 from django.utils.translation import ugettext_lazy as _
 
+from django_object_actions import DjangoObjectActions
+
 from .constants import PURPOSE_REGISTER
 from .forms import AdminUserForm
 from .models import Confirmation
@@ -74,13 +76,14 @@ class CreatedInBackendFilter(admin.SimpleListFilter):
 
 
 @admin.register(User)
-class UserAdmin(BaseUserAdmin):
+class UserAdmin(DjangoObjectActions, BaseUserAdmin):
     actions = ['send_registration', 'block_users', ]
     add_fieldsets = (
         (None, {
             'fields': ('username', 'email'),
         }),
     )
+    change_actions = ['block_user', ]
     fieldsets = (
         (None, {
             'fields': ('username', 'email', ('registered', 'confirmed', 'last_activity', ),
@@ -91,7 +94,7 @@ class UserAdmin(BaseUserAdmin):
     list_display = ('username', 'email', 'registered', 'confirmed', 'last_activity', )
     list_filter = (ConfirmedFilter, CreatedInBackendFilter, 'is_superuser', )
     ordering = ('-registered', )
-    readonly_fields = ['username', 'registered', ]
+    readonly_fields = ['username', 'registered', 'blocked', ]
     search_fields = ['username', 'email', ]
 
     def send_registration(self, request, queryset):
@@ -109,6 +112,16 @@ class UserAdmin(BaseUserAdmin):
                     user_pk=user.pk, purpose=PURPOSE_REGISTER, language='en', to=user.email,
                     base_url=base_url, hostname=user.domain)
     send_registration.short_description = _('Send new registration confirmations')
+
+    def block_user(self, request, obj):
+        obj.blocked = True
+        obj.save()
+        try:
+            xmpp_backend.block_user(obj.node, obj.domain)
+        except UserNotFound:
+            pass
+    block_user.label = _('Block')
+    block_user.short_description = _('Block this user')
 
     def block_users(self, request, queryset):
         queryset.update(blocked=True)

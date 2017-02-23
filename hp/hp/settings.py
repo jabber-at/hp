@@ -63,6 +63,7 @@ _DEFAULT_INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     'captcha',
+    'django_object_actions',  # object actions
     'mptt',  # Tree structure for MenuItem
     'tinymce',  # Rich text editor
     'xmpp_http_upload',  # XEP-0363
