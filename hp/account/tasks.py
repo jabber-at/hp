@@ -202,6 +202,20 @@ def update_last_activity(random_update=50):
         user.last_activity = timezone.make_aware(last_activity)
         user.save()
 
+    for user in User.objects.confirmed().new().used():
+        try:
+            last_activity = xmpp_backend.get_last_activity(user.node, user.domain)
+        except UserNotFound:
+            log.warn('%s: User not found in XMPP backend.', user)
+            continue
+
+        if last_activity is None:
+            log.warn('%s: Could not get last activity.', user)
+            continue
+
+        user.last_activity = timezone.make_aware(last_activity)
+        user.save()
+
     # Update last activity of users with more then 350 days of inactivity
     for user in User.objects.select_related('notifications').expiring():
         log.debug('%s: Updating last activity.', user)
