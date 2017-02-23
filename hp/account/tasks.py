@@ -18,6 +18,7 @@ from datetime import date
 from datetime import timedelta
 from urllib.error import URLError
 
+import pytz
 from celery import Task
 from celery import shared_task
 from celery.utils.log import get_task_logger
@@ -186,6 +187,9 @@ def resend_confirmations(*conf_pks):
 
 @shared_task
 def update_last_activity(random_update=50):
+    # manually assume our servers timezone, see https://github.com/processone/ejabberd/issues/1565
+    tz = pytz.timezone('Europe/Vienna')
+
     # Update some random users with recent activity so we have at least a vague picture of
     # how recent users are active.
     for user in User.objects.order_by('?').not_expiring()[:random_update]:
@@ -199,7 +203,8 @@ def update_last_activity(random_update=50):
             log.warn('%s: Could not get last activity.', user)
             continue
 
-        user.last_activity = timezone.make_aware(last_activity)
+        #user.last_activity = timezone.make_aware(last_activity)
+        user.last_activity = tz.localize(last_activity)
         user.save()
 
     for user in User.objects.confirmed().new().unused():
@@ -213,7 +218,8 @@ def update_last_activity(random_update=50):
             log.warn('%s: Could not get last activity.', user)
             continue
 
-        user.last_activity = timezone.make_aware(last_activity)
+        #user.last_activity = timezone.make_aware(last_activity)
+        user.last_activity = tz.localize(last_activity)
         user.save()
 
     # Update last activity of users with more then 350 days of inactivity
