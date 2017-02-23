@@ -13,6 +13,8 @@
 # You should have received a copy of the GNU General Public License along with django-xmpp-account.
 # If not, see <http://www.gnu.org/licenses/>.
 
+from datetime import timedelta
+
 from django.conf import settings
 from django.db import models
 from django.utils import timezone
@@ -44,6 +46,16 @@ class UserQuerySet(models.QuerySet):
 
     def host(self, hostname):
         return self.filter(username__endswith='@%s' % hostname)
+
+    def new(self, since=None):
+        if since is None:
+            since = timezone.now() - timedelta(days=7)
+
+        return self.filter(registered__gt=since)
+
+    def used(self):
+        """Filter accounts that were used so far."""
+        return self.filter(last_activity__gt=models.F('confirmed'))
 
     def not_expiring(self, now=None):
         """Filter users with a recent activity."""
