@@ -7,8 +7,7 @@
     "doc": "doc"
   },
   "dependencies": {
-    "clean-css": "^4.0.8",
-    "clean-css-cli": "^4.0.8",
+    "clean-css": "^3",
     "less": "^2.7.2",
     "uglify-js": "^2.7.5"
   },
