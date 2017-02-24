@@ -25,6 +25,7 @@ body {
 }
 .glyph-button {
     cursor: pointer;
+    padding: 1px 5px;  /* for mobile users */
 }
 
 nav.paginator {
