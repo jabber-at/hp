@@ -33,5 +33,6 @@ def basic(request):
         'other_langs': [(k, v) for k, v in settings.LANGUAGES if k != request.LANGUAGE_CODE],
         'FACEBOOK_PAGE': settings.FACEBOOK_PAGE,
         'TWITTER_HANDLE': settings.TWITTER_HANDLE,
+        'DEBUG': settings.DEBUG,
     }
     return context
