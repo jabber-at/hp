@@ -15,6 +15,7 @@
 
 from datetime import timedelta
 
+from django.contrib.auth import get_user_model
 from django.core.management.base import BaseCommand
 from django.utils import timezone
 from django.db.models import Count
@@ -31,14 +32,25 @@ from ...constants import STAT_DELETE_ACCOUNT_CONFIRMED
 from ...constants import STAT_FAILED_LOGIN
 from ...models import Event
 
+User = get_user_model()
+
 
 class Command(BaseCommand):
     def add_arguments(self, parser):
         parser.add_argument('--config', action='store_true', default=False)
 
+    def unused_percentage(self, now, days):
+        qs = User.objects.confirmed().new(now - timedelta(days=1))
+        total = qs.count()
+        if total == 0:
+            return 100
+
+        return (qs.unused().count() * 100) / total
+
     def handle(self, *args, **options):
         if options['config']:
-            print('''graph_args --base 1000 -l 0
+            print('''multigraph homepage
+graph_args --base 1000 -l 0
 graph_category homepage
 graph_scale no
 graph_title Account activity
@@ -53,12 +65,26 @@ set_email.label New email addresses
 set_email_confirmed.label New email addresses - confirmed
 delete_account.label Account deletions
 delete_account_confirmed.label Account deletions - confirmed
-failed_logins.label Failed logins''')
+failed_logins.label Failed logins
+multigraph homepage_unused_accounts
+graph_args --base 1000 -l 0 -u 100
+graph_category homepage
+graph_scale no
+graph_title Unused accounts
+graph_vlabel Percent
+graph_info Percentage of new/confirmed accounts that were used in the respective timespan
+one_day.label One day
+three_days.label Three days
+seven_days.label Seven days''')
         else:
-            since = timezone.now() - timedelta(hours=24)
+            now = timezone.now()
+
+            since = now - timedelta(hours=24)
             qs = Event.objects.filter(stamp__gt=since).values_list('metric').order_by('metric')
             values = dict(qs.annotate(count=Count('metric')))
-            print('''register.value %(register)s
+
+            print('''multigraph homepage
+register.value %(register)s
 register_confirmed.value %(register_confirmed)s
 password_reset.value %(password_reset)s
 password_reset_confirmed.value %(password_reset_confirmed)s
@@ -67,7 +93,11 @@ set_email.value %(set_email)s
 set_email_confirmed.value %(set_email_confirmed)s
 delete_account.value %(delete_account)s
 delete_account_confirmed.value %(delete_account_confirmed)s
-failed_logins.value %(failed_logins)s''' % {
+failed_logins.value %(failed_logins)s
+multigraph homepage_unused_accounts
+one_day.value %(unused_one)s
+three_days.value %(unused_three)s
+seven_days.value %(unused_seven)s''' % {
                 'register': values.get(STAT_REGISTER, 0),
                 'register_confirmed': values.get(STAT_REGISTER_CONFIRMED, 0),
                 'password_reset': values.get(STAT_RESET_PASSWORD, 0),
@@ -78,4 +108,7 @@ failed_logins.value %(failed_logins)s''' % {
                 'delete_account': values.get(STAT_DELETE_ACCOUNT, 0),
                 'delete_account_confirmed': values.get(STAT_DELETE_ACCOUNT_CONFIRMED, 0),
                 'failed_logins': values.get(STAT_FAILED_LOGIN, 0),
+                'unused_one': self.unused_percentage(now, 1),
+                'unused_three': self.unused_percentage(now, 3),
+                'unused_seven': self.unused_percentage(now, 7),
             })
