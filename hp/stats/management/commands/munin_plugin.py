@@ -40,7 +40,8 @@ class Command(BaseCommand):
         parser.add_argument('--config', action='store_true', default=False)
 
     def unused_percentage(self, now, days):
-        qs = User.objects.confirmed().new(now - timedelta(days=days))
+        # We get users that registered in the last 14 days (new()) and before the threshold
+        qs = User.objects.confirmed().new().filter(confirmed__lt=now - timedelta(days=days))
         total = qs.count()
         if total == 0:
             return 100
