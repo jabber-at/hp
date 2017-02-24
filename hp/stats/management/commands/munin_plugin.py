@@ -45,7 +45,7 @@ class Command(BaseCommand):
         if total == 0:
             return 100
 
-        return (qs.used().count() * 100) / total
+        return (qs.unused().count() * 100) / total
 
     def handle(self, *args, **options):
         if options['config']:
