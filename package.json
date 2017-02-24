@@ -1,0 +1,27 @@
+{
+  "name": "hp",
+  "version": "1.0.0",
+  "description": "jabber.at homepage",
+  "main": "index.js",
+  "directories": {
+    "doc": "doc"
+  },
+  "dependencies": {
+    "less": "^2.7.2",
+    "less-plugin-clean-css": "^1.5.1"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jabber-at/hp.git"
+  },
+  "author": "Mathias Ertl",
+  "license": "GPL-3.0",
+  "bugs": {
+    "url": "https://github.com/jabber-at/hp/issues"
+  },
+  "homepage": "https://github.com/jabber-at/hp#readme"
+}
