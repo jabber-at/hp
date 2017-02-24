@@ -22,7 +22,7 @@ the trash icon.{% endblocktrans %}
     <tr>
         <td>{{ session.ip }}</td>
         <td>{{ session.resource }}</td>
-        <td>{{ session.started|date:"SHORT_DATETIME_FORMAT" }}</td>
+        <td class="nowrap">{{ session.started|date:"SHORT_DATETIME_FORMAT" }}</td>
         <td>
             <span class="sr-only">{% trans "Stop connection" %}</span>
             <span class="glyphicon glyphicon-trash glyph-button hover-danger" 
