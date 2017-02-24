@@ -217,7 +217,7 @@ class SetEmailForm(GPGMixin, EmailValidationMixin, forms.Form):
 
 
 class AddGpgForm(GPGMixin, forms.Form):
-    pass
+    show_gpg = True
 
 
 class ResetPasswordForm(CaptchaFormMixin, forms.Form):

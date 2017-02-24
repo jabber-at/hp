@@ -5,9 +5,7 @@
 
 {% block content %}
 <form enctype="multipart/form-data" class="form-horizontal" action="" method="post">{% csrf_token %}
-    {% with uses_gpg=True %}
     {% include "account/include/gpg_form.html" %}
-    {% endwith %}
 
     <div class="form-group">
         <div class="col-sm-offset-2 col-sm-10">
