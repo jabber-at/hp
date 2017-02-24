@@ -162,6 +162,13 @@ def autodoc():
     local('sphinx-autobuild -p 8080 --watch hp %s doc/ doc/_build/html/' % ignore)
 
 
+@task
+def compile_less():
+    """Compile CSS styles that use bootstrap variables."""
+
+    local('node_modules/.bin/lessc less/bootstrap-hp.less hp/core/static/core/bootstrap-hp.css')
+
+
 setup = SetupTask()
 deploy = DeployTask()
 upload_doc = UploadDoc()
