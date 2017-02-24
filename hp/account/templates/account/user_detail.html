@@ -4,7 +4,7 @@
 {% block title %}{{ object.username }}{% endblock title %}
 
 {% block content %}
-<table class="table table-bordered">
+<div class="table-responsive"><table class="table table-hover">
     <tr>
         <td>{% trans "Registered" %}</td>
         <td>{{ object.registered }}</td>
@@ -23,6 +23,8 @@
         <td>{% trans "Email confirmed" %}</td>
         <td>{% if object.confirmed %}{% trans "Yes" %}{% else %}{% trans "No" %}{% endif %}</td>
     </tr>
-</table>
+</table></div>
+
+{% include "account/include/user_detail_help.html" %}
 
 {% endblock content %}

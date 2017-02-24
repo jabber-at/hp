@@ -1,0 +1,36 @@
+{% load i18n static %}
+<h2>{% trans "Where to go from here" %}</h2>
+
+{% url 'core:clients' as clients_url %}
+{% url 'core:contact' as contact_url %}
+{% url 'blog:page' slug="faq" as faq_url %}
+<ul>
+    <li>{% blocktrans with host=site.NAME%}You need a client to connect to {{ host }}. We have <a
+href="{{ clients_url }}">some recommendations</a>.{% endblocktrans %}</li>
+    {% if faq_url %}
+    <li>{% blocktrans %}Frequently answered questions are answered in our <a
+href="{{ faq_url }}">FAQs</a>.{% endblocktrans %}</li>
+    {% endif %}
+    <li>{% blocktrans with host=site.NAME %}For updates about {{ host }}, follow us via{% endblocktrans %}
+        <ul class="list-inline">
+            {% if TWITTER_HANDLE %}
+            <li>
+                <a href="https://twitter.com/{{ TWITTER_HANDLE }}">
+                    <img src="{% static "core/img/smtw.svg" %}" class="bullet">@{{ TWITTER_HANDLE }}</a>
+            </li>
+            {% endif %}
+            {% if FACEBOOK_PAGE %}
+            <li>
+                <a href="https://facebook.com/{{ FACEBOOK_PAGE }}">
+                    <img src="{% static "core/img/629hwmjt.svg" %}" class="bullet">/{{ FACEBOOK_PAGE }}</a>
+            </li>
+            {% endif %}
+            <li><a href="{% url "feed:rss2" language=LANGUAGE_CODE %}">
+                    <img src="{% static "core/img/rss.svg" %}" class="bullet">RSS feed</a></li>
+            <li><a href="{% url "feed:atom" language=LANGUAGE_CODE %}">
+                    <img src="{% static "core/img/rss.svg" %}" class="bullet">Atom feed</a>
+            </li>
+        </ul>
+    </li>
+    <li>{% blocktrans %}Any further questions? <a href="{{ contact_url }}">Contact us!</a>{% endblocktrans %}</li>
+</ul>

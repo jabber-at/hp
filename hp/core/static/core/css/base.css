@@ -83,7 +83,7 @@ form .form-group.has-success ul.errorlist {
 /**
  * sidebar
  */
-.panel ul.list-group img.bullet {
+img.bullet {
     width: 22px;
     height: 22px;
     vertical-align: middle;

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-02-24 11:29+0100\n"
+"POT-Creation-Date: 2017-02-24 22:24+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -119,7 +119,7 @@ msgstr "Der Benutzername ist ungültig."
 msgid "An error occured, please try again later."
 msgstr "Ein Fehler ist aufgetreten, bitte versuchen sie es später erneut."
 
-#: formfields.py:116 templates/account/user_gpg.html:26
+#: formfields.py:116 templates/account/user_gpg.html:27
 msgid "Fingerprint"
 msgstr "Fingerabdruck"
 
@@ -555,6 +555,38 @@ msgstr ""
 msgid "- and/or -"
 msgstr "- und/oder -"
 
+#: templates/account/include/user_detail_help.html:2
+msgid "Where to go from here"
+msgstr "Wie geht es weiter?"
+
+#: templates/account/include/user_detail_help.html:8
+#, python-format
+msgid ""
+"You need a client to connect to %(host)s. We have <a\n"
+"href=\"%(clients_url)s\">some recommendations</a>."
+msgstr ""
+"Sie benötigen einen Client um sich zu %(host)s zu verbinden. Wir haben <a "
+"href=\"%(clients_url)s\">einige Empfehlungen</a>."
+
+#: templates/account/include/user_detail_help.html:11
+#, python-format
+msgid ""
+"Frequently answered questions are answered in our <a\n"
+"href=\"%(faq_url)s\">FAQs</a>."
+msgstr ""
+"Häufig gestellte Fragen sind in unseren <a href=\"%(faq_url)s\">FAQs</a> "
+"beantwortet."
+
+#: templates/account/include/user_detail_help.html:14
+#, python-format
+msgid "For updates about %(host)s, follow us via"
+msgstr "Neuigkeiten über %(host)s erfährst du via"
+
+#: templates/account/include/user_detail_help.html:35
+#, python-format
+msgid "Any further questions? <a href=\"%(contact_url)s\">Contact us!</a>"
+msgstr "Noch Fragen? <a href=\"%(contact_url)s\">Kontaktiere uns!</a>"
+
 #: templates/account/notifications.html:14 views.py:102
 msgid "Notifications"
 msgstr "Benachrichtigungen"
@@ -594,11 +626,11 @@ msgstr ""
 "Für diese Funktionalität müssen sie ihre <a href=\"%(url)s\">E-Mail-Adresse "
 "gesetzt</a> haben."
 
-#: templates/account/sessions.html:14
+#: templates/account/sessions.html:4
 msgid "Current sessions"
 msgstr "Verbindungen"
 
-#: templates/account/sessions.html:17
+#: templates/account/sessions.html:7
 msgid ""
 "This page lists your current Jabber/XMPP connections. If any connection\n"
 "looks suspicious to you, you can stop the session from here with a click on\n"
@@ -608,20 +640,29 @@ msgstr ""
 "Falls ihnen eine Verbindung verdächtig vorkommt, können sie die Verbindung "
 "mit einem Klick auf das Müll-Icon beenden."
 
-#: templates/account/sessions.html:24
-#: templates/account/user_recent_activity.html:18
+#: templates/account/sessions.html:15
+#: templates/account/user_recent_activity.html:20
 msgid "IP"
 msgstr ""
 
-#: templates/account/sessions.html:25
+#: templates/account/sessions.html:16
 msgid "Resource"
 msgstr ""
 
-#: templates/account/sessions.html:26
+#: templates/account/sessions.html:17
 msgid "Started"
 msgstr "Beginn"
 
-#: templates/account/sessions.html:39
+#: templates/account/sessions.html:27
+msgid "Stop connection"
+msgstr ""
+
+#: templates/account/sessions.html:31 templates/account/user_gpg.html:42
+#: templates/account/user_gpg.html:46
+msgid "Delete key"
+msgstr "Schlüssel löschen"
+
+#: templates/account/sessions.html:37
 msgid "You are currently not online with any client."
 msgstr "Sie sind gegenwärtig mit keinem Client verbunden."
 
@@ -688,33 +729,30 @@ msgstr ""
 "den Schlüsselservern <span class=\"glyphicon glyphicon-refresh\"></span> neu "
 "laden."
 
-#: templates/account/user_gpg.html:24 templates/account/xep0363.html:23
+#: templates/account/user_gpg.html:25 templates/account/xep0363.html:24
 msgid "Created"
 msgstr "Erstellt"
 
-#: templates/account/user_gpg.html:25
+#: templates/account/user_gpg.html:26
 msgid "Expires"
 msgstr "Gültig bis"
 
-#: templates/account/user_gpg.html:35 templates/account/user_gpg.html:39
+#: templates/account/user_gpg.html:37 templates/account/user_gpg.html:41
 msgid "Refresh key from keyserver"
 msgstr "Schlüssel vom Keyserver aktualisieren"
 
-#: templates/account/user_gpg.html:40 templates/account/user_gpg.html:44
-msgid "Delete key"
-msgstr "Schlüssel löschen"
-
-#: templates/account/user_gpg.html:50
+#: templates/account/user_gpg.html:52
 msgid "<span class=\"glyphicon glyphicon-plus\"></span> Add another GPG key"
 msgstr "<span class=\"glyphicon glyphicon-plus\"></span> Schlüssel hinzufügen"
 
-#: templates/account/user_gpg.html:53
+#: templates/account/user_gpg.html:55
 msgid "You have no configured GPG keys."
 msgstr "Sie haben keine GPG-Schlüssel konfiguriert"
 
-#: templates/account/user_gpg.html:55
+#: templates/account/user_gpg.html:57
 msgid "<span class=\"glyphicon glyphicon-plus\"></span> Add a GPG key"
-msgstr "<span class=\"glyphicon glyphicon-plus\"></span> GPG-Schlüsseln hinzufügen"
+msgstr ""
+"<span class=\"glyphicon glyphicon-plus\"></span> GPG-Schlüsseln hinzufügen"
 
 #: templates/account/user_login.html:4 templates/account/user_login.html:25
 msgid "Log in"
@@ -801,15 +839,15 @@ msgstr ""
 "Hier werden nur Aktivitäten auf dieser Homepage erfasst. Fehlgeschlagene "
 "Logins am Jabber/XMPP server selbst werden hier nicht erfasst."
 
-#: templates/account/user_recent_activity.html:19
+#: templates/account/user_recent_activity.html:21
 msgid "Date"
 msgstr "Datum"
 
-#: templates/account/user_recent_activity.html:20
+#: templates/account/user_recent_activity.html:22
 msgid "Action"
 msgstr "Aktion"
 
-#: templates/account/user_recent_activity.html:31
+#: templates/account/user_recent_activity.html:35
 msgid "No recent log entries found."
 msgstr "Keine Aktivitäten gefunden."
 
@@ -924,15 +962,15 @@ msgstr ""
 "verschlüsseln Dateien, bevor sie auf den Server hoch geladen werden. Sie "
 "können daher nicht einfach im Browser angesehen werden."
 
-#: templates/account/xep0363.html:24
+#: templates/account/xep0363.html:25
 msgid "File"
 msgstr "Datei"
 
-#: templates/account/xep0363.html:34 templates/account/xep0363.html:38
+#: templates/account/xep0363.html:36 templates/account/xep0363.html:40
 msgid "Delete this file"
 msgstr "Datei löschen"
 
-#: templates/account/xep0363.html:45
+#: templates/account/xep0363.html:47
 msgid "There are currently no file uploads."
 msgstr "Sie haben noch keine Dateien hochgeladen."
 
