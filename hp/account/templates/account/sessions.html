@@ -23,7 +23,7 @@ the trash icon.{% endblocktrans %}
         <td>{{ session.started|date:"SHORT_DATETIME_FORMAT" }}</td>
         <td>
             <span class="sr-only">{% trans "Stop connection" %}</span>
-            <span class="glyphicon glyphicon-trash glyph-pointer hover-danger" 
+            <span class="glyphicon glyphicon-trash glyph-button hover-danger" 
                   data-url="{% url 'account:api-stop-user-session' resource=session.resource %}"
                   data-action="remove-row" data-type="DELETE"
                   title="{% trans 'Delete key' %}" aria-hidden="true"></span>

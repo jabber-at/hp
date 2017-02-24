@@ -23,7 +23,7 @@ body {
 .hover-danger:hover {
     color: #a94442;  /* same as text-tanger */
 }
-.glyph-pointer {
+.glyph-button {
     cursor: pointer;
 }
 

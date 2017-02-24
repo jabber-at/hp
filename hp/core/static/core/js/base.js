@@ -44,7 +44,7 @@ $(document).ready(function() {
     /**
      * Generic glyph buttons in table cells, used e.g. GPG key and XEP-0363 overviews.
      */
-    $('td span.glyph-pointer').click(function(e) {
+    $('td span.glyph-button').click(function(e) {
         console.log('clicked!');
         var glyph = $(e.currentTarget);
         var url = glyph.data('url');
