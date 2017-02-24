@@ -45,6 +45,7 @@ minify_css = MinifyCSSTask(dest='hp/core/static/hp-%s.css' % timestamp, files=[
     'hp/core/static/core/css/base.css',
     'hp/core/static/core/css/clients.css',
     'hp/account/static/account/css/base.css',
+    'hp/account/static/account/css/notifications.css',
 ])
 
 configfile = configparser.ConfigParser({
