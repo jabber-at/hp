@@ -38,9 +38,8 @@ minify_css = MinifyCSSTask(dest='hp/core/static/hp.css', files=[
     'hp/core/static/lib/bootstrap/css/bootstrap.min.css',
     'hp/core/static/lib/bootstrap/css/bootstrap-theme.min.css',
     'hp/core/static/lib/prism/prism.css',
-    'hp/core/static/css/theme.css',
-    'hp/core/static/core/bootstrap-hp.css',
-    'hp/core/static/core/base.css',
+    'hp/core/static/core/css/bootstrap-hp.css',
+    'hp/core/static/core/css/base.css',
 ])
 
 configfile = configparser.ConfigParser({
