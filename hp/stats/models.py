@@ -24,7 +24,7 @@ def stat(metric, value):
 
 class Event(models.Model):
     stamp = models.DateTimeField(auto_now_add=True, db_index=True)
-    metric_new = models.SmallIntegerField(db_index=True)
+    metric = models.SmallIntegerField(db_index=True)
     value = models.IntegerField()
 
     def __str__(self):
