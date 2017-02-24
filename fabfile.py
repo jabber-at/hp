@@ -14,6 +14,8 @@
 # not, see <http://www.gnu.org/licenses/>.
 
 import configparser
+import os
+import sys
 from datetime import datetime
 
 from fabric.api import local
@@ -21,10 +23,11 @@ from fabric.api import task
 from fabric.tasks import Task
 
 from fabric_webbuilders import BuildBootstrapTask
-from fabric_webbuilders import MinifyCSSTask
+from fabric_webbuilders import MinifyCSSTask as MinifyCSSBaseTask
 
 
 timestamp = datetime.utcnow().strftime('%Y%m%d%H%M%S')
+fabdir = os.path.dirname(__file__)
 
 # Currently not working because of general incompetence of the NodeJS community.
 #build_jquery = BuildJqueryTask(
@@ -37,16 +40,6 @@ build_bootstrap = BuildBootstrapTask(
     dest_dir='hp/core/static/lib/bootstrap/',
     version='~3'
 )
-minify_css = MinifyCSSTask(dest='hp/core/static/hp-%s.css' % timestamp, files=[
-    'hp/core/static/lib/bootstrap/css/bootstrap.min.css',
-    'hp/core/static/lib/bootstrap/css/bootstrap-theme.min.css',
-    'hp/core/static/lib/prism/prism.css',
-    'hp/core/static/core/css/bootstrap-hp.css',
-    'hp/core/static/core/css/base.css',
-    'hp/core/static/core/css/clients.css',
-    'hp/account/static/account/css/base.css',
-    'hp/account/static/account/css/notifications.css',
-])
 
 configfile = configparser.ConfigParser({
     'home': '/usr/local/home/hp',
@@ -55,6 +48,24 @@ configfile = configparser.ConfigParser({
     'uwsgi-emperor': '1',
 })
 configfile.read('fab.conf')
+
+
+class StaticFilesMixin(object):
+    """Mixin to get Django static files."""
+
+    def get_files(self):
+        os.environ.setdefault("DJANGO_SETTINGS_MODULE", "hp.settings")
+        sys.path.insert(0, os.path.join(fabdir, 'hp'))
+
+        import django
+        django.setup()
+
+        from django.contrib.staticfiles import finders
+        return [finders.find(f) for f in self.files]
+
+
+class MinifyCSSTask(StaticFilesMixin, MinifyCSSBaseTask):
+    pass
 
 
 class DeploymentTaskMixin(object):
@@ -184,6 +195,19 @@ def compile_less():
         'node_modules/.bin/lessc less/bootstrap-hp.less hp/core/static/core/css/bootstrap-hp.css')
 
 
+minify_css = MinifyCSSTask(dest='hp/core/static/hp-%s.css' % timestamp, files=[
+    'lib/bootstrap/css/bootstrap.min.css',
+    'lib/bootstrap/css/bootstrap-theme.min.css',
+    'lib/prism/prism.css',
+    'core/css/bootstrap-hp.css',
+    'core/css/base.css',
+    'core/css/clients.css',
+    'account/css/base.css',
+    'account/css/notifications.css',
+    'account/css/username_widget.css',
+    'account/css/gpgmixin.css',
+    'bootstrap/css/file_input.css',
+])
 setup = SetupTask()
 deploy = DeployTask()
 upload_doc = UploadDoc()
