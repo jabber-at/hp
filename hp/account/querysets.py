@@ -49,7 +49,7 @@ class UserQuerySet(models.QuerySet):
 
     def new(self, since=None):
         if since is None:
-            since = timezone.now() - timedelta(days=7)
+            since = timezone.now() - timedelta(days=14)
 
         return self.filter(registered__gt=since)
 
