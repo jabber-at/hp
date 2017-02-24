@@ -174,7 +174,8 @@ def autodoc():
 def compile_less():
     """Compile CSS styles that use bootstrap variables."""
 
-    local('node_modules/.bin/lessc less/bootstrap-hp.less hp/core/static/core/bootstrap-hp.css')
+    local(
+        'node_modules/.bin/lessc less/bootstrap-hp.less hp/core/static/core/css/bootstrap-hp.css')
 
 
 setup = SetupTask()
