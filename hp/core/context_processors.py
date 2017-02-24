@@ -13,11 +13,20 @@
 # You should have received a copy of the GNU General Public License along with django-xmpp-account.
 # If not, see <http://www.gnu.org/licenses/.
 
+import glob
+import os
 from datetime import date
 
+from django.apps import apps
 from django.conf import settings
 
 from .models import MenuItem
+
+# Get latest generated CSS file
+app = apps.get_app_config('core')
+path = os.path.join(app.path, 'static')
+generated_css = sorted(glob.glob(os.path.join(path, 'hp-*.css')))[-1]
+generated_css = os.path.relpath(generated_css, path)
 
 
 def basic(request):
@@ -33,6 +42,7 @@ def basic(request):
         'other_langs': [(k, v) for k, v in settings.LANGUAGES if k != request.LANGUAGE_CODE],
         'FACEBOOK_PAGE': settings.FACEBOOK_PAGE,
         'TWITTER_HANDLE': settings.TWITTER_HANDLE,
-        'DEBUG': settings.DEBUG,
+        'DEBUG': settings.DEBUG and False,
+        'GENERATED_CSS': generated_css,
     }
     return context
