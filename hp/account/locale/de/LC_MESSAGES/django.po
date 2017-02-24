@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-01-27 14:10+0100\n"
+"POT-Creation-Date: 2017-02-24 11:29+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,28 +17,40 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: admin.py:38
+#: admin.py:43
 msgid "confirmed email"
 msgstr "Bestätigte E-Mail"
 
-#: admin.py:56
+#: admin.py:61
 msgid "created in backend"
 msgstr "Im Backend erstellt"
 
-#: admin.py:109
+#: admin.py:114
 msgid "Send new registration confirmations"
 msgstr "Neue Registrierungsbestätigung schicken"
 
-#: admin.py:146
+#: admin.py:123
+msgid "Block"
+msgstr "Blockieren"
+
+#: admin.py:124
+msgid "Block this user"
+msgstr "Diesen Benutzer blockieren"
+
+#: admin.py:133
+msgid "Block selected users"
+msgstr "Ausgewählte Benutzer blockieren"
+
+#: admin.py:170
 #, python-format
 msgid "Error importing %(fingerprint)s: %(error)s"
 msgstr "Fehler beim importieren von  %(fingerprint)s: %(error)s"
 
-#: admin.py:150
+#: admin.py:174
 msgid "Refresh keys from keyserver"
 msgstr "Schlüssel vom Keyserver aktualisieren"
 
-#: admin.py:163
+#: admin.py:187
 msgid "Resend confirmations"
 msgstr "E-Mail erneut schicken"
 
@@ -107,7 +119,7 @@ msgstr "Der Benutzername ist ungültig."
 msgid "An error occured, please try again later."
 msgstr "Ein Fehler ist aufgetreten, bitte versuchen sie es später erneut."
 
-#: formfields.py:116 templates/account/user_gpg.html:11
+#: formfields.py:116 templates/account/user_gpg.html:26
 msgid "Fingerprint"
 msgstr "Fingerabdruck"
 
@@ -182,7 +194,7 @@ msgstr "E-Mail"
 msgid "Required, a confirmation email will be sent to this address."
 msgstr "Pflichtfeld, eine Bestätigung wird an diese Adresse geschickt."
 
-#: forms.py:142 views.py:439
+#: forms.py:142 views.py:458
 msgid "Email address is already used by another account."
 msgstr "E-Mail-Adresse wird bereits für ein anderes Konto verwendet."
 
@@ -275,13 +287,13 @@ msgid "Confirm new email address for your {{ user.domain }} account"
 msgstr ""
 "Bestätigen sie die neue E-Mail-Adresse für ihr {{ user.domain }} Konto."
 
-#: tasks.py:79
+#: tasks.py:80
 msgid "Unable to fetch GPG key. Giving up and sending mail unencrypted. Sorry."
 msgstr ""
 "GPG-Schlüssel konnte nicht heruntergeladen werden. Da dies der letzte "
 "Versuch war, wird die E-Mail unverschlüsselt verschickt."
 
-#: tasks.py:92
+#: tasks.py:93
 #, python-format
 msgid ""
 "Unable to fetch GPG key (%(retry)s of %(max)s tries). Will try again in "
@@ -290,9 +302,19 @@ msgstr ""
 "GPG-Schlüssel konnte nicht heruntergeladen werden (%(retry)s von %(max)s "
 "Versuchen). Wir werden es in %(time)s noch einmal versuchen."
 
-#: tasks.py:252
+#: tasks.py:272
 msgid "Your account on {{ domain }} is about to expire"
 msgstr "Ihr Konto auf {{ domain }} läuft bald ab"
+
+#: templates/account/add_gpg.html:4
+msgid "Add GPG key"
+msgstr "GPG-Schlüssel hinzufügen"
+
+#: templates/account/add_gpg.html:12 templates/account/set_password.html:12
+#: templates/account/user_register_confirm.html:22
+#: templates/account/user_set_email.html:26
+msgid "Submit"
+msgstr "Bestätigen"
 
 #: templates/account/base.html:14
 msgid "User settings"
@@ -449,7 +471,7 @@ msgstr ""
 "Vorgang abzuschließen, gehen sie bitte auf diese URL:"
 
 #: templates/account/delete.html:4 templates/account/delete_confirm.html:4
-#: views.py:96
+#: views.py:108
 msgid "Delete account"
 msgstr "Konto löschen"
 
@@ -500,7 +522,40 @@ msgstr ""
 "beliebigen Client oder auf unserer Homepage [1] wieder einloggen. Falls sie "
 "ihr Passwort vergessen haben, können sie es hier [2] neu setzen."
 
-#: templates/account/notifications.html:14 views.py:90
+#: templates/account/include/gpg_form.html:5
+#, python-format
+msgid ""
+"You can add a GPG key to have %(domain)s encrypt all emails sent to you."
+msgstr ""
+"Wenn sie einen GPG-Schlüssel hinzufügen, werden alle E-Mails von %(domain)s "
+"an sie automatisch verschlüsselt."
+
+#: templates/account/include/gpg_form.html:8
+msgid ""
+"<strong>Warning:</strong> Previously configured GPG keys will not be used\n"
+"for sending this email. Add a key here if you want to continue using GPG.\n"
+"Any existing GPG keys will be removed once you confirm this change."
+msgstr ""
+"<strong>Warnung:</strong> Bereits konfigurierte GPG-Schlüssel werden nicht "
+"verwendet um diese E-Mail zu verschicken. Fügen Sie hier einen GPG-Schlüssel "
+"hinzu um weiterhin GPG zu verwenden. Alle vorhandenen GPG-Schlüssel werden "
+"entfernt when sie diese Änderung bestätigen."
+
+#: templates/account/include/gpg_form.html:12
+msgid ""
+"<strong>Warning:</strong> If you ever loose your GPG key and do not upload\n"
+"a new one here, you can no longer read any emails (e.g. when you have\n"
+"forgotten your password) we send to you."
+msgstr ""
+"<strong>Warnung:</strong> Wenn sie je ihren GPG-Schlüssel verlieren und "
+"keinen neuen hier hochladen, können sie E-Mails, die wir ihnen schicken, "
+"nicht mehr lesen."
+
+#: templates/account/include/gpg_form.html:22
+msgid "- and/or -"
+msgstr "- und/oder -"
+
+#: templates/account/notifications.html:14 views.py:102
 msgid "Notifications"
 msgstr "Benachrichtigungen"
 
@@ -570,15 +625,9 @@ msgstr "Beginn"
 msgid "You are currently not online with any client."
 msgstr "Sie sind gegenwärtig mit keinem Client verbunden."
 
-#: templates/account/set_password.html:4 views.py:91
+#: templates/account/set_password.html:4 views.py:103
 msgid "Set password"
 msgstr "Passwort setzen"
-
-#: templates/account/set_password.html:12
-#: templates/account/user_register_confirm.html:22
-#: templates/account/user_set_email.html:51
-msgid "Submit"
-msgstr "Bestätigen"
 
 #: templates/account/user_detail.html:9
 msgid "Registered"
@@ -608,17 +657,64 @@ msgstr "Ja"
 msgid "No"
 msgstr "Nein"
 
-#: templates/account/user_gpg.html:4 views.py:94
+#: templates/account/user_gpg.html:4 views.py:106
 msgid "GPG keys"
 msgstr "GPG-Schlüssel"
 
-#: templates/account/user_gpg.html:9 templates/account/xep0363.html:32
+#: templates/account/user_gpg.html:10
+#, python-format
+msgid ""
+"This page lists the GPG keys you have configured for your account. The keys\n"
+"are used for encrypting password reset emails and other important <a \n"
+"href=\"%(notifications_url)s\">notifications</a>."
+msgstr ""
+"Hier finden sie alle von ihnen konfigurierten GPG-Schlüssel aufgelistet. Die "
+"Schlüssel werden verwendet E-Mails an sie (wenn sie ihr Passwort vergessen "
+"haben oder bei <a href=\"%(notifications_url)s\">wichtigen "
+"Benachrichtigungen</a>) zu verschlüsseln."
+
+#: templates/account/user_gpg.html:14
+msgid ""
+"Keys will be refreshed from the public keyservers before they expire. If\n"
+"your key is not on the keyservers and you want to manually update it,\n"
+"simply upload the file as if you uploaded a new key.  You can manually\n"
+"<span class=\"glyphicon glyphicon-refresh\"></span> refresh a key from the\n"
+"keyservers in the table below."
+msgstr ""
+"Schlüssel werden automatisch von den Schlüsselservern aktualisiert bevor sie "
+"ablaufen. Falls ihr Schlüssel nicht auf den Schlüsselservern ist oder sie "
+"ihn manuell aktualisieren wollen, laden sie den Schlüssel einfach hoch als "
+"ob er ein neuer Schlüssel wäre. Sie können die Schlüssel auch manuell von "
+"den Schlüsselservern <span class=\"glyphicon glyphicon-refresh\"></span> neu "
+"laden."
+
+#: templates/account/user_gpg.html:24 templates/account/xep0363.html:23
 msgid "Created"
 msgstr "Erstellt"
 
-#: templates/account/user_gpg.html:10
+#: templates/account/user_gpg.html:25
 msgid "Expires"
 msgstr "Gültig bis"
+
+#: templates/account/user_gpg.html:35 templates/account/user_gpg.html:39
+msgid "Refresh key from keyserver"
+msgstr "Schlüssel vom Keyserver aktualisieren"
+
+#: templates/account/user_gpg.html:40 templates/account/user_gpg.html:44
+msgid "Delete key"
+msgstr "Schlüssel löschen"
+
+#: templates/account/user_gpg.html:50
+msgid "<span class=\"glyphicon glyphicon-plus\"></span> Add another GPG key"
+msgstr "<span class=\"glyphicon glyphicon-plus\"></span> Schlüssel hinzufügen"
+
+#: templates/account/user_gpg.html:53
+msgid "You have no configured GPG keys."
+msgstr "Sie haben keine GPG-Schlüssel konfiguriert"
+
+#: templates/account/user_gpg.html:55
+msgid "<span class=\"glyphicon glyphicon-plus\"></span> Add a GPG key"
+msgstr "<span class=\"glyphicon glyphicon-plus\"></span> GPG-Schlüsseln hinzufügen"
 
 #: templates/account/user_login.html:4 templates/account/user_login.html:25
 msgid "Log in"
@@ -662,7 +758,27 @@ msgstr ""
 msgid "Send"
 msgstr "Abschicken"
 
-#: templates/account/user_recent_activity.html:4 views.py:95
+#: templates/account/user_password_reset_confirm_not_found.html:10
+#: templates/account/user_register_confirm_not_found.html:10
+msgid "Confirmation key not found"
+msgstr "Bestätigung nicht gefunden"
+
+#: templates/account/user_password_reset_confirm_not_found.html:11
+msgid "The confirmation key could not be found."
+msgstr "Die Bestätigung wurde nicht gefunden"
+
+#: templates/account/user_password_reset_confirm_not_found.html:13
+#: templates/account/user_register_confirm_not_found.html:15
+msgid ""
+"You can use the confirmation links we send to you only once. In order\n"
+"to protect you from an attacker randomly guessing links, we only present an\n"
+"error message once the form is submitted and you have solved the CAPTCHA."
+msgstr ""
+"Bestätigungslinks die wir ihnen schicken können nur einmal genutzt werden. "
+"Um das Erraten eines Links zu verhindern, wird diese Fehlermeldung erst "
+"jetzt angezeigt (wenn das CAPTCHA gelöst wurde)."
+
+#: templates/account/user_recent_activity.html:4 views.py:107
 msgid "Recent activity"
 msgstr "Letzte Aktivitäten"
 
@@ -698,7 +814,7 @@ msgid "No recent log entries found."
 msgstr "Keine Aktivitäten gefunden."
 
 #: templates/account/user_register.html:4
-#: templates/account/user_register.html:55
+#: templates/account/user_register.html:39
 msgid "Register"
 msgstr "Registrieren"
 
@@ -732,31 +848,6 @@ msgstr ""
 msgid "GPG options"
 msgstr "GPG-Optionen"
 
-#: templates/account/user_register.html:36
-#: templates/account/user_set_email.html:25
-#, python-format
-msgid ""
-"You can add a GPG key to have %(domain)s encrypt all emails sent to you."
-msgstr ""
-"Wenn sie einen GPG-Schlüssel hinzufügen, werden alle E-Mails von %(domain)s "
-"an sie automatisch verschlüsselt."
-
-#: templates/account/user_register.html:38
-#: templates/account/user_set_email.html:35
-msgid ""
-"<strong>Warning:</strong> Please note the obvious: If you ever loose your\n"
-"GPG key and do not upload a new one here, you can no longer read any emails\n"
-"(e.g. when you have forgotton your password) we send to you."
-msgstr ""
-"<strong>Warnung:</strong> Wenn sie je ihren GPG-Schlüssel verlieren und "
-"keinen neuen hier hochladen, können sie E-Mails, die wir ihnen schicken, "
-"nicht mehr lesen."
-
-#: templates/account/user_register.html:47
-#: templates/account/user_set_email.html:44
-msgid "- and/or -"
-msgstr "- und/oder -"
-
 #: templates/account/user_register_confirm.html:4
 msgid "Confirm registration"
 msgstr "Registrierung bestätigen"
@@ -782,10 +873,6 @@ msgstr ""
 "abgeschlossen haben, gehen sie bitte einfach auf <a class=\"alert-link\" "
 "href=\"%(account_page_url)s\">ihre Übersichtsseite</a>."
 
-#: templates/account/user_register_confirm_not_found.html:10
-msgid "Confirmation key not found"
-msgstr "Bestätigung nicht gefunden"
-
 #: templates/account/user_register_confirm_not_found.html:11
 #, python-format
 msgid ""
@@ -797,38 +884,15 @@ msgstr ""
 "den Link bereits genutzt haben und <a class=\"alert-link\" href="
 "\"%(account_page_url)s\">ihr Konto bereits nutzen können</a>."
 
-#: templates/account/user_register_confirm_not_found.html:15
-msgid ""
-"You can use the confirmation links we send to you only once. In order\n"
-"to protect you from an attacker randomly guessing links, we only present an\n"
-"error message once the form is submitted and you have solved the CAPTCHA."
-msgstr ""
-"Bestätigungslinks die wir ihnen schicken können nur einmal genutzt werden. "
-"Um das Erraten eines Links zu verhindern, wird diese Fehlermeldung erst "
-"jetzt angezeigt (wenn das CAPTCHA gelöst wurde)."
-
 #: templates/account/user_set_email.html:4
 msgid "Set new email address"
 msgstr "Neue E-Mail-Adresse setzen"
 
-#: templates/account/user_set_email.html:31
-msgid ""
-"<strong>Warning:</strong> Previously configured GPG keys will not be used "
-"for sending \n"
-"this email. Add a key here if you want to continue using GPG. Any existing "
-"GPG keys will be removed\n"
-"once you confirm this change."
-msgstr ""
-"<strong>Warnung:</strong> früher konfigurierte GPG-Schlüssel werden nicht "
-"verwendet um diese E-Mail zu verschicken. Fügen Sie hier einen GPG-Schlüssel "
-"hinzu um weiterhin GPG zu verwenden. Alle vorhandenen GPG-Schlüssel werden "
-"entfernt when sie diese Änderung bestätigen."
-
-#: templates/account/xep0363.html:14 views.py:93
+#: templates/account/xep0363.html:4 views.py:105
 msgid "HTTP uploads"
 msgstr "HTTP Uploads"
 
-#: templates/account/xep0363.html:17
+#: templates/account/xep0363.html:7
 msgid ""
 "This page lists files you have shared with other users using \n"
 "<a href=\"http://xmpp.org/extensions/xep-0363.html\">XEP-0363: HTTP File "
@@ -838,7 +902,7 @@ msgstr ""
 "extensions/xep-0363.html\">XEP-0363: HTTP File Upoad</a> mit anderen "
 "BenutzerInnen geteilt haben."
 
-#: templates/account/xep0363.html:20
+#: templates/account/xep0363.html:10
 msgid ""
 "There are many ways your client might choose to share files with other\n"
 "users or in multi user chatrooms. Clients that use XEP-0363 upload files to\n"
@@ -850,7 +914,7 @@ msgstr ""
 "hier verwaltet werden. Andere Verfahren bauen direkte Verbindungen zu "
 "anderen Nutzern auf und werden hier dementsprechend auch nicht aufgeführt."
 
-#: templates/account/xep0363.html:25
+#: templates/account/xep0363.html:15
 msgid ""
 "<strong>Note:</strong> Some clients (most notably conversations)\n"
 "encrypt files before they are uploaded, so viewing them via the links below\n"
@@ -860,27 +924,31 @@ msgstr ""
 "verschlüsseln Dateien, bevor sie auf den Server hoch geladen werden. Sie "
 "können daher nicht einfach im Browser angesehen werden."
 
-#: templates/account/xep0363.html:33
+#: templates/account/xep0363.html:24
 msgid "File"
 msgstr "Datei"
 
-#: templates/account/xep0363.html:47
+#: templates/account/xep0363.html:34 templates/account/xep0363.html:38
+msgid "Delete this file"
+msgstr "Datei löschen"
+
+#: templates/account/xep0363.html:45
 msgid "There are currently no file uploads."
 msgstr "Sie haben noch keine Dateien hochgeladen."
 
-#: views.py:89
+#: views.py:101
 msgid "Overview"
 msgstr "Übersicht"
 
-#: views.py:92
+#: views.py:104
 msgid "Set E-Mail"
 msgstr "E-Mail setzen"
 
-#: views.py:173
+#: views.py:184
 msgid "Account created."
 msgstr "Konto erstellt."
 
-#: views.py:177
+#: views.py:189
 #, python-format
 msgid ""
 "Successfully created the account %(username)s. A confirmation email was\n"
@@ -891,35 +959,35 @@ msgstr ""
 "Adresse (%(email)s) versandt. Bevor sie ihr Konto nutzen können, müssen sie "
 "den Link in der E-Mail bestätigen."
 
-#: views.py:258
+#: views.py:270
 #, python-format
 msgid "Email address %(email)s confirmed."
 msgstr "E-Mail-Adresse %(email)s bestätigt."
 
-#: views.py:262
+#: views.py:274
 msgid ""
 "Successfully confirmed your email address. You can now use your account."
 msgstr ""
 "Ihre E-Mail-Adresse wurde erfolgreich bestätigt. Sie können nun ihr Konto "
 "nutzen."
 
-#: views.py:331
+#: views.py:344
 msgid "User not found."
 msgstr "Benutzer nicht gefunden."
 
-#: views.py:339
+#: views.py:352
 msgid "Requested password reset."
 msgstr "Neues Passwort angefordert."
 
-#: views.py:364 views.py:417
+#: views.py:381 views.py:435
 msgid "Set new password."
 msgstr "Neues Passwort gesetzt."
 
-#: views.py:365 views.py:419
+#: views.py:382 views.py:438
 msgid "Successfully changed your password."
 msgstr "Passwort erfolgreich geändert."
 
-#: views.py:451
+#: views.py:470
 #, python-format
 msgid ""
 "We sent you an email to your new email address (%(email)s). Click on the "
@@ -928,30 +996,42 @@ msgstr ""
 "Wir haben ihnen eine E-Mail an ihre neue Adresse %(email)s geschickt. "
 "Klicken sie auf den Link in der E-Mail, um die Änderung zu bestätigen."
 
-#: views.py:453
+#: views.py:472
 #, python-format
 msgid "Requested change of email address to %(email)s."
 msgstr "Änderung der E-Mail-Adresse auf %(email)s beantragt."
 
-#: views.py:486 views.py:488
+#: views.py:506 views.py:508
 #, python-format
 msgid "Confirmed email address change to %(email)s."
 msgstr "E-Mail-Adressänderung auf %(email)s bestätigt."
 
-#: views.py:536 views.py:569
+#: views.py:546
+msgid "Processing new GPG key, it will be added in a moment."
+msgstr "Neuer GPG-Schlüssel wird verarbeitet."
+
+#: views.py:576 views.py:610
 msgid "The password is incorrect."
 msgstr "Das Passwort stimmt nicht."
 
-#: views.py:548
+#: views.py:588
 #, python-format
 msgid "We sent you an email to %(email)s to confirm your request."
 msgstr ""
 "Wir haben ihnen eine E-Mail an %(email)s geschickt, um das Löschen ihres "
 "Kontos zu bestätigen."
 
-#: views.py:550
+#: views.py:590
 msgid "Requested deletion of account."
 msgstr "Löschung ihres Kontos beantragt."
+
+#: views.py:654
+msgid "Your email address is already confirmed."
+msgstr "Ihre E-Mail-Adresse ist bereits bestätigt."
+
+#: views.py:696
+msgid "Refreshing GPG key..."
+msgstr "GPG-Schlüssel wird aktualisiert..."
 
 #: widgets.py:78
 msgid ""
@@ -960,10 +1040,3 @@ msgid ""
 msgstr ""
 "Der Fingerabdruck im hex-format: Ziffern, Buchstaben A-F (Groß-/"
 "Kleinschreibung ist egal)."
-
-#~ msgid ""
-#~ "Could not reach keyserver. Will try again in %(time)s (%(retry)s of "
-#~ "%(max_retries)s tries)"
-#~ msgstr ""
-#~ "Der Keyserver ist derzeit nicht erreichbar. Wir versuchen es in %(time)s "
-#~ "erneut (%(retry)s von %(max_retries)s Versuchen)."
