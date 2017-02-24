@@ -1,9 +1,3 @@
-.blog-post h1 small, 
-.blog-post h3 small {
-    font-size: 50%;
-    white-space: nowrap;
-}
-
 html {
   position: relative;
   min-height: 100%;
@@ -11,6 +5,7 @@ html {
 body {
   /* Margin bottom by footer height */
   margin-bottom: 60px;
+  padding-top: 70px;
 }
 
 /* basic classes css properties */
@@ -22,10 +17,10 @@ body {
     padding: 1px 5px;  /* for mobile users */
 }
 
-nav.paginator {
-    text-align: center;
-}
-.footer {
+/**
+ * Footer
+ */
+footer.footer {
   position: absolute;
   bottom: 0;
   width: 100%;
@@ -35,6 +30,23 @@ nav.paginator {
   padding-top: 5px;
 }
 
+footer.footer p {
+    /* Otherwise second line overflows the footer. */
+    margin-bottom: 5px;
+}
+
+/**
+ * blog styles (todo: move)
+ */
+
+.blog-post h1 small, 
+.blog-post h3 small {
+    font-size: 50%;
+    white-space: nowrap;
+}
+nav.paginator { /** todo: add a blog-specific css class for this */
+    text-align: center;
+}
 
 /**
  * The CAPTCHA input is styled here because the CaptchaField does not allow easy
@@ -46,6 +58,26 @@ form .form-group.fg_captcha input[type="text"] {
 
 .alert.with-header h5 {
     margin-top: 0;  /* The alert box itself already has a sufficient margin */
+}
+
+/**
+ * Forms
+ */
+form .form-group.has-error ul.errorlist {
+    color: #a94442; /* same color as has-error */
+}
+form .form-group.has-success ul.errorlist {
+    /** 
+     * ul.errorlist should only be present if the form was submitted and the
+     * field had some errors, in which case the parent div.form-group should also
+     * have a "has-error" class. Some field/widget-related Javascript might change
+     * the class to has-success, in which case we want to hide the error list.
+     *
+     * Note that this might be a little confusing if the javascript does not validate
+     * the same things as server-side validation (which triggered the presence
+     * of the errorlist) does.
+     */
+    display: none;
 }
 
 /**
