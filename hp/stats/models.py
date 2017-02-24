@@ -17,7 +17,7 @@
 from django.db import models
 
 
-def stat(metric, value):
+def stat(metric, value=1):
     """Just a shortcut."""
     return Event.objects.create(metric=metric, value=value)
 
