@@ -38,7 +38,7 @@ keyservers in the table below.{% endblocktrans %}</p>
                           data-action="notification"
                           title="{% trans 'Refresh key from keyserver' %}" aria-hidden="true"></span>
                     <span class="sr-only">{% trans "Delete key" %}</span>
-                    <span class="glyphicon glyphicon-remove glyph-pointer hover-danger" 
+                    <span class="glyphicon glyphicon-trash glyph-pointer hover-danger" 
                           data-url="{% url 'account:manage_gpg' pk=key.pk %}"
                           data-action="remove-row" data-type="DELETE"
                           title="{% trans 'Delete key' %}" aria-hidden="true"></span>
