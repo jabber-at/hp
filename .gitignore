@@ -17,6 +17,7 @@
 /hp/static/
 /include/
 /lib/
+/node_modules/
 /pip-selfcheck.json
 /share/
 /src/
