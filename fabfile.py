@@ -23,6 +23,9 @@ from fabric.tasks import Task
 from fabric_webbuilders import BuildBootstrapTask
 from fabric_webbuilders import MinifyCSSTask
 
+
+timestamp = datetime.utcnow().strftime('%Y%m%d%H%M%S')
+
 # Currently not working because of general incompetence of the NodeJS community.
 #build_jquery = BuildJqueryTask(
 #    excludes='-deprecated,-dimensions',
@@ -34,7 +37,7 @@ build_bootstrap = BuildBootstrapTask(
     dest_dir='hp/core/static/lib/bootstrap/',
     version='~3'
 )
-minify_css = MinifyCSSTask(dest='hp/core/static/hp.css', files=[
+minify_css = MinifyCSSTask(dest='hp/core/static/hp-%s.css' % timestamp, files=[
     'hp/core/static/lib/bootstrap/css/bootstrap.min.css',
     'hp/core/static/lib/bootstrap/css/bootstrap-theme.min.css',
     'hp/core/static/lib/prism/prism.css',
