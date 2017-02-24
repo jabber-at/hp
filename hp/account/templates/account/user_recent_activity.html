@@ -25,7 +25,7 @@ login attempts on the Jabber/XMPP server itself will not show up here.{% endbloc
 {% for entry in object.logs %}
     <tr>
         <td>{% if entry.address %}{{ entry.address }}{% else %}-{% endif %}</td>
-        <td>{{ entry.created|date:"SHORT_DATETIME_FORMAT" }}</td>
+        <td class="nowrap">{{ entry.created|date:"SHORT_DATETIME_FORMAT" }}</td>
         <td>{{ entry.localized }}</tr>
     </tr>
 {% endfor %}
