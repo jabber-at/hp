@@ -19,13 +19,15 @@ keyservers in the table below.{% endblocktrans %}</p>
 
 {% with keys=object.gpg_keys.all %}
     {% if keys %}
-        <div class="table-responsive"><table class="table">
-            <tr>
-                <th>{% trans "Created" %}</th>
-                <th>{% trans "Expires" %}</th>
-                <th>{% trans "Fingerprint" %}</th>
-                <th></th>
-            </tr>
+        <div class="table-responsive"><table class="table table-hover">
+            <thead>
+                <tr>
+                    <th>{% trans "Created" %}</th>
+                    <th>{% trans "Expires" %}</th>
+                    <th>{% trans "Fingerprint" %}</th>
+                    <th></th>
+                </tr>
+            </thead>
         {% for key in keys %}
             <tr>
                 <td class="nowrap">{{ key.created|date:"SHORT_DATETIME_FORMAT" }}</td>

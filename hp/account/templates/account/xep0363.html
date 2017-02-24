@@ -18,12 +18,14 @@ is not possible in the browser.{% endblocktrans %}</div>
 
 {% if uploads %}
 <div class="table-responsive">
-<table class="table">
+<table class="table table-hover">
+    <thead>
     <tr>
         <th>{% trans "Created" %}</th>
         <th>{% trans "File" %}</th>
         <th></th>
     </tr>
+    </thead>
 {% for upload in uploads %}
     <tr>
         <td>{{ upload.created|date:"SHORT_DATETIME_FORMAT" }}</td>

@@ -9,13 +9,15 @@ looks suspicious to you, you can stop the session from here with a click on
 the trash icon.{% endblocktrans %}
 
 {% if sessions %}
-<div class="table-responsive"><table class="table">
-    <tr>
-        <th>{% trans "IP" %}</th>
-        <th>{% trans "Resource" %}</th>
-        <th>{% trans "Started" %}</th>
-        <th></th>
-    </tr>
+<div class="table-responsive"><table class="table table-hover">
+    <thead>
+        <tr>
+            <th>{% trans "IP" %}</th>
+            <th>{% trans "Resource" %}</th>
+            <th>{% trans "Started" %}</th>
+            <th></th>
+        </tr>
+    </thead>
 {% for session in sessions %}
     <tr>
         <td>{{ session.ip }}</td>
