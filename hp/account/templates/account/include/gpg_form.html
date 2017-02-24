@@ -5,13 +5,13 @@
             {% blocktrans with domain=site.NAME %}You can add a GPG key to have {{ domain }} encrypt all emails sent to you.{% endblocktrans %}</p>
             <div class="alert alert-warning" role="alert">
             {% if uses_gpg %}
-{% blocktrans %}<strong>Warning:</strong> Previously configured GPG keys will not be used for sending
-this email. Add a key here if you want to continue using GPG. Any existing GPG keys will be removed
-once you confirm this change.{% endblocktrans %}
+{% blocktrans %}<strong>Warning:</strong> Previously configured GPG keys will not be used
+for sending this email. Add a key here if you want to continue using GPG.
+Any existing GPG keys will be removed once you confirm this change.{% endblocktrans %}
             {% else %}
-{% blocktrans %}<strong>Warning:</strong> If you ever loose your
-GPG key and do not upload a new one here, you can no longer read any emails
-(e.g. when you have forgotton your password) we send to you.{% endblocktrans %}
+{% blocktrans %}<strong>Warning:</strong> If you ever loose your GPG key and do not upload
+a new one here, you can no longer read any emails (e.g. when you have
+forgotten your password) we send to you.{% endblocktrans %}
             {% endif %}
             </div>
 
