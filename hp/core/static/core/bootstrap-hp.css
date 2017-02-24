@@ -1,0 +1,26 @@
+/**
+ * A set of styles that build on the bootstrap theme.
+ *
+ * Notes for the future:
+ *
+ * * To import a file in this directory and have autoless not generate a separate file, prefix the
+ *   filename with a "_" (e.g. _foobar.less).
+ * * If you want to import CSS files and have less not silently ignore them, import them like this:
+ *   "@import (less) "foo.css"
+ *
+ */
+.hover-primary:hover {
+  color: #337ab7;
+}
+.hover-success:hover {
+  color: #5cb85c;
+}
+.hover-info:hover {
+  color: #5bc0de;
+}
+.hover-warning:hover {
+  color: #f0ad4e;
+}
+.hover-danger:hover {
+  color: #d9534f;
+}
