@@ -66,16 +66,20 @@ set_email_confirmed.label New email addresses - confirmed
 delete_account.label Account deletions
 delete_account_confirmed.label Account deletions - confirmed
 failed_logins.label Failed logins
+failed_logins.info Does not include XMPP logins
 multigraph homepage_unused_accounts
 graph_args --base 1000 -l 0 -u 100
 graph_category homepage
 graph_scale no
 graph_title Unused accounts
 graph_vlabel Percent
-graph_info Percentage of new/confirmed accounts that were used in the respective timespan
+graph_info Percentage of new/confirmed accounts that were not used in the respective timespan.
 one_day.label One day
+one_day.info Accounts not used one day after confirmation.
 three_days.label Three days
-seven_days.label Seven days''')
+three_days.info Accounts not used three days after confirmation.
+seven_days.label Seven days
+seven_days.info Accounts not used seven days after confirmation.''')
         else:
             now = timezone.now()
 
