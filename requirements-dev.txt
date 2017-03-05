@@ -1,9 +1,9 @@
 Fabric3==1.13.1.post1
-Sphinx==1.5.2
+Sphinx==1.5.3
 fabric-webbuilders==0.3
 flake8==3.3.0
-ipython>=5.2.2
+ipython>=5.3.0
 numpydoc==0.6.0
 pyflakes==1.5.0
 sphinx-autobuild==0.6.0
-sphinx-rtd-theme==0.1.9
+sphinx-rtd-theme==0.2.2
