@@ -180,8 +180,9 @@ TINYMCE_DEFAULT_CONFIG = {
     'selector': 'textarea',
     'theme': 'modern',
     'setup': 'tinymce_setup',
+    'browser_spellcheck': True,
     'convert_urls': False,
-    'plugins': 'link image lists preview contextmenu table code codesample',
+    'plugins': 'link image lists preview table code codesample',
     'toolbar1': 'styleselect | bold italic underline strikethrough '
                 '| bullist numlist | outdent indent | table | link image codesample '
                 '| preview code removeformat',
