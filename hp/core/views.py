@@ -61,7 +61,7 @@ class TranslateSlugViewMixin(object):
     Background: By default, get_object() would filter for the slug field, the translated
     database field uses the current active language. So this queryset::
 
-        >>> from core.models import Page
+        >>> from blog.models import Page
         >>> Page.objects.filter(slug='foo')
 
     ... returns a different result depending on the browser language (on the database level,
