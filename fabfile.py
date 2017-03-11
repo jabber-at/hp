@@ -129,6 +129,12 @@ class DeployTask(DeploymentTaskMixin, Task):
         self.path = config.get('path')
         self.venv = config.get('home', self.path).rstrip('/')
 
+        oldcwd = os.getcwd()
+        os.chdir('hp')
+        local('python manage.py check')
+        local('python manage.py test')
+        os.chdir(oldcwd)
+
         # push source code
         local('git push origin master')
         self.sudo('git pull origin master', chdir=self.path)
