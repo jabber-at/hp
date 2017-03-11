@@ -156,7 +156,9 @@ def absolutify_html(html, base_url):
     Examle::
 
         >>> absolutify_html('<a href="/foobar">test</a>', 'https://example.com')
-        '<a href="https://example.com/foobar">test</a>
+        '<a href="https://example.com/foobar">test</a>'
+        >>> absolutify_html('<a href="https://example.net/foobar">test</a>', 'https://example.com')
+        '<a href="https://example.net/foobar">test</a>'
     """
 
     attributes = [
@@ -185,7 +187,7 @@ def absolutify_html(html, base_url):
     # the <HEAD>: this breaks feed readers).
     body = dom.getElementsByTagName('body')[0]
     tree_walker = html5lib.treewalkers.getTreeWalker('dom')
-    html_serializer = html5lib.serializer.htmlserializer.HTMLSerializer()
+    html_serializer = html5lib.serializer.HTMLSerializer()
     return ''.join(html_serializer.serialize(tree_walker(body)))
 
 
