@@ -131,17 +131,20 @@ def check_dnsbl(ip):
     return blocks
 
 
-def canonical_link(path):
+def canonical_link(path, host=None):
     """Get the canonical link of a relative URL path.
 
     Uses the ``CANONICAL_BASE_URL`` setting in the default ``XMPP_HOST`` as base URL.
 
     Example::
 
-        >>> canonical_link('/foo/bar')
+        >>> canonical_link('/foo/bar', {'CANONICAL_BASE_URL': 'https://example.com'})
         'https://example.com/foo/bar'
     """
-    base_url = settings.XMPP_HOSTS[settings.DEFAULT_XMPP_HOST]['CANONICAL_BASE_URL']
+    if host is None:
+        host = settings.XMPP_HOSTS[settings.DEFAULT_XMPP_HOST]
+
+    base_url = host['CANONICAL_BASE_URL']
     return urljoin(base_url, path)
 
 
