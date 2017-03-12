@@ -120,6 +120,9 @@ class User(XmppBackendUser, PermissionsMixin):
         self.username = self.username.lower()
         return super(User, self).save(*args, **kwargs)
 
+    def get_full_name(self):
+        return self.username
+
     @property
     def is_staff(self):
         return self.is_superuser
