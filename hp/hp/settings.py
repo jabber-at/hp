@@ -65,6 +65,7 @@ _DEFAULT_INSTALLED_APPS = [
     'captcha',
     'django_object_actions',  # object actions
     'mptt',  # Tree structure for MenuItem
+    'reversion',  # object history for blogposts/pages
     'tinymce',  # Rich text editor
     'xmpp_http_upload',  # XEP-0363
 ]
