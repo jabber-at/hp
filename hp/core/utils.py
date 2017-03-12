@@ -201,6 +201,8 @@ def format_link(url, text, **attrs):
     >>> format_link('https://example.com', 'example', title='Awesome title')
     '<a href="https://example.com" title="Awesome title">example</a>'
     """
+
+    attrs = {k: v for k, v in attrs.items() if v is not None}
     return format_html('<a href="{}"{}>{}</a>', url, flatatt(attrs), text)
 
 

@@ -16,7 +16,8 @@
 import logging
 
 from django import template
-from django.utils.html import format_html
+
+from core.utils import format_link
 
 from ..models import BlogPost
 from ..models import Page
@@ -26,7 +27,7 @@ register = template.Library()
 
 
 @register.simple_tag(takes_context=True)
-def page(context, pk, title=None, anchor=None):
+def page(context, pk, text=None, title=None, anchor=None):
     """Get a link to a page based on its primary key.
 
     This template tag allows you to generate a HTML link based on the database primary key of a
@@ -58,16 +59,22 @@ def page(context, pk, title=None, anchor=None):
             log.error('%s: Page %s does not exist.', context['request'].path, pk)
             return title or ''
 
-    title = title or page.title.current
+    if text is None and title is not None:
+        log.warn('%s: Page uses title instead of text - title is now the title attribute!',
+                 context['request'].path)
+        text = title
+        title = None
+
+    text = text or title
     url = page.get_absolute_url()
     if anchor is not None:
         url = '%s#%s' % (url, anchor)
 
-    return format_html('<a href="{}">{}</a>', url, title)
+    return format_link(url, text, title=title)
 
 
 @register.simple_tag(takes_context=True)
-def post(context, pk, title=None, anchor=None):
+def post(context, pk, text=None, title=None, anchor=None):
     """Get a link to blog post based on its primary key.
 
     This templatetag works the same as :py:func:`~core.templatetags.blog.page`, except that it
@@ -87,4 +94,4 @@ def post(context, pk, title=None, anchor=None):
     if anchor is not None:
         url = '%s#%s' % (url, anchor)
 
-    return format_html('<a href="{}">{}</a>', url, title)
+    return format_link(url, title)
