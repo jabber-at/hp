@@ -52,8 +52,11 @@ def page(context, pk, title=None, anchor=None):
     try:
         page = Page.objects.get(pk=pk)
     except Page.DoesNotExist:
-        log.error('%s: Page %s does not exist.', context['request'].path, pk)
-        return title or ''
+        page = Page.objects.filter(slug=pk).first()
+
+        if page is None:
+            log.error('%s: Page %s does not exist.', context['request'].path, pk)
+            return title or ''
 
     title = title or page.title.current
     url = page.get_absolute_url()
@@ -73,8 +76,11 @@ def post(context, pk, title=None, anchor=None):
     try:
         post = BlogPost.objects.get(pk=pk)
     except BlogPost.DoesNotExist:
-        log.error('%s: BlogPost %s does not exist.', context['request'].path, pk)
-        return title or ''
+        post = BlogPost.objects.filter(slug=pk).first()
+
+        if post is None:
+            log.error('%s: BlogPost %s does not exist.', context['request'].path, pk)
+            return title or ''
 
     title = title or post.title.current
     url = post.get_absolute_url()
