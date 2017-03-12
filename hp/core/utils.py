@@ -25,9 +25,11 @@ import html5lib
 
 from django.conf import settings
 from django.core.cache import cache
-from django.utils.translation import ungettext
-from django.utils.translation import ugettext as _
+from django.forms.utils import flatatt
+from django.utils.html import format_html
 from django.utils.text import normalize_newlines
+from django.utils.translation import ugettext as _
+from django.utils.translation import ungettext
 
 from .exceptions import TemporaryError
 
@@ -189,6 +191,17 @@ def absolutify_html(html, base_url):
     tree_walker = html5lib.treewalkers.getTreeWalker('dom')
     html_serializer = html5lib.serializer.HTMLSerializer()
     return ''.join(html_serializer.serialize(tree_walker(body)))
+
+
+def format_link(url, text, **attrs):
+    """Format a link. The returned value is marked as safe HTML.
+
+    >>> format_link('https://example.com', 'example')
+    '<a href="https://example.com">example</a>'
+    >>> format_link('https://example.com', 'example', title='Awesome title')
+    '<a href="https://example.com" title="Awesome title">example</a>'
+    """
+    return format_html('<a href="{}"{}>{}</a>', url, flatatt(attrs), text)
 
 
 def mailformat(text, width=78):
