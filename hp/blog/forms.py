@@ -14,6 +14,9 @@
 # If not, see <http://www.gnu.org/licenses/.
 
 from django import forms
+from django.template import Context
+from django.template import Template
+from django.test import RequestFactory
 from django.utils.translation import gettext_lazy as _
 
 _meta_help = _('For search engines. Max. 160 characters, '
@@ -22,6 +25,29 @@ _twitter_help = _('At most 200 characters, <span class="test-length">200</span> 
 
 
 class BasePageAdminForm(forms.ModelForm):
+    def test_render_template(self, template):
+        request = RequestFactory().get('/')
+        context = Context({'request': request})
+        Template('{%% load blog core bootstrap %%}%s' % template).render(context)
+
+    def clean_text_en(self):
+        data = self.cleaned_data['text_en']
+        try:
+            self.test_render_template(data)
+        except Exception as e:
+            raise forms.ValidationError('%s: %s' % (e.__class__.__name__, str(e)))
+
+        return data
+
+    def clean_text_de(self):
+        data = self.cleaned_data['text_de']
+        try:
+            self.test_render_template(data)
+        except Exception as e:
+            raise forms.ValidationError('%s: %s' % (e.__class__.__name__, str(e)))
+
+        return data
+
     class Meta:
         # TODO: dynamically adapt to enabled langs?
         help_texts = {
