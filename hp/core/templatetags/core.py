@@ -17,10 +17,10 @@ import logging
 
 from django import template
 from django.core.urlresolvers import reverse
-from django.utils.html import format_html
 from django.utils.translation import ugettext as _
 
 from ..utils import format_timedelta as _format_timedelta
+from ..utils import format_link
 from ..utils import mailformat
 
 log = logging.getLogger(__name__)
@@ -63,10 +63,7 @@ def path(urlname, text='', title=None, anchor=None, **kwargs):
         if anchor is not None:
             path = '%s#%s' % (path, anchor)
 
-        title_attr = ''
-        if title:
-            title_attr = format_html(' title={}', title)
-        return format_html('<a href="{}"{}>{}</a>', path, title_attr, text)
+        return format_link(path, text, title=title)
     except Exception as e:
         log.exception(e)
         return ''
