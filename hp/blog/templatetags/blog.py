@@ -27,16 +27,19 @@ register = template.Library()
 
 
 @register.simple_tag(takes_context=True)
-def page(context, pk, text=None, title=None, anchor=None):
-    """Get a link to a page based on its primary key.
+def page(context, pk, text=None, anchor=None, **attrs):
+    """Get a link to a page based on its primary key or slug.
 
-    This template tag allows you to generate a HTML link based on the database primary key of a
-    page object. The link (which uses the editable slug) will adapt if the slug is changed.
+    This template tag allows you to generate a HTML link based on the database primary key or slug
+    of a page object. The link (which uses the editable slug) will adapt if the slug is changed. You
+    can also pass anchor tag, any keyword arguments will be HTML attributes.
 
     Example::
 
         {% page 23 %} -> <a href="/p/slug-of-page-23/">title-of-page-23</a>.
-        {% page 23 title="foobar" %} -> <a href="/p/slug-of-page-23/">foobar</a>.
+        {% page 23 text="foobar" %} -> <a href="/p/slug-of-page-23/">foobar</a>.
+        {% page 23 text="foobar" anchor='foo' class='whatever'%}
+           -> <a href="/p/slug-of-page-23/#foo" class="whatever">foobar</a>.
 
     Parameters
     ----------
@@ -44,10 +47,12 @@ def page(context, pk, text=None, title=None, anchor=None):
     pk : int
         The database primary key of the page to link to. The easiest way to get this is from the
         URL of the admin interface.
-    title : str, optional
-        The link to use. If not given, the page title in the current language will be used.
+    text : str, optional
+        The link text to use. If not given, the page title in the current language will be used.
     anchor : str, optional
         Optionally adds an anchor tag to the link.
+    **attrs
+        Any other keyword arguments will be used as HTML attributes in the link.
     """
 
     try:
@@ -57,24 +62,25 @@ def page(context, pk, text=None, title=None, anchor=None):
 
         if page is None:
             log.error('%s: Page %s does not exist.', context['request'].path, pk)
-            return title or ''
+            return text or ''
 
-    if text is None and title is not None:
-        log.warn('%s: Page uses title instead of text - title is now the title attribute!',
-                 context['request'].path)
-        text = title
-        title = None
+    if text is None and attrs.get('title') is not None:
+        log.warn(
+            '%s: {%% page %%} tag uses title parameter instead of text - title is now the title attribute!',
+            context['request'].path)
+        text = attrs['title']
+        del attrs['title']
 
-    text = text or title
+    text = text or page.title.current
     url = page.get_absolute_url()
     if anchor is not None:
         url = '%s#%s' % (url, anchor)
 
-    return format_link(url, text, title=title)
+    return format_link(url, text, **attrs)
 
 
 @register.simple_tag(takes_context=True)
-def post(context, pk, text=None, title=None, anchor=None):
+def post(context, pk, text=None, anchor=None, **attrs):
     """Get a link to blog post based on its primary key.
 
     This templatetag works the same as :py:func:`~core.templatetags.blog.page`, except that it
@@ -87,11 +93,18 @@ def post(context, pk, text=None, title=None, anchor=None):
 
         if post is None:
             log.error('%s: BlogPost %s does not exist.', context['request'].path, pk)
-            return title or ''
+            return text or ''
 
-    title = title or post.title.current
+    if text is None and attrs.get('title') is not None:
+        log.warn(
+            '%s: {%% post %%} tag uses title parameter instead of text - title is now the title attribute!',
+            context['request'].path)
+        text = attrs['title']
+        del attrs['title']
+
+    text = text or post.title.current
     url = post.get_absolute_url()
     if anchor is not None:
         url = '%s#%s' % (url, anchor)
 
-    return format_link(url, title)
+    return format_link(url, text, **attrs)
