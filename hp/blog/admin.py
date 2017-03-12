@@ -19,8 +19,9 @@ from django.contrib.auth import get_user_model
 from django.db import models
 from django.utils.translation import gettext_lazy as _
 
-from composite_field.l10n import LocalizedField
 from composite_field.base import CompositeField
+from composite_field.l10n import LocalizedField
+from reversion.admin import VersionAdmin
 from tinymce.widgets import TinyMCE
 
 from core.admin import BaseModelAdmin
@@ -33,7 +34,7 @@ from .models import Image
 User = get_user_model()
 
 
-class BasePageAdmin(BaseModelAdmin):
+class BasePageAdmin(VersionAdmin, BaseModelAdmin):
     actions = ['make_publish', 'make_unpublish']
     form = BasePageAdminForm
     formfield_overrides = {
