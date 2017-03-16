@@ -28,6 +28,26 @@ $.ajaxSetup({
     }
 });
 
+/**
+ * Bare function to detect the operating system platform.
+ *
+ * Will return either 'linux', 'android', 'win', 'osx', 'ios' or an empty string, in which
+ * case detection failed.
+ */
+function get_platform() {
+    if (/^(Linux|Ubuntu)/i.test(navigator.platform)) {
+        return 'linux';
+    } else if (/^Android/i.test(navigator.platform)) {
+        return 'android';
+    } else if (/^Windows/i.test(navigator.platform)) {
+        return 'win';
+    } else if (/^Mac/i.test(navigator.platform)) {
+        return 'osx';
+    } else if (/^(iPhone|iPad|iPod)/i.test(navigator.platform)) {
+        return 'ios';
+    }
+};
+
 $(document).ready(function() {
     /* emulate the behaviour of a twitter follow button */
     $('div.twitter-follow-btn a').click(function(e) {
