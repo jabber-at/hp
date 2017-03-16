@@ -17,10 +17,13 @@ import logging
 
 from django import template
 from django.core.urlresolvers import reverse
+from django.utils.html import format_html
 from django.utils.translation import ugettext as _
 
-from ..utils import format_timedelta as _format_timedelta
+from ..forms import SelectOSForm
 from ..utils import format_link
+from ..utils import format_timedelta as _format_timedelta
+from ..utils import get_os_family
 from ..utils import mailformat
 
 log = logging.getLogger(__name__)
@@ -99,6 +102,13 @@ def format_filesize(size):
         return _('%.2f kilobyte') % (size / 1024)
     else:
         return _('%.2f megabyte') % (size / 1024 / 1024)
+
+
+@register.simple_tag(takes_context=True)
+def os_selector(context):
+    initial = get_os_family(context['request'])
+    form = SelectOSForm(initial={'os': initial})
+    return format_html('<form id="clients-form" class="form-horizontal">{}</form>', form['os'].formgroup())
 
 
 @register.tag('mailformat')
