@@ -49,18 +49,6 @@ function get_platform() {
 };
 
 $(document).ready(function() {
-    /* emulate the behaviour of a twitter follow button */
-    $('div.twitter-follow-btn a').click(function(e) {
-        var href = $(e.currentTarget).attr('href');
-        window.open(href, 'foo', 'width=525, height=550');
-        return false;
-    });
-    $('div.twitter-link-btn a, div.facebook-link-btn a').click(function(e) {
-        var href = $(e.currentTarget).attr('href');
-        window.open(href, '_blank');
-        return false;
-    });
-
     /**
      * Generic glyph buttons in table cells, used e.g. GPG key and XEP-0363 overviews.
      */
