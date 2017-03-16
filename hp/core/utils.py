@@ -22,6 +22,7 @@ from urllib.parse import urljoin
 
 import dns.resolver
 import html5lib
+from ua_parser import user_agent_parser
 
 from django.conf import settings
 from django.core.cache import cache
@@ -204,6 +205,28 @@ def format_link(url, text, **attrs):
 
     attrs = {k: v for k, v in attrs.items() if v is not None}
     return format_html('<a href="{}"{}>{}</a>', url, flatatt(attrs), text)
+
+
+def get_os_family(request):
+    header = request.META.get('HTTP_USER_AGENT', request.META.get('HTTP_USERAGENT'))
+    if not header:
+        return
+
+    ua = user_agent_parser.Parse(header)
+    family = ua['os']['family']
+
+    if family == 'Mac OS X':
+        return 'osx'
+    elif family == 'iOS':
+        return 'ios'
+    elif family in ['Linux', 'Ubuntu', ]:
+        return 'linux'
+    elif family == 'Android':
+        return 'android'
+    elif family.startswith('Windows'):
+        return 'win'
+    else:
+        log.warn('Unknown os family: %s', family)
 
 
 def mailformat(text, width=78):
