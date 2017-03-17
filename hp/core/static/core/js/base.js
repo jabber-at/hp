@@ -48,6 +48,13 @@ function detect_platform() {
     }
 };
 
+function apply_attrs(name) {
+    $('[data-' + name + '-attrs]').each(function(i, elem) {
+        var elem = $(elem);
+        elem.attr(elem.data(name + '-attrs'));
+    });
+}
+
 function show_os_specific(platform) {
     if (typeof platform === 'undefined') {
         // first get any os=value query parameter (...?os=linux)
@@ -66,22 +73,18 @@ function show_os_specific(platform) {
 
     if (platform == 'any' || typeof platform == 'undefined') {
         $('.os-specific').show();
+        apply_attrs('os-any');
     } else {
         $('.os-specific:not(.os-' + platform + ')').hide();
         $('.os-specific.os-' + platform).show();
+        apply_attrs('os-' + platform);
 
         if (platform == 'android' || platform == 'ios') {
             $('.os-specific.os-mobile').show();
-            var os_attrs = 'os-attrs-mobile';
+            apply_attrs('os-mobile');
         } else {
-            $('.os-specific.os-mobile').hide();
-            var os_attrs = 'os-attrs';
+            apply_attrs('os-desktop');
         }
-
-        $('[data-' + os_attrs + ']').each(function(i, elem) {
-            var elem = $(elem);
-            elem.attr(elem.data(os_attrs));
-        });
     }
 };
 
