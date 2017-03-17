@@ -245,7 +245,7 @@ TINYMCE_DEFAULT_CONFIG = {
                      "| tableinsertrowbefore tableinsertrowafter tabledeleterow "
                      "| tableinsertcolbefore tableinsertcolafter tabledeletecol",
     'table_default_attributes': {
-        'class': 'table table-responsive',
+        'class': 'table',
     },
     'table_appearance_options': False,
     'table_advtab': False,
