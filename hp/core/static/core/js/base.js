@@ -34,7 +34,7 @@ $.ajaxSetup({
  * Will return either 'linux', 'android', 'win', 'osx', 'ios' or an empty string, in which
  * case detection failed.
  */
-function get_platform() {
+function detect_platform() {
     if (/^(Linux|Ubuntu)/i.test(navigator.platform)) {
         return 'linux';
     } else if (/^Android/i.test(navigator.platform)) {
@@ -48,7 +48,49 @@ function get_platform() {
     }
 };
 
+function show_os_specific(platform) {
+    if (typeof platform === 'undefined') {
+        // first get any os=value query parameter (...?os=linux)
+        var url = new URL(document.location);
+        var platform = url.searchParams.get('os');
+
+        // If nothing was requested via query string, try to detect platform
+        if (! platform) {
+            var platform = detect_platform();
+        }
+
+        if (typeof platform !== 'undefined') {
+            $('select#id_os').val(platform);
+        }
+    }
+
+    if (platform == 'any' || typeof platform == 'undefined') {
+        $('.os-specific').show();
+    } else {
+        $('.os-specific:not(.os-' + platform + ')').hide();
+        $('.os-specific.os-' + platform).show();
+
+        if (platform == 'android' || platform == 'ios') {
+            $('.os-specific.os-mobile').show();
+        } else {
+            $('.os-specific.os-mobile').hide();
+        }
+    }
+};
+
 $(document).ready(function() {
+    show_os_specific();
+
+    $('select#id_os').change(function(e) {
+        var selected = $(e.target).val();
+        show_os_specific(selected);
+
+        var url = new URL(document.location);
+        url.searchParams.set('os', selected);
+        console.log('history: ' + url.href);
+        history.pushState({}, 'foo', url.href);
+    });
+
     /**
      * Generic glyph buttons in table cells, used e.g. GPG key and XEP-0363 overviews.
      */
