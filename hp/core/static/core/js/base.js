@@ -48,6 +48,19 @@ function detect_platform() {
     }
 };
 
+/**
+ * Apply attributes stored in named data attributes.
+ *
+ * If you have this HTML:
+ *
+ * <p data-example-attrs='{"class": "example"}'><p>
+ *
+ * invoking 
+ *
+ * apply_attrs('example');
+ *
+ * ... will set the class "example" on the element.
+ */
 function apply_attrs(name) {
     $('[data-' + name + '-attrs]').each(function(i, elem) {
         var elem = $(elem);
