@@ -72,9 +72,16 @@ function show_os_specific(platform) {
 
         if (platform == 'android' || platform == 'ios') {
             $('.os-specific.os-mobile').show();
+            var os_attrs = 'os-attrs-mobile';
         } else {
             $('.os-specific.os-mobile').hide();
+            var os_attrs = 'os-attrs';
         }
+
+        $('[data-' + os_attrs + ']').each(function(i, elem) {
+            var elem = $(elem);
+            elem.attr(elem.data(os_attrs));
+        });
     }
 };
 
