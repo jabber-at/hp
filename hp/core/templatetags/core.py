@@ -106,9 +106,8 @@ def format_filesize(size):
 
 @register.simple_tag(takes_context=True)
 def os_selector(context):
-    initial = get_os_family(context['request'])
-    form = SelectOSForm(initial={'os': initial})
-    return format_html('<form id="clients-form" class="form-horizontal">{}</form>', form['os'].formgroup())
+    form = SelectOSForm()
+    return format_html('<form class="form-horizontal">{}</form>', form['os'].formgroup())
 
 
 @register.tag('mailformat')
