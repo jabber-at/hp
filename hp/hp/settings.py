@@ -185,9 +185,10 @@ TINYMCE_DEFAULT_CONFIG = {
     'convert_urls': False,
     'plugins': 'link image lists preview table code codesample',
     'toolbar1': 'styleselect | bold italic underline strikethrough '
-                '| bullist numlist | outdent indent | table | link image codesample '
-                '| preview code removeformat',
-    'toolbar2': 'labels glyphs',
+                '| alignleft aligncenter alignright alignjustify '
+                '| bullist numlist | outdent indent | link image ',
+    'toolbar2': 'labels glyphs | table codesample '
+                '| code removeformat',
     'contextmenu': 'formats | link image',
     'menubar': False,
     'inline': False,
@@ -219,6 +220,14 @@ TINYMCE_DEFAULT_CONFIG = {
         'strikethrough': {'inline': 's', 'exact': True},
         #'inlinecode': {'inline': 'code', 'exact': True},
 
+        'alignleft': {'selector': 'p,h1,h2,h3,h4,h5,h6,td,th,div,ul,ol,li,table,img',
+                      'classes': 'text-left', },
+        'aligncenter': {'selector': 'p,h1,h2,h3,h4,h5,h6,td,th,div,ul,ol,li,table,img',
+                        'classes': 'text-center', },
+        'alignright': {'selector': 'p,h1,h2,h3,h4,h5,h6,td,th,div,ul,ol,li,table,img',
+                       'classes': 'test-right', },
+        'alignjustify': {'selector': 'p,h1,h2,h3,h4,h5,h6,td,th,div,ul,ol,li,table,img',
+                         'classes': 'text-justify', },
 
         'label_default': {'inline': 'span', 'classes': 'label label-default', },
         'label_primary': {'inline': 'span', 'classes': 'label label-primary', },
