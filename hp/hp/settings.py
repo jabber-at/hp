@@ -187,12 +187,12 @@ TINYMCE_DEFAULT_CONFIG = {
     'toolbar1': 'styleselect | bold italic underline strikethrough '
                 '| alignleft aligncenter alignright alignjustify '
                 '| bullist numlist | outdent indent | link image ',
-    'toolbar2': 'labels glyphs | table codesample '
+    'toolbar2': 'labels tooltips glyphs | table codesample '
                 '| code removeformat',
     'contextmenu': 'formats | link image',
     'menubar': False,
     'inline': False,
-    'extended_valid_elements': 'span[class|aria-hidden]',  # required for glpyhicons
+    'extended_valid_elements': 'span[class|aria-hidden|data-toggle|title]',  # required for glpyhicons
     'style_formats': [
         {'title': 'Headers', 'items': [
             # NOTE: <h1> is already the page title, so actual h-level is one level down from tite
@@ -244,7 +244,6 @@ TINYMCE_DEFAULT_CONFIG = {
     'content_css': [
         '/static/lib/bootstrap/css/bootstrap.min.css',
         '/static/lib/bootstrap/css/bootstrap-theme.min.css',
-        '/static/css/theme.css',
         '/static/core/css/base.css',
         '/static/core/css/tinymce-preview.css',
     ],
