@@ -87,7 +87,6 @@ $(document).ready(function() {
 
         var url = new URL(document.location);
         url.searchParams.set('os', selected);
-        console.log('history: ' + url.href);
         history.pushState({}, 'foo', url.href);
     });
 
@@ -95,12 +94,10 @@ $(document).ready(function() {
      * Generic glyph buttons in table cells, used e.g. GPG key and XEP-0363 overviews.
      */
     $('td span.glyph-button').click(function(e) {
-        console.log('clicked!');
         var glyph = $(e.currentTarget);
         var url = glyph.data('url');
         var type = glyph.data('type') || 'GET';
         var action = glyph.data('action');
-        console.log(url, type, action);
         $.ajax({
             url: url,
             type: type,
