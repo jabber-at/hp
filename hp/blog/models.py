@@ -143,6 +143,7 @@ class BasePage(BaseModel):
         return ' '.join(self.get_sentences(summary)[:3]).strip()
 
     def cleanup_html(self, html):
+        """Cleanup HTML for HTML summaries (e.g. RSS feeds)."""
         tags = ['a', 'p', 'strong', 'ul', 'ol', 'li']
         attrs = {
             'a': ['href', ],
