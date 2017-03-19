@@ -23,7 +23,6 @@ from django.utils.translation import ugettext as _
 from ..forms import SelectOSForm
 from ..utils import format_link
 from ..utils import format_timedelta as _format_timedelta
-from ..utils import get_os_family
 from ..utils import mailformat
 
 log = logging.getLogger(__name__)
