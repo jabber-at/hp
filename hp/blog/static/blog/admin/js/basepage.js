@@ -185,18 +185,25 @@ var tinymce_setup = function(editor) {
         icon: false,
         stateSelector: 'span.footnote',
         onclick: function() {
-            console.log('click');
             editor.windowManager.open({
                   title: 'Tooltip',
-                  body: {type: 'textbox', name: 'title', label: 'Text'},
+                  body: [
+                    {type: 'textbox', name: 'tooltip', label: 'Tooltip'},
+                    {type: 'textbox', name: 'text', label: 'Text',
+                     onchange: function() {
+                         console.log('on change!');
+                     }}
+                  ],
                   onsubmit: function(e) {
                       /**
                        * The title may contain HTML (e.g. links), so the text needs to be properly encoded.
                        * There seems to be no real Javascript function for this, so we create that using
                        * jQuery.
                        */
+                      console.log(editor.selection.getContent());
                       var span = $('<span class="footnote" data-toggle="tooltip"></span>');
-                      span.attr('title', e.data.title);
+                      span.attr('title', e.data.tooltip);
+                      span.text(e.data.text);
                       editor.insertContent(span[0].outerHTML);
                   }
             });

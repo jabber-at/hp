@@ -195,10 +195,10 @@ body {
     counter-reset: footnotecounter;
 }
 
-span.footnote:before {
+span.footnote:after {
   counter-increment: footnotecounter;
   content: counter(footnotecounter);
   position: relative;
   top: -0.4em;
-    font-size: smaller;
+  font-size: smaller;
 }
