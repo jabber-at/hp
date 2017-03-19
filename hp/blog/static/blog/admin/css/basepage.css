@@ -8,6 +8,23 @@ fieldset.meta-descriptions p.help span.test-length {
     font-weight: bold;
 }
 
+.field-text_de label,
+.field-text_en label,
+.field-html_summary_de label,
+.field-html_summary_en label
+{
+    float: initial;
+}
+.field-text_de .help,
+.field-text_en .help,
+.field-html_summary_de .help,
+.field-html_summary_en .help {
+    margin-left: 10px !important;
+}
+.form-row .mce-tinymce {
+    margin-left: 0 !important;
+}
+
 /**
  * CSS for glyphicons
  *
