@@ -180,8 +180,8 @@ var tinymce_setup = function(editor) {
     });
 
     editor.addButton('tooltips', {
-        text: 'Tooltips',
-        icon: false,
+        icon: 'superscript',
+        tooltip: "Insert/edit footnote",
         stateSelector: '[data-toggle="tooltip"]',
         onclick: function() {
             var text_body;
