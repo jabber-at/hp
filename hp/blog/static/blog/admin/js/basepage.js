@@ -26,6 +26,28 @@ django.jQuery(document).ready(function() {
  * TinyMCE setup function.
  */
 var tinymce_setup = function(editor) {
+    /** 
+     * Extend the passed object with another object, similar to Python's dict.update().
+     *
+     * This function is copied from TinyMCE (src/core/src/main/js/util/Tools.js).
+     */
+    var extend = function(obj, ext) {
+      var i, l, name, args = arguments, value;
+
+      for (i = 1, l = args.length; i < l; i++) {
+        ext = args[i];
+        for (name in ext) {
+          if (ext.hasOwnProperty(name)) {
+            value = ext[name];
+
+            if (value !== undefined) {
+              obj[name] = value;
+            }
+          }
+        }
+      }
+    };
+
     /** Buttons for the table menu */
     ['tablestriped', 'tablebordered', 'tablecondensed', 'tablehover'].forEach(function(cls) {
         name = cls.substr(5);
