@@ -256,6 +256,8 @@ TINYMCE_DEFAULT_CONFIG = {
         'tablebordered': {'selector': 'table', 'classes': 'table-bordered'},
         'tablehover': {'selector': 'table', 'classes': 'table-hover'},
         'tablecondensed': {'selector': 'table', 'classes': 'table-condensed'},
+        'tableresponsive': {'selector': 'table', 'wrapper': True, 'exact': True, 'remove': 'all',
+                            'block': 'div', 'classes': 'table-responsive-test'},
     },
     'content_css': [
         '/static/lib/bootstrap/css/bootstrap.min.css',
@@ -265,7 +267,7 @@ TINYMCE_DEFAULT_CONFIG = {
     ],
     # Do table styling with bootstrap classes
     'table_toolbar': "tableprops tabledelete "
-                     "| tablestriped tablebordered tablehover tablecondensed "
+                     "| tablestriped tablebordered tablehover tablecondensed tableresponsive "
                      "| tableinsertrowbefore tableinsertrowafter tabledeleterow "
                      "| tableinsertcolbefore tableinsertcolafter tabledeletecol",
     'table_default_attributes': {
