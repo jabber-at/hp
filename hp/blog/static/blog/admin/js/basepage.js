@@ -241,6 +241,41 @@ var tinymce_setup = function(editor) {
                 ],
                 data: data,  /* Sets the initial values of the body elements */
                 onsubmit: function(e) {
+                    var createTooltip = function() {
+                        /* if anchorElm is defined, we are already in a tooltip and need to update it */
+                        if (anchorElm) {
+                            editor.focus();
+
+                            if (data.text != initialText) {
+                                if ("innerText" in anchorElm) {
+                                    anchorElm.innerText = data.text;
+                                } else {
+                                    anchorElm.textContent = data.text;
+                                }
+                            }
+                            console.log(data);
+                            editor.dom.setAttribs(anchorElm, {title: data.tooltip});
+
+                            /* No idea what this does, but present in link plugin: */
+                            selection.select(anchorElm);
+                            editor.undoManager.add();
+                        } else {  /* new tooltip */
+                            /**
+                             * The title may contain HTML (e.g. links), so the text needs to be properly
+                             * encoded.  There seems to be no real Javascript function for this, so we create
+                             * that using jQuery.
+                             */
+                            var span = $('<span class="footnote" data-toggle="tooltip"></span>');
+                            span.attr('title', tooltip);
+                            span.text(data.text);
+                            editor.insertContent(span[0].outerHTML);
+                        }
+                    }
+
+                    var insertTooltip = function() {
+                        editor.undoManager.transact(createTooltip);
+                    }
+
                     data = extend(data, e.data);
 
                     var tooltip = data.tooltip;
@@ -249,16 +284,7 @@ var tinymce_setup = function(editor) {
                         return;
                     }
 
-
-                    /**
-                     * The title may contain HTML (e.g. links), so the text needs to be properly encoded.
-                     * There seems to be no real Javascript function for this, so we create that using
-                     * jQuery.
-                     */
-                    var span = $('<span class="footnote" data-toggle="tooltip"></span>');
-                    span.attr('title', tooltip);
-                    span.text(data.text);
-                    editor.insertContent(span[0].outerHTML);
+                    insertTooltip();
                 }
             });
         }
