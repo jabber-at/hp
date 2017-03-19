@@ -190,9 +190,14 @@ var tinymce_setup = function(editor) {
                   title: 'Tooltip',
                   body: {type: 'textbox', name: 'title', label: 'Text'},
                   onsubmit: function(e) {
-                      var text = e.data.title;
-                      editor.insertContent(
-                        '<span class="footnote" data-toggle="tooltip" title="' + text + '">&#x200b;</span>');
+                      /**
+                       * The title may contain HTML (e.g. links), so the text needs to be properly encoded.
+                       * There seems to be no real Javascript function for this, so we create that using
+                       * jQuery.
+                       */
+                      var span = $('<span class="footnote" data-toggle="tooltip"></span>');
+                      span.attr('title', e.data.title);
+                      editor.insertContent(span[0].outerHTML);
                   }
             });
         }
