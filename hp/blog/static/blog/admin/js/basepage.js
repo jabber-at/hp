@@ -179,4 +179,22 @@ var tinymce_setup = function(editor) {
             });
         }
     });
+
+    editor.addButton('tooltips', {
+        text: 'Tooltips',
+        icon: false,
+        stateSelector: 'span.footnote',
+        onclick: function() {
+            console.log('click');
+            editor.windowManager.open({
+                  title: 'Tooltip',
+                  body: {type: 'textbox', name: 'title', label: 'Text'},
+                  onsubmit: function(e) {
+                      var text = e.data.title;
+                      editor.insertContent(
+                        '<span class="footnote" data-toggle="tooltip" title="' + text + '">&#x200b;</span>');
+                  }
+            });
+        }
+    });
 };
