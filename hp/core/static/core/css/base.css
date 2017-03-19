@@ -195,7 +195,7 @@ body {
     counter-reset: footnotecounter;
 }
 
-span.footnote:after {
+.footnote:after {
   counter-increment: footnotecounter;
   content: counter(footnotecounter);
   position: relative;
