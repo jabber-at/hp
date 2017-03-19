@@ -195,7 +195,7 @@ body {
     counter-reset: footnotecounter;
 }
 
-.footnote:after {
+[data-toggle="tooltip"]:after {
   counter-increment: footnotecounter;
   content: counter(footnotecounter);
   position: relative;
