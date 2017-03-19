@@ -85,15 +85,15 @@ function show_os_specific(platform) {
     }
 
     if (platform == 'any' || typeof platform == 'undefined') {
-        $('.os-specific').show();
+        $('[class^="os-"], [class*=" os-*]').show();
         apply_attrs('os-any');
     } else {
-        $('.os-specific:not(.os-' + platform + ')').hide();
-        $('.os-specific.os-' + platform).show();
+        $('[class^="os-"], [class*=" os-*]').hide();
+        $('.os-' + platform).show();
         apply_attrs('os-' + platform);
 
         if (platform == 'android' || platform == 'ios') {
-            $('.os-specific.os-mobile').show();
+            $('.os-mobile').show();
             apply_attrs('os-mobile');
         } else {
             apply_attrs('os-desktop');
