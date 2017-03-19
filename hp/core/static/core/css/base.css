@@ -17,6 +17,10 @@ body {
     padding: 1px 5px;  /* for mobile users */
 }
 
+table.text-center th {
+    text-align: center;
+}
+
 /**
  * Footer
  */
