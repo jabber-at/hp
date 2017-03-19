@@ -277,7 +277,7 @@ var tinymce_setup = function(editor) {
 
                     var tooltip = data.tooltip;
                     if (!tooltip) {
-                        /* TODO: Remove tooltip */
+                        editor.dom.remove(anchorElm, true);
                         return;
                     }
 
