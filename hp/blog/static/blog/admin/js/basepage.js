@@ -231,7 +231,9 @@ var tinymce_setup = function(editor) {
                 ],
                 data: data,  /* Sets the initial values of the body elements */
                 onsubmit: function(e) {
-                    var tooltip = e.data.tooltip;
+                    data = extend(data, e.data);
+
+                    var tooltip = data.tooltip;
                     if (!tooltip) {
                         /* TODO: Remove tooltip */
                         return;
@@ -245,7 +247,7 @@ var tinymce_setup = function(editor) {
                      */
                     var span = $('<span class="footnote" data-toggle="tooltip"></span>');
                     span.attr('title', tooltip);
-                    span.text(e.data.text);
+                    span.text(data.text);
                     editor.insertContent(span[0].outerHTML);
                 }
             });
