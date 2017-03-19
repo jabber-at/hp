@@ -28,28 +28,38 @@ django.jQuery(document).ready(function() {
 var tinymce_setup = function(editor) {
     /** Buttons for the table menu */
     ['tablestriped', 'tablebordered', 'tablecondensed', 'tablehover'].forEach(function(cls) {
+        var stateSelector  = 'table.table.table-' + cls.substr(5);
         name = cls.substr(5);
         name = name.charAt(0).toUpperCase() + name.slice(1);
         editor.addButton(cls, {
             text: name,
+            stateSelector: stateSelector,
             onclick: function() {
                 editor.execCommand('mceToggleFormat', false, cls);
             },
-            onpostrender: function() {
-                /** 
-                 * Note: This is supposed to activate the button when the style is active (e.g.
-                 * like th bold button when you're in bold text), but it only works in the main
-                 * toolbar.
-                 */
-                
-                var btn = this;
-                editor.on('init', function() {
-                    editor.formatter.formatChanged(cls, function(state) {
-                        btn.active(state);
-                    });
-                });
-            }
         });
+    });
+
+    editor.addButton('tableresponsive', {
+        text: 'Responsive',
+        stateSelector: 'div.table-responsive',
+        onclick: function() {
+            selectedElm = editor.selection.getNode();
+            wrapperElm = editor.dom.getParent(selectedElm, 'div.table-responsive');
+
+            var table = editor.dom.getParent(selectedElm, 'table');
+            if (! table ) {
+                return;
+            }
+
+            if (wrapperElm) {
+                editor.dom.remove(wrapperElm, true);
+            } else {
+                var tableHtml = editor.dom.getOuterHTML(table);
+                var wrapper = editor.dom.create('div', {'class': 'table-responsive'}, tableHTML);
+                editor.dom.replace(wrapper, table);
+            }
+        }
     });
 
     var glyphs = [
@@ -250,7 +260,7 @@ var tinymce_setup = function(editor) {
                             selection.select(anchorElm);
                             editor.undoManager.add();
                         } else {  /* new tooltip */
-                            editor.insertContent(newElm = editor.dom.createHTML(
+                            editor.insertContent(editor.dom.createHTML(
                                 'span', attrs, editor.dom.encode(data.text)
                             ));
                         }
