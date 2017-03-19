@@ -46,6 +46,8 @@ var tinymce_setup = function(editor) {
           }
         }
       }
+
+      return obj;
     };
 
     /** Buttons for the table menu */
@@ -226,8 +228,16 @@ var tinymce_setup = function(editor) {
             editor.windowManager.open({
                 title: 'Tooltip',
                 body: [
-                  {type: 'textbox', name: 'tooltip', label: 'Tooltip'},
-                  {type: 'textbox', name: 'text', label: 'Text'}
+                  {type: 'textbox', name: 'tooltip', label: 'Tooltip',
+                   onchange: function() {  /* Update the data dict on any change */
+                       data.tooltip = this.value();
+                   }
+                  },
+                  {type: 'textbox', name: 'text', label: 'Text', 
+                   onchange: function() {  /* Update the data dict on any change */
+                       data.text = this.value();
+                   }
+                  }
                 ],
                 data: data,  /* Sets the initial values of the body elements */
                 onsubmit: function(e) {
