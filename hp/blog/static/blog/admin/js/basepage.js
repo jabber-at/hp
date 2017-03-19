@@ -56,7 +56,7 @@ var tinymce_setup = function(editor) {
                 editor.dom.remove(wrapperElm, true);
             } else {
                 var tableHtml = editor.dom.getOuterHTML(table);
-                var wrapper = editor.dom.create('div', {'class': 'table-responsive'}, tableHTML);
+                var wrapper = editor.dom.create('div', {'class': 'table-responsive'}, tableHtml);
                 editor.dom.replace(wrapper, table);
             }
         }
