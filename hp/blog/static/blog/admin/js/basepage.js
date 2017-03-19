@@ -182,7 +182,7 @@ var tinymce_setup = function(editor) {
     editor.addButton('tooltips', {
         text: 'Tooltips',
         icon: false,
-        stateSelector: 'span.footnote',
+        stateSelector: '[data-toggle="tooltip"]',
         onclick: function() {
             var data = {};
             var selection = editor.selection;
@@ -196,7 +196,7 @@ var tinymce_setup = function(editor) {
              * the form fields defined in the "body" property.
              */
             selectedElm = selection.getNode();
-            anchorElm = editor.dom.getParent(selectedElm, 'span.footnote');
+            anchorElm = editor.dom.getParent(selectedElm, '[data-toggle="tooltip"]');
             data.text = initialText = anchorElm ? (anchorElm.innerText || anchorElm.textContent) : selection.getContent({ format: 'text' });
             data.tooltip = anchorElm ? editor.dom.getAttrib(anchorElm, 'title') : '';
 
@@ -234,15 +234,14 @@ var tinymce_setup = function(editor) {
                                 }
                             }
                             editor.dom.setAttribs(anchorElm, attrs);
-                            editor.dom.addClass(anchorElm, 'footnote');
 
                             /* No idea what this does, but present in link plugin: */
                             selection.select(anchorElm);
                             editor.undoManager.add();
                         } else {  /* new tooltip */
-                            var newElm = editor.dom.createHTML('span', attrs, editor.dom.encode(data.text));
-                            editor.dom.addClass(newElm, 'footnote');
-                            editor.insertContent(newElm);
+                            editor.insertContent(newElm = editor.dom.createHTML(
+                                'span', attrs, editor.dom.encode(data.text)
+                            ));
                         }
                     }
 
