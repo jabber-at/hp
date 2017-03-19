@@ -87,3 +87,6 @@ fieldset.meta-descriptions p.help span.test-length {
 .mce-menu-item .glyphicon-envelope:before {
     content: "\2709";
 }
+.mce-menu-item .glyphicon-question-sign:before {
+    content: "\e085";
+}

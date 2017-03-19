@@ -62,6 +62,7 @@ var tinymce_setup = function(editor) {
         'ok',
         'pencil',
         'plus', 
+        'question-sign',
         'refresh',
         'remove',
         'repeat',
