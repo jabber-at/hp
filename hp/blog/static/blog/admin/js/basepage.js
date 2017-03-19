@@ -185,14 +185,14 @@ var tinymce_setup = function(editor) {
         icon: false,
         stateSelector: 'span.footnote',
         onclick: function() {
+
+            var selection = editor.selection.getContent();
+
             editor.windowManager.open({
                   title: 'Tooltip',
                   body: [
                     {type: 'textbox', name: 'tooltip', label: 'Tooltip'},
-                    {type: 'textbox', name: 'text', label: 'Text',
-                     onchange: function() {
-                         console.log('on change!');
-                     }}
+                    {type: 'textbox', name: 'text', label: 'Text', value: selection}
                   ],
                   onsubmit: function(e) {
                       /**
