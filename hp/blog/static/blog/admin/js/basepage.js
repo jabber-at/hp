@@ -185,22 +185,35 @@ var tinymce_setup = function(editor) {
         icon: false,
         stateSelector: 'span.footnote',
         onclick: function() {
+            var data = {};
+            var selection = editor.selection;
 
-            var selection = editor.selection.getContent();
+            /**
+             * This is more or less copied from the TinyMCE source code:
+             * src/plugins/link/src/main/js/Plugin.js, where the link plugin is defined.
+             *
+             * Essentially we define a "data" object and populate it with tooltip and text from the
+             * current selection. The object is passed to editor.windowManager.open() to populate 
+             * the form fields defined in the "body" property.
+             */
+            selectedElm = selection.getNode();
+            anchorElm = editor.dom.getParent(selectedElm, 'span.footnote');
+            data.text = initialText = anchorElm ? (anchorElm.innerText || anchorElm.textContent) : selection.getContent({ format: 'text' });
+            data.tooltip = anchorElm ? editor.dom.getAttrib(anchorElm, 'title') : '';
 
             editor.windowManager.open({
                   title: 'Tooltip',
                   body: [
                     {type: 'textbox', name: 'tooltip', label: 'Tooltip'},
-                    {type: 'textbox', name: 'text', label: 'Text', value: selection}
+                    {type: 'textbox', name: 'text', label: 'Text'}
                   ],
+                  data: data,  /* Sets the initial values of the body elements */
                   onsubmit: function(e) {
                       /**
                        * The title may contain HTML (e.g. links), so the text needs to be properly encoded.
                        * There seems to be no real Javascript function for this, so we create that using
                        * jQuery.
                        */
-                      console.log(editor.selection.getContent());
                       var span = $('<span class="footnote" data-toggle="tooltip"></span>');
                       span.attr('title', e.data.tooltip);
                       span.text(e.data.text);
