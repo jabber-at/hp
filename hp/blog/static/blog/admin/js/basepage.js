@@ -196,9 +196,14 @@ var tinymce_setup = function(editor) {
              * the form fields defined in the "body" property.
              */
             selectedElm = selection.getNode();
-            anchorElm = editor.dom.getParent(selectedElm, '[data-toggle="tooltip"]');
+            anchorElm = editor.dom.getParent(selectedElm, '[data-toggle="tooltip"],span.glyphicon');
             data.text = initialText = anchorElm ? (anchorElm.innerText || anchorElm.textContent) : selection.getContent({ format: 'text' });
             data.tooltip = anchorElm ? editor.dom.getAttrib(anchorElm, 'title') : '';
+
+            /* Determine if this is a glyph. If yes, we don't display the text element! 
+             * NOTE: We use the ternary operator (instead of &&) because null && false == null.
+             * */
+            var is_glyph = anchorElm ? anchorElm.nodeName === 'SPAN' && editor.dom.hasClass(anchorElm, 'glyphicon') : false;
 
             editor.windowManager.open({
                 title: 'Tooltip',
