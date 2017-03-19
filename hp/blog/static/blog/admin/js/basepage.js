@@ -217,9 +217,8 @@ var tinymce_setup = function(editor) {
                 data: data,  /* Sets the initial values of the body elements */
                 onsubmit: function(e) {
                     var createTooltip = function() {
-                        var attribs = {
+                        var attrs = {
                             title: data.tooltip,
-                            "class": "footnote",
                             "data-toggle": "tooltip"
                         };
 
@@ -234,14 +233,16 @@ var tinymce_setup = function(editor) {
                                     anchorElm.textContent = data.text;
                                 }
                             }
-                            editor.dom.setAttribs(anchorElm, attribs);
+                            editor.dom.setAttribs(anchorElm, attrs);
+                            editor.dom.addClass(anchorElm, 'footnote');
 
                             /* No idea what this does, but present in link plugin: */
                             selection.select(anchorElm);
                             editor.undoManager.add();
                         } else {  /* new tooltip */
-                            editor.insertContent(editor.dom.createHTML(
-                                        'span', attribs, editor.dom.encode(data.text)));
+                            var newElm = editor.dom.createHTML('span', attrs, editor.dom.encode(data.text));
+                            editor.dom.addClass(newElm, 'footnote');
+                            editor.insertContent(newElm);
                         }
                     }
 
