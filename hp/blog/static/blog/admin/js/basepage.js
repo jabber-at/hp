@@ -116,7 +116,6 @@ var tinymce_setup = function(editor) {
                     return e.startsWith('mce-menu-item-glyphicon-');
                 })[0];
                 glyph = glyph_cls.substr(24);
-                console.log(glyph_cls);
                 $('.' + glyph_cls + ' .mce-ico').replaceWith(
                     '<span class="glyphicon glyphicon-' + glyph + '"></span>');
             });
@@ -259,7 +258,6 @@ var tinymce_setup = function(editor) {
                                     anchorElm.textContent = data.text;
                                 }
                             }
-                            console.log(data);
                             editor.dom.setAttribs(anchorElm, attribs);
 
                             /* No idea what this does, but present in link plugin: */
