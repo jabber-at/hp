@@ -184,6 +184,7 @@ var tinymce_setup = function(editor) {
         icon: false,
         stateSelector: '[data-toggle="tooltip"]',
         onclick: function() {
+            var text_body;
             var data = {};
             var selection = editor.selection;
 
@@ -205,6 +206,14 @@ var tinymce_setup = function(editor) {
              * */
             var is_glyph = anchorElm ? anchorElm.nodeName === 'SPAN' && editor.dom.hasClass(anchorElm, 'glyphicon') : false;
 
+            if (! is_glyph) {
+                text_body = {type: 'textbox', name: 'text', label: 'Text', 
+                             onchange: function() {  /* Update the data dict on any change */
+                                 data.text = this.value();
+                            }
+                };
+            }
+
             editor.windowManager.open({
                 title: 'Tooltip',
                 body: [
@@ -213,11 +222,7 @@ var tinymce_setup = function(editor) {
                        data.tooltip = this.value();
                    }
                   },
-                  {type: 'textbox', name: 'text', label: 'Text', 
-                   onchange: function() {  /* Update the data dict on any change */
-                       data.text = this.value();
-                   }
-                  }
+                  text_body
                 ],
                 data: data,  /* Sets the initial values of the body elements */
                 onsubmit: function(e) {
