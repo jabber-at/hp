@@ -23,13 +23,4 @@ $(document).ready(function() {
     $('form#clients-form select#id_os').change(function(e) {
         update_client_list($(e.target));
     });
-
-    $('[data-toggle="tooltip"]').each(function() {
-        var elem = $(this);
-        elem.tooltip({
-            html:true,
-            container: elem,
-            delay: {hide:400}
-        });
-    });
 });

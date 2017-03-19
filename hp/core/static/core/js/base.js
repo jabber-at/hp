@@ -114,6 +114,18 @@ $(document).ready(function() {
     });
 
     /**
+     * Activate any footnotes.
+     */
+    $('[data-toggle="tooltip"]').each(function() {
+        var elem = $(this);
+        elem.tooltip({
+            html:true,
+            container: elem,
+            delay: {hide:400}
+        });
+    });
+
+    /**
      * Generic glyph buttons in table cells, used e.g. GPG key and XEP-0363 overviews.
      */
     $('td span.glyph-button').click(function(e) {

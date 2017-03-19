@@ -15,16 +15,3 @@ table#clients-table th.two-rows {
 .alert.client-contact {
     margin-top: 15px;
 }
-
-body {
-    counter-reset: footnotecounter;
-}
-
-span.footnote:before {
-  counter-increment: footnotecounter;
-  content: counter(footnotecounter);
-  position: relative;
-  top: -0.4em;
-    font-size: smaller;
-}
-

@@ -187,3 +187,18 @@ div.smfb-btn a .fb-label {
 div.metadata {
     display: none;
 }
+
+/**
+ * Footnotes
+ */
+body {
+    counter-reset: footnotecounter;
+}
+
+span.footnote:before {
+  counter-increment: footnotecounter;
+  content: counter(footnotecounter);
+  position: relative;
+  top: -0.4em;
+    font-size: smaller;
+}
