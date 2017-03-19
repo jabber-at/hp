@@ -202,23 +202,30 @@ var tinymce_setup = function(editor) {
             data.tooltip = anchorElm ? editor.dom.getAttrib(anchorElm, 'title') : '';
 
             editor.windowManager.open({
-                  title: 'Tooltip',
-                  body: [
-                    {type: 'textbox', name: 'tooltip', label: 'Tooltip'},
-                    {type: 'textbox', name: 'text', label: 'Text'}
-                  ],
-                  data: data,  /* Sets the initial values of the body elements */
-                  onsubmit: function(e) {
-                      /**
-                       * The title may contain HTML (e.g. links), so the text needs to be properly encoded.
-                       * There seems to be no real Javascript function for this, so we create that using
-                       * jQuery.
-                       */
-                      var span = $('<span class="footnote" data-toggle="tooltip"></span>');
-                      span.attr('title', e.data.tooltip);
-                      span.text(e.data.text);
-                      editor.insertContent(span[0].outerHTML);
-                  }
+                title: 'Tooltip',
+                body: [
+                  {type: 'textbox', name: 'tooltip', label: 'Tooltip'},
+                  {type: 'textbox', name: 'text', label: 'Text'}
+                ],
+                data: data,  /* Sets the initial values of the body elements */
+                onsubmit: function(e) {
+                    var tooltip = e.data.tooltip;
+                    if (!tooltip) {
+                        /* TODO: Remove tooltip */
+                        return;
+                    }
+
+
+                    /**
+                     * The title may contain HTML (e.g. links), so the text needs to be properly encoded.
+                     * There seems to be no real Javascript function for this, so we create that using
+                     * jQuery.
+                     */
+                    var span = $('<span class="footnote" data-toggle="tooltip"></span>');
+                    span.attr('title', tooltip);
+                    span.text(e.data.text);
+                    editor.insertContent(span[0].outerHTML);
+                }
             });
         }
     });
