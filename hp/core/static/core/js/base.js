@@ -35,16 +35,17 @@ $.ajaxSetup({
  * case detection failed.
  */
 function detect_platform() {
-    if (/^(Linux|Ubuntu)/i.test(navigator.platform)) {
-        return 'linux';
-    } else if (/^Android/i.test(navigator.platform)) {
+    if (/^Android/i.test(navigator.platform)) {
         return 'android';
+    } else if (/iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream) {
+        // see http://stackoverflow.com/questions/9038625/detect-if-device-is-ios/9039885#9039885
+        return 'ios';
+    } else if (/^(Linux|Ubuntu)/i.test(navigator.platform)) {
+        return 'linux';
     } else if (/^Windows/i.test(navigator.platform)) {
         return 'win';
     } else if (/^Mac/i.test(navigator.platform)) {
         return 'osx';
-    } else if (/^(iPhone|iPad|iPod)/i.test(navigator.platform)) {
-        return 'ios';
     }
 };
 
