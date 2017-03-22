@@ -35,7 +35,9 @@ $.ajaxSetup({
  * case detection failed.
  */
 function detect_platform() {
-    if (/^Android/i.test(navigator.platform)) {
+    var userAgent = navigator.userAgent || navigator.vendor || window.opera;
+
+    if (/^Android/i.test(navigator.platform) || /android/i.test(userAgent)) {
         return 'android';
     } else if (/iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream) {
         // see http://stackoverflow.com/questions/9038625/detect-if-device-is-ios/9039885#9039885
