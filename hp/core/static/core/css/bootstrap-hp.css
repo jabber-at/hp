@@ -24,12 +24,15 @@
 .hover-danger:hover {
   color: #d9534f;
 }
-.colored-glyphicon .glyphicon-ok {
+.colored-glyphicon .glyphicon-ok,
+.colored-glyphicon.glyphicon-ok {
   color: #5cb85c;
 }
-.colored-glyphicon .glyphicon-remove {
+.colored-glyphicon .glyphicon-remove,
+.colored-glyphicon.glyphicon-remove {
   color: #d9534f;
 }
-.colored-glyphicon .glyphicon-question-sign {
+.colored-glyphicon .glyphicon-question-sign,
+.colored-glyphicon.glyphicon-question-sign {
   color: #777777;
 }
