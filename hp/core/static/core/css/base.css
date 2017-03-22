@@ -206,3 +206,10 @@ body {
   top: -0.4em;
   font-size: smaller;
 }
+
+[data-toggle="tooltip"] + [data-toggle="tooltip"]:before {
+    content: ", ";
+    position: relative;
+    top: -0.4em;
+    font-size: smaller;
+}
