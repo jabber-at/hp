@@ -34,6 +34,7 @@ from core.modelfields import LocalizedTextField
 from core.models import BaseModel
 from core.utils import canonical_link
 
+from .querysets import PageQuerySet
 from .querysets import BlogPostQuerySet
 
 if settings.BLOG_MEDIA_ROOT:
@@ -43,6 +44,8 @@ else:
 
 
 class BasePage(BaseModel):
+    objects = PageQuerySet.as_manager()
+
     title = LocalizedCharField(max_length=255, help_text=_('Page title'))
     slug = LocalizedCharField(max_length=255, unique=True, help_text=_('Slug (used in URLs)'))
     text = LocalizedTextField()

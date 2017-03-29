@@ -32,7 +32,11 @@ class BasePageQuerySet(models.QuerySet):
         return self.filter(query)
 
 
-class BlogPostQuerySet(models.QuerySet):
+class PageQuerySet(BasePageQuerySet):
+    pass
+
+
+class BlogPostQuerySet(BasePageQuerySet):
     def published(self, now=None):
         if now is None:
             now = timezone.now()
