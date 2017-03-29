@@ -1,12 +1,14 @@
-{% load i18n static %}
+{% load i18n static blog %}
 <h2>{% trans "Where to go from here" %}</h2>
 
-{% url 'core:clients' as clients_url %}
+{% page_url 'clients' as clients_url %}
 {% url 'core:contact' as contact_url %}
 {% url 'blog:page' slug="faq" as faq_url %}
 <ul>
+    {% if clients_url %}
     <li>{% blocktrans with host=site.NAME%}You need a client to connect to {{ host }}. We have <a
 href="{{ clients_url }}">some recommendations</a>.{% endblocktrans %}</li>
+    {% endif %}
     {% if faq_url %}
     <li>{% blocktrans %}Frequently answered questions are answered in our <a
 href="{{ faq_url }}">FAQs</a>.{% endblocktrans %}</li>
