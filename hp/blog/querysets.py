@@ -13,8 +13,23 @@
 # You should have received a copy of the GNU General Public License along with django-xmpp-account.
 # If not, see <http://www.gnu.org/licenses/>.
 
+from django.conf import settings
 from django.db import models
 from django.utils import timezone
+
+
+class BasePageQuerySet(models.QuerySet):
+    def slug(self, slug):
+        """Filters for a given slug in any language."""
+
+        query = None
+        for lang, _name in settings.LANGUAGES:
+            if query is None:
+                query = models.Q(**{'slug_%s' % lang: slug})
+            else:
+                query |= models.Q(**{'slug_%s' % lang: slug})
+
+        return self.filter(query)
 
 
 class BlogPostQuerySet(models.QuerySet):
