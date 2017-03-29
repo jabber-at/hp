@@ -26,6 +26,34 @@ log = logging.getLogger(__name__)
 register = template.Library()
 
 
+@register.simple_tag()
+def page_url(pk_or_slug, quiet=True):
+    """Returns the URL to the given primary key or slug.
+
+    Parameters
+    ----------
+
+    pk_or_slug : int or str
+        If an ``int`` is passed, it's assumed to be the primary key of the requested page, otherwise
+        it's assumed to be the slug of the page.
+    quiet : bool, optional
+        Unless ``False``, the function will return an empty string if the page is not found.
+        Otherwise, the ``DoesNotExist`` exception is propagated.
+    """
+
+    try:
+        if isinstance(pk_or_slug, int):
+            page = Page.objects.get(pk=pk_or_slug)
+        else:
+            page = Page.objects.slug(pk_or_slug).get()
+    except Page.DoesNotExist:
+        if quiet is False:
+            raise
+        return ''
+
+    return page.get_absolute_url()
+
+
 @register.simple_tag(takes_context=True)
 def page(context, pk, text=None, anchor=None, **attrs):
     """Get a link to a page based on its primary key or slug.
