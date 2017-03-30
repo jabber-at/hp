@@ -28,18 +28,14 @@ from django.utils.functional import Promise
 from django.utils.http import is_safe_url
 from django.utils.translation import LANGUAGE_SESSION_KEY
 from django.utils.translation import ugettext as _
-from django.views.generic import TemplateView
 from django.views.generic.base import RedirectView
 from django.views.generic.edit import FormView
-from ua_parser import user_agent_parser
 
-from bootstrap.templatetags.bootstrap import glyph
 from core.utils import canonical_link
 
 from .constants import ACTIVITY_CONTACT
 from .forms import AnonymousContactForm
 from .forms import ContactForm
-from .forms import SelectOSForm
 from .utils import check_dnsbl
 from .tasks import send_contact_email
 
@@ -226,45 +222,6 @@ class AnonymousRequiredMixin(object):
         if request.user.is_authenticated():
             return HttpResponseRedirect(self.redirect_url)
         return super(AnonymousRequiredMixin, self).dispatch(request, *args, **kwargs)
-
-
-class ClientsView(StaticContextMixin, TemplateView):
-    template_name = 'core/clients.html'
-
-    def get_os(self):
-        header = self.request.META.get('HTTP_USER_AGENT',
-                                       self.request.META.get('HTTP_USERAGENT'))
-        if not header:
-            return
-
-        ua = user_agent_parser.Parse(header)
-        family = ua['os']['family']
-
-        if family == 'Mac OS X':
-            return 'osx'
-        elif family == 'iOS':
-            return 'ios'
-        elif family in ['Linux', 'Ubuntu', ]:
-            return 'linux'
-        elif family == 'Android':
-            return 'android'
-        elif family.startswith('Windows'):
-            return 'win'
-        else:
-            log.warn('Unknown os family: %s', family)
-
-    def get_context_data(self, *args, **kwargs):
-        initial = self.request.GET.get('os')
-
-        if initial is None:
-            initial = self.get_os()
-
-        context = super(ClientsView, self).get_context_data()
-        context['form'] = SelectOSForm(initial={'os': initial})
-        context['y'] = glyph('ok', context='success')
-        context['u'] = glyph('question-sign', context='muted')
-        context['n'] = glyph('remove', context='danger')
-        return context
 
 
 class ContactView(AntiSpamMixin, StaticContextMixin, FormView):
