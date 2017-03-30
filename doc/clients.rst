@@ -17,14 +17,10 @@ ChatSecure
   <https://github.com/ChatSecure/ChatSecure-iOS/releases/tag/v3.2.3>`_
 * XEP-0198 and XEP-0280 are mentioned in `Version 4.0.1
   <https://github.com/ChatSecure/ChatSecure-iOS/releases/tag/v4.0.1>`_
-* XEP-0313 has a `github issue
-  <https://github.com/ChatSecure/ChatSecure-iOS/issues/399>`_
-* XEP-0357 is announced in a `Blog post
-  <https://chatsecure.org/blog/chatsecure-v323-xmpp-push/>`_.
-* XEP-0363 has a `github issue
-  <https://github.com/ChatSecure/ChatSecure-iOS/issues/681>`_.
-* XEP-0384 had a `github issue
-  <https://github.com/ChatSecure/ChatSecure-iOS/issues/376>`_.
+* XEP-0313 has a `github issue <https://github.com/ChatSecure/ChatSecure-iOS/issues/399>`_
+* XEP-0357 is announced in a `Blog post <https://chatsecure.org/blog/chatsecure-v323-xmpp-push/>`_.
+* XEP-0363 has a `github issue <https://github.com/ChatSecure/ChatSecure-iOS/issues/681>`_.
+* XEP-0384 had a `github issue <https://github.com/ChatSecure/ChatSecure-iOS/issues/376>`_.
 
 *************
 Conversations
@@ -39,9 +35,12 @@ Converse.js
 
 * Some supported XEPs are listed `here
   <https://github.com/jcbrand/converse.js/blob/master/README.md#features>`_.
-* XEP-0198 has a `github issue
-  <https://github.com/jcbrand/converse.js/issues/316>`_.
-* XEP-0363 has a `github issue
-  <https://github.com/jcbrand/converse.js/issues/161>`_.
-* XEP-0384 has a `github issue
-  <https://github.com/jcbrand/converse.js/issues/497>`_.
+* XEP-0198 has a `github issue <https://github.com/jcbrand/converse.js/issues/316>`_.
+* XEP-0363 has a `github issue <https://github.com/jcbrand/converse.js/issues/161>`_.
+* XEP-0384 has a `github issue <https://github.com/jcbrand/converse.js/issues/497>`_.
+
+*****
+Gajim
+*****
+
+* `List of supported XEPs <https://dev.gajim.org/gajim/gajim/wikis/help/GajimXEPSupport>`_
