@@ -12,9 +12,15 @@ Contents:
    :maxdepth: 2
 
    settings
-   blog
    templatetags
    development
+
+Resources:
+
+.. toctree::
+   :maxdepth: 1
+
+   sharing
 
 Indices and tables
 ==================

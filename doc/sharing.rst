@@ -1,10 +1,6 @@
-####
-blog
-####
-
-***************************************
+#######################################
 Sharing, syndication and search engines
-***************************************
+#######################################
 
 General resources:
 
@@ -15,8 +11,9 @@ General resources:
 * `RSS specification <http://www.rssboard.org/rss-specification>`_
 * `Atom specification <https://validator.w3.org/feed/docs/rfc4287.html>`_
 
+*****
 Title
-=====
+*****
 
 ======== ==========================================================================================
 What
@@ -25,8 +22,9 @@ Facebook "A clear title without branding or mentioning the domain itself."
 Twitter  Max. 70 characters
 ======== ==========================================================================================
 
+************
 Descriptions
-============
+************
 
 Various description formats that we should support:
 
@@ -43,8 +41,9 @@ Twitter   plain  200    The ``twitter:description`` card tag.
 OpenGraph plain  ?      Docs say "between 2 and 4 sentences", but examples only have one sentence.
 ========= ====== ====== ==========================================================================
 
+******
 Images
-======
+******
 
 ======== =========================================================================================
 What     Description
