@@ -7,6 +7,12 @@ General resources about supported XEPs for clients:
 * https://www.zash.se/xmpp-clients.html
 * `OMEMO support <https://omemo.top/>`_
 
+*****
+Adium
+*****
+
+* No sources :-/
+
 **********
 ChatSecure
 **********
@@ -44,3 +50,65 @@ Gajim
 *****
 
 * `List of supported XEPs <https://dev.gajim.org/gajim/gajim/wikis/help/GajimXEPSupport>`_
+
+*****
+Jitsi
+*****
+
+* We asked about supported XEPs `here <https://github.com/jitsi/jitsi/issues/298>`_.
+* XEP-0198 has a `github issue <https://github.com/jitsi/jitsi/issues/300>`_.
+* XEP-0313 has a `github issue <https://github.com/jitsi/jitsi/issues/205>`_.
+* XEP-0384 has a `github issue <https://github.com/jitsi/jitsi/issues/199>`_.
+
+****
+JSXC
+****
+
+* `List of supported XEPs ,https://www.jsxc.org/features.html>`_.
+* XEP-0313 has a `github issue <https://github.com/jsxc/jsxc/issues/150>`_.
+* XEP-0384 has a `github issue <https://github.com/jsxc/jsxc/issues/228>`_.
+
+*******
+mcabber
+*******
+
+* XEP-0384 has a `bitbucket issue
+  <https://bitbucket.org/McKael/mcabber-crew/issues/156/omemo-support>`_.
+
+*****
+Monal
+*****
+
+* Asked about features `here <https://github.com/anurodhp/Monal/issues/54>`_ (no reply).
+* `XEP-0352 support <https://github.com/anurodhp/Monal/issues/7>`_.
+* XEP-0357 has a `github issue <https://github.com/anurodhp/Monal/issues/5>`_.
+* `XEP-0363 support <https://github.com/anurodhp/Monal/issues/1>`_.
+* `This ticket <https://github.com/anurodhp/Monal/issues/26>`_ implies there is XEP-0384 support.
+
+******
+Pidgin
+******
+
+* `List of supported XEPs <https://developer.pidgin.im/wiki/SupportedXEPs>`_ (probably outdated).
+* `XEP-0198 ticket <https://developer.pidgin.im/ticket/14252>`_.
+* `XEP-0280 ticket <https://developer.pidgin.im/ticket/15508>`_.
+* `XEP-0313 ticket <https://developer.pidgin.im/ticket/15653>`_.
+
+******
+Poezio
+******
+
+* `Supported XEPs <https://doc.poez.io/0.10/dev/xep.html>`_.
+* `XEP-0385 ticket <https://dev.louiz.org/issues/3280>`_.
+
+*********
+Profanity
+*********
+
+* `Supported XEPs <http://profanity.im/xeps.html>`_.
+
+*****
+Swift
+*****
+
+* `This page <https://www.isode.com/products/swift.html>`_ says there is XEP-0198 support.
