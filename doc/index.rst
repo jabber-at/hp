@@ -21,6 +21,7 @@ Resources:
    :maxdepth: 1
 
    sharing
+   clients
 
 Indices and tables
 ==================
