@@ -41,8 +41,7 @@ class SitemapMixin(object):
 class StaticSitemap(SitemapMixin, Sitemap):
     def items(self):
         return [
-            'core:contact', 'core:clients',
-            'account:register', 'account:login', 'account:reset_password',
+            'core:contact', 'account:register', 'account:login', 'account:reset_password',
         ]
 
     def location(self, item):

@@ -367,13 +367,6 @@ _DEFAULT_SOCIAL_MEDIA_TEXTS = {
         'twitter_title': _('A free and secure Jabber/XMPP server'),
         'og_title': _('A free, secure, feature-rich Jabber/XMPP server'),
     },
-    'core:clients': {
-        'title': _('Recommended Jabber/XMPP clients'),
-        'meta_desc': _('There are many different Jabber/XMPP clients to connect to %(BRAND)s, '
-                       'here are our favourites.'),
-        'og_desc': _('There are many different Jabber/XMPP clients to connect to %(BRAND)s. We '
-                     'have compiled a list of the best clients for your convenience.'),
-    },
     'core:contact': {
         'meta_desc': _('Contact us here if you cannot connect or have issues with our service '
                        'best solved privately.'),
