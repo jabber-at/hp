@@ -33,7 +33,6 @@ sitemaps = {
 app_name = 'core'
 urlpatterns = [
     url(_(r'^contact/$'), views.ContactView.as_view(), name='contact'),
-    url(_(r'^clients/$'), views.ClientsView.as_view(), name='clients'),
     url(r'^sitemap\.xml$', sitemap, {'sitemaps': sitemaps},
         name='django.contrib.sitemaps.views.sitemap'),
     url(r'^api/set-lang/$', views.SetLanguageView.as_view(), name='api-set-lang'),
