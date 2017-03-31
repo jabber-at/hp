@@ -43,3 +43,4 @@ ACTIVITY_SET_PASSWORD = 2
 ACTIVITY_SET_EMAIL = 3
 ACTIVITY_FAILED_LOGIN = 4
 ACTIVITY_CONTACT = 5  # used for ratelimiting
+ACTIVITY_RESEND_CONFIRMATION = 6  # When the user wants to resend the confirmation
