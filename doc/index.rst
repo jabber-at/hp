@@ -15,6 +15,13 @@ Contents:
    templatetags
    development
 
+Creating content
+
+.. toctree::
+   :maxdepth: 2
+
+   Overview <content>
+
 Resources:
 
 .. toctree::
