@@ -19,6 +19,7 @@ from django.contrib.admin.widgets import AdminTextareaWidget
 from django.contrib.contenttypes.models import ContentType
 from django.core.exceptions import ValidationError
 from django.core.urlresolvers import reverse
+from django.urls.exceptions import NoReverseMatch
 
 from jsonfield import JSONField
 from composite_field.l10n import LocalizedCharField as _LocalizedCharField
@@ -68,7 +69,11 @@ class LinkTargetDict(dict):
         if typ == TARGET_URL:
             return self.get('url', '')
         elif typ == TARGET_NAMED_URL:
-            return reverse(self['name'], *self['args'], **self['kwargs'])
+            try:
+                return reverse(self['name'], *self['args'], **self['kwargs'])
+            except NoReverseMatch as e:
+                log.exception(e)
+                return ''
         elif typ == TARGET_MODEL:
             ct = ContentType.objects.get_for_id(self['content_type'])
             obj = ct.get_object_for_this_type(pk=self['object_id'])
