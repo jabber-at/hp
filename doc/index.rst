@@ -23,6 +23,7 @@ Resources:
 
    sharing
    clients
+   validators
 
 Indices and tables
 ==================
