@@ -12,15 +12,9 @@ Contents:
    :maxdepth: 2
 
    settings
+   content
    templatetags
    development
-
-Creating content
-
-.. toctree::
-   :maxdepth: 2
-
-   Overview <content>
 
 Resources:
 

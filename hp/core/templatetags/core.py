@@ -105,6 +105,7 @@ def format_filesize(size):
 
 @register.simple_tag(takes_context=True)
 def os_selector(context):
+    """Display a selector for OS-specific content."""
     form = SelectOSForm()
     return format_html('<form class="form-horizontal">{}</form>', form['os'].formgroup())
 

@@ -14,25 +14,8 @@ the ``use`` templatetag::
 Core functionality
 ******************
 
-.. automodule:: core.templatetags.core
-   :members:
-
 .. automodule:: core.templatetags.canonical
    :members:
 
 .. automodule:: core.templatetags.render
-   :members:
-
-***********
-Blogs/Pages
-***********
-
-.. automodule:: blog.templatetags.blog
-   :members:
-
-*********
-Bootstrap
-*********
-
-.. automodule:: bootstrap.templatetags.bootstrap
    :members:
