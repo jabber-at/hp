@@ -112,3 +112,41 @@ Swift
 *****
 
 * `This page <https://www.isode.com/products/swift.html>`_ says there is XEP-0198 support.
+
+******
+Xabber
+******
+
+* `Supported XEPs <https://github.com/redsolution/xabber-android#supported-protocols>`_ (2017-03-31:
+  incomplete!).
+* `This changelog <https://github.com/redsolution/xabber-android/wiki/Xabber-Version-History>` is more
+  complete then GitHub releases.
+* XEP-0280 is mentioned in the `1.0.3 release
+  <https://github.com/redsolution/xabber-android/wiki/Xabber-Version-History#103-release-date-2015-05-12>`_.
+* XEP-0352 is mentioned in the `1.0.73 changelog
+  <https://github.com/redsolution/xabber-android/releases/tag/1.0.73>`_.
+* XEP-0363 is mentioned in the `1.0.51 changelog
+  <https://github.com/redsolution/xabber-android/releases/tag/1.0.51>`_.
+* XEP-0384 has a `github issue <https://github.com/redsolution/xabber-android/issues/540>`_.
+* XEP-0357 has a `github issue <https://github.com/redsolution/xabber-android/issues/529>`_.
+
+*****
+Yaxim
+*****
+
+* `Supported XEPs <http://yaxim.org/features/>`_.
+* XEP-0313 has a `GitHub issue <https://github.com/pfleidi/yaxim/issues/98>`_.
+* XEP-0363 has a `GitHub issue <https://github.com/pfleidi/yaxim/issues/196>`_.
+* XEP-0384 has a `GitHub issue <https://github.com/pfleidi/yaxim/issues/197>`_.
+
+***
+Zom
+***
+
+.. NOTE::
+
+   Zom is really two clients, one for iOS (which is a whitelabeled ChatSecure) and one for Android.
+
+* We asked for supported XEPs `here <https://github.com/zom/Zom-Android/issues/152>`_ (no reply).
+* XEP-0363 has a `GitHub issue <https://github.com/zom/Zom-Android/issues/198>`_.
+* XEP-0384 has a `GitHub issue <https://github.com/pfleidi/yaxim/issues/197>`_.
