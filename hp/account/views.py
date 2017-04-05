@@ -441,15 +441,16 @@ class SetPasswordView(LoginRequiredMixin, AccountPageMixin, FormView):
         return super(SetPasswordView, self).form_valid(form)
 
 
-class SetEmailView(LoginRequiredMixin, AccountPageMixin, FormView):
+class SetEmailView(AntiSpamMixin, LoginRequiredMixin, AccountPageMixin, FormView):
     form_class = SetEmailForm
     success_url = reverse_lazy('account:detail')
     template_name = 'account/user_set_email.html'
     usermenu_item = 'account:set_email'
     requires_confirmation = False
+    rate_activity = ACTIVITY_RESEND_CONFIRMATION
 
     def handle_new_account(self, request, form):
-        #TODO: self.ratelimit(request)
+        self.ratelimit(request)
         user = request.user
 
         address = request.META['REMOTE_ADDR']
@@ -459,6 +460,10 @@ class SetEmailView(LoginRequiredMixin, AccountPageMixin, FormView):
         with transaction.atomic():
             request.user.email = form.cleaned_data['email']
             request.user.save()
+
+            # Remove existing confirmation keys for different email addresses, otherwise the user might be
+            # able to get a confirmed address with the old key, but the new address is already set above
+            Confirmation.objects.filter(user=user, purpose=PURPOSE_REGISTER).exclude(to=user.email).delete()
 
             # log user creation, display help message.
             user.log(ugettext_noop('Resent confirmation.'), address=address)
