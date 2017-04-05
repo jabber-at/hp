@@ -21,7 +21,9 @@
     </tr>
     <tr class="{% if object.confirmed %}success{% else %}danger{% endif %}">
         <td>{% trans "Email confirmed" %}</td>
-        <td>{% if object.confirmed %}{% trans "Yes" %}{% else %}{% trans "No" %}{% endif %}</td>
+        <td>{% if object.confirmed %}{% trans "Yes" %}{% else %}
+            {% trans "No" %} (<a href="{% url "account:set_email" %}">{% trans "resend confirmation" %}</a>)
+        {% endif %}</td>
     </tr>
 </table></div>
 
