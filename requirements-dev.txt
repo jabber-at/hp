@@ -1,5 +1,5 @@
 Fabric3==1.13.1.post1
-Sphinx==1.5.3
+Sphinx==1.5.5
 fabric-webbuilders==0.3
 flake8==3.3.0
 ipython>=5.3.0
