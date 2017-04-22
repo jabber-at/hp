@@ -16,8 +16,6 @@
 from django import forms
 from django.contrib.auth import password_validation
 from django.forms.utils import flatatt
-from django.utils.encoding import force_text
-from django.utils.html import format_html
 from django.utils.html import mark_safe
 
 from . import widgets
@@ -30,11 +28,9 @@ class BoundField(forms.boundfield.BoundField):
 
     .. seealso:: https://docs.djangoproject.com/en/dev/ref/forms/api/#django.forms.BoundField
     """
-    def formgroup(self):
-        help_text = self.field.get_help_text() or self.help_text
-        if help_text or self.errors:
-            help_text = format_html('<p id="{}" class="help-block">{}{}</p>', self.help_id,
-                                    mark_safe(help_text), self.errors)
+
+    def formgroup_attrs(self):
+        """HTML attributes for the top-level form-group div."""
 
         fg_attrs = dict(self.field.formgroup_attrs)
         fg_attrs.setdefault('id', 'fg_%s' % self.html_name)
@@ -61,65 +57,42 @@ class BoundField(forms.boundfield.BoundField):
         if getattr(self.field.widget, 'feedback', False):
             fg_attrs['class'] += ' has-feedback'  # used by glyphicons
 
-        input_grid_class = self.field.get_input_grid_class()
+        return flatatt(fg_attrs)
 
-        return format_html(
-            '<div {}>{}<div class="{}">{}{}</div></div>',
-            flatatt(fg_attrs), self.label_tag(), input_grid_class, self, help_text)
+    def input_grid_attrs(self):
+        return flatatt(self.field.get_input_grid_attrs())
 
     @property
     def help_id(self):
         return 'hb_%s' % self.html_name
 
-    def as_widget(self, widget=None, attrs=None, only_initial=False):
-        """Renders the field by rendering the passed widget, adding any HTML attributes passed as
-        attrs.
+    @property
+    def glyphicon(self):
+        if getattr(self.field, 'glyphicon', False) is False:
+            return ''
 
-        This method is mostly a copy of the original, but adds the ``aria-describedby`` attribute
-        for screen readers and passes the ``status`` kwarg to the widgets ``render()`` method if
-        the widget is an instance of :py:class:`~bootstrap.widgets.BootstrapWidgetMixin`.
-        """
+        classes = 'glyphicon form-control-feedback'
 
-        attrs = attrs or {}
+        if self.form.is_bound:
+            if self.errors:
+                classes += ' glyphicon-remove'
+            elif self.field.required:
+                classes += ' glyphicon-ok'
+
+        return mark_safe('<span class="%s" aria-hidden="true"></span>' % classes)
+
+    def build_widget_attrs(self, attrs, widget):
+        attrs = super(BoundField, self).build_widget_attrs(attrs, widget)
+
         if self.help_text or self.errors:
             # Add the 'aria-describedby' attribute to the <input /> element. It's the id used by
-            # the help-block describing the element and helps scree readers. See:
+            # the help-block describing the element and helps screen readers. See:
             #   http://getbootstrap.com/css/#forms-help-text
             attrs['aria-describedby'] = self.help_id
+        return attrs
 
-        # 1:1 copy of superclass method starts here
-        if not widget:
-            widget = self.field.widget
-
-        if self.field.localize:
-            widget.is_localized = True
-
-        attrs = attrs or {}
-        if self.field.disabled:
-            attrs['disabled'] = True
-        auto_id = self.auto_id
-        if auto_id and 'id' not in attrs and 'id' not in widget.attrs:
-            if not only_initial:
-                attrs['id'] = auto_id
-            else:
-                attrs['id'] = self.html_initial_id
-
-        if not only_initial:
-            name = self.html_name
-        else:
-            name = self.html_initial_name
-
-        # Pass the status kwarg to the render() method if the widget is a bootstrap widget.
-        if isinstance(widget, widgets.BootstrapWidgetMixin):
-            status = None
-            if self.form.is_bound:
-                if self.errors:
-                    status = 'remove'
-                elif self.field.required:
-                    status = 'ok'
-            return force_text(widget.render(name, self.value(), attrs=attrs, status=status))
-        else:
-            return force_text(widget.render(name, self.value(), attrs=attrs))
+    def formgroup(self):
+        return mark_safe('<p>formgroup :/</p>')
 
     def label_tag(self, contents=None, attrs=None, label_suffix=None):
         """Add the control-label and col-sm-2 class to label tags."""
@@ -142,8 +115,14 @@ class BootstrapMixin(object):
     input_cols = 10
     col_class = 'sm'
 
+    glyphicon = False
+    """Set to true to add glyphicon for feedback."""
+
     def __init__(self, **kwargs):
         self.formgroup_attrs = kwargs.pop('formgroup_attrs', {})
+        if 'glyphicon' in kwargs:
+            self.glyphicon = kwargs.pop('glyphicon')
+
         if 'add_success' in kwargs:
             self.add_success = kwargs.pop('add_success')
 
@@ -158,6 +137,9 @@ class BootstrapMixin(object):
 
     def get_input_grid_class(self):
         return 'col-%s-%s' % (self.col_class, self.input_cols)
+
+    def get_input_grid_attrs(self):
+        return {'class': self.get_input_grid_class()}
 
     def get_bound_field(self, form, field_name):
         return BoundField(form, self, field_name)
@@ -175,6 +157,7 @@ class BootstrapTextField(BootstrapMixin, forms.CharField):
 
 
 class BootstrapEmailField(BootstrapMixin, forms.EmailField):
+    glyphicon = True
     widget = widgets.BootstrapEmailInput
 
     def clean(self, value):
