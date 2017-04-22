@@ -70,18 +70,6 @@ class BoundField(forms.boundfield.BoundField):
     @property
     def glyphicon(self):
         raise Exception('glyphicon()')
-        if getattr(self.field, 'glyphicon', False) is False:
-            return ''
-
-        classes = 'glyphicon form-control-feedback'
-
-        if self.form.is_bound:
-            if self.errors:
-                classes += ' glyphicon-remove'
-            elif self.field.required:
-                classes += ' glyphicon-ok'
-
-        return mark_safe('<span class="%s" aria-hidden="true"></span>' % classes)
 
     def build_widget_attrs(self, attrs, widget):
         attrs = super(BoundField, self).build_widget_attrs(attrs, widget)
@@ -127,15 +115,10 @@ class BootstrapMixin(object):
     input_cols = 10
     col_class = 'sm'
 
-    glyphicon = False
-    """Set to true to add glyphicon for feedback."""
-
     formgroup_template = 'bootstrap/forms/formgroup.html'
 
     def __init__(self, **kwargs):
         self.formgroup_attrs = kwargs.pop('formgroup_attrs', {})
-        if 'glyphicon' in kwargs:
-            self.glyphicon = kwargs.pop('glyphicon')
 
         if 'add_success' in kwargs:
             self.add_success = kwargs.pop('add_success')
@@ -171,7 +154,6 @@ class BootstrapTextField(BootstrapMixin, forms.CharField):
 
 
 class BootstrapEmailField(BootstrapMixin, forms.EmailField):
-    glyphicon = True
     widget = widgets.BootstrapEmailInput
 
     def clean(self, value):
