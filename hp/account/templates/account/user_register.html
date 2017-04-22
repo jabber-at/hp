@@ -17,14 +17,8 @@ password or if your account hasn't been used for a year and is about to be
 removed.{% endblocktrans %}
 </div>
 <form enctype="multipart/form-data" class="form-horizontal" action="" method="post">{% csrf_token %}
-
-{% with field=form.username %}
-    {% include "bootstrap/forms/formgroup.html" %}
-{% endwith %}
-
-{% with field=form.email %}
-    {% include "bootstrap/forms/formgroup.html" %}
-{% endwith %}
+{{ form.username.formgroup }}
+{{ form.email.formgroup }}
 
 <div class="row gpg-header-row{% if form.show_gpg %} show-gpg{% endif %}">
     <div class="col-sm-12">
@@ -37,12 +31,7 @@ removed.{% endblocktrans %}
 </div>
 
 {% include "account/include/gpg_form.html" %}
-{% if form.captcha %}
-    {% with field=form.captcha %}
-        {% include "bootstrap/forms/formgroup.html" %}
-    {% endwith %}
-{% endif %}
-
+{{ form.captcha.formgroup }}
 
 <div class="form-group">
     <div class="col-sm-offset-2 col-sm-10">
