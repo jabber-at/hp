@@ -37,9 +37,11 @@ removed.{% endblocktrans %}
 </div>
 
 {% include "account/include/gpg_form.html" %}
-{% with field=form.captcha %}
-    {% include "bootstrap/forms/formgroup.html" %}
-{% endwith %}
+{% if form.captcha %}
+    {% with field=form.captcha %}
+        {% include "bootstrap/forms/formgroup.html" %}
+    {% endwith %}
+{% endif %}
 
 
 <div class="form-group">
