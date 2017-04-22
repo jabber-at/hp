@@ -6,7 +6,7 @@
     {{ field.glyphicon }}
 
     <div id="{{ field.help_id }}" class="help-block">
-      {{ field.help_text }}
+      {{ field.help_text|safe }}
       {{ field.errors }}
     </div>
   </div>
