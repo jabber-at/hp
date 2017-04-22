@@ -12,9 +12,9 @@
 
 <form class="form-horizontal" method="post" action="{% url 'account:login' %}">{% csrf_token %}
 <input type="hidden" name="next" value="{{ next }}" />
-{{ form.username.formgroup }}
-{{ form.password.formgroup }}
-{{ form.captcha.formgroup }}
+{% for field in form %}
+    {% include "bootstrap/forms/formgroup.html" %}
+{% endfor %}
 <div class="form-group">
   <div class="col-sm-offset-2 col-sm-10">
       <a href="{% url "account:reset_password" %}">{% trans "Forgot your password?" %}</a>
