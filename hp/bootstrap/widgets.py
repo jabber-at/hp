@@ -23,14 +23,9 @@ class BootstrapWidgetMixin(object):
     input_class = None
     """If set, this CSS class will always be added to the input widget."""
 
-    glyphicon = False
-    """Set to true to add glyphicon for feedback."""
-
-    def __init__(self, attrs=None, glyphicon=None, **kwargs):
+    def __init__(self, attrs=None, **kwargs):
         attrs = attrs or {}
         self._add_class(attrs, 'form-control')
-        if glyphicon is not None:
-            self.glyphicon = glyphicon
 
         if self.input_class is not None:
             self._add_class(attrs, self.input_class)
@@ -43,19 +38,11 @@ class BootstrapWidgetMixin(object):
         else:
             attrs['class'] = cls
 
-    def render(self, *args, **kwargs):
-        status = kwargs.pop('status', None)
-        html = super(BootstrapWidgetMixin, self).render(*args, **kwargs)
-        if self.glyphicon:
-            icon_classes = 'glyphicon form-control-feedback'
-            if status:
-                icon_classes += ' glyphicon-%s' % status
-            html += mark_safe('<span class="%s" aria-hidden="true"></span>' % icon_classes)
-        return html
-
 
 class BootstrapMultiWidget(BootstrapWidgetMixin, forms.MultiWidget):
-    def render(self, name, value, attrs=None, status=None):
+    template_name = 'bootstrap/forms/widgets/multiwidget.html'
+
+    def _old_render(self, name, value, attrs=None, status=None):
         """Direct copy of forms.MultiWidget.render(), enhanced to pass the field status to the
         underlying widgets.
         """
@@ -98,7 +85,6 @@ class BootstrapTextarea(BootstrapWidgetMixin, forms.Textarea):
 class BootstrapEmailInput(BootstrapWidgetMixin, forms.EmailInput):
     input_class = 'valid-email'
     feedback = True
-    glyphicon = True
 
     class Media:
         js = (
