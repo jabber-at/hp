@@ -69,6 +69,7 @@ class BoundField(forms.boundfield.BoundField):
 
     @property
     def glyphicon(self):
+        raise Exception('glyphicon()')
         if getattr(self.field, 'glyphicon', False) is False:
             return ''
 
@@ -90,6 +91,14 @@ class BoundField(forms.boundfield.BoundField):
             # the help-block describing the element and helps screen readers. See:
             #   http://getbootstrap.com/css/#forms-help-text
             attrs['aria-describedby'] = self.help_id
+
+        # HACK: we pass the status as attribute that is then pop()'d by widget context
+        if self.form.is_bound:
+            if self.errors:
+                attrs['status'] = 'error'
+            elif self.field.required:
+                attrs['status'] = 'ok'
+
         return attrs
 
     def formgroup(self):
