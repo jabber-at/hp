@@ -69,7 +69,6 @@ class DomainWidget(forms.Select):
 class FingerprintWidget(BootstrapTextInput):
     input_class = 'gpg-fingerprint'
     feedback = True
-    glyphicon = True
 
     def __init__(self, attrs=None, **kwargs):
         attrs = attrs or {}
@@ -91,10 +90,6 @@ class UsernameWidget(BootstrapMultiWidget):
         if value:
             return value.lower().split('@', 1)
         return '', settings.DEFAULT_XMPP_HOST
-
-    def render(self, *args, **kwargs):
-        widget = super(UsernameWidget, self).render(*args, **kwargs)
-        return format_html('<div class="row">{}</div>', widget)
 
     class Media:
         css = {

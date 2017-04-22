@@ -17,8 +17,14 @@ password or if your account hasn't been used for a year and is about to be
 removed.{% endblocktrans %}
 </div>
 <form enctype="multipart/form-data" class="form-horizontal" action="" method="post">{% csrf_token %}
-{{ form.username.formgroup }}
-{{ form.email.formgroup }}
+
+{% with field=form.username %}
+    {% include "bootstrap/forms/formgroup.html" %}
+{% endwith %}
+
+{% with field=form.email %}
+    {% include "bootstrap/forms/formgroup.html" %}
+{% endwith %}
 
 <div class="row gpg-header-row{% if form.show_gpg %} show-gpg{% endif %}">
     <div class="col-sm-12">

@@ -18,7 +18,11 @@ forgotten your password) we send to you.{% endblocktrans %}
         </p></div>
     </div></div>
 
-    {{ form.gpg_key.formgroup }}
+    {% with field=form.gpg_key %}
+        {% include "bootstrap/forms/formgroup.html" %}
+    {% endwith %}
     <div class="row"><div class="col-sm-10 col-sm-offset-2"><p><strong>{% trans "- and/or -" %}</strong></p></div></div>
-    {{ form.gpg_fingerprint.formgroup }}
+    {% with field=form.gpg_fingerprint %}
+        {% include "bootstrap/forms/formgroup.html" %}
+    {% endwith %}
 </div>
