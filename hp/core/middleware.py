@@ -38,7 +38,7 @@ class SiteMiddleware(object):
         domain, port = split_domain_port(host)
 
         for name, config in settings.XMPP_HOSTS.items():
-            if validate_host(domain, config['ALLOWED_HOSTS']):
+            if validate_host(domain, config.get('ALLOWED_HOSTS', [])):
                 request.site = config
                 return
 
