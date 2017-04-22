@@ -23,14 +23,34 @@ class BootstrapWidgetMixin(object):
     input_class = None
     """If set, this CSS class will always be added to the input widget."""
 
-    def __init__(self, attrs=None, **kwargs):
+    glyphicon = False
+    """Set to true to add glyphicon for feedback."""
+
+    def __init__(self, attrs=None, glyphicon=None, **kwargs):
         attrs = attrs or {}
         self._add_class(attrs, 'form-control')
+        if glyphicon is not None:
+            self.glyphicon = glyphicon
 
         if self.input_class is not None:
             self._add_class(attrs, self.input_class)
 
         super(BootstrapWidgetMixin, self).__init__(attrs=attrs, **kwargs)
+
+    def get_context(self, name, value, attrs):
+        status = attrs.pop('status', None)
+        ctx = super(BootstrapWidgetMixin, self).get_context(name, value, attrs)
+        ctx['widget']['status'] = status
+        ctx['widget']['has_glyphicon'] = self.glyphicon
+
+        # Add concrete glyphicon if there is a status
+        if self.glyphicon:
+            if status == 'ok':
+                ctx['widget']['glyphicon'] = 'glyphicon-ok'
+            elif status == 'error':
+                ctx['widget']['glyphicon'] = 'glyphicon-remove'
+
+        return ctx
 
     def _add_class(self, attrs, cls):
         if attrs.get('class'):
@@ -42,40 +62,9 @@ class BootstrapWidgetMixin(object):
 class BootstrapMultiWidget(BootstrapWidgetMixin, forms.MultiWidget):
     template_name = 'bootstrap/forms/widgets/multiwidget.html'
 
-    def _old_render(self, name, value, attrs=None, status=None):
-        """Direct copy of forms.MultiWidget.render(), enhanced to pass the field status to the
-        underlying widgets.
-        """
-
-        if self.is_localized:
-            for widget in self.widgets:
-                widget.is_localized = self.is_localized
-        # value is a list of values, each corresponding to a widget
-        # in self.widgets.
-        if not isinstance(value, list):
-            value = self.decompress(value)
-        output = []
-        final_attrs = self.build_attrs(attrs)
-        id_ = final_attrs.get('id')
-        for i, widget in enumerate(self.widgets):
-            try:
-                widget_value = value[i]
-            except IndexError:
-                widget_value = None
-            if id_:
-                final_attrs = dict(final_attrs, id='%s_%s' % (id_, i))
-
-            # bootstrap widgets get the additional status parameter
-            if isinstance(widget, BootstrapWidgetMixin):
-                html = widget.render(name + '_%s' % i, widget_value, final_attrs, status=status)
-            else:
-                html = widget.render(name + '_%s' % i, widget_value, final_attrs)
-            output.append(html)
-        return mark_safe(self.format_output(output))
-
 
 class BootstrapTextInput(BootstrapWidgetMixin, forms.TextInput):
-    pass
+    template_name = 'bootstrap/forms/widgets/text.html'
 
 
 class BootstrapTextarea(BootstrapWidgetMixin, forms.Textarea):
@@ -83,8 +72,10 @@ class BootstrapTextarea(BootstrapWidgetMixin, forms.Textarea):
 
 
 class BootstrapEmailInput(BootstrapWidgetMixin, forms.EmailInput):
+    template_name = 'bootstrap/forms/widgets/text.html'
     input_class = 'valid-email'
     feedback = True
+    glyphicon = True
 
     class Media:
         js = (
