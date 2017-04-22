@@ -1,0 +1,8 @@
+<div class="row">
+{% with widget=widget.subwidgets.0 %}
+  <div class="col-sm-8">{% include widget.template_name %}</div>
+{% endwith %}
+{% with widget=widget.subwidgets.1 %}
+  <div class="col-sm-4">{% include widget.template_name %}</div>
+{% endwith %}
+</div>
