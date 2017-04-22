@@ -84,6 +84,7 @@ class BootstrapEmailInput(BootstrapWidgetMixin, forms.EmailInput):
 
 
 class BootstrapPasswordInput(BootstrapWidgetMixin, forms.PasswordInput):
+    template_name = 'bootstrap/forms/widgets/password.html'
     feedback = True
 
 
