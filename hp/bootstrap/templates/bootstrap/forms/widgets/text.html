@@ -1,0 +1,4 @@
+{% include "django/forms/widgets/input.html" %}
+{% if widget.has_glyphicon %}
+<span class="glyphicon form-control-feedback {{ widget.glyphicon }}" aria-hidden="true"></span>
+{% endif %}
