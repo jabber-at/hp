@@ -13,9 +13,11 @@ This link is a one-time link only. If you have already completed your
 registration, please proceed to your <a class="alert-link" href="{{ account_page_url }}">your account-page</a>.{% endblocktrans %}</div>
 
 <form class="form-horizontal" action="" method="post">{% csrf_token %}
-{{ form.password.formgroup }}
-{{ form.password2.formgroup }}
-{{ form.captcha.formgroup }}
+{% with field=form.password %}{% include "bootstrap/forms/formgroup.html" %}{% endwith %}
+{% with field=form.password2 %}{% include "bootstrap/forms/formgroup.html" %}{% endwith %}
+{% if captcha %}
+{% with field=form.captcha %}{% include "bootstrap/forms/formgroup.html" %}{% endwith %}
+{% endif %}
 
 <div class="form-group">
     <div class="col-sm-offset-2 col-sm-10">

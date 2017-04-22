@@ -5,7 +5,7 @@
 
 {% block content %}
 <form enctype="multipart/form-data" class="form-horizontal" action="" method="post">{% csrf_token %}
-    {{ form.email.formgroup }}
+    {% with field=form.email %}{% include "bootstrap/forms/formgroup.html" %}{% endwith %}
 
     {% with user.uses_gpg as uses_gpg %}
     <div class="row gpg-header-row{% if form.show_gpg or uses_gpg%} show-gpg{% endif %}">
