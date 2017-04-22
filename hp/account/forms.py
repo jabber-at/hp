@@ -20,6 +20,7 @@ from django.contrib.auth.forms import AuthenticationForm
 from django.utils.translation import ugettext_lazy as _
 
 from bootstrap.formfields import BootstrapPasswordField
+from bootstrap.widgets import BootstrapPasswordInput
 from core.forms import CaptchaFormMixin
 
 from .formfields import EmailVerifiedDomainField
@@ -174,10 +175,10 @@ class DeleteAccountForm(forms.Form):
 
 class SetPasswordForm(forms.Form):
     password = BootstrapPasswordField(
-        glyphicon=True, add_min_length=True, label=_('Password'),
+        widget=BootstrapPasswordInput(glyphicon=True), add_min_length=True, label=_('Password'),
         help_text=password_validation.password_validators_help_text_html())
     password2 = BootstrapPasswordField(
-        glyphicon=True, add_min_length=True, label=_('Confirm'),
+        widget=BootstrapPasswordInput(glyphicon=True), add_min_length=True, label=_('Confirm'),
         help_text=_('Confirm the password to make sure you spelled it correctly.'))
 
     password_error_messages = {
