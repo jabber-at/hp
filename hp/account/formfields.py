@@ -51,9 +51,8 @@ class UsernameField(BootstrapMixin, forms.MultiValueField):
         choices = tuple([(d, '@%s' % d) for d in hosts])
 
         fields = (
-            BootstrapCharField(
-                glyphicon=self.register,
-                widget=NodeWidget(),
+            forms.CharField(
+                widget=NodeWidget(glyphicon=self.register),
                 min_length=settings.MIN_USERNAME_LENGTH,
                 max_length=settings.MAX_USERNAME_LENGTH,
                 error_messages={
@@ -110,7 +109,6 @@ class UsernameField(BootstrapMixin, forms.MultiValueField):
 
 
 class FingerprintField(BootstrapCharField):
-    glyphicon = True
     widget = FingerprintWidget
 
     def __init__(self, **kwargs):
