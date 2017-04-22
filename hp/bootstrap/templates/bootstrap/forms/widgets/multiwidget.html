@@ -1,8 +1,18 @@
 <div class="row">
 {% with widget=widget.subwidgets.0 %}
-  <div class="col-sm-8">{% include widget.template_name %}</div>
+  <div class="col-sm-8">
+    {% include widget.template_name %}
+    {% if widget.has_glyphicon %}
+      <span class="glyphicon form-control-feedback {{ widget.glyphicon }}" aria-hidden="true"></span>
+    {% endif %}
+  </div>
 {% endwith %}
 {% with widget=widget.subwidgets.1 %}
-  <div class="col-sm-4">{% include widget.template_name %}</div>
+  <div class="col-sm-4">
+    {% include widget.template_name %}
+    {% if widget.has_glyphicon %}
+      <span class="glyphicon form-control-feedback {{ widget.glyphicon }}" aria-hidden="true"></span>
+    {% endif %}
+  </div>
 {% endwith %}
 </div>
