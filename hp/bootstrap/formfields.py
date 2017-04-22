@@ -17,6 +17,7 @@ from django import forms
 from django.contrib.auth import password_validation
 from django.forms.utils import flatatt
 from django.utils.html import mark_safe
+from django.forms.renderers import get_default_renderer
 
 from . import widgets
 
@@ -92,7 +93,9 @@ class BoundField(forms.boundfield.BoundField):
         return attrs
 
     def formgroup(self):
-        return mark_safe('<p>formgroup :/</p>')
+        renderer = self.form.renderer or get_default_renderer()
+        context = {'field': self}
+        return mark_safe(renderer.render(self.field.formgroup_template, context))
 
     def label_tag(self, contents=None, attrs=None, label_suffix=None):
         """Add the control-label and col-sm-2 class to label tags."""
@@ -117,6 +120,8 @@ class BootstrapMixin(object):
 
     glyphicon = False
     """Set to true to add glyphicon for feedback."""
+
+    formgroup_template = 'bootstrap/forms/formgroup.html'
 
     def __init__(self, **kwargs):
         self.formgroup_attrs = kwargs.pop('formgroup_attrs', {})
