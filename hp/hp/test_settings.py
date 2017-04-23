@@ -336,6 +336,7 @@ XMPP_HOSTS = {
         'REGISTRATION': True,
         'BRAND': 'example.com',
         'CANONICAL_BASE_URL': 'https://example.com',
+        'ALLOW_EMAIL': True,
     },
 }
 
@@ -383,8 +384,7 @@ _DEFAULT_SOCIAL_MEDIA_TEXTS = {
 }
 SOCIAL_MEDIA_TEXTS = {}
 
-ACCOUNT_USER_MENU = None
-_DEFAULT_ACCOUNT_USER_MENU = [
+ACCOUNT_USER_MENU = [
     ('account:detail', {
         'title': _('Overview'),
         'requires_confirmation': False,
