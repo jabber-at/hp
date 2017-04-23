@@ -26,8 +26,8 @@ from django.template.response import TemplateResponse
 from django.utils import timezone
 from django.utils.functional import Promise
 from django.utils.http import is_safe_url
-from django.utils.translation import LANGUAGE_SESSION_KEY
 from django.utils.translation import ugettext as _
+from django.utils.translation import LANGUAGE_SESSION_KEY
 from django.views.generic.base import RedirectView
 from django.views.generic.edit import FormView
 
@@ -36,8 +36,8 @@ from core.utils import canonical_link
 from .constants import ACTIVITY_CONTACT
 from .forms import AnonymousContactForm
 from .forms import ContactForm
-from .utils import check_dnsbl
 from .tasks import send_contact_email
+from .utils import check_dnsbl
 
 log = logging.getLogger(__name__)
 _BLACKLIST = getattr(settings, 'SPAM_BLACKLIST', set())

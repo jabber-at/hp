@@ -21,8 +21,8 @@ from lxml import etree
 from strict_rfc3339 import timestamp_to_rfc3339_utcoffset
 
 from django.conf import settings
-from django.core.urlresolvers import reverse
 from django.contrib.staticfiles.templatetags.staticfiles import static
+from django.core.urlresolvers import reverse
 from django.http import HttpResponse
 from django.utils import timezone
 from django.utils import translation

@@ -17,19 +17,19 @@ from datetime import timedelta
 
 from django.contrib.auth import get_user_model
 from django.core.management.base import BaseCommand
-from django.utils import timezone
 from django.db.models import Count
+from django.utils import timezone
 
+from ...constants import STAT_DELETE_ACCOUNT
+from ...constants import STAT_DELETE_ACCOUNT_CONFIRMED
+from ...constants import STAT_FAILED_LOGIN
 from ...constants import STAT_REGISTER
 from ...constants import STAT_REGISTER_CONFIRMED
 from ...constants import STAT_RESET_PASSWORD
 from ...constants import STAT_RESET_PASSWORD_CONFIRMED
-from ...constants import STAT_SET_PASSWORD
 from ...constants import STAT_SET_EMAIL
 from ...constants import STAT_SET_EMAIL_CONFIRMED
-from ...constants import STAT_DELETE_ACCOUNT
-from ...constants import STAT_DELETE_ACCOUNT_CONFIRMED
-from ...constants import STAT_FAILED_LOGIN
+from ...constants import STAT_SET_PASSWORD
 from ...models import Event
 
 User = get_user_model()

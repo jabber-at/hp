@@ -28,8 +28,8 @@ from core.admin import BaseModelAdmin
 
 from .forms import BasePageAdminForm
 from .models import BlogPost
-from .models import Page
 from .models import Image
+from .models import Page
 
 User = get_user_model()
 

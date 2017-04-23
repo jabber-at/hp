@@ -21,9 +21,9 @@ from django.forms.utils import flatatt
 from django.utils.html import format_html
 from django.utils.html import mark_safe
 
-from .constants import TARGET_URL
-from .constants import TARGET_NAMED_URL
 from .constants import TARGET_MODEL
+from .constants import TARGET_NAMED_URL
+from .constants import TARGET_URL
 
 log = logging.getLogger(__name__)
 

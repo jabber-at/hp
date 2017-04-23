@@ -20,19 +20,20 @@ from functools import wraps
 
 from celery import shared_task
 from celery.utils.log import get_task_logger
-from gpgliblib.django import GpgEmailMessage
 
 from django.conf import settings
 from django.contrib.auth import get_user_model
 from django.core.mail import EmailMessage
 from django.utils import timezone
 from django.utils import translation
+
+from gpgliblib.django import GpgEmailMessage
+from xmpp_http_upload.models import Upload
+
 from .models import Address
 from .models import AddressActivity
 from .models import CachedMessage
 from .utils import load_contact_keys
-
-from xmpp_http_upload.models import Upload
 
 User = get_user_model()
 log = get_task_logger(__name__)

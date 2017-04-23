@@ -16,6 +16,8 @@
 import logging
 import os
 
+from celery import chain
+
 from django.conf import settings
 from django.contrib import messages
 from django.contrib.auth import get_user_model
@@ -37,8 +39,8 @@ from django.utils import timezone
 from django.utils.http import is_safe_url
 from django.utils.translation import ugettext_lazy as _
 from django.utils.translation import ugettext_noop
-from django.views.generic import View
 from django.views.generic import DetailView
+from django.views.generic import View
 from django.views.generic.base import RedirectView
 from django.views.generic.base import TemplateView
 from django.views.generic.detail import SingleObjectMixin
@@ -46,46 +48,45 @@ from django.views.generic.edit import CreateView
 from django.views.generic.edit import FormView
 from django.views.generic.edit import UpdateView
 
-from celery import chain
-from xmpp_http_upload.models import Upload
 from xmpp_backends.django import xmpp_backend
+from xmpp_http_upload.models import Upload
 
+from core.constants import ACTIVITY_FAILED_LOGIN
 from core.constants import ACTIVITY_REGISTER
+from core.constants import ACTIVITY_RESEND_CONFIRMATION
 from core.constants import ACTIVITY_RESET_PASSWORD
 from core.constants import ACTIVITY_SET_EMAIL
 from core.constants import ACTIVITY_SET_PASSWORD
-from core.constants import ACTIVITY_FAILED_LOGIN
-from core.constants import ACTIVITY_RESEND_CONFIRMATION
 from core.models import AddressActivity
 from core.views import AnonymousRequiredMixin
 from core.views import AntiSpamMixin
 from core.views import StaticContextMixin
-from stats.models import stat
-from stats.constants import STAT_REGISTER
-from stats.constants import STAT_REGISTER_CONFIRMED
-from stats.constants import STAT_RESET_PASSWORD
-from stats.constants import STAT_RESET_PASSWORD_CONFIRMED
-from stats.constants import STAT_SET_PASSWORD
-from stats.constants import STAT_SET_EMAIL
-from stats.constants import STAT_SET_EMAIL_CONFIRMED
 from stats.constants import STAT_DELETE_ACCOUNT
 from stats.constants import STAT_DELETE_ACCOUNT_CONFIRMED
 from stats.constants import STAT_FAILED_LOGIN
+from stats.constants import STAT_REGISTER
+from stats.constants import STAT_REGISTER_CONFIRMED
 from stats.constants import STAT_RESEND_CONFIRMATION
+from stats.constants import STAT_RESET_PASSWORD
+from stats.constants import STAT_RESET_PASSWORD_CONFIRMED
+from stats.constants import STAT_SET_EMAIL
+from stats.constants import STAT_SET_EMAIL_CONFIRMED
+from stats.constants import STAT_SET_PASSWORD
+from stats.models import stat
 
 from .constants import PURPOSE_DELETE
 from .constants import PURPOSE_REGISTER
 from .constants import PURPOSE_RESET_PASSWORD
 from .constants import PURPOSE_SET_EMAIL
-from .forms import CreateUserForm
-from .forms import LoginForm
+from .forms import AddGpgForm
 from .forms import ConfirmResetPasswordForm
+from .forms import CreateUserForm
 from .forms import DeleteAccountForm
+from .forms import LoginForm
 from .forms import NotificationsForm
+from .forms import ResetPasswordForm
 from .forms import SetEmailForm
 from .forms import SetPasswordForm
-from .forms import ResetPasswordForm
-from .forms import AddGpgForm
 from .models import Confirmation
 from .tasks import add_gpg_key_task
 from .tasks import send_confirmation_task

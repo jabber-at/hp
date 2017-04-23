@@ -22,7 +22,6 @@ import pytz
 from celery import Task
 from celery import shared_task
 from celery.utils.log import get_task_logger
-from gpgliblib.django import gpg_backend
 
 from django.conf import settings
 from django.contrib.auth import get_user_model
@@ -32,16 +31,18 @@ from django.utils import timezone
 from django.utils import translation
 from django.utils.translation import ugettext as _
 from django.utils.translation import ugettext_noop
+
+from gpgliblib.django import gpg_backend
 from xmpp_backends.base import UserNotFound
 from xmpp_backends.django import xmpp_backend
 
 from core.models import Address
-from core.utils import format_timedelta
 from core.tasks import activate_language
+from core.utils import format_timedelta
 
+from .constants import PURPOSE_SET_EMAIL
 from .models import Confirmation
 from .models import UserLogEntry
-from .constants import PURPOSE_SET_EMAIL
 
 User = get_user_model()
 log = get_task_logger(__name__)

@@ -14,7 +14,6 @@
 # If not, see <http://www.gnu.org/licenses/>.
 
 import logging
-
 from contextlib import contextmanager
 
 from django.conf import settings
@@ -52,13 +51,12 @@ from .constants import PURPOSE_RESET_PASSWORD
 from .constants import PURPOSE_SET_EMAIL
 from .constants import REGISTRATION_CHOICES
 from .constants import REGISTRATION_WEBSITE
-from .managers import UserManager
 from .managers import UserLogEntryManager
+from .managers import UserManager
 from .querysets import ConfirmationQuerySet
 from .querysets import GpgKeyQuerySet
 from .querysets import UserLogEntryQuerySet
 from .querysets import UserQuerySet
-
 
 log = logging.getLogger(__name__)
 _gpg_key_delimiter = b"""-----END PGP PUBLIC KEY BLOCK-----

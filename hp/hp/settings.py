@@ -12,17 +12,17 @@ https://docs.djangoproject.com/en/1.9/ref/settings/
 
 import ipaddress
 import os
-
 from datetime import timedelta
 
 from celery.schedules import crontab
+
 from django.contrib.messages import constants as messages
-from django.core.urlresolvers import reverse_lazy
 from django.core.exceptions import ImproperlyConfigured
+from django.core.urlresolvers import reverse_lazy
 from django.utils.translation import ugettext_lazy as _
 
-from core.constants import ACTIVITY_REGISTER
 from core.constants import ACTIVITY_FAILED_LOGIN
+from core.constants import ACTIVITY_REGISTER
 from core.constants import ACTIVITY_RESET_PASSWORD
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)

@@ -29,9 +29,9 @@ from bootstrap.formfields import BootstrapFileField
 from bootstrap.formfields import BootstrapMixin
 
 from .widgets import DomainWidget
+from .widgets import FingerprintWidget
 from .widgets import NodeWidget
 from .widgets import UsernameWidget
-from .widgets import FingerprintWidget
 
 
 class UsernameField(BootstrapMixin, forms.MultiValueField):

@@ -17,16 +17,17 @@ import json
 import logging
 
 from django import forms
-from django.contrib.contenttypes.models import ContentType
 from django.contrib.admin.widgets import AdminTextInputWidget
+from django.contrib.contenttypes.models import ContentType
 from django.utils.translation import ugettext_lazy as _
 
-from bootstrap.formfields import BootstrapMixin
 from captcha.fields import CaptchaField as CaptchaFieldBase
 
+from bootstrap.formfields import BootstrapMixin
+
 from .constants import TARGET_CHOICES
-from .constants import TARGET_NAMED_URL
 from .constants import TARGET_MODEL
+from .constants import TARGET_NAMED_URL
 from .constants import TARGET_URL
 from .widgets import LinkTargetWidget
 

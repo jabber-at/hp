@@ -21,9 +21,9 @@ from django.core.exceptions import ValidationError
 from django.core.urlresolvers import reverse
 from django.urls.exceptions import NoReverseMatch
 
-from jsonfield import JSONField
 from composite_field.l10n import LocalizedCharField as _LocalizedCharField
 from composite_field.l10n import LocalizedTextField as _LocalizedTextField
+from jsonfield import JSONField
 
 from .constants import TARGET_MODEL
 from .constants import TARGET_NAMED_URL

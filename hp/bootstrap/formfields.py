@@ -15,9 +15,9 @@
 
 from django import forms
 from django.contrib.auth import password_validation
+from django.forms.renderers import get_default_renderer
 from django.forms.utils import flatatt
 from django.utils.html import mark_safe
-from django.forms.renderers import get_default_renderer
 
 from . import widgets
 

@@ -16,7 +16,6 @@
 import re
 
 import bleach
-
 from lxml import html
 
 from django import template
@@ -34,8 +33,8 @@ from core.modelfields import LocalizedTextField
 from core.models import BaseModel
 from core.utils import canonical_link
 
-from .querysets import PageQuerySet
 from .querysets import BlogPostQuerySet
+from .querysets import PageQuerySet
 
 if settings.BLOG_MEDIA_ROOT:
     fs = FileSystemStorage(location=settings.BLOG_MEDIA_ROOT, base_url=settings.BLOG_MEDIA_URL)

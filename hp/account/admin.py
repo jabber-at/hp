@@ -15,8 +15,6 @@
 
 import logging
 
-from xmpp_backends.base import UserNotFound
-from xmpp_backends.django import xmpp_backend
 
 from django.contrib import admin
 from django.contrib import messages
@@ -26,6 +24,8 @@ from django.utils import timezone
 from django.utils.translation import ugettext_lazy as _
 
 from django_object_actions import DjangoObjectActions
+from xmpp_backends.base import UserNotFound
+from xmpp_backends.django import xmpp_backend
 
 from .constants import PURPOSE_REGISTER
 from .forms import AdminUserForm

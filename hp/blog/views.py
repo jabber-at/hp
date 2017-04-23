@@ -23,8 +23,8 @@ from django.views.generic.list import ListView
 from core.views import StaticContextMixin
 from core.views import TranslateSlugViewMixin
 
-from .models import Page
 from .models import BlogPost
+from .models import Page
 
 log = logging.getLogger(__name__)
 _BLACKLIST = getattr(settings, 'SPAM_BLACKLIST', set())

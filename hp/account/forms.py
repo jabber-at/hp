@@ -27,8 +27,8 @@ from .formfields import EmailVerifiedDomainField
 from .formfields import FingerprintField
 from .formfields import KeyUploadField
 from .formfields import UsernameField
-from .models import User
 from .models import Notifications
+from .models import User
 
 
 class GPGMixin(forms.Form):
