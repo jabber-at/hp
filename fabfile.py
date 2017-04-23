@@ -203,7 +203,8 @@ def compile_less():
 
 @task
 def test():
-    local('flake8 hp')
+    local('flake8 hp fabfile.py')
+    local('isort --check-only --diff -rc hp/ fabfile.py')
 
     oldcwd = os.getcwd()
     os.chdir('hp')
