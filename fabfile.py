@@ -22,8 +22,8 @@ from fabric.api import local
 from fabric.api import task
 from fabric.tasks import Task
 
-from fabric_webbuilders import BuildBootstrapTask
 from fabric_webbuilders import MinifyCSSTask as MinifyCSSBaseTask
+from fabric_webbuilders import BuildBootstrapTask
 
 
 timestamp = datetime.utcnow().strftime('%Y%m%d%H%M%S')
