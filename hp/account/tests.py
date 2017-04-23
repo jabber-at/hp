@@ -76,3 +76,11 @@ class RegistrationTestCase(TestCase):
         self.assertEqual(user.last_activity, now)
         self.assertFalse(user.created_in_backend)
         self.assertEqual(user.default_language, 'en')
+
+        # TODO
+        # Check confirmation
+        # Check email inbox
+        # Check XMPP backend (user should not be present)
+        # Confirm email address
+        # Check updated user
+        # Check XMPP backend (user should be present)
