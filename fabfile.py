@@ -132,7 +132,7 @@ class DeployTask(DeploymentTaskMixin, Task):
         oldcwd = os.getcwd()
         os.chdir('hp')
         local('python manage.py check')
-        local('python manage.py test')
+        local('python manage.py test -k hp.test_settings')
         os.chdir(oldcwd)
 
         # push source code
@@ -199,6 +199,17 @@ def compile_less():
 
     local(
         'node_modules/.bin/lessc less/bootstrap-hp.less hp/core/static/core/css/bootstrap-hp.css')
+
+
+@task
+def test():
+    local('flake8 hp')
+
+    oldcwd = os.getcwd()
+    os.chdir('hp')
+    local('python manage.py check')
+    local('python manage.py test --settings=hp.test_settings')
+    os.chdir(oldcwd)
 
 
 minify_css = MinifyCSSTask(dest='hp/core/static/hp-%s.css' % timestamp, files=[
