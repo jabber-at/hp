@@ -13,6 +13,11 @@
 # You should have received a copy of the GNU General Public License along with this project. If
 # not, see <http://www.gnu.org/licenses/>.
 
+from datetime import datetime
+
+import pytz
+from freezegun import freeze_time
+
 from django.contrib.auth import get_user_model
 from django.core.urlresolvers import reverse
 from django.test import Client
@@ -26,6 +31,7 @@ User = get_user_model()
 
 class RegistrationTestCase(TestCase):
     def test_basic(self):
+        now = pytz.utc.localize(datetime(2017, 4, 23, 11, 22, 33))
         url = reverse('account:register')
         client = Client()
 
@@ -36,7 +42,7 @@ class RegistrationTestCase(TestCase):
         self.assertTrue(get.context['user'].is_anonymous())
         self.assertTrue('form' in get.context)
 
-        with self.mock_celery() as func:
+        with self.mock_celery() as func, freeze_time('2017-04-23 11:22:33+00:00'):
             post = client.post(url, {
                 'username_0': 'testuser', 'username_1': 'example.com', 'email': 'user@example.com',
             })
@@ -64,7 +70,9 @@ class RegistrationTestCase(TestCase):
         self.assertEqual(user, detail.context['user'])
         self.assertEqual(user.username, 'testuser@example.com')
         self.assertEqual(user.email, 'user@example.com')
+        self.assertEqual(user.registered, now)
         self.assertIsNone(user.confirmed)
         self.assertFalse(user.blocked)
+        self.assertEqual(user.last_activity, now)
         self.assertFalse(user.created_in_backend)
         self.assertEqual(user.default_language, 'en')
