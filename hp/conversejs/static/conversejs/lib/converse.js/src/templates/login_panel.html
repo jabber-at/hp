@@ -1,0 +1,23 @@
+<form class="pure-form pure-form-stacked converse-form" id="converse-login" method="post">
+    {[ if (auto_login) { ]}
+        <span class="spinner login-submit"/>
+    {[ } ]}
+    {[ if (!auto_login) { ]}
+        {[ if (authentication == LOGIN || authentication == EXTERNAL) { ]}
+            <label>{{{label_username}}}</label>
+            <input type="text" name="jid" placeholder="{{{placeholder_username}}}">
+            {[ if (authentication !== EXTERNAL) { ]}
+                <label>{{{label_password}}}</label>
+                <input type="password" name="password" placeholder="{{{placeholder_password}}}">
+            {[ } ]}
+            <input class="pure-button button-primary" type="submit" value="{{{label_login}}}">
+            <span class="conn-feedback"></span>
+        {[ } ]}
+        {[ if (authentication == ANONYMOUS) { ]}
+            <input class="pure-button button-primary login-anon" type="submit" value="{{{label_anon_login}}}"/>
+        {[ } ]}
+        {[ if (authentication == PREBIND) { ]}
+            <p>Disconnected.</p>
+        {[ } ]}
+    {[ } ]}
+</form>

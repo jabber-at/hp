@@ -1,0 +1,227 @@
+#converse-embedded-chat,
+#conversejs {
+    .new-chatroom-nick {
+        margin: 1em auto;
+    }
+
+    .add-chatroom {
+        input[type="submit"],
+        input[type="button"] {
+            margin: 0.3em 0;
+        }
+    }
+
+    .chat-head-chatroom {
+        background-color: $chatroom-head-color;
+        .chatbox-btn {
+            &.button-on {
+                background-color: $chat-head-text-color;
+                color: $chatroom-head-color;
+            }
+        }
+
+        .chatroom-description {
+            color: white;
+            font-size: 80%;
+            font-style: italic;
+            height: 1.3em;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            margin: 0;
+            margin-top: 0.3em;
+        }
+    }
+
+    .chatroom {
+        width: $chatroom-width;
+        @media screen and (max-height: $mobile-landscape-height){
+            width: $mobile-chat-width;
+        }
+        @media screen and (max-width: $mobile-portrait-length) {
+            width: $mobile-chat-width;
+        }
+
+        .spinner {
+        }
+
+        .box-flyout {
+            min-width: $chatroom-width;
+            width: $chatroom-width;
+            @media screen and (max-height: $mobile-landscape-height) {
+                height: $mobile-chat-height;
+                width: $mobile-chat-width;
+                height: 100vh;
+            }
+            @media screen and (max-width: $mobile-portrait-length) {
+                height: $mobile-chat-height;
+                width: $mobile-chat-width;
+                height: 100vh;
+            }
+            .chatroom-body {
+                height: 289px;
+                @include border-bottom-radius($chatbox-border-radius);
+                @include calc(height, '100% - #{$chat-head-height}');
+                background-color: white;
+                border-top: 0;
+                width: 100%;
+                .mentioned {
+                    font-weight: bold;
+                }
+                .chat-msg-room {
+                    color: $message-them-color;
+                }
+                .disconnect-msg {
+                    padding: 2em 2em 0 2em;
+                }
+                .chat-area {
+                    word-wrap: break-word; 
+                    height: 100%;
+                    width: 70%;
+                    float: left;
+                    min-width: $chat-width;
+                    .new-msgs-indicator {
+                        background-color: $chatroom-head-color;
+                        max-width: 70%;
+                    }
+                    .chat-content {
+                        // There's an annoying Chrome box-sizing bug which prevents us from adding 0.5em padding here.
+                        padding: 0 0.5em 0 0.5em;
+                    }
+                    &.full {
+                        min-width: 100%;
+                        .new-msgs-indicator {
+                            min-width: 100%;
+                        }
+                    }
+                }
+                .occupants {
+                    overflow-x: hidden;
+                    overflow-y: hidden;
+                    float: right;
+                    vertical-align: top;
+                    background-color: white;
+                    border-left: 1px solid $text-color;
+                    border-bottom-right-radius: $chatbox-border-radius;
+                    width: 30%;
+                    height: 100%;
+                    padding: 0.5em;
+                    .occupants-heading {
+                        padding: 0.3em 0;
+                        font-weight: bold;
+                    }
+                    .chatroom-features {
+                        position: absolute;
+                        bottom: 0.5em;
+                        width: 25%;
+                        @include calc(width, '30% - 1em');
+                    }
+                    .awesomplete {
+                        ul {
+                            padding: 0.2em;
+                        }
+                    }
+                    ul {
+                        padding: 0.3em 0;
+                        overflow-x: hidden;
+                        overflow-y: auto;
+                        list-style: none;
+
+                        &.occupant-list {
+                            overflow-y: auto;
+                            @include calc(height, '100% - 220px');
+                        }
+                        &.features-list {
+                            padding-top: 0;
+                        }
+                        li {
+                            cursor: default;
+                            display: block;
+                            font-size: $font-size-small;
+                            overflow: hidden;
+                            padding: 0.2em 0.5em 0.2em 0;
+                            text-overflow: ellipsis;
+                            white-space: nowrap;
+                            [class^="icon-"], [class*=" icon-"] {
+                                padding-right: 0.5em;
+                            }
+                            &.feature {
+                                font-size: $font-size-tiny;
+                            }
+                            &.occupant {
+                                cursor: pointer;
+                                .occupant-status {
+									display: inline-block;
+                                    margin-right: 0.5em;
+									width: 0.5em;
+									height: 0.5em;
+                                    &.occupant-online,
+                                    &.occupant-chat {
+                                        background-color: #1A9707;
+                                    }
+                                    &.occupant-dnd {
+                                        background-color: red;
+                                    }
+                                    &.occupant-away {
+                                        background-color: darkorange;
+                                    }
+                                    &.occupant-xa {
+                                        background-color: orange;
+                                    }
+                                }
+                            }
+                            &.moderator {
+                                color: $moderator-color;
+                            }
+                        }
+                    }
+                }
+                .chatroom-form-container {
+                    background-color: white;
+                    border-bottom-left-radius: $chatbox-border-radius;
+                    border-bottom-right-radius: $chatbox-border-radius;
+                    border: 0;
+                    color: $text-color;
+                    font-size: $font-size;
+                    height: 289px;
+                    width: 100%;
+                    @include calc(height, '100% - #{$chat-head-height}');
+                    overflow-y: auto;
+                    position: absolute;
+
+                    .validation-message {
+                        font-size: 90%;
+                        color: $error-color;
+                    }
+                    .chatroom-form {
+                        label,
+                        input[type=text] {
+                            display: block;
+                        }
+                    }
+                    input[type=button],
+                    input[type=submit] {
+                        margin: 0 0.5em;
+                    }
+                }
+            }
+        }
+
+        form.sendXMPPMessage {
+            .chat-textarea {
+                border-bottom-right-radius: 0;
+            }
+            .send-button {
+                background-color: $chatroom-head-color;
+            }
+        }
+
+        .room-invite {
+            .invited-contact {
+                margin: -1px 0 0 -1px;
+                width: 100%;
+                border: 1px solid #999;
+            }
+        }
+    }
+}

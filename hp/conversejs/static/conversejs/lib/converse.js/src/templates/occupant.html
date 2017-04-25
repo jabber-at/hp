@@ -1,0 +1,13 @@
+<li class="{{{ role }}} occupant" id="{{{ id }}}"
+    {[ if (role === "moderator") { ]}
+       title="{{{ jid }}} {{{ desc_moderator }}} {{{ hint_occupant }}}"
+    {[ } ]}
+    {[ if (role === "occupant") { ]}
+       title="{{{ jid }}} {{{ desc_occupant }}} {{{ hint_occupant }}}"
+    {[ } ]}
+    {[ if (role === "visitor") { ]}
+       title="{{{ jid }}} {{{ desc_visitor }}} {{{ hint_occupant }}}"
+    {[ } ]}
+    {[ if (!_.includes(["visitor", "occupant", "moderator"], role)) { ]}
+       title="{{{ jid }}} {{{ hint_occupant }}}"
+       {[ } ]}><div class="occupant-status occupant-{{{show}}} circle" title="{{{hint_show}}}"></div>{{{nick}}}</li>
