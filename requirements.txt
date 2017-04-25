@@ -6,7 +6,7 @@ django-composite-field==0.8.0
 django-jsonfield==1.0.1
 django-mptt==0.8.7
 django-object-actions==0.9.0
-django-redis==4.7.0
+django-redis==4.8.0
 django-reversion==2.0.8
 django-simple-captcha==0.5.5
 django-tinymce4-widget==2.1.1
