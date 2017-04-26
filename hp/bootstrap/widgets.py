@@ -14,9 +14,6 @@
 # If not, see <http://www.gnu.org/licenses/>.
 
 from django import forms
-from django.utils.html import format_html
-from django.utils.html import mark_safe
-from django.utils.translation import ugettext as _
 
 
 class BootstrapWidgetMixin(object):
@@ -94,18 +91,7 @@ class BootstrapSelect(BootstrapWidgetMixin, forms.Select):
 
 class BootstrapFileInput(BootstrapWidgetMixin, forms.ClearableFileInput):
     input_class = 'upload-button'
-
-    def render(self, *args, **kwargs):
-        widget = super(BootstrapFileInput, self).render(*args, **kwargs)
-
-        button = format_html('<span class="btn btn-primary" type="span">{}{}</span>',
-                             _('Browse...'), widget)
-        button = format_html('<label for="{}" class="input-group-btn">{}</label>',
-                             kwargs['attrs']['id'], button)
-
-        text_input = mark_safe('<input type="text" class="form-control" readonly>')
-        return format_html(
-            '<div class="input-group">{}{}</div>', button, text_input)
+    template_name = 'bootstrap/forms/widgets/clearable_file_input.html'
 
     class Media:
         css = {
