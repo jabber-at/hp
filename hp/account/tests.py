@@ -47,16 +47,15 @@ class RegistrationTestCase(TestCase):
                 'username_0': 'testuser', 'username_1': 'example.com', 'email': 'user@example.com',
             })
 
-            func.call_count = 1
-            self.assertTaskCall(func.call_args, send_confirmation_task, **{
-                'address': '127.0.0.1',
-                'base_url': 'http://testserver',
-                'hostname': 'example.com',
-                'language': 'en',
-                'purpose': 'register',
-                'to': 'user@example.com',
-                'user_pk': 1,
-            })
+        self.assertTaskCall(func, send_confirmation_task, **{
+            'address': '127.0.0.1',
+            'base_url': 'http://testserver',
+            'hostname': 'example.com',
+            'language': 'en',
+            'purpose': 'register',
+            'to': 'user@example.com',
+            'user_pk': 1,
+        })
 
         self.assertRedirects(post, reverse('account:detail'))
 
