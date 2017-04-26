@@ -33,8 +33,9 @@ class HomepageTestCaseMixin(object):
     def assertIsTask(self, t, expected):
         self.assertEqual(t, task(expected))
 
-    def assertTaskCall(self, call_args, task, *args, **kwargs):
-        a, k = call_args
+    def assertTaskCall(self, mocked, task, *args, **kwargs):
+        self.assertTrue(mocked.called)
+        a, k = mocked.call_args
         self.assertEqual(k, {})  # apply_async receives task args/kwargs as tuple/dict arg
 
         instance, called_args, called_kwargs = a
