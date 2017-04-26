@@ -18,7 +18,7 @@ import logging
 
 from django.conf import settings
 from django.core.cache import cache
-from django.core.urlresolvers import reverse_lazy
+from django.urls import reverse_lazy
 from django.db.models import Q
 from django.http import Http404
 from django.http import HttpResponseRedirect

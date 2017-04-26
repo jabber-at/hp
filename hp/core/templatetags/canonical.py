@@ -17,7 +17,7 @@ import logging
 
 from django import template
 from django.contrib.staticfiles.templatetags.staticfiles import static
-from django.core.urlresolvers import reverse
+from django.urls import reverse
 
 from ..utils import canonical_link
 

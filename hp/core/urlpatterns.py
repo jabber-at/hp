@@ -14,9 +14,9 @@
 # not, see <http://www.gnu.org/licenses/>.
 
 from django.conf import settings
-from django.core.urlresolvers import RegexURLPattern
-from django.core.urlresolvers import RegexURLResolver
-from django.core.urlresolvers import Resolver404
+from django.urls import RegexURLPattern
+from django.urls import RegexURLResolver
+from django.urls import Resolver404
 from django.utils import translation
 
 

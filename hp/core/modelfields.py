@@ -18,7 +18,7 @@ import logging
 from django.contrib.admin.widgets import AdminTextareaWidget
 from django.contrib.contenttypes.models import ContentType
 from django.core.exceptions import ValidationError
-from django.core.urlresolvers import reverse
+from django.urls import reverse
 from django.urls.exceptions import NoReverseMatch
 
 from composite_field.l10n import LocalizedCharField as _LocalizedCharField

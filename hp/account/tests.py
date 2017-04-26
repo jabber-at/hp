@@ -19,7 +19,7 @@ import pytz
 from freezegun import freeze_time
 
 from django.contrib.auth import get_user_model
-from django.core.urlresolvers import reverse
+from django.urls import reverse
 from django.test import Client
 
 from core.tests import TestCase

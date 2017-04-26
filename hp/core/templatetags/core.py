@@ -16,7 +16,7 @@
 import logging
 
 from django import template
-from django.core.urlresolvers import reverse
+from django.urls import reverse
 from django.utils.html import format_html
 from django.utils.translation import ugettext as _
 
