@@ -330,8 +330,7 @@ class Notifications(BaseModel):
 class Confirmation(BaseModel):
     objects = ConfirmationQuerySet.as_manager()
 
-    # NOTE: This is *not* necessarily the same as the email address of the user (a new address
-    #       might have been added).
+    # NOTE: *Not* necessarily the same as the email address of the user (a new address might have been added).
     to = models.EmailField(blank=True, verbose_name=_('Recipient'))
 
     key = models.CharField(max_length=40, default=default_key)
@@ -342,9 +341,8 @@ class Confirmation(BaseModel):
     # NOTE: Do not add choices here, or changing settings.LANGUAGES will trigger a migration
     language = models.CharField(max_length=2)
 
-    user = models.ForeignKey(settings.AUTH_USER_MODEL, related_name='confirmations')
-    address = models.ForeignKey(Address, models.PROTECT, blank=True, null=True,
-                                related_name='confirmations')
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, models.CASCADE, related_name='confirmations')
+    address = models.ForeignKey(Address, models.PROTECT, blank=True, null=True, related_name='confirmations')
 
     SUBJECTS = {
         PURPOSE_DELETE: _('Delete your account on {{ user.domain }}'),
@@ -386,7 +384,7 @@ class UserLogEntry(BaseModel):
 
     objects = UserLogEntryManager.from_queryset(UserLogEntryQuerySet)()
 
-    user = models.ForeignKey(settings.AUTH_USER_MODEL, related_name='log_entries')
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, models.CASCADE, related_name='log_entries')
     address = models.GenericIPAddressField(null=True, blank=True)
     message = models.TextField()
     payload = JSONField(default=default_payload)
@@ -408,7 +406,7 @@ class GpgKey(BaseModel):
 
     objects = GpgKeyQuerySet.as_manager()
 
-    user = models.ForeignKey(settings.AUTH_USER_MODEL, related_name='gpg_keys')
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, models.CASCADE, related_name='gpg_keys')
 
     # NOTE: the fingerprint is *not* unique, because a key might be used for multiple accounts
     fingerprint = models.CharField(max_length=40)

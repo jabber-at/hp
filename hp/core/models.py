@@ -46,7 +46,8 @@ class BaseModel(models.Model):
 
 class MenuItem(MPTTModel, BaseModel):
     title = LocalizedCharField(max_length=32, help_text=_('Page title'))
-    parent = TreeForeignKey('self', null=True, blank=True, related_name='children', db_index=True)
+    parent = TreeForeignKey('self', models.PROTECT, null=True, blank=True, related_name='children',
+                            db_index=True)
     target = LinkTarget()
 
     def __str__(self):
@@ -57,7 +58,7 @@ class MenuItem(MPTTModel, BaseModel):
 
 
 class CachedMessage(BaseModel):
-    user = models.ForeignKey(settings.AUTH_USER_MODEL, db_index=True)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, models.CASCADE, db_index=True)
     level = models.IntegerField()
     message = models.TextField()
     payload = JSONField(default=dict)
@@ -80,8 +81,8 @@ class Address(models.Model):
 class AddressActivity(models.Model):
     objects = AddressActivityManager.from_queryset(AddressActivityQuerySet)()
 
-    address = models.ForeignKey(Address)
-    user = models.ForeignKey(settings.AUTH_USER_MODEL)
+    address = models.ForeignKey(Address, models.CASCADE)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, models.CASCADE)
 
     ACTIVITY_CHOICES = {
         ACTIVITY_FAILED_LOGIN: _('Failed login'),
