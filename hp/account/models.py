@@ -20,13 +20,13 @@ from django.conf import settings
 from django.contrib.auth.models import PermissionsMixin
 from django.contrib.messages import constants as messages
 from django.core.mail import EmailMultiAlternatives
-from django.urls import reverse
 from django.db import models
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 from django.template import Context
 from django.template import Template
 from django.template.loader import render_to_string
+from django.urls import reverse
 from django.utils import timezone
 from django.utils import translation
 from django.utils.crypto import get_random_string

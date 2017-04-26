@@ -22,8 +22,8 @@ from django import template
 from django.conf import settings
 from django.core.files.storage import FileSystemStorage
 from django.core.files.storage import default_storage
-from django.urls import reverse
 from django.db import models
+from django.urls import reverse
 from django.utils import timezone
 from django.utils.safestring import mark_safe
 from django.utils.translation import ugettext_lazy as _

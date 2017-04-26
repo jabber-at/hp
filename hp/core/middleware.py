@@ -17,12 +17,12 @@ import logging
 
 from django.conf import settings
 from django.contrib import messages
-from django.urls import reverse
 from django.db import transaction
 from django.http import HttpResponseRedirect
 from django.http.request import split_domain_port
 from django.http.request import validate_host
 from django.template.response import TemplateResponse
+from django.urls import reverse
 from django.utils.translation import ugettext as _
 from xmpp_backends.base import BackendError
 

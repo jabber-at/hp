@@ -25,8 +25,6 @@ from django.contrib.auth import login
 from django.contrib.auth import logout
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.cache import cache
-from django.urls import reverse
-from django.urls import reverse_lazy
 from django.db import transaction
 from django.http import HttpResponse
 from django.http import HttpResponseForbidden
@@ -35,6 +33,8 @@ from django.http import JsonResponse
 from django.shortcuts import get_object_or_404
 from django.shortcuts import resolve_url
 from django.template.response import TemplateResponse
+from django.urls import reverse
+from django.urls import reverse_lazy
 from django.utils import timezone
 from django.utils.http import is_safe_url
 from django.utils.translation import ugettext_lazy as _
