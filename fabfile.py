@@ -129,11 +129,8 @@ class DeployTask(DeploymentTaskMixin, Task):
         self.path = config.get('path')
         self.venv = config.get('home', self.path).rstrip('/')
 
-        oldcwd = os.getcwd()
-        os.chdir('hp')
-        local('python manage.py check')
-        local('python manage.py test -k hp.test_settings')
-        os.chdir(oldcwd)
+        # Run test-suite
+        test()
 
         # push source code
         local('git push origin master')
@@ -208,7 +205,7 @@ def test():
 
     oldcwd = os.getcwd()
     os.chdir('hp')
-    local('python manage.py check')
+    local('python -Wd manage.py check')
     local('python manage.py test --settings=hp.test_settings')
     os.chdir(oldcwd)
 

@@ -18,6 +18,7 @@
     <link href="{% static GENERATED_CSS %}" rel="stylesheet">
     {% endif %}
     {{ form.media.css }}
+    {% block pagecss %}{% endblock pagecss %}{# for CSS not included in generated CSS #}
 
     {% comment %}Favicons from http://www.favicomatic.com/, yeah thats insane.{% endcomment %}
     <link rel="apple-touch-icon" sizes="57x57" href="{% static "favicon/apple-touch-icon-57x57.png" %}" />
