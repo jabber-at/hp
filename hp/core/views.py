@@ -219,7 +219,7 @@ class AnonymousRequiredMixin(object):
     redirect_url = reverse_lazy('account:detail')
 
     def dispatch(self, request, *args, **kwargs):
-        if request.user.is_authenticated():
+        if request.user.is_authenticated:
             return HttpResponseRedirect(self.redirect_url)
         return super(AnonymousRequiredMixin, self).dispatch(request, *args, **kwargs)
 
@@ -235,7 +235,7 @@ class ContactView(AntiSpamMixin, StaticContextMixin, FormView):
         return context
 
     def get_form_class(self):
-        if self.request.user.is_authenticated():
+        if self.request.user.is_authenticated:
             return ContactForm
         else:
             return AnonymousContactForm
@@ -270,7 +270,7 @@ class SetLanguageView(RedirectView):
 
         redirect_to = request.GET.get('next')
 
-        if not request.user.is_anonymous():
+        if not request.user.is_anonymous:
             request.user.default_language = lang
             request.user.save()
 

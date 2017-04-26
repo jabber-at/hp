@@ -60,7 +60,7 @@ class TranslatedUrlConfigMiddleware(object):
 
 class CeleryMessageMiddleware(object):
     def process_request(self, request):
-        if request.user.is_anonymous():
+        if request.user.is_anonymous:
             return
 
         with transaction.atomic():

@@ -39,7 +39,7 @@ class RegistrationTestCase(TestCase):
 
         get = client.get(url)
         self.assertEqual(get.status_code, 200)
-        self.assertTrue(get.context['user'].is_anonymous())
+        self.assertTrue(get.context['user'].is_anonymous)
         self.assertTrue('form' in get.context)
 
         with self.mock_celery() as func, freeze_time('2017-04-23 11:22:33+00:00'):
@@ -62,7 +62,7 @@ class RegistrationTestCase(TestCase):
 
         # redirects don't have a context, so we login now
         detail = client.get(reverse('account:detail'))
-        self.assertFalse(detail.context['user'].is_anonymous())
+        self.assertFalse(detail.context['user'].is_anonymous)
 
         # Examine user
         self.assertEqual(User.objects.count(), 1)
