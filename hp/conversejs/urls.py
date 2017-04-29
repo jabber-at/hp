@@ -20,5 +20,6 @@ from . import views
 
 app_name = 'conversejs'
 urlpatterns = [
-    url(r'$', views.ConverseJsView.as_view(), name='main'),
+    url(r'^init.js$', views.ConverseJsInitView.as_view(), name='init-js'),
+    url(r'^$', views.ConverseJsView.as_view(), name='main'),
 ]

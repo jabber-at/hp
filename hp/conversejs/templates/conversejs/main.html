@@ -10,7 +10,7 @@
 
 {% block extrajs %}
 <script src="{% static "conversejs/converse.js" %}"></script>
-<script src="{% static "conversejs/init.js" %}"></script>
+<script src="{% url "conversejs:init-js" %}"></script>
 {% endblock extrajs %}
 
 {% block page %}
