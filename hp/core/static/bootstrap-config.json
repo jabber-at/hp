@@ -11,9 +11,20 @@
     "navbar.less",
     "alerts.less",
     "modals.less",
+    "tables.less",
+    "glyphicons.less",
+    "dropdowns.less",
+    "input-groups.less",
+    "list-group.less",
+    "panels.less",
+    "tooltip.less",
     "close.less"
   ],
   "js": [
+    "alert.js",
+    "tooltip.js",
+    "transition.js",
+    "dropdown.js",
     "modal.js"
   ],
   "customizerUrl": "http://getbootstrap.com/customize/?id=c2fc6c228d0ae99325b6"
