@@ -19,6 +19,7 @@ import sys
 from datetime import datetime
 
 from fabric.api import local
+from fabric.api import runs_once
 from fabric.api import task
 from fabric.tasks import Task
 
@@ -50,15 +51,20 @@ configfile = configparser.ConfigParser({
 configfile.read('fab.conf')
 
 
+@runs_once
+def setup_django(settings_module='hp.settings'):
+    os.environ.setdefault("DJANGO_SETTINGS_MODULE", "hp.settings")
+    sys.path.insert(0, os.path.join(fabdir, 'hp'))
+
+    import django
+    django.setup()
+
+
 class StaticFilesMixin(object):
     """Mixin to get Django static files."""
 
     def get_files(self):
-        os.environ.setdefault("DJANGO_SETTINGS_MODULE", "hp.settings")
-        sys.path.insert(0, os.path.join(fabdir, 'hp'))
-
-        import django
-        django.setup()
+        setup_django()
 
         from django.contrib.staticfiles import finders
         return [finders.find(f) for f in self.files]
