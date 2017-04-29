@@ -512,6 +512,7 @@ USER_LOGENTRY_EXPIRES = timedelta(days=31)
 # WebChat #
 ###########
 CONVERSEJS_CONFIG = {}
+CONVERSEJS_SETUP_CALLBACK = None
 
 try:
     from .localsettings import *  # NOQA

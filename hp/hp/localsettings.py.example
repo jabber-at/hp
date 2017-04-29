@@ -271,6 +271,10 @@ DEFAULT_XMPP_HOST = 'example.com'
 #    'allow_registration': False,
 #}
 
+# You can also define a setup callback, which is a javascript function that will receive
+# CONVERSEJS_CONFIG as only parameter. You must take care of initializing everything yourself!
+#CONVERSEJS_SETUP_CALLBACK = 'init_conversejs'
+
 ########################
 # Celery configuration #
 ########################
