@@ -14,6 +14,7 @@ Contents:
    settings
    content
    templatetags
+   js_css
    conversejs
    development
 
