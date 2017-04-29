@@ -44,3 +44,20 @@ Prism
 We use `Prism <http://prismjs.com/>`_ for syntax highlighting.
 
 .. TODO:: Add ability to build custom version
+
+
+****************************
+Build bootstrap-specific CSS
+****************************
+
+A small less-file using bootstrap variables is compiled using less::
+
+   fab compile_less
+
+******************
+Build minified CSS
+******************
+
+To build minified CSS, use::
+
+   fab minify_css
