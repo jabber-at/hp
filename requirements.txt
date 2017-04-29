@@ -1,5 +1,5 @@
 Django==1.11
-Pillow==4.1.0
+Pillow==4.1.1
 bleach==2.0.0
 celery==4.0.2
 django-composite-field==0.8.0
@@ -19,6 +19,6 @@ lxml==3.7.3
 pip>=9.0.1
 pygpgme==0.3
 requests==2.13.0
-setuptools>=34.3.3
+setuptools>=35.0.2
 strict-rfc3339==0.7
 xmpp-backends==0.3.0
