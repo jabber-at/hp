@@ -1,0 +1,10 @@
+<div class="linktarget-wrapper">
+{% for widget in widget.subwidgets %}
+<div class="linktarget-widget wrap_{{ widget.name }}">
+  {% if widget.label %}
+  <label for="{{ widget.attrs.id }}" {% if widget.required %}class="required"{% endif %}>{{ widget.label }}</label>
+  {% endif %}
+  {% include widget.template_name %}
+</div>
+{% endfor %}
+</div>

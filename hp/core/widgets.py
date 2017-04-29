@@ -29,11 +29,20 @@ log = logging.getLogger(__name__)
 
 
 class LinkTargetWidget(forms.MultiWidget):
+    template_name = 'core/forms/widgets/linktargetwidget.html'
+
     def __init__(self, *args, **kwargs):
         self.models = kwargs.pop('models', [])
         super(LinkTargetWidget, self).__init__(*args, **kwargs)
 
-    def render(self, name, value, attrs=None):
+    def get_context(self, *args, **kwargs):
+        ctx = super(LinkTargetWidget, self).get_context(*args, **kwargs)
+        for i, widget in enumerate(self.widgets):
+            if getattr(widget, 'label', None):
+                ctx['widget']['subwidgets'][i]['label'] = widget.label
+        return ctx
+
+    def old_render(self, name, value, attrs=None):
         if self.is_localized:
             for widget in self.widgets:
                 widget.is_localized = self.is_localized
