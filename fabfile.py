@@ -38,7 +38,7 @@ build_jquery = BuildJqueryTask(
     version='~2'
 )
 build_bootstrap = BuildBootstrapTask(
-    config='hp/core/static/bootstrap-config.json',
+    config=os.path.join(fabdir, 'hp/core/static/bootstrap-config.json'),
     dest_dir='hp/core/static/lib/bootstrap/',
     version='~3'
 )
