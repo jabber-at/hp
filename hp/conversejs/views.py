@@ -26,15 +26,10 @@ class ConverseJsView(TemplateView):
 
 class ConverseJsInitView(TemplateView):
     template_name = 'conversejs/init.js'
+    content_type = 'application/javascript'
 
     def get_context_data(self, *args, **kwargs):
         ctx = super(ConverseJsInitView, self).get_context_data(*args, **kwargs)
         ctx['config'] = json.dumps(settings.CONVERSEJS_CONFIG)
         ctx['setup_callback'] = settings.CONVERSEJS_SETUP_CALLBACK
         return ctx
-
-    def _get(self, request):
-        js = ''
-        if settings.CONVERSEJS_CONFIG:
-            js = 'converse.initialize(%s);' % json.dumps(settings.CONVERSEJS_CONFIG)
-        return HttpResponse(js, content_type='application/javascript')
