@@ -197,11 +197,10 @@ def autodoc():
 
 
 @task
-def compile_less():
+def compile_less(dest='hp/core/static/core/css/bootstrap-hp.css'):
     """Compile CSS styles that use bootstrap variables."""
 
-    local(
-        'node_modules/.bin/lessc less/bootstrap-hp.less hp/core/static/core/css/bootstrap-hp.css')
+    local('node_modules/.bin/lessc less/bootstrap-hp.less %s' % dest)
 
 
 @task
