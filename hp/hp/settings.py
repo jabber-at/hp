@@ -508,6 +508,11 @@ REQUIRE_UNIQUE_EMAIL = False
 ####################
 USER_LOGENTRY_EXPIRES = timedelta(days=31)
 
+###########
+# WebChat #
+###########
+CONVERSEJS_CONFIG = {}
+
 try:
     from .localsettings import *  # NOQA
 except ImportError:

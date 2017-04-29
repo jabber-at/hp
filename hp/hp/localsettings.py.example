@@ -260,6 +260,17 @@ DEFAULT_XMPP_HOST = 'example.com'
 #   }
 #}
 
+###########
+# Webchat #
+###########
+# See https://conversejs.org/docs/html/configuration.html for available configuration variables
+#CONVERSEJS_CONFIG = {
+#    'bosh_service_url': 'https://example.com/http-bind/',
+#    'show_controlbox_by_default': True,
+#    'roster_groups': True,
+#    'allow_registration': False,
+#}
+
 ########################
 # Celery configuration #
 ########################
