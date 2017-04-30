@@ -174,6 +174,23 @@ AUTHENTICATION_BACKENDS = [
     'xmpp_backends.django.auth_backends.XmppBackendBackend',
 ]
 
+JS_FILES = [
+    'lib/jquery/jquery.js',
+    'lib/bootstrap/js/bootstrap.js',
+    'lib/prism/prism.js',
+    'core/js/clients.js',
+    'core/js/captcha.js',
+    'core/js/base.js',
+    'account/js/gpgmixin.js',
+    'account/js/set_password.js',
+    'account/js/username_widget.js',
+    'account/js/base.js',
+    'account/js/fingerprint_widget.js',
+    'account/js/notifications.js',
+    'bootstrap/js/file_input.js',
+    'bootstrap/js/email_input.js',
+]
+
 ############
 # TinyMCE4 #
 ############
