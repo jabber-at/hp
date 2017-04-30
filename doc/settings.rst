@@ -141,3 +141,11 @@ XMPP_BACKENDS
 
 This setting configures the backend used to communicate with your XMPP server. Please see
 the `xmpp-backends library <http://xmpp-backends.readthedocs.io/en/latest/>`_ for more information.
+
+.. _setting-custom-js-css:
+
+*************
+Custom JS/CSS
+*************
+
+
