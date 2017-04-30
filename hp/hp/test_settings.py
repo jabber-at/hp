@@ -170,6 +170,9 @@ LOGIN_REDIRECT_URL = reverse_lazy('account:detail')
 AUTHENTICATION_BACKENDS = [
     'xmpp_backends.django.auth_backends.XmppBackendBackend',
 ]
+CONVERSEJS_CONFIG = {}
+FAQ_PAGE = None
+CLIENTS_PAGE = None
 
 ############
 # TinyMCE4 #
