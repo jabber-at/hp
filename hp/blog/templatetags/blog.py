@@ -42,10 +42,7 @@ def page_url(pk_or_slug, quiet=True):
     """
 
     try:
-        if isinstance(pk_or_slug, int):
-            page = Page.objects.get(pk=pk_or_slug)
-        else:
-            page = Page.objects.slug(pk_or_slug).get()
+        page = Page.objects.pk_or_slug(pk_or_slug)
     except Page.DoesNotExist:
         if quiet is False:
             raise
@@ -84,13 +81,10 @@ def page(context, pk, text=None, anchor=None, **attrs):
     """
 
     try:
-        page = Page.objects.get(pk=pk)
+        page = Page.objects.pk_or_slug(pk)
     except Page.DoesNotExist:
-        page = Page.objects.filter(slug=pk).first()
-
-        if page is None:
-            log.error('%s: Page %s does not exist.', context['request'].path, pk)
-            return text or ''
+        log.error('%s: Page %s does not exist.', context['request'].path, pk)
+        return text or ''
 
     if text is None and attrs.get('title') is not None:
         log.warn(
@@ -114,14 +108,12 @@ def post(context, pk, text=None, anchor=None, **attrs):
     This templatetag works the same as :py:func:`~core.templatetags.blog.page`, except that it
     links to blog posts.
     """
-    try:
-        post = BlogPost.objects.get(pk=pk)
-    except BlogPost.DoesNotExist:
-        post = BlogPost.objects.filter(slug=pk).first()
 
-        if post is None:
-            log.error('%s: BlogPost %s does not exist.', context['request'].path, pk)
-            return text or ''
+    try:
+        post = BlogPost.objects.pk_or_slug(pk)
+    except BlogPost.DoesNotExist:
+        log.error('%s: BlogPost %s does not exist.', context['request'].path, pk)
+        return text or ''
 
     if text is None and attrs.get('title') is not None:
         log.warn(

@@ -31,6 +31,13 @@ class BasePageQuerySet(models.QuerySet):
 
         return self.filter(query)
 
+    def pk_or_slug(self, val):
+        """Get an object either by primary key or slug in any language."""
+        if isinstance(val, int):
+            return self.get(pk=val)
+        else:
+            return self.slug(val).get()
+
 
 class PageQuerySet(BasePageQuerySet):
     pass
