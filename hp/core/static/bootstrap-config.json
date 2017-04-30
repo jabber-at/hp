@@ -21,11 +21,11 @@
     "close.less"
   ],
   "js": [
-    "alert.js",
-    "tooltip.js",
     "transition.js",
+    "alert.js",
     "dropdown.js",
-    "modal.js"
+    "modal.js",
+    "tooltip.js"
   ],
   "customizerUrl": "http://getbootstrap.com/customize/?id=c2fc6c228d0ae99325b6"
 }
