@@ -85,6 +85,21 @@ SECRET_KEY = ''
 #BLOG_MEDIA_ROOT = '/var/www/other.example.com/media/'
 #BLOG_MEDIA_URL = '/media/'
 
+###########
+# Content #
+###########
+# You can configure a few pages here that if configured will appear in a few templates where
+# appropriate. Values can either be an integer, in which case it's the primary key of the database
+# object, or a str for a slug of the page. The primary key is preferred because the lookup is
+# faster and link URLs will be internationalized. You can get the primary key from the URL in the
+# admin interface (e.g. /admin/blog/page/<pk>/).
+
+# A page containing client recommondations
+#CLIENTS_PAGE = 3
+
+# A page containing "Frequently asked questions"
+#FAQ_PAGE = 5
+
 #########################
 # Account configuration #
 #########################

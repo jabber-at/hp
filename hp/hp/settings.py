@@ -333,6 +333,10 @@ ADMIN_URL = '/admin/'
 BLOG_MEDIA_ROOT = None
 BLOG_MEDIA_URL = None
 
+# pages
+CLIENTS_PAGE = None
+FAQ_PAGE = None
+
 XMPP_HOSTS = {}
 CONTACT_ADDRESS = None
 CONTACT_MUC = None
