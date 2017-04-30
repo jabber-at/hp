@@ -1,17 +1,19 @@
 {% load i18n static blog %}
 <h2>{% trans "Where to go from here" %}</h2>
 
-{% page_url 'clients' as clients_url %}
 {% url 'core:contact' as contact_url %}
-{% url 'blog:page' slug="faq" as faq_url %}
+{% url 'conversejs:main' as chat_url %}
 <ul>
-    {% if clients_url %}
-    <li>{% blocktrans with host=site.NAME%}You need a client to connect to {{ host }}. We have <a
-href="{{ clients_url }}">some recommendations</a>.{% endblocktrans %}</li>
-    {% endif %}
-    {% if faq_url %}
+    <li>{% blocktrans with host=site.NAME%}You need a client to connect to {{ host }}:{% endblocktrans %}
+        {% if CLIENTS_URL or WEBCHAT %}<ul>
+            {% if WEBCHAT %}<li>{% blocktrans %}You can connect via <a href="{{ chat_url }}">our Webchat</a>.{% endblocktrans %}</li>{% endif %}
+            {% if CLIENTS_URL %}<li>{% blocktrans %}We have <a href="{{ CLIENTS_URL }}">some recommendations</a> for clients to install on your computer or mobile device.{% endblocktrans %}</li>{% endif %}
+        </ul>{% endif %}
+    </li>
+
+    {% if FAQ_URL %}
     <li>{% blocktrans %}Frequently answered questions are answered in our <a
-href="{{ faq_url }}">FAQs</a>.{% endblocktrans %}</li>
+href="{{ FAQ_URL }}">FAQs</a>.{% endblocktrans %}</li>
     {% endif %}
     <li>{% blocktrans with host=site.NAME %}For updates about {{ host }}, follow us via{% endblocktrans %}
         <ul class="list-inline">
