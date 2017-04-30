@@ -161,7 +161,7 @@ class BasePageAdmin(VersionAdmin, BaseModelAdmin):
             ),
         }
         js = (
-            'lib/jquery/jquery-2.2.4.js',
+            'lib/jquery/jquery.js',
             'blog/admin/js/basepage.js',
         )
 
