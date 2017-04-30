@@ -720,7 +720,9 @@ class DeleteHttpUploadView(LoginRequiredMixin, SingleObjectMixin, View):
         return super(DeleteHttpUploadView, self).get_object(queryset=queryset)
 
     def delete(self, request, pk):
-        self.get_object().delete()
+        obj = self.get_object()
+        obj.file.delete()
+        obj.delete()
         return HttpResponse('ok')
 
 
