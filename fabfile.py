@@ -33,7 +33,7 @@ fabdir = os.path.dirname(__file__)
 
 # Currently not working because of general incompetence of the NodeJS community.
 build_jquery = BuildJqueryTask(
-    excludes='-deprecated,-dimensions',
+    excludes='-deprecated',
     dest_dir='hp/core/static/lib/jquery/',
     version='~2'
 )
