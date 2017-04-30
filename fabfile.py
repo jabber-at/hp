@@ -95,7 +95,7 @@ class StaticFilesMixin(object):
 
 
 class MinifyCSSTask(StaticFilesMixin, MinifyCSSBaseTask):
-    pass
+    files_setting = 'CSS_FILES'
 
 
 class MinifyJSTask(StaticFilesMixin, MinifyJSBaseTask):
@@ -243,19 +243,7 @@ def test():
     os.chdir(oldcwd)
 
 
-minify_css = MinifyCSSTask(dest='hp/core/static/hp-%s.css' % timestamp, files=[
-    'lib/bootstrap/css/bootstrap.min.css',
-    'lib/bootstrap/css/bootstrap-theme.min.css',
-    'lib/prism/prism.css',
-    'core/css/bootstrap-hp.css',
-    'core/css/base.css',
-    'core/css/clients.css',
-    'account/css/base.css',
-    'account/css/notifications.css',
-    'account/css/username_widget.css',
-    'account/css/gpgmixin.css',
-    'bootstrap/css/file_input.css',
-])
+minify_css = MinifyCSSTask(dest='hp/core/static/hp.css' % timestamp, files=[])
 minify_js = MinifyJSTask(dest='hp/core/static/hp.js', files=[])
 setup = SetupTask()
 deploy = DeployTask()
