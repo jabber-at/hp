@@ -100,6 +100,7 @@ TEMPLATES = [
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
                 'core.context_processors.basic',
+                'blog.context_processors.global_pages',
             ],
         },
     },
