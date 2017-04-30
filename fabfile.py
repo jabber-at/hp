@@ -24,6 +24,7 @@ from fabric.api import task
 from fabric.tasks import Task
 
 from fabric_webbuilders import MinifyCSSTask as MinifyCSSBaseTask
+from fabric_webbuilders import MinifyJSTask as MinifyJSBaseTask
 from fabric_webbuilders import BuildBootstrapTask
 from fabric_webbuilders import BuildJqueryTask
 
@@ -64,15 +65,34 @@ def setup_django(settings_module='hp.settings'):
 class StaticFilesMixin(object):
     """Mixin to get Django static files."""
 
+    files_setting = None
+
+    def get_file(self, f):
+        from django.contrib.staticfiles import finders
+
+        if os.path.isabs(f):
+            return f
+        return finders.find(f)
+
     def get_files(self):
         setup_django()
 
         from django.contrib.staticfiles import finders
-        return [finders.find(f) for f in self.files]
+        from django.conf import settings
+
+        if self.files_setting and not self.files:
+            files = getattr(settings, self.files_setting)
+            return [self.get_file(f) for f in files]
+        else:
+            return [finders.find(f) for f in self.files]
 
 
 class MinifyCSSTask(StaticFilesMixin, MinifyCSSBaseTask):
     pass
+
+
+class MinifyJSTask(StaticFilesMixin, MinifyJSBaseTask):
+    files_setting = 'JS_FILES'
 
 
 class DeploymentTaskMixin(object):
@@ -229,6 +249,7 @@ minify_css = MinifyCSSTask(dest='hp/core/static/hp-%s.css' % timestamp, files=[
     'account/css/gpgmixin.css',
     'bootstrap/css/file_input.css',
 ])
+minify_js = MinifyJSTask(dest='hp/core/static/hp.min.js', files=[])
 setup = SetupTask()
 deploy = DeployTask()
 upload_doc = UploadDoc()
