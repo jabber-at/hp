@@ -256,7 +256,7 @@ minify_css = MinifyCSSTask(dest='hp/core/static/hp-%s.css' % timestamp, files=[
     'account/css/gpgmixin.css',
     'bootstrap/css/file_input.css',
 ])
-minify_js = MinifyJSTask(dest='hp/core/static/hp.min.js', files=[])
+minify_js = MinifyJSTask(dest='hp/core/static/hp.js', files=[])
 setup = SetupTask()
 deploy = DeployTask()
 upload_doc = UploadDoc()
