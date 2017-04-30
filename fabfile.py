@@ -243,7 +243,7 @@ def test():
     os.chdir(oldcwd)
 
 
-minify_css = MinifyCSSTask(dest='hp/core/static/hp.css' % timestamp, files=[])
+minify_css = MinifyCSSTask(dest='hp/core/static/hp.css', files=[])
 minify_js = MinifyJSTask(dest='hp/core/static/hp.js', files=[])
 setup = SetupTask()
 deploy = DeployTask()
