@@ -21,6 +21,7 @@ from datetime import datetime
 from fabric.api import local
 from fabric.api import runs_once
 from fabric.api import task
+from fabric.colors import red
 from fabric.tasks import Task
 
 from fabric_webbuilders import MinifyCSSTask as MinifyCSSBaseTask
@@ -77,14 +78,20 @@ class StaticFilesMixin(object):
     def get_files(self):
         setup_django()
 
-        from django.contrib.staticfiles import finders
         from django.conf import settings
 
-        if self.files_setting and not self.files:
-            files = getattr(settings, self.files_setting)
-            return [self.get_file(f) for f in files]
+        if self.files:
+            files = self.files
         else:
-            return [finders.find(f) for f in self.files]
+            files = getattr(settings, self.files_setting)
+
+        for path in files:
+            full_path = self.get_file(path)
+            if not full_path:
+                print(red('Warning: %s could not be found.' % path))
+                continue
+
+            yield full_path
 
 
 class MinifyCSSTask(StaticFilesMixin, MinifyCSSBaseTask):
