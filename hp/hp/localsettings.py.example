@@ -420,3 +420,11 @@ XMPP_HTTP_UPLOAD_ACCESS = (
 
 # Top-level domain to use
 #XMPP_HTTP_UPLOAD_URL_BASE = 'https://jabber.at'
+
+# Django stores larger uploads as temporary files. This means that on many systems, those files
+# will not be world-readable by default. You can overwrite the default permissions for uploaded
+# files. See also:
+#   https://docs.djangoproject.com/en/1.11/topics/http/file-uploads/#upload-handlers
+#   https://docs.djangoproject.com/en/1.11/ref/settings/#file-upload-permissions
+#   https://docs.djangoproject.com/en/1.11/ref/settings/#std:setting-FILE_UPLOAD_MAX_MEMORY_SIZE
+#FILE_UPLOAD_PERMISSIONS = 0o644
