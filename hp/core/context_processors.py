@@ -19,6 +19,7 @@ from datetime import date
 
 from django.apps import apps
 from django.conf import settings
+from django.core.cache import cache
 
 from .models import MenuItem
 
@@ -35,7 +36,7 @@ def basic(request):
             'brand': request.site['BRAND'],
             'year': date.today().year,
         },
-        'menuitems': MenuItem.objects.all(),
+        #'menuitems': MenuItem.objects.all(),
         'site': request.site,
         'default_site': settings.XMPP_HOSTS[settings.DEFAULT_XMPP_HOST],
         # language switcher
@@ -45,4 +46,15 @@ def basic(request):
         'DEBUG': settings.DEBUG,
         'GENERATED_CSS': generated_css,
     }
+
+    # Data that requires database access is cached
+    cache_key = 'request_context'
+    cached = cache.get(cache_key)
+    if cached is None:
+        cached = {
+            'menuitems': MenuItem.objects.all(),
+        }
+        cache.set(cache_key, cached)
+    context.update(cached)
+
     return context
