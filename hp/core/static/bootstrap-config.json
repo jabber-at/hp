@@ -18,6 +18,9 @@
     "list-group.less",
     "panels.less",
     "tooltip.less",
+    "badges.less",
+    "labels.less",
+    "component-animations.less",
     "close.less"
   ],
   "js": [
@@ -25,6 +28,7 @@
     "alert.js",
     "dropdown.js",
     "modal.js",
+    "collapse.js",
     "tooltip.js"
   ],
   "customizerUrl": "http://getbootstrap.com/customize/?id=c2fc6c228d0ae99325b6"
