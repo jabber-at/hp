@@ -174,7 +174,8 @@ AUTHENTICATION_BACKENDS = [
     'xmpp_backends.django.auth_backends.XmppBackendBackend',
 ]
 
-JS_FILES = [
+JS_FILES = None
+_DEFAULT_JS_FILES = [
     'lib/jquery/jquery.js',
     'lib/bootstrap/js/bootstrap.js',
     'lib/prism/prism.js',
@@ -189,6 +190,20 @@ JS_FILES = [
     'account/js/notifications.js',
     'bootstrap/js/file_input.js',
     'bootstrap/js/email_input.js',
+]
+CSS_FILES = None
+_DEFAULT_CSS_FILES = [
+    'lib/bootstrap/css/bootstrap.min.css',
+    'lib/bootstrap/css/bootstrap-theme.min.css',
+    'lib/prism/prism.css',
+    'core/css/bootstrap-hp.css',
+    'core/css/base.css',
+    'core/css/clients.css',
+    'account/css/base.css',
+    'account/css/notifications.css',
+    'account/css/username_widget.css',
+    'account/css/gpgmixin.css',
+    'bootstrap/css/file_input.css',
 ]
 
 ############
@@ -570,6 +585,16 @@ if ACCOUNT_USER_MENU is None:
     ACCOUNT_USER_MENU = _DEFAULT_ACCOUNT_USER_MENU
 elif callable(ACCOUNT_USER_MENU):
     ACCOUNT_USER_MENU = ACCOUNT_USER_MENU(_DEFAULT_ACCOUNT_USER_MENU)
+
+if JS_FILES is None:
+    JS_FILES = _DEFAULT_JS_FILES
+elif callable(JS_FILES):
+    JS_FILES = JS_FILES(_DEFAULT_JS_FILES)
+
+if CSS_FILES is None:
+    CSS_FILES = _DEFAULT_CSS_FILES
+elif callable(CSS_FILES):
+    CSS_FILES = CSS_FILES(_DEFAULT_CSS_FILES)
 
 if ACCOUNT_EXPIRES_DAYS is not None:
     if ACCOUNT_EXPIRES_NOTIFICATION_DAYS is None:
