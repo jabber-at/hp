@@ -8,10 +8,10 @@
 <link rel="stylesheet" type="text/css" media="screen" href="{% static "conversejs/init.css" %}">
 {% endblock pagecss %}
 
-{% block extrajs %}
+{% block pagejs %}
 <script src="{% static "conversejs/converse.js" %}"></script>
 <script src="{% url "conversejs:init-js" %}"></script>
-{% endblock extrajs %}
+{% endblock pagejs %}
 
 {% block title %}{% trans "Webchat" %}{% endblock title %}
 
