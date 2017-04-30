@@ -13,11 +13,11 @@
     <link href="{% static 'lib/prism/prism.css' %}" rel="stylesheet">
     <link href="{% static 'core/css/bootstrap-hp.css' %}" rel="stylesheet">
     <link href="{% static 'core/css/base.css' %}" rel="stylesheet">
+    {{ form.media.css }}
     {% block extracss %}{% endblock extracss %}
     {% else %}
     <link href="{% static GENERATED_CSS %}" rel="stylesheet">
     {% endif %}
-    {{ form.media.css }}
     {% block pagecss %}{% endblock pagecss %}{# for CSS not included in generated CSS #}
 
     {% comment %}Favicons from http://www.favicomatic.com/, yeah thats insane.{% endcomment %}
@@ -107,6 +107,7 @@
 {% endblock footer %}
 </footer>
 
+{% if DEBUG %}
 <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
 <script src="{% static 'lib/jquery/jquery.min.js' %}"></script>
 <script src="{% static 'lib/prism/prism.js' %}"></script>
@@ -115,5 +116,8 @@
 <script src="{% static 'core/js/base.js' %}"></script>
 {% block extrajs %}{% endblock extrajs %}
 {{ form.media.js }}
+{% else %}
+<script src="{% static 'hp.js' %}"></script>
+{% endif %}
 {% endblock body %}
 </body></html>
