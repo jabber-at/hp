@@ -17,7 +17,6 @@ from django.conf.urls import url
 
 from . import views
 
-
 app_name = 'conversejs'
 urlpatterns = [
     url(r'^init.js$', views.ConverseJsInitView.as_view(), name='init-js'),

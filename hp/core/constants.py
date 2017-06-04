@@ -15,7 +15,6 @@
 
 from django.utils.translation import ugettext_lazy as _
 
-
 REGISTRATION_WEBSITE = 0
 REGISTRATION_INBAND = 1
 REGISTRATION_MANUAL = 2

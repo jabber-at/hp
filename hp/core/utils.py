@@ -17,7 +17,6 @@ import logging
 import os
 import re
 import textwrap
-
 from urllib.parse import urljoin
 
 import dns.resolver

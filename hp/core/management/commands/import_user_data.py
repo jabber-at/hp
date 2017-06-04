@@ -14,7 +14,6 @@
 # If not, see <http://www.gnu.org/licenses/>.
 
 import json
-
 from datetime import datetime
 
 from django.contrib.auth import get_user_model
