@@ -22,7 +22,6 @@ from urllib.parse import urljoin
 
 import dns.resolver
 import html5lib
-import reversion
 
 from django.conf import settings
 from django.core.cache import cache
@@ -31,6 +30,8 @@ from django.utils.html import format_html
 from django.utils.text import normalize_newlines
 from django.utils.translation import ugettext as _
 from django.utils.translation import ungettext
+
+import reversion
 
 from .exceptions import TemporaryError
 
