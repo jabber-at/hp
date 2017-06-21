@@ -23,6 +23,7 @@ from django.utils import timezone
 from django.utils.translation import ugettext_lazy as _
 
 from django_object_actions import DjangoObjectActions
+from reversion.admin import VersionAdmin
 from xmpp_backends.base import UserNotFound
 from xmpp_backends.django import xmpp_backend
 
@@ -75,7 +76,7 @@ class CreatedInBackendFilter(admin.SimpleListFilter):
 
 
 @admin.register(User)
-class UserAdmin(DjangoObjectActions, BaseUserAdmin):
+class UserAdmin(DjangoObjectActions, VersionAdmin, BaseUserAdmin):
     actions = ['send_registration', 'block_users', ]
     add_fieldsets = (
         (None, {
