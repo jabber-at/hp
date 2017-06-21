@@ -17,10 +17,12 @@ import logging
 import os
 import re
 import textwrap
+from contextlib import contextmanager
 from urllib.parse import urljoin
 
 import dns.resolver
 import html5lib
+import reversion
 
 from django.conf import settings
 from django.core.cache import cache
@@ -215,3 +217,14 @@ def mailformat(text, width=78):
         ps.append('')
 
     return '\n'.join(ps).strip()
+
+
+@contextmanager
+def version(user=None, comment=None):
+    with reversion.create_revision():
+        yield
+
+        if user is not None:
+            reversion.set_user(user)
+        if comment is not None:
+            reversion.set_comment(comment)
