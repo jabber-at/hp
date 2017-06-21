@@ -90,8 +90,8 @@ class UserAdmin(DjangoObjectActions, BaseUserAdmin):
         }),
     )
     form = AdminUserForm
-    list_display = ('username', 'email', 'registered', 'confirmed', 'last_activity', )
-    list_filter = (ConfirmedFilter, CreatedInBackendFilter, 'is_superuser', )
+    list_display = ('username', 'email', 'blocked', 'registered', 'confirmed', 'last_activity', )
+    list_filter = (ConfirmedFilter, CreatedInBackendFilter, 'is_superuser', 'blocked', )
     ordering = ('-registered', )
     readonly_fields = ['username', 'registered', 'blocked', ]
     search_fields = ['username', 'email', ]
