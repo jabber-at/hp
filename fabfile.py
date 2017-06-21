@@ -176,6 +176,7 @@ class DeployTask(DeploymentTaskMixin, Task):
         self.manage('migrate')
         self.manage('collectstatic --noinput')
         self.manage('compilemessages -l de')
+        self.manage('createinitialrevisions')
 
         # restart uwsgi
         if config.getboolean('uwsgi-emperor'):
