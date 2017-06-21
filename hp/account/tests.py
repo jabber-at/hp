@@ -45,7 +45,7 @@ class RegistrationTestCase(TestCase):
         with self.mock_celery() as func, freeze_time('2017-04-23 11:22:33+00:00'):
             post = client.post(url, {
                 'username_0': 'testuser', 'username_1': 'example.com', 'email': 'user@example.com',
-            })
+            }, follow=True)
 
         self.assertTaskCall(func, send_confirmation_task, **{
             'address': '127.0.0.1',
@@ -57,9 +57,11 @@ class RegistrationTestCase(TestCase):
             'user_pk': 1,
         })
 
+        self.assertFalse(post.context['user'].is_anonymous)
         self.assertRedirects(post, reverse('account:detail'))
 
         # redirects don't have a context, so we login now
+        client.force_login(User.objects.get(username='testuser@example.com'))
         detail = client.get(reverse('account:detail'))
         self.assertFalse(detail.context['user'].is_anonymous)
 
