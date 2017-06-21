@@ -27,6 +27,8 @@ from reversion.admin import VersionAdmin
 from xmpp_backends.base import UserNotFound
 from xmpp_backends.django import xmpp_backend
 
+from core.utils import version
+
 from .constants import PURPOSE_REGISTER
 from .forms import AdminUserForm
 from .models import Confirmation
@@ -114,8 +116,10 @@ class UserAdmin(DjangoObjectActions, VersionAdmin, BaseUserAdmin):
     send_registration.short_description = _('Send new registration confirmations')
 
     def block_user(self, request, obj):
-        obj.blocked = True
-        obj.save()
+        with version(user=request.user, comment='Blocked via admin interface'):
+            obj.blocked = True
+            obj.save()
+
         try:
             xmpp_backend.block_user(obj.node, obj.domain)
         except UserNotFound:
@@ -124,12 +128,8 @@ class UserAdmin(DjangoObjectActions, VersionAdmin, BaseUserAdmin):
     block_user.short_description = _('Block this user')
 
     def block_users(self, request, queryset):
-        queryset.update(blocked=True)
         for user in queryset:
-            try:
-                xmpp_backend.block_user(user.node, user.domain)
-            except UserNotFound:
-                continue
+            self.block_user(request, user)
     block_users.short_description = _('Block selected users')
 
 
