@@ -448,6 +448,8 @@ _DEFAULT_ACCOUNT_USER_MENU = [
     }),
 ]
 
+OBSERVATORY_URL = 'https://xmpp.net/badge.php'
+
 ################
 # GPG settings #
 ################

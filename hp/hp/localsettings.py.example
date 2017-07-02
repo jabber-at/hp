@@ -443,3 +443,16 @@ XMPP_HTTP_UPLOAD_ACCESS = (
 #   https://docs.djangoproject.com/en/1.11/ref/settings/#file-upload-permissions
 #   https://docs.djangoproject.com/en/1.11/ref/settings/#std:setting-FILE_UPLOAD_MAX_MEMORY_SIZE
 #FILE_UPLOAD_PERMISSIONS = 0o644
+
+###########
+# VARIOUS #
+###########
+# By default, the Celery worker will download TLS badges for all hosts configured in XMPP_HOSTS
+# from the XSF IM Observatory. The badges will be available at MEDIA_URL/badge_<host>.svg, e.g.
+# https://jabber.at/media/badge_jabber_at.svg. The use of this is to be able to display current
+# badges with strict CSP headers in place.
+#
+# The current default is check.messaging.one, but will switch back to xmpp.net if they ever manage
+# to provide a service to the community again. You can set this to None to completely disable
+# fetching these badges.
+#OBSERVATORY_URL = 'https://check.messaging.one'
