@@ -14,6 +14,7 @@
 # If not, see <http://www.gnu.org/licenses/>.
 
 import tempfile
+from urllib.parse import urljoin
 
 import requests
 from celery import shared_task
@@ -29,6 +30,12 @@ log = get_task_logger(__name__)
 
 @shared_task
 def download_xmpp_net_badges():
+    if not settings.OBSERVATORY_URL:
+        log.debug('Not downloading badges because OBSERVATORY_URL setting is not set.')
+        return
+
+    url = urljoin(settings.OBSERVATORY_URL, 'badge.php')
+
     for host in settings.XMPP_HOSTS:
         filename = 'badge_%s.svg' % host.replace('.', '_')
         try:
@@ -36,7 +43,12 @@ def download_xmpp_net_badges():
         except Image.DoesNotExist:
             image = Image(name=filename)
 
-        response = requests.get('https://xmpp.net/badge.php', params={'domain': host}, stream=True)
+        try:
+            response = requests.get(url, params={'domain': host}, stream=True)
+        except Exception as e:
+            log.exception(e)
+            continue
+
         if response.status_code != requests.codes.ok:
             log.error('Could not download badge for %s.', host)
             continue
