@@ -493,7 +493,7 @@ CELERY_BEAT_SCHEDULE = {
     },
     'download_xmpp_net_badges': {
         'task': 'blog.tasks.download_xmpp_net_badges',
-        'schedule': crontab(minute='*'),
+        'schedule': crontab(hour=9, minute=35),
     },
 }
 CELERY_WORKER_LOG_FORMAT = None
