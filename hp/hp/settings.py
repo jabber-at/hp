@@ -448,7 +448,7 @@ _DEFAULT_ACCOUNT_USER_MENU = [
     }),
 ]
 
-OBSERVATORY_URL = 'https://xmpp.net/badge.php'
+OBSERVATORY_URL = 'https://check.messaging.one/badge.php'
 
 ################
 # GPG settings #
