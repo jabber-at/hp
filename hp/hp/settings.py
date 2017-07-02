@@ -492,8 +492,8 @@ CELERY_BEAT_SCHEDULE = {
         'schedule': crontab(minute=12),
     },
     'download_xmpp_net_badges': {
-        'task': 'blog.download_xmpp_net_badges',
-        'schedule': crontab(hour=9, minute=33),
+        'task': 'blog.tasks.download_xmpp_net_badges',
+        'schedule': crontab(minute='*'),
     },
 }
 CELERY_WORKER_LOG_FORMAT = None
