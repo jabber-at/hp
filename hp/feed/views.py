@@ -13,10 +13,6 @@
 # You should have received a copy of the GNU General Public License along with this project. If
 # not, see <http://www.gnu.org/licenses/>.
 
-from datetime import timedelta
-
-from icalendar import Calendar
-from icalendar import Event
 from lxml import etree
 from strict_rfc3339 import timestamp_to_rfc3339_utcoffset
 
@@ -174,23 +170,3 @@ class RSS2Feed(FeedMixin, View):
             #self.sub(item, 'author', post.author.node)
 
         return root
-
-
-class ICalView(View):
-    def get(self, request, language):
-        with translation.override(language):
-            cal = Calendar()
-            cal.add('prodid', '-//%s//%s' % (settings.DEFAULT_XMPP_HOST, language))
-            cal.add('version', '2.0')
-
-            for post in BlogPost.objects.published().exclude(start__isnull=True):
-                event = Event()
-                event.add('summary', post.title.current)
-                event.add('dtstart', post.start)
-                event.add('dtend', post.end or post.start + timedelta(hours=1))
-                event.add('dtstamp', post.created)
-                event['uid'] = '%s@%s' % (post.pk, settings.DEFAULT_XMPP_HOST)
-
-                cal.add_component(event)
-
-            return HttpResponse(cal.to_ical(), 'text/calendar')
