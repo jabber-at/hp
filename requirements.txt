@@ -1,7 +1,7 @@
-Django==1.11.2
-Pillow==4.1.1
+Django==1.11.4
+Pillow==4.2.1
 bleach==2.0.0
-celery==4.0.2
+celery==4.1.0
 django-composite-field==0.8.0
 django-jsonfield==1.0.1
 django-mptt==0.8.7
@@ -18,7 +18,7 @@ icalendar==3.11.4
 lxml==3.8.0
 pip>=9.0.1
 pygpgme==0.3
-requests==2.18.1
+requests==2.18.3
 setuptools>=35.0.2
 strict-rfc3339==0.7
-xmpp-backends==0.3.0
+xmpp-backends==0.4.0
