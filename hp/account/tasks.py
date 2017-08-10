@@ -27,7 +27,6 @@ from django.conf import settings
 from django.contrib.auth import get_user_model
 from django.contrib.messages import constants as messages
 from django.urls import reverse
-from django.utils import timezone
 from django.utils import translation
 from django.utils.translation import ugettext as _
 from django.utils.translation import ugettext_noop
@@ -188,9 +187,6 @@ def resend_confirmations(*conf_pks):
 
 @shared_task
 def update_last_activity(random_update=50):
-    # manually assume our servers timezone, see https://github.com/processone/ejabberd/issues/1565
-    tz = pytz.timezone('Europe/Vienna')
-
     # Update some random users with recent activity so we have at least a vague picture of
     # how recent users are active.
     for user in User.objects.order_by('?').not_expiring()[:random_update]:
@@ -205,7 +201,7 @@ def update_last_activity(random_update=50):
             continue
 
         #user.last_activity = timezone.make_aware(last_activity)
-        user.last_activity = tz.localize(last_activity)
+        user.last_activity = pytz.utc.localize(last_activity)
         user.save()
 
     for user in User.objects.confirmed().new().unused():
@@ -220,7 +216,7 @@ def update_last_activity(random_update=50):
             continue
 
         #user.last_activity = timezone.make_aware(last_activity)
-        user.last_activity = tz.localize(last_activity)
+        user.last_activity = pytz.utc.localize(last_activity)
         user.save()
 
     # Update last activity of users with more then 350 days of inactivity
@@ -240,7 +236,7 @@ def update_last_activity(random_update=50):
 
         log.debug('%s: Updated last_activity from %s to %s.', user, user.last_activity,
                   last_activity)
-        user.last_activity = timezone.make_aware(last_activity)
+        user.last_activity = pytz.utc.localize(last_activity)
         notifs = user.notifications
 
         # On what date the user will be removed and how many days this is from now
