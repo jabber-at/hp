@@ -7,7 +7,7 @@ django-jsonfield==1.0.1
 django-mptt==0.8.7
 django-object-actions==0.10.0
 django-redis==4.8.0
-django-reversion==2.0.9
+django-reversion==2.0.10
 django-simple-captcha==0.5.5
 django-tinymce4-widget==2.1.1
 django-xmpp-http-upload==0.5.0
@@ -17,7 +17,7 @@ hiredis==0.2.0
 lxml==3.8.0
 pip>=9.0.1
 pygpgme==0.3
-requests==2.18.3
+requests==2.18.4
 setuptools>=35.0.2
 strict-rfc3339==0.7
 xmpp-backends==0.4.0
