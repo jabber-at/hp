@@ -80,5 +80,4 @@ class HttpResponseExceptionMiddleware(object):
             return exception.get_response(request)
         if isinstance(exception, BackendError):
             log.exception(exception)
-            return TemplateResponse(
-                request, template='core/errors/xmpp_backend.html', status=503)
+            return TemplateResponse(request, template='core/errors/xmpp_backend.html', status=503)
