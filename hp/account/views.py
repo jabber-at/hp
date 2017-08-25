@@ -340,10 +340,13 @@ class ResetPasswordView(AntiSpamMixin, AnonymousRequiredMixin, FormView):
     def form_valid(self, form):
         self.ratelimit(self.request)
 
+        user = None
         try:
-            user = User.objects.filter(confirmed__isnull=False).get(
-                username=form.cleaned_data['username'])
+            user = User.objects.filter(confirmed__isnull=False).get(username=form.cleaned_data['username'])
         except User.DoesNotExist:
+            pass
+
+        if user is None or not xmpp_backend.user_exists(user.node, user.domain):
             form.add_error('username', _('User not found.'))
             return self.form_invalid(form)
 
