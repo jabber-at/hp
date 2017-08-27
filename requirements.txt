@@ -20,4 +20,4 @@ pygpgme==0.3
 requests==2.18.4
 setuptools>=35.0.2
 strict-rfc3339==0.7
-xmpp-backends==0.4.0
+xmpp-backends==0.4.1
