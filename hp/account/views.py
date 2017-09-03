@@ -26,6 +26,7 @@ from django.contrib.auth import logout
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.cache import cache
 from django.db import transaction
+from django.db.models import Sum
 from django.http import HttpResponse
 from django.http import HttpResponseForbidden
 from django.http import HttpResponseRedirect
@@ -50,6 +51,7 @@ from django.views.generic.edit import UpdateView
 
 from xmpp_backends.django import xmpp_backend
 from xmpp_http_upload.models import Upload
+from xmpp_http_upload.utils import get_config
 
 from core.constants import ACTIVITY_FAILED_LOGIN
 from core.constants import ACTIVITY_REGISTER
@@ -58,6 +60,8 @@ from core.constants import ACTIVITY_RESET_PASSWORD
 from core.constants import ACTIVITY_SET_EMAIL
 from core.constants import ACTIVITY_SET_PASSWORD
 from core.models import AddressActivity
+from core.templatetags.core import format_filesize
+from core.utils import format_timedelta
 from core.views import AnonymousRequiredMixin
 from core.views import AntiSpamMixin
 from core.views import StaticContextMixin
@@ -566,8 +570,81 @@ class HttpUploadView(LoginRequiredMixin, AccountPageMixin, UserObjectMixin, Deta
 
     def get_context_data(self, **kwargs):
         context = super(HttpUploadView, self).get_context_data(**kwargs)
+        user = context['object']
+        qs = Upload.objects.filter(jid=user.username)
+        # TODO: Exclude expired slots (client requested slot but did not upload a file) here.
+        #       (requires queryset method in django-xmpp-http-upload).
+
         # If a client requests an upload slot but never uploads the file, file field will be empty
-        context['uploads'] = Upload.objects.filter(jid=context['object'].username).exclude(file='')
+        context['uploads'] = qs.exclude(file='')
+        limit_config = get_config(user.username)
+        if limit_config is False:
+            context['limits'] = False
+        elif limit_config == {}:
+            context['limits'] = 'no-limits'
+        else:
+            context['limits'] = []
+            context['can_upload'] = True
+            now = timezone.now()
+
+            for key, value in limit_config.items():
+                if key == 'max_total_size':
+                    current = qs.aggregate(total=Sum('size'))['total'] or 0
+                    limit = max(value - current, 0)
+
+                    row = {
+                        'header': _('Total bytes'),
+                        'value': format_filesize(value),
+                        'current': format_filesize(current),
+                        'left': format_filesize(limit),
+                    }
+
+                    if limit == 0:
+                        context['can_upload'] = False
+                        row['exceeded'] = True
+
+                elif key == 'max_file_size':
+                    row = {
+                        'header': _('Maximum file size'),
+                        'value': format_filesize(value),
+                    }
+                elif key == 'bytes_per_timedelta':
+                    delta = value['delta']
+                    quota = value['bytes']
+                    current = qs.filter(created__gt=now - delta).aggregate(total=Sum('size'))['total'] or 0
+                    limit = max(quota - current, 0)
+
+                    row = {
+                        'header': _('Bytes/%(delta)s') % {'delta': format_timedelta(delta), },
+                        'value': format_filesize(quota),
+                        'current': format_filesize(current),
+                        'left': format_filesize(limit),
+                    }
+                    if limit == 0:
+                        context['can_upload'] = False
+                        row['exceeded'] = True
+                elif key == 'uploads_per_timedelta':
+                    delta = value['delta']
+                    quota = value['uploads']
+                    current = qs.filter(created__gt=now - delta).count()
+                    limit = max(quota - current, 0)
+
+                    row = {
+                        'header': _('Uploads/%(delta)s') % {'delta': format_timedelta(delta), },
+                        'value': quota,
+                        'current': current,
+                        'left': limit,
+                    }
+
+                    if limit == 0:
+                        context['can_upload'] = False
+                        row['exceeded'] = True
+                else:
+                    log.error('Unknown limit encountered: %s', key)
+                    continue
+
+                context['limits'].append(row)
+
         return context
 
 

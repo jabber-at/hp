@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-04-30 13:21+0200\n"
+"POT-Creation-Date: 2017-09-03 13:35+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,23 +17,23 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: admin.py:43
+#: admin.py:45
 msgid "confirmed email"
 msgstr "Bestätigte E-Mail"
 
-#: admin.py:61
+#: admin.py:63
 msgid "created in backend"
 msgstr "Im Backend erstellt"
 
-#: admin.py:114
+#: admin.py:116
 msgid "Send new registration confirmations"
 msgstr "Neue Registrierungsbestätigung schicken"
 
-#: admin.py:123
+#: admin.py:127
 msgid "Block"
 msgstr "Blockieren"
 
-#: admin.py:124
+#: admin.py:128
 msgid "Block this user"
 msgstr "Diesen Benutzer blockieren"
 
@@ -54,19 +54,19 @@ msgstr "Schlüssel vom Keyserver aktualisieren"
 msgid "Resend confirmations"
 msgstr "E-Mail erneut schicken"
 
-#: constants.py:24
+#: constants.py:23
 msgid "Via Website"
 msgstr ""
 
-#: constants.py:25
+#: constants.py:24
 msgid "In-Band Registration"
 msgstr ""
 
-#: constants.py:26
+#: constants.py:25
 msgid "Manually"
 msgstr "Manuell"
 
-#: constants.py:27
+#: constants.py:26
 msgid "Unknown"
 msgstr "Unbekannt"
 
@@ -194,7 +194,7 @@ msgstr "E-Mail"
 msgid "Required, a confirmation email will be sent to this address."
 msgstr "Pflichtfeld, eine Bestätigung wird an diese Adresse geschickt."
 
-#: forms.py:142 views.py:503
+#: forms.py:142 views.py:510
 msgid "Email address is already used by another account."
 msgstr "E-Mail-Adresse wird bereits für ein anderes Konto verwendet."
 
@@ -287,13 +287,13 @@ msgid "Confirm new email address for your {{ user.domain }} account"
 msgstr ""
 "Bestätigen sie die neue E-Mail-Adresse für ihr {{ user.domain }} Konto."
 
-#: tasks.py:81
+#: tasks.py:80
 msgid "Unable to fetch GPG key. Giving up and sending mail unencrypted. Sorry."
 msgstr ""
 "GPG-Schlüssel konnte nicht heruntergeladen werden. Da dies der letzte "
 "Versuch war, wird die E-Mail unverschlüsselt verschickt."
 
-#: tasks.py:94
+#: tasks.py:93
 #, python-format
 msgid ""
 "Unable to fetch GPG key (%(retry)s of %(max)s tries). Will try again in "
@@ -302,7 +302,7 @@ msgstr ""
 "GPG-Schlüssel konnte nicht heruntergeladen werden (%(retry)s von %(max)s "
 "Versuchen). Wir werden es in %(time)s noch einmal versuchen."
 
-#: tasks.py:273
+#: tasks.py:269
 msgid "Your account on {{ domain }} is about to expire"
 msgstr "Ihr Konto auf {{ domain }} läuft bald ab"
 
@@ -471,7 +471,7 @@ msgstr ""
 "Vorgang abzuschließen, gehen sie bitte auf diese URL:"
 
 #: templates/account/delete.html:4 templates/account/delete_confirm.html:4
-#: views.py:111
+#: views.py:115
 msgid "Delete account"
 msgstr "Konto löschen"
 
@@ -597,7 +597,7 @@ msgstr "Neuigkeiten über %(host)s erfährst du via"
 msgid "Any further questions? <a href=\"%(contact_url)s\">Contact us!</a>"
 msgstr "Noch Fragen? <a href=\"%(contact_url)s\">Kontaktiere uns!</a>"
 
-#: templates/account/notifications.html:14 views.py:105
+#: templates/account/notifications.html:14 views.py:109
 msgid "Notifications"
 msgstr "Benachrichtigungen"
 
@@ -676,7 +676,7 @@ msgstr "Schlüssel löschen"
 msgid "You are currently not online with any client."
 msgstr "Sie sind gegenwärtig mit keinem Client verbunden."
 
-#: templates/account/set_password.html:4 views.py:106
+#: templates/account/set_password.html:4 views.py:110
 msgid "Set password"
 msgstr "Passwort setzen"
 
@@ -712,7 +712,7 @@ msgstr "Nein"
 msgid "resend confirmation"
 msgstr "Bestätigung erneut schicken"
 
-#: templates/account/user_gpg.html:4 views.py:109
+#: templates/account/user_gpg.html:4 views.py:113
 msgid "GPG keys"
 msgstr "GPG-Schlüssel"
 
@@ -743,7 +743,7 @@ msgstr ""
 "den Schlüsselservern <span class=\"glyphicon glyphicon-refresh\"></span> neu "
 "laden."
 
-#: templates/account/user_gpg.html:25 templates/account/xep0363.html:24
+#: templates/account/user_gpg.html:25 templates/account/xep0363.html:29
 msgid "Created"
 msgstr "Erstellt"
 
@@ -830,7 +830,7 @@ msgstr ""
 "Um das Erraten eines Links zu verhindern, wird diese Fehlermeldung erst "
 "jetzt angezeigt (wenn das CAPTCHA gelöst wurde)."
 
-#: templates/account/user_recent_activity.html:4 views.py:110
+#: templates/account/user_recent_activity.html:4 views.py:114
 msgid "Recent activity"
 msgstr "Letzte Aktivitäten"
 
@@ -940,7 +940,7 @@ msgstr ""
 msgid "Set new email address"
 msgstr "Neue E-Mail-Adresse setzen"
 
-#: templates/account/xep0363.html:4 views.py:108
+#: templates/account/xep0363.html:4 views.py:112
 msgid "HTTP uploads"
 msgstr "HTTP Uploads"
 
@@ -976,31 +976,83 @@ msgstr ""
 "verschlüsseln Dateien, bevor sie auf den Server hoch geladen werden. Sie "
 "können daher nicht einfach im Browser angesehen werden."
 
-#: templates/account/xep0363.html:25
+#: templates/account/xep0363.html:20
+msgid ""
+"<strong>Warning:</strong> You have exceeded your quota for uploading files.\n"
+"You cannot upload new files until old uploads expire and are automatically\n"
+"deleted. You can view your current upload limits below."
+msgstr ""
+"<strong>Achtung:</strong> Sie haben ihr Limit für Datei-Übertragungen "
+"überschritten. Sie können erst wieder neue Dateien hochladen, wenn "
+"alte Dateien automatisch gelöscht werden."
+
+#: templates/account/xep0363.html:30
 msgid "File"
 msgstr "Datei"
 
-#: templates/account/xep0363.html:36 templates/account/xep0363.html:40
+#: templates/account/xep0363.html:41 templates/account/xep0363.html:45
 msgid "Delete this file"
 msgstr "Datei löschen"
 
-#: templates/account/xep0363.html:47
+#: templates/account/xep0363.html:52
 msgid "There are currently no file uploads."
 msgstr "Sie haben noch keine Dateien hochgeladen."
 
-#: views.py:104
+#: templates/account/xep0363.html:55
+msgid "Upload limits"
+msgstr "Obergrenzen für Dateien"
+
+#: templates/account/xep0363.html:57
+msgid ""
+"Your current upload limits are shown below. This includes uploads where the\n"
+"client requested an upload but did not actually upload a file. These\n"
+"uploads should expire within a few minutes."
+msgstr ""
+"Die Obergrenzen inkludieren Dateien die der Client hochladen wollte aber tatsächlich "
+"nie hoch geladen hat. Diese Dateien sollten innerhalb einiger Minuten verschwinden. "
+
+#: templates/account/xep0363.html:62
+msgid "You are not allowed to upload any files."
+msgstr "Sie dürfen überhaupt keine Dateien hochladen."
+
+#: templates/account/xep0363.html:64
+msgid "You have no limits for uploading files."
+msgstr "Sie haben keine Obergrenzen um Dateien zu übertragen."
+
+#: templates/account/xep0363.html:70
+msgid "Kind"
+msgstr "Art"
+
+#: templates/account/xep0363.html:71
+msgid "Limit"
+msgstr "Grenze"
+
+#: templates/account/xep0363.html:72
+msgid "Current"
+msgstr "Ihr Wert"
+
+#: templates/account/xep0363.html:81
+#, python-format
+msgid "%(current)s (%(left)s left)"
+msgstr "%(current)s (%(left)s verbleibend)"
+
+#: templates/account/xep0363.html:83
+msgid "n/a"
+msgstr ""
+
+#: views.py:108
 msgid "Overview"
 msgstr "Übersicht"
 
-#: views.py:107
+#: views.py:111
 msgid "Set E-Mail"
 msgstr "E-Mail setzen"
 
-#: views.py:187
+#: views.py:191
 msgid "Account created."
 msgstr "Konto erstellt."
 
-#: views.py:192
+#: views.py:196
 #, python-format
 msgid ""
 "Successfully created the account %(username)s. A confirmation email was\n"
@@ -1011,44 +1063,44 @@ msgstr ""
 "Adresse (%(email)s) versandt. Bevor sie ihr Konto nutzen können, müssen sie "
 "den Link in der E-Mail bestätigen."
 
-#: views.py:273
+#: views.py:277
 #, python-format
 msgid "Email address %(email)s confirmed."
 msgstr "E-Mail-Adresse %(email)s bestätigt."
 
-#: views.py:277
+#: views.py:281
 msgid ""
 "Successfully confirmed your email address. You can now use your account."
 msgstr ""
 "Ihre E-Mail-Adresse wurde erfolgreich bestätigt. Sie können nun ihr Konto "
 "nutzen."
 
-#: views.py:347
+#: views.py:354
 msgid "User not found."
 msgstr "Benutzer nicht gefunden."
 
-#: views.py:355
+#: views.py:362
 msgid "Requested password reset."
 msgstr "Neues Passwort angefordert."
 
-#: views.py:384 views.py:438
+#: views.py:391 views.py:445
 msgid "Set new password."
 msgstr "Neues Passwort gesetzt."
 
-#: views.py:385 views.py:441
+#: views.py:392 views.py:448
 msgid "Successfully changed your password."
 msgstr "Passwort erfolgreich geändert."
 
-#: views.py:470
+#: views.py:477
 msgid "Resent confirmation."
 msgstr "Bestätigung erneut geschickt."
 
-#: views.py:473
+#: views.py:480
 #, python-format
 msgid "Resent confirmation email to %(email)s."
 msgstr "Bestätigung erneut auf %(email)s geschickt."
 
-#: views.py:515
+#: views.py:522
 #, python-format
 msgid ""
 "We sent you an email to your new email address (%(email)s). Click on the "
@@ -1057,40 +1109,58 @@ msgstr ""
 "Wir haben ihnen eine E-Mail an ihre neue Adresse %(email)s geschickt. "
 "Klicken sie auf den Link in der E-Mail, um die Änderung zu bestätigen."
 
-#: views.py:517
+#: views.py:524
 #, python-format
 msgid "Requested change of email address to %(email)s."
 msgstr "Änderung der E-Mail-Adresse auf %(email)s beantragt."
 
-#: views.py:551 views.py:553
+#: views.py:558 views.py:560
 #, python-format
 msgid "Confirmed email address change to %(email)s."
 msgstr "E-Mail-Adressänderung auf %(email)s bestätigt."
 
-#: views.py:591
+#: views.py:596
+msgid "Total bytes"
+msgstr ""
+
+#: views.py:608
+msgid "Maximum file size"
+msgstr ""
+
+#: views.py:618
+#, python-format
+msgid "Bytes/%(delta)s"
+msgstr ""
+
+#: views.py:633
+#, python-format
+msgid "Uploads/%(delta)s"
+msgstr ""
+
+#: views.py:672
 msgid "Processing new GPG key, it will be added in a moment."
 msgstr "Neuer GPG-Schlüssel wird verarbeitet."
 
-#: views.py:621 views.py:655
+#: views.py:702 views.py:736
 msgid "The password is incorrect."
 msgstr "Das Passwort stimmt nicht."
 
-#: views.py:633
+#: views.py:714
 #, python-format
 msgid "We sent you an email to %(email)s to confirm your request."
 msgstr ""
 "Wir haben ihnen eine E-Mail an %(email)s geschickt, um das Löschen ihres "
 "Kontos zu bestätigen."
 
-#: views.py:635
+#: views.py:716
 msgid "Requested deletion of account."
 msgstr "Löschung ihres Kontos beantragt."
 
-#: views.py:699
+#: views.py:780
 msgid "Your email address is already confirmed."
 msgstr "Ihre E-Mail-Adresse ist bereits bestätigt."
 
-#: views.py:743
+#: views.py:824
 msgid "Refreshing GPG key..."
 msgstr "GPG-Schlüssel wird aktualisiert..."
 

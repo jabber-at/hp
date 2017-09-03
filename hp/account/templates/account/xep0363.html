@@ -16,6 +16,11 @@ transfer files to the other client, so there is no way we can list them here.{% 
 encrypt files before they are uploaded, so viewing them via the links below
 is not possible in the browser.{% endblocktrans %}</div>
 
+{% if can_upload is False %}
+<div class="alert alert-danger">{% blocktrans %}<strong>Warning:</strong> You have exceeded your quota for uploading files.
+You cannot upload new files until old uploads expire and are automatically
+deleted. You can view your current upload limits below.{% endblocktrans %}</div>{% endif %}
+
 {% if uploads %}
 <div class="table-responsive">
 <table class="table table-hover">
@@ -46,4 +51,42 @@ is not possible in the browser.{% endblocktrans %}</div>
 {% else %}
 {% trans "There are currently no file uploads." %}
 {% endif %}
+
+<h3>{% trans "Upload limits" %}</h3>
+
+<p>{% blocktrans %}Your current upload limits are shown below. This includes uploads where the
+client requested an upload but did not actually upload a file. These
+uploads should expire within a few minutes.{% endblocktrans %}</p>
+
+{% if limits is False %}
+    {% trans "You are not allowed to upload any files." %}
+{% elif limits == 'no-limits' %}
+    {% trans "You have no limits for uploading files." %}
+{% else %}
+<div class="table-responsive">
+<table class="table table-hover">
+    <thead>
+    <tr>
+        <th>{% trans "Kind" %}</th>
+        <th>{% trans "Limit" %}</th>
+        <th>{% trans "Current" %}</th>
+    </tr>
+    </thead>
+    {% for limit in limits %}
+    <tr{% if limit.exceeded %} class="text-danger"{% endif %}>
+        <td>{{ limit.header }}</td>
+        <td>{{ limit.value }}</td>
+        <td>
+            {% if limit.current %}
+                {% blocktrans with current=limit.current left=limit.left %}{{ current }} ({{ left }} left){% endblocktrans %}
+            {% else %}
+                {% trans "n/a" %}
+            {% endif %}
+        </td>
+    </tr>
+    {% endfor %}
+</table>
+</div>
+{% endif %}
+
 {% endblock content %}
