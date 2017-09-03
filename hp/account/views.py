@@ -566,7 +566,8 @@ class HttpUploadView(LoginRequiredMixin, AccountPageMixin, UserObjectMixin, Deta
 
     def get_context_data(self, **kwargs):
         context = super(HttpUploadView, self).get_context_data(**kwargs)
-        context['uploads'] = Upload.objects.filter(jid=context['object'].username)
+        # If a client requests an upload slot but never uploads the file, file field will be empty
+        context['uploads'] = Upload.objects.filter(jid=context['object'].username).exclude(file='')
         return context
 
 
