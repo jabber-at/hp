@@ -1,5 +1,11 @@
 # Changelog
 
+Note: This changelog is not very complete.
+
+## 2017-09-03
+
+* View HTTP upload limits at ``/account/uploads``.
+
 ## 2016-10-12
 
 * Add social media and meta tags for clients and registration page.
