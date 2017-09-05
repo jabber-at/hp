@@ -119,7 +119,15 @@ class AccountPageMixin(StaticContextMixin):
     requires_confirmation = True
 
     def dispatch(self, request, *args, **kwargs):
-        if self.requires_confirmation and not request.user.created_in_backend:
+        if request.user.blocked is True:
+            kwargs = {}
+            if isinstance(self, SingleObjectMixin):
+                self.object = self.get_object()
+                kwargs['object'] = self.object
+            context = self.get_context_data(**kwargs)
+
+            return TemplateResponse(request, 'account/blocked.html', context)
+        elif self.requires_confirmation and not request.user.created_in_backend:
             kwargs = {}
             if isinstance(self, SingleObjectMixin):
                 self.object = self.get_object()
