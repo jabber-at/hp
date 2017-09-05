@@ -362,6 +362,10 @@ class ResetPasswordView(AntiSpamMixin, AnonymousRequiredMixin, FormView):
             form.add_error('username', _('User not found.'))
             return self.form_invalid(form)
 
+        if user.blocked:
+            form.add_error('username', _("You're blocked. You can't reset your password."))
+            return self.form_invalid(form)
+
         request = self.request
         address = request.META['REMOTE_ADDR']
         lang = request.LANGUAGE_CODE
