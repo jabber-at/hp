@@ -13,16 +13,16 @@ the trash icon.{% endblocktrans %}
     <thead>
         <tr>
             <th>{% trans "IP" %}</th>
-            <th>{% trans "Resource" %}</th>
+            <th>{% trans "Resource (Priority)" %}</th>
             <th>{% trans "Started" %}</th>
             <th></th>
         </tr>
     </thead>
 {% for session in sessions %}
     <tr>
-        <td>{{ session.ip }}</td>
-        <td>{{ session.resource }}</td>
-        <td class="nowrap">{{ session.started|date:"SHORT_DATETIME_FORMAT" }}</td>
+        <td>{{ session.ip_address }}</td>
+        <td>{{ session.resource }} ({{ session.priority }})</td>
+        <td class="nowrap">{{ session.uptime|date:"SHORT_DATETIME_FORMAT" }}</td>
         <td>
             <span class="sr-only">{% trans "Stop connection" %}</span>
             <span class="glyphicon glyphicon-trash glyph-button hover-danger" 
