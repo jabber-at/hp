@@ -23,6 +23,8 @@
         {% endif %}
     {% endif %}
 
+    {% if not post.published %}<span class="label label-danger">{% trans "Unpublished" %}</span>{% endif %}
+
 
     {% render post summary=summary %}
     {% if summary %}
