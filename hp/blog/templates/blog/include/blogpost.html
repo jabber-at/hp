@@ -9,21 +9,22 @@
 
     <span itemprop="headline">{{ post.title.current }}</span>
     {% if summary %}</a>{% endif %}
-    <small>{% blocktrans with date=post.publication_date user=post.author.node %}{{ date }} by {{ user}}{% endblocktrans %}
-    </small>
     {% if summary %}
-        {% if perms.change_blogpost %}
-        <a class="btn btn-default btn-xs" href="{% url 'admin:blog_blogpost_change' post.pk%}" role="button">{% trans "Change" %}</a>
-        {% endif %}
         </h3>
     {% else %}
         </h1></div>
-        {% if perms.change_blogpost %}
-        <p><a class="btn btn-default" href="{% url 'admin:blog_blogpost_change' post.pk%}" role="button">{% trans "Change" %}</a></p>
-        {% endif %}
     {% endif %}
 
-    {% if not post.published %}<span class="label label-danger">{% trans "Unpublished" %}</span>{% endif %}
+    <p class="text-muted">
+        {% if not post.published %}<span class="label label-danger">{% trans "Unpublished" %}</span>{% endif %}
+        <small>{% blocktrans with date=post.publication_date user=post.author.node %}{{ date }} by {{ user}}{% endblocktrans %}
+        </small>
+    </p>
+
+    {% if perms.change_blogpost %}
+    <p><a class="btn btn-default btn-xs" href="{% url 'admin:blog_blogpost_change' post.pk%}" role="button">{% trans "Change" %}</a></p>
+    {% endif %}
+
 
 
     {% render post summary=summary %}
