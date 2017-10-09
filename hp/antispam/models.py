@@ -19,6 +19,8 @@ from django.utils import timezone
 
 from core.models import BaseModel
 
+from .querysets import BlockedQuerySet
+
 
 def _default_email_timeout():
     if settings.BLOCKED_EMAIL_TIMEOUT is None:
@@ -39,10 +41,14 @@ class BlockedMixin(object):
 
 
 class BlockedEmail(BlockedMixin, BaseModel):
+    objects = BlockedQuerySet.as_manager()
+
     address = models.EmailField(unique=True)
     timeout = models.DateTimeField(default=_default_email_timeout)
 
 
 class BlockedIpAddress(BlockedMixin, BaseModel):
+    objects = BlockedQuerySet.as_manager()
+
     address = models.GenericIPAddressField(unique=True)
     timeout = models.DateTimeField(default=_default_ipaddress_timeout)
