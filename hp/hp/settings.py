@@ -533,6 +533,8 @@ RATELIMIT_CONFIG = {
     ),
 }
 SPAM_BLACKLIST = set()
+BLOCKED_EMAIL_TIMEOUT = None
+BLOCKED_IPADDRESS_TIMEOUT = timedelta(days=31)
 
 # Email addresses using these domains cannot be used for registration
 BANNED_EMAIL_DOMAINS = set()

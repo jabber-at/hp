@@ -326,6 +326,14 @@ DEFAULT_XMPP_HOST = 'example.com'
 #    'cbl.abuseat.org',
 #)
 
+# When you block accounts via the admin interface, their email address is also blocked.
+# If the account has had recent activity known (e.g. changed password, ...) the IP
+# address is also blocked. By default, email addresses are blocked indefinetly, while
+# IP addresses are blocked for a 31 days after their last activity for that account.
+#BLOCKED_EMAIL_TIMEOUT = None
+#BLOCKED_IPADDRESS_TIMEOUT = timedelta(days=31)
+
+
 # A manually maintained list of IP addresses or networks that are blocked. Used by the
 # BlocklistMixin.
 #SPAM_BLACKLIST = {
