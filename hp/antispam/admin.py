@@ -21,9 +21,9 @@ from .models import BlockedIpAddress
 
 @admin.register(BlockedEmail)
 class BlockedEmailAdmin(admin.ModelAdmin):
-    pass
+    list_display = ['address', 'created', 'timeout']
 
 
 @admin.register(BlockedIpAddress)
 class BlockedIpAddressAdmin(admin.ModelAdmin):
-    pass
+    list_display = ['address', 'created', 'timeout']
