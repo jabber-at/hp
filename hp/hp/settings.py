@@ -47,6 +47,7 @@ ALLOWED_HOSTS = []
 INSTALLED_APPS = None
 _DEFAULT_INSTALLED_APPS = [
     'core',
+    'antispam',
     'blog',  # blog posts and pages
     'bootstrap',  # bootstrap enhancements
     'account',  # account management
