@@ -24,8 +24,6 @@ from django.utils.translation import ugettext_lazy as _
 
 from django_object_actions import DjangoObjectActions
 from reversion.admin import VersionAdmin
-from xmpp_backends.base import UserNotFound
-from xmpp_backends.django import xmpp_backend
 
 from core.utils import version
 
@@ -117,13 +115,7 @@ class UserAdmin(DjangoObjectActions, VersionAdmin, BaseUserAdmin):
 
     def block_user(self, request, obj):
         with version(user=request.user, comment='Blocked via admin interface'):
-            obj.blocked = True
-            obj.save()
-
-        try:
-            xmpp_backend.block_user(obj.node, obj.domain)
-        except UserNotFound:
-            pass
+            obj.block()
     block_user.label = _('Block')
     block_user.short_description = _('Block this user')
 
