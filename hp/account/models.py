@@ -37,6 +37,7 @@ from django.utils.translation import ugettext_noop
 from gpgliblib.django import GpgEmailMessage
 from gpgliblib.django import gpg_backend
 from jsonfield import JSONField
+from xmpp_backends.base import UserNotFound
 from xmpp_backends.django import xmpp_backend
 from xmpp_backends.django.models import XmppBackendUser
 
@@ -153,7 +154,11 @@ class User(XmppBackendUser, PermissionsMixin):
         self.blocked = True
         self.save()
         self.log('You have been blocked. Sorry.')
-        xmpp_backend.block_user(username=self.node, domain=self.domain)
+
+        try:
+            xmpp_backend.block_user(username=self.node, domain=self.domain)
+        except UserNotFound:
+            pass
 
     @contextmanager
     def gpg_keyring(self, init=True, hostname=None, **kwargs):
