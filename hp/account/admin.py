@@ -121,6 +121,11 @@ class UserAdmin(DjangoObjectActions, VersionAdmin, BaseUserAdmin):
     def block_user(self, request, obj):
         with version(user=request.user, comment='Blocked via admin interface'):
             obj.block()
+
+            # Block other users with the same normalized email address
+            for user in User.objects.exclude(pk=obj.pk).filter(normalized_email=obj.normalized_email):
+                user.block()
+
     block_user.label = _('Block')
     block_user.short_description = _('Block this user')
 
