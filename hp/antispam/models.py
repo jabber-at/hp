@@ -19,6 +19,7 @@ from django.utils import timezone
 
 from core.models import BaseModel
 
+from .managers import BlockedEmailManager
 from .querysets import BlockedQuerySet
 
 
@@ -41,7 +42,7 @@ class BlockedMixin(object):
 
 
 class BlockedEmail(BlockedMixin, BaseModel):
-    objects = BlockedQuerySet.as_manager()
+    objects = BlockedEmailManager.from_queryset(BlockedQuerySet)()
 
     address = models.EmailField(unique=True)
     expires = models.DateTimeField(default=_default_email_expires)
