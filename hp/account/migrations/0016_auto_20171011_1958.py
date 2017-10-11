@@ -8,7 +8,7 @@ from antispam.utils import normalize_email
 
 def normalize(apps, schema_editor):
     User = apps.get_model('account', 'User')
-    for user in User.objects.all():
+    for user in User.objects.exclude(email=''):
         user.normalized_email = normalize_email(user.email)
         user.save()
 
