@@ -53,6 +53,7 @@ from xmpp_backends.django import xmpp_backend
 from xmpp_http_upload.models import Upload
 from xmpp_http_upload.utils import get_config
 
+from antispam import normalize_email
 from core.constants import ACTIVITY_FAILED_LOGIN
 from core.constants import ACTIVITY_REGISTER
 from core.constants import ACTIVITY_RESEND_CONFIRMATION
@@ -190,6 +191,9 @@ class RegistrationView(AntiSpamMixin, AnonymousRequiredMixin, StaticContextMixin
         with transaction.atomic():
             response = super(RegistrationView, self).form_valid(form)
             user = self.object
+
+            # Compute the normalized email address
+            user.normalized_email = normalize_email(user.email)
 
             # save default language
             user.default_language = lang
