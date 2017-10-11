@@ -44,6 +44,7 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    'antispam',
     'core',
     'blog',  # blog posts and pages
     'bootstrap',  # bootstrap enhancements
