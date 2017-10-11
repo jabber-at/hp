@@ -51,7 +51,7 @@ class BlockedEmail(BlockedMixin, BaseModel):
 
     address = models.EmailField(unique=True, help_text=_('The blocked email address'))
     expires = models.DateTimeField(
-        default=_default_email_expires,
+        default=_default_email_expires, null=True, blank=True,
         help_text=_('When this block expires. If not set, it never expires.'))
 
     class Meta:
@@ -64,7 +64,7 @@ class BlockedIpAddress(BlockedMixin, BaseModel):
 
     address = models.GenericIPAddressField(unique=True, help_text=_('The blocked IP address'))
     expires = models.DateTimeField(
-        default=_default_ipaddress_expires,
+        default=_default_ipaddress_expires, null=True, blank=True,
         help_text=_('When this block expires. If not set, it never expires.'))
 
     class Meta:

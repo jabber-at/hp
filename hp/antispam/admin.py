@@ -17,11 +17,16 @@ from django.contrib import admin
 
 from .models import BlockedEmail
 from .models import BlockedIpAddress
+from .utils import normalize_email
 
 
 @admin.register(BlockedEmail)
 class BlockedEmailAdmin(admin.ModelAdmin):
     list_display = ['address', 'created', 'expires']
+
+    def save_model(self, request, obj, form, change):
+        obj.address = normalize_email(obj.address)
+        return super(BlockedEmailAdmin, self).save_model(request, obj, form, change)
 
 
 @admin.register(BlockedIpAddress)

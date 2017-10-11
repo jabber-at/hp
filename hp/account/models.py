@@ -82,6 +82,9 @@ class User(XmppBackendUser, PermissionsMixin):
     username = models.CharField(max_length=255, unique=True, verbose_name=_('Username'))
     email = models.EmailField(blank=True, verbose_name=_('Email'))
 
+    # used for detecting identical email addresses
+    normalized_email = models.EmailField(default=None)
+
     # when the account was first registered
     registered = models.DateTimeField(auto_now_add=True)
     registration_method = models.SmallIntegerField(
