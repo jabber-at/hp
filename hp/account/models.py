@@ -152,17 +152,17 @@ class User(XmppBackendUser, PermissionsMixin):
         return self.gpg_keys.valid().exists()
 
     def block(self):
-        self.blocked = True
-        self.save()
-        self.log('You have been blocked. Sorry.')
+        users = User.objects.filter(normalized_email=self.normalized_email)
+        users.update(blocked=True)
 
-        # Block this email address again
+        # Block this email address so it can't harm us again
         BlockedEmail.objects.block(self.email)
 
-        try:
-            xmpp_backend.block_user(username=self.node, domain=self.domain)
-        except UserNotFound:
-            pass
+        for user in users:
+            try:
+                xmpp_backend.block_user(username=user.node, domain=user.domain)
+            except UserNotFound:
+                pass
 
     @contextmanager
     def gpg_keyring(self, init=True, hostname=None, **kwargs):
