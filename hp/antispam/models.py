@@ -16,6 +16,7 @@
 from django.conf import settings
 from django.db import models
 from django.utils import timezone
+from django.utils.translation import ugettext_lazy as _
 
 from core.models import BaseModel
 
@@ -37,6 +38,9 @@ def _default_ipaddress_expires():
 
 
 class BlockedMixin(object):
+    def __str__(self):
+        return 'Blocked: %s' % self.address
+
     @property
     def is_blocked(self):
         return self.expires > timezone.now()
@@ -45,12 +49,24 @@ class BlockedMixin(object):
 class BlockedEmail(BlockedMixin, BaseModel):
     objects = BlockedEmailManager.from_queryset(BlockedQuerySet)()
 
-    address = models.EmailField(unique=True)
-    expires = models.DateTimeField(default=_default_email_expires)
+    address = models.EmailField(unique=True, help_text=_('The blocked email address'))
+    expires = models.DateTimeField(
+        default=_default_email_expires,
+        help_text=_('When this block expires. If not set, it never expires.'))
+
+    class Meta:
+        verbose_name = _('Blocked email address')
+        verbose_name_plural = _('Blocked email addresses')
 
 
 class BlockedIpAddress(BlockedMixin, BaseModel):
     objects = BlockedBaseManager.from_queryset(BlockedQuerySet)()
 
-    address = models.GenericIPAddressField(unique=True)
-    expires = models.DateTimeField(default=_default_ipaddress_expires)
+    address = models.GenericIPAddressField(unique=True, help_text=_('The blocked IP address'))
+    expires = models.DateTimeField(
+        default=_default_ipaddress_expires,
+        help_text=_('When this block expires. If not set, it never expires.'))
+
+    class Meta:
+        verbose_name = _('Blocked IP address')
+        verbose_name_plural = _('Blocked IP addresses')
