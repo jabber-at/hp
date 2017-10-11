@@ -483,6 +483,10 @@ class SetEmailView(AntiSpamMixin, LoginRequiredMixin, AccountPageMixin, FormView
 
         with transaction.atomic():
             request.user.email = form.cleaned_data['email']
+
+            # Compute the normalized email address
+            request.user.normalized_email = normalize_email(user.email)
+
             request.user.save()
 
             # Remove existing confirmation keys for different email addresses, otherwise the user might be
@@ -558,6 +562,9 @@ class ConfirmSetEmailView(LoginRequiredMixin, RedirectView):
         key = get_object_or_404(qs, key=kwargs['key'])
 
         user.email = key.to
+        # Compute the normalized email address
+        user.normalized_email = normalize_email(user.email)
+
         user.confirmed = timezone.now()
 
         with transaction.atomic():
