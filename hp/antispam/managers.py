@@ -20,13 +20,9 @@ from django.utils import timezone
 from .utils import normalize_email
 
 
-class BlockedEmailManager(models.QuerySet):
+class BlockedBaseManager(models.Manager):
     def block(self, address):
-        """Block the passed email address."""
-
-        address = normalize_email(address)
-
-        if settings.BLOCKED_EMAIL_TIMEOUT is None:
+        if settings.BLOCKED_IPADDRESS_TIMEOUT is None:
             expires = None
         else:
             expires = timezone.now() + expires
@@ -42,3 +38,11 @@ class BlockedEmailManager(models.QuerySet):
             obj.save()
 
         return obj
+
+
+class BlockedEmailManager(models.Manager):
+    def block(self, address):
+        """Block the passed email address."""
+
+        address = normalize_email(address)
+        return super(BlockedEmailManager, self).block(address)
