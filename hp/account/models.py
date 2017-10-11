@@ -155,6 +155,9 @@ class User(XmppBackendUser, PermissionsMixin):
         self.save()
         self.log('You have been blocked. Sorry.')
 
+        # Block this email address again
+        BlockedEmail.objects.block(self.email)
+
         try:
             xmpp_backend.block_user(username=self.node, domain=self.domain)
         except UserNotFound:
