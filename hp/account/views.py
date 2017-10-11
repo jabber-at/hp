@@ -53,7 +53,7 @@ from xmpp_backends.django import xmpp_backend
 from xmpp_http_upload.models import Upload
 from xmpp_http_upload.utils import get_config
 
-from antispam import normalize_email
+from antispam.utils import normalize_email
 from core.constants import ACTIVITY_FAILED_LOGIN
 from core.constants import ACTIVITY_REGISTER
 from core.constants import ACTIVITY_RESEND_CONFIRMATION
