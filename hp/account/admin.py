@@ -87,7 +87,8 @@ class UserAdmin(DjangoObjectActions, VersionAdmin, BaseUserAdmin):
     change_actions = ['block_user', ]
     fieldsets = (
         (None, {
-            'fields': ('username', 'email', ('registered', 'confirmed', 'last_activity', ),
+            'fields': ('username', ('email', 'normalized_email'),
+                       ('registered', 'confirmed', 'last_activity', ),
                        'registration_method', 'blocked', 'default_language', ),
         }),
     )
@@ -95,7 +96,7 @@ class UserAdmin(DjangoObjectActions, VersionAdmin, BaseUserAdmin):
     list_display = ('username', 'email', 'blocked', 'registered', 'confirmed', 'last_activity', )
     list_filter = (ConfirmedFilter, CreatedInBackendFilter, 'is_superuser', 'blocked', )
     ordering = ('-registered', )
-    readonly_fields = ['username', 'registered', 'blocked', ]
+    readonly_fields = ['username', 'registered', 'blocked', 'normalized_email', ]
     search_fields = ['username', 'email', ]
 
     def send_registration(self, request, queryset):
