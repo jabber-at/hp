@@ -83,7 +83,7 @@ class User(XmppBackendUser, PermissionsMixin):
     email = models.EmailField(blank=True, verbose_name=_('Email'))
 
     # used for detecting identical email addresses
-    normalized_email = models.EmailField(default=None)
+    normalized_email = models.EmailField()
 
     # when the account was first registered
     registered = models.DateTimeField(auto_now_add=True)
