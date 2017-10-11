@@ -41,6 +41,7 @@ from xmpp_backends.base import UserNotFound
 from xmpp_backends.django import xmpp_backend
 from xmpp_backends.django.models import XmppBackendUser
 
+from antispam.models import BlockedEmail
 from core.models import Address
 from core.models import BaseModel
 from core.models import CachedMessage
