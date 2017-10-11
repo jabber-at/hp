@@ -22,10 +22,7 @@ from .utils import normalize_email
 
 class BlockedBaseManager(models.Manager):
     def block(self, address):
-        if settings.BLOCKED_IPADDRESS_TIMEOUT is None:
-            expires = None
-        else:
-            expires = timezone.now() + expires
+        expires = self.get_expires()
 
         obj, created = self.get_or_create(address=address)
         if created is False:
@@ -40,9 +37,23 @@ class BlockedBaseManager(models.Manager):
         return obj
 
 
-class BlockedEmailManager(models.Manager):
+class BlockedEmailManager(BlockedBaseManager):
+    def get_expires(self):
+        if settings.BLOCKED_EMAIL_TIMEOUT is None:
+            expires = None
+        else:
+            expires = timezone.now() + expires
+
     def block(self, address):
         """Block the passed email address."""
 
         address = normalize_email(address)
         return super(BlockedEmailManager, self).block(address)
+
+
+class BlockedIpAddressManager(BlockedBaseManager):
+    def get_expires(self):
+        if settings.BLOCKED_IPADDRESS_TIMEOUT is None:
+            expires = None
+        else:
+            expires = timezone.now() + expires

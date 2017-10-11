@@ -21,7 +21,7 @@ from django.utils.translation import ugettext_lazy as _
 from core.models import BaseModel
 
 from .managers import BlockedEmailManager
-from .managers import BlockedBaseManager
+from .managers import BlockedIpAddressManager
 from .querysets import BlockedQuerySet
 
 
@@ -60,7 +60,7 @@ class BlockedEmail(BlockedMixin, BaseModel):
 
 
 class BlockedIpAddress(BlockedMixin, BaseModel):
-    objects = BlockedBaseManager.from_queryset(BlockedQuerySet)()
+    objects = BlockedIpAddressManager.from_queryset(BlockedQuerySet)()
 
     address = models.GenericIPAddressField(unique=True, help_text=_('The blocked IP address'))
     expires = models.DateTimeField(
