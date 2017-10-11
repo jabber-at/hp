@@ -25,6 +25,7 @@ from django.utils.translation import ugettext_lazy as _
 from django_object_actions import DjangoObjectActions
 from reversion.admin import VersionAdmin
 
+from antispam.utils import normalize_email
 from core.utils import version
 
 from .constants import PURPOSE_REGISTER
@@ -112,6 +113,10 @@ class UserAdmin(DjangoObjectActions, VersionAdmin, BaseUserAdmin):
                     user_pk=user.pk, purpose=PURPOSE_REGISTER, language='en', to=user.email,
                     base_url=base_url, hostname=user.domain)
     send_registration.short_description = _('Send new registration confirmations')
+
+    def save_model(self, request, obj, form, change):
+        obj.normalized_email = normalize_email(obj.email)
+        return super(UserAdmin, self).save_model(request, obj, form, change)
 
     def block_user(self, request, obj):
         with version(user=request.user, comment='Blocked via admin interface'):
