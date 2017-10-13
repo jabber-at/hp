@@ -31,6 +31,8 @@ from django.utils.translation import LANGUAGE_SESSION_KEY
 from django.views.generic.base import RedirectView
 from django.views.generic.edit import FormView
 
+from antispam.exceptions import BlockedException
+from antispam.models import BlockedIpAddress
 from core.utils import canonical_link
 
 from .constants import ACTIVITY_CONTACT
@@ -185,6 +187,9 @@ class AntiSpamMixin(object):
             rate_addr = request.GET.get('ratelimit', request.META['REMOTE_ADDR'])
         else:
             bl_addr = dnsbl_addr = rate_addr = request.META['REMOTE_ADDR']
+
+        if BlockedIpAddress.objects.is_blocked(bl_addr):
+            raise BlockedException(_('This address is blocked.'))
 
         # Check static blacklist (settings.SPAM_BLACKLIST)
         bl_addr = ipaddress.ip_address(bl_addr)
