@@ -25,7 +25,7 @@ class BlockedQuerySet(models.QuerySet):
         return self.filter(Q(expires__isnull=True) | Q(expires__gt=timezone.now()), address=address).exists()
 
 
-class BlockedEmailQuerySet(models.QuerySet):
+class BlockedEmailQuerySet(BlockedQuerySet):
     def is_blocked(self, address):
         address = normalize_email(address)
         return super(BlockedEmailQuerySet, self).is_blocked(address)
