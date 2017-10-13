@@ -23,6 +23,7 @@ from core.models import BaseModel
 from .managers import BlockedEmailManager
 from .managers import BlockedIpAddressManager
 from .querysets import BlockedQuerySet
+from .querysets import BlockedEmailQuerySet
 
 
 def _default_email_expires():
@@ -47,7 +48,7 @@ class BlockedMixin(object):
 
 
 class BlockedEmail(BlockedMixin, BaseModel):
-    objects = BlockedEmailManager.from_queryset(BlockedQuerySet)()
+    objects = BlockedEmailManager.from_queryset(BlockedEmailQuerySet)()
 
     address = models.EmailField(unique=True, help_text=_('The blocked email address'))
     expires = models.DateTimeField(

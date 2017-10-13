@@ -14,6 +14,7 @@
 # If not, see <http://www.gnu.org/licenses/>.
 
 from django.db import models
+from django.db.models import Q
 from django.utils import timezone
 
 from .utils import normalize_email
@@ -21,5 +22,10 @@ from .utils import normalize_email
 
 class BlockedQuerySet(models.QuerySet):
     def is_blocked(self, address):
+        return self.filter(Q(expires__isnull=True) | Q(expires__gt=timezone.now()), address=address).exists()
+
+
+class BlockedEmailQuerySet(models.QuerySet):
+    def is_blocked(self, address):
         address = normalize_email(address)
-        return self.filter(address=address, timeout__gt=timezone.now()).exists()
+        return super(BlockedEmailQuerySet, self).is_blocked(address)
