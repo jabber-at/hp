@@ -19,5 +19,5 @@ from core.exceptions import HttpResponseException
 
 
 class BlockedException(HttpResponseException):
-    #template = 'antispam/blocked.html'
+    status = 403
     title = _("Ooops! You're blocked.")
