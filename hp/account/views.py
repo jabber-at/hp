@@ -54,6 +54,7 @@ from xmpp_http_upload.models import Upload
 from xmpp_http_upload.utils import get_config
 
 from antispam.models import BlockedEmail
+from antispam.models import BlockedIpAddress
 from antispam.exceptions import BlockedException
 from antispam.utils import normalize_email
 from core.constants import ACTIVITY_FAILED_LOGIN
@@ -191,6 +192,7 @@ class RegistrationView(AntiSpamMixin, AnonymousRequiredMixin, StaticContextMixin
         base_url = '%s://%s' % (request.scheme, request.get_host())
 
         if BlockedEmail.objects.is_blocked(form.cleaned_data['email']):
+            BlockedIpAddress.objects.block(address)
             raise BlockedException(_('You cannot register with this email address.'))
 
         with transaction.atomic():
