@@ -53,9 +53,9 @@ from xmpp_backends.django import xmpp_backend
 from xmpp_http_upload.models import Upload
 from xmpp_http_upload.utils import get_config
 
+from antispam.exceptions import BlockedException
 from antispam.models import BlockedEmail
 from antispam.models import BlockedIpAddress
-from antispam.exceptions import BlockedException
 from antispam.utils import normalize_email
 from core.constants import ACTIVITY_FAILED_LOGIN
 from core.constants import ACTIVITY_REGISTER

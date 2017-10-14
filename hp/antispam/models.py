@@ -22,8 +22,8 @@ from core.models import BaseModel
 
 from .managers import BlockedEmailManager
 from .managers import BlockedIpAddressManager
-from .querysets import BlockedQuerySet
 from .querysets import BlockedEmailQuerySet
+from .querysets import BlockedQuerySet
 
 
 def _default_email_expires():
