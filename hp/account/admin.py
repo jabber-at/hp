@@ -124,8 +124,9 @@ class UserAdmin(DjangoObjectActions, VersionAdmin, BaseUserAdmin):
             obj.block()
 
             # Block other users with the same normalized email address
-            for user in User.objects.exclude(pk=obj.pk).filter(normalized_email=obj.normalized_email):
-                user.block()
+            if obj.email:
+                for user in User.objects.exclude(pk=obj.pk).filter(normalized_email=obj.normalized_email):
+                    user.block()
 
     block_user.label = _('Block')
     block_user.short_description = _('Block this user')
