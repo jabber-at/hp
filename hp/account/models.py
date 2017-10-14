@@ -42,6 +42,7 @@ from xmpp_backends.django import xmpp_backend
 from xmpp_backends.django.models import XmppBackendUser
 
 from antispam.models import BlockedEmail
+from antispam.models import BlockedIpAddress
 from core.models import Address
 from core.models import BaseModel
 from core.models import CachedMessage
@@ -157,6 +158,10 @@ class User(XmppBackendUser, PermissionsMixin):
 
         # Block this email address so it can't harm us again
         BlockedEmail.objects.block(self.email)
+
+        # Block any address activities:
+        for addr in self.addressactivity_set.all().values_list('address__address', flat=True):
+            BlockedIpAddress.objects.block(addr)
 
         try:
             xmpp_backend.block_user(username=self.node, domain=self.domain)
