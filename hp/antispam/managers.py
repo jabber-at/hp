@@ -21,26 +21,18 @@ from .utils import normalize_email
 
 
 class BlockedBaseManager(models.Manager):
-    def block(self, address, **kwargs):
-        """Block the passed address.
+    def block(self, address):
+        """Block the passed address."""
 
-        If the `timeout` kwarg is passed, the block will expire at the specified timestamp. You can pass None
-        if you want the block to never expire.
-        """
-        if 'timeout' in kwargs:
-            timeout = kwargs['timeout']
-            if timeout is None:
-                expires = None
-            else:
-                expires = timezone.now() + timeout
-        else:
-            expires = self.get_expires()
+        expires = self.get_expires()
 
         obj, created = self.get_or_create(address=address)
         if created is False:
-            if expires is None:
-                obj.expires = None
-            elif obj.expires is not None:
+            if obj.expires is None:
+                return obj  # address is blocked indefinitely already
+            elif expires is None:
+                obj.expires = expires  # block indefinitely now
+            else:
                 obj.expires = max(expires, obj.expires)
             obj.save()
 
