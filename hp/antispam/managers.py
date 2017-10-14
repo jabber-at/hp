@@ -28,9 +28,7 @@ class BlockedBaseManager(models.Manager):
         if created is False:
             if expires is None:
                 obj.expires = None
-            elif obj.expires is None:
-                obj.expires = expires
-            else:
+            elif obj.expires is not None:
                 obj.expires = max(expires, obj.expires)
             obj.save()
 
@@ -39,10 +37,8 @@ class BlockedBaseManager(models.Manager):
 
 class BlockedEmailManager(BlockedBaseManager):
     def get_expires(self):
-        if settings.BLOCKED_EMAIL_TIMEOUT is None:
-            expires = None
-        else:
-            expires = timezone.now() + expires
+        if settings.BLOCKED_EMAIL_TIMEOUT is not None:
+            return timezone.now() + settings.BLOCKED_EMAIL_TIMEOUT
 
     def block(self, address):
         """Block the passed email address."""
@@ -53,7 +49,5 @@ class BlockedEmailManager(BlockedBaseManager):
 
 class BlockedIpAddressManager(BlockedBaseManager):
     def get_expires(self):
-        if settings.BLOCKED_IPADDRESS_TIMEOUT is None:
-            expires = None
-        else:
-            expires = timezone.now() + expires
+        if settings.BLOCKED_IPADDRESS_TIMEOUT is not None:
+            return timezone.now() + settings.BLOCKED_IPADDRESS_TIMEOUT
