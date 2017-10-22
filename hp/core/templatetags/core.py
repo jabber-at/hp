@@ -2,16 +2,16 @@
 #
 # This file is part of the jabber.at homepage (https://github.com/jabber-at/hp).
 #
-# This project is free software: you can redistribute it and/or modify it under the terms of the
-# GNU General Public License as published by the Free Software Foundation, either version 3 of the
-# License, or (at your option) any later version.
+# This project is free software: you can redistribute it and/or modify it under the terms of the GNU General
+# Public License as published by the Free Software Foundation, either version 3 of the License, or (at your
+# option) any later version.
 #
-# This project is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without
-# even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-# General Public License for more details.
+# This project is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the
+# implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License
+# for more details.
 #
-# You should have received a copy of the GNU General Public License along with this project. If
-# not, see <http://www.gnu.org/licenses/>.
+# You should have received a copy of the GNU General Public License along with this project. If not, see
+# <http://www.gnu.org/licenses/>.
 
 import logging
 
@@ -33,16 +33,15 @@ register = template.Library()
 def path(urlname, text='', title=None, anchor=None, **kwargs):
     """Return a HTML link to the given urlname.
 
-    The difference to this tag and Django's builtin ``{% url %}`` template tag is that this tag
-    returns a complete HTML link. The primary use is to use dynamic links to paths in rendered blog
-    posts or pages.
+    The difference to this tag and Django's builtin ``{% url %}`` template tag is that this tag returns a
+    complete HTML link. The primary use is to use dynamic links to paths in rendered blog posts or pages.
 
     Parameters
     ----------
 
     urlname : str
-        The URL name to resolve and link to. URL names are configured in an apps ``url.py``,
-        examples are ``"account:register"`` or ``"feed:rss2"``.
+        The URL name to resolve and link to. URL names are configured in an apps ``url.py``, examples are
+        ``"account:register"`` or ``"feed:rss2"``.
     text : str
         The link text. If omitted, a warning is logged and the ``urlname`` will be used instead.
     title : str, optional
