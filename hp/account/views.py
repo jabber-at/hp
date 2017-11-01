@@ -66,6 +66,7 @@ from core.constants import ACTIVITY_SET_PASSWORD
 from core.models import AddressActivity
 from core.templatetags.core import format_filesize
 from core.utils import format_timedelta
+from core.utils import version
 from core.views import AnonymousRequiredMixin
 from core.views import AntiSpamMixin
 from core.views import StaticContextMixin
@@ -195,7 +196,7 @@ class RegistrationView(AntiSpamMixin, AnonymousRequiredMixin, StaticContextMixin
             BlockedIpAddress.objects.block(address)
             raise BlockedException(_('You cannot register with this email address.'))
 
-        with transaction.atomic():
+        with transaction.atomic(), version(comment='User created'):
             response = super(RegistrationView, self).form_valid(form)
             user = self.object
 
@@ -279,7 +280,7 @@ class ConfirmRegistrationView(ConfirmationMixin, FormView):
         address = request.META['REMOTE_ADDR']
         password = form.cleaned_data['password']
 
-        with transaction.atomic():
+        with transaction.atomic(), version(comment="email address confirmed"):
             key.user.confirmed = timezone.now()
             key.user.created_in_backend = True
             key.user.save()
