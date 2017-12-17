@@ -555,6 +555,10 @@ if not ALLOWED_HOSTS:
     for config in XMPP_HOSTS.values():
         ALLOWED_HOSTS += XMPP_HOSTS.get('ALLOWED_HOSTS', [])
 
+# Hosts managed by this homepage
+MANAGED_HOSTS = {k: v for k, v in XMPP_HOSTS.items() if v.get('MANAGE', True)}
+# Hosts where registration is possible via this homepage
+REGISTER_HOSTS = {k: v for k, v in MANAGED_HOSTS.items() if v.get('REGISTRATION', True)}
 
 LOGGING = {
     'version': 1,
