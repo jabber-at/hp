@@ -126,7 +126,7 @@ def check_dnsbl(ip):
 
         try:
             reason = resolver.query(query, "TXT")[0].to_text()
-        except:  # reason is optional
+        except Exception:  # reason is optional
             pass
 
         blocks.append((dnsbl, reason))
