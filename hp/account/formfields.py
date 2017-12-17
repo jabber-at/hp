@@ -42,13 +42,10 @@ class UsernameField(BootstrapMixin, forms.MultiValueField):
         self.status_check = kwargs.pop('status_check', self.register)
         kwargs.setdefault('label', _('Username'))
 
-        hosts = getattr(settings, 'XMPP_HOSTS', {})
         if self.register is True:
-            hosts = [k for k, v in hosts.items()
-                     if v.get('REGISTRATION') and v.get('MANAGE', True)]
+            choices = tuple([(d, '@%s' % d) for d in settings.REGISTER_HOSTS.keys()])
         else:
-            hosts = [k for k, v in hosts.items() if v.get('MANAGE', True)]
-        choices = tuple([(d, '@%s' % d) for d in hosts])
+            choices = tuple([(d, '@%s' % d) for d in settings.MANAGED_HOSTS.keys()])
 
         fields = (
             forms.CharField(

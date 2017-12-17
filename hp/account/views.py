@@ -186,10 +186,7 @@ class RegistrationView(AntiSpamMixin, AnonymousRequiredMixin, StaticContextMixin
     template_name_suffix = '_register'
 
     def dispatch(self, request, *args, **kwargs):
-        hosts = getattr(settings, 'XMPP_HOSTS', {})
-        hosts = [k for k, v in hosts.items()
-                 if v.get('REGISTRATION', True) and v.get('MANAGE', True)]
-        if not hosts:
+        if not settings.REGISTER_HOSTS:
             context = {}
             return TemplateResponse(request, 'account/no_registration.html', context)
         return super(RegistrationView, self).dispatch(request, *args, **kwargs)
