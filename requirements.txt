@@ -1,4 +1,4 @@
-Django==2.0
+Django==1.11.8
 Pillow==4.3.0
 bleach==2.1.2
 celery==4.1.0
