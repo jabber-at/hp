@@ -18,8 +18,8 @@ from django.contrib.auth import get_user_model
 from django.core.management.base import BaseCommand
 from django.utils import timezone
 
-from xmpp_backends.django import xmpp_backend
 from xmpp_backends.base import UserNotFound
+from xmpp_backends.django import xmpp_backend
 
 from ...constants import REGISTRATION_INBAND
 
