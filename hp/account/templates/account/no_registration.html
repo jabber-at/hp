@@ -1,0 +1,14 @@
+{% extends "account/form-base.html" %}
+{% load i18n canonical %}
+
+{% block title %}{% trans "Registration deactivated" %}{% endblock title %}
+
+{% block form %}
+<p>
+{% blocktrans with domain=site.NAME %}Registration is currently deactivated. Please see the start
+page if there is any more information.{% endblocktrans %}
+</p>
+
+
+</form>
+{% endblock form %}

@@ -185,6 +185,15 @@ class RegistrationView(AntiSpamMixin, AnonymousRequiredMixin, StaticContextMixin
     success_url = reverse_lazy('account:detail')
     template_name_suffix = '_register'
 
+    def dispatch(self, request, *args, **kwargs):
+        hosts = getattr(settings, 'XMPP_HOSTS', {})
+        hosts = [k for k, v in hosts.items()
+                 if v.get('REGISTRATION', True) and v.get('MANAGE', True)]
+        if not hosts:
+            context = {}
+            return TemplateResponse(request, 'account/no_registration.html', context)
+        return super(RegistrationView, self).dispatch(request, *args, **kwargs)
+
     def form_valid(self, form):
         request = self.request
         self.ratelimit(request)
