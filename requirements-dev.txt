@@ -1,7 +1,7 @@
 Fabric3==1.13.1.post1
-Sphinx==1.6.4
+Sphinx==1.6.5
 fabric-webbuilders==0.3
-flake8==3.4.1
+flake8==3.5.0
 freezegun==0.3.9
 gnupg==2.3.1
 ipython>=6.2.1
