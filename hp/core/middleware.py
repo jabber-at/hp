@@ -33,23 +33,38 @@ from .models import CachedMessage
 log = logging.getLogger(__name__)
 
 
-class SiteMiddleware(object):
-    def process_request(self, request):
+class HomepageMiddleware:
+    def __init__(self, get_response):
+        self.get_response = get_response
+        self.default_site = settings.XMPP_HOSTS[settings.DEFAULT_XMPP_HOST]
+
+    def __call__(self, request):
         host = request._get_raw_host()
         domain, port = split_domain_port(host)
 
+        # Set request.site
+        request.site = self.default_site
         for name, config in settings.XMPP_HOSTS.items():
             if validate_host(domain, config.get('ALLOWED_HOSTS', [])):
                 request.site = config
-                return
 
-        request.site = settings.XMPP_HOSTS[settings.DEFAULT_XMPP_HOST]
+        # Attach any messages from the database to the messages system
+        # These messages usually come from asynchronous tasks (-> Celery)
+        if request.user.is_anonymous is False:
+            with transaction.atomic():
+                stored_msgs = CachedMessage.objects.filter(user=request.user)
+                if stored_msgs:
+                    for msg in stored_msgs:
+                        messages.add_message(request, msg.level, _(msg.message) % msg.payload)
 
+                    stored_msgs.delete()
 
-class TranslatedUrlConfigMiddleware(object):
-    """Middleware to handle translated paths."""
+        response = self.get_response(request)
+        return response
 
     def process_view(self, request, view_func, view_args, view_kwargs):
+        """Handle translated paths."""
+
         match = request.resolver_match
         if getattr(match.func, 'translated_match', False):
             url_name = match.url_name  # "name" parameter in the URL config
@@ -58,23 +73,9 @@ class TranslatedUrlConfigMiddleware(object):
 
             return HttpResponseRedirect(reverse(url_name))
 
-
-class CeleryMessageMiddleware(object):
-    def process_request(self, request):
-        if request.user.is_anonymous:
-            return
-
-        with transaction.atomic():
-            stored_msgs = CachedMessage.objects.filter(user=request.user)
-            if stored_msgs:
-                for msg in stored_msgs:
-                    messages.add_message(request, msg.level, _(msg.message) % msg.payload)
-
-                stored_msgs.delete()
-
-
-class HttpResponseExceptionMiddleware(object):
     def process_exception(self, request, exception):
+        """Process homepage-specific exceptions."""
+
         if isinstance(exception, HttpResponseException):
             log.exception(exception)
             return exception.get_response(request)
