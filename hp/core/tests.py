@@ -20,6 +20,8 @@ from unittest import mock
 from celery import task
 
 from django.test import TestCase as DjangoTestCase
+from django.test import Client
+from django.test import override_settings
 
 from . import utils
 
@@ -55,3 +57,19 @@ class HomepageTestCaseMixin(object):
 
 class TestCase(HomepageTestCaseMixin, DjangoTestCase):
     pass
+
+
+@override_settings(MIDDLEWARE=[
+    'django.contrib.sessions.middleware.SessionMiddleware',  # required by AuthenticationMiddleware
+    'django.middleware.locale.LocaleMiddleware',  # required by standard view
+    'django.contrib.auth.middleware.AuthenticationMiddleware',  # required by HomepageMiddleware
+    'core.middleware.HomepageMiddleware',
+])
+class MiddlewareTestCase(TestCase):
+    def test_basic(self):
+        c = Client()
+        with self.assertTemplateUsed('blog/blogpost_list.html'):
+            response = c.get('/')
+            self.assertEqual(response.status_code, 200)
+            self.assertEqual(response.wsgi_request.os, 'any')
+            self.assertTrue(response.wsgi_request.os_mobile)
