@@ -73,3 +73,6 @@ class MiddlewareTestCase(TestCase):
             self.assertEqual(response.status_code, 200)
             self.assertEqual(response.wsgi_request.os, 'any')
             self.assertTrue(response.wsgi_request.os_mobile)
+            # If we execute the test-suite with "manage.py test" instead of "fab test", localsettings will be
+            # used and the results are different.
+            self.assertEqual(response.wsgi_request.site['NAME'], 'example.com', 'Tested with fab test?')
