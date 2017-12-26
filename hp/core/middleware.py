@@ -24,6 +24,7 @@ from django.http.request import validate_host
 from django.template.response import TemplateResponse
 from django.urls import reverse
 from django.utils.translation import ugettext as _
+from ua_parser import user_agent_parser
 
 from xmpp_backends.base import BackendError
 
@@ -32,11 +33,36 @@ from .models import CachedMessage
 
 log = logging.getLogger(__name__)
 
+_KNOWN_OS = ['osx', 'ios', 'android', 'linux', 'windows', 'any', 'browser']
+
 
 class HomepageMiddleware:
     def __init__(self, get_response):
         self.get_response = get_response
         self.default_site = settings.XMPP_HOSTS[settings.DEFAULT_XMPP_HOST]
+
+    def get_os(self, request):
+        if 'os' in request.GET:
+            os = request.GET['os']
+
+            # Only allow known OS, otherwise this might open us to XSS attacks
+            if os in _KNOWN_OS:
+                return os
+
+        ua_parsed = user_agent_parser.ParseOS(request.META.get('HTTP_USER_AGENT', ''))
+        os = ua_parsed['family'].lower().strip()
+        if os == 'mac os x':
+            return 'osx'
+        elif os == 'ios':
+            return 'ios'
+        elif os == 'android':
+            return 'android'
+        elif os == 'linux':
+            return 'linux'
+        elif os.startswith('windows'):
+            return 'win'
+
+        return 'any'
 
     def __call__(self, request):
         host = request._get_raw_host()
@@ -58,6 +84,10 @@ class HomepageMiddleware:
                         messages.add_message(request, msg.level, _(msg.message) % msg.payload)
 
                     stored_msgs.delete()
+
+        # Attach OS information to request
+        request.os = self.get_os(request)
+        request.os_mobile = request.os in ['android', 'ios']
 
         response = self.get_response(request)
         return response
