@@ -76,3 +76,9 @@ class MiddlewareTestCase(TestCase):
             # If we execute the test-suite with "manage.py test" instead of "fab test", localsettings will be
             # used and the results are different.
             self.assertEqual(response.wsgi_request.site['NAME'], 'example.com', 'Tested with fab test?')
+
+
+#@override_settings(ROOT_URLCONF=__name__)
+class I18nURLTests(TestCase):
+    def test_basic(self):
+        self.fail()
