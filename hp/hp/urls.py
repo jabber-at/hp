@@ -32,7 +32,7 @@ urlpatterns = [
     url(r'^account/', include('account.urls')),
     url(r'^feed/', include('feed.urls')),
     url(r'^chat/', include('conversejs.urls')),
-    url(r'^xep0363/', include('xmpp_http_upload.urls', namespace='xmpp-http-upload')),
+    url(r'^xep0363/', include('xmpp_http_upload.urls')),
     i18n_url(r'^', include('core.urls')),
     url(r'^', include('blog.urls')),
 ]
