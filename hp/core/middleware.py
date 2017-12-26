@@ -87,7 +87,7 @@ class HomepageMiddleware:
 
         # Attach OS information to request
         request.os = self.get_os(request)
-        request.os_mobile = request.os in ['android', 'ios']
+        request.os_mobile = request.os in ['android', 'ios', 'any']
 
         response = self.get_response(request)
         return response
