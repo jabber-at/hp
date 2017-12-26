@@ -69,8 +69,7 @@ INSTALLED_APPS = [
     'xmpp_http_upload',  # XEP-0363
 ]
 
-MIDDLEWARE_CLASSES = [
-    'core.middleware.SiteMiddleware',
+MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.locale.LocaleMiddleware',
@@ -80,9 +79,7 @@ MIDDLEWARE_CLASSES = [
     'django.contrib.auth.middleware.SessionAuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'core.middleware.TranslatedUrlConfigMiddleware',
-    'core.middleware.CeleryMessageMiddleware',
-    'core.middleware.HttpResponseExceptionMiddleware',
+    'core.middleware.HomepageMiddleware',
 ]
 
 ROOT_URLCONF = 'hp.urls'
