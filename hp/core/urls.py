@@ -22,6 +22,7 @@ from blog.sitemaps import PageSitemap
 
 from . import views
 from .sitemaps import StaticSitemap
+from .urlpatterns import i18n_re_path
 
 sitemaps = {
     'blog': BlogPostSitemap,
@@ -32,8 +33,7 @@ sitemaps = {
 
 app_name = 'core'
 urlpatterns = [
-    url(_(r'^contact/$'), views.ContactView.as_view(), name='contact'),
-    url(r'^sitemap\.xml$', sitemap, {'sitemaps': sitemaps},
-        name='django.contrib.sitemaps.views.sitemap'),
+    i18n_re_path(_(r'^contact/$'), views.ContactView.as_view(), name='contact'),
+    url(r'^sitemap\.xml$', sitemap, {'sitemaps': sitemaps, }, name='django.contrib.sitemaps.views.sitemap'),
     url(r'^api/set-lang/$', views.SetLanguageView.as_view(), name='api-set-lang'),
 ]

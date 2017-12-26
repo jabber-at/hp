@@ -20,7 +20,6 @@ from django.conf.urls import url
 from django.conf.urls.static import static
 from django.contrib import admin
 
-from core.urlpatterns import i18n_url
 from xmpp_software_overview.views import ClientsView
 
 urlpatterns = [
@@ -33,7 +32,7 @@ urlpatterns = [
     url(r'^feed/', include('feed.urls')),
     url(r'^chat/', include('conversejs.urls')),
     url(r'^xep0363/', include('xmpp_http_upload.urls')),
-    i18n_url(r'^', include('core.urls')),
+    url(r'^', include('core.urls')),
     url(r'^', include('blog.urls')),
 ]
 
