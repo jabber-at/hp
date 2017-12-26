@@ -15,6 +15,8 @@
 
 import logging
 
+from ua_parser import user_agent_parser
+
 from django.conf import settings
 from django.contrib import messages
 from django.db import transaction
@@ -24,7 +26,6 @@ from django.http.request import validate_host
 from django.template.response import TemplateResponse
 from django.urls import reverse
 from django.utils.translation import ugettext as _
-from ua_parser import user_agent_parser
 
 from xmpp_backends.base import BackendError
 
