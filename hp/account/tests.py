@@ -22,7 +22,7 @@ from django.contrib.auth import get_user_model
 from django.test import Client
 from django.urls import reverse
 
-from core.tests import TestCase
+from core.tests.base import TestCase
 
 from .tasks import send_confirmation_task
 
