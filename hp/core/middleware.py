@@ -37,7 +37,7 @@ log = logging.getLogger(__name__)
 _KNOWN_OS = ['osx', 'ios', 'android', 'linux', 'windows', 'any', 'browser']
 
 
-class HomepageMiddleware:
+class HomepageMiddleware(object):
     def __init__(self, get_response):
         self.get_response = get_response
         self.default_site = settings.XMPP_HOSTS[settings.DEFAULT_XMPP_HOST]
