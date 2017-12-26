@@ -77,7 +77,12 @@ class LinkTargetDict(dict):
         elif typ == TARGET_MODEL:
             ct = ContentType.objects.get_for_id(self['content_type'])
             obj = ct.get_object_for_this_type(pk=self['object_id'])
-            return obj.get_absolute_url()
+            if hasattr(obj, 'get_absolute_url'):
+                return obj.get_absolute_url()
+            else:
+                log.warn('%s: Model has no get_absolute_url()', obj._meta.label)
+                return ''
+
         return ''
 
 
