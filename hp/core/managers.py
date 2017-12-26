@@ -30,7 +30,7 @@ class AddressManager(models.Manager):
 class AddressActivityManager(models.Manager):
     def log(self, request, activity, note='', user=None):
         user = user or request.user
-        Address = self.model._meta.get_field('address').rel.to
+        Address = self.model._meta.get_field('address').related_model
         address = Address.objects.get_or_create(address=request.META['REMOTE_ADDR'])[0]
         headers = {k: v for k, v in request.META.items()
                    if k in _LOGGED_HEADERS or k.startswith('HTTP_')}
