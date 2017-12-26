@@ -369,7 +369,7 @@ class Confirmation(BaseModel):
 
     def send(self):
         template_base = 'account/confirm/%s' % self.purpose
-        subject = self.SUBJECTS[self.purpose]
+        subject = str(self.SUBJECTS[self.purpose])
         hostname = self.payload['hostname']
         host = settings.XMPP_HOSTS[hostname]
         path = reverse('account:%s_confirm' % self.purpose, kwargs={'key': self.key})
