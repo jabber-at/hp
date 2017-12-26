@@ -21,9 +21,11 @@ from django.conf.urls.static import static
 from django.contrib import admin
 
 from core.urlpatterns import i18n_url
+from xmpp_software_overview.views import ClientsView
 
 urlpatterns = [
     url(r'^%s/' % settings.ADMIN_URL.strip('/'), admin.site.urls),
+    url(r'^clients/', ClientsView.as_view()),
     url(r'^tinymce/', include('tinymce.urls')),
     url(r'^captcha/', include('captcha.urls')),
 
