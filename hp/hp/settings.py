@@ -176,7 +176,6 @@ _DEFAULT_JS_FILES = [
     'lib/jquery/jquery.js',
     'lib/bootstrap/js/bootstrap.js',
     'lib/prism/prism.js',
-    'core/js/clients.js',
     'core/js/captcha.js',
     'core/js/base.js',
     'account/js/gpgmixin.js',
