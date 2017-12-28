@@ -21,6 +21,14 @@ table.text-center th {
     text-align: center;
 }
 
+@media (min-width:768px) and (max-width: 991px) {
+    /* reduce padding on larger screens so we can fit more menu items */
+    .nav > li > a {
+        padding-left: 10px;
+        padding-right: 10px;
+    }
+}
+
 /**
  * Footer
  */
