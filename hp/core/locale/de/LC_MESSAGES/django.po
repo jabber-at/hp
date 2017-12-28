@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-01-08 17:40+0100\n"
+"POT-Creation-Date: 2017-12-28 16:29+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -29,31 +29,31 @@ msgstr "Anzahl der Aktivitäten"
 msgid "Number of confirmations"
 msgstr "Anzahl der Bestätigungen"
 
-#: constants.py:24
+#: constants.py:23
 msgid "Via Website"
 msgstr ""
 
-#: constants.py:25
+#: constants.py:24
 msgid "In-Band Registration"
 msgstr ""
 
-#: constants.py:26
+#: constants.py:25
 msgid "Manually"
 msgstr "Manuell"
 
-#: constants.py:27
+#: constants.py:26
 msgid "Unknown"
 msgstr "Unbekannt"
 
-#: constants.py:34
+#: constants.py:33
 msgid "URL"
 msgstr ""
 
-#: constants.py:35
+#: constants.py:34
 msgid "URL Name"
 msgstr ""
 
-#: constants.py:36 formfields.py:91
+#: constants.py:35 formfields.py:92
 msgid "Model"
 msgstr ""
 
@@ -61,27 +61,27 @@ msgstr ""
 msgid "Temporary error"
 msgstr "Vorübergehender Fehler"
 
-#: formfields.py:41
+#: formfields.py:42
 msgid "CAPTCHA"
 msgstr ""
 
-#: formfields.py:81
+#: formfields.py:82
 msgid "URL/URL name"
 msgstr ""
 
-#: formfields.py:84
+#: formfields.py:85
 msgid "args"
 msgstr ""
 
-#: formfields.py:87
+#: formfields.py:88
 msgid "kwargs"
 msgstr ""
 
-#: formfields.py:97
+#: formfields.py:98
 msgid "Object"
 msgstr "Objekt"
 
-#: forms.py:41
+#: forms.py:40
 msgid ""
 "This <a href=\"https://en.wikipedia.org/wiki/CAPTCHA\">CAPTCHA</a> prevents "
 "automated SPAM. If you can't read it, just <a class=\"captcha-refresh"
@@ -91,138 +91,97 @@ msgstr ""
 "verhindert automatisierten SPAM. Wenn du es nicht lesen kannst, kannst du es "
 "<a class=\"captcha-refresh\">&#8634; neu laden</a>."
 
-#: forms.py:59
+#: forms.py:58
 msgid "At least 12, at most 30 characters. What is you message about?"
 msgstr "Mindestens 12, maximal 30 Zeichen. Um was geht es?"
 
-#: forms.py:61
+#: forms.py:60
 msgid "Please describe your issue as detailed as possible!"
 msgstr "Bitte beschreiben sie so genau wie möglich, worum es geht!"
 
-#: forms.py:65
+#: forms.py:64
 msgid "Your address, so we can get back to you."
 msgstr "Ihre Adresse, damit wir sie kontaktieren können."
 
-#: forms.py:70
-msgid "Operating System"
-msgstr "Betriebssystem"
-
-#: forms.py:74
-msgid "Any operating system"
-msgstr "Alle Betriebssysteme"
-
-#: models.py:59 models.py:198
+#: models.py:48
 msgid "Page title"
 msgstr "Titel"
 
-#: models.py:60
-msgid "Slug (used in URLs)"
-msgstr "Slug (in URLs verwendet)"
-
-#: models.py:63
-msgid "Wether or not the page is public."
-msgstr "Ob die Seite gerade öffentlich ist."
-
-#: models.py:66
-msgid "Meta"
-msgstr ""
-
-#: models.py:67
-msgid "For search engines, max. of 160 characters."
-msgstr "Für Suchmaschinen, maximal 160 Zeichen."
-
-#: models.py:69
-msgid "Twitter"
-msgstr ""
-
-#: models.py:70
-msgid "At most 200 characters."
-msgstr "Maximal 200 Zeichen."
-
-#: models.py:72
-msgid "Facebook"
-msgstr ""
-
-#: models.py:73
-msgid "Two to four sentences, default: first three sentences."
-msgstr "Zwei bis vier Sätze, Default: die ersten drei Sätze."
-
-#: models.py:75
-msgid "Any length, but must be valid HTML. Shown in RSS feeds."
-msgstr ""
-"Beliebige Länge, aber muss valides HTML sein. Wird in RSS feeds angezeigt."
-
-#: models.py:188
-msgid "Pinned at the top of any list of blog posts."
-msgstr "Ganz oben in der Liste der Blog-Einträge."
-
-#: models.py:223
+#: models.py:74
 msgid "IP-Address"
 msgstr "IP-Adresse"
 
-#: models.py:224
+#: models.py:75
 msgid "IP-Addresses"
 msgstr "IP-Adressen"
 
-#: models.py:237
+#: models.py:88
 msgid "Failed login"
 msgstr "Fehlgeschlagener Login"
 
-#: models.py:238
+#: models.py:89
 msgid "Registration"
 msgstr "Registrierung"
 
-#: models.py:239
+#: models.py:90
 msgid "Reset password"
 msgstr "Passwort neu setzen"
 
-#: models.py:240
+#: models.py:91
 msgid "Set email"
 msgstr "E-Mail setzen"
 
-#: models.py:241
+#: models.py:92
 msgid "Set password"
 msgstr "Passwort setzen"
 
-#: models.py:248
+#: models.py:99
 msgid "Request headers used."
 msgstr "HTTP header vom Request"
 
-#: models.py:251
+#: models.py:102
 msgid "IP-Address Activity"
 msgstr "Aktivität einer IP-Adresse"
 
-#: models.py:252
+#: models.py:103
 msgid "IP-Address Activities"
 msgstr "Aktivitäten einer IP-Adresse"
 
-#: templates/base.html:41
+#: templates/404.html:4
+msgid "Page not found"
+msgstr ""
+
+#: templates/404.html:7
+msgid "The page you have requested could not be found."
+msgstr ""
+
+#: templates/base.html:47
 #, python-format
 msgid "%(brand)s - Recent updates (RSS feed)"
 msgstr "%(brand)s - Neueste Artikel (RSS feed)"
 
-#: templates/base.html:42
+#: templates/base.html:48
 #, python-format
 msgid "%(brand)s - Recent updates (Atom feed)"
 msgstr "%(brand)s - Neueste Artikel (Atom feed)"
 
-#: templates/base.html:79
+#: templates/base.html:85
 msgid "Account"
 msgstr "Konto"
 
-#: templates/base.html:80
+#: templates/base.html:86
 msgid "Logout"
 msgstr "Abmelden"
 
-#: templates/base.html:82
+#: templates/base.html:88
 msgid "Register"
 msgstr "Registrieren"
 
-#: templates/base.html:83
+#: templates/base.html:89
 msgid "Login"
 msgstr "Anmelden"
 
-#: templates/base.html:98
+#: templates/base.html:104
 msgid ""
 "This homepage is Free Software, you can find the source \n"
 "<a href=\"https://github.com/jabber-at/hp\">on github</a>."
@@ -230,170 +189,53 @@ msgstr ""
 "Diese Homepage ist Freie Software, den Quellcode gibt es <a href=\"https://"
 "github.com/jabber-at/hp\">auf github</a>."
 
-#: templates/core/blacklist.html:4 templates/core/dnsbl.html:4
+#: templates/core/antispam/blacklist.html:4
+#: templates/core/antispam/dnsbl.html:4
 msgid "Ooops! You're blocked."
 msgstr "Ooops! Sie wurden blockiert."
 
-#: templates/core/blacklist.html:8 templates/core/dnsbl.html:8
+#: templates/core/antispam/blacklist.html:8
+#: templates/core/antispam/dnsbl.html:8
 msgid "You are not allowed to perform this function."
 msgstr "Sie dürfen diese Funktion leider nicht ausführen."
 
-#: templates/core/blacklist.html:13
+#: templates/core/antispam/blacklist.html:13
 msgid ""
 "Your IP-Address was manually blocked by us. This means you cannot perform "
 "this operation\n"
 "until we lift the ban."
 msgstr ""
 
-#: templates/core/clients.html:4
-msgid "Recommended clients"
-msgstr "Empfohlene Clients"
-
-#: templates/core/clients.html:16
-#, python-format
+#: templates/core/antispam/dnsbl.html:10
 msgid ""
-"Jabber is an open protocol and anyone may develop a client for it. This\n"
-"means there are many different clients to connect to %(hostname)s."
+"Your IP-Address appears on one or more \n"
+"<a href=\"https://en.wikipedia.org/wiki/DNSBL\">DNS-based Blackhole Lists "
+"(DNSBL)</a>.\n"
+"This is most likely due to you using an open proxy server or your computer "
+"sending a lot of SPAM.\n"
 msgstr ""
-"Jabber ist ein offenes Protokoll, daher kann auch jedeR einen Client dafür "
-"entwickeln. Es gibt daher eine Unzahl an Clients, um sich zu %(hostname)s zu "
-"verbinden."
+"Ihre IP-Adresse steht auf einer oder mehreren <a href=\"https://de.wikipedia."
+"org/wiki/DNSBL\">DNS-based Blackhole Lists (DNSBL)</a>.\n"
+"Das liegt vermutlich daran, dass sie einen offenen Proxy-Server nutzen oder "
+"ihr Computer eine Menge SPAM verschickt.\n"
 
-#: templates/core/clients.html:19
-msgid "So what's the best client?"
-msgstr "Also was ist der beste Client?"
+#: templates/core/antispam/rate.html:4
+msgid "Ooops! Not so fast."
+msgstr "Ooops! Nicht so schnell."
 
-#: templates/core/clients.html:21
-msgid "Here is what we have found works best:"
-msgstr "Was unserer Meinung nach am besten funktioniert:"
+#: templates/core/antispam/rate.html:8
+msgid "You have performed this activity to often in a short period of time."
+msgstr ""
+"Sie haben diese Aktivität zu oft ausgeführt. Bitte versuchen sie es später "
+"erneut."
 
-#: templates/core/clients.html:24
+#: templates/core/antispam/rate.html:11
 msgid ""
-"Android: <a href=\"https://conversations.im/\">Conversations</a> (€ 2,39 on\n"
-"<a href=\"https://play.google.com/store/apps/details?id=eu.siacs."
-"conversations\">Google Play</a> \n"
-"or free on \n"
-"<a href=\"https://f-droid.org/repository/browse/?"
-"fdfilter=conversations&fdid=eu.siacs.conversations\">F-Droid</a>)"
+"We automatically block IP address temporarily if they perform this activity\n"
+"too often. Please wait a while before trying again."
 msgstr ""
-"Android: <a href=\"https://conversations.im/\">Conversations</a> (€ 2,39 "
-"auf\n"
-"<a href=\"https://play.google.com/store/apps/details?id=eu.siacs."
-"conversations\">Google Play</a> \n"
-"oder gratis auf \n"
-"<a href=\"https://f-droid.org/repository/browse/?"
-"fdfilter=conversations&fdid=eu.siacs.conversations\">F-Droid</a>)"
-
-#: templates/core/clients.html:29
-msgid ""
-"iOS (iPhone): <a href=\"https://chatsecure.org/\">ChatSecure</a> (in the <a "
-"href=\"https://itunes.apple.com/us/app/chatsecure/id464200063\">App Store</"
-"a>)"
-msgstr ""
-"iOS (iPhone): <a href=\"https://chatsecure.org/\">ChatSecure</a> (im <a href="
-"\"https://itunes.apple.com/us/app/chatsecure/id464200063\">App Store</a>)"
-
-#: templates/core/clients.html:30
-msgid "Linux: <a href=\"https://gajim.org/\">Gajim</a>"
-msgstr ""
-
-#: templates/core/clients.html:31
-msgid ""
-"Linux (console): <a href=\"https://mcabber.com/\">mcabber</a> or <a href="
-"\"http://profanity.im/\">Profanity</a>"
-msgstr ""
-"Linux (Konsole): <a href=\"https://mcabber.com/\">mcabber</a> oder <a href="
-"\"http://profanity.im/\">Profanity</a>"
-
-#: templates/core/clients.html:32
-msgid "macOS (Mac OS X): <a href=\"https://adium.im/\">Adium</a>"
-msgstr ""
-
-#: templates/core/clients.html:33
-msgid ""
-"Web (in the Browser): <a href=\"https://conversejs.org/\">Converse.js</a>"
-msgstr "Web (im Browser): <a href=\"https://conversejs.org/\">Converse.js</a>"
-
-#: templates/core/clients.html:34
-msgid "Windows: <a href=\"https://gajim.org/\">Gajim</a>"
-msgstr ""
-
-#: templates/core/clients.html:37
-msgid "Can you be more specific?"
-msgstr "Geht es bitte etwas genauer?"
-
-#: templates/core/clients.html:39
-msgid "Sure we can:"
-msgstr "Aber klar doch:"
-
-#: templates/core/clients.html:96 templates/core/clients.html:110
-#: templates/core/clients.html:128 templates/core/clients.html:162
-#: templates/core/clients.html:178 templates/core/clients.html:193
-#: templates/core/clients.html:239 templates/core/clients.html:254
-#: templates/core/clients.html:286 templates/core/clients.html:304
-#, python-format
-msgid "version %(version)s"
-msgstr "Version %(version)s"
-
-#: templates/core/clients.html:137
-msgid ""
-"With <a href=\"https://trac-plugins.gajim.org/wiki/HttpUploadPlugin"
-"\">Plugin</a>"
-msgstr ""
-"Mit <a href=\"https://trac-plugins.gajim.org/wiki/HttpUploadPlugin\">Plugin</"
-"a>"
-
-#: templates/core/clients.html:139
-msgid "With <a href=\"https://github.com/omemo/gajim-omemo\">Plugin</a>"
-msgstr "Mit <a href=\"https://github.com/omemo/gajim-omemo\">Plugin</a>"
-
-#: templates/core/clients.html:156
-msgid "Good for voice/video calls"
-msgstr "Gut für Sprach- und Videotelefonie."
-
-#: templates/core/clients.html:174
-msgid "You have to host your own instance."
-msgstr "Muss selbst gehostet werden."
-
-#: templates/core/clients.html:207
-msgid ""
-"See <a href=\"https://github.com/anurodhp/Monal/issues/5\">github issue</a>"
-msgstr ""
-"Siehe <a href=\"https://github.com/anurodhp/Monal/issues/5\">github issue</a>"
-
-#: templates/core/clients.html:220
-msgid "With <a href=\"https://github.com/segler-alex/Pidgin-GPG\">Plugin</a>"
-msgstr "Mit <a href=\"https://github.com/segler-alex/Pidgin-GPG\">Plugin</a>"
-
-#: templates/core/clients.html:334
-#, python-format
-msgid ""
-"Feel information on this page is missing or out of date? Please just <a href="
-"\"%(url)s\">contact\n"
-"us</a>."
-msgstr ""
-"Falls ihnen auffällt, dass Informationen nicht mehr aktuell sind, <a href= "
-"\"%(url)s\">kontaktieren sie uns</a> bitte einfach."
-
-#: templates/core/clients.html:336
-msgid ""
-"\n"
-"You can also find other lists of clients on <a href=\"http://xmpp.org/"
-"software/clients.shtml\">xmpp.org</a>,\n"
-"<a href=\"http://en.wikipedia.org/wiki/List_of_XMPP_client_software"
-"\">Wikipedia</a>, on\n"
-"<a href=\"https://www.zash.se/xmpp-clients.html\">zash.se</a>, or, in "
-"French, at\n"
-"<a href=\"https://wiki.jabberfr.org/Clients\">jabberfr.org</a>."
-msgstr ""
-"\n"
-"Weitere Listen von Clients finden sich auch auf <a href=\"http://xmpp.org/"
-"software/clients.shtml\">xmpp.org</a>,\n"
-"<a href=\"http://en.wikipedia.org/wiki/List_of_XMPP_client_software"
-"\">Wikipedia</a>, \n"
-"<a href=\"https://www.zash.se/xmpp-clients.html\">zash.se</a>, oder, auf "
-"Französisch, auf\n"
-"<a href=\"https://wiki.jabberfr.org/Clients\">jabberfr.org</a>."
+"Wir blockieren IP-Adressen automatisch für eine kurze Zeit die diese "
+"Aktivität zu oft ausführen. Bitte versuchen sie es später erneut."
 
 #: templates/core/contact.html:4
 msgid "Contact"
@@ -439,19 +281,6 @@ msgstr ""
 msgid "Send"
 msgstr "Absenden"
 
-#: templates/core/dnsbl.html:10
-msgid ""
-"Your IP-Address appears on one or more \n"
-"<a href=\"https://en.wikipedia.org/wiki/DNSBL\">DNS-based Blackhole Lists "
-"(DNSBL)</a>.\n"
-"This is most likely due to you using an open proxy server or your computer "
-"sending a lot of SPAM.\n"
-msgstr ""
-"Ihre IP-Adresse steht auf einer oder mehreren <a href=\"https://de.wikipedia."
-"org/wiki/DNSBL\">DNS-based Blackhole Lists (DNSBL)</a>.\n"
-"Das liegt vermutlich daran, dass sie einen offenen Proxy-Server nutzen oder "
-"ihr Computer eine Menge SPAM verschickt.\n"
-
 #: templates/core/errors/xmpp_backend.html:7
 msgid ""
 "<strong>Error:</strong> The Jabber server itself is currently unavailable.\n"
@@ -485,14 +314,39 @@ msgstr ""
 msgid "Language"
 msgstr "Sprache"
 
-#: templates/core/include/sidebar.html:20
+#: templates/core/include/sidebar.html:13
+#, python-format
+msgid "Switch to %(lang)s"
+msgstr "Auf %(lang)s wechseln"
+
+#: templates/core/include/sidebar.html:23
 msgid "Updates"
 msgstr "Aktualisierungen"
 
-#: templates/core/include/sidebar.html:22
+#: templates/core/include/sidebar.html:25
 msgid "If you use our server, we strongly encourage you to stay up to date."
 msgstr ""
 "Wir raten allen, die unseren Server nutzen, auf dem Laufenden zu bleiben."
+
+#: templates/core/include/sidebar.html:32
+#, python-format
+msgid "%(brand)s on Twitter"
+msgstr ""
+
+#: templates/core/include/sidebar.html:41
+#, python-format
+msgid "%(brand)s on Facebook"
+msgstr ""
+
+#: templates/core/include/sidebar.html:48
+#, python-format
+msgid "RSS feed for %(brand)s"
+msgstr ""
+
+#: templates/core/include/sidebar.html:55
+#, python-format
+msgid "Atom feed for %(brand)s"
+msgstr ""
 
 #: templates/core/include/twitter_follow.html:4
 #, python-format
@@ -504,181 +358,80 @@ msgstr ""
 msgid "@%(twitter)s"
 msgstr ""
 
-#: templates/core/rate.html:4
-msgid "Ooops! Not so fast."
-msgstr "Ooops! Nicht so schnell."
-
-#: templates/core/rate.html:8
-msgid "You have performed this activity to often in a short period of time."
-msgstr ""
-"Sie haben diese Aktivität zu oft ausgeführt. Bitte versuchen sie es später "
-"erneut."
-
-#: templates/core/rate.html:11
-msgid ""
-"We automatically block IP address temporarily if they perform this activity\n"
-"too often. Please wait a while before trying again."
-msgstr ""
-"Wir blockieren IP-Adressen automatisch für eine kurze Zeit die diese "
-"Aktivität zu oft ausführen. Bitte versuchen sie es später erneut."
-
-#: templatetags/core.py:100
+#: templatetags/core.py:96
 #, python-format
 msgid "%s bytes"
 msgstr "%s Bytes"
 
-#: templatetags/core.py:102
+#: templatetags/core.py:98
 #, python-format
 msgid "%.2f kilobyte"
 msgstr "%.2f Kilobyte"
 
-#: templatetags/core.py:104
+#: templatetags/core.py:100
 #, python-format
 msgid "%.2f megabyte"
 msgstr "%.2f Megabyte"
 
-#: urls.py:35
+#: tests/tests_urlpatterns.py:29 urls.py:36
 msgid "^contact/$"
 msgstr "^kontakt/$"
 
-#: urls.py:36
-msgid "^clients/$"
-msgstr ""
-
-#: utils.py:44
+#: utils.py:48
 #, python-format
 msgid "one day"
 msgid_plural "%(count)d days"
 msgstr[0] "Ein Tag"
 msgstr[1] "%(count)d Tage"
 
-#: utils.py:46
+#: utils.py:50
 #, python-format
 msgid "one hour"
 msgid_plural "%(count)d hours"
 msgstr[0] "eine Stunde"
 msgstr[1] "%(count)d Stunden"
 
-#: utils.py:48
+#: utils.py:52
 #, python-format
 msgid "one minute"
 msgid_plural "%(count)d minutes"
 msgstr[0] "eine Minute"
 msgstr[1] "%(count)d Minuten"
 
-#: utils.py:52
+#: utils.py:56
 #, python-format
 msgid "%(days)s, %(hours)s and %(minutes)s"
 msgstr "%(days)s, %(hours)s und %(minutes)s"
 
-#: utils.py:55
+#: utils.py:59
 #, python-format
 msgid "%(days)s and %(hours)s"
 msgstr "%(days)s und %(hours)s"
 
-#: utils.py:57
+#: utils.py:61
 #, python-format
 msgid "%(days)s and %(minutes)s"
 msgstr "%(days)s und %(minutes)s"
 
-#: utils.py:61
+#: utils.py:65
 #, python-format
 msgid "%(hours)s and %(minutes)s"
 msgstr "%(hours)s und %(minutes)s"
 
-#: utils.py:67
+#: utils.py:71
 msgid "Now"
 msgstr "Jetzt"
 
-#: utils.py:119
+#: utils.py:123
 msgid "Could not check DNS-based blocklists. Please try again later."
 msgstr ""
 "Konnte DNS-Blocklisten nicht abfragen. Bitte versuchen sie es später erneut."
 
-#: views.py:102
+#: views.py:101
 #, python-format
 msgid "No %(verbose_name)s found matching the query"
 msgstr "Kein %(verbose_name)s unter dieser Adresse gefunden."
 
-#~ msgid "Publish selected %(models)s"
-#~ msgstr "Ausgewählte %(models)s online stellen"
-
-#~ msgid "Unpublish selected %(models)s"
-#~ msgstr "Ausgewählte %(models)s offline nehmen"
-
-#~ msgid "Author"
-#~ msgstr "Autor"
-
-#~ msgid "Descriptions"
-#~ msgstr "Beschreibung"
-
-#~ msgid ""
-#~ "Descriptions are used by various systems (RSS readers, Facebook, ...) to "
-#~ "generate previews of this content."
-#~ msgstr ""
-#~ "Beschreibungen werden von verschiedenen Systemen (RSS reader, "
-#~ "Facebook, ...) dazu verwendet, um eine Vorschau der Seite zu erstellen."
-
-#~ msgid ""
-#~ "A free, stable, secure and feature-rich Jabber/XMPP server. Join the free "
-#~ "and open Jabber instant messaging network today!"
-#~ msgstr ""
-#~ "Ein freier, stabiler, sicherer und aktueller Jabber/XMPP server. Werde "
-#~ "noch heute Teil des Jabber Instant Messaging Netzwerkes!"
-
-#~ msgid "A free, secure, feature-rich Jabber/XMPP server"
-#~ msgstr "Ein freier, sicherer und aktueller Jabber/XMPP server."
-
-#~ msgid "Free Jabber/XMPP server"
-#~ msgstr "Freier Jabber/XMPP server."
-
-#~ msgid ""
-#~ "Don't know what client you could use? Here are some free clients that we "
-#~ "have found work well for your operating system or platform."
-#~ msgstr ""
-#~ "Sie wissen nicht, welchen Client sie nutzen sollen? Hier finden sie "
-#~ "einige freie Programme die gut funktionieren."
-
-#~ msgid "Recommended Jabber/XMPP clients"
-#~ msgstr "Empfohlene Jabber/XMPP clients"
-
-#~ msgid ""
-#~ "Don't know what client you could use? Here are some free clients that we "
-#~ "have found work well for your operating system."
-#~ msgstr ""
-#~ "Sie wissen nicht, welchen Client sie nutzen sollen? Hier finden sie "
-#~ "einige freie Programme, die gut funktionieren."
-
-#~ msgid ""
-#~ "Don't know what client you could use? Here are some free clients that we "
-#~ "have found work well for your operating system or platform. The page also "
-#~ "includes an overview over the most important XEPs."
-#~ msgstr ""
-#~ "Sie wissen nicht, welchen Client sie nutzen sollen? Hier finden sie "
-#~ "einige freie Programme für alle Betriebssysteme. Es gibt auch eine "
-#~ "Übersicht über Unterstützung für die wichtigsten XEPs."
-
-#~ msgid ""
-#~ "If you can't register an account or have trouble connecting to our "
-#~ "server, please use this contact form. You can also contact us via "
-#~ "Chatroom, Twitter or Facebook."
-#~ msgstr ""
-#~ "Falls sie sich nicht registrieren oder nicht verbinden können, benutzen "
-#~ "sie bitte unser Kontaktformular. Sie können uns auch via Chatroom, "
-#~ "Twitter oder Facebook kontaktieren."
-
-#~ msgid "Contact us"
-#~ msgstr "Kontaktiere uns"
-
-#~ msgid ""
-#~ "If you can't register an account or have trouble connecting to our "
-#~ "server, please use this contact form."
-#~ msgstr ""
-#~ "Falls sie sich nicht registrieren oder nicht verbinden können, benutzen "
-#~ "sie bitte unser Kontaktformular."
-
-#~ msgid "%(date)s by %(user)s"
-#~ msgstr "%(date)s von %(user)s"
-
-#~ msgid "... read more"
-#~ msgstr "... Weiter lesen"
+#: views.py:192
+msgid "This address is blocked."
+msgstr "Diese Adresse wurde blockiert."
