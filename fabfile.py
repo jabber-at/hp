@@ -147,7 +147,7 @@ class SetupTask(DeploymentTaskMixin, Task):
         # install extra pip commands
         extra_pip = config['pip_extra_installs']
         if extra_pip:
-            self.pip('install -U -r %s' % extra_pip)
+            self.pip('install -U %s' % extra_pip)
 
         # setup systemd
         self.sudo('ln -s %s/files/systemd/hp-celery.tmpfiles /etc/tmpfiles.d/hp-celery.conf' %
@@ -175,6 +175,11 @@ class DeployTask(DeploymentTaskMixin, Task):
         self.sudo('git pull origin master', chdir=self.path)
         self.pip('install -U pip setuptools')
         self.pip('install -U -r %s/requirements.txt' % self.path)
+
+        # install extra pip commands
+        extra_pip = config['pip_extra_installs']
+        if extra_pip:
+            self.pip('install -U %s' % extra_pip)
 
         self.sudo('mkdir -p /var/www/%s/static /var/www/%s/media' % (self.hostname, self.hostname))
 
