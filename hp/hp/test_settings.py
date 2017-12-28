@@ -43,6 +43,7 @@ ALLOWED_HOSTS = []
 
 # Application definition
 
+ADDITIONAL_URL_PATHS = []
 INSTALLED_APPS = [
     'antispam',
     'core',
