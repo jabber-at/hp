@@ -34,7 +34,7 @@ from .models import CachedMessage
 
 log = logging.getLogger(__name__)
 
-_KNOWN_OS = ['osx', 'ios', 'android', 'linux', 'windows', 'any', 'browser']
+_KNOWN_OS = ['osx', 'ios', 'android', 'linux', 'windows', 'any', 'browser', 'console']
 
 
 class HomepageMiddleware(object):
