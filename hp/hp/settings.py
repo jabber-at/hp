@@ -347,6 +347,9 @@ TINYMCE_DEFAULT_CONFIG = {
 # CUSTOM SETTINGS #
 ###################
 
+# used in hp.urls
+ADDITIONAL_URL_PATHS = []
+
 # Override message tags to match bootstrap alert classes.
 #       See: https://docs.djangoproject.com/en/1.10/ref/contrib/messages/#message-tags
 # The second class is the django default, needed in django admin.

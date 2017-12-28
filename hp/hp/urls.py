@@ -19,12 +19,10 @@ from django.conf.urls import include
 from django.conf.urls import url
 from django.conf.urls.static import static
 from django.contrib import admin
-
-from xmpp_software_overview.views import ClientsView
+from django.urls import path
 
 urlpatterns = [
     url(r'^%s/' % settings.ADMIN_URL.strip('/'), admin.site.urls),
-    url(r'^clients/', ClientsView.as_view()),
     url(r'^tinymce/', include('tinymce.urls')),
     url(r'^captcha/', include('captcha.urls')),
 
@@ -33,8 +31,13 @@ urlpatterns = [
     url(r'^chat/', include('conversejs.urls')),
     url(r'^xep0363/', include('xmpp_http_upload.urls')),
     url(r'^', include('core.urls')),
-    url(r'^', include('blog.urls')),
 ]
+
+for route, module in settings.ADDITIONAL_URL_PATHS:
+    urlpatterns.append(path('', include(module)))
+
+# This is catch-all
+urlpatterns.append(url(r'^', include('blog.urls')))
 
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

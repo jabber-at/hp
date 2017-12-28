@@ -68,6 +68,14 @@ SECRET_KEY = ''
 #     https://jabber.at/doc/settings.html#setting-installed-apps
 #INSTALLED_APPS = [...]
 
+# If you add additional apps via INSTALLED_APPS and want to add more routes, you can do so here.
+# Djangos "path()" function is described here:
+#   https://docs.djangoproject.com/en/2.0/ref/urls/#path
+#ADDITIONAL_URL_PATHS = [
+#   # This will be added as path('your-path/', include('your_django_app.urls')):
+#   ('your-path/', 'your_django_app.urls'),
+#]
+
 #########################
 # General configuration #
 #########################
