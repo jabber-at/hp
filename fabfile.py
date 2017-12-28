@@ -46,6 +46,7 @@ build_bootstrap = BuildBootstrapTask(
 configfile = configparser.ConfigParser({
     'home': '/usr/local/home/hp',
     'path': '%(home)s/hp',
+    'pip_extra_installs': '',
     'upstream': 'https://github.com/jabber-at/hp',
     'uwsgi-emperor': '1',
 })
@@ -143,6 +144,11 @@ class SetupTask(DeploymentTaskMixin, Task):
         self.pip('install pip setuptools mysqlclient')
         self.pip('install -U -r %s/requirements.txt' % self.path)
 
+        # install extra pip commands
+        extra_pip = config['pip_extra_installs']
+        if extra_pip:
+            self.pip('install -U -r %s' % extra_pip)
+
         # setup systemd
         self.sudo('ln -s %s/files/systemd/hp-celery.tmpfiles /etc/tmpfiles.d/hp-celery.conf' %
                   self.path)
@@ -167,7 +173,7 @@ class DeployTask(DeploymentTaskMixin, Task):
         # push source code
         local('git push origin master')
         self.sudo('git pull origin master', chdir=self.path)
-        self.pip('install -U pip setuptools mysqlclient')
+        self.pip('install -U pip setuptools')
         self.pip('install -U -r %s/requirements.txt' % self.path)
 
         self.sudo('mkdir -p /var/www/%s/static /var/www/%s/media' % (self.hostname, self.hostname))
