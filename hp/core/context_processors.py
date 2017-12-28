@@ -36,6 +36,8 @@ def basic(request):
             'brand': request.site['BRAND'],
             'year': date.today().year,
         },
+        'os': getattr(request, 'os', 'any'),
+        'os_mobile': getattr(request, 'os_mobile', True),
         #'menuitems': MenuItem.objects.all(),
         'site': request.site,
         'default_site': settings.XMPP_HOSTS[settings.DEFAULT_XMPP_HOST],
