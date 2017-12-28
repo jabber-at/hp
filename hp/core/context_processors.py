@@ -13,21 +13,12 @@
 # You should have received a copy of the GNU General Public License along with this project. If not, see
 # <http://www.gnu.org/licenses/.
 
-import glob
-import os
 from datetime import date
 
-from django.apps import apps
 from django.conf import settings
 from django.core.cache import cache
 
 from .models import MenuItem
-
-# Get latest generated CSS file
-app = apps.get_app_config('core')
-path = os.path.join(app.path, 'static')
-generated_css = sorted(glob.glob(os.path.join(path, 'hp-*.css')))[-1]
-generated_css = os.path.relpath(generated_css, path)
 
 
 def basic(request):
@@ -46,7 +37,6 @@ def basic(request):
         'FACEBOOK_PAGE': settings.FACEBOOK_PAGE,
         'TWITTER_HANDLE': settings.TWITTER_HANDLE,
         'DEBUG': settings.DEBUG,
-        'GENERATED_CSS': generated_css,
         'WEBCHAT': bool(settings.CONVERSEJS_CONFIG),
     }
 

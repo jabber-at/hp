@@ -16,7 +16,7 @@
     {{ form.media.css }}
     {% block extracss %}{% endblock extracss %}
     {% else %}
-    <link href="{% static GENERATED_CSS %}" rel="stylesheet">
+    <link href="{% static 'hp.css' %}" rel="stylesheet">
     {% endif %}
     {% block pagecss %}{% endblock pagecss %}{# for CSS not included in generated CSS #}
 
