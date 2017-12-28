@@ -17,10 +17,8 @@ import logging
 
 from django import template
 from django.urls import reverse
-from django.utils.html import format_html
 from django.utils.translation import ugettext as _
 
-from ..forms import SelectOSForm
 from ..utils import format_timedelta as _format_timedelta
 from ..utils import format_link
 from ..utils import mailformat
@@ -100,13 +98,6 @@ def format_filesize(size):
         return _('%.2f kilobyte') % (size / 1024)
     else:
         return _('%.2f megabyte') % (size / 1024 / 1024)
-
-
-@register.simple_tag(takes_context=True)
-def os_selector(context):
-    """Display a selector for OS-specific content."""
-    form = SelectOSForm()
-    return format_html('<form class="form-horizontal">{}</form>', form['os'].formgroup())
 
 
 @register.tag('mailformat')
