@@ -21,4 +21,5 @@ pygpgme==0.3
 requests==2.18.4
 setuptools>=38.2.5
 strict-rfc3339==0.7
+ua-parser==0.7.3
 xmpp-backends==0.5.0
