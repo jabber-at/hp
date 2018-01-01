@@ -58,6 +58,9 @@ class Certificate(BaseModel):
 
     _x509 = None
 
+    def __str__(self):
+        return '%s: %s' % (self.hostname, self.serial)
+
     def save(self, *args, **kwargs):
         # auto-compute values from certificate
         self.hostnames = self.get_hostnames()
