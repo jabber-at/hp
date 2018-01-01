@@ -13,12 +13,24 @@
 # You should have received a copy of the GNU General Public License along with this project. If not, see
 # <http://www.gnu.org/licenses/>.
 
+import binascii
+
+import pytz
+from cryptography import x509
+from cryptography.hazmat.backends import default_backend
+from cryptography.hazmat.primitives import hashes
+from cryptography.x509.oid import ExtensionOID
+
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
 
 from jsonfield import JSONField
 
 from core.models import BaseModel
+
+from .utils import add_colons
+from .utils import int_to_hex
+from .utils import format_general_name
 
 
 def _default_hostnames():
@@ -45,3 +57,43 @@ class Certificate(BaseModel):
 
     # tlsa fingerprint (sha512)
     tlsa = models.CharField(max_length=191, blank=True, verbose_name='TLSA fingerprint')
+
+    _x509 = None
+
+    def save(self, *args, **kwargs):
+        # auto-compute values from certificate
+        self.hostnames = self.get_hostnames()
+        self.key_size = self.x509.public_key().key_size
+        self.valid_from = pytz.utc.localize(self.x509.not_valid_before)
+        self.valid_until = pytz.utc.localize(self.x509.not_valid_after)
+
+        self.serial = int_to_hex(self.x509.serial_number)
+        self.sha1 = self.get_digest(hashes.SHA1())
+        self.sha256 = self.get_digest(hashes.SHA256())
+        self.sha512 = self.get_digest(hashes.SHA512())
+
+        super().save(*args, **kwargs)
+
+    ###############################
+    # Cryptography helper methods #
+    ###############################
+    # These methods are copied from django-ca (https://django-ca.readthedocs.io/), which is by the same author
+    # as this model.
+
+    @property
+    def x509(self):
+        if self._x509 is None:
+            backend = default_backend()
+            self._x509 = x509.load_pem_x509_certificate(self.pem.encode(), backend)
+        return self._x509
+
+    def get_digest(self, algo):
+        return add_colons(binascii.hexlify(self.x509.fingerprint(algo)).upper().decode('utf-8'))
+
+    def get_hostnames(self):
+        try:
+            ext = self.x509.extensions.get_extension_for_oid(ExtensionOID.SUBJECT_ALTERNATIVE_NAME)
+        except x509.ExtensionNotFound:
+            return []
+
+        return [format_general_name(name) for name in ext.value]
