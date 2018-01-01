@@ -13,6 +13,7 @@
 # You should have received a copy of the GNU General Public License along with this project. If not, see
 # <http://www.gnu.org/licenses/>.
 
+from django.http import Http404
 from django.utils import timezone
 from django.views.generic.detail import DetailView
 
@@ -21,6 +22,7 @@ from .models import Certificate
 
 
 class CertificateView(DetailView):
+    context_object_name = 'cert'
     queryset = Certificate.objects.all()
 
     def get_object(self, queryset=None):
@@ -30,4 +32,7 @@ class CertificateView(DetailView):
         now = timezone.now()
         queryset = queryset.filter(hostname=self.kwargs['hostname'])
 
-        return queryset.filter(valid_until__gt=now, valid_from__lt=now).order_by('-created').first()
+        obj = queryset.filter(valid_until__gt=now, valid_from__lt=now).order_by('-created').first()
+        if obj is None:
+            raise Http404
+        return obj
