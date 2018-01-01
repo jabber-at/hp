@@ -39,9 +39,9 @@ class Certificate(BaseModel):
 
     # identifiers
     serial = models.CharField(max_length=64, blank=True)
-    sha1 = models.CharField(max_length=59, blank=True)
-    sha256 = models.CharField(max_length=95, blank=True)
-    sha512 = models.CharField(max_length=191, blank=True)
+    sha1 = models.CharField(max_length=59, blank=True, verbose_name='SHA-1')
+    sha256 = models.CharField(max_length=95, blank=True, verbose_name='SHA-256')
+    sha512 = models.CharField(max_length=191, blank=True, verbose_name='SHA-512')
 
     # tlsa fingerprint (sha512)
-    tlsa = models.CharField(max_length=191, blank=True)
+    tlsa = models.CharField(max_length=191, blank=True, verbose_name='TLSA fingerprint')
