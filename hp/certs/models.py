@@ -51,12 +51,10 @@ class Certificate(BaseModel):
 
     # identifiers
     serial = models.CharField(max_length=64, blank=True)
+    md5 = models.CharField(max_length=47, blank=True, verbose_name='MD5')
     sha1 = models.CharField(max_length=59, blank=True, verbose_name='SHA-1')
     sha256 = models.CharField(max_length=95, blank=True, verbose_name='SHA-256')
     sha512 = models.CharField(max_length=191, blank=True, verbose_name='SHA-512')
-
-    # tlsa fingerprint (sha512)
-    tlsa = models.CharField(max_length=191, blank=True, verbose_name='TLSA fingerprint')
 
     _x509 = None
 
@@ -68,6 +66,7 @@ class Certificate(BaseModel):
         self.valid_until = pytz.utc.localize(self.x509.not_valid_after)
 
         self.serial = int_to_hex(self.x509.serial_number)
+        self.md5 = self.get_digest(hashes.MD5())
         self.sha1 = self.get_digest(hashes.SHA1())
         self.sha256 = self.get_digest(hashes.SHA256())
         self.sha512 = self.get_digest(hashes.SHA512())

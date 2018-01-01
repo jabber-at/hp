@@ -18,6 +18,7 @@ import logging
 from django.contrib import admin
 from django.utils.translation import ugettext_lazy as _
 
+from .forms import CertificateAdminForm
 from .models import Certificate
 
 log = logging.getLogger(__name__)
@@ -25,6 +26,7 @@ log = logging.getLogger(__name__)
 
 @admin.register(Certificate)
 class CertificateAdmin(admin.ModelAdmin):
+    form = CertificateAdminForm
     fieldsets = (
         (None, {
             'fields': ['hostname', 'hostnames', ],
@@ -33,14 +35,14 @@ class CertificateAdmin(admin.ModelAdmin):
             'fields': ['key_size', ('valid_from', 'valid_until', ), ],
         }),
         (_('Identifiers'), {
-            'fields': ['serial', 'sha1', 'sha256', 'sha512', 'tlsa', ],
+            'fields': ['serial', 'md5', 'sha1', 'sha256', 'sha512', ],
         }),
         (_('Certificate'), {
             'fields': ['pem', ],
         }),
     )
     readonly_fields = [
-        'key_size', 'valid_from', 'valid_until', 'serial', 'sha1', 'sha256', 'sha512', 'tlsa', 'hostnames',
+        'key_size', 'valid_from', 'valid_until', 'serial', 'md5', 'sha1', 'sha256', 'sha512', 'hostnames',
     ]
 
     def get_fieldsets(self, request, obj=None):
