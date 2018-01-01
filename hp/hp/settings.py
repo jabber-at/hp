@@ -52,6 +52,7 @@ _DEFAULT_INSTALLED_APPS = [
     'bootstrap',  # bootstrap enhancements
     'account',  # account management
     'feed',  # RSS/Atom feeds
+    'certs',  # log certificates
     'stats',  # Statistics gathering
     'conversejs',  # webchat
 
