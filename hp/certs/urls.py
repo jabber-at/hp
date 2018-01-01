@@ -20,5 +20,5 @@ from . import views
 
 app_name = 'certs'
 urlpatterns = [
-    path('certs/', views.CertificateView.as_view(), name='certs'),
+    path('<hostname>/', views.CertificateView.as_view(), name='certs'),
 ]
