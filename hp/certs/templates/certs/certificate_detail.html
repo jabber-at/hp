@@ -1,0 +1,41 @@
+{% extends "page.html" %}
+{% load i18n staticfiles render %}
+
+
+{% block pagecss %}
+<link href="{% static 'certs/certificate.css' %}" rel="stylesheet">
+{% endblock %}
+
+{% block head %}{{ block.super }}
+<link href="{% static 'css/blog.css' %}" rel="stylesheet">
+{% endblock head %}
+
+{% block title %}{% blocktrans with domain=cert.hostname %}Certificate for {{ domain }}{% endblocktrans %}{% endblock title %}
+
+{% block content %}
+<p>{% blocktrans with domain=cert.hostname date=cert.valid_until|date:"SHORT_DATE_FORMAT" %}The certificate currently used for {{ domain }} is valid until {{ date }}.{% endblocktrans%}
+</p>
+<p>{% trans "It uses the following identifiers:" %}</p>
+<table class="table" id="certificate-id-table">
+  <tr>
+    <td>{% trans "Serial" %}</td>
+    <td><pre>{{ cert.serial }}</pre></td>
+  </tr>
+  <tr>
+    <td>{% trans "MD5" %}</td>
+    <td><pre>{{ cert.md5 }}</pre></td>
+  </tr>
+  <tr>
+    <td>{% trans "SHA-1" %}</td>
+    <td><pre>{{ cert.sha1 }}</pre></td>
+  </tr>
+  <tr>
+    <td>{% trans "SHA-256" %}</td>
+    <td><pre>{{ cert.sha256 }}</pre></td>
+  </tr>
+  <tr>
+    <td>{% trans "SHA-512" %}</td>
+    <td><pre>{{ cert.sha512 }}</pre></td>
+  </tr>
+</table>
+{% endblock content%}
