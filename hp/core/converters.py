@@ -27,4 +27,4 @@ class DateConverter:
         return datetime.strptime(value, '%Y-%m-%d').date()
 
     def to_url(self, value):
-        return date.strftime('%Y-%m-%d')
+        return value.strftime('%Y-%m-%d')
