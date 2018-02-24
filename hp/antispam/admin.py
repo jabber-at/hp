@@ -14,15 +14,38 @@
 # If not, see <http://www.gnu.org/licenses/.
 
 from django.contrib import admin
+from django.utils import timezone
+from django.utils.translation import ugettext_lazy as _
 
 from .models import BlockedEmail
 from .models import BlockedIpAddress
 from .utils import normalize_email
 
 
+class ExpiredFilter(admin.SimpleListFilter):
+    title = _('still valid bans')
+    parameter_name = 'expired'
+
+    def lookups(self, request, model_admin):
+        return (
+            ('0', _('Expired')),
+            ('1', _('Still valid')),
+        )
+
+    def queryset(self, request, queryset):
+        now = timezone.now()
+        if self.value() == '0':
+            return queryset.filter(expires__lt=now)
+        elif self.value() == '1':
+            return queryset.exclude(expires__lt=now)
+        return queryset
+
+
 @admin.register(BlockedEmail)
 class BlockedEmailAdmin(admin.ModelAdmin):
     list_display = ['address', 'created', 'expires']
+    list_filter = [ExpiredFilter]
+    search_fields = ['address']
 
     def save_model(self, request, obj, form, change):
         obj.address = normalize_email(obj.address)
@@ -32,3 +55,5 @@ class BlockedEmailAdmin(admin.ModelAdmin):
 @admin.register(BlockedIpAddress)
 class BlockedIpAddressAdmin(admin.ModelAdmin):
     list_display = ['address', 'created', 'expires']
+    list_filter = [ExpiredFilter]
+    search_fields = ['address']
