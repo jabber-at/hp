@@ -29,6 +29,7 @@ urlpatterns = [
     url(r'^account/', include('account.urls')),
     url(r'^feed/', include('feed.urls')),
     url(r'^chat/', include('conversejs.urls')),
+    url(r'^certs/', include('certs.urls')),
     url(r'^xep0363/', include('xmpp_http_upload.urls')),
     url(r'^', include('core.urls')),
 ]

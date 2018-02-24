@@ -13,18 +13,35 @@
 # You should have received a copy of the GNU General Public License along with django-xmpp-account.
 # If not, see <http://www.gnu.org/licenses/>.
 
-import logging
-
 from django.contrib import admin
+from django.utils import timezone
 from django.utils.translation import ugettext_lazy as _
 
+from .forms import CertificateAdminForm
 from .models import Certificate
 
-log = logging.getLogger(__name__)
+
+class CurrentFilter(admin.SimpleListFilter):
+    title = _('currently valid')
+    parameter_name = 'current'
+
+    def lookups(self, request, model_admin):
+        return (
+            ('0', 'No'),
+            ('1', 'Yes'),
+        )
+
+    def queryset(self, request, queryset):
+        if self.value() == '0':
+            return queryset.filter(valid_until__le=timezone.now())
+        elif self.value() == '1':
+            return queryset.filter(valid_until__gt=timezone.now())
+        return queryset
 
 
 @admin.register(Certificate)
 class CertificateAdmin(admin.ModelAdmin):
+    form = CertificateAdminForm
     fieldsets = (
         (None, {
             'fields': ['hostname', 'hostnames', ],
@@ -33,14 +50,16 @@ class CertificateAdmin(admin.ModelAdmin):
             'fields': ['key_size', ('valid_from', 'valid_until', ), ],
         }),
         (_('Identifiers'), {
-            'fields': ['serial', 'sha1', 'sha256', 'sha512', 'tlsa', ],
+            'fields': ['serial', 'md5', 'sha1', 'sha256', 'sha512', ],
         }),
         (_('Certificate'), {
             'fields': ['pem', ],
         }),
     )
+    list_display = ['hostname', 'serial', 'valid_until', ]
+    list_filter = [CurrentFilter]
     readonly_fields = [
-        'key_size', 'valid_from', 'valid_until', 'serial', 'sha1', 'sha256', 'sha512', 'tlsa', 'hostnames',
+        'key_size', 'valid_from', 'valid_until', 'serial', 'md5', 'sha1', 'sha256', 'sha512', 'hostnames',
     ]
 
     def get_fieldsets(self, request, obj=None):
