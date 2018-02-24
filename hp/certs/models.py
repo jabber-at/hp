@@ -22,6 +22,7 @@ from cryptography.hazmat.primitives import hashes
 from cryptography.x509.oid import ExtensionOID
 
 from django.db import models
+from django.urls import reverse
 from django.utils.translation import ugettext_lazy as _
 
 from jsonfield import JSONField
@@ -75,6 +76,12 @@ class Certificate(BaseModel):
         self.sha512 = self.get_digest(hashes.SHA512())
 
         super().save(*args, **kwargs)
+
+    def get_absolute_url(self):
+        return reverse('certs:cert-id', kwargs={
+            'hostname': self.hostname,
+            'date': self.valid_from.date(),
+        })
 
     ###############################
     # Cryptography helper methods #

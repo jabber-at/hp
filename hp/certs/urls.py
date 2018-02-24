@@ -14,10 +14,15 @@
 # <http://www.gnu.org/licenses/>.
 
 from django.urls import path
+from django.urls import register_converter
 
+from core.converters import DateConverter
 from . import views
+
+register_converter(DateConverter, 'date')
 
 app_name = 'certs'
 urlpatterns = [
     path('<hostname>/', views.CertificateView.as_view(), name='certs'),
+    path('<hostname>/<date:date>/', views.CertificateView.as_view(), name='cert-id'),
 ]

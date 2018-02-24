@@ -32,7 +32,12 @@ class CertificateView(DetailView):
         now = timezone.now()
         queryset = queryset.filter(hostname=self.kwargs['hostname'])
 
-        obj = queryset.filter(valid_until__gt=now, valid_from__lt=now).order_by('-created').first()
+        if 'date' in self.kwargs:
+            queryset = queryset.filter(valid_from__date=self.kwargs['date'])
+        else:
+            queryset = queryset.filter(valid_until__gt=now, valid_from__lt=now).order_by('-created')
+
+        obj = queryset.first()
         if obj is None:
             raise Http404
         return obj
