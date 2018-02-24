@@ -19,8 +19,8 @@ from django import template
 from django.urls import reverse
 from django.utils.translation import ugettext as _
 
-from ..utils import format_timedelta as _format_timedelta
 from ..utils import format_link
+from ..utils import format_timedelta as _format_timedelta
 from ..utils import mailformat
 
 log = logging.getLogger(__name__)

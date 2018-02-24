@@ -29,8 +29,8 @@ from jsonfield import JSONField
 from core.models import BaseModel
 
 from .utils import add_colons
-from .utils import int_to_hex
 from .utils import format_general_name
+from .utils import int_to_hex
 
 
 def _default_hostnames():

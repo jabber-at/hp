@@ -23,10 +23,10 @@ from fabric.api import runs_once
 from fabric.api import task
 from fabric.colors import red
 from fabric.tasks import Task
-from fabric_webbuilders import MinifyCSSTask as MinifyCSSBaseTask
-from fabric_webbuilders import MinifyJSTask as MinifyJSBaseTask
 from fabric_webbuilders import BuildBootstrapTask
 from fabric_webbuilders import BuildJqueryTask
+from fabric_webbuilders import MinifyCSSTask as MinifyCSSBaseTask
+from fabric_webbuilders import MinifyJSTask as MinifyJSBaseTask
 
 timestamp = datetime.utcnow().strftime('%Y%m%d%H%M%S')
 fabdir = os.path.dirname(__file__)

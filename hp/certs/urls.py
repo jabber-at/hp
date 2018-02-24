@@ -17,7 +17,6 @@ from django.urls import path
 
 from . import views
 
-
 app_name = 'certs'
 urlpatterns = [
     path('<hostname>/', views.CertificateView.as_view(), name='certs'),
