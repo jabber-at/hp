@@ -29,6 +29,7 @@ from jsonfield import JSONField
 
 from core.models import BaseModel
 
+from .querysets import CertificateQuerySet
 from .utils import add_colons
 from .utils import format_general_name
 from .utils import int_to_hex
@@ -57,6 +58,7 @@ class Certificate(BaseModel):
     sha256 = models.CharField(max_length=95, blank=True, verbose_name='SHA-256')
     sha512 = models.CharField(max_length=191, blank=True, verbose_name='SHA-512')
 
+    objects = CertificateQuerySet.as_manager()
     _x509 = None
 
     def __str__(self):
