@@ -17,6 +17,7 @@ from django.urls import path
 from django.urls import register_converter
 
 from core.converters import DateConverter
+
 from . import views
 
 register_converter(DateConverter, 'date')
