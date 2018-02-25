@@ -14,8 +14,15 @@
 # <http://www.gnu.org/licenses/>.
 
 from django.db import models
+from django.utils import timezone
 
 
 class CertificateQuerySet(models.QuerySet):
+    def valid(self, now=True):
+        if now is None:
+            now = timezone.now()
+
+        return self.filter(valid_from__lt=now, valit_until__lt=now)
+
     def newest(self):
-        return dict(self.values_list('hostname').annotate(latest=models.Max('valid_from')))
+        return self.values_list('hostname').annotate(latest=models.Max('valid_from'))
