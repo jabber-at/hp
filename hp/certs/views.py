@@ -14,11 +14,17 @@
 # <http://www.gnu.org/licenses/>.
 
 from django.http import Http404
-from django.utils import timezone
 from django.views.generic.detail import DetailView
+from django.views.generic.list import ListView
 
 #from .forms import SelectHostForm
 from .models import Certificate
+
+
+class CertificateOverview(ListView):
+    """List all available hostnames and the last update."""
+
+    queryset = Certificate.objects.newest()
 
 
 class CertificateView(DetailView):
@@ -29,13 +35,12 @@ class CertificateView(DetailView):
         if queryset is None:
             queryset = self.get_queryset()
 
-        now = timezone.now()
         queryset = queryset.filter(hostname=self.kwargs['hostname'])
 
         if 'date' in self.kwargs:
             queryset = queryset.filter(valid_from__date=self.kwargs['date'])
         else:
-            queryset = queryset.filter(valid_until__gt=now, valid_from__lt=now).order_by('-created')
+            queryset = queryset.order_by('-created')
 
         obj = queryset.first()
         if obj is None:

@@ -24,6 +24,7 @@ register_converter(DateConverter, 'date')
 
 app_name = 'certs'
 urlpatterns = [
+    path('', views.CertificateOverview.as_view(), name='overview'),
     path('<hostname>/', views.CertificateView.as_view(), name='certs'),
     path('<hostname>/<date:date>/', views.CertificateView.as_view(), name='cert-id'),
 ]
