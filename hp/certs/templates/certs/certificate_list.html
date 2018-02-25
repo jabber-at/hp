@@ -1,0 +1,30 @@
+{% extends "page.html" %}
+{% load i18n staticfiles render %}
+
+
+{% block pagecss %}
+<link href="{% static 'certs/certificate.css' %}" rel="stylesheet">
+{% endblock %}
+
+{% block head %}{{ block.super }}
+<link href="{% static 'css/blog.css' %}" rel="stylesheet">
+{% endblock head %}
+
+{% block title %}{% trans "Certificate overview" %}{% endblock title %}
+
+{% block content %}
+
+<table class="table">
+  <tr>
+    <th>{% trans "Hostname" %}</th>
+    <th>{% trans "Last update" %}</th>
+  </tr>
+  {% for hostname, latest in object_list %}
+  <tr>
+    <td><a href="{% url "certs:certs" hostname=hostname %}">{{ hostname }}</a></td>
+    <td>{{ latest }}</td>
+  </tr>
+  {% endfor %}
+</table>
+
+{% endblock content%}
