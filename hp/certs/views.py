@@ -18,7 +18,7 @@ from django.http import Http404
 from django.views.generic.detail import DetailView
 from django.views.generic.list import ListView
 
-#from .forms import SelectHostForm
+from .forms import SelectCertificateForm
 from .models import Certificate
 
 
@@ -61,3 +61,10 @@ class CertificateView(DetailView):
         if obj is None:
             raise Http404
         return obj
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        hostname = self.kwargs['hostname']
+        context['all_certs'] = Certificate.objects.filter(hostname=hostname)
+        context['form'] = SelectCertificateForm(hostname=hostname)
+        return context
