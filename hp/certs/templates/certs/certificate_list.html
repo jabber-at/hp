@@ -17,12 +17,14 @@
 <table class="table">
   <tr>
     <th>{% trans "Hostname" %}</th>
-    <th>{% trans "Last update" %}</th>
+    <th>{% trans "Valid since" %}</th>
+    <th>{% trans "Valid until" %}</th>
   </tr>
-  {% for hostname, latest in object_list %}
+  {% for cert in object_list %}
   <tr>
-    <td><a href="{% url "certs:certs" hostname=hostname %}">{{ hostname }}</a></td>
-    <td>{{ latest }}</td>
+    <td><a href="{% url "certs:certs" hostname=cert.hostname %}">{{ cert.hostname }}</a></td>
+    <td>{{ cert.valid_from }}</td>
+    <td>{{ cert.valid_until }}</td>
   </tr>
   {% endfor %}
 </table>
