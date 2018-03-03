@@ -18,11 +18,11 @@ from django.utils import timezone
 
 
 class CertificateQuerySet(models.QuerySet):
-    def valid(self, now=True):
+    def valid(self, now=None):
         if now is None:
             now = timezone.now()
 
-        return self.filter(valid_from__lt=now, valit_until__lt=now)
+        return self.filter(valid_from__lt=now, valid_until__gt=now)
 
     def newest(self):
         return self.values_list('hostname').annotate(latest=models.Max('valid_from'))
