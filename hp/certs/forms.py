@@ -19,6 +19,8 @@ from cryptography.hazmat.backends import default_backend
 from django import forms
 from django.conf import settings
 
+from .models import Certificate
+
 
 class CertificateAdminForm(forms.ModelForm):
     hostname = forms.ChoiceField(choices=[(k, k) for k in settings.XMPP_HOSTS])
@@ -33,3 +35,12 @@ class CertificateAdminForm(forms.ModelForm):
             raise forms.ValidationError('%s: %s' % (type(e).__name__, e))
 
         return pem
+
+
+class SelectCertificateForm(forms.Form):
+    certificate = forms.ModelChoiceField(queryset=None)
+
+    def __init__(self, *args, **kwargs):
+        hostname = kwargs.pop('hostname', settings.DEFAULT_XMPP_HOST)
+        super().__init__(*args, **kwargs)
+        self.fields['certificate'].queryset = Certificate.objects.filter(hostname=hostname)
