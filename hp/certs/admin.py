@@ -44,7 +44,7 @@ class CertificateAdmin(admin.ModelAdmin):
     form = CertificateAdminForm
     fieldsets = (
         (None, {
-            'fields': ['hostname', 'hostnames', ],
+            'fields': ['hostname', 'enabled', 'hostnames', ],
         }),
         (_('Details'), {
             'fields': ['key_size', ('valid_from', 'valid_until', ), ],
@@ -66,7 +66,7 @@ class CertificateAdmin(admin.ModelAdmin):
         if obj is None:
             return (
                 (None, {
-                    'fields': ['hostname', 'pem', ],
+                    'fields': ['hostname', 'enabled', 'pem', ],
                 }),
             )
         return super().get_fieldsets(request, obj=obj)

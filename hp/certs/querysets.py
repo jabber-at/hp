@@ -18,6 +18,9 @@ from django.utils import timezone
 
 
 class CertificateQuerySet(models.QuerySet):
+    def enabled(self):
+        return self.filter(enabled=True)
+
     def valid(self, now=None):
         if now is None:
             now = timezone.now()

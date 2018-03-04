@@ -27,7 +27,7 @@ from .models import Certificate
 class CertificateOverview(ListView):
     """List all available hostnames and the last update."""
 
-    queryset = Certificate.objects.all()
+    queryset = Certificate.objects.enabled()
     template_name = 'certs/certificate_list.html'
 
     def get_queryset(self):
@@ -53,7 +53,7 @@ class CertificateView(FormView):
         if queryset is None:
             queryset = Certificate.objects.all()
 
-        queryset = queryset.filter(hostname=self.kwargs['hostname'])
+        queryset = queryset.enabled().filter(hostname=self.kwargs['hostname'])
 
         if 'date' in self.kwargs:
             queryset = queryset.filter(valid_from__date=self.kwargs['date'])

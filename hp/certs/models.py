@@ -41,6 +41,8 @@ def _default_hostnames():
 
 class Certificate(BaseModel):
     hostname = models.CharField(max_length=255, help_text=_('Primary hostname of this certificate.'))
+    enabled = models.BooleanField(
+        default=True, help_text=_('Disabled certificates are not displayed anywhere.'))
 
     # raw certificate
     pem = models.TextField(help_text=_('Certificate, in PEM format.'))
