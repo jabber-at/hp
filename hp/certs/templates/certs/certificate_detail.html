@@ -16,8 +16,12 @@
 
 <ol class="breadcrumb">
   <li><a href="{% url "certs:overview" %}">{% trans "Certificates" %}</a></li>
+{% if cert_id %}
   <li><a href="{% url "certs:certs" hostname=cert.hostname %}">{{ cert.hostname }}</a></li>
   <li class="active">{{ cert.date_slug }}</li>
+{% else %}
+  <li class="active">{{ cert.hostname }}</li>
+{% endif %}
 </ol>
 
 <form action="{% url "certs:certs" hostname=hostname %}" method="post">

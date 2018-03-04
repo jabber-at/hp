@@ -15,7 +15,9 @@
 
 from django.conf import settings
 from django.http import Http404
-from django.views.generic.detail import DetailView
+from django.http import HttpResponseRedirect
+from django.urls import reverse
+from django.views.generic.edit import FormView
 from django.views.generic.list import ListView
 
 from .forms import SelectCertificateForm
@@ -42,13 +44,14 @@ class CertificateOverview(ListView):
         return certs
 
 
-class CertificateView(DetailView):
+class CertificateView(FormView):
     context_object_name = 'cert'
-    queryset = Certificate.objects.all()
+    form_class = SelectCertificateForm
+    template_name = 'certs/certificate_detail.html'
 
     def get_object(self, queryset=None):
         if queryset is None:
-            queryset = self.get_queryset()
+            queryset = Certificate.objects.all()
 
         queryset = queryset.filter(hostname=self.kwargs['hostname'])
 
@@ -62,7 +65,30 @@ class CertificateView(DetailView):
             raise Http404
         return obj
 
+    def dispatch(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        self.hostname = self.kwargs['hostname']
+        return super().dispatch(request, *args, **kwargs)
+
+    def get_form_kwargs(self):
+        kwargs = super().get_form_kwargs()
+        kwargs['hostname'] = self.kwargs['hostname']
+        return kwargs
+
+    def get_initial(self):
+        return {
+            'certificate': self.object,
+        }
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['form'] = SelectCertificateForm(hostname=self.kwargs['hostname'])
+        hostname = self.kwargs['hostname']
+        context['hostname'] = hostname
+        context['cert'] = self.object
+        context['cert_id'] = 'date' in self.kwargs
         return context
+
+    def form_valid(self, form):
+        cert = form.cleaned_data['certificate']
+        url = reverse('certs:cert-id', kwargs={'hostname': self.hostname, 'date': cert.valid_from})
+        return HttpResponseRedirect(url)
