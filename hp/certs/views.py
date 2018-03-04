@@ -37,9 +37,15 @@ class CertificateOverview(ListView):
         for hostname in settings.XMPP_HOSTS.keys():
             # first we get the newest valid one
             cert = qs.hostname(hostname).valid().first()
-
             if cert:
                 certs.append(cert)
+                continue
+
+            # get the last valid one
+            cert = qs.hostname(hostname).order_by('-valid_from').first()
+            if cert:
+                certs.append(cert)
+                continue
 
         return certs
 
