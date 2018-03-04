@@ -61,7 +61,11 @@ class CertificateView(FormView):
             return current
 
         queryset = Certificate.objects.enabled().hostname(self.hostname)
-        obj = queryset.filter(valid_from__date=self.kwargs['date']).first()
+
+        # NOTE: __date lookup doesn't work with MySQL.
+        date = self.kwargs['date']
+        obj = queryset.filter(valid_from__year=date.year, valid_from__month=date.month,
+                              valid_from__day=date.day).first()
 
         if obj is None:
             raise Http404
