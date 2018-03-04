@@ -49,7 +49,7 @@
 <p>{% blocktrans with domain=cert.hostname date=cert.valid_until|date:"SHORT_DATE_FORMAT" %}The certificate currently used for {{ domain }} is valid until {{ date }}.{% endblocktrans%}
 </p>
 <p>{% trans "It uses the following identifiers:" %}</p>
-<table class="table table-bordered table-hover" id="certificate-id-table">
+<table class="table" id="certificate-id-table">
   <tr>
     <td>{% trans "Serial" %}</td>
     <td><pre>{{ cert.serial }}</pre></td>
