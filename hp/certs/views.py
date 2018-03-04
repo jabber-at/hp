@@ -64,7 +64,5 @@ class CertificateView(DetailView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        hostname = self.kwargs['hostname']
-        context['all_certs'] = Certificate.objects.filter(hostname=hostname)
-        context['form'] = SelectCertificateForm(hostname=hostname)
+        context['form'] = SelectCertificateForm(hostname=self.kwargs['hostname'])
         return context
