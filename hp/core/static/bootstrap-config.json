@@ -21,7 +21,8 @@
     "badges.less",
     "labels.less",
     "component-animations.less",
-    "close.less"
+    "close.less",
+    "breadcrumbs.less"
   ],
   "js": [
     "transition.js",
