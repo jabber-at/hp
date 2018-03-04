@@ -23,6 +23,7 @@ from cryptography.x509.oid import ExtensionOID
 
 from django.db import models
 from django.urls import reverse
+from django.utils import timezone
 from django.utils.translation import ugettext_lazy as _
 
 from jsonfield import JSONField
@@ -86,6 +87,11 @@ class Certificate(BaseModel):
             'hostname': self.hostname,
             'date': self.valid_from.date(),
         })
+
+    @property
+    def is_valid(self):
+        now = timezone.now()
+        return self.valid_from < now and self.valid_until > now
 
     ###############################
     # Cryptography helper methods #

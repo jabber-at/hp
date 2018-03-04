@@ -14,14 +14,14 @@
 
 {% block content %}
 
-<table class="table">
+<table class="table table-bordered table-hover">
   <tr>
     <th>{% trans "Hostname" %}</th>
     <th>{% trans "Valid since" %}</th>
     <th>{% trans "Valid until" %}</th>
   </tr>
   {% for cert in object_list %}
-  <tr>
+  <tr {% if not cert.is_valid %}class="warning"{% endif %}>
     <td><a href="{% url "certs:certs" hostname=cert.hostname %}">{{ cert.hostname }}</a></td>
     <td>{{ cert.valid_from }}</td>
     <td>{{ cert.valid_until }}</td>
