@@ -92,6 +92,10 @@ class Certificate(BaseModel):
     # as this model.
 
     @property
+    def date_slug(self):
+        return self.valid_from.strftime('%Y-%m-%d')
+
+    @property
     def x509(self):
         if self._x509 is None:
             backend = default_backend()
