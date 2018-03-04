@@ -21,6 +21,9 @@ class CertificateQuerySet(models.QuerySet):
     def enabled(self):
         return self.filter(enabled=True)
 
+    def hostname(self, hostname):
+        return self.filter(hostname=hostname)
+
     def valid(self, now=None):
         if now is None:
             now = timezone.now()

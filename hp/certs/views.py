@@ -36,7 +36,7 @@ class CertificateOverview(ListView):
 
         for hostname in settings.XMPP_HOSTS.keys():
             # first we get the newest valid one
-            cert = qs.filter(hostname=hostname).valid().first()
+            cert = qs.hostname(hostname).valid().first()
 
             if cert:
                 certs.append(cert)
@@ -53,7 +53,7 @@ class CertificateView(FormView):
         if queryset is None:
             queryset = Certificate.objects.all()
 
-        queryset = queryset.enabled().filter(hostname=self.kwargs['hostname'])
+        queryset = queryset.enabled().hostname(self.hostname)
 
         if 'date' in self.kwargs:
             queryset = queryset.filter(valid_from__date=self.kwargs['date'])
@@ -66,8 +66,8 @@ class CertificateView(FormView):
         return obj
 
     def dispatch(self, request, *args, **kwargs):
-        self.object = self.get_object()
         self.hostname = self.kwargs['hostname']
+        self.object = self.get_object()
         return super().dispatch(request, *args, **kwargs)
 
     def get_form_kwargs(self):
@@ -82,8 +82,7 @@ class CertificateView(FormView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        hostname = self.kwargs['hostname']
-        context['hostname'] = hostname
+        context['hostname'] = self.hostname
         context['cert'] = self.object
         context['cert_id'] = 'date' in self.kwargs
         return context
