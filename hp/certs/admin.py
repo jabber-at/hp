@@ -56,11 +56,15 @@ class CertificateAdmin(admin.ModelAdmin):
             'fields': ['pem', ],
         }),
     )
-    list_display = ['hostname', 'serial', 'valid_from', 'valid_until', ]
+    list_display = ['hostname', 'cn', 'serial', 'valid_from', 'valid_until', ]
     list_filter = [CurrentFilter]
+    ordering = ['hostname', '-valid_from']
     readonly_fields = [
         'key_size', 'valid_from', 'valid_until', 'serial', 'md5', 'sha1', 'sha256', 'sha512', 'hostnames',
     ]
+
+    def cn(self, obj):
+        return obj.get_hostnames()[0].split(':', 1)[1]
 
     def get_fieldsets(self, request, obj=None):
         if obj is None:
