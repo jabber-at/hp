@@ -13,6 +13,13 @@
 {% block title %}{% blocktrans with domain=cert.hostname %}Certificate for {{ domain }}{% endblocktrans %}{% endblock title %}
 
 {% block content %}
+
+<form action="/your-name/" method="post">
+    {% csrf_token %}
+    {{ form }}
+    <input type="submit" value="Submit" />
+</form>
+
 <p>{% blocktrans with domain=cert.hostname date=cert.valid_until|date:"SHORT_DATE_FORMAT" %}The certificate currently used for {{ domain }} is valid until {{ date }}.{% endblocktrans%}
 </p>
 <p>{% trans "It uses the following identifiers:" %}</p>
