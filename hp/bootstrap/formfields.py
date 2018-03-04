@@ -180,5 +180,9 @@ class BootstrapChoiceField(BootstrapMixin, forms.ChoiceField):
     widget = widgets.BootstrapSelect
 
 
+class BootstrapModelChoiceField(BootstrapMixin, forms.ModelChoiceField):
+    widget = widgets.BootstrapSelect
+
+
 class BootstrapFileField(BootstrapMixin, forms.FileField):
     widget = widgets.BootstrapFileInput

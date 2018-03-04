@@ -20,10 +20,12 @@ from django import forms
 from django.conf import settings
 from django.utils.formats import date_format
 
+from bootstrap.formfields import BootstrapModelChoiceField
+
 from .models import Certificate
 
 
-class CertificateSelectionField(forms.ModelChoiceField):
+class CertificateSelectionField(BootstrapModelChoiceField):
     def label_from_instance(self, obj):
         return '%s - %s' % (
             date_format(obj.valid_from, format='SHORT_DATE_FORMAT', use_l10n=True),
