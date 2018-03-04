@@ -18,7 +18,7 @@
   <li><a href="{% url "certs:overview" %}">{% trans "Certificates" %}</a></li>
 {% if cert_id %}
   <li><a href="{% url "certs:certs" hostname=cert.hostname %}">{{ cert.hostname }}</a></li>
-  <li class="active">{{ cert.date_slug }}</li>
+  <li class="active">{{ cert.valid_from|date:"SHORT_DATE_FORMAT" }}</li>
 {% else %}
   <li class="active">{{ cert.hostname }}</li>
 {% endif %}

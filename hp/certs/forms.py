@@ -18,13 +18,17 @@ from cryptography.hazmat.backends import default_backend
 
 from django import forms
 from django.conf import settings
+from django.utils.formats import date_format
 
 from .models import Certificate
 
 
 class CertificateSelectionField(forms.ModelChoiceField):
     def label_from_instance(self, obj):
-        return '%s - %s' % (obj.valid_from.strftime('%Y-%m-%d'), obj.valid_until.strftime('%Y-%m-%d'))
+        return '%s - %s' % (
+            date_format(obj.valid_from, format='SHORT_DATE_FORMAT', use_l10n=True),
+            date_format(obj.valid_until, format='SHORT_DATE_FORMAT', use_l10n=True)
+        )
 
 
 class CertificateAdminForm(forms.ModelForm):
