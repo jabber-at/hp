@@ -14,9 +14,15 @@
 
 {% block content %}
 
-<form action="/your-name/" method="post">
+<ol class="breadcrumb">
+  <li><a href="{% url "certs:overview" %}">{% trans "Certificates" %}</a></li>
+  <li><a href="{% url "certs:certs" hostname=cert.hostname %}">{{ cert.hostname }}</a></li>
+  <li class="active">{{ cert.date_slug }}</li>
+</ol>
+
+<form action="{% url "certs:certs" hostname=hostname %}" method="post">
     {% csrf_token %}
-    {{ form }}
+    {{ form.as_p }}
     <input type="submit" value="Submit" />
 </form>
 
