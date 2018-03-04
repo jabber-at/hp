@@ -24,7 +24,7 @@ from .models import Certificate
 
 class CertificateSelectionField(forms.ModelChoiceField):
     def label_from_instance(self, obj):
-        return '%s - %s' % (obj.valid_from.strftime('%Y-%d-%d'), obj.valid_until.strftime('%Y-%m-%d'))
+        return '%s - %s' % (obj.valid_from.strftime('%Y-%m-%d'), obj.valid_until.strftime('%Y-%m-%d'))
 
 
 class CertificateAdminForm(forms.ModelForm):
@@ -43,7 +43,7 @@ class CertificateAdminForm(forms.ModelForm):
 
 
 class SelectCertificateForm(forms.Form):
-    certificate = CertificateSelectionField(queryset=None, to_field_name='date_slug', required=True)
+    certificate = CertificateSelectionField(queryset=None, required=True)
 
     def __init__(self, *args, **kwargs):
         hostname = kwargs.pop('hostname', settings.DEFAULT_XMPP_HOST)
