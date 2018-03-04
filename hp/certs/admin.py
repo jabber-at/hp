@@ -56,7 +56,7 @@ class CertificateAdmin(admin.ModelAdmin):
             'fields': ['pem', ],
         }),
     )
-    list_display = ['hostname', 'serial', 'valid_until', ]
+    list_display = ['hostname', 'serial', 'valid_from', 'valid_until', ]
     list_filter = [CurrentFilter]
     readonly_fields = [
         'key_size', 'valid_from', 'valid_until', 'serial', 'md5', 'sha1', 'sha256', 'sha512', 'hostnames',
