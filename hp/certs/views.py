@@ -49,25 +49,27 @@ class CertificateView(FormView):
     form_class = SelectCertificateForm
     template_name = 'certs/certificate_detail.html'
 
-    def get_object(self, queryset=None):
-        if queryset is None:
-            queryset = Certificate.objects.all()
+    def get_certificate(self, current):
 
-        queryset = queryset.enabled().hostname(self.hostname)
+        if 'date' not in self.kwargs:
+            return current
 
-        if 'date' in self.kwargs:
-            queryset = queryset.filter(valid_from__date=self.kwargs['date'])
-        else:
-            queryset = queryset.order_by('-valid_from')
+        queryset = Certificate.objects.enabled().hostname(self.hostname)
+        obj = queryset.filter(valid_from__date=self.kwargs['date']).first()
 
-        obj = queryset.first()
         if obj is None:
             raise Http404
         return obj
 
+    def get_current_certificate(self):
+        """Returns the currently used certificate, meaning the last one issued."""
+
+        return Certificate.objects.enabled().hostname(self.hostname).order_by('-valid_from').first()
+
     def dispatch(self, request, *args, **kwargs):
         self.hostname = self.kwargs['hostname']
-        self.object = self.get_object()
+        self.current_certificate = self.get_current_certificate()
+        self.certificate = self.get_certificate(self.current_certificate)
         return super().dispatch(request, *args, **kwargs)
 
     def get_form_kwargs(self):
@@ -77,13 +79,15 @@ class CertificateView(FormView):
 
     def get_initial(self):
         return {
-            'certificate': self.object,
+            'certificate': self.certificate,
         }
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['hostname'] = self.hostname
-        context['cert'] = self.object
+        context['cert'] = self.certificate
+        context['current_cert'] = self.current_certificate
+        context['is_current'] = self.certificate == self.current_certificate
         context['cert_id'] = 'date' in self.kwargs
         return context
 
