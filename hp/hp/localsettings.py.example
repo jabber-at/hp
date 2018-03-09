@@ -98,6 +98,8 @@ SECRET_KEY = ''
 # your app. The default is shown below.
 #SIDEBAR_PANELS = [
 #    'core/panels/languages.html',
+#    # tools is not enabled by default, requires some third-party apps
+#    #'core/panels/tools.html',
 #    'core/panels/updates.html',
 #]
 

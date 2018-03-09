@@ -1,0 +1,20 @@
+{% extends "core/include/panel.html" %}
+{% load i18n core blog %}
+
+{% block title %}{% trans "Tools" %}{% endblock %}
+{% block content %}
+  <ul class="list-group">
+    <li class="list-group-item">
+      <a href="{% page_url 'faq' %}">{% trans "FAQs" %}</a>
+    </li>
+    <li class="list-group-item">
+      <a href="{% url 'conversejs:main' %}">{% trans "Webchat" %}</a>
+    </li>
+    <li class="list-group-item">
+      <a href="{% url 'xmpp-software-overview:clients' %}">{% trans "Clients" %}</a>
+    </li>
+    <li class="list-group-item">
+      <a href="{% url 'certs:overview' %}">{% trans "Certificates" %}</a>
+    </li>
+  </ul>
+{% endblock %}
