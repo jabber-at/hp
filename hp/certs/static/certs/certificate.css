@@ -10,3 +10,7 @@ table#certificate-id-table pre {
 form#cert-selection {
     margin-left: 20px;
 }
+
+form#cert-selection #fg_certificate {
+    margin-bottom: 0;
+}
