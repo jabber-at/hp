@@ -1,0 +1,18 @@
+{% extends "core/include/panel.html" %}
+{% load i18n static %}
+
+{% block title %}{% trans "Language" %}{% endblock %}
+{% block content %}
+  <ul class="list-group">
+  {% for code, name in other_langs %}
+    {% language code %}
+    <li class="list-group-item">
+        <a href="{% url "core:api-set-lang" %}?lang={{ code }}&next={{ request.get_full_path|urlencode }}" rel="nofollow">
+            <img src="{% static "core/img/" %}{{ code }}.svg" class="bullet" 
+               alt="{% blocktrans with lang=name %}Switch to {{ lang }}{% endblocktrans %}" />{{ name }}
+        </a>
+    </li>
+    {% endlanguage %}
+  {% endfor %}
+  </ul>
+{% endblock %}
