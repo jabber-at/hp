@@ -455,8 +455,8 @@ OBSERVATORY_URL = 'https://check.messaging.one/badge.php'
 
 SIDEBAR_PANELS = None
 _DEFAULT_SIDEBAR_PANELS = [
-    'core/panels/languages.html',
-    'core/panels/updates.html',
+    'core/cards/languages.html',
+    'core/cards/updates.html',
 ]
 
 ################

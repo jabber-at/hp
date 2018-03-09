@@ -97,10 +97,10 @@ SECRET_KEY = ''
 # your own app via INSTALLED_APPS above and then give paths inside the "templates" directory of
 # your app. The default is shown below.
 #SIDEBAR_PANELS = [
-#    'core/panels/languages.html',
+#    'core/cards/languages.html',
 #    # tools is not enabled by default, requires some third-party apps
-#    #'core/panels/tools.html',
-#    'core/panels/updates.html',
+#    #'core/cards/tools.html',
+#    'core/cards/updates.html',
 #]
 
 ###########
