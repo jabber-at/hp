@@ -187,6 +187,7 @@ _DEFAULT_JS_FILES = [
     'account/js/notifications.js',
     'bootstrap/js/file_input.js',
     'bootstrap/js/email_input.js',
+    'certs/certificate.js',
 ]
 CSS_FILES = None
 _DEFAULT_CSS_FILES = [
@@ -201,6 +202,7 @@ _DEFAULT_CSS_FILES = [
     'account/css/username_widget.css',
     'account/css/gpgmixin.css',
     'bootstrap/css/file_input.css',
+    'certs/certificate.css',
 ]
 
 ############
