@@ -4,12 +4,12 @@
 {% block title %}{{ object.username }}{% endblock title %}
 
 {% block content %}
-<div class="table-responsive"><table class="table table-hover">
+<table class="table table-hover table-responsive">
     <tr>
         <td>{% trans "Registered" %}</td>
         <td>{{ object.registered }}</td>
     </tr>
-    <tr{% if not object.email %} class="danger"{% endif %}>
+    <tr{% if not object.email %} class="table-danger"{% endif %}>
         <td>{% trans "Email address" %}</td>
         <td>
             {% if object.email %}
@@ -19,13 +19,13 @@
             {% endif %}
         </td>
     </tr>
-    <tr class="{% if object.confirmed %}success{% else %}danger{% endif %}">
+    <tr class="table-{% if object.confirmed %}success{% else %}danger{% endif %}">
         <td>{% trans "Email confirmed" %}</td>
         <td>{% if object.confirmed %}{% trans "Yes" %}{% else %}
             {% trans "No" %} (<a href="{% url "account:set_email" %}">{% trans "resend confirmation" %}</a>)
         {% endif %}</td>
     </tr>
-</table></div>
+</table>
 
 {% include "account/include/user_detail_help.html" %}
 

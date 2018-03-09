@@ -27,7 +27,7 @@ django.jQuery(document).ready(function() {
  */
 var tinymce_setup = function(editor) {
     /** Buttons for the table menu */
-    ['tablestriped', 'tablebordered', 'tablecondensed', 'tablehover'].forEach(function(cls) {
+    ['tablestriped', 'tablebordered', 'tablecondensed', 'tablehover', 'tableresponsive'].forEach(function(cls) {
         var stateSelector  = 'table.table.table-' + cls.substr(5);
         name = cls.substr(5);
         name = name.charAt(0).toUpperCase() + name.slice(1);
@@ -38,28 +38,6 @@ var tinymce_setup = function(editor) {
                 editor.execCommand('mceToggleFormat', false, cls);
             },
         });
-    });
-
-    editor.addButton('tableresponsive', {
-        text: 'Responsive',
-        stateSelector: 'div.table-responsive',
-        onclick: function() {
-            selectedElm = editor.selection.getNode();
-            wrapperElm = editor.dom.getParent(selectedElm, 'div.table-responsive');
-
-            var table = editor.dom.getParent(selectedElm, 'table');
-            if (! table ) {
-                return;
-            }
-
-            if (wrapperElm) {
-                editor.dom.remove(wrapperElm, true);
-            } else {
-                var tableHtml = editor.dom.getOuterHTML(table);
-                var wrapper = editor.dom.create('div', {'class': 'table-responsive'}, tableHtml);
-                editor.dom.replace(wrapper, table);
-            }
-        }
     });
 
     var glyphs = [

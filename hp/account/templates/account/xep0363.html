@@ -22,8 +22,7 @@ You cannot upload new files until old uploads expire and are automatically
 deleted. You can view your current upload limits below.{% endblocktrans %}</div>{% endif %}
 
 {% if uploads %}
-<div class="table-responsive">
-<table class="table table-hover">
+<table class="table table-hover table-responsive">
     <thead>
     <tr>
         <th>{% trans "Created" %}</th>
@@ -47,7 +46,6 @@ deleted. You can view your current upload limits below.{% endblocktrans %}</div>
     </tr>
 {% endfor %}
 </table>
-</div>
 {% else %}
 {% trans "There are currently no file uploads." %}
 {% endif %}
@@ -63,8 +61,7 @@ uploads should expire within a few minutes.{% endblocktrans %}</p>
 {% elif limits == 'no-limits' %}
     {% trans "You have no limits for uploading files." %}
 {% else %}
-<div class="table-responsive">
-<table class="table table-hover">
+<table class="table table-hover table-responsive">
     <thead>
     <tr>
         <th>{% trans "Kind" %}</th>
@@ -86,7 +83,6 @@ uploads should expire within a few minutes.{% endblocktrans %}</p>
     </tr>
     {% endfor %}
 </table>
-</div>
 {% endif %}
 
 {% endblock content %}

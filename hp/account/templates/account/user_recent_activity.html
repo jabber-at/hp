@@ -13,8 +13,7 @@ entries are removed after {{ delta }}.{% endblocktrans %}
 login attempts on the Jabber/XMPP server itself will not show up here.{% endblocktrans %}</p>
 
 {% if object.logs %}
-<div class="table-responsive">
-<table class="table table-hover">
+<table class="table table-hover table-responsive">
     <thead>
         <tr>
             <th>{% trans "IP" %}</th>
@@ -30,7 +29,6 @@ login attempts on the Jabber/XMPP server itself will not show up here.{% endbloc
     </tr>
 {% endfor %}
 </table>
-</div>
 {% else %}
     <p><strong>{% trans "No recent log entries found." %}</strong></p>
 {% endif %}

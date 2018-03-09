@@ -19,7 +19,7 @@ keyservers in the table below.{% endblocktrans %}</p>
 
 {% with keys=object.gpg_keys.all %}
     {% if keys %}
-        <div class="table-responsive"><table class="table table-hover">
+        <table class="table table-hover table-responsive">
             <thead>
                 <tr>
                     <th>{% trans "Created" %}</th>
@@ -47,7 +47,7 @@ keyservers in the table below.{% endblocktrans %}</p>
                 </td>
             </tr>
         {% endfor %}
-        </table></div>
+        </table>
         <p><a class="btn btn-primary" href="{% url 'account:add_gpg' %}">
         {% trans '<span class="glyphicon glyphicon-plus"></span> Add another GPG key' %}
         </a></p>
