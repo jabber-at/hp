@@ -1,0 +1,146 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2018-03-09 21:33+0100\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: admin.py:25
+msgid "currently valid"
+msgstr "gegenwärtig gültig"
+
+#: admin.py:49
+msgid "Details"
+msgstr ""
+
+#: admin.py:52
+msgid "Identifiers"
+msgstr "IDs"
+
+#: admin.py:55
+msgid "Certificate"
+msgstr "Zertifikat"
+
+#: models.py:44
+msgid "Primary hostname of this certificate."
+msgstr "Primärer hostname des Zertifikats"
+
+#: models.py:46
+msgid "Disabled certificates are not displayed anywhere."
+msgstr "Deaktivierte Zertifikate werden niemals angezeigt."
+
+#: models.py:49
+msgid "Certificate, in PEM format."
+msgstr "Zertifikat im PEM format."
+
+#: templates/certs/certificate_detail.html:17
+#, python-format
+msgid "Certificate for %(domain)s"
+msgstr "Zertifikat für %(domain)s"
+
+#: templates/certs/certificate_detail.html:22
+msgid "Certificates"
+msgstr "Zertifikate"
+
+#: templates/certs/certificate_detail.html:33
+msgid "Note:"
+msgstr "Achtung:"
+
+#: templates/certs/certificate_detail.html:35
+#, python-format
+msgid ""
+"This certificate is not currently used. <a class=\"alert-link\" href="
+"\"%(url)s\">View the current certificate</a>."
+msgstr "Dieses Zertifikat wird nicht mehr verwendet. <a class=\"alert-link\" href="
+"\"%(url)s\">Neues Zertifikat anzeigen</a>."
+
+#: templates/certs/certificate_detail.html:41
+#, python-format
+msgid ""
+"This is the certificate currently used for %(hostname)s. It is used since "
+"%(valid_from)s and is valid until %(valid_until)s, but it is usually "
+"replaced by a new certificate some time before that. You can view "
+"certificates for our other domains <a href=\"%(overview_url)s\">here</a>."
+msgstr ""
+"Hier finden sie das aktuelle Zertifikat für %(hostname)s. Es wird seit "
+"%(valid_from)s verwendet und ist bis %(valid_until)s gültig, wird aber "
+"normalerweise schon vorher ausgetauscht. Sie können die Zertifikate "
+"anderer Domains <a href=\"%(overview_url)s\">hier</a> ansehen."
+
+#: templates/certs/certificate_detail.html:43
+#, python-format
+msgid ""
+"This certificate was used by %(hostname)s between %(valid_from)s and "
+"%(valid_until)s. You can view certificates for our other domains <a href="
+"\"%(overview_url)s\">here</a>."
+msgstr "Dieses Zertifikat wurde von %(hostname)s zwischen %(valid_from)s "
+"und %(valid_until)s verwendet. Sie können die Zertifikate "
+"anderer Domains <a href=\"%(overview_url)s\">hier</a> ansehen."
+
+#: templates/certs/certificate_detail.html:49
+msgid "You can also view other certificates used at different times:"
+msgstr "Sie können sich auch alte Zertifikate noch ansehen:"
+
+#: templates/certs/certificate_detail.html:58
+msgid "Submit"
+msgstr "Anzeigen"
+
+#: templates/certs/certificate_detail.html:65
+#, python-format
+msgid ""
+"If you want to view the full certificate, you can download it <a href="
+"\"%(download_url)s\">here</a>. The certificate uses the following "
+"identifiers:"
+msgstr ""
+"Falls sie sich das vollständige Zertifikat ansehen wollen, können sie "
+"es <a href=\"%(download_url)s\">hier</a> herunterladen. Das Zertifikat "
+"kann über folgende Prüfsummen identifiziert werden:"
+
+#: templates/certs/certificate_detail.html:70
+msgid "Serial"
+msgstr ""
+
+#: templates/certs/certificate_detail.html:74
+msgid "MD5"
+msgstr ""
+
+#: templates/certs/certificate_detail.html:78
+msgid "SHA-1"
+msgstr ""
+
+#: templates/certs/certificate_detail.html:82
+msgid "SHA-256"
+msgstr ""
+
+#: templates/certs/certificate_detail.html:86
+msgid "SHA-512"
+msgstr ""
+
+#: templates/certs/certificate_list.html:13
+msgid "Certificate overview"
+msgstr "Übersicht über unsere Zertifikate"
+
+#: templates/certs/certificate_list.html:19
+msgid "Hostname"
+msgstr "Hostname"
+
+#: templates/certs/certificate_list.html:20
+msgid "Valid since"
+msgstr "Gültig seit"
+
+#: templates/certs/certificate_list.html:21
+msgid "Valid until"
+msgstr "Gültig bis"
