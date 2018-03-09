@@ -17,6 +17,7 @@ import logging
 
 from django import template
 from django.urls import reverse
+from django.utils.html import mark_safe
 from django.utils.translation import ugettext as _
 
 from ..utils import format_link
@@ -98,6 +99,19 @@ def format_filesize(size):
         return _('%.2f kilobyte') % (size / 1024)
     else:
         return _('%.2f megabyte') % (size / 1024 / 1024)
+
+
+@register.filter
+def wordbreak(value, arg):
+    """Add zero-width spaces after every occurence of arg in value.
+
+    The use of this is to get the given value to break only at the specified character. This requires the
+    following CSS rules::
+
+        white-space: pre-wrap;
+        word-break: break-word;
+    """
+    return mark_safe(value.replace(arg, '%s&#8203;' % arg))
 
 
 @register.tag('mailformat')
