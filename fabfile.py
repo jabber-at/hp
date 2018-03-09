@@ -40,7 +40,7 @@ build_jquery = BuildJqueryTask(
 build_bootstrap = BuildBootstrapTask(
     config=os.path.join(fabdir, 'hp/core/static/bootstrap-config.json'),
     dest_dir='hp/core/static/lib/bootstrap/',
-    version='~3'
+    version='~4'
 )
 
 configfile = configparser.ConfigParser({
