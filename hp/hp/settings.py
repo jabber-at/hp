@@ -175,6 +175,7 @@ AUTHENTICATION_BACKENDS = [
 JS_FILES = None
 _DEFAULT_JS_FILES = [
     'lib/jquery/jquery.js',
+    'lib/popper.js',
     'lib/bootstrap/js/bootstrap.js',
     'lib/prism/prism.js',
     'core/js/captcha.js',

@@ -9,7 +9,7 @@
 
     {% if DEBUG %}
     <link href="{% static 'lib/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
-    <link href="{% static 'lib/bootstrap/css/bootstrap-theme.min.css' %}" rel="stylesheet">
+    {#<link href="{% static 'lib/bootstrap/css/bootstrap-theme.min.css' %}" rel="stylesheet">#}
     <link href="{% static 'lib/prism/prism.css' %}" rel="stylesheet">
     <link href="{% static 'core/css/bootstrap-hp.css' %}" rel="stylesheet">
     <link href="{% static 'core/css/base.css' %}" rel="stylesheet">
@@ -111,6 +111,7 @@
 <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
 <script src="{% static 'lib/jquery/jquery.min.js' %}"></script>
 <script src="{% static 'lib/prism/prism.js' %}"></script>
+<script src="{% static 'lib/popper.js' %}"></script>
 <!-- Include all compiled plugins (below), or include individual files as needed -->
 <script src="{% static 'lib/bootstrap/js/bootstrap.min.js' %}"></script>
 <script src="{% static 'core/js/base.js' %}"></script>
