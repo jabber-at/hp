@@ -13,6 +13,8 @@
 # You should have received a copy of the GNU General Public License along with this project. If not, see
 # <http://www.gnu.org/licenses/>.
 
+import re
+
 from django import forms
 from django.conf import settings
 from django.utils.translation import ugettext_lazy as _
@@ -58,6 +60,12 @@ class ContactForm(forms.Form):
         'At least 12, at most 30 characters. What is you message about?'))
     text = BootstrapTextField(min_length=100, help_text=_(
         'Please describe your issue as detailed as possible!'))
+
+    def clean_text(self):
+        text = self.cleaned_data['text']
+        if re.findall('https?://', text):
+            raise forms.ValidationError(_('Sorry, you cannot use links in the contact form.'))
+        return text
 
 
 class AnonymousContactForm(CaptchaFormMixin, ContactForm):
