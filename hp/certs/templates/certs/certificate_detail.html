@@ -42,20 +42,25 @@
 
 
 <p>
-{% trans "View an older certificate:" %}
+{% trans "You can also view other certificates used at different times:" %}
+</p>
+
+<div class="row">
 <form action="{% url "certs:certs" hostname=hostname %}" method="post">
     {% csrf_token %}
     {{ form.certificate.formgroup }}
 
-    <div class="form-group">
-      <div class="col-sm-offset-2 col-sm-10">
-        <button type="submit" class="btn btn-default">{% trans "Submit" %}</button>
-      </div>
+    <div class="col-sm-2">
+      <button type="submit" class="btn btn-default">{% trans "Submit" %}</button>
     </div>
 </form>
-<p>
+</div>
 
-<p>{% trans "It uses the following identifiers:" %}</p>
+{% url "certs:cert-view" date=cert.valid_from hostname=cert.hostname as download_url %}
+<p>
+{% blocktrans %}If you want to view the full certificate, you can download it <a href="{{ download_url }}">here</a>. The certificate uses the following identifiers:{% endblocktrans %}
+</p>
+
 <table class="table" id="certificate-id-table">
   <tr>
     <td>{% trans "Serial" %}</td>

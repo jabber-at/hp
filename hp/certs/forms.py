@@ -49,7 +49,8 @@ class CertificateAdminForm(forms.ModelForm):
 
 
 class SelectCertificateForm(forms.Form):
-    certificate = CertificateSelectionField(queryset=None, required=True, empty_label=None)
+    certificate = CertificateSelectionField(queryset=None, required=True, empty_label=None,
+                                            hide_label=True, input_cols=4)
 
     def __init__(self, *args, **kwargs):
         hostname = kwargs.pop('hostname', settings.DEFAULT_XMPP_HOST)
