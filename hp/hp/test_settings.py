@@ -70,6 +70,10 @@ INSTALLED_APPS = [
     'xmpp_http_upload',  # XEP-0363
     'certs',
 ]
+SIDEBAR_PANELS = [
+    'core/panels/languages.html',
+    'core/panels/updates.html',
+]
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
