@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-12-28 16:29+0100\n"
+"POT-Creation-Date: 2018-03-09 21:47+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -81,7 +81,7 @@ msgstr ""
 msgid "Object"
 msgstr "Objekt"
 
-#: forms.py:40
+#: forms.py:42
 msgid ""
 "This <a href=\"https://en.wikipedia.org/wiki/CAPTCHA\">CAPTCHA</a> prevents "
 "automated SPAM. If you can't read it, just <a class=\"captcha-refresh"
@@ -91,15 +91,19 @@ msgstr ""
 "verhindert automatisierten SPAM. Wenn du es nicht lesen kannst, kannst du es "
 "<a class=\"captcha-refresh\">&#8634; neu laden</a>."
 
-#: forms.py:58
+#: forms.py:60
 msgid "At least 12, at most 30 characters. What is you message about?"
 msgstr "Mindestens 12, maximal 30 Zeichen. Um was geht es?"
 
-#: forms.py:60
+#: forms.py:62
 msgid "Please describe your issue as detailed as possible!"
 msgstr "Bitte beschreiben sie so genau wie möglich, worum es geht!"
 
-#: forms.py:64
+#: forms.py:67
+msgid "Sorry, you cannot use links in the contact form."
+msgstr ""
+
+#: forms.py:72
 msgid "Your address, so we can get back to you."
 msgstr "Ihre Adresse, damit wir sie kontaktieren können."
 
@@ -358,17 +362,17 @@ msgstr ""
 msgid "@%(twitter)s"
 msgstr ""
 
-#: templatetags/core.py:96
+#: templatetags/core.py:97
 #, python-format
 msgid "%s bytes"
 msgstr "%s Bytes"
 
-#: templatetags/core.py:98
+#: templatetags/core.py:99
 #, python-format
 msgid "%.2f kilobyte"
 msgstr "%.2f Kilobyte"
 
-#: templatetags/core.py:100
+#: templatetags/core.py:101
 #, python-format
 msgid "%.2f megabyte"
 msgstr "%.2f Megabyte"
