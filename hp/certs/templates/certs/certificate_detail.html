@@ -6,6 +6,10 @@
 <link href="{% static 'certs/certificate.css' %}" rel="stylesheet">
 {% endblock %}
 
+{% block pagejs %}
+<script src="{% static 'certs/certificate.js' %}"></script>
+{% endblock %}
+
 {% block head %}{{ block.super }}
 <link href="{% static 'css/blog.css' %}" rel="stylesheet">
 {% endblock head %}
@@ -46,11 +50,11 @@
 </p>
 
 <div class="row">
-<form action="{% url "certs:certs" hostname=hostname %}" method="post">
+<form id="cert-selection" action="{% url "certs:certs" hostname=hostname %}" method="post">
     {% csrf_token %}
     {{ form.certificate.formgroup }}
 
-    <div class="col-sm-2">
+    <div class="col-sm-2 submit-row">
       <button type="submit" class="btn btn-default">{% trans "Submit" %}</button>
     </div>
 </form>
