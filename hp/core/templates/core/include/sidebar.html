@@ -1,4 +1,5 @@
 {% load i18n static canonical %}
 
-{% include "core/panels/languages.html" %}
-{% include "core/panels/updates.html" %}
+{% for panel in SIDEBAR_PANELS %}
+    {% include panel %}
+{% endfor %}

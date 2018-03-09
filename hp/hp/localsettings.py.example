@@ -93,6 +93,14 @@ SECRET_KEY = ''
 #BLOG_MEDIA_ROOT = '/var/www/other.example.com/media/'
 #BLOG_MEDIA_URL = '/media/'
 
+# You can configure the panels shown in the left sidebar. To add your own panels, you need to add
+# your own app via INSTALLED_APPS above and then give paths inside the "templates" directory of
+# your app. The default is shown below.
+#SIDEBAR_PANELS = [
+#    'core/panels/languages.html',
+#    'core/panels/updates.html',
+#]
+
 ###########
 # Content #
 ###########

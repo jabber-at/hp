@@ -38,6 +38,7 @@ def basic(request):
         'TWITTER_HANDLE': settings.TWITTER_HANDLE,
         'DEBUG': settings.DEBUG,
         'WEBCHAT': bool(settings.CONVERSEJS_CONFIG),
+        'SIDEBAR_PANELS': settings.SIDEBAR_PANELS,
     }
 
     # Data that requires database access is cached

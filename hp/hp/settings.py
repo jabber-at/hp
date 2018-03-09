@@ -452,6 +452,12 @@ _DEFAULT_ACCOUNT_USER_MENU = [
 
 OBSERVATORY_URL = 'https://check.messaging.one/badge.php'
 
+SIDEBAR_PANELS = None
+_DEFAULT_SIDEBAR_PANELS = [
+    'core/panels/languages.html',
+    'core/panels/updates.html',
+]
+
 ################
 # GPG settings #
 ################
@@ -601,6 +607,11 @@ if CSS_FILES is None:
     CSS_FILES = _DEFAULT_CSS_FILES
 elif callable(CSS_FILES):
     CSS_FILES = CSS_FILES(_DEFAULT_CSS_FILES)
+
+if SIDEBAR_PANELS is None:
+    SIDEBAR_PANELS = _DEFAULT_SIDEBAR_PANELS
+elif callable(SIDEBAR_PANELS):
+    SIDEBAR_PANELS = SIDEBAR_PANELS(_DEFAULT_SIDEBAR_PANELS)
 
 if ACCOUNT_EXPIRES_DAYS is not None:
     if ACCOUNT_EXPIRES_NOTIFICATION_DAYS is None:
