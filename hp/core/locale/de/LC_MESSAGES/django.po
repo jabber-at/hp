@@ -101,7 +101,7 @@ msgstr "Bitte beschreiben sie so genau wie möglich, worum es geht!"
 
 #: forms.py:67
 msgid "Sorry, you cannot use links in the contact form."
-msgstr ""
+msgstr "Links können im Kontaktformular leider nicht verwendet werden."
 
 #: forms.py:72
 msgid "Your address, so we can get back to you."
