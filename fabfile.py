@@ -35,7 +35,7 @@ fabdir = os.path.dirname(__file__)
 build_jquery = BuildJqueryTask(
     excludes='-deprecated',
     dest_dir='hp/core/static/lib/jquery/',
-    version='~2'
+    version='~3'
 )
 build_bootstrap = BuildBootstrapTask(
     config=os.path.join(fabdir, 'hp/core/static/bootstrap-config.json'),
