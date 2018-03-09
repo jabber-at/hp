@@ -661,6 +661,8 @@ MANAGED_HOSTS = {k: v for k, v in XMPP_HOSTS.items() if v.get('MANAGE', True)}
 # Hosts where registration is possible via this homepage
 REGISTER_HOSTS = {k: v for k, v in MANAGED_HOSTS.items() if v.get('REGISTRATION', True)}
 
+CONVERSEJS_CONFIG.setdefault('locales_url',
+                             '/static/conversejs/locale/{{{locale}}}/LC_MESSAGES/converse.json')
 
 LOGGING = {
     'version': 1,
