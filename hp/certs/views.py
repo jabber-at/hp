@@ -35,7 +35,7 @@ class CertificateOverview(ListView):
         qs = super(CertificateOverview, self).get_queryset()
         certs = []
 
-        for hostname in settings.XMPP_HOSTS.keys():
+        for hostname in sorted(settings.XMPP_HOSTS.keys()):
             # first we get the newest valid one
             cert = qs.hostname(hostname).valid().first()
             if cert:
