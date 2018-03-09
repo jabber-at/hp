@@ -102,6 +102,10 @@ img.bullet {
     margin-right: 4px;
 }
 
+div.sidebar div.card {
+    margin-bottom: 20px;  /* same value as panels in bootstrap 3 */
+}
+
 /**
  * Twitter button
  */

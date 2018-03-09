@@ -6,8 +6,8 @@
 {% block title %}{% trans "Updates" %}{% endblock %}
 
 {% block content %}
-  <div class="panel-body"><p>{% trans "If you use our server, we strongly encourage you to stay up to date." %}</p></div>
-  <ul class="list-group" itemscope itemtype="http://schema.org/Organization">
+  <div class="card-body">{% trans "If you use our server, we strongly encourage you to stay up to date." %}</div>
+  <ul class="list-group list-group-flush" itemscope itemtype="http://schema.org/Organization">
     <link itemprop="url" href="{% canonical "blog:home" %}">
     {% if TWITTER_HANDLE %}
     <li class="list-group-item">
