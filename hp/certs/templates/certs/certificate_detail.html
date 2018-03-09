@@ -1,5 +1,5 @@
 {% extends "page.html" %}
-{% load i18n staticfiles render %}
+{% load i18n staticfiles core render %}
 
 
 {% block pagecss %}
@@ -63,24 +63,24 @@
 
 <table class="table" id="certificate-id-table">
   <tr>
-    <td>{% trans "Serial" %}</td>
-    <td><pre>{{ cert.serial }}</pre></td>
+    <td class="cert-id-label">{% trans "Serial" %}</td>
+    <td><pre>{{ cert.serial|wordbreak:":" }}</pre></td>
   </tr>
   <tr>
-    <td>{% trans "MD5" %}</td>
-    <td><pre>{{ cert.md5 }}</pre></td>
+    <td class="cert-id-label">{% trans "MD5" %}</td>
+    <td><pre>{{ cert.md5|wordbreak:":" }}</pre></td>
   </tr>
   <tr>
-    <td>{% trans "SHA-1" %}</td>
-    <td><pre>{{ cert.sha1 }}</pre></td>
+    <td class="cert-id-label">{% trans "SHA-1" %}</td>
+    <td><pre>{{ cert.sha1|wordbreak:":" }}</pre></td>
   </tr>
   <tr>
-    <td>{% trans "SHA-256" %}</td>
-    <td><pre>{{ cert.sha256 }}</pre></td>
+    <td class="cert-id-label">{% trans "SHA-256" %}</td>
+    <td><pre>{{ cert.sha256|wordbreak:":" }}</pre></td>
   </tr>
   <tr>
-    <td>{% trans "SHA-512" %}</td>
-    <td><pre>{{ cert.sha512 }}</pre></td>
+    <td class="cert-id-label">{% trans "SHA-512" %}</td>
+    <td><pre>{{ cert.sha512|wordbreak:":" }}</pre></td>
   </tr>
 </table>
 {% endblock content%}
