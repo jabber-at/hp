@@ -13,9 +13,9 @@
 {% block title %}{% blocktrans with domain=cert.hostname %}Certificate for {{ domain }}{% endblocktrans %}{% endblock title %}
 
 {% block content %}
-
+{% url "certs:overview" as overview_url %}
 <ol class="breadcrumb">
-  <li><a href="{% url "certs:overview" %}">{% trans "Certificates" %}</a></li>
+  <li><a href="{{ overview_url }}">{% trans "Certificates" %}</a></li>
 {% if cert_id %}
   <li><a href="{% url "certs:certs" hostname=cert.hostname %}">{{ cert.hostname }}</a></li>
   <li class="active">{{ cert.valid_from|date:"SHORT_DATE_FORMAT" }}</li>
@@ -33,6 +33,15 @@
 {% endif %}
 
 <p>
+{% if is_current %}
+{% blocktrans with hostname=cert.hostname valid_from=cert.valid_from|date:"SHORT_DATE_FORMAT" valid_until=cert.valid_until|date:"SHORT_DATE_FORMAT" %}This is the certificate currently used for {{ hostname }}. It is used since {{ valid_from }} and is valid until {{ valid_until }}, but it is usually replaced by a new certificate some time before that. You can view certificates for our other domains <a href="{{ overview_url }}">here</a>.{% endblocktrans %}
+{% else %}
+{% blocktrans with hostname=cert.hostname valid_from=cert.valid_from|date:"SHORT_DATE_FORMAT" valid_until=cert.valid_until|date:"SHORT_DATE_FORMAT" %}This certificate was used by {{ hostname }} between {{ valid_from }} and {{ valid_until }}. You can view certificates for our other domains <a href="{{ overview_url }}">here</a>.{% endblocktrans %}
+{% endif %}
+</p>
+
+
+<p>
 {% trans "View an older certificate:" %}
 <form action="{% url "certs:certs" hostname=hostname %}" method="post">
     {% csrf_token %}
@@ -46,8 +55,6 @@
 </form>
 <p>
 
-<p>{% blocktrans with domain=cert.hostname date=cert.valid_until|date:"SHORT_DATE_FORMAT" %}The certificate currently used for {{ domain }} is valid until {{ date }}.{% endblocktrans%}
-</p>
 <p>{% trans "It uses the following identifiers:" %}</p>
 <table class="table" id="certificate-id-table">
   <tr>
