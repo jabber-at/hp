@@ -50,11 +50,7 @@ class CertificateOverview(ListView):
         return certs
 
 
-class CertificateView(FormView):
-    context_object_name = 'cert'
-    form_class = SelectCertificateForm
-    template_name = 'certs/certificate_detail.html'
-
+class CertificateMixin(object):
     def get_certificate(self, current):
 
         if 'date' not in self.kwargs:
@@ -81,6 +77,12 @@ class CertificateView(FormView):
         self.current_certificate = self.get_current_certificate()
         self.certificate = self.get_certificate(self.current_certificate)
         return super().dispatch(request, *args, **kwargs)
+
+
+class CertificateView(CertificateMixin, FormView):
+    context_object_name = 'cert'
+    form_class = SelectCertificateForm
+    template_name = 'certs/certificate_detail.html'
 
     def get_form_kwargs(self):
         kwargs = super().get_form_kwargs()
