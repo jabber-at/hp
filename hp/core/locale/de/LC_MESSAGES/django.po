@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-03-09 21:47+0100\n"
+"POT-Creation-Date: 2018-03-09 22:19+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -314,53 +314,53 @@ msgstr ""
 "Bitte <a href=\"%(contact_url)s\">kontaktieren</a> sie uns, falls das "
 "Problem länger besteht."
 
-#: templates/core/include/sidebar.html:5
-msgid "Language"
-msgstr "Sprache"
-
-#: templates/core/include/sidebar.html:13
-#, python-format
-msgid "Switch to %(lang)s"
-msgstr "Auf %(lang)s wechseln"
-
-#: templates/core/include/sidebar.html:23
-msgid "Updates"
-msgstr "Aktualisierungen"
-
-#: templates/core/include/sidebar.html:25
-msgid "If you use our server, we strongly encourage you to stay up to date."
-msgstr ""
-"Wir raten allen, die unseren Server nutzen, auf dem Laufenden zu bleiben."
-
-#: templates/core/include/sidebar.html:32
-#, python-format
-msgid "%(brand)s on Twitter"
-msgstr ""
-
-#: templates/core/include/sidebar.html:41
-#, python-format
-msgid "%(brand)s on Facebook"
-msgstr ""
-
-#: templates/core/include/sidebar.html:48
-#, python-format
-msgid "RSS feed for %(brand)s"
-msgstr ""
-
-#: templates/core/include/sidebar.html:55
-#, python-format
-msgid "Atom feed for %(brand)s"
-msgstr ""
-
 #: templates/core/include/twitter_follow.html:4
 #, python-format
 msgid "Follow <strong>@%(twitter)s</strong>"
-msgstr ""
+msgstr "Folge <strong>@%(twitter)s</strong>"
 
 #: templates/core/include/twitter_link.html:5
 #, python-format
 msgid "@%(twitter)s"
+msgstr "@%(twitter)s"
+
+#: templates/core/panels/languages.html:4
+msgid "Language"
+msgstr "Sprache"
+
+#: templates/core/panels/languages.html:12
+#, python-format
+msgid "Switch to %(lang)s"
+msgstr "Auf %(lang)s wechseln"
+
+#: templates/core/panels/updates.html:6
+msgid "Updates"
+msgstr "Aktualisierungen"
+
+#: templates/core/panels/updates.html:9
+msgid "If you use our server, we strongly encourage you to stay up to date."
 msgstr ""
+"Wir raten allen, die unseren Server nutzen, auf dem Laufenden zu bleiben."
+
+#: templates/core/panels/updates.html:16
+#, python-format
+msgid "%(brand)s on Twitter"
+msgstr "%(brand)s auf Twitter"
+
+#: templates/core/panels/updates.html:25
+#, python-format
+msgid "%(brand)s on Facebook"
+msgstr "%(brand)s auf Facebook"
+
+#: templates/core/panels/updates.html:32
+#, python-format
+msgid "RSS feed for %(brand)s"
+msgstr "RSS feed für %(brand)s"
+
+#: templates/core/panels/updates.html:39
+#, python-format
+msgid "Atom feed for %(brand)s"
+msgstr "Atom feed für %(brand)s"
 
 #: templatetags/core.py:97
 #, python-format
