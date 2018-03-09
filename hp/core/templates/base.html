@@ -54,43 +54,56 @@
   </head>
   <body>
 {% block body %}
+
+<header>
 <!-- Fixed navbar -->
-<nav class="navbar navbar-inverse navbar-fixed-top">
+<nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
   <div class="container">
-    <div class="navbar-header">
-      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
-        <span class="sr-only">Toggle navigation</span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-      </button>
       <a class="navbar-brand" href="{% url "blog:home" %}">{{ site.BRAND }}</a>
-    </div>
-    <div id="navbar" class="navbar-collapse collapse">
-      <ul class="nav navbar-nav">
-        {% recursetree menuitems %}
-            {% if node.is_leaf_node %}
-            <li><a href="{{ node.target.href }}">{{ node.title.current }}</a></li>
-            {% else %}
-            <li class="dropdown">
-                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">{{ node.title.current }}<span class="caret"></span></a>
-                <ul class="dropdown-menu">{{ children }}</ul>
-            </li>
-            {% endif %}
-        {% endrecursetree %}
-      </ul>
-      <ul class="nav navbar-nav navbar-right">
-        {% if request.user.is_authenticated %}
-        <li><a href="{% url "account:detail" %}">{% trans "Account" %}</a></li>
-        <li><a href="{% url "account:logout" %}?next={{ request.path }}">{% trans "Logout" %}</a></li>
-        {% else %}
-        <li><a href="{% url "account:register" %}">{% trans "Register" %}</a></li>
-        <li><a href="{% url "account:login" %}?next={{ request.path }}">{% trans "Login" %}</a></li>
-        {% endif %}
-      </ul>
-    </div><!--/.nav-collapse -->
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+
+      <div class="collapse navbar-collapse" id="navbarCollapse">
+        <ul class="navbar-nav mr-auto">
+          {% recursetree menuitems %}
+            {% comment %}
+               TODO: active items
+                <li class="nav-item active">
+                  <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+                </li>
+            {% endcomment %}
+              {% if node.is_leaf_node %}
+                <li class="nav-item">
+                  <a class="nav-link" href="{{ node.target.href }}">{{ node.title.current }}</a>
+                </li>
+              {% else %}
+                <li class="nav-item dropdown">
+                  <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">{{ node.title.current }}</a>
+                  <div class="dropdown-menu">
+                      {% for child in node.get_children %}
+                      <a class="dropdown-item" href="{{ child.target.href }}">{{ child.title.current }}</a>
+                      {% endfor %}
+                  </div>
+                </li>
+              {% endif %}
+          {% endrecursetree %}
+        </ul>
+
+        <ul class="navbar-nav mt-2 mt-md-0">
+          {% if request.user.is_authenticated %}
+          <li class="nav-item"><a class="nav-link" href="{% url "account:detail" %}">{% trans "Account" %}</a></li>
+          <li class="nav-item"><a class="nav-link" href="{% url "account:logout" %}?next={{ request.path }}">{% trans "Logout" %}</a></li>
+          {% else %}
+          <li class="nav-item"><a class="nav-link" href="{% url "account:register" %}">{% trans "Register" %}</a></li>
+          <li class="nav-item"><a class="nav-link" href="{% url "account:login" %}?next={{ request.path }}">{% trans "Login" %}</a></li>
+          {% endif %}
+        </ul>
+      </div>
   </div>
 </nav>
+</header>
 
 <div class="container" role="main">
     <div class="row">{% block page %}{% endblock page %}</div>
