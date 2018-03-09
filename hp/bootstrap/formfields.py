@@ -103,6 +103,9 @@ class BoundField(forms.boundfield.BoundField):
         else:
             attrs['class'] = 'control-label %s' % self.field.get_label_grid_class()
 
+        if self.field.hide_label is True:
+            attrs['class'] += ' sr-only'
+
         return super(BoundField, self).label_tag(contents, attrs=attrs, label_suffix=label_suffix)
 
 
@@ -111,6 +114,7 @@ class BootstrapMixin(object):
 
     add_success = True
     formgroup_class = None
+    hide_label = False
     label_cols = 2
     input_cols = 10
     col_class = 'sm'
@@ -126,6 +130,7 @@ class BootstrapMixin(object):
         self.label_cols = kwargs.pop('label_cols', self.label_cols)
         self.input_cols = kwargs.pop('input_cols', self.input_cols)
         self.col_class = kwargs.pop('col_class', self.col_class)
+        self.hide_label = kwargs.pop('hide_label', self.hide_label)
 
         super(BootstrapMixin, self).__init__(**kwargs)
 
