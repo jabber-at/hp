@@ -15,6 +15,7 @@
 
 from django.conf import settings
 from django.http import Http404
+from django.http import HttpResponse
 from django.http import HttpResponseRedirect
 from django.urls import reverse
 from django.views.generic.edit import FormView
@@ -51,17 +52,13 @@ class CertificateOverview(ListView):
 
 
 class CertificateMixin(object):
-    def get_certificate(self, current):
+    def get_certificate(self, current=None):
 
-        if 'date' not in self.kwargs:
+        if current is not None and 'date' not in self.kwargs:
             return current
 
-        queryset = Certificate.objects.enabled().hostname(self.hostname)
-
-        # NOTE: __date lookup doesn't work with MySQL.
-        date = self.kwargs['date']
-        obj = queryset.filter(valid_from__year=date.year, valid_from__month=date.month,
-                              valid_from__day=date.day).first()
+        queryset = Certificate.objects.enabled().hostname(self.kwargs['hostname'])
+        obj = queryset.filter(valid_from__date=self.kwargs['date']).first()
 
         if obj is None:
             raise Http404
@@ -70,12 +67,10 @@ class CertificateMixin(object):
     def get_current_certificate(self):
         """Returns the currently used certificate, meaning the last one issued."""
 
-        return Certificate.objects.enabled().hostname(self.hostname).order_by('-valid_from').first()
+        qs = Certificate.objects.enabled().hostname(self.kwargs['hostname'])
+        return qs.order_by('-valid_from').first()
 
     def dispatch(self, request, *args, **kwargs):
-        self.hostname = self.kwargs['hostname']
-        self.current_certificate = self.get_current_certificate()
-        self.certificate = self.get_certificate(self.current_certificate)
         return super().dispatch(request, *args, **kwargs)
 
 
@@ -83,6 +78,11 @@ class CertificateView(CertificateMixin, FormView):
     context_object_name = 'cert'
     form_class = SelectCertificateForm
     template_name = 'certs/certificate_detail.html'
+
+    def dispatch(self, request, *args, **kwargs):
+        self.current_certificate = self.get_current_certificate()
+        self.certificate = self.get_certificate(self.current_certificate)
+        return super().dispatch(request, *args, **kwargs)
 
     def get_form_kwargs(self):
         kwargs = super().get_form_kwargs()
@@ -96,7 +96,7 @@ class CertificateView(CertificateMixin, FormView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['hostname'] = self.hostname
+        context['hostname'] = self.kwargs['hostname']
         context['cert'] = self.certificate
         context['current_cert'] = self.current_certificate
         context['is_current'] = self.certificate == self.current_certificate
@@ -105,5 +105,14 @@ class CertificateView(CertificateMixin, FormView):
 
     def form_valid(self, form):
         cert = form.cleaned_data['certificate']
-        url = reverse('certs:cert-id', kwargs={'hostname': self.hostname, 'date': cert.valid_from})
+        url = reverse('certs:cert-id', kwargs={
+            'date': cert.valid_from,
+            'hostname': self.kwargs['hostname'],
+        })
         return HttpResponseRedirect(url)
+
+
+class CertificateDownload(CertificateMixin, FormView):
+    def get(self, request, *args, **kwargs):
+        cert = self.get_certificate()
+        return HttpResponse(cert.pem, content_type='text/plain')

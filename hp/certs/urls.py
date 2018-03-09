@@ -27,4 +27,5 @@ urlpatterns = [
     path('', views.CertificateOverview.as_view(), name='overview'),
     path('<hostname>/', views.CertificateView.as_view(), name='certs'),
     path('<hostname>/<date:date>/', views.CertificateView.as_view(), name='cert-id'),
+    path('<hostname>/<date:date>/view/', views.CertificateDownload.as_view(), name='cert-view'),
 ]
