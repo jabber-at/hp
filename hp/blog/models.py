@@ -149,6 +149,7 @@ class BasePage(BaseModel):
         tags = ['a', 'p', 'strong', 'ul', 'ol', 'li', 'i', ]
         attrs = {
             'a': ['href', ],
+            'i': ['class', ],  # fontawesome icons
         }
         return bleach.clean(html, tags=tags, attributes=attrs, strip=True)
 
