@@ -5,7 +5,7 @@
 
 {% block content %}
 {% if perms.change_page %}
-<p><a class="btn btn-default" href="{% url 'admin:blog_page_change' page.pk%}" role="button">{% trans "Change" %}</a></p>
+<p><a class="btn btn-primary btn-sm" href="{% url 'admin:blog_page_change' page.pk%}" role="button">{% trans "Change" %}</a></p>
 {% endif %}
 
 {% render object %}

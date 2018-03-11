@@ -22,7 +22,7 @@
     </p>
 
     {% if perms.change_blogpost %}
-    <p><a class="btn btn-default btn-xs" href="{% url 'admin:blog_blogpost_change' post.pk%}" role="button">{% trans "Change" %}</a></p>
+    <p><a class="btn btn-primary btn-sm" href="{% url 'admin:blog_blogpost_change' post.pk%}" role="button">{% trans "Change" %}</a></p>
     {% endif %}
 
 
