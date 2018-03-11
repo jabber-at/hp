@@ -179,9 +179,9 @@ var tinymce_setup = function(editor) {
     });
 
     /** The lables list box */
-    editor.addButton('labels', {
+    editor.addButton('badges', {
         type: 'listbox',
-        text: 'Labels',
+        text: 'Badges',
         icon: false,
         onselect: function (e) {
             var val = this.value();
@@ -193,28 +193,28 @@ var tinymce_setup = function(editor) {
                 // format is already applied, so remove it
                 tinymce.activeEditor.formatter.remove(val);
             } else {
-                tinymce.activeEditor.formatter.remove('label_default');
-                tinymce.activeEditor.formatter.remove('label_primary');
-                tinymce.activeEditor.formatter.remove('label_success');
-                tinymce.activeEditor.formatter.remove('label_info');
-                tinymce.activeEditor.formatter.remove('label_warning');
-                tinymce.activeEditor.formatter.remove('label_danger');
+                tinymce.activeEditor.formatter.remove('badge_primary');
+                tinymce.activeEditor.formatter.remove('badge_secondary');
+                tinymce.activeEditor.formatter.remove('badge_success');
+                tinymce.activeEditor.formatter.remove('badge_info');
+                tinymce.activeEditor.formatter.remove('badge_warning');
+                tinymce.activeEditor.formatter.remove('badge_danger');
                 tinymce.activeEditor.formatter.apply(val);
             }
         },
         values: [
-            {text: 'Default', value: 'label_default' },
-            {text: 'Primary', value: 'label_primary', 'classes': 'label label-primary',
-             format: 'label_primary'
+            {text: 'Primary', value: 'badge_primary', 'classes': 'badge badge-primary',
+             format: 'badge_primary'
             },
-            {text: 'Success', value: 'label_success', 'classes': 'label label-success',
-             format: {name: 'label_success'}
+            {text: 'Secondary', value: 'badge_secondary' },
+            {text: 'Success', value: 'badge_success', 'classes': 'badge badge-success',
+             format: {name: 'badge_success'}
             },
-            {text: 'Info', value: 'label_info', 'classes': 'label label-info',
+            {text: 'Info', value: 'badge_info', 'classes': 'badge badge-info',
              style: 'font-weight: 200'
             },
-            {text: 'Warning', value: 'label_warning', 'classes': 'label label-warning'},
-            {text: 'Danger', value: 'label_danger', 'classes': 'label label-danger'},
+            {text: 'Warning', value: 'badge_warning', 'classes': 'badge badge-warning'},
+            {text: 'Danger', value: 'badge_danger', 'classes': 'badge badge-danger'},
         ],
         onpostrender: function() {
             var button = this;
@@ -225,8 +225,8 @@ var tinymce_setup = function(editor) {
                 }
 
                 var matched = tinymce.activeEditor.formatter.matchAll(
-                        ['label_default', 'label_primary', 'label_success', 'label_info',
-                         'label_warning', 'label_danger'])
+                        ['badge_secondary', 'badge_primary', 'badge_success', 'badge_info',
+                         'badge_warning', 'badge_danger'])
                 if (matched.length == 0) {
                     button.value('Labels');
                 } else {

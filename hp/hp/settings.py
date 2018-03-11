@@ -220,7 +220,7 @@ TINYMCE_DEFAULT_CONFIG = {
     'toolbar1': 'styleselect | bold italic underline strikethrough '
                 '| alignleft aligncenter alignright alignjustify '
                 '| bullist numlist | outdent indent | link image ',
-    'toolbar2': 'labels tooltips icons | table codesample '
+    'toolbar2': 'badges tooltips icons | table codesample '
                 '| code removeformat',
     'contextmenu': 'formats | link image',
     'menubar': False,
@@ -278,12 +278,12 @@ TINYMCE_DEFAULT_CONFIG = {
         'alignjustify': {'selector': 'p,h1,h2,h3,h4,h5,h6,td,th,div,ul,ol,li,table,img',
                          'classes': 'text-justify', },
 
-        'label_default': {'inline': 'span', 'classes': 'label label-default', },
-        'label_primary': {'inline': 'span', 'classes': 'label label-primary', },
-        'label_success': {'inline': 'span', 'classes': 'label label-success', },
-        'label_info': {'inline': 'span', 'classes': 'label label-info', },
-        'label_warning': {'inline': 'span', 'classes': 'label label-warning', },
-        'label_danger': {'inline': 'span', 'classes': 'label label-danger', },
+        'badge_primary': {'inline': 'span', 'classes': 'badge badge-primary', },
+        'badge_secondary': {'inline': 'span', 'classes': 'badge badge-secondary', },
+        'badge_success': {'inline': 'span', 'classes': 'badge badge-success', },
+        'badge_info': {'inline': 'span', 'classes': 'badge badge-info', },
+        'badge_warning': {'inline': 'span', 'classes': 'badge badge-warning', },
+        'badge_danger': {'inline': 'span', 'classes': 'badge badge-danger', },
 
         'tablestriped': {'selector': 'table', 'classes': 'table-striped'},
         'tablebordered': {'selector': 'table', 'classes': 'table-bordered'},

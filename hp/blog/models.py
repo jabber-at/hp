@@ -146,10 +146,10 @@ class BasePage(BaseModel):
 
     def cleanup_html(self, html):
         """Cleanup HTML for HTML summaries (e.g. RSS feeds)."""
-        tags = ['a', 'p', 'strong', 'ul', 'ol', 'li', 'i', ]
+        tags = ['a', 'p', 'strong', 'ul', 'ol', 'li', 'span', ]
         attrs = {
             'a': ['href', ],
-            'i': ['class', ],  # fontawesome icons
+            'span': ['class'],  # fontawesome icons
         }
         return bleach.clean(html, tags=tags, attributes=attrs, strip=True)
 
