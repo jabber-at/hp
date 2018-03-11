@@ -28,6 +28,20 @@ from blog.models import Page
 TAGS = {
     'responsive-table-div': 'Responsive tables no longer require a wrapping element. Instead, just put the '
                             '.table-responsive right on the <table>.',
+    'table-condensed': 'Rename table.table-condensed to table.table-sm.',
+    'table-row-context-class': 'Contextual classes (active, success, info, warning, danger) on table rows '
+                               'use a "table-" prefix. So change tr.active to tr.table-active and so on.',
+    'table-cell-context-class': 'Contextual classes (active, success, info, warning, danger) on table cells '
+                                'use a "table-" prefix. So change td.active to td.table-active and so on.',
+
+    'img-responsive': 'Rename .img-responsive to .img-fluid.',
+    'img-rounded': 'Rename .img-rounded to .rounded.',
+    'img-circle': 'Rename .img-circle to .rounded-circle.',
+    'page-header': '.page-headeris no longer supported, aside from the border, all its styles can be applied '
+                   'via utilities.',
+    'btn-default': 'Rename .btn-default to .btn-secondary.',
+    'old-labels':
+        'Labels have been renamed to badges, see http://getbootstrap.com/docs/4.0/components/badge/.',
 }
 
 
@@ -62,6 +76,28 @@ class Command(BaseCommand):
                     self.log_tag(obj, 'responsive-table-div', lang)
             except ImportError as e:
                 raise CommandError(str(e))
+
+            if html.cssselect('.table-condensed'):
+                self.log_tag(obj, 'table-condensed', lang)
+            if html.cssselect('tr.active, tr.success, tr.info, tr.warning, tr.danger'):
+                self.log_tag(obj, 'table-row-context-class', lang)
+            if html.cssselect('td.active, td.success, td.info, td.warning, td.danger'):
+                self.log_tag(obj, 'table-cell-context-class', lang)
+            if html.cssselect('th.active, th.success, th.info, th.warning, th.danger'):
+                self.log_tag(obj, 'table-cell-context-class', lang)
+
+            if html.cssselect('.img-responsive'):
+                self.log_tag(obj, 'img-responsive', lang)
+            if html.cssselect('.img-rounded'):
+                self.log_tag(obj, 'img-rounded', lang)
+            if html.cssselect('.img-circle'):
+                self.log_tag(obj, 'img-circle', lang)
+            if html.cssselect('.page-header'):
+                self.log_tag(obj, 'page-header', lang)
+            if html.cssselect('.btn-default'):
+                self.log_tag(obj, 'btn-default', lang)
+            if html.cssselect('span.label'):
+                self.log_tag(obj, 'old-labels', lang)
 
     def handle(self, *args, **options):
         if options['tag']:
