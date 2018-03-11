@@ -64,10 +64,6 @@ var tinymce_setup = function(editor) {
         text: 'Glyphs',
         icon: false,
         onselect: function (e) {
-            /**
-             * NOTE: We append a zero-width space at the end of the span because otherwise adding a
-             * Glyph in an empty paragraph eates the next element.
-             */
             var val = this.value();
             editor.insertContent(
                 '<span class="glyphicon glyphicon-' + val + '" aria-hidden="true"></span>&#x200b;'
@@ -113,57 +109,70 @@ var tinymce_setup = function(editor) {
      * Fontawesome icons
      */
     let fontawesome_icons = [
-        {
-            text: 'Check',
-            value: 'check'
-        },
+        'ban',
+        'check',
+        'edit',
+        'envelope',
+        'exclamation',
+        'external-link-alt',
+        'filter',
+        'flag',
+        'info',
+        'minus',
+        'plus',
+        'redo',
+        'reply',
+        'rss',
+        'search',
+        'search-minus',
+        'search-plus',
+        'sort-alpha-down',
+        'sort-alpha-up',
+        'star',
+        'sync',
+        'thumbs-down',
+        'thumbs-up',
+        'times',
+        'trash',
+        'user',
     ]
 
     editor.addButton('icons', {
         type: 'listbox',
-        text: 'Icons',
-        icon: false,
+        text: false,
+        icon: 'flag fab fa-font-awesome-flag',
 
         onselect: function (e) {
             /**
              * NOTE: We append a zero-width space at the end of the span because otherwise adding a
              * Glyph in an empty paragraph eates the next element.
              */
-            var val = this.value();
-            editor.insertContent(
-                '<span class="glyphicon glyphicon-' + val + '" aria-hidden="true"></span>&#x200b;'
-            );
-        },
-        onclick: function(e) {
-            $('.mce-menu-item-glyphicon').each(function() {
-                var elem = $(this);
-                var glyph_cls = elem.attr('class').split(/\s+/).filter(function(e) {
-                    return e.startsWith('mce-menu-item-glyphicon-');
-                })[0];
-                glyph = glyph_cls.substr(24);
-                $('.' + glyph_cls + ' .mce-ico').replaceWith(
-                    '<span class="glyphicon glyphicon-' + glyph + '"></span>');
-            });
+            editor.insertContent('<span class="fas fa-' + this.value() + '"></span>&#x200b;');
         },
         values: function() {
             //alert('values!');
-            var vals = [];
+            let vals = [];
             fontawesome_icons.forEach(function(icon) {
+                let text = icon.replace(/-/, ' ');
+                text = text.replace(/\w\S*/g, function(txt) {  // capitalize words
+                    return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
+                });
                 vals.push({
-                    text: icon.text,
-                    icon: "check",  // TODO
-                    value: icon.value,
-                    //classes: 'menu-item-glyphicon menu-item-glyphicon-' + glyph
+                    text: text,
+
+                    /* NOTE: the icon property requires some custom CSS in basepage.css because TinyMCE
+                     * overrides some of FontAwesome' CSS */
+                    icon: "check fas fa-" + icon,
+                    value: icon,
                 });
             });
             return vals;
         }(),
         onPostRender: function () {
-            //alert('onPostRender');
             var button = this;
             editor.on('NodeChange', function(e) {
-                // Make sure that the listbutton name is always the same
-                button.value('Glyphs');
+                // Make sure that the listbuton name is always the same
+                button.value('');
             });
             return;
         }

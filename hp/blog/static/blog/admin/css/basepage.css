@@ -38,67 +38,16 @@ div.field-box.field-text_en {
 }
 
 /**
- * CSS for glyphicons
- *
- * We add this here because adding the full bootstrap CSS breaks the whole admin page.
+ * Fontawesome icons
  */
-@font-face { 
-    font-family: 'Glyphicons Halflings';
-    src: url(/static/lib/bootstrap/fonts/glyphicons-halflings-regular.eot);
-    src: url(/static/lib/bootstrap/fonts/glyphicons-halflings-regular.eot?#iefix) format('embedded-opentype'),url(/static/lib/bootstrap/fonts/glyphicons-halflings-regular.woff2) format('woff2'),url(/static/lib/bootstrap/fonts/glyphicons-halflings-regular.woff) format('woff'),url(/static/lib/bootstrap/fonts/glyphicons-halflings-regular.ttf) format('truetype'),url(/static/lib/bootstrap/fonts/glyphicons-halflings-regular.svg#glyphicons_halflingsregular) format('svg')
-}
 
-.mce-menu-item .glyphicon {
-    font-style: normal;
-    font-family: 'Glyphicons Halflings';
-    font-weight: 400;
-    line-height: 1;
-    -webkit-font-smoothing: antialiased;
+/* TinyMCE overrides some of the CSS in icons, we restore FontAwesome defaults here */
+.mce-ico.fa, .mce-ico.far, .mce-ico.fas {
+    font-family: "Font Awesome\ 5 Free" !important;
 }
-.mce-menu-item .glyphicon-ok:before {
-    box-sizing: border-box;
-    content: "\e013";
+.mce-ico.fa, .mce-ico.fas {
+    font-weight: 900 !important;
 }
-.mce-menu-item .glyphicon-remove:before {
-    content: "\e014";
-}
-.mce-menu-item .glyphicon-refresh:before {
-    content: "\e031";
-}
-.mce-menu-item .glyphicon-exclamation-sign:before {
-    content: "\e101";
-}
-.mce-menu-item .glyphicon-download:before {
-    content: "\e026";
-}
-
-.mce-menu-item .glyphicon-home:before {
-    content: "\e021";
-}
-.mce-menu-item .glyphicon-file:before {
-    content: "\e022";
-}
-.mce-menu-item .glyphicon-minus:before {
-    content: "\2212";
-}
-.mce-menu-item .glyphicon-plus:before {
-    content: "\002b";
-}
-.mce-menu-item .glyphicon-pencil:before {
-    content: "\270f";
-}
-.mce-menu-item .glyphicon-repeat:before {
-    content: "\e030";
-}
-.mce-menu-item .glyphicon-zoom-in:before {
-    content: "\e015";
-}
-.mce-menu-item .glyphicon-zoom-out:before {
-    content: "\e016";
-}
-.mce-menu-item .glyphicon-envelope:before {
-    content: "\2709";
-}
-.mce-menu-item .glyphicon-question-sign:before {
-    content: "\e085";
+.mce-ico.fab {
+    font-family: "Font Awesome\ 5 Brands" !important;
 }
