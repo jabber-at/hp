@@ -3,21 +3,26 @@
  * hasn't entered anyting.
  */
 var default_username_state = function(form_group) {
-    form_group.removeClass('has-error');
+    form_group.removeClass('was-validated');
+
     form_group.removeClass('has-success');
     form_group.find('#status-check span').hide();
     form_group.find('.errorlist').hide();
     form_group.find('#status-check span#default').show();
 }
 var show_username_local_error = function(form_group, error) {
-    form_group.addClass('has-error');
-    form_group.removeClass('has-success');
+    form_group.addClass('was-validated');
+    form_group.find('input[type="text"]').setCustomValidity('foo');
 
+    form_group.removeClass('has-success');
     form_group.find('#status-check span').hide();
     form_group.find('#status-check span#invalid').show();
     form_group.find('.fas').addClass('fa-times').removeClass('fa-check');
 };
 var show_username_available = function(form_group) {
+    form_group.addClass('was-validated');
+    form_group.find('input[type="text"]').setCustomValidity('');
+
     form_group.removeClass('has-error');
     form_group.addClass('has-success');
     form_group.find('.errorlist').hide();
@@ -25,6 +30,8 @@ var show_username_available = function(form_group) {
     form_group.find('#status-check span#username-available').show();
 }
 var show_username_not_available = function(form_group) {
+    form_group.addClass('was-validated');
+
     form_group.addClass('has-error');
     form_group.removeClass('has-success');
     form_group.find('.errorlist').hide();
@@ -33,6 +40,8 @@ var show_username_not_available = function(form_group) {
 }
 
 var show_username_error = function(form_group) {
+    form_group.addClass('was-validated');
+
     form_group.addClass('has-error');
     form_group.removeClass('has-success');
     form_group.find('.errorlist').hide();
