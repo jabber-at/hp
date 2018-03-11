@@ -25,6 +25,18 @@ fieldset.meta-descriptions p.help span.test-length {
     margin-left: 0 !important;
 }
 
+div.field-box.field-text_de,
+div.field-box.field-text_en {
+    width: 48%;  /* 50% sometimes causes the elements to break */
+}
+
+@media (max-width:1100px) {
+    div.field-box.field-text_de,
+    div.field-box.field-text_en {
+        width: 100%
+    }
+}
+
 /**
  * CSS for glyphicons
  *
