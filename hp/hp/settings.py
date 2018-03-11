@@ -220,7 +220,7 @@ TINYMCE_DEFAULT_CONFIG = {
     'toolbar1': 'styleselect | bold italic underline strikethrough '
                 '| alignleft aligncenter alignright alignjustify '
                 '| bullist numlist | outdent indent | link image ',
-    'toolbar2': 'labels tooltips glyphs | table codesample '
+    'toolbar2': 'labels tooltips icons | table codesample '
                 '| code removeformat',
     'contextmenu': 'formats | link image',
     'menubar': False,
@@ -296,6 +296,7 @@ TINYMCE_DEFAULT_CONFIG = {
     'content_css': [
         '/static/lib/bootstrap/css/bootstrap.min.css',
         '/static/lib/bootstrap/css/bootstrap-theme.min.css',
+        '/static/lib/fontawesome/web-fonts-with-css/css/fontawesome-all.min.css',
         '/static/core/css/base.css',
         '/static/core/css/tinymce-preview.css',
     ],
