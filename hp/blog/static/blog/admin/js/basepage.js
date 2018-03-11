@@ -19,7 +19,6 @@ django.jQuery(document).ready(function() {
         calculate_length(input);
     });
 
-    django.jQuery('.mce-menu-item-glyphicon-ok .mce-text').text('foobar1');
 });
 
 /**
@@ -104,6 +103,66 @@ var tinymce_setup = function(editor) {
             var button = this;
             editor.on('NodeChange', function(e) {
                 // Make sure that the listbuton name is always the same
+                button.value('Glyphs');
+            });
+            return;
+        }
+    });
+
+    /**
+     * Fontawesome icons
+     */
+    let fontawesome_icons = [
+        {
+            text: 'Check',
+            value: 'check'
+        },
+    ]
+
+    editor.addButton('icons', {
+        type: 'listbox',
+        text: 'Icons',
+        icon: false,
+
+        onselect: function (e) {
+            /**
+             * NOTE: We append a zero-width space at the end of the span because otherwise adding a
+             * Glyph in an empty paragraph eates the next element.
+             */
+            var val = this.value();
+            editor.insertContent(
+                '<span class="glyphicon glyphicon-' + val + '" aria-hidden="true"></span>&#x200b;'
+            );
+        },
+        onclick: function(e) {
+            $('.mce-menu-item-glyphicon').each(function() {
+                var elem = $(this);
+                var glyph_cls = elem.attr('class').split(/\s+/).filter(function(e) {
+                    return e.startsWith('mce-menu-item-glyphicon-');
+                })[0];
+                glyph = glyph_cls.substr(24);
+                $('.' + glyph_cls + ' .mce-ico').replaceWith(
+                    '<span class="glyphicon glyphicon-' + glyph + '"></span>');
+            });
+        },
+        values: function() {
+            //alert('values!');
+            var vals = [];
+            fontawesome_icons.forEach(function(icon) {
+                vals.push({
+                    text: icon.text,
+                    icon: "check",  // TODO
+                    value: icon.value,
+                    //classes: 'menu-item-glyphicon menu-item-glyphicon-' + glyph
+                });
+            });
+            return vals;
+        }(),
+        onPostRender: function () {
+            //alert('onPostRender');
+            var button = this;
+            editor.on('NodeChange', function(e) {
+                // Make sure that the listbutton name is always the same
                 button.value('Glyphs');
             });
             return;
