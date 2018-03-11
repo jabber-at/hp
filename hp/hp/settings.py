@@ -225,7 +225,8 @@ TINYMCE_DEFAULT_CONFIG = {
     'contextmenu': 'formats | link image',
     'menubar': False,
     'inline': False,
-    'extended_valid_elements': 'span[class|aria-hidden|data-toggle|title]',  # required for glpyhicons
+    'extended_valid_elements': 'span[class|aria-hidden|data-toggle|title],'  # required for glyphicons
+                               'i[class]',  # required for fontawesome
     'style_formats': [
         {'title': 'Headers', 'items': [
             # NOTE: <h1> is already the page title, so actual h-level is one level down from tite

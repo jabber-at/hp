@@ -146,7 +146,7 @@ class BasePage(BaseModel):
 
     def cleanup_html(self, html):
         """Cleanup HTML for HTML summaries (e.g. RSS feeds)."""
-        tags = ['a', 'p', 'strong', 'ul', 'ol', 'li']
+        tags = ['a', 'p', 'strong', 'ul', 'ol', 'li', 'i', ]
         attrs = {
             'a': ['href', ],
         }
