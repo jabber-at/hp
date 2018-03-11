@@ -330,7 +330,7 @@ TINYMCE_DEFAULT_CONFIG = {
     ],
     # Displays the current HTML tree (e.g. "p > strong > ...") at the bottom
     #'statusbar': False,
-    'height': 200,
+    'height': 300,
 
     # codesample
     'codesample_languages': [
