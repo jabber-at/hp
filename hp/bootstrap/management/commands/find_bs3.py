@@ -42,6 +42,9 @@ TAGS = {
     'btn-default': 'Rename .btn-default to .btn-secondary.',
     'old-labels':
         'Labels have been renamed to badges, see http://getbootstrap.com/docs/4.0/components/badge/.',
+    'glyphicon': 'Found an old Glyphicon, which are no longer supported by Bootstrap4. '
+                 'Use fontawesome icons instead, which are now integrated into the editor. Old Glyphicons '
+                 'will show up as "DEPRECATED GLYPHICON" in the editor.'
 }
 
 
@@ -98,6 +101,8 @@ class Command(BaseCommand):
                 self.log_tag(obj, 'btn-default', lang)
             if html.cssselect('span.label'):
                 self.log_tag(obj, 'old-labels', lang)
+            if html.cssselect('.glyphicon'):
+                self.log_tag(obj, 'glyphicon', lang)
 
     def handle(self, *args, **options):
         if options['tag']:

@@ -7,3 +7,6 @@ table.table {
     width: 95%;
     margin-left: 10px;
 }
+.glyphicon:before {
+    content: "DEPRECATED GLYPHICON";
+}
