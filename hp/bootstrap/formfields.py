@@ -43,21 +43,6 @@ class BoundField(forms.boundfield.BoundField):
         if self.field.formgroup_class:
             fg_attrs['class'] += ' %s' % self.field.formgroup_class
 
-        if self.errors:
-            fg_attrs['class'] += ' has-error'
-
-        # Add the success class only in bound (=submitted) and if the field has the add_success
-        # property set to True (and there are no errors, obviously).
-        elif self.form.is_bound and not self.errors and self.field.add_success:
-            # Add the class only if the field is required or data was actually submitted.  The
-            # class is thus not added if the user did not enter any data to a field that was not
-            # required.
-            if self.field.required or self.data:
-                fg_attrs['class'] += ' has-success'
-
-        if getattr(self.field.widget, 'feedback', False):
-            fg_attrs['class'] += ' has-feedback'  # used by glyphicons
-
         # If the form is bound, we add .was-validated for form validation
         if self.form.is_bound:
             fg_attrs['class'] += ' was-validated'
@@ -74,10 +59,6 @@ class BoundField(forms.boundfield.BoundField):
     @property
     def inline_help(self):
         return self.field.get_inline_help()
-
-    @property
-    def glyphicon(self):
-        raise Exception('glyphicon()')
 
     def build_widget_attrs(self, attrs, widget):
         attrs = super(BoundField, self).build_widget_attrs(attrs, widget)
