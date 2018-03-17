@@ -18,7 +18,7 @@ from django.conf import settings
 from django.utils.html import format_html
 from django.utils.translation import ugettext_lazy as _
 
-from bootstrap.widgets import BootstrapMultiWidget
+from bootstrap.widgets import BootstrapFieldsetWidget
 from bootstrap.widgets import BootstrapTextInput
 
 
@@ -33,15 +33,15 @@ class NodeWidget(BootstrapTextInput):
         attrs['pattern'] = '[^@ ]{%s,%s}' % (settings.MIN_USERNAME_LENGTH,
                                              settings.MAX_USERNAME_LENGTH)
         #attrs['title'] = _('At least 2 characters, no "@" or spaces.')
+        self.register = kwargs.pop('register', False)
         super(NodeWidget, self).__init__(attrs=attrs, **kwargs)
 
     def build_attrs(self, *args, **kwargs):
         attrs = super(NodeWidget, self).build_attrs(*args, **kwargs)
-        attrs['title'] = _(
-            'At least %(MIN_LENGTH)s and up to %(MAX_LENGTH)s characters. No "@" or spaces.') % {
-            'MIN_LENGTH': settings.MIN_USERNAME_LENGTH,
-            'MAX_LENGTH': settings.MAX_USERNAME_LENGTH,
-        }
+
+        if self.register:
+            attrs['data-check-existance'] = 'true'
+
         return attrs
 
     def render(self, *args, **kwargs):
@@ -84,7 +84,7 @@ class FingerprintWidget(BootstrapTextInput):
         )
 
 
-class UsernameWidget(BootstrapMultiWidget):
+class UsernameWidget(BootstrapFieldsetWidget):
     feedback = True
 
     def decompress(self, value):
