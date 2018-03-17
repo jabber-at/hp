@@ -47,10 +47,14 @@ class BoundField(forms.boundfield.BoundField):
         if self.form.is_bound:
             fg_attrs['class'] += ' was-validated'
 
+        if self.horizontal:
+            fg_attrs['class'] += ' row'
+
         return flatatt(fg_attrs)
 
-    def input_grid_attrs(self):
-        return flatatt(self.field.get_input_grid_attrs())
+    @property
+    def horizontal(self):
+        return getattr(self.field, 'horizontal', True)
 
     @property
     def help_id(self):
@@ -81,20 +85,24 @@ class BoundField(forms.boundfield.BoundField):
     def formgroup(self):
         renderer = self.form.renderer or get_default_renderer()
         context = {'field': self}
-        print(self.field.formgroup_template)
         return mark_safe(renderer.render(self.field.formgroup_template, context))
+
+    def get_label_attrs(self):
+        return self.field.get_label_attrs()
 
     def label_tag(self, contents=None, attrs=None, label_suffix=None):
         """Add the control-label and col-sm-2 class to label tags."""
 
         attrs = attrs or {}
-        if 'class' in attrs:
-            attrs['class'] += ' control-label %s' % self.field.get_label_grid_class()
-        else:
-            attrs['class'] = 'control-label %s' % self.field.get_label_grid_class()
+        label_attrs = self.get_label_attrs()
 
-        if self.field.hide_label is True:
-            attrs['class'] += ' sr-only'
+        # Handle classes separately, so they are not overwritten
+        label_classes = label_attrs.pop('class', None)
+        if label_classes:
+            if 'class' in attrs:
+                attrs['class'] += ' %s' % label_classes
+            else:
+                attrs['class'] = label_classes
 
         return super(BoundField, self).label_tag(contents, attrs=attrs, label_suffix=label_suffix)
 
@@ -105,9 +113,14 @@ class BootstrapMixin(object):
     add_success = True
     formgroup_class = None
     hide_label = False
+
+    # TODO: Override this
+    col_class = 'sm'
     label_cols = 2
     input_cols = 10
-    col_class = 'sm'
+
+    horizontal = True
+    """Display this field as a horizontal form group."""
 
     inline_help = False
     """Set to True to display help block inline."""
@@ -116,6 +129,9 @@ class BootstrapMixin(object):
 
     def __init__(self, **kwargs):
         self.formgroup_attrs = kwargs.pop('formgroup_attrs', {})
+
+        if 'horizontal' in kwargs:
+            self.horizontal = kwargs.pop('horizontal')
 
         if 'add_success' in kwargs:
             self.add_success = kwargs.pop('add_success')
@@ -130,14 +146,22 @@ class BootstrapMixin(object):
     def get_inline_help(self):
         return self.inline_help
 
-    def get_label_grid_class(self):
-        return 'col-%s-%s' % (self.col_class, self.label_cols)
-
     def get_input_grid_class(self):
         return 'col-%s-%s' % (self.col_class, self.input_cols)
 
     def get_input_grid_attrs(self):
         return {'class': self.get_input_grid_class()}
+
+    def get_label_attrs(self):
+        cls = []
+        if self.hide_label is True:
+            cls.append('sr-only')
+
+        if self.horizontal:
+            cls.append('col-%s-%s' % (self.col_class, self.label_cols))
+            cls.append('col-form-label')
+
+        return {'class': ' '.join(cls)}
 
     def get_bound_field(self, form, field_name):
         return BoundField(form, self, field_name)
