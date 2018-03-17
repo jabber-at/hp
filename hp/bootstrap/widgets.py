@@ -90,7 +90,7 @@ class BootstrapPasswordInput(BootstrapWidgetMixin, forms.PasswordInput):
 
 
 class BootstrapSelect(BootstrapWidgetMixin, forms.Select):
-    pass
+    input_class = 'custom-select'
 
 
 class BootstrapFileInput(BootstrapWidgetMixin, forms.ClearableFileInput):
