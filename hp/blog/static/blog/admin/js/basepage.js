@@ -144,10 +144,14 @@ var tinymce_setup = function(editor) {
 
         onselect: function (e) {
             /**
-             * NOTE: We append a zero-width space at the end of the span because otherwise adding a
-             * Glyph in an empty paragraph eates the next element.
+             * NOTE: 
+             *
+             * (1) We append a zero-width space at the *end* of the span because otherwise adding a Glyph in
+             *     an empty paragraph eates the next element.
+             * (2) We prepend a zero-width space at the beginning, because otherwise adding a Glyph in an
+             *     empty paragraph will make it undeletable.
              */
-            editor.insertContent('<span class="fas fa-' + this.value() + '"></span>&#x200b;');
+            editor.insertContent('&#x200b;<span class="fas fa-' + this.value() + '"></span>&#x200b;');
         },
         values: function() {
             //alert('values!');
