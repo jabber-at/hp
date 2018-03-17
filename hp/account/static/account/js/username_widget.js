@@ -1,87 +1,61 @@
-/**
- * Revert the username input field back to the default state, as if the user
- * hasn't entered anyting.
- */
-var default_username_state = function(form_group) {
-    form_group.removeClass('was-validated');
+var check_username = function(input, timer) {
+    let minlength = parseInt(input.attr('minlength'), 10);
+    let is_validating = input.data('validating');
+    let value = input.val();
 
-    form_group.find('#status-check span').hide();
-    form_group.find('.errorlist').hide();
-    form_group.find('#status-check span#default').show();
-}
-var show_username_local_error = function(form_group, error) {
-    form_group.addClass('was-validated');
-    form_group.find('input[type="text"]').setCustomValidity('foo');
+    // As soon as the user has entered the amount of minimum characters once, we start validating.
+    // The "validating" property is already present on any submitted form.
+    if (value.length >= minlength && is_validating === undefined) {
+        is_validating = true;
+        input.data('validating', true);
+    }
 
-    form_group.find('#status-check span').hide();
-    form_group.find('#status-check span#invalid').show();
-    form_group.find('.fas').addClass('fa-times').removeClass('fa-check');
-};
-var show_username_available = function(form_group) {
-    form_group.addClass('was-validated');
-    form_group.find('input[type="text"]').setCustomValidity('');
-
-    form_group.find('.errorlist').hide();
-    form_group.find('#status-check span').hide();
-    form_group.find('#status-check span#username-available').show();
-}
-var show_username_not_available = function(form_group) {
-    form_group.addClass('was-validated');
-
-    form_group.find('.errorlist').hide();
-    form_group.find('#status-check span').hide();
-    form_group.find('#status-check span#username-not-available').show();
-}
-
-var show_username_error = function(form_group) {
-    form_group.addClass('was-validated');
-
-    form_group.find('.errorlist').hide();
-    form_group.find('#status-check span').hide();
-    form_group.find('#status-check span#error').show();
-}
-
-var check_username = function(form_group) {
-    var val = form_group.find('input#id_username_0').val();
-
-//TODO
-//    if (val.length < MIN_USERNAME_LENGTH) {
-    if (val.length < 2) {
-        default_username_state(form_group);
-        return;
-//TODO
-//    } else if (/[@\s]/.test(val) || val.length > MAX_USERNAME_LENGTH) {
-    } else if (/[@\s]/.test(val) || val.length > 64) {
-        show_username_local_error(form_group);
+    // We are not validating at this point, so return right away.
+    else if (is_validating === undefined) {
         return;
     }
 
-    var username = form_group.find('input#id_username_0').val();
-    var domain = form_group.find('select#id_username_1 option:selected').val();
+    let form_group = input.parents('.form-group.form-group-username');
+    form_group.addClass('was-validated');
 
-    var exists_url = $('meta[name="account:api-check-user"]').attr('content');
+    let check_existance = input.data('check-existance');
+    if (check_existance) {
+        clearTimeout(timer);
 
-    $.post(exists_url, {
-        username: username,
-        domain: domain
-    }).done(function(data) { // user exists!
-        show_username_available(form_group);
-    }).fail(function(data) {
-        if (data.status == 409) {  // 409 = HTTP conflict -> The user already exists.
-            show_username_not_available(form_group);
+        if (! input.validity.valid) {
+            console.log("Username is not valid, hide any availability message.");
         } else {
-            show_username_error(form_group);
+            timer = setTimeout(function() {
+                let domain = form_group.find('select#id_username_1 option:selected').val();
+                let exists_url = $('meta[name="account:api-check-user"]').attr('content');
+
+                $.post(exists_url, {
+                    username: value,
+                    domain: domain
+                }).done(function(data) { // user exists!
+                    //show_username_available(form_group);
+                    console.log('AVAILABLE');
+                }).fail(function(data) {
+                    if (data.status == 409) {  // 409 = HTTP conflict -> The user already exists.
+                        //show_username_not_available(form_group);
+                        console.log('NOT AVAILABLE');
+                    } else {
+                        //show_username_error(form_group);
+                        console.log('ERROR');
+                    }
+                });
+            }, 1000);
         }
-    });
+    }
 };
 
 $(document).ready(function() {
+    var username_timer;
+
     $('#id_username_0.status-check').on('input propertychange paste', function(e) {
-        var form_group = $(e.target).parents('.form-group.form-group-username');
-        check_username(form_group);
+        check_username($(e.target), username_timer);
     });
     $('#id_username_1.status-check').change(function(e) {
-        var form_group = $(e.target).parents('.form-group.form-group-username');
-        check_username(form_group);
+        check_username($(e.target), username_timer);
     });
 });
