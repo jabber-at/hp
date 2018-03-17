@@ -68,6 +68,11 @@ class BoundField(forms.boundfield.BoundField):
         return 'hb_%s' % self.html_name
 
     @property
+    def inline_help(self):
+        print(self.field.get_inline_help())
+        return self.field.get_inline_help()
+
+    @property
     def glyphicon(self):
         raise Exception('glyphicon()')
 
@@ -119,6 +124,9 @@ class BootstrapMixin(object):
     input_cols = 10
     col_class = 'sm'
 
+    inline_help = False
+    """Set to True to display help block inline."""
+
     formgroup_template = 'bootstrap/forms/formgroup.html'
 
     def __init__(self, **kwargs):
@@ -133,6 +141,9 @@ class BootstrapMixin(object):
         self.hide_label = kwargs.pop('hide_label', self.hide_label)
 
         super(BootstrapMixin, self).__init__(**kwargs)
+
+    def get_inline_help(self):
+        return self.inline_help
 
     def get_label_grid_class(self):
         return 'col-%s-%s' % (self.col_class, self.label_cols)

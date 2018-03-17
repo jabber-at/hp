@@ -4,8 +4,9 @@
   <div{{ field.input_grid_attrs }}>
     {{ field }}
 
+    {% block help-text %}{% include "bootstrap/forms/includes/help_text.html" %}{% endblock %}
+
     <div id="{{ field.help_id }}" class="help-block">
-      {{ field.help_text|safe }}
       {{ field.errors }}
     </div>
   </div>
