@@ -1,5 +1,13 @@
 <div{{ field.formgroup_attrs }}>
   {{ field.label_tag }}
-  {{ field }}
+  {% if field.horizontal %}
+    {% with attrs=field.get_horizontal_wrapper_attrs %}
+    <div {% include "bootstrap/forms/includes/attrs.html" %}>
+      {{ field }}
+    </div>
+    {% endwith %}
+  {% else %}
+    {{ field }}
+  {% endif %}
   {% block help-text %}{% if field.help_text %}{% include "bootstrap/forms/includes/help_text.html" %}{% endif %}{% endblock %}
 </div>

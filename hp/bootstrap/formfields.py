@@ -56,6 +56,9 @@ class BoundField(forms.boundfield.BoundField):
     def horizontal(self):
         return getattr(self.field, 'horizontal', True)
 
+    def get_horizontal_wrapper_attrs(self):
+        return self.field.get_horizontal_wrapper_attrs()
+
     @property
     def help_id(self):
         return 'hb_%s' % self.html_name
@@ -114,7 +117,7 @@ class BootstrapMixin(object):
     formgroup_class = None
     hide_label = False
 
-    # TODO: Override this
+    # TODO: Rework this
     col_class = 'sm'
     label_cols = 2
     input_cols = 10
@@ -147,12 +150,19 @@ class BootstrapMixin(object):
         return self.inline_help
 
     def get_input_grid_class(self):
+        raise Exception('deprecated')
         return 'col-%s-%s' % (self.col_class, self.input_cols)
 
     def get_input_grid_attrs(self):
+        raise Exception('deprecated')
         return {'class': self.get_input_grid_class()}
 
+    def get_horizontal_wrapper_attrs(self):
+        return {'class': 'col-%s-%s' % (self.col_class, self.input_cols)}
+
     def get_label_attrs(self):
+        """Get attributes for the label tag."""
+
         cls = []
         if self.hide_label is True:
             cls.append('sr-only')
