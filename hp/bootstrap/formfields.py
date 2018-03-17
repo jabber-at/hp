@@ -158,7 +158,8 @@ class BootstrapMixin(object):
         return {'class': self.get_input_grid_class()}
 
     def get_horizontal_wrapper_attrs(self):
-        return {'class': 'col-%s-%s' % (self.col_class, self.input_cols)}
+        classes = 'col-%s-%s' % (self.col_class, self.input_cols)
+        return {'class': classes}
 
     def get_label_attrs(self):
         """Get attributes for the label tag."""

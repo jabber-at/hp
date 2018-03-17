@@ -60,10 +60,6 @@ class BootstrapMultiWidget(BootstrapWidgetMixin, forms.MultiWidget):
     template_name = 'bootstrap/forms/widgets/multiwidget.html'
 
 
-class BootstrapFieldsetWidget(BootstrapWidgetMixin, forms.MultiWidget):
-    template_name = 'bootstrap/forms/widgets/fieldset.html'
-
-
 class BootstrapTextInput(BootstrapWidgetMixin, forms.TextInput):
     template_name = 'bootstrap/forms/widgets/text.html'
 

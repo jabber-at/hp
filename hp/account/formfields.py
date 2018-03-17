@@ -66,8 +66,11 @@ class UsernameField(BootstrapMixin, forms.MultiValueField):
         widgets = [f.widget for f in fields]
 
         attrs = {}
-        if self.register is True:
-            attrs['class'] = 'status-check'
+#        if self.register is True:
+#            if attrs.get('class'):
+#                attrs['class'] += ' status-check'
+#            else:
+#                attrs['class'] = 'status-check'
 
         self.widget = UsernameWidget(widgets=widgets, attrs=attrs)
         super(UsernameField, self).__init__(fields=fields, require_all_fields=True, **kwargs)

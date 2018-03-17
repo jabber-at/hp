@@ -13,12 +13,12 @@
 # You should have received a copy of the GNU General Public License along with django-xmpp-account.
 # If not, see <http://www.gnu.org/licenses/>.
 
-from django import forms
 from django.conf import settings
 from django.utils.html import format_html
 from django.utils.translation import ugettext_lazy as _
 
-from bootstrap.widgets import BootstrapFieldsetWidget
+from bootstrap.widgets import BootstrapMultiWidget
+from bootstrap.widgets import BootstrapSelect
 from bootstrap.widgets import BootstrapTextInput
 
 
@@ -49,21 +49,13 @@ class NodeWidget(BootstrapTextInput):
         return format_html('<div class="col-sm-8">{}</div>', html)
 
 
-class DomainWidget(forms.Select):
+class DomainWidget(BootstrapSelect):
     """The widget used for rendering the domain part of a username."""
 
-    def render(self, name, value, attrs):
-        # If there is just one choice, we set the 'disabled' property to the select widget. Since
-        # "disabled" widgets are not submitted, we add an additional hidden input with the correct
-        # name.
-        if len(self.choices) == 1:
-            attrs['disabled'] = 'disabled'
-            html = super(DomainWidget, self).render('', value, attrs)
-            html += forms.HiddenInput().render(name, self.choices[0][0], {})
-        else:
-            html = super(DomainWidget, self).render(name, value, attrs)
-
-        return format_html('<div class="col-sm-4">{}</div>', html)
+    def build_attrs(self, *args, **kwargs):
+        attrs = super().build_attrs(*args, **kwargs)
+        attrs['class'] += ' custom-select'
+        return attrs
 
 
 class FingerprintWidget(BootstrapTextInput):
@@ -84,7 +76,8 @@ class FingerprintWidget(BootstrapTextInput):
         )
 
 
-class UsernameWidget(BootstrapFieldsetWidget):
+class UsernameWidget(BootstrapMultiWidget):
+    template_name = "account/widgets/username.html"
     feedback = True
 
     def decompress(self, value):
