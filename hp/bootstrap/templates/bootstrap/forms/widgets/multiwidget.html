@@ -1,4 +1,5 @@
 <div class="row">
+{% block before-multiwidget %}{% endblock before-multiwidget %}
 {% with widget=widget.subwidgets.0 %}
   <div class="col-sm-8">
     {% include widget.template_name %}
@@ -9,4 +10,5 @@
     {% include widget.template_name %}
   </div>
 {% endwith %}
+{% block after-multiwidget %}{% endblock after-multiwidget %}
 </div>

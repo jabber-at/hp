@@ -81,6 +81,7 @@ class BoundField(forms.boundfield.BoundField):
     def formgroup(self):
         renderer = self.form.renderer or get_default_renderer()
         context = {'field': self}
+        print(self.field.formgroup_template)
         return mark_safe(renderer.render(self.field.formgroup_template, context))
 
     def label_tag(self, contents=None, attrs=None, label_suffix=None):
