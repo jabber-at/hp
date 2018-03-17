@@ -58,6 +58,10 @@ class BoundField(forms.boundfield.BoundField):
         if getattr(self.field.widget, 'feedback', False):
             fg_attrs['class'] += ' has-feedback'  # used by glyphicons
 
+        # If the form is bound, we add .was-validated for form validation
+        if self.form.is_bound:
+            fg_attrs['class'] += ' was-validated'
+
         return flatatt(fg_attrs)
 
     def input_grid_attrs(self):
@@ -69,7 +73,6 @@ class BoundField(forms.boundfield.BoundField):
 
     @property
     def inline_help(self):
-        print(self.field.get_inline_help())
         return self.field.get_inline_help()
 
     @property
@@ -85,12 +88,12 @@ class BoundField(forms.boundfield.BoundField):
             #   http://getbootstrap.com/css/#forms-help-text
             attrs['aria-describedby'] = self.help_id
 
-        # HACK: we pass the status as attribute that is then pop()'d by widget context
+        # Add valid/invalid properties if the form was submitted already
         if self.form.is_bound:
             if self.errors:
-                attrs['status'] = 'error'
+                attrs['invalid'] = True
             elif self.field.required:
-                attrs['status'] = 'ok'
+                attrs['valid'] = True
 
         return attrs
 
