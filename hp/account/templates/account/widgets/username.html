@@ -1,4 +1,4 @@
-<div class="input-group">
+{% load i18n %}<div class="input-group">
 {% with widget=widget.subwidgets.0 %}
   {% include widget.template_name %}
 {% endwith %}
@@ -10,4 +10,14 @@
 {% with widget=widget.subwidgets.1 %}
   {% include widget.template_name %}
 {% endwith %}
+<div class="valid-feedback">Looks good!</div>
+<div class="invalid-feedback">
+  <span class="username-exists">
+    {% trans "This username is already taken." %}
+  </span>
+  <span class="username-invalid">
+    {% trans "The username is invalid." %}
+  </span>
 </div>
+</div>
+

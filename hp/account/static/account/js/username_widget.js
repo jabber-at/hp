@@ -16,15 +16,22 @@ var check_username = function(input, timer) {
     }
 
     let form_group = input.parents('.form-group.form-group-username');
+    let domain_select = form_group.find('select#id_username_1');
     form_group.addClass('was-validated');
+
+    if (input[0].checkValidity()) {
+        domain_select[0].setCustomValidity('');
+    } else {
+        let invalid_msg = form_group.find('.username-invalid').text().trim();
+        domain_select[0].setCustomValidity(invalid_msg);
+    }
 
     let check_existance = input.data('check-existance');
     if (check_existance) {
         clearTimeout(timer);
 
-        if (! input.validity.valid) {
-            console.log("Username is not valid, hide any availability message.");
-        } else {
+        input[0].setCustomValidity('');
+        if (input[0].checkValidity()) {
             timer = setTimeout(function() {
                 let domain = form_group.find('select#id_username_1 option:selected').val();
                 let exists_url = $('meta[name="account:api-check-user"]').attr('content');
@@ -33,18 +40,25 @@ var check_username = function(input, timer) {
                     username: value,
                     domain: domain
                 }).done(function(data) { // user exists!
-                    //show_username_available(form_group);
-                    console.log('AVAILABLE');
+                    input[0].setCustomValidity('');
+                    domain_select[0].setCustomValidity('');
                 }).fail(function(data) {
                     if (data.status == 409) {  // 409 = HTTP conflict -> The user already exists.
-                        //show_username_not_available(form_group);
-                        console.log('NOT AVAILABLE');
+                        let exists_span = form_group.find('.username-exists');
+                        let exists_msg = exists_span.text().trim();
+                        input[0].setCustomValidity(exists_msg);
+                        domain_select[0].setCustomValidity(exists_msg);
+                        exists_span.show();
+                        form_group.find('.username-invalid').hide();
                     } else {
-                        //show_username_error(form_group);
-                        console.log('ERROR');
+                        input[0].setCustomValidity('ERROR');
+                        domain_select[0].setCustomValidity('ERROR');
                     }
                 });
-            }, 1000);
+            }, 100);
+        } else {
+            form_group.find('.username-exists').hide();
+            form_group.find('.username-invalid').show();
         }
     }
 };
@@ -52,10 +66,10 @@ var check_username = function(input, timer) {
 $(document).ready(function() {
     var username_timer;
 
-    $('#id_username_0.status-check').on('input propertychange paste', function(e) {
+    $('#id_username_0').on('input propertychange paste', function(e) {
         check_username($(e.target), username_timer);
     });
-    $('#id_username_1.status-check').change(function(e) {
+    $('#id_username_1').change(function(e) {
         check_username($(e.target), username_timer);
     });
 });
