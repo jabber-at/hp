@@ -47,6 +47,10 @@ class UsernameField(BootstrapMixin, forms.MultiValueField):
         else:
             choices = tuple([(d, d) for d in settings.MANAGED_HOSTS.keys()])
 
+        if 'help_text' not in kwargs:
+            if self.register is True:
+                kwargs['help_text'] = _("Your username is used to identify you on the Jabber network.")
+
         fields = (
             forms.CharField(
                 widget=NodeWidget(register=self.register),
