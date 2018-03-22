@@ -43,9 +43,9 @@ class UsernameField(BootstrapMixin, forms.MultiValueField):
         kwargs.setdefault('label', _('Username'))
 
         if self.register is True:
-            choices = tuple([(d, '@%s' % d) for d in settings.REGISTER_HOSTS.keys()])
+            choices = tuple([(d, d) for d in settings.REGISTER_HOSTS.keys()])
         else:
-            choices = tuple([(d, '@%s' % d) for d in settings.MANAGED_HOSTS.keys()])
+            choices = tuple([(d, d) for d in settings.MANAGED_HOSTS.keys()])
 
         fields = (
             forms.CharField(
