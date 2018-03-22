@@ -20,34 +20,14 @@ class BootstrapWidgetMixin(object):
     input_class = None
     """If set, this CSS class will always be added to the input widget."""
 
-    glyphicon = False
-    """Set to true to add glyphicon for feedback."""
-
-    def __init__(self, attrs=None, glyphicon=None, **kwargs):
+    def __init__(self, attrs=None, **kwargs):
         attrs = attrs or {}
         self._add_class(attrs, 'form-control')
-        if glyphicon is not None:
-            self.glyphicon = glyphicon
 
         if self.input_class is not None:
             self._add_class(attrs, self.input_class)
 
         super(BootstrapWidgetMixin, self).__init__(attrs=attrs, **kwargs)
-
-    def get_context(self, name, value, attrs):
-        status = attrs.pop('status', None)
-        ctx = super(BootstrapWidgetMixin, self).get_context(name, value, attrs)
-        ctx['widget']['status'] = status
-        ctx['widget']['has_glyphicon'] = self.glyphicon
-
-        # Add concrete glyphicon if there is a status
-        if self.glyphicon:
-            if status == 'ok':
-                ctx['widget']['glyphicon'] = 'glyphicon-ok'
-            elif status == 'error':
-                ctx['widget']['glyphicon'] = 'glyphicon-remove'
-
-        return ctx
 
     def _add_class(self, attrs, cls):
         if attrs.get('class'):
@@ -71,8 +51,6 @@ class BootstrapTextarea(BootstrapWidgetMixin, forms.Textarea):
 class BootstrapEmailInput(BootstrapWidgetMixin, forms.EmailInput):
     template_name = 'bootstrap/forms/widgets/text.html'
     input_class = 'valid-email'
-    feedback = True
-    glyphicon = True
 
     class Media:
         js = (
@@ -82,7 +60,6 @@ class BootstrapEmailInput(BootstrapWidgetMixin, forms.EmailInput):
 
 class BootstrapPasswordInput(BootstrapWidgetMixin, forms.PasswordInput):
     template_name = 'bootstrap/forms/widgets/password.html'
-    feedback = True
 
 
 class BootstrapSelect(BootstrapWidgetMixin, forms.Select):

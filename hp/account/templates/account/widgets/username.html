@@ -1,15 +1,22 @@
-{% load i18n %}<div class="input-group">
+{% load i18n %}<div class="form-row">
+<div class="col-md-6">
+  {# todo: input should get mb-3 mb-md-0 classes #}
 {% with widget=widget.subwidgets.0 %}
   {% include widget.template_name %}
 {% endwith %}
-
-<div class="input-group-prepend">
-  <span class="input-group-text" id="basic-addon1">@</span>
 </div>
 
-{% with widget=widget.subwidgets.1 %}
-  {% include widget.template_name %}
-{% endwith %}
+<div class="col-md-6">
+  <div class="input-group">
+    <div class="input-group-prepend">
+      <span class="input-group-text" id="basic-addon1">@</span>
+    </div>
+
+    {% with widget=widget.subwidgets.1 %}
+      {% include widget.template_name %}
+    {% endwith %}
+  </div>
+</div>
 <div class="valid-feedback">Looks good!</div>
 <div class="invalid-feedback">
   <span class="username-exists">

@@ -61,7 +61,6 @@ class DomainWidget(BootstrapSelect):
 class FingerprintWidget(BootstrapTextInput):
     input_class = 'gpg-fingerprint'
     feedback = True
-    glyphicon = True
 
     def __init__(self, attrs=None, **kwargs):
         attrs = attrs or {}
