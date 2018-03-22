@@ -1,12 +1,11 @@
 {% load i18n %}<div class="form-row">
-<div class="col-md-8">
-  {# todo: input should get mb-3 mb-md-0 classes #}
+<div class="col-md-6 col-ld-8">
 {% with widget=widget.subwidgets.0 %}
   {% include widget.template_name %}
 {% endwith %}
 </div>
 
-<div class="col-md-4">
+<div class="col-md-6 col-ld-4">
   <div class="input-group">
     <div class="input-group-prepend">
       <span class="input-group-text" id="basic-addon1">@</span>
@@ -17,14 +16,15 @@
     {% endwith %}
   </div>
 </div>
-<div class="valid-feedback">Looks good!</div>
-<div class="invalid-feedback">
-  <span class="username-exists">
-    {% trans "This username is already taken." %}
-  </span>
-  <span class="username-invalid">
-    {% trans "The username is invalid." %}
-  </span>
-</div>
 </div>
 
+<div class="valid-feedback">Looks good!</div>
+<div class="invalid-feedback invalid-exists">
+  {% trans "This username is already taken." %}
+</div>
+<div class="invalid-feedback invalid-syntax">
+    {% trans "The username is invalid." %}
+</div>
+<div class="invalid-feedback invalid-error">
+    {% trans "Could not check if the username already exists: Error communicating with the server." %}
+</div>

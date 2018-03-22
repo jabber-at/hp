@@ -35,7 +35,6 @@ class NodeWidget(MergeClassesMixin, BootstrapTextInput):
         attrs = attrs or {}
         attrs['pattern'] = '[^@ ]{%s,%s}' % (settings.MIN_USERNAME_LENGTH,
                                              settings.MAX_USERNAME_LENGTH)
-        #attrs['title'] = _('At least 2 characters, no "@" or spaces.')
         self.register = kwargs.pop('register', False)
         super(NodeWidget, self).__init__(attrs=attrs, **kwargs)
 
@@ -86,6 +85,11 @@ class UsernameWidget(BootstrapMultiWidget):
         return '', settings.DEFAULT_XMPP_HOST
 
     class Media:
+        css = {
+            'all': (
+                'account/css/username_widget.css',
+            ),
+        }
         js = (
             'account/js/username_widget.js',
         )

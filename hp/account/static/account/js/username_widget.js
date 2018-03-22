@@ -19,10 +19,21 @@ var check_username = function(input, timer) {
     let domain_select = form_group.find('select#id_username_1');
     form_group.addClass('was-validated');
 
+    input[0].setCustomValidity('');
     if (input[0].checkValidity()) {
+        form_group.addClass('fg-valid');
+        form_group.removeClass('fg-invalid-syntax');
+        form_group.removeClass('fg-invalid-exists');
+        form_group.removeClass('fg-invalid-error');
+
         domain_select[0].setCustomValidity('');
     } else {
-        let invalid_msg = form_group.find('.username-invalid').text().trim();
+        form_group.addClass('fg-invalid-syntax');
+        form_group.removeClass('fg-valid');
+        form_group.removeClass('fg-invalid-exists');
+        form_group.removeClass('fg-invalid-error');
+
+        let invalid_msg = form_group.find('.invalid-exists').text().trim();
         domain_select[0].setCustomValidity(invalid_msg);
     }
 
@@ -44,21 +55,22 @@ var check_username = function(input, timer) {
                     domain_select[0].setCustomValidity('');
                 }).fail(function(data) {
                     if (data.status == 409) {  // 409 = HTTP conflict -> The user already exists.
-                        let exists_span = form_group.find('.username-exists');
-                        let exists_msg = exists_span.text().trim();
+                        let exists_msg = form_group.find('.invalid-exists').text().trim();
                         input[0].setCustomValidity(exists_msg);
                         domain_select[0].setCustomValidity(exists_msg);
-                        exists_span.show();
-                        form_group.find('.username-invalid').hide();
+                        
+                        form_group.addClass('fg-invalid-exists');
+                        form_group.removeClass('fg-valid');
                     } else {
-                        input[0].setCustomValidity('ERROR');
-                        domain_select[0].setCustomValidity('ERROR');
+                        form_group.addClass('fg-invalid-error');
+                        form_group.removeClass('fg-valid');
+
+                        let error_msg = form_group.find('.invalid-error').text().trim();
+                        input[0].setCustomValidity(error_msg);
+                        domain_select[0].setCustomValidity(error_msg);
                     }
                 });
             }, 100);
-        } else {
-            form_group.find('.username-exists').hide();
-            form_group.find('.username-invalid').show();
         }
     }
 };
