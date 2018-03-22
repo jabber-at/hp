@@ -14,6 +14,7 @@
 # If not, see <http://www.gnu.org/licenses/>.
 
 import re
+from collections import OrderedDict
 
 from django import forms
 
@@ -35,11 +36,37 @@ class BootstrapWidgetMixin(object):
 
         super(BootstrapWidgetMixin, self).__init__(attrs=attrs, **kwargs)
 
+    def build_attrs(self, base_attrs, extra_attrs=None):
+        attrs = super().build_attrs(base_attrs, extra_attrs=extra_attrs)
+        self._clean_classes(attrs)
+        return attrs
+
+    def _clean_classes(self, attrs):
+        if not attrs.get('class'):
+            return
+        css_classes = re.sub(' +', ' ', attrs['class']).strip()
+        attrs['class'] = ' '.join(list(OrderedDict.fromkeys(css_classes.split())))
+
     def _add_class(self, attrs, cls):
         if attrs.get('class'):
             attrs['class'] += ' %s' % cls
         else:
             attrs['class'] = cls
+
+
+class MergeClassesMixin(object):
+    """Mixin to merge CSS classes from runtime and from the instances class attributes.
+
+    This is most commonly used in MultiWidgets children, where extra_args contains the CSS classes from the
+    parent widget.
+    """
+
+    def build_attrs(self, base_attrs, extra_attrs=None):
+        if extra_attrs is None or 'class' not in base_attrs or 'class' not in extra_attrs:
+            return super().build_attrs(base_attrs, extra_attrs=extra_attrs)
+
+        extra_attrs['class'] = '%s %s' % (base_attrs.pop('class', ''), extra_attrs.pop('class', ''))
+        return super().build_attrs(base_attrs, extra_attrs=extra_attrs)
 
 
 class BootstrapMultiWidget(BootstrapWidgetMixin, forms.MultiWidget):
