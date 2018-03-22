@@ -86,11 +86,6 @@ class UsernameWidget(BootstrapMultiWidget):
         return '', settings.DEFAULT_XMPP_HOST
 
     class Media:
-        css = {
-            'all': (
-                'account/css/username_widget.css',
-            ),
-        }
         js = (
             'account/js/username_widget.js',
         )
