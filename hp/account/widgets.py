@@ -17,16 +17,19 @@ from django.conf import settings
 from django.utils.html import format_html
 from django.utils.translation import ugettext_lazy as _
 
+from bootstrap.widgets import MergeClassesMixin
 from bootstrap.widgets import BootstrapMultiWidget
 from bootstrap.widgets import BootstrapSelect
 from bootstrap.widgets import BootstrapTextInput
 
 
-class NodeWidget(BootstrapTextInput):
+class NodeWidget(MergeClassesMixin, BootstrapTextInput):
     """The widget used for rendering the node part (before the "@") of a username.
 
     This class is used because we want to render this widget in a bootstrap column.
     """
+
+    css_classes = 'mb-2 mb-md-0'
 
     def __init__(self, attrs=None, **kwargs):
         attrs = attrs or {}
@@ -36,8 +39,8 @@ class NodeWidget(BootstrapTextInput):
         self.register = kwargs.pop('register', False)
         super(NodeWidget, self).__init__(attrs=attrs, **kwargs)
 
-    def build_attrs(self, *args, **kwargs):
-        attrs = super(NodeWidget, self).build_attrs(*args, **kwargs)
+    def build_attrs(self, base_attrs, extra_attrs=None):
+        attrs = super().build_attrs(base_attrs, extra_attrs=extra_attrs)
 
         if self.register:
             attrs['data-check-existance'] = 'true'
