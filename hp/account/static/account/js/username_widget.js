@@ -19,15 +19,16 @@ var check_username = function(input, timer) {
     let domain_select = form_group.find('select#id_username_1');
     form_group.addClass('was-validated');
 
-    input[0].setCustomValidity('');
-    if (input[0].checkValidity()) {
+    let mark_valid = function() {
         form_group.addClass('fg-valid');
         form_group.removeClass('fg-invalid-syntax');
         form_group.removeClass('fg-invalid-exists');
         form_group.removeClass('fg-invalid-error');
 
+        input[0].setCustomValidity('');
         domain_select[0].setCustomValidity('');
-    } else {
+    }
+    let invalid_syntax = function() {
         form_group.addClass('fg-invalid-syntax');
         form_group.removeClass('fg-valid');
         form_group.removeClass('fg-invalid-exists');
@@ -38,10 +39,11 @@ var check_username = function(input, timer) {
     }
 
     let check_existance = input.data('check-existance');
+    input[0].setCustomValidity('');
+
     if (check_existance) {
         clearTimeout(timer);
 
-        input[0].setCustomValidity('');
         if (input[0].checkValidity()) {
             timer = setTimeout(function() {
                 let domain = form_group.find('select#id_username_1 option:selected').val();
@@ -51,8 +53,7 @@ var check_username = function(input, timer) {
                     username: value,
                     domain: domain
                 }).done(function(data) { // user exists!
-                    input[0].setCustomValidity('');
-                    domain_select[0].setCustomValidity('');
+                    mark_valid();
                 }).fail(function(data) {
                     if (data.status == 409) {  // 409 = HTTP conflict -> The user already exists.
                         let exists_msg = form_group.find('.invalid-exists').text().trim();
@@ -71,6 +72,14 @@ var check_username = function(input, timer) {
                     }
                 });
             }, 100);
+        } else {
+            invalid_syntax();
+        }
+    } else {
+        if (input[0].checkValidity()) {
+            mark_valid();
+        } else {
+            invalid_syntax();
         }
     }
 };
