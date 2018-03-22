@@ -84,11 +84,6 @@ class BootstrapTextarea(BootstrapWidgetMixin, forms.Textarea):
 class BootstrapEmailInput(BootstrapWidgetMixin, forms.EmailInput):
     template_name = 'bootstrap/forms/widgets/text.html'
 
-    class Media:
-        js = (
-            'bootstrap/js/email_input.js',
-        )
-
 
 class BootstrapPasswordInput(BootstrapWidgetMixin, forms.PasswordInput):
     template_name = 'bootstrap/forms/widgets/password.html'

@@ -187,7 +187,6 @@ _DEFAULT_JS_FILES = [
     'account/js/fingerprint_widget.js',
     'account/js/notifications.js',
     'bootstrap/js/file_input.js',
-    'bootstrap/js/email_input.js',
     'certs/certificate.js',
 ]
 CSS_FILES = None
