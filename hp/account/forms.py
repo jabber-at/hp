@@ -129,7 +129,7 @@ class AdminUserForm(forms.ModelForm):
 
 
 class CreateUserForm(GPGMixin, CaptchaFormMixin, EmailValidationMixin, forms.ModelForm):
-    username = UsernameField(register=True, help_text="foo")
+    username = UsernameField(register=True)
     email = EmailVerifiedDomainField(
         label=_('Email'),
         help_text=_('Required, a confirmation email will be sent to this address.')
