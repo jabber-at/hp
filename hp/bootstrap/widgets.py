@@ -13,19 +13,25 @@
 # You should have received a copy of the GNU General Public License along with django-xmpp-account.
 # If not, see <http://www.gnu.org/licenses/>.
 
+import re
+
 from django import forms
 
 
 class BootstrapWidgetMixin(object):
-    input_class = None
-    """If set, this CSS class will always be added to the input widget."""
+    css_classes = ''
+    """CSS classes to be added to this element."""
 
-    def __init__(self, attrs=None, **kwargs):
+    def __init__(self, attrs=None, css_classes='', **kwargs):
         attrs = attrs or {}
         self._add_class(attrs, 'form-control')
 
-        if self.input_class is not None:
-            self._add_class(attrs, self.input_class)
+        # handle css_classes
+        for cls in self.__class__.mro():
+            css_classes += ' %s' % getattr(cls, 'css_classes', '')
+        css_classes = re.sub(' +', ' ', css_classes).strip()
+        if css_classes:
+            self._add_class(attrs, css_classes)
 
         super(BootstrapWidgetMixin, self).__init__(attrs=attrs, **kwargs)
 
@@ -50,7 +56,7 @@ class BootstrapTextarea(BootstrapWidgetMixin, forms.Textarea):
 
 class BootstrapEmailInput(BootstrapWidgetMixin, forms.EmailInput):
     template_name = 'bootstrap/forms/widgets/text.html'
-    input_class = 'valid-email'
+    css_classes = 'valid-email'
 
     class Media:
         js = (
@@ -63,11 +69,11 @@ class BootstrapPasswordInput(BootstrapWidgetMixin, forms.PasswordInput):
 
 
 class BootstrapSelect(BootstrapWidgetMixin, forms.Select):
-    input_class = 'custom-select'
+    css_classes = 'custom-select'
 
 
 class BootstrapFileInput(BootstrapWidgetMixin, forms.ClearableFileInput):
-    input_class = 'upload-button'
+    css_classes = 'upload-button'
     template_name = 'bootstrap/forms/widgets/clearable_file_input.html'
 
     class Media:

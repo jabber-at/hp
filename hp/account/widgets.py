@@ -59,8 +59,7 @@ class DomainWidget(BootstrapSelect):
 
 
 class FingerprintWidget(BootstrapTextInput):
-    input_class = 'gpg-fingerprint'
-    feedback = True
+    css_classes = 'gpg-fingerprint'
 
     def __init__(self, attrs=None, **kwargs):
         attrs = attrs or {}
@@ -77,7 +76,6 @@ class FingerprintWidget(BootstrapTextInput):
 
 class UsernameWidget(BootstrapMultiWidget):
     template_name = "account/widgets/username.html"
-    feedback = True
 
     def decompress(self, value):
         if value:
