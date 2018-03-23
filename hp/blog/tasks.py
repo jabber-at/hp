@@ -10,8 +10,8 @@
 # even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
 # General Public License for more details.
 #
-# You should have received a copy of the GNU General Public License along with django-xmpp-account.
-# If not, see <http://www.gnu.org/licenses/>.
+# You should have received a copy of the GNU General Public License along with this project. If
+# not, see <http://www.gnu.org/licenses/>.
 
 import tempfile
 from urllib.parse import urljoin
