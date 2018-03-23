@@ -13,11 +13,21 @@
 # You should have received a copy of the GNU General Public License along with this project. If not, see
 # <http://www.gnu.org/licenses/>.
 
-import doctest
+import re
+from collections import OrderedDict
 
-from . import utils
 
+def clean_classes(attrs):
+    """Clean classes so that every class occurs only once and each class is separated by exactly one space.
 
-def load_tests(loader, tests, ignore):
-    tests.addTests(doctest.DocTestSuite(utils))
-    return tests
+    The order of returned classes is in order of first appearance.
+
+    >>> attrs = {'class': ' foo  bar   whatever bar '}
+    >>> clean_classes(attrs)
+    >>> attrs
+    {'class': 'foo bar whatever'}
+    """
+    if not attrs.get('class'):
+        return
+    css_classes = re.sub(' +', ' ', attrs['class']).strip()
+    attrs['class'] = ' '.join(list(OrderedDict.fromkeys(css_classes.split())))
