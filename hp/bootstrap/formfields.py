@@ -19,6 +19,7 @@ from django.forms.renderers import get_default_renderer
 from django.forms.utils import flatatt
 from django.utils.functional import Promise
 from django.utils.html import mark_safe
+from django.utils.translation import ugettext_lazy as _
 
 from . import widgets
 
@@ -151,6 +152,9 @@ class BootstrapMixin(object):
     min_validation_length = False
     """Start JavaScript validation at the given length."""
 
+    valid_feedback = None
+    invalid_feedback = None
+
     formgroup_template = 'bootstrap/forms/formgroup.html'
     feedback_template = 'bootstrap/forms/feedback.html'
 
@@ -166,15 +170,8 @@ class BootstrapMixin(object):
         if 'min_validation_length' in kwargs:
             self.min_validation_length = kwargs.pop('min_validation_length')
 
-        self.valid_feedback = kwargs.pop('valid_feedback', {})
-        if isinstance(self.valid_feedback, (Promise, str)):  # Promise == translated string
-            self.valid_feedback = {'': self.valid_feedback, }
-
-        if 'invalid_feedback' in kwargs:
-            print(kwargs['invalid_feedback'])
-        self.invalid_feedback = kwargs.pop('invalid_feedback', {})
-        if isinstance(self.invalid_feedback, (Promise, str)):
-            self.invalid_feedback = {'': self.invalid_feedback, }
+        self.valid_feedback = self._handle_feedback('valid_feedback', kwargs)
+        self.invalid_feedback = self._handle_feedback('invalid_feedback', kwargs)
 
         self.label_cols = kwargs.pop('label_cols', self.label_cols)
         self.input_cols = kwargs.pop('input_cols', self.input_cols)
@@ -182,6 +179,24 @@ class BootstrapMixin(object):
         self.hide_label = kwargs.pop('hide_label', self.hide_label)
 
         super(BootstrapMixin, self).__init__(**kwargs)
+
+    def _handle_feedback(self, key, kwargs):
+        cls_value = getattr(self, key, None)
+
+        # sanitize class attribute
+        if cls_value is None:
+            cls_value = {}
+        if isinstance(cls_value, (Promise, str)):  # Promise == translated string
+            cls_value = {'': cls_value, }
+        else:
+            cls_value = cls_value.copy()
+
+        value = kwargs.pop(key, {})
+        if isinstance(value, (Promise, str)):  # Promise == translated string
+            value = {'': value, }
+        cls_value.update(value)
+
+        return cls_value
 
     def get_inline_help(self):
         return self.inline_help
@@ -234,6 +249,7 @@ class BootstrapTextField(BootstrapMixin, forms.CharField):
 
 class BootstrapEmailField(BootstrapMixin, forms.EmailField):
     widget = widgets.BootstrapEmailInput
+    invalid_feedback = _('Please enter a valid email address.')
 
     def clean(self, value):
         value = super(BootstrapEmailField, self).clean(value)

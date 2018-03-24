@@ -111,6 +111,7 @@ class UsernameField(BootstrapMixin, forms.MultiValueField):
 
 class FingerprintField(BootstrapCharField):
     widget = FingerprintWidget
+    invalid_feedback = _('Please enter a valid GPG key fingerprint.')
 
     def __init__(self, **kwargs):
         # "gpg --list-keys --fingerprint" outputs fingerprint with spaces, making it 50 chars long
