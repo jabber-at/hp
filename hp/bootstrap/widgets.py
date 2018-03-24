@@ -48,6 +48,11 @@ class BootstrapWidgetMixin(object):
         else:
             attrs['class'] = cls
 
+    class Media:
+        js = (
+            'bootstrap/js/bootstrap.js',
+        )
+
 
 class MergeClassesMixin(object):
     """Mixin to merge CSS classes from runtime and from the instances class attributes.

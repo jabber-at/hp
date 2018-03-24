@@ -186,6 +186,7 @@ _DEFAULT_JS_FILES = [
     'account/js/base.js',
     'account/js/fingerprint_widget.js',
     'account/js/notifications.js',
+    'bootstrap/js/bootstrap.js',
     'bootstrap/js/file_input.js',
     'certs/certificate.js',
 ]

@@ -1,24 +1,8 @@
 var check_username = function(input, timer) {
-    let minlength = parseInt(input.attr('minlength'), 10);
-    let is_validating = input.data('validating');
-    let value = input.val();
-
-    // As soon as the user has entered the amount of minimum characters once, we start validating.
-    // The "validating" property is already present on any submitted form.
-    if (value.length >= minlength && is_validating === undefined) {
-        is_validating = true;
-        input.data('validating', true);
-    }
-
-    // We are not validating at this point, so return right away.
-    else if (is_validating === undefined) {
-        return;
-    }
-
     let form_group = input.parents('.form-group.form-group-username');
     let domain_select = form_group.find('select#id_username_1');
-    form_group.addClass('was-validated');
 
+    /** mark input as valid. */
     let mark_valid = function() {
         form_group.addClass('fg-valid');
         form_group.removeClass('fg-invalid-syntax');
@@ -28,6 +12,8 @@ var check_username = function(input, timer) {
         input[0].setCustomValidity('');
         domain_select[0].setCustomValidity('');
     }
+
+    /** mark input as invalid because of it's syntax (too short/long, invalid chars) */
     let invalid_syntax = function() {
         form_group.addClass('fg-invalid-syntax');
         form_group.removeClass('fg-valid');
@@ -36,6 +22,15 @@ var check_username = function(input, timer) {
 
         let invalid_msg = form_group.find('.invalid-exists').text().trim();
         domain_select[0].setCustomValidity(invalid_msg);
+    }
+
+    let minlength = parseInt(input.attr('minlength'), 10);
+    let maxlength = parseInt(input.attr('maxlength'), 10);
+    let value = input.val();
+
+    if (value.length < minlength || value.length > maxlength) {
+        invalid_syntax();
+        return;
     }
 
     let check_existance = input.data('check-existance');
