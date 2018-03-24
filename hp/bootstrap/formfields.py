@@ -52,6 +52,12 @@ class BoundField(forms.boundfield.BoundField):
         if self.horizontal:
             fg_attrs['class'] += ' row'
 
+        for error in self.errors.as_data():
+            if error.code:
+                fg_attrs['class'] += ' invalid-%s' % error.code
+            else:
+                fg_attrs['class'] += ' invalid-default'
+
         return flatatt(fg_attrs)
 
     @property
@@ -88,6 +94,7 @@ class BoundField(forms.boundfield.BoundField):
             attrs['aria-describedby'] = self.help_id
 
         # Add valid/invalid properties if the form was submitted already
+        # TODO: does not actually do what we want (this is not the pseudo class!)
         if self.form.is_bound:
             if self.errors:
                 attrs['invalid'] = True
