@@ -218,5 +218,5 @@ class EmailVerifiedDomainField(BootstrapEmailField):
             if exists is False:
                 raise forms.ValidationError(self.error_messages['domain-does-not-exist'] % {
                     'value': domain,
-                })
+                }, code='domain-does-not-exist')
         return email
