@@ -1,0 +1,10 @@
+/**
+ * Match elements with the [invalid] property to display the same way as elements with the :invalid
+ * pseudo-class. This way submitted forms get the same display as forms validated by javascript.
+ */
+.was-validated .form-control[invalid] {
+    border-color: #dc3545;
+}
+.was-validated .form-control[invalid] ~ .invalid-feedback {
+    display: block;
+}
