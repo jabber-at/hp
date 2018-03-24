@@ -45,7 +45,6 @@ class UsernameField(BootstrapMixin, forms.MultiValueField):
 
     def __init__(self, **kwargs):
         self.register = kwargs.pop('register', False)
-        self.status_check = kwargs.pop('status_check', self.register)
         kwargs.setdefault('label', _('Username'))
 
         if self.register is True:
@@ -75,15 +74,8 @@ class UsernameField(BootstrapMixin, forms.MultiValueField):
         )
         widgets = [f.widget for f in fields]
 
-        attrs = {}
-#        if self.register is True:
-#            if attrs.get('class'):
-#                attrs['class'] += ' status-check'
-#            else:
-#                attrs['class'] = 'status-check'
-
-        self.widget = UsernameWidget(widgets=widgets, attrs=attrs)
-        super(UsernameField, self).__init__(fields=fields, require_all_fields=True, **kwargs)
+        self.widget = UsernameWidget(widgets=widgets, attrs={})
+        super().__init__(fields=fields, require_all_fields=True, **kwargs)
 
     def get_help_text(self):
         if self.register is True:
@@ -136,13 +128,13 @@ class FingerprintField(BootstrapCharField):
                                             _('Fingerprint should be 40 characters long.'))
         kwargs['error_messages'].setdefault('invalid-chars',
                                             _('Fingerprint contains invalid characters.'))
-        super(FingerprintField, self).__init__(**kwargs)
+        super().__init__(**kwargs)
 
     def clean(self, value):
         if not getattr(settings, 'GPG_BACKENDS', {}):  # check, just to be sure
             raise forms.ValidationError(self.error_messages['not-enabled'])
 
-        fp = super(FingerprintField, self).clean(value).strip().replace(' ', '').upper()
+        fp = super().clean(value).strip().replace(' ', '').upper()
         if fp == '':
             return None  # no fingerprint given
         if len(fp) != 40:
@@ -167,13 +159,13 @@ class KeyUploadField(BootstrapFileField):
         kwargs['error_messages'].setdefault('not-enabled', _('GPG not enabled.'))
         kwargs['error_messages'].setdefault(
             'invalid-filetype', _('Only plain-text files are allowed (was: %(content-type)s)!'))
-        super(KeyUploadField, self).__init__(**kwargs)
+        super().__init__(**kwargs)
 
     def clean(self, value, initial):
         if not getattr(settings, 'GPG_BACKENDS', {}):  # check, just to be sure
             raise forms.ValidationError(self.error_messages['not-enabled'])
 
-        gpg_key = super(KeyUploadField, self).clean(value)
+        gpg_key = super().clean(value)
 
         if not gpg_key:
             return gpg_key
@@ -204,10 +196,10 @@ class EmailVerifiedDomainField(BootstrapEmailField):
             kwargs['error_messages'].setdefault(
                 'domain-does-not-exist', _('The domain "%(domain)s" does not exist.'))
 
-        super(EmailVerifiedDomainField, self).__init__(**kwargs)
+        super().__init__(**kwargs)
 
     def clean(self, *args, **kwargs):
-        email = super(EmailVerifiedDomainField, self).clean(*args, **kwargs)
+        email = super().clean(*args, **kwargs)
         if not email:
             return email
 
