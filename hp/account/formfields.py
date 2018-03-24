@@ -36,6 +36,12 @@ from .widgets import UsernameWidget
 
 class UsernameField(BootstrapMixin, forms.MultiValueField):
     formgroup_class = 'form-group-username'
+    invalid_feedback = {
+        'invalid-syntax': _('The username is invalid.'),
+        'invalid-exists': _('This username is already taken.'),
+        'invalid-error': _(
+            'Could not check if the username already exists: Error communicating with the server.'),
+    }
 
     def __init__(self, **kwargs):
         self.register = kwargs.pop('register', False)
