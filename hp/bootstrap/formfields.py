@@ -70,6 +70,10 @@ class BoundField(forms.boundfield.BoundField):
     def build_widget_attrs(self, attrs, widget):
         attrs = super(BoundField, self).build_widget_attrs(attrs, widget)
 
+        min_val_length = getattr(self.field, 'min_validation_length', False)
+        if min_val_length is not False:
+            attrs['data-min-validation-length'] = str(min_val_length)
+
         if self.help_text or self.errors:
             # Add the 'aria-describedby' attribute to the <input /> element. It's the id used by
             # the help-block describing the element and helps screen readers. See:
@@ -128,6 +132,9 @@ class BootstrapMixin(object):
     inline_help = False
     """Set to True to display help block inline."""
 
+    min_validation_length = False
+    """Start JavaScript validation at the given length."""
+
     formgroup_template = 'bootstrap/forms/formgroup.html'
 
     def __init__(self, **kwargs):
@@ -138,6 +145,9 @@ class BootstrapMixin(object):
 
         if 'add_success' in kwargs:
             self.add_success = kwargs.pop('add_success')
+
+        if 'min_validation_length' in kwargs:
+            self.min_validation_length = kwargs.pop('min_validation_length')
 
         self.label_cols = kwargs.pop('label_cols', self.label_cols)
         self.input_cols = kwargs.pop('input_cols', self.input_cols)
