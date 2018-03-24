@@ -102,12 +102,26 @@ class BoundField(forms.boundfield.BoundField):
 
         return attrs
 
+    def fmt_error_message(self, key, msg):
+        value = self.value()
+        context = {
+            'key': key,
+            'value': value,
+        }
+        if hasattr(self.field, 'max_length'):
+            context['max'] = self.field.max_length
+        if isinstance(value, (str, Promise)):
+            context['length'] = len(value)
+
+        return msg % context
+
     def render_feedback(self):
         renderer = self.form.renderer or get_default_renderer()
         context = {
             'field': self,
             'valid': self.field.get_valid_feedback(),
-            'invalid': {k if k else 'default': v for k, v in self.field.error_messages.items()},
+            'invalid': {k if k else 'default': self.fmt_error_message(k, v)
+                        for k, v in self.field.error_messages.items()},
         }
 
         return mark_safe(renderer.render(self.field.feedback_template, context))

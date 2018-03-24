@@ -157,7 +157,7 @@ class KeyUploadField(BootstrapFileField):
         kwargs.setdefault('error_messages', {})
         kwargs['error_messages'].setdefault('not-enabled', _('GPG not enabled.'))
         kwargs['error_messages'].setdefault(
-            'invalid-filetype', _('Only plain-text files are allowed (was: %(content-type)s)!'))
+            'invalid-filetype', _('Only plain-text files are allowed (was: %(value)s)!'))
         super().__init__(**kwargs)
 
     def clean(self, value, initial):
@@ -170,7 +170,7 @@ class KeyUploadField(BootstrapFileField):
             return gpg_key
         if gpg_key.content_type not in ['text/plain', 'application/pgp-encrypted']:
             raise forms.ValidationError(self.error_messages['invalid-filetype'] % {
-                'content-type': gpg_key.content_type,
+                'value': gpg_key.content_type,
             })
 
         return value
@@ -193,7 +193,7 @@ class EmailVerifiedDomainField(BootstrapEmailField):
         if verify_domain is True:
             kwargs.setdefault('error_messages', {})
             kwargs['error_messages'].setdefault(
-                'domain-does-not-exist', _('The domain "%(domain)s" does not exist.'))
+                'domain-does-not-exist', _('The domain "%(value)s" does not exist.'))
 
         super().__init__(**kwargs)
 
@@ -217,6 +217,6 @@ class EmailVerifiedDomainField(BootstrapEmailField):
 
             if exists is False:
                 raise forms.ValidationError(self.error_messages['domain-does-not-exist'] % {
-                    'domain': domain,
+                    'value': domain,
                 })
         return email
