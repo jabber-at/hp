@@ -17,6 +17,7 @@ from django import forms
 from django.contrib.auth import password_validation
 from django.forms.renderers import get_default_renderer
 from django.forms.utils import flatatt
+from django.utils.functional import Promise
 from django.utils.html import mark_safe
 
 from . import widgets
@@ -67,6 +68,11 @@ class BoundField(forms.boundfield.BoundField):
     def inline_help(self):
         return self.field.get_inline_help()
 
+    def as_widget(self, *args, **kwargs):
+        html = super().as_widget(*args, **kwargs)
+        html += self.render_feedback()
+        return html
+
     def build_widget_attrs(self, attrs, widget):
         attrs = super(BoundField, self).build_widget_attrs(attrs, widget)
 
@@ -88,6 +94,16 @@ class BoundField(forms.boundfield.BoundField):
                 attrs['valid'] = True
 
         return attrs
+
+    def render_feedback(self):
+        renderer = self.form.renderer or get_default_renderer()
+        context = {
+            'field': self,
+            'valid': {'valid-feedback %s' % k: v for k, v in self.field.get_valid_feedback().items()},
+            'invalid': {'invalid-feedback %s' % k: v for k, v in self.field.get_invalid_feedback().items()},
+        }
+
+        return mark_safe(renderer.render(self.field.feedback_template, context))
 
     def formgroup(self):
         renderer = self.form.renderer or get_default_renderer()
@@ -136,6 +152,7 @@ class BootstrapMixin(object):
     """Start JavaScript validation at the given length."""
 
     formgroup_template = 'bootstrap/forms/formgroup.html'
+    feedback_template = 'bootstrap/forms/feedback.html'
 
     def __init__(self, **kwargs):
         self.formgroup_attrs = kwargs.pop('formgroup_attrs', {})
@@ -149,6 +166,16 @@ class BootstrapMixin(object):
         if 'min_validation_length' in kwargs:
             self.min_validation_length = kwargs.pop('min_validation_length')
 
+        self.valid_feedback = kwargs.pop('valid_feedback', {})
+        if isinstance(self.valid_feedback, (Promise, str)):  # Promise == translated string
+            self.valid_feedback = {'': self.valid_feedback, }
+
+        if 'invalid_feedback' in kwargs:
+            print(kwargs['invalid_feedback'])
+        self.invalid_feedback = kwargs.pop('invalid_feedback', {})
+        if isinstance(self.invalid_feedback, (Promise, str)):
+            self.invalid_feedback = {'': self.invalid_feedback, }
+
         self.label_cols = kwargs.pop('label_cols', self.label_cols)
         self.input_cols = kwargs.pop('input_cols', self.input_cols)
         self.col_class = kwargs.pop('col_class', self.col_class)
@@ -158,6 +185,12 @@ class BootstrapMixin(object):
 
     def get_inline_help(self):
         return self.inline_help
+
+    def get_valid_feedback(self):
+        return self.valid_feedback
+
+    def get_invalid_feedback(self):
+        return self.invalid_feedback
 
     def get_input_grid_class(self):
         raise Exception('deprecated')

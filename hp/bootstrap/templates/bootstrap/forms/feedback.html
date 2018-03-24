@@ -1,0 +1,5 @@
+{% for classes, message in valid.items %}
+<div class="{{ classes }}">{{ message }}</div>
+{% endfor %}{% for classes, message in invalid.items %}
+<div class="{{ classes }}">{{ message }}</div>
+{% endfor %}

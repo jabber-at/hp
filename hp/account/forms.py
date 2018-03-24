@@ -137,6 +137,7 @@ class CreateUserForm(GPGMixin, CaptchaFormMixin, EmailValidationMixin, forms.Mod
     username = UsernameField(register=True)
     email = EmailVerifiedDomainField(
         label=_('Email'), min_validation_length=5,
+        invalid_feedback=_('Please enter a valid email address'),
         help_text=_('Required, a confirmation email will be sent to this address.')
     )
 
