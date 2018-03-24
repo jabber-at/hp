@@ -1,5 +1,5 @@
 {% for classes, message in valid.items %}
-<div class="{{ classes }}">{{ message }}</div>
+<div class="valid-feedback valid-{{ classes }}">{{ message }}</div>
 {% endfor %}{% for classes, message in invalid.items %}
-<div class="{{ classes }}">{{ message }}</div>
+<div class="invalid-feedback invalid-{{ classes }}">{{ message }}</div>
 {% endfor %}

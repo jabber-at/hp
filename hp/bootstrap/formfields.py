@@ -107,8 +107,8 @@ class BoundField(forms.boundfield.BoundField):
         renderer = self.form.renderer or get_default_renderer()
         context = {
             'field': self,
-            'valid': {'valid-feedback %s' % k: v for k, v in self.field.get_valid_feedback().items()},
-            'invalid': {'invalid-feedback %s' % k: v for k, v in self.field.get_invalid_feedback().items()},
+            'valid': self.field.get_valid_feedback(),
+            'invalid': self.field.get_invalid_feedback(),
         }
 
         return mark_safe(renderer.render(self.field.feedback_template, context))
@@ -194,7 +194,7 @@ class BootstrapMixin(object):
         if cls_value is None:
             cls_value = {}
         if isinstance(cls_value, (Promise, str)):  # Promise == translated string
-            cls_value = {'': cls_value, }
+            cls_value = {'default': cls_value, }
         else:
             cls_value = cls_value.copy()
 
