@@ -19,7 +19,6 @@ from django.forms.renderers import get_default_renderer
 from django.forms.utils import flatatt
 from django.utils.functional import Promise
 from django.utils.html import mark_safe
-from django.utils.translation import ugettext_lazy as _
 
 from . import widgets
 
@@ -108,7 +107,7 @@ class BoundField(forms.boundfield.BoundField):
         context = {
             'field': self,
             'valid': self.field.get_valid_feedback(),
-            'invalid': self.field.get_invalid_feedback(),
+            'invalid': {k if k else 'default': v for k, v in self.field.error_messages.items()},
         }
 
         return mark_safe(renderer.render(self.field.feedback_template, context))
@@ -160,7 +159,6 @@ class BootstrapMixin(object):
     """Start JavaScript validation at the given length."""
 
     valid_feedback = None
-    invalid_feedback = None
 
     formgroup_template = 'bootstrap/forms/formgroup.html'
     feedback_template = 'bootstrap/forms/feedback.html'
@@ -178,7 +176,6 @@ class BootstrapMixin(object):
             self.min_validation_length = kwargs.pop('min_validation_length')
 
         self.valid_feedback = self._handle_feedback('valid_feedback', kwargs)
-        self.invalid_feedback = self._handle_feedback('invalid_feedback', kwargs)
 
         self.label_cols = kwargs.pop('label_cols', self.label_cols)
         self.input_cols = kwargs.pop('input_cols', self.input_cols)
@@ -210,9 +207,6 @@ class BootstrapMixin(object):
 
     def get_valid_feedback(self):
         return self.valid_feedback
-
-    def get_invalid_feedback(self):
-        return self.invalid_feedback
 
     def get_input_grid_class(self):
         raise Exception('deprecated')
@@ -256,7 +250,6 @@ class BootstrapTextField(BootstrapMixin, forms.CharField):
 
 class BootstrapEmailField(BootstrapMixin, forms.EmailField):
     widget = widgets.BootstrapEmailInput
-    invalid_feedback = _('Please enter a valid email address.')
 
     def clean(self, value):
         value = super(BootstrapEmailField, self).clean(value)
