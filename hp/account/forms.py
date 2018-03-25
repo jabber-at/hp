@@ -39,8 +39,8 @@ class GPGMixin(forms.Form):
     """A mixin that adds the GPG fields to a form."""
 
     if getattr(settings, 'GPG_BACKENDS', {}):
-        gpg_fingerprint = FingerprintField()
-        gpg_key = KeyUploadField()
+        gpg_fingerprint = FingerprintField(horizontal=False)
+        gpg_key = KeyUploadField(horizontal=False)
 
     def get_gpg_data(self):
         """Get fingerprint and uploaded key, if any."""
