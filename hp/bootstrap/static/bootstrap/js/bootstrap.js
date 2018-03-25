@@ -1,4 +1,7 @@
 $(document).ready(function() {
+    /* Disable built-in form validation and use javascript. */
+    $('form').attr('novalidate', true);
+
     /**
      * Add was-validated class to form group elements.
      *
