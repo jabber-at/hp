@@ -99,15 +99,18 @@ class BootstrapSelect(BootstrapWidgetMixin, forms.Select):
 
 
 class BootstrapFileInput(BootstrapWidgetMixin, forms.ClearableFileInput):
-    css_classes = 'upload-button'
-    template_name = 'bootstrap/forms/widgets/clearable_file_input.html'
+    template_name = 'bootstrap/forms/widgets/file_input.html'
+    css_classes = 'custom-file-input'
 
-    class Media:
-        css = {
-            'all': (
-                'bootstrap/css/file_input.css',
-            ),
-        }
-        js = (
-            'bootstrap/js/file_input.js',
-        )
+    def get_context(self, *args, **kwargs):
+        print('ok')
+        ctx = super().get_context(*args, **kwargs)
+        print(ctx)
+        return ctx
+
+    def build_attrs(self, base_attrs, extra_attrs=None):
+        base_attrs['class'] = base_attrs['class'].replace('form-control', '')
+
+        attrs = super().build_attrs(base_attrs, extra_attrs=extra_attrs)
+        print(attrs)
+        return attrs

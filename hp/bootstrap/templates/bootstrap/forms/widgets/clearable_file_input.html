@@ -1,7 +1,0 @@
-{% load i18n %}{% spaceless %}
-<div class="input-group">
-  <label for="{{ widget.attrs.id }}" class="input-group-btn">
-    <span class="btn btn-primary" type="span">{% trans "Browse..." %}{% include "django/forms/widgets/clearable_file_input.html" %}</span>
-  </label>
-  <input type="text" class="form-control" readonly>
-</div>{% endspaceless %}

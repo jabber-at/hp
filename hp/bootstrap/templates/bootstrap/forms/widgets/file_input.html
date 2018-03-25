@@ -1,0 +1,5 @@
+{% load i18n %}
+<div class="custom-file">
+  {% include "django/forms/widgets/clearable_file_input.html" %}
+  <label class="custom-file-label" for="{{ widget.attrs.id }}">{% trans "Choose file" %}</label>
+</div>
