@@ -15,6 +15,7 @@
 
 from django import forms
 from django.contrib.auth import password_validation
+from django.core.exceptions import FieldDoesNotExist
 from django.forms.renderers import get_default_renderer
 from django.forms.utils import flatatt
 from django.utils.functional import Promise
@@ -102,12 +103,11 @@ class BoundField(forms.boundfield.BoundField):
 
         return attrs
 
-    def fmt_error_message(self, key, msg):
+    def fmt_error_message(self, key, msg, **context):
         value = self.value()
-        context = {
-            'key': key,
-            'value': value,
-        }
+        context['key'] = key
+        context['value'] = value
+
         if hasattr(self.field, 'max_length'):
             context['max'] = self.field.max_length
         if isinstance(value, (str, Promise)):
@@ -116,10 +116,47 @@ class BoundField(forms.boundfield.BoundField):
         return msg % context
 
     def render_feedback(self):
+        """Render the invalid-feedback messages.
+
+        This tries to get all possible error messages from the model field and form field. The messages are
+        used to by CSS to display the correct error message upon submission and by JS during form validation.
+        """
         renderer = self.form.renderer or get_default_renderer()
-        invalid = {k if k else 'default': self.fmt_error_message(k, v)
-                   for k, v in self.field.error_messages.items()}
-        invalid.update({v.code: v.message for v in self.field.validators})
+
+        context = {
+            'field_label': self.label,
+
+            # We don't really need these so far
+            'date_field_label': 'TODO_date_field_label',
+            'lookup_type': 'TODO_lookup_type',
+            'limit_value': 'TODO_limit_value',
+        }
+        invalid = {}
+
+        # get model field validation messages first
+        if hasattr(self.form, 'instance'):
+            try:
+                field = self.form.instance._meta.get_field(self.name)
+
+                # update context for error message formatting
+                context['model_name'] = self.form.instance._meta.verbose_name
+
+                # extra field validators
+                invalid.update({v.code: v.message for v in field.validators})
+
+                # field error_messages
+                invalid.update({k: self.fmt_error_message(k, v, **context)
+                                for k, v in field.error_messages.items()})
+            except FieldDoesNotExist:
+                pass
+
+        invalid.update({v.code: self.fmt_error_message(v.code, v.message, **context)
+                        for v in self.field.validators})
+        invalid.update({k if k else 'default': self.fmt_error_message(k, v, **context)
+                       for k, v in self.field.error_messages.items()})
+
+        for e in self.errors.as_data():
+            invalid.update({e.code: ' '.join(e) for e in self.errors.as_data()})
 
         context = {
             'field': self,
