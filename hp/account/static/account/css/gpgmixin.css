@@ -1,10 +1,7 @@
 .gpg-content,
 .gpg-header-row .glyphicon-menu-down,
-.gpg-header-row.show-gpg .glyphicon-menu-right {
+{
     display: none;
-}
-.gpg-header-row.show-gpg .glyphicon-menu-down {
-    display: inline-block;
 }
 .gpg-content.show-gpg {
     display: block;
