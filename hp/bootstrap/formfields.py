@@ -93,7 +93,7 @@ class BoundField(forms.boundfield.BoundField):
             attrs['aria-describedby'] = self.help_id
 
         # Add valid/invalid properties if the form was submitted already
-        # TODO: does not actually do what we want (this is not the pseudo class!)
+        # NOTE: This is not the same as the :valid/:invalid pseudo-classes used by bootstrap.
         if self.form.is_bound:
             if self.errors:
                 attrs['invalid'] = True
@@ -117,13 +117,15 @@ class BoundField(forms.boundfield.BoundField):
 
     def render_feedback(self):
         renderer = self.form.renderer or get_default_renderer()
+        invalid = {k if k else 'default': self.fmt_error_message(k, v)
+                   for k, v in self.field.error_messages.items()}
+        invalid.update({v.code: v.message for v in self.field.validators})
+
         context = {
             'field': self,
             'valid': self.field.get_valid_feedback(),
-            'invalid': {k if k else 'default': self.fmt_error_message(k, v)
-                        for k, v in self.field.error_messages.items()},
+            'invalid': invalid,
         }
-
         return mark_safe(renderer.render(self.field.feedback_template, context))
 
     def formgroup(self):
