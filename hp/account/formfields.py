@@ -146,6 +146,11 @@ class FingerprintField(BootstrapCharField):
 
 
 class KeyUploadField(BootstrapFileField):
+    default_error_messages = {
+        'not-enabled': _('GPG not enabled.'),
+        'mime-type': _('Only plain-text files are allowed (was: %(value)s)!'),
+    }
+
     def __init__(self, **kwargs):
         kwargs.setdefault('required', False)
         kwargs.setdefault('label', _('GPG Key'))
@@ -155,10 +160,6 @@ class KeyUploadField(BootstrapFileField):
         ))
 
         # define error messages
-        kwargs.setdefault('error_messages', {})
-        kwargs['error_messages'].setdefault('not-enabled', _('GPG not enabled.'))
-        kwargs['error_messages'].setdefault(
-            'invalid-filetype', _('Only plain-text files are allowed (was: %(value)s)!'))
         super().__init__(**kwargs)
 
     def clean(self, value, initial):
@@ -170,9 +171,9 @@ class KeyUploadField(BootstrapFileField):
         if not gpg_key:
             return gpg_key
         if gpg_key.content_type not in ['text/plain', 'application/pgp-encrypted']:
-            raise forms.ValidationError(self.error_messages['invalid-filetype'] % {
+            raise forms.ValidationError(self.error_messages['mime-type'] % {
                 'value': gpg_key.content_type,
-            }, code='invalid-filetype')
+            }, code='mime-type')
 
         return value
 
@@ -183,22 +184,13 @@ class EmailVerifiedDomainField(BootstrapEmailField):
     Parameters
     ----------
 
-    verify_domain : bool, optional
-        Pass ``False`` if you don't want to verify the domain. If you do, this class
-        behaves no differently then its parent class.
     kwargs
         All passed to the parent class.
     """
+    default_error_messages = {
+        'domain-does-not-exist': _('The domain "%(value)s" does not exist.'),
+    }
     widget = EmailVerifiedDomainWidget
-
-    def __init__(self, verify_domain=True, **kwargs):
-        self._verify_domain = verify_domain
-        if verify_domain is True:
-            kwargs.setdefault('error_messages', {})
-            kwargs['error_messages'].setdefault(
-                'domain-does-not-exist', _('The domain "%(value)s" does not exist.'))
-
-        super().__init__(**kwargs)
 
     def clean(self, *args, **kwargs):
         email = super().clean(*args, **kwargs)
@@ -206,7 +198,7 @@ class EmailVerifiedDomainField(BootstrapEmailField):
             return email
 
         _node, domain = email.rsplit('@', 1)
-        if domain and self._verify_domain:
+        if domain:
             exists = False
             resolver = dns.resolver.Resolver()
 
