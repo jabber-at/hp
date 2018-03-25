@@ -102,15 +102,8 @@ class BootstrapFileInput(BootstrapWidgetMixin, forms.ClearableFileInput):
     template_name = 'bootstrap/forms/widgets/file_input.html'
     css_classes = 'custom-file-input'
 
-    def get_context(self, *args, **kwargs):
-        print('ok')
-        ctx = super().get_context(*args, **kwargs)
-        print(ctx)
-        return ctx
-
     def build_attrs(self, base_attrs, extra_attrs=None):
+        # remove form-control
         base_attrs['class'] = base_attrs['class'].replace('form-control', '')
-
         attrs = super().build_attrs(base_attrs, extra_attrs=extra_attrs)
-        print(attrs)
         return attrs

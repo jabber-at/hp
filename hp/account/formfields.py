@@ -172,7 +172,7 @@ class KeyUploadField(BootstrapFileField):
         if gpg_key.content_type not in ['text/plain', 'application/pgp-encrypted']:
             raise forms.ValidationError(self.error_messages['invalid-filetype'] % {
                 'value': gpg_key.content_type,
-            })
+            }, code='invalid-filetype')
 
         return value
 
