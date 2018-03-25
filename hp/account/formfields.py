@@ -150,6 +150,7 @@ class KeyUploadField(BootstrapFileField):
         'not-enabled': _('GPG not enabled.'),
         'mime-type': _('Only plain-text files are allowed (was: %(value)s)!'),
     }
+    default_mime_types = {'text/plain', 'application/pgp-encrypted', }
 
     def __init__(self, **kwargs):
         kwargs.setdefault('required', False)
@@ -162,20 +163,12 @@ class KeyUploadField(BootstrapFileField):
         # define error messages
         super().__init__(**kwargs)
 
-    def clean(self, value, initial):
-        if not getattr(settings, 'GPG_BACKENDS', {}):  # check, just to be sure
-            raise forms.ValidationError(self.error_messages['not-enabled'])
+    def clean(self, value, initial=None):
+        # This check is just to be sure
+        if not getattr(settings, 'GPG_BACKENDS', {}):
+            raise forms.ValidationError(self.error_messages['not-enabled'], code='not-enabled')
 
-        gpg_key = super().clean(value)
-
-        if not gpg_key:
-            return gpg_key
-        if gpg_key.content_type not in ['text/plain', 'application/pgp-encrypted']:
-            raise forms.ValidationError(self.error_messages['mime-type'] % {
-                'value': gpg_key.content_type,
-            }, code='mime-type')
-
-        return value
+        return super().clean(value, initial=None)
 
 
 class EmailVerifiedDomainField(BootstrapEmailField):

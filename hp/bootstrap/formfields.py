@@ -20,6 +20,7 @@ from django.forms.renderers import get_default_renderer
 from django.forms.utils import flatatt
 from django.utils.functional import Promise
 from django.utils.html import mark_safe
+from django.utils.translation import ugettext_lazy as _
 
 from . import widgets
 
@@ -333,4 +334,30 @@ class BootstrapModelChoiceField(BootstrapMixin, forms.ModelChoiceField):
 
 
 class BootstrapFileField(BootstrapMixin, forms.FileField):
+    default_error_messages = {
+        'mime-type': _('Upload a file with the correct type.'),
+    }
     widget = widgets.BootstrapFileInput
+
+    def __init__(self, *args, mime_types=None, **kwargs):
+        mime_types = set()
+        for c in reversed(self.__class__.__mro__):
+            mime_types |= getattr(c, 'default_mime_types', set())
+        mime_types |= mime_types or set()
+        self.mime_types = mime_types
+
+        super().__init__(*args, **kwargs)
+
+    def clean(self, value, initial=None):
+        value = super().clean(value, initial=initial)
+        if self.mime_types and value.content_type not in self.mime_types:
+            raise forms.ValidationError(self.error_messages['mime-type'] % {
+                'value': value.content_type,
+            }, code='mime-type')
+        return value
+
+    def widget_attrs(self, widget):
+        attrs = super().widget_attrs(widget)
+        if self.mime_types:
+            attrs['accept'] = ','.join(self.mime_types)
+        return attrs
