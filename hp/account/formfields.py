@@ -29,6 +29,7 @@ from bootstrap.formfields import BootstrapFileField
 from bootstrap.formfields import BootstrapMixin
 
 from .widgets import DomainWidget
+from .widgets import EmailVerifiedDomainWidget
 from .widgets import FingerprintWidget
 from .widgets import NodeWidget
 from .widgets import UsernameWidget
@@ -188,6 +189,8 @@ class EmailVerifiedDomainField(BootstrapEmailField):
     kwargs
         All passed to the parent class.
     """
+    widget = EmailVerifiedDomainWidget
+
     def __init__(self, verify_domain=True, **kwargs):
         self._verify_domain = verify_domain
         if verify_domain is True:

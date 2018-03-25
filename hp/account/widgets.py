@@ -20,6 +20,7 @@ from django.utils.translation import ugettext_lazy as _
 from bootstrap.widgets import BootstrapMultiWidget
 from bootstrap.widgets import BootstrapSelect
 from bootstrap.widgets import BootstrapTextInput
+from bootstrap.widgets import BootstrapEmailInput
 from bootstrap.widgets import MergeClassesMixin
 
 
@@ -93,3 +94,12 @@ class UsernameWidget(BootstrapMultiWidget):
         js = (
             'account/js/username_widget.js',
         )
+
+
+class EmailVerifiedDomainWidget(BootstrapEmailInput):
+    class Media:
+        css = {
+            'all': (
+                'account/css/email_verified_domain_widget.css',
+            ),
+        }
