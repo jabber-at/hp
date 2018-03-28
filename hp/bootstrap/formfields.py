@@ -350,7 +350,7 @@ class BootstrapFileField(BootstrapMixin, forms.FileField):
 
     def clean(self, value, initial=None):
         value = super().clean(value, initial=initial)
-        if self.mime_types and value.content_type not in self.mime_types:
+        if value and self.mime_types and value.content_type not in self.mime_types:
             raise forms.ValidationError(self.error_messages['mime-type'] % {
                 'value': value.content_type,
             }, code='mime-type')
