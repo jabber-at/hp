@@ -94,14 +94,6 @@ class BoundField(forms.boundfield.BoundField):
             #   http://getbootstrap.com/css/#forms-help-text
             attrs['aria-describedby'] = self.help_id
 
-        # Add valid/invalid properties if the form was submitted already
-        # NOTE: This is not the same as the :valid/:invalid pseudo-classes used by bootstrap.
-        if self.form.is_bound:
-            if self.errors:
-                attrs['invalid'] = True
-            elif self.field.required:
-                attrs['valid'] = True
-
         return attrs
 
     def fmt_error_message(self, key, msg, **context):
