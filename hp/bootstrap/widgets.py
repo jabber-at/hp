@@ -49,6 +49,9 @@ class BootstrapWidgetMixin(object):
             attrs['class'] = cls
 
     class Media:
+        css = {
+            'all': ('bootstrap/css/bootstrap.css', ),
+        }
         js = (
             'bootstrap/js/bootstrap.js',
         )

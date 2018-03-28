@@ -12,6 +12,7 @@ $(document).ready(function() {
         let input = $(e.target);
         let value = input.val();
         let min_length = input.data('min-validation-length');
+
         if (typeof min_length === 'undefined' || value.length > min_length) {
             input.parents('.form-group').addClass('was-validated');
         }

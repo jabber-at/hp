@@ -110,6 +110,9 @@ class UsernameField(BootstrapMixin, forms.MultiValueField):
 class FingerprintField(BootstrapCharField):
     widget = FingerprintWidget
     invalid_feedback = _('Please enter a valid GPG key fingerprint.')
+    default_error_messages = {
+        'invalid': _('Fingerprint may only contain digits, the letters A-F and spaces.'),
+    }
 
     def __init__(self, **kwargs):
         # "gpg --list-keys --fingerprint" outputs fingerprint with spaces, making it 50 chars long
@@ -120,14 +123,6 @@ class FingerprintField(BootstrapCharField):
         kwargs.setdefault('help_text', _(
             'Add your fingerprint (<code>gpg --fingerprint &lt;you@example.com&gt;</code>) if '
             'your key is available on public key servers...'))
-
-        # define error messages
-        kwargs.setdefault('error_messages', {})
-        kwargs['error_messages'].setdefault('not-enabled', _('GPG not enabled.'))
-        kwargs['error_messages'].setdefault('invalid-length',
-                                            _('Fingerprint should be 40 characters long.'))
-        kwargs['error_messages'].setdefault('invalid-chars',
-                                            _('Fingerprint contains invalid characters.'))
         super().__init__(**kwargs)
 
     def clean(self, value):
@@ -137,10 +132,8 @@ class FingerprintField(BootstrapCharField):
         fp = super().clean(value).strip().replace(' ', '').upper()
         if fp == '':
             return None  # no fingerprint given
-        if len(fp) != 40:
-            raise forms.ValidationError(self.error_messages['invalid-length'])
-        if re.search('[^A-F0-9]', fp) is not None:
-            raise forms.ValidationError(self.error_messages['invalid-chars'])
+        elif len(fp) != 40 or re.search('[^A-F0-9]', fp):
+            raise forms.ValidationError(self.error_messages['invalid'])
 
         return fp
 
