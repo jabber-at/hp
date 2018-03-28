@@ -14,7 +14,6 @@
 # <http://www.gnu.org/licenses/>.
 
 from django.conf import settings
-from django.utils.html import format_html
 from django.utils.translation import ugettext_lazy as _
 
 from bootstrap.widgets import BootstrapMultiWidget
@@ -46,10 +45,6 @@ class NodeWidget(MergeClassesMixin, BootstrapTextInput):
             attrs['data-check-existance'] = 'true'
 
         return attrs
-
-    def render(self, *args, **kwargs):
-        html = super(NodeWidget, self).render(*args, **kwargs)
-        return format_html('<div class="col-sm-8">{}</div>', html)
 
 
 class DomainWidget(BootstrapSelect):
