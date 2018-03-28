@@ -201,7 +201,6 @@ _DEFAULT_CSS_FILES = [
     'account/css/base.css',
     'account/css/notifications.css',
     'account/css/gpgmixin.css',
-    'bootstrap/css/file_input.css',
     'certs/certificate.css',
 ]
 
