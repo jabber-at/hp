@@ -59,13 +59,6 @@ class DomainWidget(BootstrapSelect):
 class FingerprintWidget(BootstrapTextInput):
     css_classes = 'gpg-fingerprint'
 
-    def __init__(self, attrs=None, **kwargs):
-        attrs = attrs or {}
-        attrs['pattern'] = '[0-9A-Fa-f ]{40,50}'
-        attrs['title'] = _(
-            'The hex-encoded value of the fingerprint: digits, letters A-F (case-insensitive).')
-        super(FingerprintWidget, self).__init__(attrs=attrs, **kwargs)
-
     class Media:
         js = (
             'account/js/fingerprint_widget.js',
