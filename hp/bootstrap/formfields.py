@@ -135,18 +135,21 @@ class BoundField(forms.boundfield.BoundField):
                 context['model_name'] = self.form.instance._meta.verbose_name
 
                 # extra field validators
-                invalid.update({v.code: v.message for v in field.validators})
+                invalid.update({v.code: v.message for v in field.validators
+                                if v.code in self.field.html_errors})
 
                 # field error_messages
                 invalid.update({k: self.fmt_error_message(k, v, **context)
-                                for k, v in field.error_messages.items()})
+                                for k, v in field.error_messages.items()
+                                if k in self.field.html_errors})
             except FieldDoesNotExist:
                 pass
 
         invalid.update({v.code: self.fmt_error_message(v.code, v.message, **context)
-                        for v in self.field.validators})
+                        for v in self.field.validators if v.code in self.field.html_errors})
         invalid.update({k if k else 'default': self.fmt_error_message(k, v, **context)
-                       for k, v in self.field.error_messages.items()})
+                       for k, v in self.field.error_messages.items()
+                       if k in self.field.html_errors})
 
         for e in self.errors.as_data():
             invalid.update({e.code: ' '.join(e) for e in self.errors.as_data()})
@@ -189,6 +192,11 @@ class BootstrapMixin(object):
     add_success = True
     formgroup_class = None
     hide_label = False
+    default_html_errors = {
+        'invalid',
+        'unique',
+        'required',
+    }
 
     # TODO: Rework this
     col_class = 'sm'
@@ -222,6 +230,12 @@ class BootstrapMixin(object):
             self.min_validation_length = kwargs.pop('min_validation_length')
 
         self.valid_feedback = self._handle_feedback('valid_feedback', kwargs)
+
+        html_errors = kwargs.pop('html_errors', set())
+        for c in reversed(self.__class__.__mro__):
+            html_errors |= getattr(c, 'default_html_errors', set())
+        html_errors |= html_errors or set()
+        self.html_errors = html_errors
 
         self.label_cols = kwargs.pop('label_cols', self.label_cols)
         self.input_cols = kwargs.pop('input_cols', self.input_cols)
