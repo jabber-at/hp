@@ -117,13 +117,23 @@ class FingerprintField(BootstrapCharField):
     def __init__(self, **kwargs):
         # "gpg --list-keys --fingerprint" outputs fingerprint with spaces, making it 50 chars long
         kwargs.setdefault('label', _('Fingerprint'))
-        kwargs.setdefault('max_length', 50)
-        kwargs.setdefault('min_length', 40)
         kwargs.setdefault('required', False)
         kwargs.setdefault('help_text', _(
             'Add your fingerprint (<code>gpg --fingerprint &lt;you@example.com&gt;</code>) if '
             'your key is available on public key servers...'))
         super().__init__(**kwargs)
+
+    def widget_attrs(self, widget):
+        attrs = super().widget_attrs(widget)
+
+        # We do set min/maxlength here instead of in the constructor.  This way, our clean method
+        # can catch this and throw the invalid error code instead of the custom Django ones.
+        attrs['minlength'] = 40
+        attrs['maxlength'] = 50
+        attrs['pattern'] = '[0-9A-Fa-f ]'
+        attrs['title'] = _(
+            'The hex-encoded value of the fingerprint: digits, letters A-F (case-insensitive).')
+        return attrs
 
     def clean(self, value):
         if not getattr(settings, 'GPG_BACKENDS', {}):  # check, just to be sure
@@ -133,7 +143,7 @@ class FingerprintField(BootstrapCharField):
         if fp == '':
             return None  # no fingerprint given
         elif len(fp) != 40 or re.search('[^A-F0-9]', fp):
-            raise forms.ValidationError(self.error_messages['invalid'])
+            raise forms.ValidationError(self.error_messages['invalid'], code='invalid')
 
         return fp
 
