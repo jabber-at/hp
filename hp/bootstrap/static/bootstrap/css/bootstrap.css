@@ -1,0 +1,15 @@
+/**
+ * Only show the default error message
+ */
+.was-validated .form-control:invalid ~ .invalid-feedback {
+    display: none;
+}
+.was-validated.invalid-invalid .form-control:invalid ~ .invalid-feedback.invalid-invalid {
+    display: block;
+}
+.was-validated.invalid-required .form-control:invalid ~ .invalid-feedback.invalid-required {
+    display: block;
+}
+.was-validated.invalid-unique .form-control:invalid ~ .invalid-feedback.invalid-unique {
+    display: block;
+}

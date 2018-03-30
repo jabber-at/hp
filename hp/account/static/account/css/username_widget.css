@@ -2,8 +2,8 @@ div.form-group-username.fg-valid div.valid-feedback,
 div.form-group-username.fg-invalid-exists div.invalid-feedback.invalid-exists, 
 div.form-group-username.fg-invalid-error div.invalid-feedback.invalid-error, 
 div.form-group-username.fg-invalid-syntax div.invalid-feedback.invalid-syntax ,
-div.was-validated.invalid-required  div.invalid-feedback.invalid-required,
-div.was-validated.invalid-unique  div.invalid-feedback.invalid-unique
+div.form-group-username.was-validated.invalid-required  div.invalid-feedback.invalid-required,
+div.form-group-username.was-validated.invalid-unique  div.invalid-feedback.invalid-unique
 {
     display: block;
 }
