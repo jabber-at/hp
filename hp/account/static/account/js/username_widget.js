@@ -4,7 +4,7 @@ var check_username = function(form_group, timer) {
 
     clearTimeout(timer);
 
-    if (input[0].checkValidity()) {
+    if (input[0].checkValidity()) { // only check if the username is syntactically valid
         timer = setTimeout(function() {
             let exists_url = $('meta[name="account:api-check-user"]').attr('content');
 
@@ -25,8 +25,6 @@ var check_username = function(form_group, timer) {
                 }
             });
         }, 100);
-    } else {
-        invalid_syntax();
     }
 };
 
@@ -39,8 +37,18 @@ $(document).ready(function() {
             check_username(form_group, username_timer);
         }
     });
+
     $('#id_username_1').change(function(e) {
         let form_group = $(e.target).parents('.form-group');
+
+        /**
+         * If the username is currently invalid because of a unique constraing (-> the username already
+         * exists), we clear the constraint because the username might be valid in a different domain.
+         */
+        if (form_group.hasClass('invalid-unique')) {
+            form_group.removeClass('invalid-unique');
+            form_group.find('input#id_username_0')[0].setCustomValidity('');
+        }
         check_username(form_group, username_timer);
     });
 });
