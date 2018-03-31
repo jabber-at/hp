@@ -34,18 +34,20 @@ from .formfields import UsernameField
 from .models import Notifications
 from .models import User
 
+_GPG_ENABLED = bool(settings.GPG_BACKENDS)
+
 
 class GPGMixin(forms.Form):
     """A mixin that adds the GPG fields to a form."""
 
-    if getattr(settings, 'GPG_BACKENDS', {}):
+    if _GPG_ENABLED is True:
         gpg_fingerprint = FingerprintField(horizontal=False)
         gpg_key = KeyUploadField(horizontal=False)
 
     def get_gpg_data(self):
         """Get fingerprint and uploaded key, if any."""
 
-        if not getattr(settings, 'GPG_BACKENDS', {}):  # Shortcut
+        if _GPG_ENABLED:  # Shortcut
             return None, None
 
         fp = self.cleaned_data.get('gpg_fingerprint') or None
@@ -60,18 +62,20 @@ class GPGMixin(forms.Form):
 
     @property
     def show_gpg(self):
-        """Returns True if the user submitted a GPG fingerprint or key to this form.
+        return _GPG_ENABLED
 
-        Used to decide if the template should display the GPG chapter or not.
+    @property
+    def hide_gpg_content(self):
+        """True if GPG content should be hidden.
+
+        The content is hidden if the form is not bound (= initial page call) or if the user did not
+        submit any GPG data.
         """
-
-        if not self.is_bound or not getattr(settings, 'GPG_BACKENDS', True):
-            # Form was not submitted or GPG is not configured
-            return False
-
-        if self.cleaned_data.get('gpg_fingerprint') or self.files.get('gpg_key'):
+        if not self.is_bound:
             return True
-        return False
+        if self.data.get('gpg_fingerprint') or self.files.get('gpg_key'):
+            return False
+        return True
 
     class Media:
         js = (

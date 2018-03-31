@@ -20,15 +20,17 @@ removed.{% endblocktrans %}
 {{ form.username.formgroup }}
 {{ form.email.formgroup }}
 
-<div class="row gpg-header-row{% if form.show_gpg %} show-gpg{% endif %}">
+{% if form.show_gpg %}
+<div class="row gpg-header-row show-gpg{% if form.hide_gpg_content %} hidden-with-js{% endif %}">
     <div class="col-sm-12">
         <h4>
-            <span class="glyphicon glyphicon-menu-right" aria-hidden="true"></span>
-            <span class="glyphicon glyphicon-menu-down" aria-hidden="true"></span>
+            <i class="fas fa-angle-down"></i>
+            <i class="fas fa-angle-right"></i>
             {% trans "GPG options" %}
         </h4>
     </div>
 </div>
+{% endif %}
 
 {% include "account/include/gpg_form.html" %}
 {{ form.captcha.formgroup }}

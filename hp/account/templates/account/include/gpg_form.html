@@ -1,5 +1,5 @@
 {% load i18n %}
-<div class="gpg-content show-gpg">
+<div class="gpg-content show-gpg{% if form.hide_gpg_content %} hidden-with-js{% endif %}">
     <div class="row"><div class="col-sm-12">
         <div class="help-block"><p>
             {% blocktrans with domain=site.NAME %}You can add a GPG key to have {{ domain }} encrypt all emails sent to you.{% endblocktrans %}</p>

@@ -1,10 +1,11 @@
-.gpg-content,
-.gpg-header-row .glyphicon-menu-down,
-{
+.gpg-header-row h4 .fa-angle-down {
     display: none;
 }
-.gpg-content.show-gpg {
-    display: block;
+.gpg-header-row.show-gpg h4 .fa-angle-right {
+    display: none;
+}
+.gpg-header-row.show-gpg h4 .fa-angle-down {
+    display: inline-block;
 }
 .gpg-header-row {
     cursor: pointer;
