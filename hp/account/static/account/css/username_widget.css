@@ -1,5 +1,7 @@
 div.form-group-username.was-validated.invalid-invalid  div.invalid-feedback.invalid-invalid,
 div.form-group-username.was-validated.invalid-required  div.invalid-feedback.invalid-required,
+div.form-group-username.was-validated.invalid-min_length  div.invalid-feedback.invalid-min_length,
+div.form-group-username.was-validated.invalid-max_length  div.invalid-feedback.invalid-max_length,
 div.form-group-username.was-validated.invalid-unique  div.invalid-feedback.invalid-unique
 {
     display: block;
