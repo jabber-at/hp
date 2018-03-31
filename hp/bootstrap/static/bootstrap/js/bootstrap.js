@@ -49,15 +49,13 @@ $(document).ready(function() {
         e.target.setCustomValidity('');
         bs4_forms_clear_error(form_group);
 
-        // remove any classes
-
         // if the field is required, display the appropriate message
         if (! e.target.checkValidity()) {
             if (value.length == 0 && input.prop('required')) {
                 bs4_forms_set_error(input, 'required');
-            } else if (e.target.validity.tooShort) {
+            } else if (e.target.validity.tooShort && form_group.find('.invalid-min_length').length) {
                 bs4_forms_set_error(input, 'min_length');
-            } else if (e.target.validity.tooLong) {
+            } else if (e.target.validity.tooLong && form_group.find('.invalid-max_length').length) {
                 bs4_forms_set_error(input, 'max_length');
             } else {
                 bs4_forms_set_error(input, 'invalid');
