@@ -1,3 +1,3 @@
-.was-validated.invalid-domain-does-not-exist .form-control[invalid] ~ .invalid-feedback.invalid-domain-does-not-exist {
-    display: block;
+.was-validated.invalid-domain-does-not-exist .form-control:invalid ~ .invalid-feedback.invalid-domain-does-not-exist {
+    display: block
 }

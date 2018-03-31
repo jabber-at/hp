@@ -89,3 +89,6 @@ class EmailVerifiedDomainWidget(BootstrapEmailInput):
                 'account/css/email_verified_domain_widget.css',
             ),
         }
+        js = (
+            'account/js/email_verified_domain_widget.js',
+        )

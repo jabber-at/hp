@@ -168,6 +168,9 @@ class EmailVerifiedDomainField(BootstrapEmailField):
     default_error_messages = {
         'domain-does-not-exist': _('The domain "%(value)s" does not exist.'),
     }
+    default_html_errors = {
+        'domain-does-not-exist',
+    }
     widget = EmailVerifiedDomainWidget
 
     def clean(self, *args, **kwargs):
