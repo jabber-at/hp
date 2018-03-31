@@ -351,6 +351,7 @@ class BootstrapConfirmPasswordField(BootstrapPasswordField):
     default_html_errors = {
         'no-match',
     }
+    valid_feedback = _('The two passwords match.')
 
     def __init__(self, *args, **kwargs):
         kwargs.setdefault('label', _('Confirm'))
