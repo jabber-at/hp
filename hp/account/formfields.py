@@ -38,8 +38,18 @@ class UsernameField(BootstrapMixin, forms.MultiValueField):
     formgroup_class = 'form-group-username'
     default_error_messages = {
         'invalid': _('The username is invalid.'),
+        'max_length': _('Username must have at most %(max_length)s characters.') % {
+            'max_length': settings.MAX_USERNAME_LENGTH,
+        },
+        'min_length': _('Username must have at least %(min_length)s characters.') % {
+            'min_length': settings.MIN_USERNAME_LENGTH,
+        },
         'exists': _('This username is already taken.'),
         'error': _('Could not check if the username already exists: Error communicating with the server.'),
+    }
+    default_html_errors = {
+        'min_length',
+        'max_length',
     }
 
     def __init__(self, **kwargs):
@@ -60,12 +70,8 @@ class UsernameField(BootstrapMixin, forms.MultiValueField):
                 widget=NodeWidget(register=self.register),
                 min_length=settings.MIN_USERNAME_LENGTH,
                 max_length=settings.MAX_USERNAME_LENGTH,
-                error_messages={
-                    'min_length': _('Username must have at least %(limit_value)d characters.'),
-                    'max_length': _('Username must have at most %(limit_value)d characters.'),
-                },
                 validators=[
-                    RegexValidator(r'^[^@\s]+$', _('Username contains invalid characters.')),
+                    RegexValidator(r'^[^@\s]+$', _('Username contains invalid characters.'), code='invalid'),
                 ],
             ),
             forms.ChoiceField(initial=settings.DEFAULT_XMPP_HOST,
