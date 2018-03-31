@@ -9,6 +9,14 @@ div.page-header p.pull-left {
     margin-right: 10px;
 }
 
+.user-menu p.show-button span.hide,
+.user-menu.active p.show-button span.show {
+    display: none;
+}
+.user-menu.active p.show-button span.hide {
+    display: inline;
+}
+
 /*
  * Off Canvas
  * --------------------------------------------------

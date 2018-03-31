@@ -8,7 +8,7 @@ Base template for user setting views when the user is logged in.
 {% block extrajs %}<script src="{% static 'account/js/base.js' %}"></script>{% endblock extrajs %}
 
 {% block page %}
-<div class="row row-offcanvas row-offcanvas-left">
+<div class="row row-offcanvas row-offcanvas-left user-menu">
     <div class="col-xs-6 col-md-4 col-lg-3 sidebar-offcanvas" id="sidebar">
         <div class="list-group">
             <a class="list-group-item header">{% trans "User settings" %}</a>
@@ -31,9 +31,11 @@ on the link in it and give us a password to complete the registration.{% endbloc
 
         <div class="page-header">
             <h1>
-                <p class="pull-left d-block d-md-none">
+                <p class="pull-left d-block d-md-none show-button">
                     <button type="button" class="btn btn-primary btn-s" data-toggle="offcanvas">
-                        {% trans "Show menu" %}</button>
+                        <span class="show">{% trans "Show menu" %}</span>
+                        <span class="hide">{% trans "Hide menu" %}</span>
+                    </button>
                 </p>
         {% block title %}{% endblock title %}
             </h1>
