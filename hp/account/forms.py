@@ -47,7 +47,7 @@ class GPGMixin(forms.Form):
     def get_gpg_data(self):
         """Get fingerprint and uploaded key, if any."""
 
-        if _GPG_ENABLED:  # Shortcut
+        if _GPG_ENABLED is False:  # Shortcut
             return None, None
 
         fp = self.cleaned_data.get('gpg_fingerprint') or None
@@ -76,6 +76,7 @@ class GPGMixin(forms.Form):
         if self.data.get('gpg_fingerprint') or self.files.get('gpg_key'):
             return False
         return True
+
 
     class Media:
         js = (
@@ -225,7 +226,7 @@ class SetEmailForm(GPGMixin, EmailValidationMixin, forms.Form):
 
 
 class AddGpgForm(GPGMixin, forms.Form):
-    show_gpg = True
+    hide_gpg_content = False
 
 
 class ResetPasswordForm(CaptchaFormMixin, forms.Form):
