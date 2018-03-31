@@ -93,6 +93,7 @@ $(document).ready(function() {
 
         if (confirm_pwd.val() === pwd.val()) {
             confirm_pwd[0].setCustomValidity('');
+            confirm_pwd.parents('.form-group').removeClass('invalid-no-match');
         } else {
             let error = confirm_pwd.siblings('.invalid-feedback.invalid-no-match').text().trim();
             confirm_pwd[0].setCustomValidity(error);
