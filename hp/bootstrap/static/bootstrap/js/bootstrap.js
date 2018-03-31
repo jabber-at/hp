@@ -62,4 +62,15 @@ $(document).ready(function() {
             }
         }
     });
+
+    /**
+     * Handle text in custom file inputs.
+     */
+    $('input[type="file"].custom-file-input').on('change', function(e) {
+        let target = $(e.target);
+        let filename = target.val().split('\\').pop();
+        target.siblings('label.custom-file-label').text(filename);
+        console.log('file changed: ' + filename);
+
+    });
 });
