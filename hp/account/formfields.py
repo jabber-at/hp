@@ -56,9 +56,12 @@ class UsernameField(BootstrapMixin, forms.MultiValueField):
     def __init__(self, **kwargs):
         self.register = kwargs.pop('register', False)
         kwargs.setdefault('label', _('Username'))
+        char_kwargs = {}
 
         if self.register is True:
             choices = tuple([(d, d) for d in settings.REGISTER_HOSTS.keys()])
+            char_kwargs['min_length'] = settings.MIN_USERNAME_LENGTH
+            char_kwargs['max_length'] = settings.MAX_USERNAME_LENGTH
         else:
             choices = tuple([(d, d) for d in settings.MANAGED_HOSTS.keys()])
 
@@ -69,11 +72,10 @@ class UsernameField(BootstrapMixin, forms.MultiValueField):
         fields = (
             forms.CharField(
                 widget=NodeWidget(register=self.register),
-                min_length=settings.MIN_USERNAME_LENGTH,
-                max_length=settings.MAX_USERNAME_LENGTH,
                 validators=[
                     RegexValidator(r'^[^@\s]+$', _('Username contains invalid characters.'), code='invalid'),
                 ],
+                **char_kwargs
             ),
             forms.ChoiceField(initial=settings.DEFAULT_XMPP_HOST,
                               choices=choices, widget=DomainWidget),
