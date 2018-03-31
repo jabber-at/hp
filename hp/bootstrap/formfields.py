@@ -186,7 +186,6 @@ class BoundField(forms.boundfield.BoundField):
 class BootstrapMixin(object):
     """Mixin that adds the form-control class used by bootstrap to input widgets."""
 
-    add_success = True
     formgroup_class = None
     hide_label = False
     default_html_errors = {
@@ -323,6 +322,8 @@ class BootstrapPasswordField(BootstrapMixin, forms.CharField):
 
 
 class BootstrapSetPasswordField(BootstrapPasswordField):
+    widget = widgets.BootstrapSetPasswordInput
+
     def __init__(self, *args, **kwargs):
         # Set the min_length attribute if we have a MinimumLenghtValidator
         for validator in password_validation.get_default_password_validators():
@@ -334,6 +335,8 @@ class BootstrapSetPasswordField(BootstrapPasswordField):
 
 
 class BootstrapConfirmPasswordField(BootstrapPasswordField):
+    widget = widgets.BootstrapConfirmPasswordInput
+
     def __init__(self, *args, **kwargs):
         kwargs.setdefault('label', _('Confirm'))
         super().__init__(*args, **kwargs)

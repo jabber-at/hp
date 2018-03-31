@@ -92,6 +92,14 @@ class BootstrapPasswordInput(BootstrapWidgetMixin, forms.PasswordInput):
     template_name = 'bootstrap/forms/widgets/password.html'
 
 
+class BootstrapSetPasswordInput(BootstrapPasswordInput):
+    css_classes = 'set-password'
+
+
+class BootstrapConfirmPasswordInput(BootstrapPasswordInput):
+    css_classes = 'confirm-password'
+
+
 class BootstrapSelect(BootstrapWidgetMixin, forms.Select):
     css_classes = 'custom-select'
 

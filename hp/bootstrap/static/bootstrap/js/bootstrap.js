@@ -82,4 +82,8 @@ $(document).ready(function() {
             input.setCustomValidity(error);
         });
     });
+
+    /**
+     * Handle password-confirmation fields
+     */
 });
