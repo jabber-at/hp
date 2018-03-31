@@ -73,4 +73,13 @@ $(document).ready(function() {
         console.log('file changed: ' + filename);
 
     });
+
+    $('.form-group.invalid-mime-type').each(function(i, elem) {
+        elem = $(elem);
+        let input = elem.find('input[type="file"]');
+        let error = elem.find('.invalid-feedback.invalid-mime-type').text().trim();
+        input.each(function(j, input) {
+            input.setCustomValidity(error);
+        });
+    });
 });

@@ -339,6 +339,9 @@ class BootstrapFileField(BootstrapMixin, forms.FileField):
     default_error_messages = {
         'mime-type': _('Upload a file with the correct type.'),
     }
+    default_html_errors = {
+        'mime-type',
+    }
     widget = widgets.BootstrapFileInput
 
     def __init__(self, *args, mime_types=None, **kwargs):
@@ -352,6 +355,7 @@ class BootstrapFileField(BootstrapMixin, forms.FileField):
 
     def clean(self, value, initial=None):
         value = super().clean(value, initial=initial)
+
         if value and self.mime_types and value.content_type not in self.mime_types:
             raise forms.ValidationError(self.error_messages['mime-type'] % {
                 'value': value.content_type,

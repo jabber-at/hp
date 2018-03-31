@@ -136,7 +136,6 @@ class FingerprintField(BootstrapCharField):
 class KeyUploadField(BootstrapFileField):
     default_error_messages = {
         'not-enabled': _('GPG not enabled.'),
-        'mime-type': _('Only plain-text files are allowed (was: %(value)s)!'),
     }
     default_mime_types = {'text/plain', 'application/pgp-encrypted', }
 
