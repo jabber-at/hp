@@ -38,7 +38,7 @@ deleted. You can view your current upload limits below.{% endblocktrans %}</div>
         </td>
         <td>
             <span class="sr-only">{% trans "Delete this file" %}</span>
-            <span class="glyphicon glyphicon-trash glyph-button hover-danger" 
+            <span class="far fa-trash-alt hover-danger icon-button" 
                   data-url="{% url "account:api-xep0363-delete" pk=upload.pk %}"
                   data-action="remove-row" data-type="DELETE"
                   title="{% trans 'Delete this file' %}" aria-hidden="true"></span>

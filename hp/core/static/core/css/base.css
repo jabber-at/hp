@@ -12,7 +12,7 @@ body {
 .nowrap {
     white-space: nowrap;
 }
-.glyph-button {
+.icon-button {
     cursor: pointer;
     padding: 1px 5px;  /* for mobile users */
 }
