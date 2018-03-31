@@ -151,9 +151,6 @@ class BoundField(forms.boundfield.BoundField):
                        for k, v in self.field.error_messages.items()
                        if k in self.field.html_errors})
 
-        for e in self.errors.as_data():
-            invalid.update({e.code: ' '.join(e) for e in self.errors.as_data()})
-
         context = {
             'field': self,
             'valid': self.field.get_valid_feedback(),
