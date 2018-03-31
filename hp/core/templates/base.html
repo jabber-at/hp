@@ -107,7 +107,7 @@
 </header>
 
 <div class="container" role="main">
-    <div class="row">{% block page %}{% endblock page %}</div>
+    <div class="row{% block row-classes %}{% endblock %}">{% block page %}{% endblock page %}</div>
 </div>
 
 <footer class="footer">

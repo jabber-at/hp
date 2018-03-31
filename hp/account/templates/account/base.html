@@ -7,8 +7,8 @@ Base template for user setting views when the user is logged in.
 {% block extracss %}<link href="{% static 'account/css/base.css' %}" rel="stylesheet">{% endblock extracss %}
 {% block extrajs %}<script src="{% static 'account/js/base.js' %}"></script>{% endblock extrajs %}
 
+{% block row-classes %} row-offcanvas row-offcanvas-left user-menu{% endblock %}
 {% block page %}
-<div class="row row-offcanvas row-offcanvas-left user-menu">
     <div class="col-xs-6 col-md-4 col-lg-3 sidebar-offcanvas" id="sidebar">
         <div class="list-group">
             <a class="list-group-item header">{% trans "User settings" %}</a>
@@ -44,5 +44,4 @@ on the link in it and give us a password to complete the registration.{% endbloc
 {% include "core/include/messages.html" %}
 {% block content %}{% endblock content %}
     </div>
-</div>
 {% endblock page %}
