@@ -193,6 +193,8 @@ class BootstrapMixin(object):
         'invalid',
         'unique',
         'required',
+        'min_length',
+        'max_length',
     }
 
     # TODO: Rework this
