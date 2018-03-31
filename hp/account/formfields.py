@@ -20,7 +20,6 @@ import dns.resolver
 from django import forms
 from django.conf import settings
 from django.core.validators import RegexValidator
-from django.utils.html import format_html
 from django.utils.translation import ugettext_lazy as _
 
 from bootstrap.formfields import BootstrapCharField
@@ -38,7 +37,7 @@ from .widgets import UsernameWidget
 class UsernameField(BootstrapMixin, forms.MultiValueField):
     formgroup_class = 'form-group-username'
     default_error_messages = {
-        'syntax': _('The username is invalid.'),
+        'invalid': _('The username is invalid.'),
         'exists': _('This username is already taken.'),
         'error': _('Could not check if the username already exists: Error communicating with the server.'),
     }
@@ -76,30 +75,6 @@ class UsernameField(BootstrapMixin, forms.MultiValueField):
 
         self.widget = UsernameWidget(widgets=widgets, attrs={})
         super().__init__(fields=fields, require_all_fields=True, **kwargs)
-
-    def get_help_text(self):
-        if self.register is True:
-            help_text = _(
-                'At least %(MIN_LENGTH)s and up to %(MAX_LENGTH)s characters. No "@" or spaces.'
-            ) % {
-                'MIN_LENGTH': settings.MIN_USERNAME_LENGTH,
-                'MAX_LENGTH': settings.MAX_USERNAME_LENGTH,
-            }
-
-            default = format_html('<span id="default">{}</span>',
-                                  _('Type to see if the username is still available.'))
-            available = format_html('<span id="username-available">{}</span>',
-                                    _('The username is still available.'))
-            not_available = format_html('<span id="username-not-available">{}</span>',
-                                        _('The username is no longer available.'))
-            invalid = format_html('<span id="invalid">{}</span>',
-                                  _('The username is invalid.'))
-            error = format_html('<span id="error">{}</span>',
-                                _('An error occured, please try again later.'))
-            return format_html(
-                '''{}<span class="help-block" id="status-check">{}{}{}{}{}</span>''',
-                help_text, default, available, not_available, invalid, error)
-        return ''
 
     def compress(self, data_list):
         node, domain = data_list

@@ -296,9 +296,6 @@ class BootstrapMixin(object):
     def get_bound_field(self, form, field_name):
         return BoundField(form, self, field_name)
 
-    def get_help_text(self):
-        return ''
-
 
 class BootstrapCharField(BootstrapMixin, forms.CharField):
     widget = widgets.BootstrapTextInput
