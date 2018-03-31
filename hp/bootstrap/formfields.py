@@ -316,15 +316,27 @@ class BootstrapEmailField(BootstrapMixin, forms.EmailField):
 
 class BootstrapPasswordField(BootstrapMixin, forms.CharField):
     widget = widgets.BootstrapPasswordInput
-    add_success = False
 
     def __init__(self, *args, **kwargs):
-        if kwargs.pop('add_min_length', False):
-            for validator in password_validation.get_default_password_validators():
-                if isinstance(validator, password_validation.MinimumLengthValidator):
-                    kwargs.setdefault('min_length', validator.min_length)
-                    break
-        super(BootstrapPasswordField, self).__init__(*args, **kwargs)
+        kwargs.setdefault('label', _('Password'))
+        super().__init__(*args, **kwargs)
+
+
+class BootstrapSetPasswordField(BootstrapPasswordField):
+    def __init__(self, *args, **kwargs):
+        # Set the min_length attribute if we have a MinimumLenghtValidator
+        for validator in password_validation.get_default_password_validators():
+            if isinstance(validator, password_validation.MinimumLengthValidator):
+                kwargs.setdefault('min_length', validator.min_length)
+                break
+
+        super().__init__(*args, **kwargs)
+
+
+class BootstrapConfirmPasswordField(BootstrapPasswordField):
+    def __init__(self, *args, **kwargs):
+        kwargs.setdefault('label', _('Confirm'))
+        super().__init__(*args, **kwargs)
 
 
 class BootstrapChoiceField(BootstrapMixin, forms.ChoiceField):

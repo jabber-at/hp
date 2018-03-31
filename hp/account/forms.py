@@ -23,8 +23,11 @@ from django.conf import settings
 from django.contrib.auth import password_validation
 from django.contrib.auth.forms import AuthenticationForm
 from django.utils.translation import ugettext_lazy as _
+from django.utils.safestring import mark_safe
 
 from bootstrap.formfields import BootstrapPasswordField
+from bootstrap.formfields import BootstrapSetPasswordField
+from bootstrap.formfields import BootstrapConfirmPasswordField
 from core.forms import CaptchaFormMixin
 
 from .formfields import EmailVerifiedDomainField
@@ -76,7 +79,6 @@ class GPGMixin(forms.Form):
         if self.data.get('gpg_fingerprint') or self.files.get('gpg_key'):
             return False
         return True
-
 
     class Media:
         js = (
@@ -183,11 +185,9 @@ class DeleteAccountForm(forms.Form):
 
 
 class SetPasswordForm(forms.Form):
-    password = BootstrapPasswordField(
-        add_min_length=True, label=_('Password'),
-        help_text=password_validation.password_validators_help_text_html())
-    password2 = BootstrapPasswordField(
-        add_min_length=True, label=_('Confirm'),
+    password = BootstrapSetPasswordField(
+        help_text=mark_safe(password_validation.password_validators_help_text_html()))
+    password2 = BootstrapConfirmPasswordField(
         help_text=_('Confirm the password to make sure you spelled it correctly.'))
 
     password_error_messages = {
