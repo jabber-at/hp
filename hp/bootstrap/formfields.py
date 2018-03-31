@@ -336,6 +336,12 @@ class BootstrapSetPasswordField(BootstrapPasswordField):
 
 class BootstrapConfirmPasswordField(BootstrapPasswordField):
     widget = widgets.BootstrapConfirmPasswordInput
+    default_error_messages = {
+        'no-match': _('The passwords did not match'),
+    }
+    default_html_errors = {
+        'no-match',
+    }
 
     def __init__(self, *args, **kwargs):
         kwargs.setdefault('label', _('Confirm'))

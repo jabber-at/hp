@@ -86,4 +86,31 @@ $(document).ready(function() {
     /**
      * Handle password-confirmation fields
      */
+    $('input[type="password"].set-password').on('input propertychange paste', function(e) {
+        let pwd = $(e.target);
+        let form = pwd.parents('form');
+        let confirm_pwd = form.find('input[type="password"].confirm-password');
+
+        if (confirm_pwd.val() === pwd.val()) {
+            confirm_pwd[0].setCustomValidity('');
+        } else {
+            let error = confirm_pwd.siblings('.invalid-feedback.invalid-no-match').text().trim();
+            confirm_pwd[0].setCustomValidity(error);
+            confirm_pwd.parents('.form-group').addClass('invalid-no-match');
+        }
+    });
+
+    $('input[type="password"].confirm-password').on('input propertychange paste', function(e) {
+        let confirm_pwd = $(e.target);
+        let form = confirm_pwd.parents('form');
+        let pwd = form.find('input[type="password"].set-password');
+
+        if (confirm_pwd.val() === pwd.val()) {
+            e.target.setCustomValidity('');
+        } else {
+            let error = confirm_pwd.siblings('.invalid-feedback.invalid-no-match').text().trim();
+            e.target.setCustomValidity(error);
+            confirm_pwd.parents('.form-group').addClass('invalid-no-match');
+        }
+    });
 });
