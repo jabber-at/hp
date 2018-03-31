@@ -55,6 +55,10 @@ $(document).ready(function() {
         if (! e.target.checkValidity()) {
             if (value.length == 0 && input.prop('required')) {
                 bs4_forms_set_error(input, 'required');
+            } else if (e.target.validity.tooShort) {
+                bs4_forms_set_error(input, 'min_length');
+            } else if (e.target.validity.tooLong) {
+                bs4_forms_set_error(input, 'max_length');
             } else {
                 bs4_forms_set_error(input, 'invalid');
             }
