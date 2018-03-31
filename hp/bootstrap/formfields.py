@@ -322,9 +322,12 @@ class BootstrapPasswordField(BootstrapMixin, forms.CharField):
 
 
 class BootstrapSetPasswordField(BootstrapPasswordField):
+    min_validation_length = 2
     widget = widgets.BootstrapSetPasswordInput
 
     def __init__(self, *args, **kwargs):
+        kwargs.setdefault('required', True)
+
         # Set the min_length attribute if we have a MinimumLenghtValidator
         for validator in password_validation.get_default_password_validators():
             if isinstance(validator, password_validation.MinimumLengthValidator):
@@ -333,8 +336,14 @@ class BootstrapSetPasswordField(BootstrapPasswordField):
 
         super().__init__(*args, **kwargs)
 
+        # We override the error message here because the minimum length is encoded in the validator.
+        self.error_messages['min_length'] = _('Password must have at least %(length)s characters.') % {
+            'length': kwargs.get('min_length', 1),
+        }
+
 
 class BootstrapConfirmPasswordField(BootstrapPasswordField):
+    min_validation_length = 2
     widget = widgets.BootstrapConfirmPasswordInput
     default_error_messages = {
         'no-match': _('The passwords did not match'),

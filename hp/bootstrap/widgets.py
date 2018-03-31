@@ -91,6 +91,11 @@ class BootstrapEmailInput(BootstrapWidgetMixin, forms.EmailInput):
 class BootstrapPasswordInput(BootstrapWidgetMixin, forms.PasswordInput):
     template_name = 'bootstrap/forms/widgets/password.html'
 
+    def build_attrs(self, base_attrs, extra_attrs=None):
+        if self.is_required:
+            base_attrs['required'] = ''
+        return super().build_attrs(base_attrs, extra_attrs=extra_attrs)
+
 
 class BootstrapSetPasswordInput(BootstrapPasswordInput):
     css_classes = 'set-password'
