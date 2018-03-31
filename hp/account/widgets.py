@@ -14,7 +14,6 @@
 # <http://www.gnu.org/licenses/>.
 
 from django.conf import settings
-from django.utils.translation import ugettext_lazy as _
 
 from bootstrap.widgets import BootstrapMultiWidget
 from bootstrap.widgets import BootstrapSelect
@@ -33,8 +32,7 @@ class NodeWidget(MergeClassesMixin, BootstrapTextInput):
 
     def __init__(self, attrs=None, **kwargs):
         attrs = attrs or {}
-        attrs['pattern'] = '[^@ ]{%s,%s}' % (settings.MIN_USERNAME_LENGTH,
-                                             settings.MAX_USERNAME_LENGTH)
+        attrs['pattern'] = '[^@ ]+'
         self.register = kwargs.pop('register', False)
         super(NodeWidget, self).__init__(attrs=attrs, **kwargs)
 
