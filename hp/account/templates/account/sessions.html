@@ -25,7 +25,7 @@ the trash icon.{% endblocktrans %}
         <td class="nowrap">{{ session.uptime|date:"SHORT_DATETIME_FORMAT" }}</td>
         <td>
             <span class="sr-only">{% trans "Stop connection" %}</span>
-            <span class="glyphicon glyphicon-trash glyph-button hover-danger" 
+            <span class="fas fa-trash icon-button hover-danger" 
                   data-url="{% url 'account:api-stop-user-session' resource=session.resource %}"
                   data-action="remove-row" data-type="DELETE"
                   title="{% trans 'Delete key' %}" aria-hidden="true"></span>
