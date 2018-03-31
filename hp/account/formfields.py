@@ -37,7 +37,7 @@ from .widgets import UsernameWidget
 class UsernameField(BootstrapMixin, forms.MultiValueField):
     formgroup_class = 'form-group-username'
     default_error_messages = {
-        'invalid': _('The username is invalid.'),
+        'invalid': _('Username cannot contain "@" or spaces.'),
         'max_length': _('Username must have at most %(max_length)s characters.') % {
             'max_length': settings.MAX_USERNAME_LENGTH,
         },
@@ -92,7 +92,8 @@ class FingerprintField(BootstrapCharField):
     widget = FingerprintWidget
     invalid_feedback = _('Please enter a valid GPG key fingerprint.')
     default_error_messages = {
-        'invalid': _('Fingerprint may only contain digits, the letters A-F and spaces.'),
+        'invalid': _('Fingerprint must be 40 characters (excluding spaces) and contain only digits, '
+                     'the letters A-F and spaces.'),
     }
 
     def __init__(self, **kwargs):
