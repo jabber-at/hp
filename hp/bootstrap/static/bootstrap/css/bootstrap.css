@@ -13,3 +13,9 @@
 .was-validated.invalid-unique .form-control:invalid ~ .invalid-feedback.invalid-unique {
     display: block;
 }
+.was-validated.invalid-min_length .form-control:invalid ~ .invalid-feedback.invalid-min_length {
+    display: block;
+}
+.was-validated.invalid-max_length .form-control:invalid ~ .invalid-feedback.invalid-max_length {
+    display: block;
+}
