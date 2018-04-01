@@ -83,7 +83,7 @@ def icon_reload(css_classes='', **attrs):
 
 @register.simple_tag
 def icon_delete(css_classes='', **attrs):
-    return icon('trash', **attrs)
+    return icon('trash', css_classes=css_classes, **attrs)
 
 
 @register.simple_tag
@@ -96,3 +96,16 @@ def icon_unfolded(css_classes='', **attrs):
 def icon_folded(css_classes='', **attrs):
     css_classes += ' icon-folded'
     return icon('angle-right', css_classes=css_classes, **attrs)
+
+
+@register.simple_tag(takes_context=True)
+def button_delete(context, *, action, url, css_classes='', hidden=True, **attrs):
+    css_classes += ' hover-danger icon-button'
+    attrs.setdefault('data-action', action)
+    attrs.setdefault('data-type', 'DELETE')
+    attrs['data-url'] = url
+
+    if hidden is True:
+        attrs['aria-hidden'] = 'true'
+
+    return icon_delete(css_classes=css_classes, **attrs)
