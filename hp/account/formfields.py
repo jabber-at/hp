@@ -82,7 +82,7 @@ class UsernameField(BootstrapMixin, forms.MultiValueField):
             forms.CharField(
                 widget=NodeWidget(register=self.register),
                 validators=[
-                    RegexValidator(r'^[^@\s]+$', _('Username contains invalid characters.'), code='invalid'),
+                    RegexValidator(r'^[^@\s]+$', self.default_error_messages['invalid'], code='invalid'),
                 ],
                 **char_kwargs
             ),
