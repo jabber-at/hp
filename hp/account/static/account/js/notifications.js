@@ -9,7 +9,7 @@ $(document).ready(function () {
             url: form.attr('action'),
             data: form.serialize(),
             success: function(data) {
-                checkbox.parent('label').find('.glyphicon').fadeIn(150).delay(500).fadeOut(150);
+                checkbox.parent('label').find('.icon-success').fadeIn(150).delay(500).fadeOut(150);
             },
             error: function(data) {
             }

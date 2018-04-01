@@ -1,5 +1,5 @@
 {% extends "account/base.html" %}
-{% load i18n staticfiles bootstrap %}
+{% load i18n staticfiles icons %}
 
 {% block extrajs %}
 {{ block.super }}
@@ -22,7 +22,7 @@
     <div class="form-group">
         <div class="col-sm-offset-1 col-sm-11">
             <div class="checkbox">
-                <label>{{ field }} {{ field.label }} {% glyph_yes %}</label>
+                <label>{{ field }} {{ field.label }} {% icon_success %}<a/label>
             </div>
             <p class="help-block">{{ field.help_text }}</p>
         </div>
