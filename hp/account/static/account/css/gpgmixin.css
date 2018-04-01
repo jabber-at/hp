@@ -2,7 +2,7 @@
 .gpg-header-row.show-gpg h4 .icon-folded {
     display: none;
 }
-.gpg-header-row.show-gpg h4 .icon-infolded {
+.gpg-header-row.show-gpg h4 .icon-unfolded {
     display: inline-block;
 }
 .gpg-header-row {
