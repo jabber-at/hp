@@ -5,12 +5,12 @@
 
 {% block content %}
 <form enctype="multipart/form-data" class="form-horizontal" action="" method="post">{% csrf_token %}
-    {% include "account/include/gpg_form.html" %}
+  {% include "account/include/gpg_form.html" %}
 
-    <div class="row">
-        <div class="col-sm-10 offset-sm-2">
-            <button type="submit" class="btn btn-primary">{% trans "Submit" %}</button>
-        </div>
+  <div class="row">
+    <div class="col-sm-10 offset-sm-2">
+      <button type="submit" class="btn btn-primary">{% trans "Submit" %}</button>
     </div>
+  </div>
 </form>
 {% endblock content %}
