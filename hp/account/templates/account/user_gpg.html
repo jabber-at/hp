@@ -1,5 +1,5 @@
 {% extends "account/base.html" %}
-{% load i18n %}
+{% load i18n icons %}
 
 {% block title %}{% trans "GPG keys" %}{% endblock title %}
 
@@ -11,10 +11,12 @@
 are used for encrypting password reset emails and other important <a 
 href="{{ notifications_url }}">notifications</a>.{% endblocktrans %}</p>
 
+{% icon_add as add_icon %}
+{% icon_reload as reload_icon %}
 <p>{% blocktrans %}Keys will be refreshed from the public keyservers before they expire. If
 your key is not on the keyservers and you want to manually update it,
 simply upload the file as if you uploaded a new key.  You can manually
-<span class="fas fa-sync"></span> refresh a key from the
+{{ reload_icon }} refresh a key from the
 keyservers in the table below.{% endblocktrans %}</p>
 
 {% with keys=object.gpg_keys.all %}
@@ -35,15 +37,10 @@ keyservers in the table below.{% endblocktrans %}</p>
                 <td>0x{{ key.fingerprint }}</td>
                 <td class="nowrap">
                     <span class="sr-only">{% trans "Refresh key from keyserver" %}</span>
-                    <span class="fas fa-sync icon-button hover-primary" 
-                          data-url="{% url 'account:manage_gpg' pk=key.pk %}"
-                          data-action="notification"
-                          title="{% trans 'Refresh key from keyserver' %}" aria-hidden="true"></span>
+                    {% url 'account:manage_gpg' pk=key.pk as reload_url %}
+                    {% button_reload action='notification' url=reload_url title=_("Refresh key from keyserver") %}
                     <span class="sr-only">{% trans "Delete key" %}</span>
-                    <span class="fas fa-trash icon-button hover-danger" 
-                          data-url="{% url 'account:manage_gpg' pk=key.pk %}"
-                          data-action="remove-row" data-type="DELETE"
-                          title="{% trans 'Delete key' %}" aria-hidden="true"></span>
+                    {% button_delete action='remove-row' url=delete_url title=_("Delete this key") %}
                 </td>
             </tr>
         {% endfor %}
@@ -54,7 +51,7 @@ keyservers in the table below.{% endblocktrans %}</p>
     {% else %}
         <p>{% trans "You have no configured GPG keys." %}</p>
         <p><a class="btn btn-primary" href="{% url 'account:add_gpg' %}">
-            {% trans '<i class="fas fa-plus"></i> Add a GPG key' %}
+          {% blocktrans with icon=add_icon %}{{ icon }} Add a GPG key{% endblocktrans %}
         </a></p>
     {% endif %}
 {% endwith %}

@@ -73,12 +73,12 @@ def icon_error(text_class='danger', css_classes='', **kwargs):
 
 @register.simple_tag
 def icon_add(css_classes='', **attrs):
-    return icon('plus', **attrs)
+    return icon('plus', css_classes=css_classes, **attrs)
 
 
 @register.simple_tag
 def icon_reload(css_classes='', **attrs):
-    return icon('sync', **attrs)
+    return icon('sync', css_classes=css_classes, **attrs)
 
 
 @register.simple_tag
@@ -96,6 +96,18 @@ def icon_unfolded(css_classes='', **attrs):
 def icon_folded(css_classes='', **attrs):
     css_classes += ' icon-folded'
     return icon('angle-right', css_classes=css_classes, **attrs)
+
+
+@register.simple_tag(takes_context=True)
+def button_reload(context, *, action, url, css_classes='', hidden=True, **attrs):
+    css_classes += ' hover-primary icon-button'
+    attrs.setdefault('data-action', action)
+    attrs['data-url'] = url
+
+    if hidden is True:
+        attrs['aria-hidden'] = 'true'
+
+    return icon_reload(css_classes=css_classes, **attrs)
 
 
 @register.simple_tag(takes_context=True)
