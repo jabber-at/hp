@@ -1,4 +1,5 @@
 form.user-notifications .icon-success,
 form.user-notifications .icon-error {
+    margin-left: 4px;
     display: none;
 }

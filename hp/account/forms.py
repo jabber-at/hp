@@ -25,6 +25,7 @@ from django.contrib.auth.forms import AuthenticationForm
 from django.utils.safestring import mark_safe
 from django.utils.translation import ugettext_lazy as _
 
+from bootstrap.formfields import BootstrapBooleanField
 from bootstrap.formfields import BootstrapConfirmPasswordField
 from bootstrap.formfields import BootstrapPasswordField
 from bootstrap.formfields import BootstrapSetPasswordField
@@ -166,6 +167,10 @@ class LoginForm(CaptchaFormMixin, AuthenticationForm):
 class NotificationsForm(forms.ModelForm):
     class Meta:
         model = Notifications
+        field_classes = {
+            'account_expires': BootstrapBooleanField,
+            'gpg_expires': BootstrapBooleanField,
+        }
         fields = ['account_expires', 'gpg_expires', ]
         labels = {
             'account_expires': _('my account expires'),

@@ -19,14 +19,10 @@
 <p><strong>{% trans "Send me an email when:" %}</strong></p>
 <form class="form-horizontal user-notifications" action="" method="post">{% csrf_token %}
   {% for field in form %}
-  <div class="form-group">
-    <div class="col-sm-offset-1 col-sm-11">
-      <div class="checkbox">
-        <label>{{ field }} {{ field.label }} {% icon_success %}{% icon_error %}<a/label>
-      </div>
-      <p class="help-block">{{ field.help_text }}</p>
-    </div>
-  </div>
+  <div class="row"><div class="form-check mb-3 col-sm-11 offset-sm-1">
+    {{ field }}{{ field.label_tag }}{% icon_success %}{% icon_error %}
+    {% include "bootstrap/forms/includes/help_text.html" %}
+  </div></div>
   {% endfor %}
 </form>
 {% endblock content %}
