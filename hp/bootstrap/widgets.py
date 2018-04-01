@@ -116,5 +116,13 @@ class BootstrapFileInput(BootstrapWidgetMixin, forms.ClearableFileInput):
     def build_attrs(self, base_attrs, extra_attrs=None):
         # remove form-control
         base_attrs['class'] = base_attrs['class'].replace('form-control', '')
-        attrs = super().build_attrs(base_attrs, extra_attrs=extra_attrs)
-        return attrs
+        return super().build_attrs(base_attrs, extra_attrs=extra_attrs)
+
+
+class BootstrapCheckboxInput(BootstrapWidgetMixin, forms.CheckboxInput):
+    css_classes = 'form-check-input'
+
+    def build_attrs(self, base_attrs, extra_attrs=None):
+        # remove form-control
+        base_attrs['class'] = base_attrs['class'].replace('form-control', '')
+        return super().build_attrs(base_attrs, extra_attrs=extra_attrs)

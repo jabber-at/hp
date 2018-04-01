@@ -398,3 +398,14 @@ class BootstrapFileField(BootstrapMixin, forms.FileField):
         if self.mime_types:
             attrs['accept'] = ','.join(self.mime_types)
         return attrs
+
+
+class BootstrapBooleanField(BootstrapMixin, forms.BooleanField):
+    widget = widgets.BootstrapCheckboxInput
+
+    def __init__(self, **kwargs):
+        kwargs.setdefault('label_suffix', '')
+        super().__init__(**kwargs)
+
+    def get_label_attrs(self):
+        return {'class': 'form-check-label', }
