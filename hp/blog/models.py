@@ -69,14 +69,14 @@ class BasePage(BaseModel):
             extra_context = {}
         context = template.RequestContext(request, extra_context)
 
-        t = '{%% load blog core bootstrap %%}%s' % text
+        t = '{%% load blog core icons %%}%s' % text
         return template.Template(t).render(context)
 
     def render(self, context, summary=False):
         if summary is True:
             return mark_safe(self.get_html_summary(context['request']))
         else:
-            t = '{%% load blog core bootstrap %%}%s' % self.text.current
+            t = '{%% load blog core icons %%}%s' % self.text.current
             return template.Template(t).render(context)
 
     def render_from_request(self, request, extra_context=None):

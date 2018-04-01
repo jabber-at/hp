@@ -28,7 +28,7 @@ class BasePageAdminForm(forms.ModelForm):
     def test_render_template(self, template):
         request = RequestFactory().get('/')
         context = Context({'request': request})
-        Template('{%% load blog core bootstrap %%}%s' % template).render(context)
+        Template('{%% load blog core icons %%}%s' % template).render(context)
 
     def clean_text_en(self):
         data = self.cleaned_data['text_en']
