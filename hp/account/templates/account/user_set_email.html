@@ -1,5 +1,5 @@
 {% extends "account/base.html" %}
-{% load i18n %}
+{% load i18n icons %}
 
 {% block title %}{% trans "Set new email address" %}{% endblock title %}
 
@@ -7,18 +7,20 @@
 <form enctype="multipart/form-data" class="form-horizontal" action="" method="post">{% csrf_token %}
     {{ form.email.formgroup }}
 
-    {% with user.uses_gpg as uses_gpg %}
-    <div class="row gpg-header-row{% if form.show_gpg or uses_gpg%} show-gpg{% endif %}">
-    <div class="col-sm-12">
-        <h4>
-            <span class="glyphicon glyphicon-menu-right" aria-hidden="true"></span>
-            <span class="glyphicon glyphicon-menu-down" aria-hidden="true"></span>
-            {% trans "GPG options" %}
-        </h4>
-    </div>
+    {% with uses_gpg=user.uses_gpg %}
+    {% if form.show_gpg %}
+    <div class="row gpg-header-row show-gpg{% if form.hide_gpg_content and not uses_gpg %} hidden-with-js{% endif %}">
+      <div class="col-sm-12">
+          <h4>
+              {% icon_unfolded %}
+              {% icon_folded %}
+              {% trans "GPG options" %}
+          </h4>
+      </div>
     </div>
 
-    {% include "account/include/gpg_form.html" %}
+      {% include "account/include/gpg_form.html" %}
+    {% endif %}
     {% endwith %}
 
     <div class="form-group">
