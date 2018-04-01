@@ -102,7 +102,9 @@ class BoundField(forms.boundfield.BoundField):
         context['value'] = value
 
         if hasattr(self.field, 'max_length'):
-            context['max'] = self.field.max_length
+            context['limit_value'] = self.field.max_length
+        if hasattr(self.field, 'min_length'):
+            context['limit_value'] = self.field.min_length
         if isinstance(value, (str, Promise)):
             context['length'] = len(value)
 
@@ -122,7 +124,6 @@ class BoundField(forms.boundfield.BoundField):
             # We don't really need these so far
             'date_field_label': 'TODO_date_field_label',
             'lookup_type': 'TODO_lookup_type',
-            'limit_value': 999,  # TODO
             'show_value': 'TODO_SHOW_VALUE'
         }
         invalid = {}
@@ -189,6 +190,12 @@ class BootstrapMixin(object):
 
     formgroup_class = None
     hide_label = False
+
+    # Override error messages so that they contain no values, since they are usually displayed with JavaScript
+    default_error_messages = {
+        'max_length': _('Ensure this value has at most %(limit_value)d characters.'),
+        'min_length': _('Ensure that this value has at least %(limit_value)d characters.'),
+    }
     default_html_errors = {
         'invalid',
         'unique',
@@ -302,9 +309,6 @@ class BootstrapMixin(object):
 
 
 class BootstrapCharField(BootstrapMixin, forms.CharField):
-    default_error_messages = {
-        'min_length': _('Ensure that this value has at least %(limit_value)d characters.'),
-    }
     widget = widgets.BootstrapTextInput
 
 
