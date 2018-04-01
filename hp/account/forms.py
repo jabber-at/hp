@@ -190,10 +190,8 @@ class DeleteAccountForm(forms.Form):
 
 
 class SetPasswordForm(forms.Form):
-    password = BootstrapSetPasswordField(
-        help_text=mark_safe(password_validation.password_validators_help_text_html()))
-    password2 = BootstrapConfirmPasswordField(
-        help_text=_('Confirm the password to make sure you spelled it correctly.'))
+    password = BootstrapSetPasswordField()
+    password2 = BootstrapConfirmPasswordField()
 
     def __init__(self, *args, **kwargs):
         self.instance = kwargs.pop('instance', None)

@@ -325,6 +325,8 @@ class BootstrapSetPasswordField(BootstrapPasswordField):
                 self.min_length = validator.min_length
                 break
 
+        kwargs.setdefault('help_text', password_validation.password_validators_help_text_html())
+
         super().__init__(*args, **kwargs)
 
 
@@ -341,6 +343,7 @@ class BootstrapConfirmPasswordField(BootstrapPasswordField):
 
     def __init__(self, *args, **kwargs):
         kwargs.setdefault('label', _('Confirm'))
+        kwargs.setdefault('help_text', _('Confirm the password to make sure you spelled it correctly.'))
         super().__init__(*args, **kwargs)
 
 
