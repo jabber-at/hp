@@ -94,20 +94,21 @@ $(document).ready(function() {
         let confirm_val = confirm_pwd.val();
         let confirm_fg = confirm_pwd.parents('.form-group');
 
+        /**
+         * Add was-validated to the confirmation field as soon as this field has it. 
+         */
         if (form_group.hasClass('was-validated')) {
             confirm_fg.addClass('was-validated');
         }
 
         if (value === confirm_val && confirm_val) {
             confirm_pwd[0].setCustomValidity('');
-            confirm_fg.removeClass('invalid-no-match');
+            bs4_forms_clear_error(confirm_fg);
         } else if (! confirm_val) {
             confirm_fg.removeClass('invalid-no-match');
             confirm_fg.addClass('invalid-required');
         } else {
-            let error = confirm_pwd.siblings('.invalid-feedback.invalid-no-match').text().trim();
-            confirm_pwd[0].setCustomValidity(error);
-            confirm_fg.addClass('invalid-no-match');
+            bs4_forms_set_error(confirm_pwd, 'no-match');
         }
     });
 
@@ -118,12 +119,13 @@ $(document).ready(function() {
         let form_group = confirm_pwd.parents('.form-group');
         let value = confirm_pwd.val();
 
-        if (value === pwd.val() || value === '') {
-            e.target.setCustomValidity('');
+        if (value === pwd.val()) {
+            bs4_forms_clear_error(form_group);
+        } else if (value === '') {
+            form_group.removeClass('invalid-no-match');
+            form_group.addClass('invalid-required');
         } else {
-            let error = confirm_pwd.siblings('.invalid-feedback.invalid-no-match').text().trim();
-            e.target.setCustomValidity(error);
-            form_group.addClass('invalid-no-match');
+            bs4_forms_set_error(confirm_pwd, 'no-match');
         }
     });
 });
