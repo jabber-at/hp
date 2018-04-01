@@ -5,18 +5,18 @@
 
 {% block content %}
 <form enctype="multipart/form-data" class="form-horizontal" action="" method="post">{% csrf_token %}
-    {{ form.email.formgroup }}
+  {{ form.email.formgroup }}
 
-    {% with uses_gpg=user.uses_gpg %}
-    {% if form.show_gpg %}
-      {% include "account/include/gpg_form.html" %}
-    {% endif %}
-    {% endwith %}
+  {% with uses_gpg=user.uses_gpg %}
+  {% if form.show_gpg %}
+    {% include "account/include/gpg_form.html" %}
+  {% endif %}
+  {% endwith %}
 
-    <div class="row">
-        <div class="col-sm-10 offset-sm-2">
-            <button type="submit" class="btn btn-primary">{% trans "Submit" %}</button>
-        </div>
+  <div class="row">
+    <div class="col-sm-10 offset-sm-2">
+      <button type="submit" class="btn btn-primary">{% trans "Submit" %}</button>
     </div>
+  </div>
 </form>
 {% endblock content %}
