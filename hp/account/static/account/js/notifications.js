@@ -12,6 +12,7 @@ $(document).ready(function () {
                 checkbox.parent('label').find('.icon-success').fadeIn(150).delay(500).fadeOut(150);
             },
             error: function(data) {
+                checkbox.parent('label').find('.icon-error').fadeIn(150).delay(500).fadeOut(150);
             }
         });
     });

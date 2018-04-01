@@ -1,3 +1,4 @@
-form.user-notifications .icon-success {
+form.user-notifications .icon-success,
+form.user-notifications .icon-error {
     display: none;
 }
