@@ -3,8 +3,11 @@ $(document).ready(function() {
     $('.gpg-header-row.hidden-with-js .fa-angle-right').show();
     $('.gpg-header-row.hidden-with-js .fa-angle-down').hide();
 
-    $('.gpg-header-row').click(function(data) {
+    $('.gpg-header-row').click(function(e) {
+        let target = $(e.target);
         $('.gpg-content').slideToggle("fast");
-        $('.gpg-header-row').toggleClass('show-gpg');
+        $(e.target).toggleClass('show-gpg');
+        target.find('.fa-angle-right').toggle();
+        target.find('.fa-angle-down').toggle();
     });
 });
