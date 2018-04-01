@@ -70,7 +70,6 @@ $(document).ready(function() {
         let target = $(e.target);
         let filename = target.val().split('\\').pop();
         target.siblings('label.custom-file-label').text(filename);
-        console.log('file changed: ' + filename);
 
     });
 
@@ -89,15 +88,26 @@ $(document).ready(function() {
     $('input[type="password"].set-password').on('input propertychange paste', function(e) {
         let pwd = $(e.target);
         let form = pwd.parents('form');
+        let form_group = pwd.parents('.form-group')
+        let value = pwd.val();
         let confirm_pwd = form.find('input[type="password"].confirm-password');
+        let confirm_val = confirm_pwd.val();
+        let confirm_fg = confirm_pwd.parents('.form-group');
 
-        if (confirm_pwd.val() === pwd.val()) {
+        if (form_group.hasClass('was-validated')) {
+            confirm_fg.addClass('was-validated');
+        }
+
+        if (value === confirm_val && confirm_val) {
             confirm_pwd[0].setCustomValidity('');
-            confirm_pwd.parents('.form-group').removeClass('invalid-no-match');
+            confirm_fg.removeClass('invalid-no-match');
+        } else if (! confirm_val) {
+            confirm_fg.removeClass('invalid-no-match');
+            confirm_fg.addClass('invalid-required');
         } else {
             let error = confirm_pwd.siblings('.invalid-feedback.invalid-no-match').text().trim();
             confirm_pwd[0].setCustomValidity(error);
-            confirm_pwd.parents('.form-group').addClass('invalid-no-match');
+            confirm_fg.addClass('invalid-no-match');
         }
     });
 
@@ -105,13 +115,15 @@ $(document).ready(function() {
         let confirm_pwd = $(e.target);
         let form = confirm_pwd.parents('form');
         let pwd = form.find('input[type="password"].set-password');
+        let form_group = confirm_pwd.parents('.form-group');
+        let value = confirm_pwd.val();
 
-        if (confirm_pwd.val() === pwd.val()) {
+        if (value === pwd.val() || value === '') {
             e.target.setCustomValidity('');
         } else {
             let error = confirm_pwd.siblings('.invalid-feedback.invalid-no-match').text().trim();
             e.target.setCustomValidity(error);
-            confirm_pwd.parents('.form-group').addClass('invalid-no-match');
+            form_group.addClass('invalid-no-match');
         }
     });
 });
