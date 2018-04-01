@@ -81,6 +81,7 @@ var tinymce_setup = function(editor) {
     editor.addButton('icons', {
         type: 'listbox',
         text: false,
+        tooltip: "Insert icon",
         icon: 'flag fab fa-font-awesome-flag',
 
         onselect: function (e) {
