@@ -3,12 +3,11 @@
 # This file is distributed under the same license as the PACKAGE package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 #
-#, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-10-08 13:21+0200\n"
+"POT-Creation-Date: 2018-04-01 18:23+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,6 +17,46 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: widgets.py:124
-msgid "Browse..."
-msgstr "Auswählen..."
+#: formfields.py:180
+#, python-format
+msgid "Ensure this value has at most %(limit_value)d characters."
+msgstr ""
+"Bitte sicherstellen, dass der Wert aus höchstens %(limit_value)d Zeichen "
+"besteht."
+
+#: formfields.py:181
+#, python-format
+msgid "Ensure that this value has at least %(limit_value)d characters."
+msgstr ""
+"Bitte sicherstellen, dass der Wert aus mindestens %(limit_value)d Zeichen "
+"besteht."
+
+#: formfields.py:317
+msgid "Password"
+msgstr "Passwort"
+
+#: formfields.py:325
+#, python-format
+msgid "Your password must contain at least %(limit_value)d characters."
+msgstr ""
+"Ihr Passwort muss aus mindestens %(limit_value)d Zeichen bestehen."
+
+#: formfields.py:345
+msgid "The passwords did not match"
+msgstr "Die Passwörter stimmen nicht überein."
+
+#: formfields.py:350
+msgid "The two passwords match."
+msgstr "Die Passwörter stimmen überein."
+
+#: formfields.py:353
+msgid "Confirm"
+msgstr "Bestätigen"
+
+#: formfields.py:367
+msgid "Upload a file with the correct type."
+msgstr "Bitte eine Datei mit dem Datentyp hochladen."
+
+#: templates/bootstrap/forms/widgets/file_input.html:4
+msgid "Choose file"
+msgstr "Datei auswählen"

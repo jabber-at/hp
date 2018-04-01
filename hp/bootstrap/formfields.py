@@ -135,7 +135,7 @@ class BoundField(forms.boundfield.BoundField):
         invalid.update({k if k else 'default': v for k, v in self.field.error_messages.items()})
 
         invalid = {k: v % msg_context for k, v in invalid.items() if k in self.field.html_errors}
-        invalid.update({e.code: e.message for e in self.errors.as_data()})
+        invalid.update({e.code: ' '.join(e) for e in self.errors.as_data()})
 
         context = {
             'field': self,
@@ -321,6 +321,9 @@ class BootstrapPasswordField(BootstrapMixin, forms.CharField):
 class BootstrapSetPasswordField(BootstrapPasswordField):
     min_validation_length = 2
     widget = widgets.BootstrapSetPasswordInput
+    default_error_messages = {
+        'min_length': _('Your password must contain at least %(limit_value)d characters.'),
+    }
 
     def __init__(self, *args, **kwargs):
         kwargs.setdefault('required', True)
@@ -329,14 +332,10 @@ class BootstrapSetPasswordField(BootstrapPasswordField):
         for validator in password_validation.get_default_password_validators():
             if isinstance(validator, password_validation.MinimumLengthValidator):
                 kwargs.setdefault('min_length', validator.min_length)
+                self.min_length = validator.min_length
                 break
 
         super().__init__(*args, **kwargs)
-
-        # We override the error message here because the minimum length is encoded in the validator.
-        self.error_messages['min_length'] = _('Password must have at least %(length)s characters.') % {
-            'length': kwargs.get('min_length', 1),
-        }
 
 
 class BootstrapConfirmPasswordField(BootstrapPasswordField):
