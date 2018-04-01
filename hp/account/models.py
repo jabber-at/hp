@@ -115,6 +115,7 @@ class User(XmppBackendUser, PermissionsMixin):
 
     USERNAME_FIELD = 'username'
     REQUIRED_FIELDS = ('email', )
+    _uses_gpg = None
 
     def clean(self):
         self.username = self.username.lower()
@@ -150,7 +151,9 @@ class User(XmppBackendUser, PermissionsMixin):
         return self.log_entries.order_by('-created')
 
     def uses_gpg(self):
-        return self.gpg_keys.exists()
+        if self._uses_gpg is None:
+            self._uses_gpg = self.gpg_keys.exists()
+        return self._uses_gpg
 
     def block(self):
         self.blocked = True
