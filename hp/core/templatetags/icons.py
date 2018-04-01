@@ -28,7 +28,7 @@ register = template.Library()
 
 
 @register.simple_tag
-def icon(icon, style='fas', tag='span', **attrs):
+def icon(icon, style='fas', tag='span', css_classes='', **attrs):
     """A simple reusable icon with fontawesome.
 
     >>> icon('trash')
@@ -49,40 +49,38 @@ def icon(icon, style='fas', tag='span', **attrs):
         The style to use for the icon. The default is ``"fas"``.
     tag : str, optional
         The HTML tag used for the icon, the default is ``"span"``.
+    css_classes : str, optional
+        Any additional CSS classes to add.
     **attrs
         Any additional HTML attributes of the icon.
     """
 
-    css_classes = '%s fa-%s' % (style, icon)
-
-    if attrs.get('class'):
-        attrs['class'] = css_classes + attrs['class']
-    else:
-        attrs['class'] = css_classes
-
+    attrs['class'] = '%s fa-%s' % (style, icon) + css_classes
     return format_html('<{}{}></{}>', tag, flatatt(attrs), tag)
 
 
 @register.simple_tag
-def icon_add(**attrs):
+def icon_add(css_classes='', **attrs):
     return icon('plus', **attrs)
 
 
 @register.simple_tag
-def icon_reload(**attrs):
+def icon_reload(css_classes='', **attrs):
     return icon('sync', **attrs)
 
 
 @register.simple_tag
-def icon_delete(**attrs):
+def icon_delete(css_classes='', **attrs):
     return icon('trash', **attrs)
 
 
 @register.simple_tag
-def icon_unfolded(**attrs):
-    return icon('angle-down', **attrs)
+def icon_unfolded(css_classes='', **attrs):
+    css_classes += ' unfolded'
+    return icon('angle-down', css_classes=css_classes, **attrs)
 
 
 @register.simple_tag
-def icon_folded(**attrs):
-    return icon('angle-right', **attrs)
+def icon_folded(css_classes='', **attrs):
+    css_classes += ' folded'
+    return icon('angle-right', css_classes=css_classes, **attrs)
