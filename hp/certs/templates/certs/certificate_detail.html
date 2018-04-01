@@ -51,8 +51,7 @@
 {% trans "You can also view other certificates used at different times:" %}
 </p>
 
-<div class="row">
-<form id="cert-selection" action="{% url "certs:certs" hostname=hostname %}" method="post">
+<form id="cert-selection" action="{% url "certs:certs" hostname=hostname %}" method="post" class="mb-3">
     {% csrf_token %}
     {{ form.certificate.formgroup }}
 
@@ -60,7 +59,6 @@
       <button type="submit" class="btn btn-primary">{% trans "Submit" %}</button>
     </div>
 </form>
-</div>
 
 {% url "certs:cert-view" date=cert.valid_from hostname=cert.hostname as download_url %}
 <p>
