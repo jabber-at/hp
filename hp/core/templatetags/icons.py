@@ -76,11 +76,11 @@ def icon_delete(css_classes='', **attrs):
 
 @register.simple_tag
 def icon_unfolded(css_classes='', **attrs):
-    css_classes += ' unfolded'
+    css_classes += ' icon-unfolded'
     return icon('angle-down', css_classes=css_classes, **attrs)
 
 
 @register.simple_tag
 def icon_folded(css_classes='', **attrs):
-    css_classes += ' folded'
+    css_classes += ' icon-folded'
     return icon('angle-right', css_classes=css_classes, **attrs)

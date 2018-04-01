@@ -1,10 +1,8 @@
-.gpg-header-row h4 .fa-angle-down {
+.gpg-header-row h4 .icon-unfolded,
+.gpg-header-row.show-gpg h4 .icon-folded {
     display: none;
 }
-.gpg-header-row.show-gpg h4 .fa-angle-right {
-    display: none;
-}
-.gpg-header-row.show-gpg h4 .fa-angle-down {
+.gpg-header-row.show-gpg h4 .icon-infolded {
     display: inline-block;
 }
 .gpg-header-row {
