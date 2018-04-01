@@ -36,10 +36,8 @@ keyservers in the table below.{% endblocktrans %}</p>
                 <td class="nowrap">{{ key.expires|date:"SHORT_DATETIME_FORMAT" }}</td>
                 <td>0x{{ key.fingerprint }}</td>
                 <td class="nowrap">
-                    <span class="sr-only">{% trans "Refresh key from keyserver" %}</span>
                     {% url 'account:manage_gpg' pk=key.pk as reload_url %}
                     {% button_reload action='notification' url=reload_url title=_("Refresh key from keyserver") %}
-                    <span class="sr-only">{% trans "Delete key" %}</span>
                     {% button_delete action='remove-row' url=delete_url title=_("Delete this key") %}
                 </td>
             </tr>

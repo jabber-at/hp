@@ -37,7 +37,6 @@ deleted. You can view your current upload limits below.{% endblocktrans %}</div>
                 {{ upload.name }}</a> ({{ upload.size|format_filesize}})
         </td>
         <td>
-            <span class="sr-only">{% trans "Delete this file" %}</span>
             {% url "account:api-xep0363-delete" pk=upload.pk as action_url %}
             {% button_delete action='remove-row' url=action_url title=_("Delete this file") %}
         </td>

@@ -99,25 +99,29 @@ def icon_folded(css_classes='', **attrs):
 
 
 @register.simple_tag(takes_context=True)
-def button_reload(context, *, action, url, css_classes='', hidden=True, **attrs):
+def button_reload(context, *, action, url, title, css_classes='', hidden=True, **attrs):
     css_classes += ' hover-success icon-button'
     attrs.setdefault('data-action', action)
+    attrs['title'] = title
     attrs['data-url'] = url
 
     if hidden is True:
         attrs['aria-hidden'] = 'true'
 
-    return icon_reload(css_classes=css_classes, **attrs)
+    text = format_html('<span class="sr-only">{}</span>', title)
+    return text + icon_reload(css_classes=css_classes, **attrs)
 
 
 @register.simple_tag(takes_context=True)
-def button_delete(context, *, action, url, css_classes='', hidden=True, **attrs):
+def button_delete(context, *, action, url, title, css_classes='', hidden=True, **attrs):
     css_classes += ' hover-danger icon-button'
     attrs.setdefault('data-action', action)
     attrs.setdefault('data-type', 'DELETE')
+    attrs['title'] = title
     attrs['data-url'] = url
 
     if hidden is True:
         attrs['aria-hidden'] = 'true'
 
-    return icon_delete(css_classes=css_classes, **attrs)
+    text = format_html('<span class="sr-only">{}</span>', title)
+    return text + icon_delete(css_classes=css_classes, **attrs)
