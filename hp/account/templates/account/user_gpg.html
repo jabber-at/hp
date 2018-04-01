@@ -20,37 +20,37 @@ simply upload the file as if you uploaded a new key.  You can manually
 keyservers in the table below.{% endblocktrans %}</p>
 
 {% with keys=object.gpg_keys.all %}
-    {% if keys %}
-        <table class="table table-hover table-responsive">
-            <thead>
-                <tr>
-                    <th>{% trans "Created" %}</th>
-                    <th>{% trans "Expires" %}</th>
-                    <th>{% trans "Fingerprint" %}</th>
-                    <th></th>
-                </tr>
-            </thead>
-        {% for key in keys %}
-            <tr>
-                <td class="nowrap">{{ key.created|date:"SHORT_DATETIME_FORMAT" }}</td>
-                <td class="nowrap">{{ key.expires|date:"SHORT_DATETIME_FORMAT" }}</td>
-                <td>0x{{ key.fingerprint }}</td>
-                <td class="nowrap">
-                    {% url 'account:manage_gpg' pk=key.pk as reload_url %}
-                    {% button_reload action='notification' url=reload_url title=_("Refresh key from keyserver") %}
-                    {% button_delete action='remove-row' url=delete_url title=_("Delete this key") %}
-                </td>
-            </tr>
-        {% endfor %}
-        </table>
-        <p><a class="btn btn-primary" href="{% url 'account:add_gpg' %}">
-            {% trans '<i class="fas fa-plus"></i> Add another GPG key' %}
-        </a></p>
-    {% else %}
-        <p>{% trans "You have no configured GPG keys." %}</p>
-        <p><a class="btn btn-primary" href="{% url 'account:add_gpg' %}">
-          {% blocktrans with icon=add_icon %}{{ icon }} Add a GPG key{% endblocktrans %}
-        </a></p>
-    {% endif %}
+  {% if keys %}
+    <table class="table table-hover table-responsive">
+      <thead>
+        <tr>
+          <th>{% trans "Created" %}</th>
+          <th>{% trans "Expires" %}</th>
+          <th>{% trans "Fingerprint" %}</th>
+          <th></th>
+        </tr>
+      </thead>
+    {% for key in keys %}
+    <tr>
+      <td class="nowrap">{{ key.created|date:"SHORT_DATETIME_FORMAT" }}</td>
+      <td class="nowrap">{{ key.expires|date:"SHORT_DATETIME_FORMAT" }}</td>
+      <td>0x{{ key.fingerprint }}</td>
+      <td class="nowrap">
+        {% url 'account:manage_gpg' pk=key.pk as mgmt_url %}
+        {% button_reload action='notification' url=mgmt_url title=_("Refresh key from keyserver") %}
+        {% button_delete action='remove-row' url=mgmt_url title=_("Delete this key") %}
+      </td>
+    </tr>
+    {% endfor %}
+    </table>
+    <p><a class="btn btn-primary" href="{% url 'account:add_gpg' %}">
+      {% blocktrans %}{{ add_icon }} Add another GPG key{% endblocktrans %}
+    </a></p>
+  {% else %}
+    <p>{% trans "You have no configured GPG keys." %}</p>
+    <p><a class="btn btn-primary" href="{% url 'account:add_gpg' %}">
+      {% blocktrans %}{{ add_icon }} Add a GPG key{% endblocktrans %}
+    </a></p>
+  {% endif %}
 {% endwith %}
 {% endblock content %}
