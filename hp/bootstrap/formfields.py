@@ -96,20 +96,6 @@ class BoundField(forms.boundfield.BoundField):
 
         return attrs
 
-    def fmt_error_message(self, key, msg, **context):
-        value = self.value()
-        context['key'] = key
-        context['value'] = value
-
-        if hasattr(self.field, 'max_length'):
-            context['limit_value'] = self.field.max_length
-        if hasattr(self.field, 'min_length'):
-            context['limit_value'] = self.field.min_length
-        if isinstance(value, (str, Promise)):
-            context['length'] = len(value)
-
-        return msg % context
-
     def render_feedback(self):
         """Render the invalid-feedback messages.
 
@@ -118,14 +104,15 @@ class BoundField(forms.boundfield.BoundField):
         """
         renderer = self.form.renderer or get_default_renderer()
 
-        context = {
+        msg_context = {
             'field_label': self.label,
-
-            # We don't really need these so far
-            'date_field_label': 'TODO_date_field_label',
-            'lookup_type': 'TODO_lookup_type',
-            'show_value': 'TODO_SHOW_VALUE'
+            'value': self.value(),
         }
+        if hasattr(self.field, 'max_length'):
+            msg_context['limit_value'] = self.field.max_length
+        if hasattr(self.field, 'min_length'):
+            msg_context['limit_value'] = self.field.min_length
+
         invalid = {}
 
         # get model field validation messages first
@@ -134,24 +121,21 @@ class BoundField(forms.boundfield.BoundField):
                 field = self.form.instance._meta.get_field(self.name)
 
                 # update context for error message formatting
-                context['model_name'] = self.form.instance._meta.verbose_name
+                msg_context['model_name'] = self.form.instance._meta.verbose_name
 
                 # extra field validators
-                invalid.update({v.code: v.message for v in field.validators
-                                if v.code in self.field.html_errors})
-
-                # field error_messages
-                invalid.update({k: self.fmt_error_message(k, v, **context)
-                                for k, v in field.error_messages.items()
-                                if k in self.field.html_errors})
+                invalid.update({v.code: v.message for v in field.validators})
+                invalid.update(field.error_messages)
             except FieldDoesNotExist:
                 pass
 
-        invalid.update({v.code: self.fmt_error_message(v.code, v.message, **context)
-                        for v in self.field.validators if v.code in self.field.html_errors})
-        invalid.update({k if k else 'default': self.fmt_error_message(k, v, **context)
-                       for k, v in self.field.error_messages.items()
-                       if k in self.field.html_errors})
+        invalid.update({v.code: v.message for v in self.field.validators})
+
+        # Update this with any error messages raised by the field itself.
+        invalid.update({k if k else 'default': v for k, v in self.field.error_messages.items()})
+
+        invalid = {k: v % msg_context for k, v in invalid.items() if k in self.field.html_errors}
+        invalid.update({e.code: e.message for e in self.errors.as_data()})
 
         context = {
             'field': self,
