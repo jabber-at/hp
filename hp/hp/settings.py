@@ -184,7 +184,6 @@ _DEFAULT_JS_FILES = [
     'account/js/email_verified_domain_widget.js',
     'account/js/username_widget.js',
     'account/js/base.js',
-    'account/js/fingerprint_widget.js',
     'account/js/notifications.js',
     'bootstrap/js/bootstrap.js',
     'bootstrap/js/file_input.js',

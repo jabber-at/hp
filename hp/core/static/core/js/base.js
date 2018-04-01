@@ -42,24 +42,24 @@ $(document).ready(function() {
     });
 
     /**
-     * Generic glyph buttons in table cells, used e.g. GPG key and XEP-0363 overviews.
+     * Generic icon buttons in table cells, used e.g. GPG key and XEP-0363 overviews.
      */
     $('td .icon-button').click(function(e) {
-        var glyph = $(e.currentTarget);
-        var url = glyph.data('url');
-        var type = glyph.data('type') || 'GET';
-        var action = glyph.data('action');
+        var icon = $(e.currentTarget);
+        var url = icon.data('url');
+        var type = icon.data('type') || 'GET';
+        var action = icon.data('action');
         $.ajax({
             url: url,
             type: type,
             success: function(result) {
                 if (action == 'remove-row') {
-                    glyph.parents('tr').remove();
+                    icon.parents('tr').remove();
                 } else if (action == 'notification') {
                     $('div.messages').append(
                             '<div class="alert alert-' + result.status + '">' + result.message + '</div>');
                 } else if (action == 'refresh-row') {
-                    glyph.parents('tr').replaceWith(result);
+                    icon.parents('tr').replaceWith(result);
                 }
             }
         });

@@ -25,6 +25,13 @@ django.jQuery(document).ready(function() {
  * TinyMCE setup function.
  */
 var tinymce_setup = function(editor) {
+    let is_fontawesome_icon = function(elem) {
+        return (editor.dom.hasClass(anchorElm, 'fas') || 
+                editor.dom.hasClass(anchorElm, 'far') ||
+                editor.dom.hasClass(anchorElm, 'fal') ||
+                editor.dom.hasClass(anchorElm, 'fab'))
+    };
+
     /** Buttons for the table menu */
     ['tablestriped', 'tablebordered', 'tablecondensed', 'tablehover', 'tableresponsive'].forEach(function(cls) {
         var stateSelector  = 'table.table.table-' + cls.substr(5);
@@ -37,72 +44,6 @@ var tinymce_setup = function(editor) {
                 editor.execCommand('mceToggleFormat', false, cls);
             },
         });
-    });
-
-    var glyphs = [
-        'download',
-        'envelope',
-        'exclamation-sign',
-        'file', 
-        'home', 
-        'minus',
-        'ok',
-        'pencil',
-        'plus', 
-        'question-sign',
-        'refresh',
-        'remove',
-        'repeat',
-        'zoom-in',
-        'zoom-out', 
-    ];
-    /**
-     * Glyphicons
-     */
-    editor.addButton('glyphs', {
-        type: 'listbox',
-        text: 'Glyphs',
-        icon: false,
-        onselect: function (e) {
-            var val = this.value();
-            editor.insertContent(
-                '<span class="glyphicon glyphicon-' + val + '" aria-hidden="true"></span>&#x200b;'
-            );
-        },
-        onclick: function(e) {
-            $('.mce-menu-item-glyphicon').each(function() {
-                var elem = $(this);
-                var glyph_cls = elem.attr('class').split(/\s+/).filter(function(e) {
-                    return e.startsWith('mce-menu-item-glyphicon-');
-                })[0];
-                glyph = glyph_cls.substr(24);
-                $('.' + glyph_cls + ' .mce-ico').replaceWith(
-                    '<span class="glyphicon glyphicon-' + glyph + '"></span>');
-            });
-        },
-        values: function() {
-            var vals = [];
-            glyphs.forEach(function(glyph) {
-                var text = glyph.replace(/-/, ' ');
-                var text = text.replace(/\w\S*/g, function(txt) {  // capitalize words
-                    return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
-                });
-                vals.push({
-                    text: text,
-                    value: glyph,
-                    classes: 'menu-item-glyphicon menu-item-glyphicon-' + glyph
-                });
-            });
-            return vals;
-        }(),
-        onPostRender: function () {
-            var button = this;
-            editor.on('NodeChange', function(e) {
-                // Make sure that the listbuton name is always the same
-                button.value('Glyphs');
-            });
-            return;
-        }
     });
 
     /**
@@ -186,7 +127,6 @@ var tinymce_setup = function(editor) {
     editor.addButton('badges', {
         type: 'listbox',
         text: 'Badges',
-        icon: false,
         onselect: function (e) {
             var val = this.value();
             if (val == 'Labels') {
@@ -241,7 +181,7 @@ var tinymce_setup = function(editor) {
     });
 
     editor.addButton('tooltips', {
-        icon: 'superscript',
+        icon: 'bogus fas fa-superscript',
         tooltip: "Insert/edit footnote",
         stateSelector: '[data-toggle="tooltip"]',
         onclick: function() {
@@ -258,16 +198,14 @@ var tinymce_setup = function(editor) {
              * the form fields defined in the "body" property.
              */
             selectedElm = selection.getNode();
-            anchorElm = editor.dom.getParent(selectedElm, '[data-toggle="tooltip"],span.glyphicon');
+            // .fas,.far,.fal,.fab matches all FontAwesome style prefixes
+            anchorElm = editor.dom.getParent(
+                    selectedElm,
+                    '[data-toggle="tooltip"],.fas,.far,.fal,.fab');
             data.text = initialText = anchorElm ? (anchorElm.innerText || anchorElm.textContent) : selection.getContent({ format: 'text' });
             data.tooltip = anchorElm ? editor.dom.getAttrib(anchorElm, 'title') : '';
 
-            /* Determine if this is a glyph. If yes, we don't display the text element! 
-             * NOTE: We use the ternary operator (instead of &&) because null && false == null.
-             * */
-            var is_glyph = anchorElm ? anchorElm.nodeName === 'SPAN' && editor.dom.hasClass(anchorElm, 'glyphicon') : false;
-
-            if (! is_glyph) {
+            if (! is_fontawesome_icon(anchorElm)) {
                 text_body = {type: 'textbox', name: 'text', label: 'Text', 
                              onchange: function() {  /* Update the data dict on any change */
                                  data.text = this.value();

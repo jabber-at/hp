@@ -191,8 +191,7 @@ TINYMCE_DEFAULT_CONFIG = {
     'toolbar1': 'styleselect | bold italic underline strikethrough '
                 '| alignleft aligncenter alignright alignjustify '
                 '| bullist numlist | outdent indent | link image ',
-    'toolbar2': 'labels tooltips glyphs | table codesample '
-                '| code removeformat',
+    'toolbar2': 'badges tooltips icons | table codesample | code removeformat',
     'contextmenu': 'formats | link image',
     'menubar': False,
     'inline': False,

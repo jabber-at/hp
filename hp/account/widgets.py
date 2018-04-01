@@ -57,11 +57,6 @@ class DomainWidget(BootstrapSelect):
 class FingerprintWidget(BootstrapTextInput):
     css_classes = 'gpg-fingerprint'
 
-    class Media:
-        js = (
-            'account/js/fingerprint_widget.js',
-        )
-
 
 class UsernameWidget(BootstrapMultiWidget):
     template_name = "account/widgets/username.html"

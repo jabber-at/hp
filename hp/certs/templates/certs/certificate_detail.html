@@ -1,5 +1,5 @@
 {% extends "page.html" %}
-{% load i18n staticfiles core render %}
+{% load i18n staticfiles core render icons %}
 
 
 {% block pagecss %}
@@ -30,7 +30,7 @@
 
 {% if not is_current %}
 <div class="alert alert-info" role="alert">
-  <strong><span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span> {% trans "Note:" %}</strong>
+  <strong>{% icon_warning %} {% trans "Note:" %}</strong>
   {% url "certs:certs" hostname=hostname as current_url %}
   {% blocktrans with url=current_url %}This certificate is not currently used. <a class="alert-link" href="{{ url }}">View the current certificate</a>.{% endblocktrans %}
 </div>
