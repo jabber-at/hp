@@ -72,10 +72,6 @@ class BoundField(forms.boundfield.BoundField):
     def help_id(self):
         return 'hb_%s' % self.html_name
 
-    @property
-    def inline_help(self):
-        return self.field.get_inline_help()
-
     def as_widget(self, *args, **kwargs):
         html = super().as_widget(*args, **kwargs)
         html += self.render_feedback()
@@ -193,9 +189,6 @@ class BootstrapMixin(object):
     horizontal = True
     """Display this field as a horizontal form group."""
 
-    inline_help = False
-    """Set to True to display help block inline."""
-
     min_validation_length = False
     """Start JavaScript validation at the given length."""
 
@@ -256,9 +249,6 @@ class BootstrapMixin(object):
         cls_value.update(value)
 
         return cls_value
-
-    def get_inline_help(self):
-        return self.inline_help
 
     def get_valid_feedback(self):
         return self.valid_feedback
