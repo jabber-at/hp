@@ -60,6 +60,18 @@ def icon(icon, style='fas', tag='span', css_classes='', **attrs):
 
 
 @register.simple_tag
+def icon_success(text_class='success', css_classes='', **kwargs):
+    css_classes += ' text-%s icon-success' % text_class
+    return icon('check', css_classes=css_classes, **kwargs)
+
+
+@register.simple_tag
+def icon_error(text_class='danger', css_classes='', **kwargs):
+    css_classes += ' text-%s icon-error' % text_class
+    return icon('times', css_classes=css_classes, **kwargs)
+
+
+@register.simple_tag
 def icon_add(css_classes='', **attrs):
     return icon('plus', **attrs)
 
