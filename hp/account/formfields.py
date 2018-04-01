@@ -64,6 +64,13 @@ class UsernameField(BootstrapMixin, forms.MultiValueField):
             choices = tuple([(d, d) for d in settings.REGISTER_HOSTS.keys()])
             char_kwargs['min_length'] = settings.MIN_USERNAME_LENGTH
             char_kwargs['max_length'] = settings.MAX_USERNAME_LENGTH
+
+            # pass through any error messages that may be raised by the CharFields clean() method.
+            # Without this, the effective error-message of the field will be an empty string, for some reason.
+            char_kwargs['error_messages'] = {
+                'min_length': self.default_error_messages['min_length'],
+                'max_length': self.default_error_messages['max_length'],
+            }
         else:
             choices = tuple([(d, d) for d in settings.MANAGED_HOSTS.keys()])
 
