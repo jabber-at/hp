@@ -72,6 +72,12 @@ def icon_error(text_class='danger', css_classes='', **kwargs):
 
 
 @register.simple_tag
+def icon_question(text_class='muted', css_classes='', **kwargs):
+    css_classes += ' text-%s icon-question' % text_class
+    return icon('question', css_classes=css_classes, **kwargs)
+
+
+@register.simple_tag
 def icon_add(css_classes='', **attrs):
     return icon('plus', css_classes=css_classes, **attrs)
 
