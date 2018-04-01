@@ -215,7 +215,9 @@ class SetPasswordForm(forms.Form):
         password2 = cleaned_data.get('password2')
         if password1 and password2:
             if password1 != password2:
-                self.add_error('password2', self.password_error_messages['password_mismatch'])
+                error = forms.ValidationError(self.password_error_messages['password_mismatch'],
+                                              code='no-match')
+                self.add_error('password2', error)
 
     class Media:
         js = (
