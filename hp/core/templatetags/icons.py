@@ -100,7 +100,7 @@ def icon_folded(css_classes='', **attrs):
 
 @register.simple_tag(takes_context=True)
 def button_reload(context, *, action, url, css_classes='', hidden=True, **attrs):
-    css_classes += ' hover-primary icon-button'
+    css_classes += ' hover-success icon-button'
     attrs.setdefault('data-action', action)
     attrs['data-url'] = url
 
