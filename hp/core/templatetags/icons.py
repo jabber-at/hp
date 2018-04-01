@@ -98,6 +98,12 @@ def icon_folded(css_classes='', **attrs):
     return icon('angle-right', css_classes=css_classes, **attrs)
 
 
+@register.simple_tag
+def icon_warning(css_classes='', **attrs):
+    css_classes += ' icon-warning'
+    return icon('exclamation', css_classes=css_classes, **attrs)
+
+
 @register.simple_tag(takes_context=True)
 def button_reload(context, *, action, url, title, css_classes='', hidden=True, **attrs):
     css_classes += ' hover-success icon-button'
