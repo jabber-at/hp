@@ -1,5 +1,5 @@
 {% extends "account/base.html" %}
-{% load i18n core bootstrap staticfiles %}
+{% load i18n core icons staticfiles %}
 
 {% block title %}{% trans "Current sessions" %}{% endblock title %}
 
@@ -10,30 +10,27 @@ the trash icon.{% endblocktrans %}
 
 {% if sessions %}
 <table class="table table-hover table-responsive">
-    <thead>
-        <tr>
-            <th>{% trans "IP" %}</th>
-            <th>{% trans "Resource (Priority)" %}</th>
-            <th>{% trans "Started" %}</th>
-            <th></th>
-        </tr>
-    </thead>
-{% for session in sessions %}
+  <thead>
     <tr>
-        <td>{{ session.ip_address }}</td>
-        <td>{{ session.resource }} ({{ session.priority }})</td>
-        <td class="nowrap">{{ session.uptime|date:"SHORT_DATETIME_FORMAT" }}</td>
-        <td>
-            <span class="sr-only">{% trans "Stop connection" %}</span>
-            <span class="fas fa-trash icon-button hover-danger" 
-                  data-url="{% url 'account:api-stop-user-session' resource=session.resource %}"
-                  data-action="remove-row" data-type="DELETE"
-                  title="{% trans 'Delete key' %}" aria-hidden="true"></span>
-        </td>
+      <th>{% trans "IP" %}</th>
+      <th>{% trans "Resource (Priority)" %}</th>
+      <th>{% trans "Started" %}</th>
+      <th></th>
     </tr>
-{% endfor %}
-    </table>
+  </thead>
+  {% for session in sessions %}
+  <tr>
+    <td>{{ session.ip_address }}</td>
+    <td>{{ session.resource }} ({{ session.priority }})</td>
+    <td class="nowrap">{{ session.uptime|date:"SHORT_DATETIME_FORMAT" }}</td>
+    <td>
+      {% url 'account:api-stop-user-session' resource=session.resource as stop_url %}
+      {% button_delete action='remove-row' title=_("Disconnect this session") url=stop_url %}
+    </td>
+  </tr>
+  {% endfor %}
+  </table>
 {% else %}
-{% trans "You are currently not online with any client." %}
+  {% trans "You are currently not online with any client." %}
 {% endif %}
 {% endblock content %}
