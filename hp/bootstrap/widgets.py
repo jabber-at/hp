@@ -17,7 +17,7 @@ import re
 
 from django import forms
 
-from .utils import clean_classes
+from .utils import clean_class_attrs
 
 
 class BootstrapWidgetMixin(object):
@@ -39,7 +39,7 @@ class BootstrapWidgetMixin(object):
 
     def build_attrs(self, base_attrs, extra_attrs=None):
         attrs = super().build_attrs(base_attrs, extra_attrs=extra_attrs)
-        clean_classes(attrs)
+        clean_class_attrs(attrs)
         return attrs
 
     def _add_class(self, attrs, cls):

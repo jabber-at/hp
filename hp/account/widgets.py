@@ -15,10 +15,10 @@
 
 from django.conf import settings
 
+from bootstrap.widgets import BootstrapEmailInput
 from bootstrap.widgets import BootstrapMultiWidget
 from bootstrap.widgets import BootstrapSelect
 from bootstrap.widgets import BootstrapTextInput
-from bootstrap.widgets import BootstrapEmailInput
 from bootstrap.widgets import MergeClassesMixin
 
 
