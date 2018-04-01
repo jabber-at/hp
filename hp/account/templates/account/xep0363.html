@@ -1,5 +1,5 @@
 {% extends "account/base.html" %}
-{% load i18n core bootstrap staticfiles %}
+{% load i18n core staticfiles icons %}
 
 {% block title %}{% trans "HTTP uploads" %}{% endblock title %}
 
@@ -38,10 +38,8 @@ deleted. You can view your current upload limits below.{% endblocktrans %}</div>
         </td>
         <td>
             <span class="sr-only">{% trans "Delete this file" %}</span>
-            <span class="fas fa-trash hover-danger icon-button" 
-                  data-url="{% url "account:api-xep0363-delete" pk=upload.pk %}"
-                  data-action="remove-row" data-type="DELETE"
-                  title="{% trans 'Delete this file' %}" aria-hidden="true"></span>
+            {% url "account:api-xep0363-delete" pk=upload.pk as action_url %}
+            {% button_delete action='remove-row' url=action_url title=_("Delete this file") %}
         </td>
     </tr>
 {% endfor %}
