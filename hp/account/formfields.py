@@ -48,6 +48,8 @@ class UsernameField(BootstrapMixin, forms.MultiValueField):
         'exists': _('This username is already taken.'),
         'error': _('Could not check if the username already exists: Error communicating with the server.'),
     }
+
+    # We need to add them here because min/max_length are only set for the CharField
     default_html_errors = {
         'min_length',
         'max_length',
