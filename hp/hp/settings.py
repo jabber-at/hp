@@ -181,7 +181,6 @@ _DEFAULT_JS_FILES = [
     'core/js/captcha.js',
     'core/js/base.js',
     'account/js/gpgmixin.js',
-    'account/js/set_password.js',
     'account/js/email_verified_domain_widget.js',
     'account/js/username_widget.js',
     'account/js/base.js',

@@ -195,10 +195,6 @@ class SetPasswordForm(forms.Form):
     password2 = BootstrapConfirmPasswordField(
         help_text=_('Confirm the password to make sure you spelled it correctly.'))
 
-    password_error_messages = {
-        'password_mismatch': _("The two password fields didn't match.")
-    }
-
     def __init__(self, *args, **kwargs):
         self.instance = kwargs.pop('instance', None)
         super(SetPasswordForm, self).__init__(*args, **kwargs)
@@ -215,14 +211,9 @@ class SetPasswordForm(forms.Form):
         password2 = cleaned_data.get('password2')
         if password1 and password2:
             if password1 != password2:
-                error = forms.ValidationError(self.password_error_messages['password_mismatch'],
+                error = forms.ValidationError(self.fields['password2'].error_messages['no-match'],
                                               code='no-match')
                 self.add_error('password2', error)
-
-    class Media:
-        js = (
-            'account/js/set_password.js',
-        )
 
 
 class SetEmailForm(GPGMixin, EmailValidationMixin, forms.Form):
