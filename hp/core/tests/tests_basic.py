@@ -19,11 +19,13 @@ from django.test import Client
 from django.test import override_settings
 
 from .. import utils
+from ..templatetags import icons
 from .base import TestCase
 
 
 def load_tests(loader, tests, ignore):
     tests.addTests(doctest.DocTestSuite(utils))
+    tests.addTests(doctest.DocTestSuite(icons))
     return tests
 
 
