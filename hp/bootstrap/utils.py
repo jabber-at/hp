@@ -17,17 +17,31 @@ import re
 from collections import OrderedDict
 
 
-def clean_classes(attrs):
+def clean_classes(classes):
+    """Clean a string of CSS classes or a list of classes.
+
+    >>> clean_classes(' foo   bar     bla foo   ')
+    'foo bar bla'
+    """
+    if isinstance(classes, str):
+        # clean multiple whitespaces and split
+        classes = re.sub(' +', ' ', classes).strip().split()
+
+    # OrderedDict.fromkeys removes duplicates
+    return ' '.join(list(OrderedDict.fromkeys(classes)))
+
+
+def clean_class_attrs(attrs):
     """Clean classes so that every class occurs only once and each class is separated by exactly one space.
 
     The order of returned classes is in order of first appearance.
 
     >>> attrs = {'class': ' foo  bar   whatever bar '}
-    >>> clean_classes(attrs)
+    >>> clean_class_attrs(attrs)
     >>> attrs
     {'class': 'foo bar whatever'}
     """
     if not attrs.get('class'):
         return
-    css_classes = re.sub(' +', ' ', attrs['class']).strip()
-    attrs['class'] = ' '.join(list(OrderedDict.fromkeys(css_classes.split())))
+
+    attrs['class'] = clean_classes(attrs['class'])
