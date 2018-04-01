@@ -1,4 +1,8 @@
-{% load i18n %}
+{% load i18n icons %}
+<div class="gpg-header-row show-gpg{% if form.hide_gpg_content and not uses_gpg %} hidden-with-js{% endif %}">
+  <h4>{% icon_unfolded %}{% icon_folded %} {% trans "GPG options" %}</h4>
+</div>
+
 <div class="gpg-content show-gpg{% if form.hide_gpg_content and not uses_gpg %} hidden-with-js{% endif %}">
   <span class="text-muted">
     {% blocktrans with domain=site.NAME %}You can add a GPG key to have {{ domain }} encrypt all emails sent to you.{% endblocktrans %}</p>
@@ -16,6 +20,6 @@ forgotten your password) we send to you.{% endblocktrans %}
   </div>
 
   {{ form.gpg_key.formgroup }}
-  <div class="row"><div class="col-sm-10 col-sm-offset-2"><p><strong>{% trans "- and/or -" %}</strong></p></div></div>
+  <p><strong>{% trans "- and/or -" %}</strong></p>
   {{ form.gpg_fingerprint.formgroup }}
 </div>

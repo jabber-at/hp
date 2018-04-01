@@ -9,16 +9,6 @@
 
     {% with uses_gpg=user.uses_gpg %}
     {% if form.show_gpg %}
-    <div class="row gpg-header-row show-gpg{% if form.hide_gpg_content and not uses_gpg %} hidden-with-js{% endif %}">
-      <div class="col-sm-12">
-          <h4>
-              {% icon_unfolded %}
-              {% icon_folded %}
-              {% trans "GPG options" %}
-          </h4>
-      </div>
-    </div>
-
       {% include "account/include/gpg_form.html" %}
     {% endif %}
     {% endwith %}
