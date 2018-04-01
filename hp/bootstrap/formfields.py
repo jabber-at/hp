@@ -192,9 +192,6 @@ class BootstrapMixin(object):
     default_html_errors = {
         'invalid',
         'unique',
-        'required',
-        'min_length',
-        'max_length',
     }
 
     # TODO: Rework this
@@ -242,6 +239,14 @@ class BootstrapMixin(object):
         self.hide_label = kwargs.pop('hide_label', self.hide_label)
 
         super(BootstrapMixin, self).__init__(**kwargs)
+
+        # Add some HTML errors only if they are applicable to the field
+        if self.required:
+            self.html_errors.add('required')
+        if getattr(self, 'min_length', False):
+            self.html_errors.add('min_length')
+        if getattr(self, 'max_length', False):
+            self.html_errors.add('max_length')
 
     def _handle_feedback(self, key, kwargs):
         cls_value = getattr(self, key, None)
