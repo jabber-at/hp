@@ -122,7 +122,8 @@ class BoundField(forms.boundfield.BoundField):
             # We don't really need these so far
             'date_field_label': 'TODO_date_field_label',
             'lookup_type': 'TODO_lookup_type',
-            'limit_value': 'TODO_limit_value',
+            'limit_value': 999,  # TODO
+            'show_value': 'TODO_SHOW_VALUE'
         }
         invalid = {}
 
@@ -296,6 +297,9 @@ class BootstrapMixin(object):
 
 
 class BootstrapCharField(BootstrapMixin, forms.CharField):
+    default_error_messages = {
+        'min_length': _('Ensure that this value has at least %(limit_value)d characters.'),
+    }
     widget = widgets.BootstrapTextInput
 
 
