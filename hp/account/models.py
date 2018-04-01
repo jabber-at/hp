@@ -150,7 +150,7 @@ class User(XmppBackendUser, PermissionsMixin):
         return self.log_entries.order_by('-created')
 
     def uses_gpg(self):
-        return self.gpg_keys.valid().exists()
+        return self.gpg_keys.exists()
 
     def block(self):
         self.blocked = True
