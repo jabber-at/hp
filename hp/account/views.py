@@ -526,6 +526,7 @@ class SetEmailView(AntiSpamMixin, LoginRequiredMixin, AccountPageMixin, FormView
 
         # Store GPG key if any
         if fp or key:
+            # TODO: If the user is not confirmed yet and a key is added, this does not seem to work
             gpg_task = add_gpg_key_task.si(
                 user_pk=user.pk, address=address, fingerprint=fp, key=key)
             task = chain(gpg_task, task)
