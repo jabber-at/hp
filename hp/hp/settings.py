@@ -191,7 +191,6 @@ _DEFAULT_JS_FILES = [
 CSS_FILES = None
 _DEFAULT_CSS_FILES = [
     'lib/bootstrap/css/bootstrap.min.css',
-    'lib/bootstrap/css/bootstrap-theme.min.css',
     'lib/prism/prism.css',
     'core/css/bootstrap-hp.css',
     'core/css/base.css',
@@ -291,7 +290,6 @@ TINYMCE_DEFAULT_CONFIG = {
     },
     'content_css': [
         '/static/lib/bootstrap/css/bootstrap.min.css',
-        '/static/lib/bootstrap/css/bootstrap-theme.min.css',
         '/static/lib/fontawesome/web-fonts-with-css/css/fontawesome-all.min.css',
         '/static/core/css/base.css',
         '/static/core/css/tinymce-preview.css',

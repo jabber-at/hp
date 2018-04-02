@@ -264,7 +264,6 @@ TINYMCE_DEFAULT_CONFIG = {
     },
     'content_css': [
         '/static/lib/bootstrap/css/bootstrap.min.css',
-        '/static/lib/bootstrap/css/bootstrap-theme.min.css',
         '/static/core/css/base.css',
         '/static/core/css/tinymce-preview.css',
     ],
