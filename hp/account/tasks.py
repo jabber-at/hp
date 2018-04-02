@@ -31,6 +31,7 @@ from django.utils import translation
 from django.utils.translation import ugettext as _
 from django.utils.translation import ugettext_noop
 
+from gpgliblib.base import UnknownGpgliblibError
 from gpgliblib.django import gpg_backend
 from xmpp_backends.base import UserNotFound
 from xmpp_backends.django import xmpp_backend
@@ -169,7 +170,14 @@ def set_email_task(self, user_pk, to, language, address, fingerprint=None, key=N
 
     conf = Confirmation.objects.create(user=user, purpose=PURPOSE_SET_EMAIL, language=language,
                                        to=to, address=address, payload=payload)
-    conf.send()
+    try:
+        conf.send()
+    except UnknownGpgliblibError as e:
+        log.exception(e)
+
+        msg = ugettext_noop('Unexpected error importing GPG key.')
+        user.log(msg)
+        user.message(messages.ERROR, msg)
 
 
 @shared_task
