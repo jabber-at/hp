@@ -496,6 +496,8 @@ class SetEmailView(AntiSpamMixin, LoginRequiredMixin, AccountPageMixin, FormView
         lang = request.LANGUAGE_CODE
         base_url = '%s://%s' % (request.scheme, request.get_host())
 
+        fp, key = form.get_gpg_data()
+
         with transaction.atomic():
             request.user.email = form.cleaned_data['email']
 
@@ -508,6 +510,10 @@ class SetEmailView(AntiSpamMixin, LoginRequiredMixin, AccountPageMixin, FormView
             # able to get a confirmed address with the old key, but the new address is already set above
             Confirmation.objects.filter(user=user, purpose=PURPOSE_REGISTER).exclude(to=user.email).delete()
 
+            # If the user has not set any keys, remove them before sending.
+            if not fp and not key:
+                user.gpg_keys.all().delete()
+
             # log user creation, display help message.
             user.log(ugettext_noop('Resent confirmation.'), address=address)
             AddressActivity.objects.log(request, ACTIVITY_RESEND_CONFIRMATION, user=user, note=user.email)
@@ -519,11 +525,12 @@ class SetEmailView(AntiSpamMixin, LoginRequiredMixin, AccountPageMixin, FormView
             to=user.email, base_url=base_url, hostname=request.site['NAME'])
 
         # Store GPG key if any
-        fp, key = form.get_gpg_data()
         if fp or key:
             gpg_task = add_gpg_key_task.si(
                 user_pk=user.pk, address=address, fingerprint=fp, key=key)
             task = chain(gpg_task, task)
+
+        # User has not set a new GPG key, so we remove any keys
         task.delay()
 
         return HttpResponseRedirect(reverse('account:detail'))
