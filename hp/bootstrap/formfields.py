@@ -84,7 +84,7 @@ class BoundField(forms.boundfield.BoundField):
         if min_val_length is not False:
             attrs['data-min-validation-length'] = str(min_val_length)
 
-        if self.help_text or self.errors:
+        if self.help_text:
             # Add the 'aria-describedby' attribute to the <input /> element. It's the id used by
             # the help-block describing the element and helps screen readers. See:
             #   http://getbootstrap.com/css/#forms-help-text
