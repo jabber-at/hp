@@ -138,6 +138,7 @@ def add_gpg_key_task(self, user_pk, address, fingerprint=None, key=None):
 @shared_task(bind=True)
 @activate_language
 def send_confirmation_task(self, user_pk, to, purpose, language, address=None, **payload):
+    # TODO: Fails if there are GPG keys but none are usable.
     user = User.objects.get(pk=user_pk)
     if address is not None:
         address = Address.objects.get_or_create(address=address)[0]

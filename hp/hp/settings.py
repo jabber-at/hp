@@ -435,6 +435,7 @@ _DEFAULT_ACCOUNT_USER_MENU = [
     }),
     ('account:set_email', {
         'title': _('Set E-Mail'),
+        'requires_confirmation': False,
     }),
     ('account:xep0363', {
         'title': _('HTTP uploads'),

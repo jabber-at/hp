@@ -100,6 +100,8 @@ class UsernameField(BootstrapMixin, forms.MultiValueField):
 
 
 class FingerprintField(BootstrapCharField):
+    # TODO: Currently shows valid key if between 40 and 50 characers. Could check this with Javascript
+
     widget = FingerprintWidget
     invalid_feedback = _('Please enter a valid GPG key fingerprint.')
     default_error_messages = {
