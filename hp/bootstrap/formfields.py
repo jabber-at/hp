@@ -185,7 +185,7 @@ class BootstrapMixin(object):
     """Display this field as a horizontal form group."""
 
     label_columns = 'col-sm-2'
-    input_columns = 'col-sm-8'
+    input_columns = 'col-sm-10'
 
     min_validation_length = False
     """Start JavaScript validation at the given length."""
@@ -200,9 +200,6 @@ class BootstrapMixin(object):
 
         if 'horizontal' in kwargs:
             self.horizontal = kwargs.pop('horizontal')
-
-        if 'add_success' in kwargs:
-            self.add_success = kwargs.pop('add_success')
 
         if 'min_validation_length' in kwargs:
             self.min_validation_length = kwargs.pop('min_validation_length')
