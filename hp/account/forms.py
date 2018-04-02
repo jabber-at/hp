@@ -24,6 +24,7 @@ from django.contrib.auth import password_validation
 from django.contrib.auth.forms import AuthenticationForm
 from django.utils.translation import ugettext_lazy as _
 
+from bootstrap.forms import BootstrapFormMixin
 from bootstrap.formfields import BootstrapBooleanField
 from bootstrap.formfields import BootstrapConfirmPasswordField
 from bootstrap.formfields import BootstrapPasswordField
@@ -220,7 +221,9 @@ class SetEmailForm(GPGMixin, EmailValidationMixin, forms.Form):
     )
 
 
-class AddGpgForm(GPGMixin, forms.Form):
+class AddGpgForm(BootstrapFormMixin, GPGMixin, forms.Form):
+    input_columns = 'col-12 col-lg-10'
+    label_columns = 'col-12 col-lg-2'
     hide_gpg_content = False
 
 
