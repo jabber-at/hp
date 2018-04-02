@@ -124,7 +124,7 @@ class FingerprintField(BootstrapCharField):
         # can catch this and throw the invalid error code instead of the custom Django ones.
         attrs['minlength'] = 40
         attrs['maxlength'] = 50
-        attrs['pattern'] = '[0-9A-Fa-f ]'
+        attrs['pattern'] = '[0-9A-Fa-f ]+'
         attrs['title'] = _(
             'The hex-encoded value of the fingerprint: digits, letters A-F (case-insensitive).')
         return attrs
