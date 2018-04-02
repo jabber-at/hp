@@ -24,11 +24,11 @@ from django.contrib.auth import password_validation
 from django.contrib.auth.forms import AuthenticationForm
 from django.utils.translation import ugettext_lazy as _
 
-from bootstrap.forms import BootstrapFormMixin
 from bootstrap.formfields import BootstrapBooleanField
 from bootstrap.formfields import BootstrapConfirmPasswordField
 from bootstrap.formfields import BootstrapPasswordField
 from bootstrap.formfields import BootstrapSetPasswordField
+from bootstrap.forms import BootstrapFormMixin
 from core.forms import CaptchaFormMixin
 
 from .formfields import EmailVerifiedDomainField
