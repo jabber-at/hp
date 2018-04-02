@@ -32,6 +32,8 @@ class NodeWidget(MergeClassesMixin, BootstrapTextInput):
 
     def __init__(self, attrs=None, **kwargs):
         attrs = attrs or {}
+        # NOTE: Do not give a range ("{2,64}" here, because otherwise HTML5 validation will always show
+        #       pattern mismatch and never tooShort as error.
         attrs['pattern'] = '[^@ ]+'
         self.register = kwargs.pop('register', False)
         super(NodeWidget, self).__init__(attrs=attrs, **kwargs)
