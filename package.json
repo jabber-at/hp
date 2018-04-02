@@ -9,7 +9,7 @@
   "dependencies": {
     "clean-css": "^3",
     "less": "^2.7.2",
-    "uglify-js": "^2.7.5"
+    "uglify-js": "^3.3.18"
   },
   "devDependencies": {},
   "scripts": {
