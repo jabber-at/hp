@@ -183,11 +183,12 @@ class BootstrapMixin(object):
 
     # TODO: Rework this
     col_class = 'sm'
-    label_cols = 2
     input_cols = 10
 
     horizontal = True
     """Display this field as a horizontal form group."""
+
+    label_columns = 'col-sm-2'
 
     min_validation_length = False
     """Start JavaScript validation at the given length."""
@@ -217,7 +218,6 @@ class BootstrapMixin(object):
         html_errors |= html_errors or set()
         self.html_errors = html_errors
 
-        self.label_cols = kwargs.pop('label_cols', self.label_cols)
         self.input_cols = kwargs.pop('input_cols', self.input_cols)
         self.col_class = kwargs.pop('col_class', self.col_class)
         self.hide_label = kwargs.pop('hide_label', self.hide_label)
@@ -268,15 +268,25 @@ class BootstrapMixin(object):
     def get_label_attrs(self):
         """Get attributes for the label tag."""
 
+        return {'class': self.get_label_classes(), }
+
+    def get_label_classes(self):
+        """Get classes used for this class."""
         cls = []
+
         if self.hide_label is True:
             cls.append('sr-only')
 
         if self.horizontal:
-            cls.append('col-%s-%s' % (self.col_class, self.label_cols))
+            cls.append(self.get_label_columns())
             cls.append('col-form-label')
 
-        return {'class': ' '.join(cls)}
+        return ' '.join(cls)
+
+    def get_label_columns(self):
+        """Get the colum CSS classes used in this form."""
+
+        return self.label_columns
 
     def get_bound_field(self, form, field_name):
         return BoundField(form, self, field_name)
