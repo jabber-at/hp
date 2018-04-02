@@ -19,8 +19,12 @@ class BootstrapFormMixin(object):
 
     input_columns = None
     label_columns = None
+    offset_columns = 'col-sm-10 offset-sm-2'
 
-    def __init__(self, *args, input_columns=None, label_columns=None, **kwargs):
+    def __init__(self, *args, input_columns=None, label_columns=None, offset_columns=None, **kwargs):
+        if offset_columns is not None:
+            self.offset_columns = offset_columns
+
         super().__init__(*args, **kwargs)
 
         input_columns = input_columns or self.input_columns
@@ -32,3 +36,6 @@ class BootstrapFormMixin(object):
         if label_columns is not None:
             for key, field in self.fields.items():
                 field.label_columns = label_columns
+
+    def get_offset_columns(self):
+        return self.offset_columns

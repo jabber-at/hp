@@ -48,6 +48,10 @@ class GPGMixin(forms.Form):
         gpg_fingerprint = FingerprintField(horizontal=True)
         gpg_key = KeyUploadField(horizontal=True)
 
+        input_columns = 'col-12 col-lg-10'
+        label_columns = 'col-12 col-lg-2'
+        offset_columns = 'col-12 col-lg-10 offset-lg-2'
+
     def get_gpg_data(self):
         """Get fingerprint and uploaded key, if any."""
 
@@ -141,7 +145,7 @@ class AdminUserForm(forms.ModelForm):
     pass
 
 
-class CreateUserForm(GPGMixin, CaptchaFormMixin, EmailValidationMixin, forms.ModelForm):
+class CreateUserForm(GPGMixin, BootstrapFormMixin, CaptchaFormMixin, EmailValidationMixin, forms.ModelForm):
     username = UsernameField(register=True)
     email = EmailVerifiedDomainField(
         label=_('Email'), min_validation_length=5,
@@ -214,16 +218,14 @@ class SetPasswordForm(forms.Form):
                 self.add_error('password2', error)
 
 
-class SetEmailForm(GPGMixin, EmailValidationMixin, forms.Form):
+class SetEmailForm(GPGMixin, BootstrapFormMixin, EmailValidationMixin, forms.Form):
     email = EmailVerifiedDomainField(
         label=_('Email'),
         help_text=_('Required, an email will be sent to this address to confirm the change.')
     )
 
 
-class AddGpgForm(BootstrapFormMixin, GPGMixin, forms.Form):
-    input_columns = 'col-12 col-lg-10'
-    label_columns = 'col-12 col-lg-2'
+class AddGpgForm(GPGMixin, BootstrapFormMixin, forms.Form):
     hide_gpg_content = False
 
 

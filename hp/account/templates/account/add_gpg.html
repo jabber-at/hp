@@ -8,7 +8,7 @@
   {% include "account/include/gpg_form.html" %}
 
   <div class="row">
-    <div class="col-sm-10 offset-sm-2">
+    <div class="{{ form.get_offset_columns }}">
       <button type="submit" class="btn btn-primary">{% trans "Submit" %}</button>
     </div>
   </div>

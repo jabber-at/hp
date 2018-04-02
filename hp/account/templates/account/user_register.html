@@ -10,25 +10,25 @@ You will receive an email to confirm the address provided. Click on the
 link in the email to complete your registration.{% endblocktrans %}
 </p>
 <div class="alert alert-info alert-dismissable with-header" role="alert">
-    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-    <h5><strong>{% trans "Why do we require your email address?" %}</strong></h5>
+  <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+  <h5><strong>{% trans "Why do we require your email address?" %}</strong></h5>
 {% blocktrans %}By default, the email address is used only if you want to reset your
 password or if your account hasn't been used for a year and is about to be
 removed.{% endblocktrans %}
 </div>
 <form enctype="multipart/form-data" class="form-horizontal" action="" method="post" class="needs-validation">{% csrf_token %}
-{{ form.username.formgroup }}
-{{ form.email.formgroup }}
+  {{ form.username.formgroup }}
+  {{ form.email.formgroup }}
 
-{% if form.show_gpg %}
-{% include "account/include/gpg_form.html" %}
-{% endif %}
-{{ form.captcha.formgroup }}
+  {% if form.show_gpg %}
+  {% include "account/include/gpg_form.html" %}
+  {% endif %}
+  {{ form.captcha.formgroup }}
 
-<div class="row">
-    <div class="col-sm-10 offset-sm-2">
-        <button type="submit" class="btn btn-primary">{% trans "Register" %}</button>
+  <div class="row">
+    <div class="{{ form.get_offset_columns }}">
+      <button type="submit" class="btn btn-primary">{% trans "Register" %}</button>
     </div>
-</div>
+  </div>
 </form>
 {% endblock form %}

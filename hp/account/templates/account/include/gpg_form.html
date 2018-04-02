@@ -20,6 +20,11 @@ forgotten your password) we send to you.{% endblocktrans %}
   </div>
 
   {{ form.gpg_key.formgroup }}
-  <p><strong>{% trans "- and/or -" %}</strong></p>
+  <div class="row">
+    <div class="{{ form.get_offset_columns }}">
+      <p><strong>{% trans "- and/or -" %}</strong></p>
+    </div>
+  </div>
+
   {{ form.gpg_fingerprint.formgroup }}
 </div>
