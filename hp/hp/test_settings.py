@@ -71,8 +71,8 @@ INSTALLED_APPS = [
     'certs',
 ]
 SIDEBAR_PANELS = [
-    'core/panels/languages.html',
-    'core/panels/updates.html',
+    'core/cards/languages.html',
+    'core/cards/updates.html',
 ]
 
 MIDDLEWARE = [
