@@ -175,11 +175,11 @@ AUTHENTICATION_BACKENDS = [
 JS_FILES = None
 _DEFAULT_JS_FILES = [
     'lib/jquery/jquery.js',
+    'lib/prism/prism.js',
     'lib/popper.js',
     'lib/bootstrap/js/bootstrap.js',
-    'lib/prism/prism.js',
-    'core/js/captcha.js',
     'core/js/base.js',
+    'core/js/captcha.js',
     'account/js/gpgmixin.js',
     'account/js/email_verified_domain_widget.js',
     'account/js/username_widget.js',
@@ -192,13 +192,16 @@ CSS_FILES = None
 _DEFAULT_CSS_FILES = [
     'lib/bootstrap/css/bootstrap.min.css',
     'lib/prism/prism.css',
+    'lib/fontawesome/web-fonts-with-css/css/fontawesome-all.css',
     'core/css/bootstrap-hp.css',
     'core/css/base.css',
     'core/css/clients.css',
     'bootstrap/css/bootstrap.css',
     'account/css/base.css',
-    'account/css/notifications.css',
+    'account/css/email_verified_domain_widget.css'
     'account/css/gpgmixin.css',
+    'account/css/notifications.css',
+    'account/css/username_widget.css',
     'certs/certificate.css',
 ]
 
