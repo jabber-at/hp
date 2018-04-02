@@ -35,10 +35,10 @@ def icon(icon, style='fas', tag='span', css_classes='', **attrs):
     '<span class="fas fa-trash"></span>'
     >>> icon('font-awesome', style='fab')
     '<span class="fab fa-font-awesome"></span>'
-    >>> icon('fas', 'font-awesome', tag='i')
-    '<i class="fas fa-font-awesome"></i>'
-    >>> icon('fas', 'font-awesome', tag='i', id='some-id')
-    '<i class="fas fa-font-awesome" id="some-id"></i>'
+    >>> icon('font-awesome', style='fab', tag='i')
+    '<i class="fab fa-font-awesome"></i>'
+    >>> icon('font-awesome', style='fab', tag='i', id='some-id')
+    '<i class="fab fa-font-awesome" id="some-id"></i>'
 
     Parameters
     ----------
