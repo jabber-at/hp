@@ -29,7 +29,26 @@ $(document).ready(function() {
      */
     $('form.needs-validation').submit(function(e) {
         if (e.target.checkValidity() === false) {
-            $(e.target).find('.form-group').addClass('was-validated');
+            $(e.target).find('.form-group').each(function(i, fg) {
+                let form_group = $(fg);
+                if (! form_group.hasClass('was-validated')) {
+                    form_group.addClass('was-validated');
+                    form_group.find('input:invalid').each(function(i, inp) {
+                        let input = $(inp);
+                        let value = input.val();
+
+                        if (value.length == 0 && input.prop('required')) {
+                            bs4_forms_set_error(input, 'required');
+                        } else if (e.target.validity.tooShort && form_group.find('.invalid-min_length').length) {
+                            bs4_forms_set_error(input, 'min_length');
+                        } else if (e.target.validity.tooLong && form_group.find('.invalid-max_length').length) {
+                            bs4_forms_set_error(input, 'max_length');
+                        } else {
+                            bs4_forms_set_error(input, 'invalid');
+                        }
+                    });
+                }
+            });
             return false;
         }
         return true;
