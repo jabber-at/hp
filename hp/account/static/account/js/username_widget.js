@@ -1,12 +1,12 @@
 var check_username = function(form_group, timer) {
-    let input = form_group.find('input#id_username_0');
-    let domain_select = form_group.find('select#id_username_1');
+    var input = form_group.find('input#id_username_0');
+    var domain_select = form_group.find('select#id_username_1');
 
     clearTimeout(timer);
 
     if (input[0].checkValidity()) { // only check if the username is syntactically valid
         timer = setTimeout(function() {
-            let exists_url = $('meta[name="account:api-check-user"]').attr('content');
+            var exists_url = $('meta[name="account:api-check-user"]').attr('content');
 
             $.post(exists_url, {
                 username: input.val(),
@@ -32,7 +32,7 @@ $(document).ready(function() {
     var username_timer;
 
     $('input#id_username_0[data-check-existance="true"]').on('input propertychange paste', function(e) {
-        let form_group = $(e.target).parents('.form-group');
+        var form_group = $(e.target).parents('.form-group');
         if (e.target.checkValidity()) {  // only check existance if input is valid
             check_username(form_group, username_timer);
         }
@@ -40,7 +40,7 @@ $(document).ready(function() {
     });
 
     $('#id_username_1').change(function(e) {
-        let form_group = $(e.target).parents('.form-group');
+        var form_group = $(e.target).parents('.form-group');
 
         /**
          * If the username is currently invalid because of a unique constraing (-> the username already

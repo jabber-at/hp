@@ -1,9 +1,9 @@
 var bs4_forms_set_error = function(elem, cls) {
-    let cls_name = 'invalid-' + cls;
-    let form_group = elem.parents('.form-group');
+    var cls_name = 'invalid-' + cls;
+    var form_group = elem.parents('.form-group');
     
     form_group.addClass(cls_name);
-    let message = form_group.find('.invalid-feedback.' + cls_name).text();
+    var message = form_group.find('.invalid-feedback.' + cls_name).text();
     message = message ? message.trim() : null;
     if (message) {
         elem[0].setCustomValidity(message);
@@ -30,12 +30,12 @@ $(document).ready(function() {
     $('form.needs-validation').submit(function(e) {
         if (e.target.checkValidity() === false) {
             $(e.target).find('.form-group').each(function(i, fg) {
-                let form_group = $(fg);
+                var form_group = $(fg);
                 if (! form_group.hasClass('was-validated')) {
                     form_group.addClass('was-validated');
                     form_group.find('input:invalid').each(function(i, inp) {
-                        let input = $(inp);
-                        let value = input.val();
+                        var input = $(inp);
+                        var value = input.val();
 
                         if (value.length == 0 && input.prop('required')) {
                             bs4_forms_set_error(input, 'required');
@@ -61,9 +61,9 @@ $(document).ready(function() {
      * validate initial input on the first few characters.
      */
     $('.form-group:not(.was-validated) input').on('input propertychange paste', function(e) {
-        let input = $(e.target);
-        let value = input.val();
-        let min_length = input.data('min-validation-length');
+        var input = $(e.target);
+        var value = input.val();
+        var min_length = input.data('min-validation-length');
 
         if (typeof min_length === 'undefined' || value.length > min_length) {
             input.parents('.form-group').addClass('was-validated');
@@ -71,9 +71,9 @@ $(document).ready(function() {
     });
 
     $('.form-group input').on('input propertychange paste', function(e) {
-        let input = $(e.target);
-        let value = input.val();
-        let form_group = input.parents('.form-group');
+        var input = $(e.target);
+        var value = input.val();
+        var form_group = input.parents('.form-group');
 
         // first, clear any custom message
         e.target.setCustomValidity('');
@@ -97,16 +97,16 @@ $(document).ready(function() {
      * Handle text in custom file inputs.
      */
     $('input[type="file"].custom-file-input').on('change', function(e) {
-        let target = $(e.target);
-        let filename = target.val().split('\\').pop();
+        var target = $(e.target);
+        var filename = target.val().split('\\').pop();
         target.siblings('label.custom-file-label').text(filename);
 
     });
 
     $('.form-group.invalid-mime-type').each(function(i, elem) {
         elem = $(elem);
-        let input = elem.find('input[type="file"]');
-        let error = elem.find('.invalid-feedback.invalid-mime-type').text().trim();
+        var input = elem.find('input[type="file"]');
+        var error = elem.find('.invalid-feedback.invalid-mime-type').text().trim();
         input.each(function(j, input) {
             input.setCustomValidity(error);
         });
@@ -116,13 +116,13 @@ $(document).ready(function() {
      * Handle password-confirmation fields
      */
     $('input[type="password"].set-password').on('input propertychange paste', function(e) {
-        let pwd = $(e.target);
-        let form = pwd.parents('form');
-        let form_group = pwd.parents('.form-group')
-        let value = pwd.val();
-        let confirm_pwd = form.find('input[type="password"].confirm-password');
-        let confirm_val = confirm_pwd.val();
-        let confirm_fg = confirm_pwd.parents('.form-group');
+        var pwd = $(e.target);
+        var form = pwd.parents('form');
+        var form_group = pwd.parents('.form-group')
+        var value = pwd.val();
+        var confirm_pwd = form.find('input[type="password"].confirm-password');
+        var confirm_val = confirm_pwd.val();
+        var confirm_fg = confirm_pwd.parents('.form-group');
 
         /**
          * Add was-validated to the confirmation field as soon as this field has it. 
@@ -143,11 +143,11 @@ $(document).ready(function() {
     });
 
     $('input[type="password"].confirm-password').on('input propertychange paste', function(e) {
-        let confirm_pwd = $(e.target);
-        let form = confirm_pwd.parents('form');
-        let pwd = form.find('input[type="password"].set-password');
-        let form_group = confirm_pwd.parents('.form-group');
-        let value = confirm_pwd.val();
+        var confirm_pwd = $(e.target);
+        var form = confirm_pwd.parents('form');
+        var pwd = form.find('input[type="password"].set-password');
+        var form_group = confirm_pwd.parents('.form-group');
+        var value = confirm_pwd.val();
 
         if (value === pwd.val()) {
             bs4_forms_clear_error(form_group);

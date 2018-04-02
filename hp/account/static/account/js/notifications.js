@@ -1,7 +1,7 @@
 $(document).ready(function () {
     $('form.user-notifications input[type="checkbox"]').change(function(event) {
-        let checkbox = $(event.currentTarget);
-        let form = $('form.user-notifications');
+        var checkbox = $(event.currentTarget);
+        var form = $('form.user-notifications');
 
         $.ajax({
             type: form.attr('method'),

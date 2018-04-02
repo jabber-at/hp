@@ -4,7 +4,7 @@ $(document).ready(function() {
     $('.gpg-header-row.hidden-with-js .icon-unfolded').hide();
 
     $('.gpg-header-row').click(function(e) {
-        let target = $(e.target);
+        var target = $(e.target);
         $('.gpg-content').slideToggle("fast");
         $(e.target).toggleClass('show-gpg');
         target.find('.icon-unfolded').toggle();
