@@ -12,7 +12,7 @@ able to use your new account immediately.{% endblocktrans %}</p>
 This link is a one-time link only. If you have already completed your
 registration, please proceed to your <a class="alert-link" href="{{ account_page_url }}">your account-page</a>.{% endblocktrans %}</div>
 
-<form class="form-horizontal" action="" method="post">{% csrf_token %}
+<form class="form-horizontal needs-validation" action="" method="post">{% csrf_token %}
   {{ form.password.formgroup }}
   {{ form.password2.formgroup }}
   {{ form.captcha.formgroup }}

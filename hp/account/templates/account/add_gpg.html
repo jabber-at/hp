@@ -4,7 +4,7 @@
 {% block title %}{% trans "Add GPG key" %}{% endblock title %}
 
 {% block content %}
-<form enctype="multipart/form-data" class="form-horizontal" action="" method="post">{% csrf_token %}
+<form enctype="multipart/form-data" class="form-horizontal needs-validation" action="" method="post">{% csrf_token %}
   {% include "account/include/gpg_form.html" %}
   {{ form.buttons }}
 </form>

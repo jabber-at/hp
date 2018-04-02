@@ -4,7 +4,7 @@
 {% block title %}{% trans "Set new email address" %}{% endblock title %}
 
 {% block content %}
-<form enctype="multipart/form-data" class="form-horizontal" action="" method="post">{% csrf_token %}
+<form enctype="multipart/form-data" class="form-horizontal needs-validation" action="" method="post">{% csrf_token %}
   {{ form.email.formgroup }}
 
   {% with uses_gpg=user.uses_gpg %}

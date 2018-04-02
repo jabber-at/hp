@@ -10,7 +10,7 @@
 
 {% if next %}<p>{% trans "Please login to see this page." %}</p>{% endif %}
 
-<form class="form-horizontal" method="post" action="{% url 'account:login' %}">{% csrf_token %}
+<form class="form-horizontal needs-validation" method="post" action="{% url 'account:login' %}">{% csrf_token %}
   <input type="hidden" name="next" value="{{ next }}" />
   {{ form.username.formgroup }}
   {{ form.password.formgroup }}
