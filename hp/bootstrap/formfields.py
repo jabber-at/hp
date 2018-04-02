@@ -181,14 +181,11 @@ class BootstrapMixin(object):
         'unique',
     }
 
-    # TODO: Rework this
-    col_class = 'sm'
-    input_cols = 10
-
     horizontal = True
     """Display this field as a horizontal form group."""
 
     label_columns = 'col-sm-2'
+    input_columns = 'col-sm-8'
 
     min_validation_length = False
     """Start JavaScript validation at the given length."""
@@ -218,8 +215,6 @@ class BootstrapMixin(object):
         html_errors |= html_errors or set()
         self.html_errors = html_errors
 
-        self.input_cols = kwargs.pop('input_cols', self.input_cols)
-        self.col_class = kwargs.pop('col_class', self.col_class)
         self.hide_label = kwargs.pop('hide_label', self.hide_label)
 
         super(BootstrapMixin, self).__init__(**kwargs)
@@ -253,17 +248,8 @@ class BootstrapMixin(object):
     def get_valid_feedback(self):
         return self.valid_feedback
 
-    def get_input_grid_class(self):
-        raise Exception('deprecated')
-        return 'col-%s-%s' % (self.col_class, self.input_cols)
-
-    def get_input_grid_attrs(self):
-        raise Exception('deprecated')
-        return {'class': self.get_input_grid_class()}
-
     def get_horizontal_wrapper_attrs(self):
-        classes = 'col-%s-%s' % (self.col_class, self.input_cols)
-        return {'class': classes}
+        return {'class': self.input_columns}
 
     def get_label_attrs(self):
         """Get attributes for the label tag."""

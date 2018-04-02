@@ -26,6 +26,8 @@ from .models import Certificate
 
 
 class CertificateSelectionField(BootstrapModelChoiceField):
+    input_columns = 'col-sm-8 col-md-7 col-lg-5'
+
     def label_from_instance(self, obj):
         return '%s - %s' % (
             date_format(obj.valid_from, format='SHORT_DATE_FORMAT', use_l10n=True),
@@ -49,8 +51,7 @@ class CertificateAdminForm(forms.ModelForm):
 
 
 class SelectCertificateForm(forms.Form):
-    certificate = CertificateSelectionField(queryset=None, required=True, empty_label=None,
-                                            hide_label=True, input_cols=8)
+    certificate = CertificateSelectionField(queryset=None, required=True, empty_label=None, hide_label=True)
 
     def __init__(self, *args, **kwargs):
         hostname = kwargs.pop('hostname', settings.DEFAULT_XMPP_HOST)
