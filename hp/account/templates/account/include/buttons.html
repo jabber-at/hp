@@ -1,0 +1,7 @@
+<div class="row">
+  <div class="{{ form.get_offset_columns }}">
+    {% for name, button in form.get_buttons %}
+    <button type="submit" class="btn btn-{{ button.class }} btn-name-{{ name }}">{{ button.text }}</button>
+    {% endfor %}
+  </div>
+</div>
