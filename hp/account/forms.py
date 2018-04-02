@@ -163,12 +163,12 @@ class CreateUserForm(GPGMixin, BootstrapFormMixin, CaptchaFormMixin, EmailValida
         fields = ['username', 'email', 'gpg_fingerprint']
 
 
-class LoginForm(CaptchaFormMixin, AuthenticationForm):
+class LoginForm(BootstrapFormMixin, CaptchaFormMixin, AuthenticationForm):
     username = UsernameField()
     password = BootstrapPasswordField(label=_('Password'))
 
 
-class NotificationsForm(forms.ModelForm):
+class NotificationsForm(BootstrapFormMixin, forms.ModelForm):
     class Meta:
         model = Notifications
         field_classes = {
@@ -187,13 +187,13 @@ class NotificationsForm(forms.ModelForm):
         }
 
 
-class DeleteAccountForm(forms.Form):
+class DeleteAccountForm(BootstrapFormMixin, forms.Form):
     password = BootstrapPasswordField(
         label=_('Password'), help_text=_(
             'Your password, to make sure that you really want to delete your account.'))
 
 
-class SetPasswordForm(forms.Form):
+class SetPasswordForm(BootstrapFormMixin, forms.Form):
     password = BootstrapSetPasswordField()
     password2 = BootstrapConfirmPasswordField()
 
@@ -229,31 +229,11 @@ class AddGpgForm(GPGMixin, BootstrapFormMixin, forms.Form):
     hide_gpg_content = False
 
 
-class ResetPasswordForm(CaptchaFormMixin, forms.Form):
+class ResetPasswordForm(BootstrapFormMixin, CaptchaFormMixin, forms.Form):
     """Form used when a user forgot his password and forgot it."""
 
     username = UsernameField()
 
 
 class ConfirmResetPasswordForm(CaptchaFormMixin, SetPasswordForm):
-    pass
-
-
-class ResetPasswordConfirmationForm(forms.Form):
-    pass
-
-
-class ResetEmailForm(forms.Form):
-    pass
-
-
-class ResetEmailConfirmationForm(forms.Form):
-    pass
-
-
-class DeleteForm(forms.Form):
-    pass
-
-
-class DeleteConfirmationForm(forms.Form):
     pass

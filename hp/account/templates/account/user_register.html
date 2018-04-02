@@ -24,11 +24,6 @@ removed.{% endblocktrans %}
   {% include "account/include/gpg_form.html" %}
   {% endif %}
   {{ form.captcha.formgroup }}
-
-  <div class="row">
-    <div class="{{ form.get_offset_columns }}">
-      <button type="submit" class="btn btn-primary">{% trans "Register" %}</button>
-    </div>
-  </div>
+  {{ form.buttons }}
 </form>
 {% endblock form %}

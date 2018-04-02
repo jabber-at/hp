@@ -6,11 +6,6 @@
 {% block content %}
 <form enctype="multipart/form-data" class="form-horizontal" action="" method="post">{% csrf_token %}
   {% include "account/include/gpg_form.html" %}
-
-  <div class="row">
-    <div class="{{ form.get_offset_columns }}">
-      <button type="submit" class="btn btn-primary">{% trans "Submit" %}</button>
-    </div>
-  </div>
+  {{ form.buttons }}
 </form>
 {% endblock content %}

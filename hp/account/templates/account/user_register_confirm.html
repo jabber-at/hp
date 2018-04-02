@@ -13,14 +13,9 @@ This link is a one-time link only. If you have already completed your
 registration, please proceed to your <a class="alert-link" href="{{ account_page_url }}">your account-page</a>.{% endblocktrans %}</div>
 
 <form class="form-horizontal" action="" method="post">{% csrf_token %}
-{{ form.password.formgroup }}
-{{ form.password2.formgroup }}
-{{ form.captcha.formgroup }}
-
-<div class="row">
-    <div class="col-sm-10 offset-sm-2">
-        <button type="submit" class="btn btn-primary">{% trans "Submit" %}</button>
-    </div>
-</div>
+  {{ form.password.formgroup }}
+  {{ form.password2.formgroup }}
+  {{ form.captcha.formgroup }}
+  {{ form.buttons }}
 </form>
 {% endblock form %}

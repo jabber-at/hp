@@ -11,19 +11,15 @@
 {% if next %}<p>{% trans "Please login to see this page." %}</p>{% endif %}
 
 <form class="form-horizontal" method="post" action="{% url 'account:login' %}">{% csrf_token %}
-<input type="hidden" name="next" value="{{ next }}" />
-{{ form.username.formgroup }}
-{{ form.password.formgroup }}
-{{ form.captcha.formgroup }}
-<div class="row">
-  <div class="col-sm-10 offset-sm-2">
-    <a href="{% url "account:reset_password" %}">{% trans "Forgot your password?" %}</a>
+  <input type="hidden" name="next" value="{{ next }}" />
+  {{ form.username.formgroup }}
+  {{ form.password.formgroup }}
+  {{ form.captcha.formgroup }}
+  <div class="row mb-3">
+    <div class="{{ form.get_offset_columns }}">
+      <a href="{% url "account:reset_password" %}">{% trans "Forgot your password?" %}</a>
+    </div>
   </div>
-</div>
-<div class="row">
-  <div class="col-sm-10 offset-sm-2">
-    <button type="submit" class="btn btn-primary">{% trans "Log in" %}</button>
-  </div>
-</div>
+  {{ form.buttons }}
 </form>
 {% endblock form %}

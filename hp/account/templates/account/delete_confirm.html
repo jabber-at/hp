@@ -6,10 +6,6 @@
 {% block content %}
 <form class="form-horizontal" action="" method="post">{% csrf_token %}
   {{ form.password.formgroup }}
-  <div class="row">
-    <div class="col-sm-10 offset-sm-2">
-      <button type="submit" class="btn btn-primary">{% trans "Delete" %}</button>
-    </div>
-  </div>
+  {{ form.buttons }}
 </form>
 {% endblock content %}
