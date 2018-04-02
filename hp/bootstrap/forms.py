@@ -13,12 +13,15 @@
 # You should have received a copy of the GNU General Public License along with this project. If
 # not, see <http://www.gnu.org/licenses/>.
 
+from django.forms.renderers import get_default_renderer
+from django.utils.safestring import mark_safe
 from django.utils.translation import ugettext_lazy as _
 
 
 class BootstrapFormMixin(object):
     """Mixin for Bootstrap forms, making (some) variables globally overridable."""
 
+    button_template = 'bootstrap/forms/buttons.html'
     button_order = ['submit']
     default_buttons = {
         'submit': {
@@ -33,6 +36,10 @@ class BootstrapFormMixin(object):
     def __init__(self, *args, input_columns=None, label_columns=None, offset_columns=None, **kwargs):
         if offset_columns is not None:
             self.offset_columns = offset_columns
+        if 'button_order' in 'kwargs':
+            self.button_order = kwargs.pop('button_order')
+        if 'button_template' in 'kwargs':
+            self.button_template = kwargs.pop('button_template')
 
         super().__init__(*args, **kwargs)
 
@@ -50,11 +57,18 @@ class BootstrapFormMixin(object):
         for c in reversed(self.__class__.__mro__):
             buttons.update(getattr(c, 'default_buttons', {}))
         buttons.update(kwargs.pop('buttons', {}))
-        self.buttons = buttons
+        self._buttons = buttons
 
-    def get_buttons(self):
-        order = self.button_order
-        return sorted(self.buttons.items(), key=lambda t: order.index(t[0]) if t[0] in order else -1)
+    def get_button_order(self):
+        return self.button_order
+
+    def buttons(self):
+        renderer = self.renderer or get_default_renderer()
+        order = self.get_button_order()
+        buttons = sorted(self._buttons.items(), key=lambda t: order.index(t[0]) if t[0] in order else -1)
+
+        context = {'buttons': buttons, 'form': self}
+        return mark_safe(renderer.render(self.button_template, context))
 
     def get_offset_columns(self):
         return self.offset_columns
