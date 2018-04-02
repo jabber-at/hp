@@ -198,7 +198,7 @@ _DEFAULT_CSS_FILES = [
     'core/css/clients.css',
     'bootstrap/css/bootstrap.css',
     'account/css/base.css',
-    'account/css/email_verified_domain_widget.css'
+    'account/css/email_verified_domain_widget.css',
     'account/css/gpgmixin.css',
     'account/css/notifications.css',
     'account/css/username_widget.css',
