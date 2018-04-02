@@ -200,6 +200,10 @@ class BootstrapMixin(object):
 
         if 'horizontal' in kwargs:
             self.horizontal = kwargs.pop('horizontal')
+        if 'input_columns' in kwargs:
+            self.input_columns = kwargs.pop('input_columns')
+        if 'label_columns' in kwargs:
+            self.label_columns = kwargs.pop('label_columns')
 
         if 'min_validation_length' in kwargs:
             self.min_validation_length = kwargs.pop('min_validation_length')
