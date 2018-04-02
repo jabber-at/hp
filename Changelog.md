@@ -2,6 +2,11 @@
 
 Note: This changelog is not very complete.
 
+## 2018-04-02
+
+* Update to jQuery 3.3 and Bootstrap 4.
+* Major changes on the bootstrap form framework to ensure consistency accross all forms.
+
 ## 2017-09-03
 
 * View HTTP upload limits at ``/account/uploads``.
