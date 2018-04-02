@@ -37,9 +37,6 @@ See [ChangeLog.md](https://github.com/jabber-at/hp/blob/master/Changelog.md)
 ### TODOs
 
 * Tags and comments on blog posts.
-* Add a webclient again (JSXC or converse.js?).
-* Calendar export of scheduled downtimes.
-* Minimize Javascript and CSS.
 * Search functionality.
 
 #### Ideas
