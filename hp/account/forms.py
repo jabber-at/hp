@@ -226,6 +226,7 @@ class SetEmailForm(GPGMixin, BootstrapFormMixin, EmailValidationMixin, forms.For
 
 
 class AddGpgForm(GPGMixin, BootstrapFormMixin, forms.Form):
+    # TODO: This form is valid if neither a key nor a fingerprint is added
     hide_gpg_content = False
 
 
