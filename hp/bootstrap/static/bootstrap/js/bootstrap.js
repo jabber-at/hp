@@ -22,7 +22,18 @@ var bs4_forms_clear_error = function(form_group) {
 
 $(document).ready(function() {
     /* Disable built-in form validation and use javascript. */
-    $('form').attr('novalidate', true);
+    $('form.needs-validation').attr('novalidate', true);
+
+    /**
+     * Prevent form submission if the form is not yet valid.
+     */
+    $('form.needs-validation').submit(function(e) {
+        if (e.target.checkValidity() === false) {
+            $(e.target).find('.form-group').addClass('was-validated');
+            return false;
+        }
+        return true;
+    });
 
     /**
      * Add was-validated class to form group elements.

@@ -36,6 +36,7 @@ $(document).ready(function() {
         if (e.target.checkValidity()) {  // only check existance if input is valid
             check_username(form_group, username_timer);
         }
+        // TODO: set domain as invalid if username is invalid
     });
 
     $('#id_username_1').change(function(e) {
