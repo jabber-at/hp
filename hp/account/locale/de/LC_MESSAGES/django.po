@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-04-01 18:49+0200\n"
+"POT-Creation-Date: 2018-04-02 10:26+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -70,48 +70,50 @@ msgstr "Manuell"
 msgid "Unknown"
 msgstr "Unbekannt"
 
-#: formfields.py:41
+#: formfields.py:40
 msgid "Username cannot contain \"@\" or spaces."
 msgstr "Der Benutzername darf keine \"@\"  oder Leerzeichen enthalten."
 
-#: formfields.py:42
+#: formfields.py:41
 #, python-format
 msgid "Username must have at most %(max_length)s characters."
 msgstr "Der Benutzername darf maximal %(max_length)s Zeichen lang sein."
 
-#: formfields.py:45
+#: formfields.py:44
 #, fuzzy, python-format
 #| msgid "Username must have at least %(limit_value)d characters."
 msgid "Username must have at least %(min_length)s characters."
 msgstr "Der Benutzername muss mindestens %(limit_value)d Zeichen lang sein."
 
-#: formfields.py:48
+#: formfields.py:47
 msgid "This username is already taken."
 msgstr "Der Benutzername existiert bereits."
 
-#: formfields.py:49
+#: formfields.py:48
 msgid ""
 "Could not check if the username already exists: Error communicating with the "
 "server."
 msgstr ""
 
-#: formfields.py:60 models.py:85
+#: formfields.py:59 models.py:85
 msgid "Username"
 msgstr "Name"
 
-#: formfields.py:79
+#: formfields.py:78
 msgid "Your username is used to identify you on the Jabber network."
 msgstr ""
 
-#: formfields.py:105
+#: formfields.py:104
 msgid "Please enter a valid GPG key fingerprint."
 msgstr "Bitte einen validen GPG Fingerabdruck angeben."
 
 #: formfields.py:107
 msgid ""
-"Fingerprint must be 40 characters (excluding spaces) and contain only "
+"A Fingerprint consists of 40 characters (excluding spaces) and contain only "
 "digits, the letters A-F and spaces."
 msgstr ""
+"Ein Fingerabdruck besteht aus 40 Zeichen (ohne Leerzeichen) sein und enthält "
+"nur Ziffern, die Buchstaben A-F und Leerzeichen enthalten."
 
 #: formfields.py:113 templates/account/user_gpg.html:29
 msgid "Fingerprint"
@@ -150,72 +152,72 @@ msgstr ""
 "... laden sie ihren GPG-Schlüssel im ASCII-Format direkt hoch (<code>gpg --"
 "armor --export &lt;fingerprint&gt;</code>)"
 
-#: formfields.py:180
+#: formfields.py:179
 #, python-format
 msgid "The domain \"%(value)s\" does not exist."
 msgstr "Die Domain \"%(value)s\" existiert nicht."
 
-#: forms.py:109
+#: forms.py:108
 msgid "Malformed email address."
 msgstr "Ungültige E-Mail-Adresse."
 
-#: forms.py:115
+#: forms.py:114
 #, python-format
 msgid "Please give your own email address, %(domain)s does not provide one."
 msgstr ""
 "Bitte geben sie ihre eigene E-Mail-Adresse an, %(domain)s stellt keine zur "
 "Verfüugung."
 
-#: forms.py:120
+#: forms.py:119
 #, python-format
 msgid "Sorry, we do not allow email addresses on %(domain)s."
-msgstr "Entschuldigung, wir erlauben keine E-Mail-Adressen von %(domain)s."
+msgstr "Wir erlauben leider keine E-Mail-Adressen von %(domain)s."
 
-#: forms.py:125 forms.py:135
+#: forms.py:124 forms.py:134
 msgid "Sorry, this email address cannot be used."
-msgstr "Entschuldigung, diese E-Mail-Adresse kann nicht verwendet werden."
+msgstr "Diese E-Mail-Adresse kann leider nicht verwendet werden."
 
-#: forms.py:147 forms.py:219 models.py:86
+#: forms.py:146 forms.py:218 models.py:86
 msgid "Email"
 msgstr "E-Mail"
 
-#: forms.py:148
+#: forms.py:147
 msgid "Required, a confirmation email will be sent to this address."
 msgstr "Pflichtfeld, eine Bestätigung wird an diese Adresse geschickt."
 
-#: forms.py:154 views.py:544
+#: forms.py:153 views.py:544
 msgid "Email address is already used by another account."
 msgstr "E-Mail-Adresse wird bereits für ein anderes Konto verwendet."
 
-#: forms.py:164 forms.py:188
+#: forms.py:163 forms.py:187
 msgid "Password"
 msgstr "Passwort"
 
-#: forms.py:176
+#: forms.py:175
 msgid "my account expires"
 msgstr "mein Konto abläuft"
 
-#: forms.py:177
+#: forms.py:176
 msgid "my GPG key expires"
 msgstr "mein GPG-Schlüssel abläuft"
 
-#: forms.py:181
+#: forms.py:180
 msgid ""
 "Accounts are automatically removed if they haven't been used for a year."
 msgstr ""
 "Ihr Konto wird automatisch gelöscht, wenn sie es ein Jahr lang nicht mehr "
 "genutzt haben."
 
-#: forms.py:182
+#: forms.py:181
 msgid "If you have uploaded a GPG key and it is about to expire."
 msgstr "wenn sie einen GPG-Schlüssel hochgeladen haben und dieser abläuft."
 
-#: forms.py:189
+#: forms.py:188
 msgid ""
 "Your password, to make sure that you really want to delete your account."
 msgstr "Ihr Passwort, damit sie sich auch ganz sicher sind."
 
-#: forms.py:220
+#: forms.py:219
 msgid "Required, an email will be sent to this address to confirm the change."
 msgstr ""
 "Pflichtfeld, eine E-Mail wird an diese Adresse gesendet um die Änderung zu "
@@ -319,11 +321,11 @@ msgstr "Menü"
 
 #: templates/account/base.html:36
 msgid "Hide menu"
-msgstr ""
+msgstr "Menü"
 
 #: templates/account/blocked.html:4
 msgid "You're blocked"
-msgstr ""
+msgstr "Sie sind blockiert"
 
 #: templates/account/blocked.html:6
 msgid ""

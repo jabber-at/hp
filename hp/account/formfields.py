@@ -20,7 +20,6 @@ import dns.resolver
 from django import forms
 from django.conf import settings
 from django.core.validators import RegexValidator
-from django.utils.safestring import mark_safe
 from django.utils.translation import ugettext_lazy as _
 
 from bootstrap.formfields import BootstrapCharField
@@ -104,17 +103,18 @@ class FingerprintField(BootstrapCharField):
     widget = FingerprintWidget
     invalid_feedback = _('Please enter a valid GPG key fingerprint.')
     default_error_messages = {
-        'invalid': _('Fingerprint must be 40 characters (excluding spaces) and contain only digits, '
-                     'the letters A-F and spaces.'),
+        'invalid': _(
+            'A Fingerprint consists of 40 characters (excluding spaces) and contain only digits, the letters '
+            'A-F and spaces.'),
     }
 
     def __init__(self, **kwargs):
         # "gpg --list-keys --fingerprint" outputs fingerprint with spaces, making it 50 chars long
         kwargs.setdefault('label', _('Fingerprint'))
         kwargs.setdefault('required', False)
-        kwargs.setdefault('help_text', mark_safe(_(
+        kwargs.setdefault('help_text', _(
             'Add your fingerprint (<code>gpg --fingerprint &lt;you@example.com&gt;</code>) if '
-            'your key is available on public key servers...')))
+            'your key is available on public key servers...'))
         super().__init__(**kwargs)
 
     def widget_attrs(self, widget):
@@ -151,10 +151,9 @@ class KeyUploadField(BootstrapFileField):
     def __init__(self, **kwargs):
         kwargs.setdefault('required', False)
         kwargs.setdefault('label', _('GPG Key'))
-        kwargs.setdefault('help_text', mark_safe(_(
-            '... upload your ASCII armored GPG key directly '
-            '(<code>gpg --armor --export &lt;fingerprint&gt;</code>).'
-        )))
+        kwargs.setdefault('help_text', _(
+            '... upload your ASCII armored GPG key directly (<code>gpg --armor --export '
+            '&lt;fingerprint&gt;</code>).'))
 
         # define error messages
         super().__init__(**kwargs)
