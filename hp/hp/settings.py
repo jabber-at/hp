@@ -196,6 +196,7 @@ _DEFAULT_CSS_FILES = [
     'core/css/bootstrap-hp.css',
     'core/css/base.css',
     'core/css/clients.css',
+    'core/css/captcha.css',
     'bootstrap/css/bootstrap.css',
     'account/css/base.css',
     'account/css/email_verified_domain_widget.css',
