@@ -33,7 +33,7 @@ $(document).ready(function() {
                 var form_group = $(fg);
                 if (! form_group.hasClass('was-validated')) {
                     form_group.addClass('was-validated');
-                    form_group.find('input:invalid').each(function(i, inp) {
+                    form_group.find(':input:invalid').each(function(i, inp) {
                         var input = $(inp);
                         var value = input.val();
 
@@ -57,10 +57,10 @@ $(document).ready(function() {
     /**
      * Add was-validated class to form group elements.
      *
-     * If min-validation-length is set, check for that length first.  Used e.g.  by the email field to not
+     * If min-validation-length is set, check for that length first.  Used e.g. by the email field to not
      * validate initial input on the first few characters.
      */
-    $('.form-group:not(.was-validated) input').on('input propertychange paste', function(e) {
+    $('.form-group:not(.was-validated) :input').on('input propertychange paste', function(e) {
         var input = $(e.target);
         var value = input.val();
         var min_length = input.data('min-validation-length');
@@ -70,7 +70,7 @@ $(document).ready(function() {
         }
     });
 
-    $('.form-group input').on('input propertychange paste', function(e) {
+    $('.form-group :input').on('input propertychange paste', function(e) {
         var input = $(e.target);
         var value = input.val();
         var form_group = input.parents('.form-group');
