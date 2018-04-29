@@ -573,8 +573,6 @@ except ImportError:
 # Make sure some required settings are set
 if not XMPP_HOSTS:
     raise ImproperlyConfigured("The XMPP_HOSTS setting is undefined.")
-if not CONTACT_ADDRESS:
-    raise ImproperlyConfigured("The CONTACT_ADDRESS setting is undefined.")
 if not DEFAULT_XMPP_HOST:
     raise ImproperlyConfigured("The DEFAULT_XMPP_HOST setting is undefined.")
 elif DEFAULT_XMPP_HOST not in XMPP_HOSTS:
