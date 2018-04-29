@@ -53,8 +53,6 @@ class BoundField(forms.boundfield.BoundField):
         if self.horizontal:
             fg_attrs['class'] += ' row'
 
-        print(self.field, self.errors)
-
         for error in self.errors.as_data():
             if error.code:
                 fg_attrs['class'] += ' invalid-%s' % error.code
