@@ -13,6 +13,9 @@
 # You should have received a copy of the GNU General Public License along with this project. If not, see
 # <http://www.gnu.org/licenses/>.
 
+import captcha
+from six.moves import reload_module
+
 from django.core import mail
 from django.conf import settings
 #from django.conf.urls import include
@@ -28,9 +31,27 @@ from ..tasks import send_contact_email
 #from ..urlpatterns import i18n_re_path
 from .base import TestCase
 
+SUBJECT = 'a' * 15
+TEXT = 'b' * 200
+EMAIL = 'user@example.com'
+
 
 class AnonymousContactViewTests(TestCase):
-    def assertEmail(self, response, email, subject, text):
+    def _post_form(self, data=None):
+        if data is None:
+            data = {}
+
+        data.setdefault('subject', SUBJECT)
+        data.setdefault('text', TEXT)
+        data.setdefault('email', EMAIL)
+
+        url = reverse('core:contact')
+        c = Client()
+
+        with self.mock_celery() as mocked, self.assertTemplateUsed('core/contact.html'):
+            return c.post(url, data), mocked
+
+    def assertEmail(self, response, email=EMAIL, subject=SUBJECT, text=TEXT):
         from_email = response.wsgi_request.site.get('DEFAULT_FROM_EMAIL', settings.DEFAULT_FROM_EMAIL)
         to_email = response.wsgi_request.site['CONTACT_ADDRESS']
         replyto_email = [to_email, email]
@@ -47,6 +68,22 @@ class AnonymousContactViewTests(TestCase):
         })
         self.assertEqual(mail.outbox[0].attachments, [])
 
+    def assertFormError(self, response, mocked, *errors):
+        form = response.context['form']
+
+        # Some basic assertions
+        self.assertEqual(response.status_code, 200)
+        self.assertIsInstance(form, AnonymousContactForm)
+
+        # Test that no email was sent
+        self.assertTaskCount(mocked, 0)
+        self.assertEqual(len(mail.outbox), 0)
+
+        # Check passed errors
+        self.assertTrue(form.is_bound)
+        for error in errors:
+            self.assertIn(error, form.errors)
+
     def test_get(self):
         url = reverse('core:contact')
         c = Client()
@@ -61,22 +98,14 @@ class AnonymousContactViewTests(TestCase):
 
     def test_post(self):
         # simulates a successful form submit
-
-        url = reverse('core:contact')
-        c = Client()
-        subject = 'a' * 15
-        text = 'b' * 200
-        email = 'user@example.com'
-
-        with self.mock_celery() as mocked, self.assertTemplateUsed('core/contact.html'):
-            response = c.post(url, {'subject': subject, 'text': text, 'email': email})
+        response, mocked = self._post_form()
 
         # Test that the contact call was correctly called
         self.assertTaskCount(mocked, 1)
         self.assertTaskCall(
             mocked, send_contact_email,
-            response.wsgi_request.site['NAME'], subject, text,
-            user_pk=None, recipient=email, address=response.wsgi_request.META['REMOTE_ADDR']
+            response.wsgi_request.site['NAME'], SUBJECT, TEXT,
+            user_pk=None, recipient=EMAIL, address=response.wsgi_request.META['REMOTE_ADDR']
         )
 
         # Test response
@@ -90,43 +119,28 @@ class AnonymousContactViewTests(TestCase):
         self.assertEqual(form.errors, {})
 
         # Test email that was sent
-        self.assertEmail(response, email, subject, text)
+        self.assertEmail(response)
 
         # TODO: Test html fragments on form submit
 
+    def test_post_invalid_form(self):
+        response, mocked = self._post_form(data={'email': '', 'subject': '', 'text': ''})
+        self.assertFormError(response, mocked, 'subject', 'text', 'email')
+
+    #################
+    # CAPTCHA tests #
+    #################
     @override_settings(ENABLE_CAPTCHAS=True)
     def test_post_captcha(self):
-        url = reverse('core:contact')
-        c = Client()
-        c.get(url)
-        subject = 'a' * 15
-        text = 'b' * 200
-        email = 'user@example.com'
+        response, mocked = self._post_form(data={'captcha_0': 'dummy-value', 'captcha_1': 'PASSED'})
+        self.assertEmail(response)
 
-        with self.mock_celery() as mocked, self.assertTemplateUsed('core/contact.html'):
-            response = c.post(url, {'subject': subject, 'text': text, 'email': email})
-        self.assertTaskCount(mocked, 1)
+    @override_settings(ENABLE_CAPTCHAS=True)
+    def test_post_captcha_missing(self):
+        response, mocked = self._post_form()
+        self.assertFormError(response, mocked, 'captcha')
 
-        form = response.context['form']
-        self.assertIsInstance(form, AnonymousContactForm)
-        self.assertTrue(form.is_bound)
-        print(form.fields)
-        self.assertEqual(form.errors, {})
-
-    def test_post_invalid_form(self):
-        url = reverse('core:contact')
-        c = Client()
-
-        with self.mock_celery() as mocked, self.assertTemplateUsed('core/contact.html'):
-            response = c.post(url, {'subject': 'subject 1', 'text': 'text 1', 'email': 'user'})
-            self.assertTaskCount(mocked, 0)
-
-        self.assertEqual(response.status_code, 200)
-        self.assertIsInstance(response.context['form'], AnonymousContactForm)
-
-        form = response.context['form']
-        self.assertIsInstance(form, AnonymousContactForm)
-        self.assertTrue(form.is_bound)
-        self.assertIn('subject', form.errors)
-        self.assertIn('text', form.errors)
-        self.assertIn('email', form.errors)
+    @override_settings(ENABLE_CAPTCHAS=True)
+    def test_post_wrong_captcha(self):
+        response, mocked = self._post_form()
+        self.assertFormError(response, mocked, 'captcha')

@@ -478,6 +478,7 @@ ENABLE_CAPTCHAS = False
 CAPTCHA_LENGTH = 8
 CAPTCHA_FONT_SIZE = 32
 CAPTCHA_TEXT_FIELD_TEMPLATE = 'core/captcha/text_field.html'
+CAPTCHA_TEST_MODE = True  # PASSED is always a valid captcha
 
 # DNSBL lists
 DNSBL = (
