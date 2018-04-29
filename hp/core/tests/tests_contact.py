@@ -103,6 +103,8 @@ class AnonymousContactViewTests(TestCase):
         })
         self.assertEqual(mail.outbox[0].attachments, [])
 
+        # TODO: Test html fragments on form submit
+
     def test_post_invalid_form(self):
         url = reverse('core:contact')
         c = Client()

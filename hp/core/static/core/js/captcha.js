@@ -1,8 +1,8 @@
 $(document).ready(function() {
-    $('.form-group.fg_captcha.invalid-default').each(function(i, elem) {
+    $('.form-group.fg_captcha.invalid-invalid').each(function(i, elem) {
         fg = $(elem);
         var input = fg.find('input[type="text"]');
-        var error = fg.find('.invalid-feedback.invalid-None').text().trim();
+        var error = fg.find('.invalid-feedback.invalid-invalid').text().trim();
         input.each(function(j, input) {
             input.setCustomValidity(error);
         });

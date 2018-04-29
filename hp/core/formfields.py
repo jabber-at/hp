@@ -41,6 +41,13 @@ class CaptchaField(BootstrapMixin, CaptchaFieldBase):
         kwargs.setdefault('label', _('CAPTCHA'))
         super(CaptchaField, self).__init__(**kwargs)
 
+    def clean(self, value):
+        # Overwrite this method to make shure that any Validation error has a code
+        try:
+            return super().clean(value)
+        except forms.ValidationError as e:
+            raise forms.ValidationError(e.message, e.code or 'invalid')
+
 
 class LinkTargetField(forms.MultiValueField):
     """Form field for :py:class:`~core.modelfields.LinkTarget` database fields.
