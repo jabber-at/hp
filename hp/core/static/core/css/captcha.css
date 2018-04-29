@@ -7,3 +7,11 @@
     white-space: nowrap;
     cursor: pointer;
 }
+
+/** TODO: first line (= user enters an invalid captcha) should actually be captured by the second line */
+div.fg_captcha.was-validated.invalid-default  div.invalid-feedback.invalid-None,
+div.fg_captcha.was-validated.invalid-invalid  div.invalid-feedback.invalid-invalid,
+div.fg_captcha.was-validated.invalid-required  div.invalid-feedback.invalid-required
+{
+    display: block;
+}
