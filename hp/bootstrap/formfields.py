@@ -112,7 +112,7 @@ class BoundField(forms.boundfield.BoundField):
         invalid = {}
 
         # get model field validation messages first
-        if hasattr(self.form, 'instance'):
+        if getattr(self.form, 'instance', None):
             try:
                 field = self.form.instance._meta.get_field(self.name)
 
