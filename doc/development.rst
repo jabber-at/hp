@@ -110,3 +110,15 @@ The website addresses a user as "you", in German, we use the polite form in lowe
 
 * English: "Please make sure you know what you're doing."
 * German: "Bitte seien sie sich sicher, was sie tun."
+
+*******
+Testing
+*******
+
+For the testsuite, you need to download the `geckodriver binary
+<https://github.com/mozilla/geckodriver/releases>`_ to ``contrib/selenium``:
+
+After the, running the test-suite is as simple as::
+
+   fab check
+   fab test
