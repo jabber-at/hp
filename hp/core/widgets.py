@@ -21,11 +21,25 @@ from django.forms.utils import flatatt
 from django.utils.html import format_html
 from django.utils.html import mark_safe
 
+from captcha.fields import CaptchaTextInput
+
 from .constants import TARGET_MODEL
 from .constants import TARGET_NAMED_URL
 from .constants import TARGET_URL
 
 log = logging.getLogger(__name__)
+
+
+class CaptchaWidget(CaptchaTextInput):
+    class Media:
+        js = (
+            'core/js/captcha.js',
+        )
+        css = {
+            'all': (
+                'core/css/captcha.css',
+            ),
+        }
 
 
 class LinkTargetWidget(forms.MultiWidget):

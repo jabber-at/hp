@@ -13,15 +13,12 @@
 # You should have received a copy of the GNU General Public License along with this project. If not, see
 # <http://www.gnu.org/licenses/>.
 
-from contextlib import contextmanager
-from unittest.mock import patch
-
 from django.core import mail
 from django.conf import settings
 #from django.conf.urls import include
 #from django.conf.urls import url
 from django.test import Client
-#from django.test import override_settings
+from django.test import override_settings
 from django.urls import reverse
 #from django.utils.translation import ugettext_lazy as _
 
@@ -33,18 +30,22 @@ from .base import TestCase
 
 
 class AnonymousContactViewTests(TestCase):
-    @contextmanager
-    def mock_tasks(self):
-        with patch('celery.app.task.Task.apply_async') as mock:
-            yield mock
-
-    @contextmanager
-    def mock_task(self, task):
-        task_path = '%s.%s.delay' % (task.__module__, task.__name__)
-
-        with patch(task_path, side_effect=task) as mock:
-            yield mock
-            self.assertTrue(mock.called)
+    def assertEmail(self, response, email, subject, text):
+        from_email = response.wsgi_request.site.get('DEFAULT_FROM_EMAIL', settings.DEFAULT_FROM_EMAIL)
+        to_email = response.wsgi_request.site['CONTACT_ADDRESS']
+        replyto_email = [to_email, email]
+        self.assertEqual(len(mail.outbox), 1)
+        self.assertEqual(mail.outbox[0].subject, subject)
+        self.assertEqual(mail.outbox[0].from_email, from_email)
+        self.assertEqual(mail.outbox[0].to, [to_email])
+        self.assertEqual(mail.outbox[0].cc, [])
+        self.assertEqual(mail.outbox[0].bcc, [])
+        self.assertCountEqual(mail.outbox[0].reply_to, replyto_email)
+        self.assertEqual(mail.outbox[0].body, text)
+        self.assertEqual(mail.outbox[0].extra_headers, {
+            'X-Homepage-Submit-Address': response.wsgi_request.META['REMOTE_ADDR'],
+        })
+        self.assertEqual(mail.outbox[0].attachments, [])
 
     def test_get(self):
         url = reverse('core:contact')
@@ -59,6 +60,8 @@ class AnonymousContactViewTests(TestCase):
         self.assertFalse(form.is_bound)
 
     def test_post(self):
+        # simulates a successful form submit
+
         url = reverse('core:contact')
         c = Client()
         subject = 'a' * 15
@@ -87,23 +90,28 @@ class AnonymousContactViewTests(TestCase):
         self.assertEqual(form.errors, {})
 
         # Test email that was sent
-        from_email = response.wsgi_request.site.get('DEFAULT_FROM_EMAIL', settings.DEFAULT_FROM_EMAIL)
-        to_email = response.wsgi_request.site['CONTACT_ADDRESS']
-        replyto_email = [to_email, email]
-        self.assertEqual(len(mail.outbox), 1)
-        self.assertEqual(mail.outbox[0].subject, subject)
-        self.assertEqual(mail.outbox[0].from_email, from_email)
-        self.assertEqual(mail.outbox[0].to, [to_email])
-        self.assertEqual(mail.outbox[0].cc, [])
-        self.assertEqual(mail.outbox[0].bcc, [])
-        self.assertCountEqual(mail.outbox[0].reply_to, replyto_email)
-        self.assertEqual(mail.outbox[0].body, text)
-        self.assertEqual(mail.outbox[0].extra_headers, {
-            'X-Homepage-Submit-Address': response.wsgi_request.META['REMOTE_ADDR'],
-        })
-        self.assertEqual(mail.outbox[0].attachments, [])
+        self.assertEmail(response, email, subject, text)
 
         # TODO: Test html fragments on form submit
+
+    @override_settings(ENABLE_CAPTCHAS=True)
+    def test_post_captcha(self):
+        url = reverse('core:contact')
+        c = Client()
+        c.get(url)
+        subject = 'a' * 15
+        text = 'b' * 200
+        email = 'user@example.com'
+
+        with self.mock_celery() as mocked, self.assertTemplateUsed('core/contact.html'):
+            response = c.post(url, {'subject': subject, 'text': text, 'email': email})
+        self.assertTaskCount(mocked, 1)
+
+        form = response.context['form']
+        self.assertIsInstance(form, AnonymousContactForm)
+        self.assertTrue(form.is_bound)
+        print(form.fields)
+        self.assertEqual(form.errors, {})
 
     def test_post_invalid_form(self):
         url = reverse('core:contact')

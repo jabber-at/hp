@@ -29,6 +29,7 @@ from .constants import TARGET_CHOICES
 from .constants import TARGET_MODEL
 from .constants import TARGET_NAMED_URL
 from .constants import TARGET_URL
+from .widgets import CaptchaWidget
 from .widgets import LinkTargetWidget
 
 log = logging.getLogger(__name__)
@@ -39,6 +40,14 @@ class CaptchaField(BootstrapMixin, CaptchaFieldBase):
 
     def __init__(self, **kwargs):
         kwargs.setdefault('label', _('CAPTCHA'))
+
+        # NOTE: This is what captcha.fields.CaptchaField does, so we cannot just set CaptchaField.widget.
+        kwargs['widget'] = kwargs.pop('widget', CaptchaWidget(
+            output_format=kwargs.pop('output_format', None),
+            id_prefix=kwargs.pop('id_prefix', None),
+            generator=kwargs.pop('generator', None)
+        ))
+
         super(CaptchaField, self).__init__(**kwargs)
 
     def clean(self, value):

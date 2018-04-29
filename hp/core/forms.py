@@ -37,22 +37,17 @@ class MenuItemAdminForm(forms.ModelForm):
 
 
 class CaptchaFormMixin(forms.Form):
-    if getattr(settings, 'ENABLE_CAPTCHAS', True):
-        captcha = CaptchaField(help_text=_(
-            'This <a href="https://en.wikipedia.org/wiki/CAPTCHA">CAPTCHA</a> prevents '
-            'automated SPAM. If you can\'t read it, just <a '
-            'class="captcha-refresh">&#8634; reload</a> it.'
-        ))
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
 
-        class Media:
-            js = (
-                'core/js/captcha.js',
-            )
-            css = {
-                'all': (
-                    'core/css/captcha.css',
-                ),
-            }
+        # NOTE: Add conditional field in constructor and not in class definition, this way Django test cases
+        #       work with enabling/disabling CAPTCHASwith override_settings.
+        if settings.ENABLE_CAPTCHAS:
+            self.fields['captcha'] = CaptchaField(help_text=_(
+                'This <a href="https://en.wikipedia.org/wiki/CAPTCHA">CAPTCHA</a> prevents '
+                'automated SPAM. If you can\'t read it, just <a '
+                'class="captcha-refresh">&#8634; reload</a> it.'
+            ))
 
 
 class ContactForm(forms.Form):
