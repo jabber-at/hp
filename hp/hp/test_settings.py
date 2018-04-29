@@ -344,7 +344,7 @@ XMPP_HOSTS = {
     },
 }
 
-CONTACT_ADDRESS = None
+CONTACT_ADDRESS = 'contact@example.com'
 CONTACT_MUC = None
 DEFAULT_XMPP_HOST = 'example.com'
 DEFAULT_FROM_EMAIL = None
