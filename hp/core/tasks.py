@@ -22,7 +22,6 @@ from celery.utils.log import get_task_logger
 
 from django.conf import settings
 from django.contrib.auth import get_user_model
-from django.core import mail
 from django.core.mail import EmailMessage
 from django.utils import timezone
 from django.utils import translation

@@ -13,19 +13,14 @@
 # You should have received a copy of the GNU General Public License along with this project. If not, see
 # <http://www.gnu.org/licenses/>.
 
-from django.core import mail
 from django.conf import settings
-#from django.conf.urls import include
-#from django.conf.urls import url
+from django.core import mail
 from django.test import Client
 from django.test import override_settings
 from django.urls import reverse
-#from django.utils.translation import ugettext_lazy as _
 
 from ..forms import AnonymousContactForm
 from ..tasks import send_contact_email
-#from .. import viewas
-#from ..urlpatterns import i18n_re_path
 from .base import TestCase
 
 SUBJECT = 'a' * 15
