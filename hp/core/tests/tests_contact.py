@@ -13,9 +13,6 @@
 # You should have received a copy of the GNU General Public License along with this project. If not, see
 # <http://www.gnu.org/licenses/>.
 
-import captcha
-from six.moves import reload_module
-
 from django.core import mail
 from django.conf import settings
 #from django.conf.urls import include
@@ -51,7 +48,25 @@ class AnonymousContactViewTests(TestCase):
         with self.mock_celery() as mocked, self.assertTemplateUsed('core/contact.html'):
             return c.post(url, data), mocked
 
-    def assertEmail(self, response, email=EMAIL, subject=SUBJECT, text=TEXT):
+    def assertEmail(self, response, mocked, email=EMAIL, subject=SUBJECT, text=TEXT):
+        # Test that the contact call was correctly called
+        self.assertTaskCount(mocked, 1)
+        self.assertTaskCall(
+            mocked, send_contact_email,
+            response.wsgi_request.site['NAME'], SUBJECT, TEXT,
+            user_pk=None, recipient=EMAIL, address=response.wsgi_request.META['REMOTE_ADDR']
+        )
+
+        # Test response
+        self.assertEqual(response.status_code, 200)
+        self.assertIsInstance(response.context['form'], AnonymousContactForm)
+
+        # Test form
+        form = response.context['form']
+        self.assertIsInstance(form, AnonymousContactForm)
+        self.assertTrue(form.is_bound)
+        self.assertEqual(form.errors, {})
+
         from_email = response.wsgi_request.site.get('DEFAULT_FROM_EMAIL', settings.DEFAULT_FROM_EMAIL)
         to_email = response.wsgi_request.site['CONTACT_ADDRESS']
         replyto_email = [to_email, email]
@@ -99,28 +114,7 @@ class AnonymousContactViewTests(TestCase):
     def test_post(self):
         # simulates a successful form submit
         response, mocked = self._post_form()
-
-        # Test that the contact call was correctly called
-        self.assertTaskCount(mocked, 1)
-        self.assertTaskCall(
-            mocked, send_contact_email,
-            response.wsgi_request.site['NAME'], SUBJECT, TEXT,
-            user_pk=None, recipient=EMAIL, address=response.wsgi_request.META['REMOTE_ADDR']
-        )
-
-        # Test response
-        self.assertEqual(response.status_code, 200)
-        self.assertIsInstance(response.context['form'], AnonymousContactForm)
-
-        # Test form
-        form = response.context['form']
-        self.assertIsInstance(form, AnonymousContactForm)
-        self.assertTrue(form.is_bound)
-        self.assertEqual(form.errors, {})
-
-        # Test email that was sent
-        self.assertEmail(response)
-
+        self.assertEmail(response, mocked)
         # TODO: Test html fragments on form submit
 
     def test_post_invalid_form(self):
@@ -133,7 +127,7 @@ class AnonymousContactViewTests(TestCase):
     @override_settings(ENABLE_CAPTCHAS=True)
     def test_post_captcha(self):
         response, mocked = self._post_form(data={'captcha_0': 'dummy-value', 'captcha_1': 'PASSED'})
-        self.assertEmail(response)
+        self.assertEmail(response, mocked)
 
     @override_settings(ENABLE_CAPTCHAS=True)
     def test_post_captcha_missing(self):
@@ -142,5 +136,5 @@ class AnonymousContactViewTests(TestCase):
 
     @override_settings(ENABLE_CAPTCHAS=True)
     def test_post_wrong_captcha(self):
-        response, mocked = self._post_form()
+        response, mocked = self._post_form(data={'captcha_0': 'dummy-value', 'captcha_1': 'WRONG'})
         self.assertFormError(response, mocked, 'captcha')
