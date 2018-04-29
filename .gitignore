@@ -3,6 +3,7 @@
 *.sw[op]
 /bin/
 /build/
+/contrib/selenium/geckodriver
 /data/
 /doc/_build/
 /fab.conf
@@ -11,6 +12,7 @@
 /hp/.gpg/
 /hp/celerybeat-schedule
 /hp/db.sqlite3
+/hp/geckodriver.log
 /hp/gpg-keys
 /hp/hp/localsettings.py
 /hp/http_upload/
@@ -19,5 +21,6 @@
 /lib/
 /node_modules/
 /pip-selfcheck.json
+/selenium/
 /share/
 /src/
