@@ -33,7 +33,7 @@ $(document).ready(function() {
                 var form_group = $(fg);
                 if (! form_group.hasClass('was-validated')) {
                     form_group.addClass('was-validated');
-                    form_group.find(':input:invalid').each(function(i, inp) {
+                    form_group.find(':invalid').each(function(i, inp) {
                         var input = $(inp);
                         var value = input.val();
 
