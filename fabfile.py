@@ -135,7 +135,7 @@ class SetupTask(DeploymentTaskMixin, Task):
         self.venv = config.get('home', self.path).rstrip('/')
 
         # check source, push it and clone it at remote location
-        local('flake8 hp')
+        check()
         local('git push origin master')
         self.sudo('git clone %s %s' % (self.upstream, self.path))
 
@@ -160,7 +160,6 @@ class SetupTask(DeploymentTaskMixin, Task):
 class DeployTask(DeploymentTaskMixin, Task):
     """Deploy current master."""
     def run(self, section='DEFAULT'):
-        local('flake8 hp')
         config = configfile[section]
         self.hostname = config.get('hostname')
         self.host = config.get('host')
@@ -168,6 +167,7 @@ class DeployTask(DeploymentTaskMixin, Task):
         self.venv = config.get('home', self.path).rstrip('/')
 
         # Run test-suite
+        check()
         test()
 
         # push source code
@@ -242,13 +242,24 @@ def compile_less(dest='hp/core/static/core/css/bootstrap-hp.css'):
 
 
 @task
-def test():
+def check():
+    """Check code style."""
+
     local('flake8 hp fabfile.py')
     local('isort --check-only --diff -rc hp/ fabfile.py')
 
     oldcwd = os.getcwd()
     os.chdir('hp')
     local('python -Wd manage.py check')
+    os.chdir(oldcwd)
+
+
+@task
+def test():
+    """Run testsuite."""
+
+    oldcwd = os.getcwd()
+    os.chdir('hp')
     local('python manage.py test --settings=hp.test_settings')
     os.chdir(oldcwd)
 
