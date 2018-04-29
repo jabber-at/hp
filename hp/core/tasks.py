@@ -22,6 +22,7 @@ from celery.utils.log import get_task_logger
 
 from django.conf import settings
 from django.contrib.auth import get_user_model
+from django.core import mail
 from django.core.mail import EmailMessage
 from django.utils import timezone
 from django.utils import translation
@@ -133,7 +134,7 @@ def send_contact_email(hostname, subject, message, recipient=None, user_pk=None,
 
             msg.send()
     else:
-        email = EmailMessage(subject, message, from_email, recipient_list, reply_to=reply_to,
+        email = EmailMessage(subject, message, from_email=from_email, to=recipient_list, reply_to=reply_to,
                              headers=headers)
         email.send()
 
