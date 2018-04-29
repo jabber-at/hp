@@ -27,6 +27,7 @@ from core.constants import ACTIVITY_RESET_PASSWORD
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 ROOT_DIR = os.path.dirname(BASE_DIR)
+GECKODRIVER_PATH = os.path.join(ROOT_DIR, 'contrib', 'selenium', 'geckodriver')
 
 
 # Quick-start development settings - unsuitable for production
