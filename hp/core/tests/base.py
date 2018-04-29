@@ -25,6 +25,10 @@ class HomepageTestCaseMixin(object):
     def assertIsTask(self, t, expected):
         self.assertEqual(t, task(expected))
 
+    def assertTaskCount(self, mocked, count):
+        """Assert that `count` Celery tasks have been called."""
+        self.assertEqual(mocked.call_count, count)
+
     def assertTaskCall(self, mocked, task, *args, **kwargs):
         self.assertTrue(mocked.called)
         a, k = mocked.call_args
@@ -41,8 +45,8 @@ class HomepageTestCaseMixin(object):
         def run(self, args, kwargs):
             return self.run(*args, **kwargs)
 
-        with mock.patch('celery.app.task.Task.apply_async', side_effect=run, autospec=True) as func:
-            yield func
+        with mock.patch('celery.app.task.Task.apply_async', side_effect=run, autospec=True) as mocked:
+            yield mocked
 
 
 class TestCase(HomepageTestCaseMixin, DjangoTestCase):
