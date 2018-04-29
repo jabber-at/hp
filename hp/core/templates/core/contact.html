@@ -23,7 +23,7 @@ problem: What exactly have you done that led to your issue? If you get an
 error message, what does it say and where exactly do you see it? What
 client are you using? ...and so on.{% endblocktrans %}</p>
 
-<form class="form-horizontal" method="post" action="{% url 'core:contact' %}">{% csrf_token %}
+<form class="form-horizontal needs-validation" method="post" action="{% url 'core:contact' %}">{% csrf_token %}
 {% if not request.user.is_authenticated %}
 {{ form.email.formgroup }}
 {% endif %}
