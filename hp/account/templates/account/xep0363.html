@@ -34,7 +34,7 @@ deleted. You can view your current upload limits below.{% endblocktrans %}</div>
     <tr>
         <td>{{ upload.created|date:"SHORT_DATETIME_FORMAT" }}</td>
         <td><a href="{{ upload.file.url }}">
-                {{ upload.name }}</a> ({{ upload.size|format_filesize}})
+                {{ upload.name }}</a> ({{ upload.size|filesizeformat}})
         </td>
         <td>
             {% url "account:api-xep0363-delete" pk=upload.pk as action_url %}

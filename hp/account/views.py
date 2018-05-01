@@ -33,6 +33,7 @@ from django.http import HttpResponseRedirect
 from django.http import JsonResponse
 from django.shortcuts import get_object_or_404
 from django.shortcuts import resolve_url
+from django.template.defaultfilters import filesizeformat
 from django.template.response import TemplateResponse
 from django.urls import reverse
 from django.urls import reverse_lazy
@@ -64,7 +65,6 @@ from core.constants import ACTIVITY_RESET_PASSWORD
 from core.constants import ACTIVITY_SET_EMAIL
 from core.constants import ACTIVITY_SET_PASSWORD
 from core.models import AddressActivity
-from core.templatetags.core import format_filesize
 from core.utils import format_timedelta
 from core.utils import version
 from core.views import AnonymousRequiredMixin
@@ -627,9 +627,9 @@ class HttpUploadView(LoginRequiredMixin, AccountPageMixin, UserObjectMixin, Deta
 
                     row = {
                         'header': _('Total bytes'),
-                        'value': format_filesize(value),
-                        'current': format_filesize(current),
-                        'left': format_filesize(limit),
+                        'value': filesizeformat(value),
+                        'current': filesizeformat(current),
+                        'left': filesizeformat(limit),
                     }
 
                     if limit == 0:
@@ -639,7 +639,7 @@ class HttpUploadView(LoginRequiredMixin, AccountPageMixin, UserObjectMixin, Deta
                 elif key == 'max_file_size':
                     row = {
                         'header': _('Maximum file size'),
-                        'value': format_filesize(value),
+                        'value': filesizeformat(value),
                     }
                 elif key == 'bytes_per_timedelta':
                     delta = value['delta']
@@ -649,9 +649,9 @@ class HttpUploadView(LoginRequiredMixin, AccountPageMixin, UserObjectMixin, Deta
 
                     row = {
                         'header': _('Bytes/%(delta)s') % {'delta': format_timedelta(delta), },
-                        'value': format_filesize(quota),
-                        'current': format_filesize(current),
-                        'left': format_filesize(limit),
+                        'value': filesizeformat(quota),
+                        'current': filesizeformat(current),
+                        'left': filesizeformat(limit),
                     }
                     if limit == 0:
                         context['can_upload'] = False

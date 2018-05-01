@@ -18,7 +18,6 @@ import logging
 from django import template
 from django.urls import reverse
 from django.utils.html import mark_safe
-from django.utils.translation import ugettext as _
 
 from ..utils import format_link
 from ..utils import format_timedelta as _format_timedelta
@@ -74,31 +73,6 @@ def format_timedelta(delta):
     """Passes the delta to :py:func:`core.utils.format_timedelta`."""
 
     return _format_timedelta(delta)
-
-
-@register.filter
-def format_filesize(size):
-    """Format a filesize according to the current translation.
-
-    A few example, given the template::
-
-        {% format_filesize 200 %}
-        {% format_filesize 3000 %}
-        {% format_filesize 30000000 %}
-
-    You will get::
-
-        200 bytes
-        2.93 kilobyte
-        28.61 megabyte
-
-    """
-    if size < 2000:
-        return _('%s bytes') % size
-    elif size < 1024 * 900:  # starting at ~900 KB, we display in MB
-        return _('%.2f kilobyte') % (size / 1024)
-    else:
-        return _('%.2f megabyte') % (size / 1024 / 1024)
 
 
 @register.filter
