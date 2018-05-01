@@ -14,6 +14,20 @@ var bs4_forms_set_error = function(elem, cls) {
     }
 };
 
+var bs4_forms_calculate_error = function(input) {
+    var value = input.val();
+
+    if (value.length == 0 && input.prop('required')) {
+        bs4_forms_set_error(input, 'required');
+    } else if (input[0].validity.tooShort && form_group.find('.invalid-min_length').length) {
+        bs4_forms_set_error(input, 'min_length');
+    } else if (input[0].validity.tooLong && form_group.find('.invalid-max_length').length) {
+        bs4_forms_set_error(input, 'max_length');
+    } else {
+        bs4_forms_set_error(input, 'invalid');
+    }
+};
+
 var bs4_forms_clear_error = function(form_group) {
     form_group.removeClass(function(index, className) {
         return (className.match (/(^|\s)invalid-\S+/g) || []).join(' ');
@@ -51,18 +65,7 @@ $(document).ready(function() {
                 if (! form_group.hasClass('was-validated')) {
                     form_group.addClass('was-validated');
                     form_group.find(':invalid').each(function(i, inp) {
-                        var input = $(inp);
-                        var value = input.val();
-
-                        if (value.length == 0 && input.prop('required')) {
-                            bs4_forms_set_error(input, 'required');
-                        } else if (e.target.validity.tooShort && form_group.find('.invalid-min_length').length) {
-                            bs4_forms_set_error(input, 'min_length');
-                        } else if (e.target.validity.tooLong && form_group.find('.invalid-max_length').length) {
-                            bs4_forms_set_error(input, 'max_length');
-                        } else {
-                            bs4_forms_set_error(input, 'invalid');
-                        }
+                        bs4_forms_calculate_error($(inp));
                     });
                 }
             });

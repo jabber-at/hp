@@ -48,15 +48,25 @@ $(document).ready(function() {
 
     $('#id_username_1').change(function(e) {
         var form_group = $(e.target).parents('.form-group');
+        var input = form_group.find('input#id_username_0');
 
         /**
          * If the username is currently invalid because of a unique constraing (-> the username already
          * exists), we clear the constraint because the username might be valid in a different domain.
          */
-        if (form_group.hasClass('invalid-unique')) {
-            form_group.removeClass('invalid-unique');
-            form_group.find('input#id_username_0')[0].setCustomValidity('');
+        if (input[0].checkValidity()) {  // check if the username is currently valid
+            if (form_group.hasClass('invalid-unique')) {
+                console.log('remove validity!');
+                form_group.removeClass('invalid-unique');
+                form_group.find('input#id_username_0')[0].setCustomValidity('');
+            }
+            check_username(form_group, username_timer);
+        } else {
+            bs4_forms_calculate_error(input);
+
+            var msg = form_group.find('.invalid-feedback:visible').text().trim();
+            msg = msg ? msg : 'invalid username';  // just to be sure
+            e.target.setCustomValidity(msg);
         }
-        check_username(form_group, username_timer);
     });
 });
