@@ -189,8 +189,9 @@ class BootstrapMixin(object):
     horizontal = True
     """Display this field as a horizontal form group."""
 
-    label_columns = 'col-sm-2'
-    input_columns = 'col-sm-10'
+    # NOTE: on medium displays sm-2 labels are a bit to small for some usecases ("Username:")
+    label_columns = 'col-sm-2 col-md-3 col-lg-2'
+    input_columns = 'col-sm-10 col-md-9 col-lg-10'
 
     min_validation_length = False
     """Start JavaScript validation at the given length."""
