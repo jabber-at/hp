@@ -1,5 +1,6 @@
 Fabric3==1.14.post1
 Sphinx==1.7.4
+django-debug-toolbar==1.9.1
 fabric-webbuilders==0.3
 flake8==3.5.0
 freezegun==0.3.10

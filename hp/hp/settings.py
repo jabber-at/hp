@@ -571,6 +571,11 @@ try:
 except ImportError:
     pass
 
+if DEBUG is True:
+    MIDDLEWARE.insert(0, 'debug_toolbar.middleware.DebugToolbarMiddleware')
+    _DEFAULT_INSTALLED_APPS.append('debug_toolbar')
+    INTERNAL_IPS = ['127.0.0.1']
+
 # Make sure some required settings are set
 if not XMPP_HOSTS:
     raise ImproperlyConfigured("The XMPP_HOSTS setting is undefined.")
@@ -587,7 +592,6 @@ if CELERY_WORKER_TASK_LOG_FORMAT is None:
     # The default includes the task_name
     CELERY_WORKER_TASK_LOG_FORMAT = '[%(asctime).19s %(levelname)-8s] [%(task_name)s] %(message)s'
 
-# Process any local INSTALLED_APPS config
 if INSTALLED_APPS is None:
     INSTALLED_APPS = _DEFAULT_INSTALLED_APPS
 elif callable(INSTALLED_APPS):
