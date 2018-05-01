@@ -18,6 +18,7 @@ import os
 
 from celery import chain
 
+from django import forms
 from django.conf import settings
 from django.contrib import messages
 from django.contrib.auth import get_user_model
@@ -367,11 +368,16 @@ class ResetPasswordView(AntiSpamMixin, AnonymousRequiredMixin, HomepageViewMixin
             pass
 
         if user is None or not xmpp_backend.user_exists(user.node, user.domain):
-            form.add_error('username', _('User not found.'))
+            error = forms.ValidationError(_('User not found.'), code='not-found')
+            form.add_error('username', error)
             return self.form_invalid(form)
 
         if user.blocked:
-            form.add_error('username', _("You're blocked. You can't reset your password."))
+            error = forms.ValidationError(
+                _("You're blocked. You can't reset your password."),
+                code='blocked'
+            )
+            form.add_error('username', error)
             return self.form_invalid(form)
 
         request = self.request

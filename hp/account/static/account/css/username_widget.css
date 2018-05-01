@@ -1,4 +1,6 @@
 div.form-group-username.was-validated.invalid-invalid  div.invalid-feedback.invalid-invalid,
+div.form-group-username.was-validated.invalid-not-found  div.invalid-feedback.invalid-not-found,
+div.form-group-username.was-validated.invalid-blocked  div.invalid-feedback.invalid-blocked,
 div.form-group-username.was-validated.invalid-required  div.invalid-feedback.invalid-required,
 div.form-group-username.was-validated.invalid-min_length  div.invalid-feedback.invalid-min_length,
 div.form-group-username.was-validated.invalid-max_length  div.invalid-feedback.invalid-max_length,
