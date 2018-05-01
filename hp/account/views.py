@@ -110,17 +110,6 @@ _confirmation_qs = Confirmation.objects.valid().select_related('user')
 class AccountPageMixin(StaticContextMixin, HomepageViewMixin):
     """Mixin that adds the usermenu on the left to views where the user is logged in."""
 
-    # TODO: unused?
-    usermenu = (
-        ('account:detail', _('Overview'), False),
-        ('account:notifications', _('Notifications'), True),
-        ('account:set_password', _('Set password'), True),
-        ('account:set_email', _('Set E-Mail'), True),
-        ('account:xep0363', _('HTTP uploads'), True),
-        ('account:gpg', _('GPG keys'), True),
-        ('account:log', _('Recent activity'), False),
-        ('account:delete', _('Delete account'), True),
-    )
     usermenu_item = None
     requires_email = False
     requires_confirmation = True
