@@ -419,6 +419,7 @@ _DEFAULT_SOCIAL_MEDIA_TEXTS = {
 }
 SOCIAL_MEDIA_TEXTS = {}
 
+LINK_TARGET_MODELS = ['blog.page', 'blog.blogpost']
 ACCOUNT_USER_MENU = None
 _DEFAULT_ACCOUNT_USER_MENU = [
     ('account:detail', {

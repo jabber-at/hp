@@ -17,6 +17,7 @@ import json
 import logging
 
 from django import forms
+from django.conf import settings
 from django.contrib.admin.widgets import AdminTextInputWidget
 from django.contrib.contenttypes.models import ContentType
 from django.utils.translation import ugettext_lazy as _
@@ -75,8 +76,7 @@ class LinkTargetField(forms.MultiValueField):
         is_admin = kwargs.pop('admin', False)  # if we're on an admin page
 
         model_choices = []
-        # TODO: make default models configurable
-        for model in kwargs.pop('models', ['blog.page', 'blog.blogpost']):
+        for model in kwargs.pop('models', settings.LINK_TARGET_MODELS):
             if isinstance(model, str):
                 app_label, model = model.split('.', 1)
                 model_choices.append(ContentType.objects.get_by_natural_key(app_label, model))
