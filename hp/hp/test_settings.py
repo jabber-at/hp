@@ -513,6 +513,7 @@ EMAIL_WHITELIST = tuple()
 MIN_USERNAME_LENGTH = 2
 MAX_USERNAME_LENGTH = 64
 REQUIRE_UNIQUE_EMAIL = False
+MAX_UPLOAD_SIZE = 1024 * 1024 * 2
 
 ####################
 # Privacy settings #
