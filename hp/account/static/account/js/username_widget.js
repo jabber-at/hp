@@ -46,11 +46,16 @@ $(document).ready(function() {
         var form_group = input.parents('.form-group');
         var domain_select = form_group.find('select#id_username_1');
 
-        check_existance = input.data('check-existance');
+        var check_existance = input.data('check-existance');
 
         if (e.target.checkValidity()) {  // only check existance if input is valid
             if (check_existance) {
                 check_username(form_group, username_timer);
+            } else {
+                // valid input again, so domain is valid too
+                domain_select.each(function(i, elem) {
+                    elem.setCustomValidity('');
+                })
             }
         } else {
             var msg = form_group.find('.invalid-feedback:visible').text().trim();
@@ -64,6 +69,9 @@ $(document).ready(function() {
     $('#id_username_1').change(function(e) {
         var form_group = $(e.target).parents('.form-group');
         var input = form_group.find('input#id_username_0');
+        var check_existance = input.data('check-existance');
+
+        input[0].setCustomValidity('');  // clear any custom error message
 
         /**
          * If the username is currently invalid because of a unique constraing (-> the username already
@@ -71,11 +79,12 @@ $(document).ready(function() {
          */
         if (input[0].checkValidity()) {  // check if the username is currently valid
             if (form_group.hasClass('invalid-unique')) {
-                console.log('remove validity!');
                 form_group.removeClass('invalid-unique');
                 form_group.find('input#id_username_0')[0].setCustomValidity('');
             }
-            check_username(form_group, username_timer);
+            if (check_existance) {
+                check_username(form_group, username_timer);
+            }
         } else {
             bs4_forms_calculate_error(input);
 

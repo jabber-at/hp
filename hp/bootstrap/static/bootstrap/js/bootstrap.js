@@ -15,6 +15,7 @@ var bs4_forms_set_error = function(elem, cls) {
 };
 
 var bs4_forms_calculate_error = function(input) {
+    var form_group = input.parents('.form-group');
     var value = input.val();
 
     if (value.length == 0 && input.prop('required')) {
@@ -101,15 +102,7 @@ $(document).ready(function() {
 
         // if the field is required, display the appropriate message
         if (! e.target.checkValidity()) {
-            if (value.length == 0 && input.prop('required')) {
-                bs4_forms_set_error(input, 'required');
-            } else if (e.target.validity.tooShort && form_group.find('.invalid-min_length').length) {
-                bs4_forms_set_error(input, 'min_length');
-            } else if (e.target.validity.tooLong && form_group.find('.invalid-max_length').length) {
-                bs4_forms_set_error(input, 'max_length');
-            } else {
-                bs4_forms_set_error(input, 'invalid');
-            }
+            bs4_forms_calculate_error(input);
         }
     });
 
