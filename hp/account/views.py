@@ -70,6 +70,7 @@ from core.utils import version
 from core.views import AnonymousRequiredMixin
 from core.views import AntiSpamMixin
 from core.views import StaticContextMixin
+from core.views import HomepageViewMixin
 from stats.constants import STAT_DELETE_ACCOUNT
 from stats.constants import STAT_DELETE_ACCOUNT_CONFIRMED
 from stats.constants import STAT_FAILED_LOGIN
@@ -106,7 +107,7 @@ log = logging.getLogger(__name__)
 _confirmation_qs = Confirmation.objects.valid().select_related('user')
 
 
-class AccountPageMixin(StaticContextMixin):
+class AccountPageMixin(StaticContextMixin, HomepageViewMixin):
     """Mixin that adds the usermenu on the left to views where the user is logged in."""
 
     # TODO: unused?
@@ -179,7 +180,8 @@ class UserObjectMixin(object):
         return self.request.user
 
 
-class RegistrationView(AntiSpamMixin, AnonymousRequiredMixin, StaticContextMixin, CreateView):
+class RegistrationView(AntiSpamMixin, AnonymousRequiredMixin, StaticContextMixin, HomepageViewMixin,
+                       CreateView):
     form_class = CreateUserForm
     model = User
     rate_activity = ACTIVITY_REGISTER
@@ -314,7 +316,7 @@ class ConfirmRegistrationView(ConfirmationMixin, FormView):
         return super(ConfirmRegistrationView, self).form_valid(form)
 
 
-class LoginView(AntiSpamMixin, AnonymousRequiredMixin, FormView):
+class LoginView(AntiSpamMixin, AnonymousRequiredMixin, HomepageViewMixin, FormView):
     """Class-based adaption of django.contrib.auth.views.login.
 
     We duplicate the functionality here because we want to redirect the user to the account

@@ -88,11 +88,23 @@
 
         <ul class="navbar-nav mt-2 mt-md-0">
           {% if request.user.is_authenticated %}
-          <li class="nav-item"><a class="nav-link" href="{% url "account:detail" %}">{% trans "Account" %}</a></li>
+          <li class="nav-item">
+            <a class="nav-link{% if menuitem.0 == "account:detail" %} active{% endif %}" href="{% url "account:detail" %}">
+              {% trans "Account" %}{% if menuitem.0 == "account:detail" %} <span class="sr-only">{% trans "(current)" %}</span>{% endif %}
+            </a>
+          </li>
           <li class="nav-item"><a class="nav-link" href="{% url "account:logout" %}?next={{ request.path }}">{% trans "Logout" %}</a></li>
           {% else %}
-          <li class="nav-item"><a class="nav-link" href="{% url "account:register" %}">{% trans "Register" %}</a></li>
-          <li class="nav-item"><a class="nav-link" href="{% url "account:login" %}?next={{ request.path }}">{% trans "Login" %}</a></li>
+          <li class="nav-item">
+            <a class="nav-link{% if menuitem.0 == "account:register" %} active{% endif %}" href="{% url "account:register" %}">
+              {% trans "Register" %}{% if menuitem.0 == "account:register" %} <span class="sr-only">{% trans "(current)" %}</span>{% endif %}
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link{% if menuitem.0 == "account:login" %} active{% endif %}" href="{% url "account:login" %}?next={{ request.path }}">
+              {% trans "Login" %}{% if menuitem.0 == "account:login" %} <span class="sr-only">{% trans "(current)" %}</span>{% endif %}
+            </a>
+          </li>
           {% endif %}
         </ul>
       </div>
