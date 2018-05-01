@@ -49,7 +49,6 @@ class BasePageAdminForm(forms.ModelForm):
         return data
 
     class Meta:
-        # TODO: dynamically adapt to enabled langs?
         help_texts = {
             'meta_summary_de': _meta_help,
             'meta_summary_en': _meta_help,
