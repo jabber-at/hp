@@ -250,11 +250,6 @@ class ContactView(AntiSpamMixin, HomepageViewMixin, FormView):
     rate_activity = ACTIVITY_CONTACT
     success_url = reverse_lazy('core:contact')
 
-    def get_context_data(self, *args, **kwargs):
-        context = super(ContactView, self).get_context_data(*args, **kwargs)
-        context['CONTACT_MUC'] = settings.CONTACT_MUC
-        return context
-
     def get_form_class(self):
         if self.request.user.is_authenticated:
             return ContactForm

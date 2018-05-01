@@ -39,6 +39,7 @@ def basic(request):
         'DEBUG': settings.DEBUG,
         'WEBCHAT': bool(settings.CONVERSEJS_CONFIG),
         'SIDEBAR_PANELS': settings.SIDEBAR_PANELS,
+        'CONTACT_MUC': settings.CONTACT_MUC,
     }
 
     # Data that requires database access is cached
