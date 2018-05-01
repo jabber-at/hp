@@ -482,6 +482,7 @@ GPG_BACKENDS = {
 
 # Directory where public/private keys are stored for signing.
 GPG_KEYDIR = os.path.join(BASE_DIR, 'gpg-keys')
+MAX_UPLOAD_SIZE = 1024 * 1024 * 2
 
 ###################
 # Celery settings #

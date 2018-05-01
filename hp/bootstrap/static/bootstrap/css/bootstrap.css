@@ -19,6 +19,7 @@
 .was-validated.invalid-max_length .form-control:invalid ~ .invalid-feedback.invalid-max_length {
     display: block;
 }
+.was-validated.invalid-too-large .invalid-feedback.invalid-too-large,
 .was-validated.invalid-mime-type .invalid-feedback.invalid-mime-type {
     display: block;
 }

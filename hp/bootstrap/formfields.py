@@ -14,10 +14,12 @@
 # not, see <http://www.gnu.org/licenses/>.
 
 from django import forms
+from django.conf import settings
 from django.contrib.auth import password_validation
 from django.core.exceptions import FieldDoesNotExist
 from django.forms.renderers import get_default_renderer
 from django.forms.utils import flatatt
+from django.template.defaultfilters import filesizeformat
 from django.utils.functional import Promise
 from django.utils.html import mark_safe
 from django.utils.translation import ugettext_lazy as _
@@ -108,6 +110,9 @@ class BoundField(forms.boundfield.BoundField):
             msg_context['limit_value'] = self.field.max_length
         if hasattr(self.field, 'min_length'):
             msg_context['limit_value'] = self.field.min_length
+
+        if hasattr(self.field, 'get_message_context'):
+            msg_context.update(self.field.get_message_context(msg_context['value']))
 
         invalid = {}
 
@@ -275,6 +280,9 @@ class BootstrapMixin(object):
 
         return self.label_columns
 
+    def get_message_context(self, value):
+        return {}
+
     def get_bound_field(self, form, field_name):
         return BoundField(form, self, field_name)
 
@@ -355,9 +363,13 @@ class BootstrapModelChoiceField(BootstrapMixin, forms.ModelChoiceField):
 class BootstrapFileField(BootstrapMixin, forms.FileField):
     default_error_messages = {
         'mime-type': _('Upload a file with the correct type.'),
+        'too-large': _(
+            'Please keep the file size under %(max_size)s. Current file size is %(size)s.'
+        ),
     }
     default_html_errors = {
         'mime-type',
+        'too-large',
     }
     widget = widgets.BootstrapFileInput
 
@@ -373,6 +385,12 @@ class BootstrapFileField(BootstrapMixin, forms.FileField):
     def clean(self, value, initial=None):
         value = super().clean(value, initial=initial)
 
+        if value._size > settings.MAX_UPLOAD_SIZE:
+            raise forms.ValidationError(self.error_messages['too-large'] % {
+                'max_size': filesizeformat(settings.MAX_UPLOAD_SIZE),
+                'size': filesizeformat(value._size),
+            }, code='too-large')
+
         if value and self.mime_types and value.content_type not in self.mime_types:
             raise forms.ValidationError(self.error_messages['mime-type'] % {
                 'value': value.content_type,
@@ -384,6 +402,14 @@ class BootstrapFileField(BootstrapMixin, forms.FileField):
         if self.mime_types:
             attrs['accept'] = ','.join(self.mime_types)
         return attrs
+
+    def get_message_context(self, value):
+        return {
+            # NOTE: messages in this field are never displayed by JavaScript, so it's ok to have no value
+            #       on initial load.
+            'size': value._size if value else '',
+            'max_size': settings.MAX_UPLOAD_SIZE,
+        }
 
 
 class BootstrapBooleanField(BootstrapMixin, forms.BooleanField):

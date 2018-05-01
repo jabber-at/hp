@@ -22,6 +22,7 @@ from django import forms
 from django.conf import settings
 from django.contrib.auth import password_validation
 from django.contrib.auth.forms import AuthenticationForm
+from django.template.defaultfilters import filesizeformat
 from django.utils.translation import ugettext_lazy as _
 
 from bootstrap.formfields import BootstrapBooleanField
@@ -61,9 +62,6 @@ class GPGMixin(forms.Form):
         fp = self.cleaned_data.get('gpg_fingerprint') or None
         key = None
         if 'gpg_key' in self.files:
-            # TODO: Django docs say we should read in chuncks to ensure that large files
-            #       don't overwhelm our systems memory. But we need the data in memory anyway.
-            #       We should probably enforce a maximum content-length elsewhere.
             key = self.files['gpg_key'].read().decode('utf-8').strip()
 
         return fp, key

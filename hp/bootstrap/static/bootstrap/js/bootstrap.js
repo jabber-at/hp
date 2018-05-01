@@ -101,12 +101,23 @@ $(document).ready(function() {
         var filename = target.val().split('\\').pop();
         target.siblings('label.custom-file-label').text(filename);
 
+        // clear validity, otherwise we're not allowed to submit
+        e.target.setCustomValidity('');
+        target.parents('.form-group').find('.invalid-feedback').hide();
     });
 
     $('.form-group.invalid-mime-type').each(function(i, elem) {
         elem = $(elem);
         var input = elem.find('input[type="file"]');
         var error = elem.find('.invalid-feedback.invalid-mime-type').text().trim();
+        input.each(function(j, input) {
+            input.setCustomValidity(error);
+        });
+    });
+    $('.form-group.invalid-too-large').each(function(i, elem) {
+        elem = $(elem);
+        var input = elem.find('input[type="file"]');
+        var error = elem.find('.invalid-feedback.invalid-too-large').text().trim();
         input.each(function(j, input) {
             input.setCustomValidity(error);
         });

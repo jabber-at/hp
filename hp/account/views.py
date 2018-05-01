@@ -607,8 +607,6 @@ class HttpUploadView(LoginRequiredMixin, AccountPageMixin, UserObjectMixin, Deta
         context = super(HttpUploadView, self).get_context_data(**kwargs)
         user = context['object']
         qs = Upload.objects.filter(jid=user.username)
-        # TODO: Exclude expired slots (client requested slot but did not upload a file) here.
-        #       (requires queryset method in django-xmpp-http-upload).
 
         # If a client requests an upload slot but never uploads the file, file field will be empty
         context['uploads'] = qs.exclude(file='')
@@ -819,8 +817,10 @@ class StopUserSessionView(LoginRequiredMixin, View):
     def delete(self, request, resource):
         user = request.user
 
-        # TODO: improve message
-        xmpp_backend.stop_user_session(user.node, user.domain, resource, 'Request via homepage.')
+        xmpp_backend.stop_user_session(
+            user.node, user.domain, resource,
+            _('This session was forcefully stopped via our homepage.')
+        )
         return HttpResponse('ok')
 
 
