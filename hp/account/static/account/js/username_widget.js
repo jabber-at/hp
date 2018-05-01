@@ -31,12 +31,17 @@ var check_username = function(form_group, timer) {
 $(document).ready(function() {
     var username_timer;
 
-    $('input#id_username_0[data-check-existance="true"]').on('input propertychange paste', function(e) {
-        var form_group = $(e.target).parents('.form-group');
+    $('input#id_username_0').on('input propertychange paste', function(e) {
+        var input = $(e.target);
+        var form_group = input.parents('.form-group');
         var domain_select = form_group.find('select#id_username_1');
 
+        check_existance = input.data('check-existance');
+
         if (e.target.checkValidity()) {  // only check existance if input is valid
-            check_username(form_group, username_timer);
+            if (check_existance) {
+                check_username(form_group, username_timer);
+            }
         } else {
             var msg = form_group.find('.invalid-feedback:visible').text().trim();
             msg = msg ? msg : 'invalid username';  // just to be sure
