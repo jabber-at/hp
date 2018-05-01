@@ -67,7 +67,11 @@ class LinkTargetDict(dict):
     @property
     def content_type(self):
         if self._content_type is None:
-            self._content_type = ContentType.objects.get_for_id(self['content_type'])
+            try:
+                self._content_type = ContentType.objects.get_for_id(self['content_type'])
+            except ContentType.DoesNotExist:
+                log.warn('ContentType with id %s not found.', self['content_type'])
+                self._content_type = False
         return self._content_type
 
     @property
@@ -78,6 +82,8 @@ class LinkTargetDict(dict):
             return self['name'], tuple(self['args']), self['kwargs']
         elif typ == TARGET_MODEL:
             ct = self.content_type
+            if not ct:
+                return ''
             return '%s_%s:%s' % (ct.app_label, ct.model, self['object_id'])
 
     @property
@@ -94,6 +100,8 @@ class LinkTargetDict(dict):
                 return ''
         elif typ == TARGET_MODEL:
             ct = self.content_type
+            if not ct:
+                return ''
             obj = ct.get_object_for_this_type(pk=self['object_id'])
             if hasattr(obj, 'get_absolute_url'):
                 return obj.get_absolute_url()
