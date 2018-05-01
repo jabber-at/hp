@@ -386,7 +386,7 @@ class BootstrapFileField(BootstrapMixin, forms.FileField):
     def clean(self, value, initial=None):
         value = super().clean(value, initial=initial)
 
-        if value._size > self.maximum_file_size:
+        if value and value._size > self.maximum_file_size:
             raise forms.ValidationError(self.error_messages['too-large'] % {
                 'max_size': filesizeformat(self.maximum_file_size),
                 'size': filesizeformat(value._size),
