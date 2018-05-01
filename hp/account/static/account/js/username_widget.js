@@ -33,10 +33,17 @@ $(document).ready(function() {
 
     $('input#id_username_0[data-check-existance="true"]').on('input propertychange paste', function(e) {
         var form_group = $(e.target).parents('.form-group');
+        var domain_select = form_group.find('select#id_username_1');
+
         if (e.target.checkValidity()) {  // only check existance if input is valid
             check_username(form_group, username_timer);
+        } else {
+            var msg = form_group.find('.invalid-feedback:visible').text().trim();
+            msg = msg ? msg : 'invalid username';  // just to be sure
+            domain_select.each(function(i, elem) {
+                elem.setCustomValidity(msg);
+            })
         }
-        // TODO: set domain as invalid if username is invalid
     });
 
     $('#id_username_1').change(function(e) {
