@@ -71,7 +71,8 @@ def activate_language(task, language_param='language'):
         old_language = None
         language = None
         if language_param in sig.parameters:
-            # TODO/NOTE: Might not work if default is used (see apply_defaults above)
+            # TODO/NOTE: Might not work if language is a kwarg and the value is not passed by the caller.
+            #            See apply_defaults above!
             language = bound.arguments[language_param]
 
         try:
