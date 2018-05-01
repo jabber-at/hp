@@ -371,6 +371,7 @@ class BootstrapFileField(BootstrapMixin, forms.FileField):
         'mime-type',
         'too-large',
     }
+    maximum_file_size = settings.MAX_UPLOAD_SIZE
     widget = widgets.BootstrapFileInput
 
     def __init__(self, *args, mime_types=None, **kwargs):
@@ -385,9 +386,9 @@ class BootstrapFileField(BootstrapMixin, forms.FileField):
     def clean(self, value, initial=None):
         value = super().clean(value, initial=initial)
 
-        if value._size > settings.MAX_UPLOAD_SIZE:
+        if value._size > self.maximum_file_size:
             raise forms.ValidationError(self.error_messages['too-large'] % {
-                'max_size': filesizeformat(settings.MAX_UPLOAD_SIZE),
+                'max_size': filesizeformat(self.maximum_file_size),
                 'size': filesizeformat(value._size),
             }, code='too-large')
 
@@ -409,7 +410,7 @@ class BootstrapFileField(BootstrapMixin, forms.FileField):
             # NOTE: messages in this field are never displayed by JavaScript, so it's ok to have no value
             #       on initial load.
             'size': value._size if value else '',
-            'max_size': settings.MAX_UPLOAD_SIZE,
+            'max_size': self.maximum_file_size,
         }
 
 
