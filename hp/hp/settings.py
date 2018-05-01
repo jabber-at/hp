@@ -203,6 +203,7 @@ _DEFAULT_CSS_FILES = [
     'account/css/gpgmixin.css',
     'account/css/notifications.css',
     'account/css/username_widget.css',
+    'blog/blog.css',
     'certs/certificate.css',
 ]
 
