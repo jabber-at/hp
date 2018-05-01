@@ -42,6 +42,8 @@ class LocalizedTextField(_LocalizedTextField):
 
 
 class LinkTargetDict(dict):
+    _content_type = None
+
     def validate(self):
         """Validate that this object points to a valid object."""
 
@@ -63,13 +65,19 @@ class LinkTargetDict(dict):
                 raise ValidationError('%s: %s' % (type(e).__name__, e))
 
     @property
+    def content_type(self):
+        if self._content_type is None:
+            self._content_type = ContentType.objects.get_for_id(self['content_type'])
+        return self._content_type
+
+    @property
     def menu_key(self):
         typ = int(self.get('typ', TARGET_URL))
 
         if typ == TARGET_NAMED_URL:
             return self['name'], tuple(self['args']), self['kwargs']
         elif typ == TARGET_MODEL:
-            ct = ContentType.objects.get_for_id(self['content_type'])
+            ct = self.content_type
             return '%s_%s:%s' % (ct.app_label, ct.model, self['object_id'])
 
     @property
@@ -85,7 +93,7 @@ class LinkTargetDict(dict):
                 log.exception(e)
                 return ''
         elif typ == TARGET_MODEL:
-            ct = ContentType.objects.get_for_id(self['content_type'])
+            ct = self.content_type
             obj = ct.get_object_for_this_type(pk=self['object_id'])
             if hasattr(obj, 'get_absolute_url'):
                 return obj.get_absolute_url()
