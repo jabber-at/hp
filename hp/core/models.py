@@ -72,6 +72,9 @@ class MenuItem(MPTTModel, BaseModel):
         lang = get_language()
         return self.cached_data.get(lang, {}).get('href', '')
 
+    def is_active_parent(self, menuitem):
+        return menuitem in self.cached_data['children']
+
     @property
     def cached_data(self):
         """Precomputed data in all languages."""
@@ -81,16 +84,19 @@ class MenuItem(MPTTModel, BaseModel):
             return {}
 
         if self._cached_data is None:
-            data = {}
+            data = {
+                'navkey': self.target.menu_key,
+                'children': [n.navkey for n in self.get_descendants()],
+            }
 
             # set language-specific link
             for code, _name in settings.LANGUAGES:
-                data['navkey'] = self.target.menu_key
                 with translation.override(code):
                     data[code] = {
                         'href': self.target.href,
                     }
 
+            print(data['navkey'], data['children'])
             self._cached_data = data
 
         return self._cached_data

@@ -1,4 +1,4 @@
-{% load i18n staticfiles mptt_tags canonical %}<!DOCTYPE html>
+{% load core i18n staticfiles mptt_tags canonical %}<!DOCTYPE html>
 <html lang="en">
   <head>
     <meta charset="utf-8">
@@ -73,8 +73,8 @@
                   <a class="nav-link" href="{{ node.href }}">{{ node.title.current }}{% if menuitem == node.navkey %} <span class="sr-only">{% trans "(current)" %}</span>{% endif %}</a>
                 </li>
               {% else %}
-                {# TODO: dropdown is not marked as active #}
-                <li class="nav-item dropdown">
+                {% is_active_parent node menuitem as active_parent %}
+                <li class="nav-item dropdown{% if active_parent %} active{% endif %}">
                   <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">{{ node.title.current }}</a>
                   <div class="dropdown-menu">
                       {% for child in node.get_children %}

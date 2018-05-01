@@ -129,3 +129,9 @@ class UpperNode(template.Node):
 
     def render(self, context):
         return mailformat(self.nodelist.render(context))
+
+
+@register.simple_tag(takes_context=True)
+def is_active_parent(context, node, menuitem):
+    """Return True if the given node is a parent of the node represented by this menuitem."""
+    return node.is_active_parent(menuitem)
