@@ -48,6 +48,9 @@ def basic(request):
         cached = {
             'menuitems': MenuItem.objects.all(),
         }
+        for item in cached['menuitems']:
+            item.target.warm_cache()
+
         cache.set(cache_key, cached)
     context.update(cached)
 

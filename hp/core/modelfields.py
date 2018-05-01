@@ -74,6 +74,11 @@ class LinkTargetDict(dict):
                 self._content_type = False
         return self._content_type
 
+    def warm_cache(self):
+        typ = int(self.get('typ', TARGET_URL))
+        if typ == TARGET_MODEL:
+            self.content_type
+
     @property
     def menu_key(self):
         typ = int(self.get('typ', TARGET_URL))
