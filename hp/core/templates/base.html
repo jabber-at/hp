@@ -69,8 +69,8 @@
         <ul class="navbar-nav mr-auto">
           {% recursetree menuitems %}
               {% if node.is_leaf_node %}
-                <li class="nav-item{% if menuitem == node.target.menu_key %} active{% endif %}">
-                  <a class="nav-link" href="{{ node.target.href }}">{{ node.title.current }}{% if menuitem == node.target.menu_key %} <span class="sr-only">{% trans "(current)" %}</span>{% endif %}</a>
+                <li class="nav-item{% if menuitem == node.navkey %} active{% endif %}">
+                  <a class="nav-link" href="{{ node.href }}">{{ node.title.current }}{% if menuitem == node.navkey %} <span class="sr-only">{% trans "(current)" %}</span>{% endif %}</a>
                 </li>
               {% else %}
                 {# TODO: dropdown is not marked as active #}
@@ -78,7 +78,7 @@
                   <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">{{ node.title.current }}</a>
                   <div class="dropdown-menu">
                       {% for child in node.get_children %}
-                      <a class="dropdown-item{% if menuitem == child.target.menu_key %} active{% endif %}" href="{{ child.target.href }}">{{ child.title.current }}{% if menuitem == child.target.menu_key %} <span class="sr-only">{% trans "(current)" %}</span>{% endif %}</a>
+                      <a class="dropdown-item{% if menuitem == child.navkey %} active{% endif %}" href="{{ child.href }}">{{ child.title.current }}{% if menuitem == child.navkey %} <span class="sr-only">{% trans "(current)" %}</span>{% endif %}</a>
                       {% endfor %}
                   </div>
                 </li>

@@ -49,7 +49,7 @@ def basic(request):
             'menuitems': MenuItem.objects.all(),
         }
         for item in cached['menuitems']:
-            item.target.warm_cache()
+            item.cached_data  # touch cached_data to make sure that all properties serialized
 
         cache.set(cache_key, cached)
     context.update(cached)

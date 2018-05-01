@@ -15,7 +15,9 @@
 
 from django.conf import settings
 from django.db import models
+from django.utils import translation
 from django.utils.translation import ugettext_lazy as _
+from django.utils.translation import get_language
 
 #from composite_field.l10n import LocalizedCharField
 #from composite_field.l10n import LocalizedTextField
@@ -49,12 +51,49 @@ class MenuItem(MPTTModel, BaseModel):
     parent = TreeForeignKey('self', models.PROTECT, null=True, blank=True, related_name='children',
                             db_index=True)
     target = LinkTarget()
+    _cached_data = None
 
     def __str__(self):
         return self.title.current
 
     class MPTTMeta:
         order_insertion_by = ['title_en']
+
+    @property
+    def navkey(self):
+        """The key identifying this menuitem, used to display a menuitem as active."""
+
+        return self.cached_data.get('navkey')
+
+    @property
+    def href(self):
+        """Link to this menuitem in the current language."""
+
+        lang = get_language()
+        return self.cached_data.get(lang, {}).get('href', '')
+
+    @property
+    def cached_data(self):
+        """Precomputed data in all languages."""
+
+        lang = get_language()
+        if lang is None:
+            return {}
+
+        if self._cached_data is None:
+            data = {}
+
+            # set language-specific link
+            for code, _name in settings.LANGUAGES:
+                data['navkey'] = self.target.menu_key
+                with translation.override(code):
+                    data[code] = {
+                        'href': self.target.href,
+                    }
+
+            self._cached_data = data
+
+        return self._cached_data
 
 
 class CachedMessage(BaseModel):
