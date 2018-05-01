@@ -20,6 +20,23 @@ var bs4_forms_clear_error = function(form_group) {
     });
 };
 
+// from https://stackoverflow.com/a/14919494
+var bs4_format_filesize = function(bytes, si) {
+    var thresh = si ? 1000 : 1024;
+    if(Math.abs(bytes) < thresh) {
+        return bytes + ' B';
+    }
+    var units = si
+        ? ['kB','MB','GB','TB','PB','EB','ZB','YB']
+        : ['KiB','MiB','GiB','TiB','PiB','EiB','ZiB','YiB'];
+    var u = -1;
+    do {
+        bytes /= thresh;
+        ++u;
+    } while(Math.abs(bytes) >= thresh && u < units.length - 1);
+    return bytes.toFixed(1)+' '+units[u];
+}
+
 $(document).ready(function() {
     /* Disable built-in form validation and use javascript. */
     $('form.needs-validation').attr('novalidate', true);
@@ -102,8 +119,36 @@ $(document).ready(function() {
         target.siblings('label.custom-file-label').text(filename);
 
         // clear validity, otherwise we're not allowed to submit
-        e.target.setCustomValidity('');
-        target.parents('.form-group').find('.invalid-feedback').hide();
+        var file = e.target.files[0];
+        var form_group = target.parents('.form-group');
+        if (typeof file === 'undefined') {  // no file selected
+            e.target.setCustomValidity('');
+            target.parents('.form-group').find('.invalid-feedback').hide();
+            target.parents('.form-group').removeClass('was-validated');
+        } else {
+            var maxsize = target.data('maxsize');
+
+            if (maxsize && file.size > maxsize) {  // too large
+                var error_span = form_group.find('.invalid-feedback.invalid-too-large').show();
+                var error = '';
+                if (! error_span.data('orig-message')) {
+                    error = error_span.text().trim();
+                    error_span.data('orig-message', error);
+                } else {
+                    error = error_span.data('orig-message');
+                }
+                error = error.replace('__size__', bs4_format_filesize(file.size, true));
+                error_span.text(error);
+                
+                form_group.addClass('was-validated');
+                target.each(function(j, input) {
+                    e.target.setCustomValidity(error);
+                });
+            } else {  // OK, as far as we can tell here
+                e.target.setCustomValidity('');
+                target.parents('.form-group').find('.invalid-feedback').hide();
+            }
+        }
     });
 
     $('.form-group.invalid-mime-type').each(function(i, elem) {

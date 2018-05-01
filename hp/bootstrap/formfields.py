@@ -398,19 +398,24 @@ class BootstrapFileField(BootstrapMixin, forms.FileField):
             }, code='mime-type')
         return value
 
-    # NOTE: Nothing matches GPG keys, so don't add the "accept" HTML5 form validation attribute here
-    #def widget_attrs(self, widget):
-    #    attrs = super().widget_attrs(widget)
-    #    if self.mime_types:
-    #        attrs['accept'] = ','.join(self.mime_types)
-    #    return attrs
+    def widget_attrs(self, widget):
+        attrs = super().widget_attrs(widget)
+
+        if self.maximum_file_size:
+            attrs['data-maxsize'] = self.maximum_file_size
+
+        # NOTE: Nothing matches GPG keys, so don't add the "accept" HTML5 form validation attribute here
+        #if self.mime_types:
+        #    attrs['accept'] = ','.join(self.mime_types)
+
+        return attrs
 
     def get_message_context(self, value):
         return {
             # NOTE: messages in this field are never displayed by JavaScript, so it's ok to have no value
             #       on initial load.
-            'size': value._size if value else '',
-            'max_size': self.maximum_file_size,
+            'size': value._size if value else '__size__',
+            'max_size': filesizeformat(self.maximum_file_size),
         }
 
 

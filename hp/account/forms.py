@@ -22,7 +22,6 @@ from django import forms
 from django.conf import settings
 from django.contrib.auth import password_validation
 from django.contrib.auth.forms import AuthenticationForm
-from django.template.defaultfilters import filesizeformat
 from django.utils.translation import ugettext_lazy as _
 
 from bootstrap.formfields import BootstrapBooleanField
