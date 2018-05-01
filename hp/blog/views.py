@@ -20,6 +20,7 @@ from django.utils import timezone
 from django.views.generic.detail import DetailView
 from django.views.generic.list import ListView
 
+from core.views import HomepageViewMixin
 from core.views import StaticContextMixin
 from core.views import TranslateSlugViewMixin
 
@@ -32,7 +33,11 @@ _RATELIMIT_WHITELIST = getattr(settings, 'RATELIMIT_WHITELIST', set())
 _RATELIMIT_CONFIG = getattr(settings, 'RATELIMIT_CONFIG', {})
 
 
-class BasePageMixin(object):
+class BasePageMixin(HomepageViewMixin):
+    def get_menuitem(self):
+        meta = self.object._meta
+        return '%s_%s:%s' % (meta.app_label, meta.model_name, self.object.pk)
+
     def get_context_data(self, object, **kwargs):
         # TODO: og_type (article/website)
         context = super(BasePageMixin, self).get_context_data(**kwargs)

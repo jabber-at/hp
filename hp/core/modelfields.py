@@ -63,6 +63,16 @@ class LinkTargetDict(dict):
                 raise ValidationError('%s: %s' % (type(e).__name__, e))
 
     @property
+    def menu_key(self):
+        typ = int(self.get('typ', TARGET_URL))
+
+        if typ == TARGET_NAMED_URL:
+            return self['name'], tuple(self['args']), self['kwargs']
+        elif typ == TARGET_MODEL:
+            ct = ContentType.objects.get_for_id(self['content_type'])
+            return '%s_%s:%s' % (ct.app_label, ct.model, self['object_id'])
+
+    @property
     def href(self):
         typ = int(self.get('typ', TARGET_URL))
 

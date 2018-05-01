@@ -68,22 +68,17 @@
       <div class="collapse navbar-collapse" id="navbarCollapse">
         <ul class="navbar-nav mr-auto">
           {% recursetree menuitems %}
-            {% comment %}
-               TODO: active items
-                <li class="nav-item active">
-                  <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
-                </li>
-            {% endcomment %}
               {% if node.is_leaf_node %}
-                <li class="nav-item">
-                  <a class="nav-link" href="{{ node.target.href }}">{{ node.title.current }}</a>
+                <li class="nav-item{% if menuitem == node.target.menu_key %} active{% endif %}">
+                  <a class="nav-link" href="{{ node.target.href }}">{{ node.title.current }}{% if menuitem == node.target.menu_key %} <span class="sr-only">{% trans "(current)" %}</span>{% endif %}</a>
                 </li>
               {% else %}
+                {# TODO: dropdown is not marked as active #}
                 <li class="nav-item dropdown">
                   <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">{{ node.title.current }}</a>
                   <div class="dropdown-menu">
                       {% for child in node.get_children %}
-                      <a class="dropdown-item" href="{{ child.target.href }}">{{ child.title.current }}</a>
+                      <a class="dropdown-item{% if menuitem == child.target.menu_key %} active{% endif %}" href="{{ child.target.href }}">{{ child.title.current }}{% if menuitem == child.target.menu_key %} <span class="sr-only">{% trans "(current)" %}</span>{% endif %}</a>
                       {% endfor %}
                   </div>
                 </li>

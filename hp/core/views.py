@@ -103,6 +103,22 @@ class TranslateSlugViewMixin(object):
         return obj
 
 
+class HomepageViewMixin(object):
+    def get_menuitem(self):
+        match = self.request.resolver_match
+        urlname = '%s:%s' % (match.namespace, match.url_name)
+        return urlname, match.args, match.kwargs
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+
+        menuitem = self.get_menuitem()
+        if menuitem is not None:
+            context['menuitem'] = menuitem
+
+        return context
+
+
 class StaticContextMixin(object):
     """Simple mixin that allows you to add a static dictionary to the template context."""
 
@@ -229,7 +245,7 @@ class AnonymousRequiredMixin(object):
         return super(AnonymousRequiredMixin, self).dispatch(request, *args, **kwargs)
 
 
-class ContactView(AntiSpamMixin, StaticContextMixin, FormView):
+class ContactView(AntiSpamMixin, StaticContextMixin, HomepageViewMixin, FormView):
     template_name = 'core/contact.html'
     rate_activity = ACTIVITY_CONTACT
     success_url = reverse_lazy('core:contact')
