@@ -47,6 +47,26 @@ _RATELIMIT_WHITELIST = getattr(settings, 'RATELIMIT_WHITELIST', set())
 _RATELIMIT_CONFIG = getattr(settings, 'RATELIMIT_CONFIG', {})
 
 
+class HomepageViewMixin(object):
+    """Main view mixin used by all views on this page."""
+
+    def get_menuitem(self):
+        """The key for the menuitem in the top navbar."""
+
+        match = self.request.resolver_match
+        urlname = '%s:%s' % (match.namespace, match.url_name)
+        return urlname, match.args, match.kwargs
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+
+        menuitem = self.get_menuitem()
+        if menuitem is not None:
+            context['menuitem'] = menuitem
+
+        return context
+
+
 class TranslateSlugViewMixin(object):
     """A view mixin that allows DetailView to work with translated slugs.
 
@@ -101,22 +121,6 @@ class TranslateSlugViewMixin(object):
             raise Http404(_("No %(verbose_name)s found matching the query") %
                           {'verbose_name': queryset.model._meta.verbose_name})
         return obj
-
-
-class HomepageViewMixin(object):
-    def get_menuitem(self):
-        match = self.request.resolver_match
-        urlname = '%s:%s' % (match.namespace, match.url_name)
-        return urlname, match.args, match.kwargs
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-
-        menuitem = self.get_menuitem()
-        if menuitem is not None:
-            context['menuitem'] = menuitem
-
-        return context
 
 
 class StaticContextMixin(object):
