@@ -21,6 +21,10 @@ table.text-center th {
     text-align: center;
 }
 
+.navbar-dark .navbar-toggler-icon {
+    background-image: url("/static/core/img/toggler.svg");
+}
+
 @media (min-width:768px) and (max-width: 991px) {
     /* reduce padding on larger screens so we can fit more menu items */
     nav.navbar li.nav-item a.nav-link {
