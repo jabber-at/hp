@@ -1,0 +1,10 @@
+{% load i18n static %}
+{% if FACEBOOK_PAGE or TWITTER_HANDLE or CONTACT_MUC %}
+<p>{% trans "If you believe this ban was in error, there are several ways to contact us:" %}</p>
+<p>{% if CONTACT_MUC %}
+{% blocktrans %}Our chatroom: <a href="xmpp:{{ CONTACT_MUC }}">{{ CONTACT_MUC}}</a>{% endblocktrans %}
+{% endif %}
+</p>
+<p>{% if TWITTER_HANDLE %}{% include "core/include/twitter_link.html" %}{% endif %}</p>
+<p>{% if FACEBOOK_PAGE %}{% include "core/include/facebook_link.html" %}{% endif %}</p>
+{% endif %}
