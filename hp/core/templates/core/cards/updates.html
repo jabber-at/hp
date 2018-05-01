@@ -11,19 +11,12 @@
     <link itemprop="url" href="{% canonical "blog:home" %}">
     {% if TWITTER_HANDLE %}
     <li class="list-group-item">
-        <a href="https://twitter.com/{{ TWITTER_HANDLE }}" itemprop="sameAs">
-            <img src="{% static "core/img/smtw.svg" %}" class="bullet"
-                alt="{% blocktrans with brand=site.BRAND %}{{ brand }} on Twitter{% endblocktrans %}">
-                    @{{ TWITTER_HANDLE }}
-        </a>
+      {% include "core/include/twitter_link.html" %}
     </li>
     {% endif %}
     {% if FACEBOOK_PAGE %}
     <li class="list-group-item">
-        <a href="https://facebook.com/{{ FACEBOOK_PAGE }}" itemprop="sameAs">
-            <img src="{% static "core/img/629hwmjt.svg" %}" class="bullet"
-                alt="{% blocktrans with brand=site.BRAND %}{{ brand }} on Facebook{% endblocktrans %}">
-            /{{ FACEBOOK_PAGE }}</a>
+      {% include "core/include/facebook_link.html" %}
     </li>
     {% endif %}
     <li class="list-group-item">
