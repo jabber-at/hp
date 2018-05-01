@@ -15,8 +15,6 @@ django.jQuery(document).ready(function() {
     django.jQuery('input[id^="id_title_"]').on('input propertychange paste', function(e) {
         /**
          * Set the slug field for the appropriate language whenever the input changes.
-         *
-         * TODO: Maybe only update if the current value is identical to the old value?
          */
         var input = django.jQuery(e.target);
         var code = input.attr('id').split('_').slice(-1)[0];
