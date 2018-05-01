@@ -38,8 +38,7 @@ class BasePageMixin(HomepageViewMixin):
         return '%s_%s:%s' % (meta.app_label, meta.model_name, self.object.pk)
 
     def get_context_data(self, object, **kwargs):
-        # TODO: og_type (article/website)
-        context = super(BasePageMixin, self).get_context_data(**kwargs)
+        context = super().get_context_data(**kwargs)
         context['meta_desc'] = object.get_meta_summary(self.request)
         context['updated'] = object.updated
         context['created'] = object.created
@@ -58,7 +57,7 @@ class PageView(TranslateSlugViewMixin, BasePageMixin, DetailView):
 
 class BlogPostMixin(object):
     def get_queryset(self):
-        qs = super(BlogPostMixin, self).get_queryset()
+        qs = super().get_queryset()
 
         # If a user has permissions to publish blogposts, just return all blogposts.
         if self.request.user.has_perm('blog.blogpost_change'):
@@ -71,7 +70,7 @@ class BlogPostListView(HomepageViewMixin, BlogPostMixin, ListView):
     paginate_by = 10
 
     def get_context_data(self, **kwargs):
-        context = super(BlogPostListView, self).get_context_data(**kwargs)
+        context = super().get_context_data(**kwargs)
         if context['object_list']:
             newest = max(context['object_list'], key=lambda o: o.updated)
             context['updated'] = newest.updated
