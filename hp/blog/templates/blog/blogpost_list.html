@@ -16,7 +16,7 @@
 {% endwith %}
 
 {% if is_paginated %}
-<nav aria-label="{% trans "Pager" %}">
+<nav aria-label="{% trans "Pager" %}" class="blog-paginator">
   <ul class="pagination justify-content-center">
     {% if page_obj.has_previous %}
     <li class="page-item">

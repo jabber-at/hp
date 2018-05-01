@@ -3,3 +3,7 @@ div.blog-post + div.blog-post {
     margin-top: 1rem;
     padding-top: 1rem;
 }
+
+nav.blog-paginator {
+    margin-top: 1rem;
+}
