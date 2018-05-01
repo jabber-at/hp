@@ -36,7 +36,6 @@ class LocaleURLResolver(URLResolver):
         try:
             match = super().resolve(path)
             match.func.translated_match = False
-            print('###', match, type(match))
             return match
         except Resolver404 as e:
             other_langs = [k for k, v in settings.LANGUAGES if k != translation.get_language()]
@@ -46,7 +45,6 @@ class LocaleURLResolver(URLResolver):
                     try:
                         match = super().resolve(path)
                         match.func.translated_match = True
-                        print('###', match, type(match))
                         return match
                     except Resolver404:
                         continue

@@ -96,7 +96,6 @@ class MenuItem(MPTTModel, BaseModel):
                         'href': self.target.href,
                     }
 
-            print(data['navkey'], data['children'])
             self._cached_data = data
 
         return self._cached_data
