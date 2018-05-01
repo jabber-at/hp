@@ -26,3 +26,6 @@
 .was-validated.invalid-no-match .invalid-feedback.invalid-no-match {
     display: block;
 }
+form > .invalid-feedback.non-field-errors {
+    display: block;
+}

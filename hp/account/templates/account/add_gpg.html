@@ -6,6 +6,7 @@
 {% block content %}
 <form enctype="multipart/form-data" class="form-horizontal needs-validation" action="" method="post">{% csrf_token %}
   {% include "account/include/gpg_form.html" %}
+  <div class="invalid-feedback non-field-errors">{{ form.non_field_errors }}</div>
   {{ form.buttons }}
 </form>
 {% endblock content %}

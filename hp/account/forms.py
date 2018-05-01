@@ -223,8 +223,14 @@ class SetEmailForm(GPGMixin, BootstrapFormMixin, EmailValidationMixin, forms.For
 
 
 class AddGpgForm(GPGMixin, BootstrapFormMixin, forms.Form):
-    # TODO: This form is valid if neither a key nor a fingerprint is added
     hide_gpg_content = False
+
+    def clean(self):
+        data = super().clean()
+        if not data.get('gpg_fingerprint') and not data.get('gpg_key'):
+            error = forms.ValidationError(_('Please either upload a key or give a fingerprint.'),
+                                          code='no-data')
+            self.add_error(None, error)
 
 
 class ResetPasswordForm(BootstrapFormMixin, CaptchaFormMixin, forms.Form):
