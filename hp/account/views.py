@@ -69,7 +69,6 @@ from core.utils import format_timedelta
 from core.utils import version
 from core.views import AnonymousRequiredMixin
 from core.views import AntiSpamMixin
-from core.views import StaticContextMixin
 from core.views import HomepageViewMixin
 from stats.constants import STAT_DELETE_ACCOUNT
 from stats.constants import STAT_DELETE_ACCOUNT_CONFIRMED
@@ -107,7 +106,7 @@ log = logging.getLogger(__name__)
 _confirmation_qs = Confirmation.objects.valid().select_related('user')
 
 
-class AccountPageMixin(StaticContextMixin, HomepageViewMixin):
+class AccountPageMixin(HomepageViewMixin):
     """Mixin that adds the usermenu on the left to views where the user is logged in."""
 
     usermenu_item = None
@@ -169,8 +168,7 @@ class UserObjectMixin(object):
         return self.request.user
 
 
-class RegistrationView(AntiSpamMixin, AnonymousRequiredMixin, StaticContextMixin, HomepageViewMixin,
-                       CreateView):
+class RegistrationView(AntiSpamMixin, AnonymousRequiredMixin, HomepageViewMixin, CreateView):
     form_class = CreateUserForm
     model = User
     rate_activity = ACTIVITY_REGISTER
@@ -354,7 +352,7 @@ class UserView(LoginRequiredMixin, AccountPageMixin, UserObjectMixin, DetailView
     requires_confirmation = False
 
 
-class ResetPasswordView(AntiSpamMixin, AnonymousRequiredMixin, FormView):
+class ResetPasswordView(AntiSpamMixin, AnonymousRequiredMixin, HomepageViewMixin, FormView):
     form_class = ResetPasswordForm
     rate_activity = ACTIVITY_RESET_PASSWORD
     template_name = 'account/user_password_reset.html'

@@ -50,12 +50,31 @@ _RATELIMIT_CONFIG = getattr(settings, 'RATELIMIT_CONFIG', {})
 class HomepageViewMixin(object):
     """Main view mixin used by all views on this page."""
 
-    def get_menuitem(self):
-        """The key for the menuitem in the top navbar."""
+    static_context = None
 
+    def get_resolver_args(self):
         match = self.request.resolver_match
         urlname = '%s:%s' % (match.namespace, match.url_name)
         return urlname, match.args, match.kwargs
+
+    def get_menuitem(self):
+        """The key for the menuitem in the top navbar."""
+
+        return self.get_resolver_args()
+
+    def set_social_texts(self, context):
+        resolver_args = self.get_resolver_args()
+
+        if resolver_args[0] in settings.SOCIAL_MEDIA_TEXTS:
+            social_texts = settings.SOCIAL_MEDIA_TEXTS[resolver_args[0]]
+
+            for key, value in social_texts.items():
+                if isinstance(value, (str, Promise)):
+                    value = value % self.request.site
+                context[key] = value
+
+        # set default canonical URL
+        context.setdefault('canonical_url', canonical_link(self.request.path))
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -64,6 +83,10 @@ class HomepageViewMixin(object):
         if menuitem is not None:
             context['menuitem'] = menuitem
 
+        if self.static_context is not None:
+            context.update(self.static_context)
+
+        self.set_social_texts(context)
         return context
 
 
@@ -121,33 +144,6 @@ class TranslateSlugViewMixin(object):
             raise Http404(_("No %(verbose_name)s found matching the query") %
                           {'verbose_name': queryset.model._meta.verbose_name})
         return obj
-
-
-class StaticContextMixin(object):
-    """Simple mixin that allows you to add a static dictionary to the template context."""
-
-    static_context = None
-
-    def get_context_data(self, **kwargs):
-        context = super(StaticContextMixin, self).get_context_data(**kwargs)
-        if self.static_context is not None:
-            context.update(self.static_context)
-
-        urlname = '%s:%s' % (self.request.resolver_match.namespace,
-                             self.request.resolver_match.url_name)
-
-        if urlname in settings.SOCIAL_MEDIA_TEXTS:
-            texts = settings.SOCIAL_MEDIA_TEXTS[urlname]
-
-            for key, value in texts.items():
-                if isinstance(value, (str, Promise)):
-                    value = value % self.request.site
-                context[key] = value
-
-        # set default canonical URL
-        context.setdefault('canonical_url', canonical_link(self.request.path))
-
-        return context
 
 
 class AntiSpamMixin(object):
@@ -249,7 +245,7 @@ class AnonymousRequiredMixin(object):
         return super(AnonymousRequiredMixin, self).dispatch(request, *args, **kwargs)
 
 
-class ContactView(AntiSpamMixin, StaticContextMixin, HomepageViewMixin, FormView):
+class ContactView(AntiSpamMixin, HomepageViewMixin, FormView):
     template_name = 'core/contact.html'
     rate_activity = ACTIVITY_CONTACT
     success_url = reverse_lazy('core:contact')

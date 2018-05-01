@@ -21,7 +21,6 @@ from django.views.generic.detail import DetailView
 from django.views.generic.list import ListView
 
 from core.views import HomepageViewMixin
-from core.views import StaticContextMixin
 from core.views import TranslateSlugViewMixin
 
 from .models import BlogPost
@@ -53,7 +52,7 @@ class BasePageMixin(HomepageViewMixin):
         return context
 
 
-class PageView(TranslateSlugViewMixin, BasePageMixin, StaticContextMixin, DetailView):
+class PageView(TranslateSlugViewMixin, BasePageMixin, DetailView):
     queryset = Page.objects.filter(published=True)
 
 
@@ -67,7 +66,7 @@ class BlogPostMixin(object):
         return qs.published()
 
 
-class BlogPostListView(StaticContextMixin, BlogPostMixin, ListView):
+class BlogPostListView(HomepageViewMixin, BlogPostMixin, ListView):
     queryset = BlogPost.objects.blog_order()
     paginate_by = 10
 
@@ -81,8 +80,7 @@ class BlogPostListView(StaticContextMixin, BlogPostMixin, ListView):
         return context
 
 
-class BlogPostView(TranslateSlugViewMixin, BasePageMixin, StaticContextMixin, BlogPostMixin,
-                   DetailView):
+class BlogPostView(TranslateSlugViewMixin, BasePageMixin, BlogPostMixin, DetailView):
     queryset = BlogPost.objects.all()
     context_object_name = 'post'
     static_context = {
