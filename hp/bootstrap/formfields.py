@@ -397,11 +397,12 @@ class BootstrapFileField(BootstrapMixin, forms.FileField):
             }, code='mime-type')
         return value
 
-    def widget_attrs(self, widget):
-        attrs = super().widget_attrs(widget)
-        if self.mime_types:
-            attrs['accept'] = ','.join(self.mime_types)
-        return attrs
+    # NOTE: Nothing matches GPG keys, so don't add the "accept" HTML5 form validation attribute here
+    #def widget_attrs(self, widget):
+    #    attrs = super().widget_attrs(widget)
+    #    if self.mime_types:
+    #        attrs['accept'] = ','.join(self.mime_types)
+    #    return attrs
 
     def get_message_context(self, value):
         return {

@@ -148,7 +148,7 @@ class KeyUploadField(BootstrapFileField):
     default_error_messages = {
         'not-enabled': _('GPG not enabled.'),
     }
-    default_mime_types = {'text/plain', 'application/pgp-encrypted', }
+    default_mime_types = {'text/plain', 'application/pgp-encrypted', 'application/pgp-keys', }
 
     def __init__(self, **kwargs):
         kwargs.setdefault('required', False)
