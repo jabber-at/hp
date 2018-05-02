@@ -43,7 +43,7 @@ urlpatterns.append(url(r'^', include('blog.urls')))
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
-if settings.ENABLE_DEBUG_TOOLBAR is True:
+if getattr(settings, 'ENABLE_DEBUG_TOOLBAR', False) is True:
     import debug_toolbar
     urlpatterns = [
         url(r'^__debug__/', include(debug_toolbar.urls)),
