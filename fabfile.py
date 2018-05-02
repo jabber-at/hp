@@ -255,12 +255,12 @@ def check():
 
 
 @task
-def test():
+def test(suite=''):
     """Run testsuite."""
 
     oldcwd = os.getcwd()
     os.chdir('hp')
-    local('python manage.py test --settings=hp.test_settings')
+    local('python manage.py test --settings=hp.test_settings %s' % suite)
     os.chdir(oldcwd)
 
 
