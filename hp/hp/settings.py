@@ -38,6 +38,7 @@ SECRET_KEY = ''
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
+ENABLE_DEBUG_TOOLBAR = None
 
 ALLOWED_HOSTS = []
 
@@ -574,7 +575,10 @@ try:
 except ImportError:
     pass
 
-if DEBUG is True:
+if ENABLE_DEBUG_TOOLBAR is None:
+    ENABLE_DEBUG_TOOLBAR = DEBUG
+
+if ENABLE_DEBUG_TOOLBAR is True:
     MIDDLEWARE.insert(0, 'debug_toolbar.middleware.DebugToolbarMiddleware')
     _DEFAULT_INSTALLED_APPS.append('debug_toolbar')
     INTERNAL_IPS = ['127.0.0.1']
