@@ -145,7 +145,7 @@ class AdminUserForm(forms.ModelForm):
 class CreateUserForm(GPGMixin, BootstrapFormMixin, CaptchaFormMixin, EmailValidationMixin, forms.ModelForm):
     username = UsernameField(register=True)
     email = EmailVerifiedDomainField(
-        label=_('Email'), min_validation_length=5,
+        label=_('Email'),
         help_text=_('Required, a confirmation email will be sent to this address.')
     )
 

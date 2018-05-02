@@ -299,6 +299,10 @@ class BootstrapTextField(BootstrapMixin, forms.CharField):
 class BootstrapEmailField(BootstrapMixin, forms.EmailField):
     widget = widgets.BootstrapEmailInput
 
+    def __init__(self, **kwargs):
+        kwargs.setdefault('min_validation_length', 5)
+        super().__init__(**kwargs)
+
     def clean(self, value):
         value = super(BootstrapEmailField, self).clean(value)
         if value:
