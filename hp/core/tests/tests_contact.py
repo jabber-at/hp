@@ -173,3 +173,16 @@ class ContactSeleniumTests(HomepageTestCaseMixin, ContactTestCaseMixin, StaticLi
 
         site = settings.XMPP_HOSTS[settings.DEFAULT_XMPP_HOST]
         self.assertEmail(site, '127.0.0.1', mocked, email=EMAIL, subject=SUBJECT, text=TEXT)
+
+    def test_validation(self):
+        self.selenium.get('%s%s' % (self.live_server_url, reverse('core:contact')))
+        email = self.selenium.find_element_by_id('id_email')
+        subject = self.selenium.find_element_by_id('id_subject')
+        text = self.selenium.find_element_by_id('id_text')
+        print(dir(email))
+        error = self.selenium.find_element_by_css_selector('#fg_email .invalid-feedback.invalid-invalid')
+
+        self.assertFalse(error.is_displayed())
+
+        email.send_keys('a')
+        self.assertTrue(error.is_displayed())
