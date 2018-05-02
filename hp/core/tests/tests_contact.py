@@ -177,12 +177,19 @@ class ContactSeleniumTests(HomepageTestCaseMixin, ContactTestCaseMixin, StaticLi
     def test_validation(self):
         self.selenium.get('%s%s' % (self.live_server_url, reverse('core:contact')))
         email = self.selenium.find_element_by_id('id_email')
-        subject = self.selenium.find_element_by_id('id_subject')
-        text = self.selenium.find_element_by_id('id_text')
-        print(dir(email))
         error = self.selenium.find_element_by_css_selector('#fg_email .invalid-feedback.invalid-invalid')
 
+        # test that the error is displayed
         self.assertFalse(error.is_displayed())
-
         email.send_keys('a')
+        self.assertFalse(error.is_displayed())
+        email.send_keys('b')
+        self.assertFalse(error.is_displayed())
+        email.send_keys('c')
+        self.assertFalse(error.is_displayed())
+        email.send_keys('d')
+        self.assertFalse(error.is_displayed())
+        email.send_keys('e')
+        self.assertFalse(error.is_displayed())
+        email.send_keys('f')
         self.assertTrue(error.is_displayed())
