@@ -13,6 +13,9 @@
 # You should have received a copy of the GNU General Public License along with this project. If not, see
 # <http://www.gnu.org/licenses/>.
 
+import re
+
+from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.firefox.webdriver import WebDriver
 from selenium.webdriver.support.wait import WebDriverWait
 
@@ -147,7 +150,67 @@ class AnonymousContactViewTests(ContactTestCaseMixin, TestCase):
         self.assertFormError(response, mocked, 'captcha')
 
 
-class ContactSeleniumTests(HomepageTestCaseMixin, ContactTestCaseMixin, StaticLiveServerTestCase):
+class SeleniumMixin(object):
+    class wait_for_css_property(object):
+        def __init__(self, selector, prop, value):
+            self.selector = selector
+            self.prop = prop
+            self.value = value
+
+        def __call__(self, driver):
+            elem = driver.find_element_by_css_selector(self.selector)
+
+            if elem.value_of_css_property(self.prop) == self.value:
+                return elem
+            else:
+                return False
+
+    def find(self, selector):
+        return self.selenium.find_element_by_css_selector(selector)
+
+    def get_classes(self, elem):
+        return re.split('\s*', elem.get_attribute('class').strip())
+
+    def assertClass(self, elem, cls):
+        self.assertIn(cls, self.get_classes(elem))
+
+    def assertNotClass(self, elem, cls):
+        self.assertNotIn(cls, self.get_classes(elem))
+
+    def assertCSSBorderColor(self, elem, color):
+        self.assertEqual(elem.value_of_css_property('border-right-color'), color)
+        self.assertEqual(elem.value_of_css_property('border-left-color'), color)
+        self.assertEqual(elem.value_of_css_property('border-top-color'), color)
+        self.assertEqual(elem.value_of_css_property('border-bottom-color'), color)
+
+    def assertNotValidated(self, fg, elem):
+        self.assertNotClass(fg, 'was-validated')
+        for feedback in fg.find_elements_by_css_selector('.invalid-feedback'):
+            self.assertFalse(feedback.is_displayed())
+
+        if self.selenium.switch_to.active_element != elem:  # passed element is not currently active
+            self.assertCSSBorderColor(elem, 'rgb(206, 212, 218)')
+        else:
+            self.assertCSSBorderColor(elem, 'rgb(128, 189, 255)')
+
+    def assertInvalid(self, fg, elem, error):
+        self.assertClass(fg, 'was-validated')
+        for feedback in fg.find_elements_by_css_selector('.invalid-feedback'):
+            if 'invalid-%s' % error in self.get_classes(feedback):
+                self.assertTrue(feedback.is_displayed())
+            else:
+                self.assertFalse(feedback.is_displayed())
+        self.assertCSSBorderColor(elem, 'rgb(220, 53, 69)')
+
+    def assertValid(self, fg, elem):
+        self.assertClass(fg, 'was-validated')
+        for feedback in fg.find_elements_by_css_selector('.invalid-feedback'):
+            self.assertFalse(feedback.is_displayed())
+        self.assertCSSBorderColor(elem, 'rgb(40, 167, 69)')
+
+
+class ContactSeleniumTests(SeleniumMixin, HomepageTestCaseMixin, ContactTestCaseMixin,
+                           StaticLiveServerTestCase):
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
@@ -176,20 +239,54 @@ class ContactSeleniumTests(HomepageTestCaseMixin, ContactTestCaseMixin, StaticLi
 
     def test_validation(self):
         self.selenium.get('%s%s' % (self.live_server_url, reverse('core:contact')))
+        fg = self.find('#fg_email')
         email = self.selenium.find_element_by_id('id_email')
-        error = self.selenium.find_element_by_css_selector('#fg_email .invalid-feedback.invalid-invalid')
+
+        # test initial state
+        self.assertNotValidated(fg, email)
 
         # test that the error is displayed
-        self.assertFalse(error.is_displayed())
         email.send_keys('a')
-        self.assertFalse(error.is_displayed())
+        wait = WebDriverWait(self.selenium, 10)
+        wait.until(self.wait_for_css_property('#id_email', 'border-top-color', 'rgb(128, 189, 255)'))
+        self.assertNotValidated(fg, email)
         email.send_keys('b')
-        self.assertFalse(error.is_displayed())
+        self.assertNotValidated(fg, email)
         email.send_keys('c')
-        self.assertFalse(error.is_displayed())
+        self.assertNotValidated(fg, email)
         email.send_keys('d')
-        self.assertFalse(error.is_displayed())
+        self.assertNotValidated(fg, email)
         email.send_keys('e')
-        self.assertFalse(error.is_displayed())
+        self.assertNotValidated(fg, email)
         email.send_keys('f')
-        self.assertTrue(error.is_displayed())
+        wait.until(self.wait_for_css_property('#id_email', 'border-top-color', 'rgb(220, 53, 69)'))
+        self.assertInvalid(fg, email, 'invalid')
+        email.send_keys('g')
+        self.assertInvalid(fg, email, 'invalid')
+        email.send_keys(Keys.BACKSPACE)
+        self.assertInvalid(fg, email, 'invalid')
+        email.send_keys(Keys.BACKSPACE)
+        self.assertInvalid(fg, email, 'invalid')
+        email.send_keys('@example.com')
+        wait.until(self.wait_for_css_property('#id_email', 'border-top-color', 'rgb(40, 167, 69)'))
+        self.assertValid(fg, email)
+
+        email.send_keys(Keys.BACKSPACE)
+        email.send_keys(Keys.BACKSPACE)
+        email.send_keys(Keys.BACKSPACE)
+        email.send_keys(Keys.BACKSPACE)
+        email.send_keys(Keys.BACKSPACE)
+        email.send_keys(Keys.BACKSPACE)
+        email.send_keys(Keys.BACKSPACE)
+        email.send_keys(Keys.BACKSPACE)
+        email.send_keys(Keys.BACKSPACE)
+        email.send_keys(Keys.BACKSPACE)
+        email.send_keys(Keys.BACKSPACE)
+        email.send_keys(Keys.BACKSPACE)
+        email.send_keys(Keys.BACKSPACE)
+        email.send_keys(Keys.BACKSPACE)
+        email.send_keys(Keys.BACKSPACE)
+        email.send_keys(Keys.BACKSPACE)
+        email.send_keys(Keys.BACKSPACE)
+        wait.until(self.wait_for_css_property('#id_email', 'border-top-color', 'rgb(220, 53, 69)'))
+        self.assertInvalid(fg, email, 'required')
