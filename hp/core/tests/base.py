@@ -20,6 +20,7 @@ from unittest import mock
 from celery import task
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.firefox.webdriver import WebDriver
+from selenium.webdriver.remote.webelement import WebElement
 from selenium.webdriver.support.wait import WebDriverWait
 
 from django.conf import settings
@@ -67,18 +68,29 @@ class SeleniumMixin(object):
         super().tearDownClass()
 
     class wait_for_css_property(object):
-        def __init__(self, selector, prop, value):
-            self.selector = selector
+        def __init__(self, elem, prop, value):
+            self.elem = elem
             self.prop = prop
             self.value = value
 
         def __call__(self, driver):
-            elem = driver.find_element_by_css_selector(self.selector)
-
-            if elem.value_of_css_property(self.prop) == self.value:
-                return elem
+            if self.elem.value_of_css_property(self.prop) == self.value:
+                return self.elem
             else:
                 return False
+
+    def wait_for_focus(self, elem):
+        # when an element gets focus, it turns blue:
+        wait = WebDriverWait(self.selenium, 10)
+        wait.until(self.wait_for_css_property(elem, 'border-top-color', 'rgb(128, 189, 255)'))
+
+    def wait_for_invalid(self, elem):
+        wait = WebDriverWait(self.selenium, 10)
+        wait.until(self.wait_for_css_property(elem, 'border-top-color', 'rgb(220, 53, 69)'))
+
+    def wait_for_valid(self, elem):
+        wait = WebDriverWait(self.selenium, 10)
+        wait.until(self.wait_for_css_property(elem, 'border-top-color', 'rgb(40, 167, 69)'))
 
     def find(self, selector):
         """Find an element by CSS selector."""

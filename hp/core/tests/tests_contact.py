@@ -175,8 +175,7 @@ class ContactSeleniumTests(SeleniumMixin, HomepageTestCaseMixin, ContactTestCase
 
         # test that the error is displayed
         email.send_keys('a')
-        wait = WebDriverWait(self.selenium, 10)
-        wait.until(self.wait_for_css_property('#id_email', 'border-top-color', 'rgb(128, 189, 255)'))
+        self.wait_for_focus(email)
         self.assertNotValidated(fg, email)
         email.send_keys('b')
         self.assertNotValidated(fg, email)
@@ -187,7 +186,7 @@ class ContactSeleniumTests(SeleniumMixin, HomepageTestCaseMixin, ContactTestCase
         email.send_keys('e')
         self.assertNotValidated(fg, email)
         email.send_keys('f')
-        wait.until(self.wait_for_css_property('#id_email', 'border-top-color', 'rgb(220, 53, 69)'))
+        self.wait_for_invalid(email)
         self.assertInvalid(fg, email, 'invalid')
         email.send_keys('g')
         self.assertInvalid(fg, email, 'invalid')
@@ -196,7 +195,7 @@ class ContactSeleniumTests(SeleniumMixin, HomepageTestCaseMixin, ContactTestCase
         email.send_keys(Keys.BACKSPACE)
         self.assertInvalid(fg, email, 'invalid')
         email.send_keys('@example.com')
-        wait.until(self.wait_for_css_property('#id_email', 'border-top-color', 'rgb(40, 167, 69)'))
+        self.wait_for_valid(email)
         self.assertValid(fg, email)
 
         email.send_keys(Keys.BACKSPACE)
@@ -216,5 +215,5 @@ class ContactSeleniumTests(SeleniumMixin, HomepageTestCaseMixin, ContactTestCase
         email.send_keys(Keys.BACKSPACE)
         email.send_keys(Keys.BACKSPACE)
         email.send_keys(Keys.BACKSPACE)
-        wait.until(self.wait_for_css_property('#id_email', 'border-top-color', 'rgb(220, 53, 69)'))
+        self.wait_for_invalid(email)
         self.assertInvalid(fg, email, 'required')
