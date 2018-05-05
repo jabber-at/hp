@@ -24,7 +24,7 @@ from django.urls import reverse
 
 from core.tests.base import TestCase
 
-from .tasks import send_confirmation_task
+from ..tasks import send_confirmation_task
 
 User = get_user_model()
 
