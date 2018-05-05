@@ -181,12 +181,12 @@ _DEFAULT_JS_FILES = [
     'lib/bootstrap/js/bootstrap.js',
     'core/js/base.js',
     'core/js/captcha.js',
+    'bootstrap/js/bootstrap.js',
     'account/js/gpgmixin.js',
     'account/js/email_verified_domain_widget.js',
     'account/js/username_widget.js',
     'account/js/base.js',
     'account/js/notifications.js',
-    'bootstrap/js/bootstrap.js',
     'certs/certificate.js',
 ]
 CSS_FILES = None
