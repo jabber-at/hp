@@ -17,14 +17,21 @@ from datetime import datetime
 
 import pytz
 from freezegun import freeze_time
+from selenium.webdriver.common.keys import Keys
 
 from django.contrib.auth import get_user_model
+from django.contrib.staticfiles.testing import StaticLiveServerTestCase
 from django.test import Client
 from django.urls import reverse
 
 from core.tests.base import TestCase
 
 from ..tasks import send_confirmation_task
+
+
+from core.tests.base import HomepageTestCaseMixin
+from core.tests.base import SeleniumMixin
+
 
 User = get_user_model()
 
@@ -85,3 +92,40 @@ class RegistrationTestCase(TestCase):
         # Confirm email address
         # Check updated user
         # Check XMPP backend (user should be present)
+
+
+class RegisterSeleniumTests(SeleniumMixin, HomepageTestCaseMixin, StaticLiveServerTestCase):
+    def test_basic(self):
+        self.selenium.get('%s%s' % (self.live_server_url, reverse('account:register')))
+
+        fg_username = self.find('#fg_username')
+        node = self.selenium.find_element_by_id('id_username_0')
+        domain = self.selenium.find_element_by_id('id_username_1')
+        fg_email = self.find('#fg_email')
+        email = self.selenium.find_element_by_id('id_email')
+
+        # test initial state
+        self.assertNotValidated(fg_username, node)
+        self.assertNotValidated(fg_username, domain)
+        self.assertNotValidated(fg_email, email)
+
+        # type one character, invalid because of min length
+        node.send_keys('a')
+        self.wait_for_invalid(node)
+        self.assertInvalid(fg_username, node, 'min_length')
+        self.assertInvalid(fg_username, domain, 'min_length')
+        self.assertNotValidated(fg_email, email)
+
+        # clear character - should show required message
+        node.send_keys(Keys.BACKSPACE)
+        self.assertInvalid(fg_username, node, 'required')
+        self.assertInvalid(fg_username, domain, 'required')
+        self.assertNotValidated(fg_email, email)
+
+        # second character - node is now valid
+        node.send_keys('ab')
+        self.wait_for_valid(node)
+        self.wait_for_valid(domain)
+        self.assertValid(fg_username, node)
+        self.assertValid(fg_username, domain)
+        self.assertNotValidated(fg_email, email)
