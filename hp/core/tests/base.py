@@ -90,6 +90,15 @@ class SeleniumMixin(object):
 
         return re.split('\s*', elem.get_attribute('class').strip())
 
+    def get_validity(self, elem):
+        """Get validity object from a HTML5 form field."""
+
+        return self.selenium.execute_script('return arguments[0].validity', elem)
+
+    def get_valid(self, elem):
+        val = self.get_validity(elem)
+        return val['valid']
+
     def assertClass(self, elem, cls):
         """Assert that an element has a CSS class."""
 
@@ -130,6 +139,7 @@ class SeleniumMixin(object):
             else:
                 self.assertFalse(feedback.is_displayed())
         self.assertCSSBorderColor(elem, 'rgb(220, 53, 69)')
+        self.assertFalse(self.get_valid(elem))
 
     def assertValid(self, fg, elem):
         """Assert that a Bootstrap input element validates as valid."""
@@ -138,6 +148,7 @@ class SeleniumMixin(object):
         for feedback in fg.find_elements_by_css_selector('.invalid-feedback'):
             self.assertFalse(feedback.is_displayed())
         self.assertCSSBorderColor(elem, 'rgb(40, 167, 69)')
+        self.assertTrue(self.get_valid(elem))
 
 
 class TestCase(HomepageTestCaseMixin, DjangoTestCase):
