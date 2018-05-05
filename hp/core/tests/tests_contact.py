@@ -16,7 +16,6 @@
 import re
 
 from selenium.webdriver.common.keys import Keys
-from selenium.webdriver.firefox.webdriver import WebDriver
 from selenium.webdriver.support.wait import WebDriverWait
 
 from django.conf import settings
@@ -29,6 +28,7 @@ from django.urls import reverse
 from ..forms import AnonymousContactForm
 from ..tasks import send_contact_email
 from .base import HomepageTestCaseMixin
+from .base import SeleniumMixin
 from .base import TestCase
 
 SUBJECT = 'a' * 15
@@ -150,78 +150,8 @@ class AnonymousContactViewTests(ContactTestCaseMixin, TestCase):
         self.assertFormError(response, mocked, 'captcha')
 
 
-class SeleniumMixin(object):
-    class wait_for_css_property(object):
-        def __init__(self, selector, prop, value):
-            self.selector = selector
-            self.prop = prop
-            self.value = value
-
-        def __call__(self, driver):
-            elem = driver.find_element_by_css_selector(self.selector)
-
-            if elem.value_of_css_property(self.prop) == self.value:
-                return elem
-            else:
-                return False
-
-    def find(self, selector):
-        return self.selenium.find_element_by_css_selector(selector)
-
-    def get_classes(self, elem):
-        return re.split('\s*', elem.get_attribute('class').strip())
-
-    def assertClass(self, elem, cls):
-        self.assertIn(cls, self.get_classes(elem))
-
-    def assertNotClass(self, elem, cls):
-        self.assertNotIn(cls, self.get_classes(elem))
-
-    def assertCSSBorderColor(self, elem, color):
-        self.assertEqual(elem.value_of_css_property('border-right-color'), color)
-        self.assertEqual(elem.value_of_css_property('border-left-color'), color)
-        self.assertEqual(elem.value_of_css_property('border-top-color'), color)
-        self.assertEqual(elem.value_of_css_property('border-bottom-color'), color)
-
-    def assertNotValidated(self, fg, elem):
-        self.assertNotClass(fg, 'was-validated')
-        for feedback in fg.find_elements_by_css_selector('.invalid-feedback'):
-            self.assertFalse(feedback.is_displayed())
-
-        if self.selenium.switch_to.active_element != elem:  # passed element is not currently active
-            self.assertCSSBorderColor(elem, 'rgb(206, 212, 218)')
-        else:
-            self.assertCSSBorderColor(elem, 'rgb(128, 189, 255)')
-
-    def assertInvalid(self, fg, elem, error):
-        self.assertClass(fg, 'was-validated')
-        for feedback in fg.find_elements_by_css_selector('.invalid-feedback'):
-            if 'invalid-%s' % error in self.get_classes(feedback):
-                self.assertTrue(feedback.is_displayed())
-            else:
-                self.assertFalse(feedback.is_displayed())
-        self.assertCSSBorderColor(elem, 'rgb(220, 53, 69)')
-
-    def assertValid(self, fg, elem):
-        self.assertClass(fg, 'was-validated')
-        for feedback in fg.find_elements_by_css_selector('.invalid-feedback'):
-            self.assertFalse(feedback.is_displayed())
-        self.assertCSSBorderColor(elem, 'rgb(40, 167, 69)')
-
-
 class ContactSeleniumTests(SeleniumMixin, HomepageTestCaseMixin, ContactTestCaseMixin,
                            StaticLiveServerTestCase):
-    @classmethod
-    def setUpClass(cls):
-        super().setUpClass()
-        cls.selenium = WebDriver(executable_path=settings.GECKODRIVER_PATH)
-        cls.selenium.implicitly_wait(10)
-
-    @classmethod
-    def tearDownClass(cls):
-        cls.selenium.quit()
-        super().tearDownClass()
-
     def test_basic(self):
         self.selenium.get('%s%s' % (self.live_server_url, reverse('core:contact')))
         self.selenium.find_element_by_id('id_email').send_keys(EMAIL)
