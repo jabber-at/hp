@@ -138,6 +138,7 @@ class RegisterSeleniumTests(SeleniumTestCase):
         )
         self.assertEqual(len(mail.outbox), 1)
         self.assertEqual(user.registered, NOW)
+        self.assertEqual(user.last_activity, NOW)
         self.assertIsNone(user.confirmed)
         self.assertFalse(user.created_in_backend)
         self.assertFalse(user.blocked)
@@ -157,7 +158,7 @@ class RegisterSeleniumTests(SeleniumTestCase):
         user = User.objects.get(username='%s@%s' % (NODE, DOMAIN))
         self.assertEqual(user.confirmed, NOW2)
         # TODO: currently not updated?
-        #self.assertEqual(user.last_activity, NOW)
+        #self.assertEqual(user.last_activity, NOW2)
         self.assertTrue(user.created_in_backend)
         self.assertFalse(user.blocked)
 
