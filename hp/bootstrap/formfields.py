@@ -286,6 +286,14 @@ class BootstrapMixin(object):
         return self.label_columns
 
     def get_message_context(self, value):
+        """Return additional context for rendering validation errors.
+
+        .. WARNING::
+
+            This method is also called for unbound forms where ``value is None``, but the error messages are
+            still formatted. You must always return the required the required keys to make sure there are no
+            formatting errors.
+        """
         return {}
 
     def get_bound_field(self, form, field_name):
@@ -312,6 +320,19 @@ class BootstrapEmailField(BootstrapMixin, forms.EmailField):
         if value:
             value = value.lower()
         return value
+
+    def get_message_context(self, value):
+        if not value:
+            return {
+                'node': '__node__',
+                'domain': '__domain__',
+            }
+
+        node, domain = value.rsplit('@', 1)
+        return {
+            'node': node,
+            'domain': domain,
+        }
 
 
 class BootstrapPasswordField(BootstrapMixin, forms.CharField):
