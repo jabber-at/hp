@@ -70,6 +70,8 @@ INSTALLED_APPS = [
     'tinymce',  # Rich text editor
     'xmpp_http_upload',  # XEP-0363
     'certs',
+
+    'xmpp_backends.django.fake_xmpp',  # fake XMPP server backend
 ]
 SIDEBAR_PANELS = [
     'core/cards/languages.html',
@@ -354,6 +356,17 @@ XMPP_HOSTS = {
         'BRAND': 'example.org',
         'CANONICAL_BASE_URL': 'https://example.com',
         'ALLOW_EMAIL': True,
+    },
+}
+XMPP_BACKENDS = {
+    'default': {
+        'BACKEND': 'xmpp_backends.django.fake_xmpp.backend.FakeXMPPBackend',
+        'domains': [
+            'jabber.at',
+            'jabber.zone',
+            'xmpp.zone',
+        ],
+        'version': (1, 0),
     },
 }
 
