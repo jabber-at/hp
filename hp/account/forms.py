@@ -116,10 +116,6 @@ class EmailValidationMixin(object):
                 'Please give your own email address, %(domain)s does not provide one.')
                 % {'domain': domain})
 
-        if domain in settings.BANNED_EMAIL_DOMAINS:
-            raise forms.ValidationError(_(
-                'Sorry, we do not allow email addresses on %(domain)s.' % {'domain': domain}))
-
         # check if the address is in settings.EMAIL_BLACKLIST
         for regex in settings.EMAIL_BLACKLIST:
             if regex.search(email):

@@ -179,9 +179,11 @@ class EmailVerifiedDomainField(BootstrapEmailField):
     """
     default_error_messages = {
         'domain-does-not-exist': _('The domain "%(value)s" does not exist.'),
+        'domain-banned': _('Sorry, we do not allow email addresses on %(domain)s.'),
     }
     default_html_errors = {
         'domain-does-not-exist',
+        'domain-banned',
     }
     widget = EmailVerifiedDomainWidget
 
@@ -191,6 +193,11 @@ class EmailVerifiedDomainField(BootstrapEmailField):
             return email
 
         _node, domain = email.rsplit('@', 1)
+
+        if domain in settings.BANNED_EMAIL_DOMAINS:
+            raise forms.ValidationError(self.error_messages['domain-banned'], params={'domain': domain},
+                                        code='domain-banned')
+
         if domain:
             exists = False
             resolver = dns.resolver.Resolver()
