@@ -78,12 +78,8 @@ class SeleniumMixin(object):
             else:
                 return False
 
-    class wait_for_display(object):
-        def __init__(self, elem):
-            self.elem = elem
-
-        def __call__(self, driver):
-            return self.elem.is_displayed()
+    def wait_for_display(self, elem, wait=2):
+        WebDriverWait(self.selenium, wait).until(lambda d: elem.is_displayed())
 
     def wait_for_page_load(self, wait=2):
         WebDriverWait(self.selenium, wait).until(lambda driver: driver.find_element_by_tag_name('body'))
