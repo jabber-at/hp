@@ -17,7 +17,6 @@ from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.support.wait import WebDriverWait
 
 from django.conf import settings
-from django.contrib.staticfiles.testing import StaticLiveServerTestCase
 from django.core import mail
 from django.test import Client
 from django.test import override_settings
@@ -25,8 +24,7 @@ from django.urls import reverse
 
 from ..forms import AnonymousContactForm
 from ..tasks import send_contact_email
-from .base import HomepageTestCaseMixin
-from .base import SeleniumMixin
+from .base import SeleniumTestCase
 from .base import TestCase
 
 SUBJECT = 'a' * 15
@@ -148,8 +146,7 @@ class AnonymousContactViewTests(ContactTestCaseMixin, TestCase):
         self.assertFormError(response, mocked, 'captcha')
 
 
-class ContactSeleniumTests(SeleniumMixin, HomepageTestCaseMixin, ContactTestCaseMixin,
-                           StaticLiveServerTestCase):
+class ContactSeleniumTests(ContactTestCaseMixin, SeleniumTestCase):
     def test_basic(self):
         self.selenium.get('%s%s' % (self.live_server_url, reverse('core:contact')))
         self.selenium.find_element_by_id('id_email').send_keys(EMAIL)

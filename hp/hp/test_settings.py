@@ -343,6 +343,18 @@ XMPP_HOSTS = {
         'CANONICAL_BASE_URL': 'https://example.com',
         'ALLOW_EMAIL': True,
     },
+    'example.net': {
+        'REGISTRATION': True,
+        'BRAND': 'example.net',
+        'CANONICAL_BASE_URL': 'https://example.com',
+        'ALLOW_EMAIL': True,
+    },
+    'example.org': {
+        'REGISTRATION': False,
+        'BRAND': 'example.org',
+        'CANONICAL_BASE_URL': 'https://example.com',
+        'ALLOW_EMAIL': True,
+    },
 }
 
 CONTACT_ADDRESS = 'contact@example.com'

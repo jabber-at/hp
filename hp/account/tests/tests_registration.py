@@ -18,19 +18,16 @@ from datetime import datetime
 import pytz
 from freezegun import freeze_time
 from selenium.webdriver.common.keys import Keys
+from selenium.webdriver.support.ui import Select
 
 from django.contrib.auth import get_user_model
-from django.contrib.staticfiles.testing import StaticLiveServerTestCase
 from django.test import Client
 from django.urls import reverse
 
 from core.tests.base import TestCase
+from core.tests.base import SeleniumTestCase
 
 from ..tasks import send_confirmation_task
-
-
-from core.tests.base import HomepageTestCaseMixin
-from core.tests.base import SeleniumMixin
 
 
 User = get_user_model()
@@ -94,8 +91,11 @@ class RegistrationTestCase(TestCase):
         # Check XMPP backend (user should be present)
 
 
-class RegisterSeleniumTests(SeleniumMixin, HomepageTestCaseMixin, StaticLiveServerTestCase):
-    def test_basic(self):
+class RegisterSeleniumTests(SeleniumTestCase):
+    def test_form_validation(self):
+        # create a test user so we can test for colisions.
+        User.objects.create(username='exists@example.com')
+
         self.selenium.get('%s%s' % (self.live_server_url, reverse('account:register')))
 
         fg_username = self.find('#fg_username')
@@ -128,4 +128,55 @@ class RegisterSeleniumTests(SeleniumMixin, HomepageTestCaseMixin, StaticLiveServ
         self.wait_for_valid(domain)
         self.assertValid(fg_username, node)
         self.assertValid(fg_username, domain)
+        self.assertNotValidated(fg_email, email)
+
+        node.send_keys(Keys.BACKSPACE)
+        node.send_keys(Keys.BACKSPACE)
+        self.wait_for_invalid(node)
+        self.assertInvalid(fg_username, node, 'required')
+        self.assertInvalid(fg_username, domain, 'required')
+        self.assertNotValidated(fg_email, email)
+
+        node.send_keys('exist')
+        self.wait_for_valid(node)
+        self.wait_for_valid(domain)
+        self.assertValid(fg_username, node)
+        self.assertValid(fg_username, domain)
+        self.assertNotValidated(fg_email, email)
+
+        node.send_keys('s')
+        self.wait_for_invalid(node)
+        self.wait_for_invalid(domain)
+        self.assertInvalid(fg_username, node, 'unique')
+        self.assertInvalid(fg_username, domain, 'unique')
+        self.assertNotValidated(fg_email, email)
+
+        # select a different domain: makes it valid again
+        sel = Select(domain)
+        sel.select_by_value('example.net')
+        self.wait_for_valid(node)
+        self.wait_for_valid(domain)
+        self.assertValid(fg_username, node)
+        self.assertValid(fg_username, domain)
+        self.assertNotValidated(fg_email, email)
+
+        # select previous domain - makes it invalid again
+        sel.select_by_value('example.com')
+        self.wait_for_invalid(node)
+        self.wait_for_invalid(domain)
+        self.assertInvalid(fg_username, node, 'unique')
+        self.assertInvalid(fg_username, domain, 'unique')
+        self.assertNotValidated(fg_email, email)
+
+        # Lets add an invalid character
+        node.send_keys('@')
+        self.assertInvalid(fg_username, node, 'invalid')
+        self.assertInvalid(fg_username, domain, 'invalid')
+        self.assertNotValidated(fg_email, email)
+
+        # select domain - and we're still invalid
+        sel = Select(domain)
+        sel.select_by_value('example.net')
+        self.assertInvalid(fg_username, node, 'invalid')
+        self.assertInvalid(fg_username, domain, 'invalid')
         self.assertNotValidated(fg_email, email)

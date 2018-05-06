@@ -18,12 +18,11 @@ from contextlib import contextmanager
 from unittest import mock
 
 from celery import task
-from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.firefox.webdriver import WebDriver
-from selenium.webdriver.remote.webelement import WebElement
 from selenium.webdriver.support.wait import WebDriverWait
 
 from django.conf import settings
+from django.contrib.staticfiles.testing import StaticLiveServerTestCase
 from django.test import TestCase as DjangoTestCase
 
 
@@ -164,4 +163,8 @@ class SeleniumMixin(object):
 
 
 class TestCase(HomepageTestCaseMixin, DjangoTestCase):
+    pass
+
+
+class SeleniumTestCase(SeleniumMixin, HomepageTestCaseMixin, StaticLiveServerTestCase):
     pass
