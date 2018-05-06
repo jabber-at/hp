@@ -144,6 +144,7 @@ class RegisterSeleniumTests(SeleniumTestCase):
         self.assertValid(fg_username, domain)
         self.assertNotValidated(fg_email, email)
 
+        # now node is "exists", and exists@example.com exists
         node.send_keys('s')
         self.wait_for_invalid(node)
         self.wait_for_invalid(domain)
@@ -151,7 +152,7 @@ class RegisterSeleniumTests(SeleniumTestCase):
         self.assertInvalid(fg_username, domain, 'unique')
         self.assertNotValidated(fg_email, email)
 
-        # select a different domain: makes it valid again
+        # select a different domain: makes it valid again (user doesn't exist elsewhere)
         sel = Select(domain)
         sel.select_by_value('example.net')
         self.wait_for_valid(node)
@@ -174,9 +175,45 @@ class RegisterSeleniumTests(SeleniumTestCase):
         self.assertInvalid(fg_username, domain, 'invalid')
         self.assertNotValidated(fg_email, email)
 
-        # select domain - and we're still invalid
+        # Remove @, means we have a collision again
+        node.send_keys(Keys.BACKSPACE)
+
+        # NOTE: This one is *nasty* because the element briefly is valid (until the JS callback
+        #       returns that the element doesn't exist). But the transition never completes. So we have a
+        #       manual wait to test that the error message is visible.
+        self.wait_for_display(fg_username.find_element_by_css_selector('.invalid-feedback.invalid-unique'))
+
+        # we still have to wait for invalid, because the visibility of the error message only means that the
+        # callback returned, the CSS transition is still happening.
+        self.wait_for_invalid(node)
+        self.wait_for_invalid(domain)
+        self.assertInvalid(fg_username, node, 'unique')
+        self.assertInvalid(fg_username, domain, 'unique')
+
+        # Add a space, makes it invalid
+        node.send_keys(' ')
+        self.assertInvalid(fg_username, node, 'invalid')
+        self.assertInvalid(fg_username, domain, 'invalid')
+        self.assertNotValidated(fg_email, email)
+
+        # select different domain - and we're still invalid
         sel = Select(domain)
         sel.select_by_value('example.net')
         self.assertInvalid(fg_username, node, 'invalid')
         self.assertInvalid(fg_username, domain, 'invalid')
         self.assertNotValidated(fg_email, email)
+
+        # Remove space, this makes it valid ("exists@example.net")
+        node.send_keys(Keys.BACKSPACE)
+        self.wait_for_valid(node)
+        self.wait_for_valid(domain)
+        self.assertValid(fg_username, node)
+        self.assertValid(fg_username, domain)
+
+        # Select example.com again, which means it's a collision
+        sel.select_by_value('example.com')
+        print(node.get_attribute('value'))
+        self.wait_for_invalid(node)
+        self.wait_for_invalid(domain)
+        self.assertInvalid(fg_username, node, 'unique')
+        self.assertInvalid(fg_username, domain, 'unique')

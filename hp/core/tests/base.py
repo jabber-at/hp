@@ -78,6 +78,13 @@ class SeleniumMixin(object):
             else:
                 return False
 
+    class wait_for_display(object):
+        def __init__(self, elem):
+            self.elem = elem
+
+        def __call__(self, driver):
+            return self.elem.is_displayed()
+
     def wait_for_focus(self, elem):
         # when an element gets focus, it turns blue:
         wait = WebDriverWait(self.selenium, 10)
