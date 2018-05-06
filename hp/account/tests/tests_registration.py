@@ -38,6 +38,8 @@ from ..constants import PURPOSE_REGISTER
 User = get_user_model()
 NOW = pytz.utc.localize(datetime(2017, 4, 23, 11, 22, 33))
 NOW_STR = '2017-04-23 11:22:33+00:00'
+NOW2 = pytz.utc.localize(datetime(2017, 4, 23, 12, 23, 34))
+NOW2_STR = '2017-04-23 12:23:34+00:00'
 
 
 class RegistrationTestCase(TestCase):
@@ -119,7 +121,7 @@ class RegisterSeleniumTests(SeleniumTestCase):
         self.wait_for_valid_form()
 
         # TODO: freeze time
-        with self.mock_celery() as mocked:
+        with self.mock_celery() as mocked, freeze_time(NOW_STR):
             self.selenium.find_element_by_css_selector('button[type="submit"]').click()
             self.wait_for_page_load()
 
@@ -135,6 +137,7 @@ class RegisterSeleniumTests(SeleniumTestCase):
             base_url=self.live_server_url, language=lang, address='127.0.0.1'
         )
         self.assertEqual(len(mail.outbox), 1)
+        self.assertEqual(user.registered, NOW)
         self.assertIsNone(user.confirmed)
         self.assertFalse(user.created_in_backend)
         self.assertFalse(user.blocked)
@@ -146,13 +149,13 @@ class RegisterSeleniumTests(SeleniumTestCase):
         self.find('#id_password').send_keys(PWD)
         self.find('#id_password2').send_keys(PWD)
         self.wait_for_valid_form()
-        with freeze_time(NOW_STR):
+        with freeze_time(NOW2_STR):
             self.find('button[type="submit"]').click()
             self.wait_for_page_load()
 
         # get user again
         user = User.objects.get(username='%s@%s' % (NODE, DOMAIN))
-        self.assertEqual(user.confirmed, NOW)
+        self.assertEqual(user.confirmed, NOW2)
         # TODO: currently not updated?
         #self.assertEqual(user.last_activity, NOW)
         self.assertTrue(user.created_in_backend)
