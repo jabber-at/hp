@@ -20,6 +20,7 @@ from freezegun import freeze_time
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.support.ui import Select
 
+from django.conf import settings
 from django.contrib.auth import get_user_model
 from django.test import Client
 from django.urls import reverse
@@ -28,6 +29,7 @@ from core.tests.base import TestCase
 from core.tests.base import SeleniumTestCase
 
 from ..tasks import send_confirmation_task
+from ..constants import PURPOSE_REGISTER
 
 
 User = get_user_model()
@@ -92,6 +94,39 @@ class RegistrationTestCase(TestCase):
 
 
 class RegisterSeleniumTests(SeleniumTestCase):
+    def test_registration(self):
+        """Test basic registration."""
+        self.selenium.get('%s%s' % (self.live_server_url, reverse('account:register')))
+
+        NODE = 'user'
+        DOMAIN = 'example.com'
+        EMAIL = 'user@example.com'
+
+        #fg_username = self.find('#fg_username')
+        node = self.selenium.find_element_by_id('id_username_0')
+        #domain = self.selenium.find_element_by_id('id_username_1')
+        #fg_email = self.find('#fg_email')
+        email = self.selenium.find_element_by_id('id_email')
+
+        node.send_keys(NODE)
+        email.send_keys(EMAIL)
+
+        with self.mock_celery() as mocked, self.wait_for_page_load():
+            self.selenium.find_element_by_css_selector('button[type="submit"]').click()
+
+        import time
+        time.sleep(3)
+        self.assertTaskCount(mocked, 1)
+        print(User.objects.all())
+
+        #user = User.objects.get(username='%s@%s' % (NODE, DOMAIN))
+
+        #site = settings.XMPP_HOSTS[settings.DEFAULT_XMPP_HOST]
+        self.assertTaskCall(
+            mocked, send_confirmation_task,
+            user_pk=user.pk, purpose=PURPOSE_REGISTER,
+        )
+
     def test_form_validation(self):
         # create a test user so we can test for colisions.
         User.objects.create(username='exists@example.com')
