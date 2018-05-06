@@ -31,16 +31,6 @@ var check_username = function(form_group, timer) {
 $(document).ready(function() {
     var username_timer;
 
-    var not_found_msg = $('.form-group-username .invalid-feedback.invalid-not-found').text().trim();
-    $('.form-group-username.invalid-not-found :input').each(function(i, elem) {
-        elem.setCustomValidity(not_found_msg);
-    });
-
-    var blocked_msg = $('.form-group-username .invalid-feedback.invalid-blocked').text().trim();
-    $('.form-group-username.invalid-blocked :input').each(function(i, elem) {
-        elem.setCustomValidity(blocked_msg);
-    });
-
     $('input#id_username_0').on('input propertychange paste', function(e) {
         var input = $(e.target);
         var form_group = input.parents('.form-group');

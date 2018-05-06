@@ -76,6 +76,26 @@ $(document).ready(function() {
     });
 
     /**
+     * Set any errors passed as CSS class in the form group on page load.
+     */
+    $('.form-group.form-group-invalid').each(function(i, elem) {
+        var errors = elem.className.split(/\s+/).filter(cls => cls.startsWith('invalid-'));
+        var inputs = $(elem).find(':input');
+
+        $.each(errors, function(j, error) {
+            var text = $(elem).find('.invalid-feedback.' + error).text().trim();
+            if (! text) {
+                console.log('Warning: ' + error + 'has no error text.');
+                continue;
+            };
+
+            inputs.each(function(k, input) {
+                input.setCustomValidity(text);
+            });
+        });
+    });
+
+    /**
      * Add was-validated class to form group elements.
      *
      * If min-validation-length is set, check for that length first.  Used e.g. by the email field to not
