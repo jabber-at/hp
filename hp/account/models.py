@@ -370,12 +370,15 @@ class Confirmation(BaseModel):
         PURPOSE_SET_EMAIL: _('Confirm new email address for your {{ user.domain }} account'),
     }
 
+    @property
+    def urlpath(self):
+        return reverse('account:%s_confirm' % self.purpose, kwargs={'key': self.key})
+
     def send(self):
         template_base = 'account/confirm/%s' % self.purpose
         subject = str(self.SUBJECTS[self.purpose])
         hostname = self.payload['hostname']
         host = settings.XMPP_HOSTS[hostname]
-        path = reverse('account:%s_confirm' % self.purpose, kwargs={'key': self.key})
 
         context = {
             'domain': self.user.domain,
@@ -383,7 +386,7 @@ class Confirmation(BaseModel):
             'jid': self.user.get_username(),
             'node': self.user.node,
             'user': self.user,
-            'uri': '%s%s' % (self.payload['base_url'], path),
+            'uri': '%s%s' % (self.payload['base_url'], self.urlpath),
         }
 
         # gpg_recv_pub is set when the user sets a new email address. It is `False` when the user
