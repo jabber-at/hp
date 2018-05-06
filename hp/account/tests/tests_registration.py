@@ -22,17 +22,22 @@ from selenium.webdriver.support.ui import Select
 
 from django.conf import settings
 from django.contrib.auth import get_user_model
+from django.core import mail
 from django.test import Client
 from django.urls import reverse
+from django.utils.translation import get_language
 
 from core.tests.base import TestCase
 from core.tests.base import SeleniumTestCase
 
+from ..models import Confirmation
 from ..tasks import send_confirmation_task
 from ..constants import PURPOSE_REGISTER
 
 
 User = get_user_model()
+NOW = pytz.utc.localize(datetime(2017, 4, 23, 11, 22, 33))
+NOW_STR = '2017-04-23 11:22:33+00:00'
 
 
 class RegistrationTestCase(TestCase):
@@ -48,7 +53,7 @@ class RegistrationTestCase(TestCase):
         self.assertTrue(get.context['user'].is_anonymous)
         self.assertTrue('form' in get.context)
 
-        with self.mock_celery() as func, freeze_time('2017-04-23 11:22:33+00:00'):
+        with self.mock_celery() as func, freeze_time(NOW_STR):
             post = client.post(url, {
                 'username_0': 'testuser', 'username_1': 'example.com', 'email': 'user@example.com',
             }, follow=True)
@@ -101,6 +106,7 @@ class RegisterSeleniumTests(SeleniumTestCase):
         NODE = 'user'
         DOMAIN = 'example.com'
         EMAIL = 'user@example.com'
+        PWD = 'password123'
 
         #fg_username = self.find('#fg_username')
         node = self.selenium.find_element_by_id('id_username_0')
@@ -110,22 +116,47 @@ class RegisterSeleniumTests(SeleniumTestCase):
 
         node.send_keys(NODE)
         email.send_keys(EMAIL)
+        self.wait_for_valid_form()
 
-        with self.mock_celery() as mocked, self.wait_for_page_load():
+        # TODO: freeze time
+        with self.mock_celery() as mocked:
             self.selenium.find_element_by_css_selector('button[type="submit"]').click()
+            self.wait_for_page_load()
 
-        import time
-        time.sleep(3)
         self.assertTaskCount(mocked, 1)
-        print(User.objects.all())
 
-        #user = User.objects.get(username='%s@%s' % (NODE, DOMAIN))
+        user = User.objects.get(username='%s@%s' % (NODE, DOMAIN))
+        lang = get_language().split('-', 1)[0]
 
-        #site = settings.XMPP_HOSTS[settings.DEFAULT_XMPP_HOST]
+        site = settings.XMPP_HOSTS[settings.DEFAULT_XMPP_HOST]
         self.assertTaskCall(
             mocked, send_confirmation_task,
-            user_pk=user.pk, purpose=PURPOSE_REGISTER,
+            user_pk=user.pk, purpose=PURPOSE_REGISTER, to=EMAIL, hostname=site['NAME'],
+            base_url=self.live_server_url, language=lang, address='127.0.0.1'
         )
+        self.assertEqual(len(mail.outbox), 1)
+        self.assertIsNone(user.confirmed)
+        self.assertFalse(user.created_in_backend)
+        self.assertFalse(user.blocked)
+
+        confirmation = Confirmation.objects.get(user=user, purpose=PURPOSE_REGISTER)
+        self.selenium.get('%s%s' % (self.live_server_url, confirmation.urlpath))
+        self.wait_for_page_load()
+
+        self.find('#id_password').send_keys(PWD)
+        self.find('#id_password2').send_keys(PWD)
+        self.wait_for_valid_form()
+        with freeze_time(NOW_STR):
+            self.find('button[type="submit"]').click()
+            self.wait_for_page_load()
+
+        # get user again
+        user = User.objects.get(username='%s@%s' % (NODE, DOMAIN))
+        self.assertEqual(user.confirmed, NOW)
+        # TODO: currently not updated?
+        #self.assertEqual(user.last_activity, NOW)
+        self.assertTrue(user.created_in_backend)
+        self.assertFalse(user.blocked)
 
     def test_form_validation(self):
         # create a test user so we can test for colisions.
