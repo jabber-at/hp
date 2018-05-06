@@ -85,13 +85,19 @@ class SeleniumMixin(object):
         def __call__(self, driver):
             return self.elem.is_displayed()
 
-    @contextmanager
     def wait_for_page_load(self, wait=2):
-        try:
-            yield
-        finally:
-            WebDriverWait(self.selenium, wait).until(
-                lambda driver: driver.find_element_by_tag_name('body'))
+        WebDriverWait(self.selenium, wait).until(lambda driver: driver.find_element_by_tag_name('body'))
+
+    def wait_for_valid_form(self, form=None, wait=2):
+        """Wait until a form becomes valid according to HTML5 form validation.
+
+        The registration form becomes valid only after a split second, for some reason.
+        """
+        if form is None:
+            form = self.find('form')
+
+        WebDriverWait(self.selenium, wait).until(
+            lambda driver: self.selenium.execute_script('return arguments[0].checkValidity() === true', form))
 
     def wait_for_focus(self, elem):
         # when an element gets focus, it turns blue:
