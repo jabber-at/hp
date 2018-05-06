@@ -282,7 +282,6 @@ class RegisterSeleniumTests(SeleniumTestCase):
 
         # Select example.com again, which means it's a collision
         sel.select_by_value('example.com')
-        print(node.get_attribute('value'))
         self.wait_for_invalid(node)
         self.wait_for_invalid(domain)
         self.assertInvalid(fg_username, node, 'unique')
