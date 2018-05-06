@@ -62,3 +62,12 @@ div.page-header p.pull-left {
     width: 50%; /* 6 columns */
   }
 }
+
+/**
+ * forms
+ * TODO: some forms still missing here
+ */
+.form-group-invalid.invalid-password_too_common .invalid-feedback.invalid-password_too_common,
+.form-group-invalid.invalid-password_entirely_numeric .invalid-feedback.invalid-password_entirely_numeric {
+    display: block;
+}

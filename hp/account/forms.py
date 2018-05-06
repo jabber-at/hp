@@ -194,10 +194,10 @@ class SetPasswordForm(BootstrapFormMixin, forms.Form):
         self.instance = kwargs.pop('instance', None)
         super(SetPasswordForm, self).__init__(*args, **kwargs)
 
-    def clean_password2(self):
-        password2 = self.cleaned_data.get("password2")
-        password_validation.validate_password(self.cleaned_data.get('password2'), self.instance)
-        return password2
+    def clean_password(self):
+        password = self.cleaned_data.get("password")
+        password_validation.validate_password(self.cleaned_data.get('password'), self.instance)
+        return password
 
     def clean(self):
         cleaned_data = super(SetPasswordForm, self).clean()
