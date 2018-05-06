@@ -104,7 +104,7 @@ from .tasks import set_email_task
 
 User = get_user_model()
 log = logging.getLogger(__name__)
-_confirmation_qs = Confirmation.objects.valid().select_related('user')
+_confirmation_qs = Confirmation.objects.select_related('user')
 
 
 class AccountPageMixin(HomepageViewMixin):
@@ -236,22 +236,13 @@ your account, you must click on the confirmation link in that email.""") % {
 
 
 class ConfirmationMixin(object):
-    def dispatch(self, request, *args, **kwargs):
-        try:
-            self.key = self.queryset.get(key=self.kwargs['key'])
-        except Confirmation.DoesNotExist:
-            # We set None here because we only want to show a 404 when the user actually submits a
-            # form. This is a minor protection against guessing attacks.
-            self.key = None
-
-        return super(ConfirmationMixin, self).dispatch(request, *args, **kwargs)
-
     def get_key(self):
-        if self.key is None:
+        try:
+            return self.queryset.valid().get(key=self.kwargs['key'])
+        except Confirmation.DoesNotExist:
             name, ext = os.path.splitext(self.template_name)
             template = '%s_not_found%s' % (name, ext)
             return TemplateResponse(self.request, template, {}, status=404)
-        return self.key
 
 
 class ConfirmRegistrationView(ConfirmationMixin, FormView):
@@ -261,12 +252,6 @@ class ConfirmRegistrationView(ConfirmationMixin, FormView):
     queryset = _confirmation_qs.purpose(PURPOSE_REGISTER)
     success_url = reverse_lazy('account:detail')
     template_name = 'account/user_register_confirm.html'
-
-    def get_form_kwargs(self):
-        kwargs = super(ConfirmRegistrationView, self).get_form_kwargs()
-        if self.key is not None:
-            kwargs['instance'] = self.key.user
-        return kwargs
 
     def form_valid(self, form):
         key = self.get_key()
