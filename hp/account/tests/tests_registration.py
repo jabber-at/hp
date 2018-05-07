@@ -27,6 +27,7 @@ from django.test import Client
 from django.urls import reverse
 from django.utils.translation import get_language
 
+from core.models import Address
 from core.tests.base import TestCase
 from core.tests.base import SeleniumTestCase
 
@@ -40,6 +41,12 @@ NOW = pytz.utc.localize(datetime(2017, 4, 23, 11, 22, 33))
 NOW_STR = '2017-04-23 11:22:33+00:00'
 NOW2 = pytz.utc.localize(datetime(2017, 4, 23, 12, 23, 34))
 NOW2_STR = '2017-04-23 12:23:34+00:00'
+
+NODE = 'user'
+DOMAIN = 'example.com'
+EMAIL = 'user@example.com'
+PWD = 'password123'
+PWD2 = 'password456'
 
 
 class RegistrationTestCase(TestCase):
@@ -105,11 +112,6 @@ class RegisterSeleniumTests(SeleniumTestCase):
         """Test basic registration."""
         self.selenium.get('%s%s' % (self.live_server_url, reverse('account:register')))
 
-        NODE = 'user'
-        DOMAIN = 'example.com'
-        EMAIL = 'user@example.com'
-        PWD = 'password123'
-
         #fg_username = self.find('#fg_username')
         node = self.selenium.find_element_by_id('id_username_0')
         #domain = self.selenium.find_element_by_id('id_username_1')
@@ -120,7 +122,6 @@ class RegisterSeleniumTests(SeleniumTestCase):
         email.send_keys(EMAIL)
         self.wait_for_valid_form()
 
-        # TODO: freeze time
         with self.mock_celery() as mocked, freeze_time(NOW_STR):
             self.selenium.find_element_by_css_selector('button[type="submit"]').click()
             self.wait_for_page_load()
@@ -146,6 +147,78 @@ class RegisterSeleniumTests(SeleniumTestCase):
         confirmation = Confirmation.objects.get(user=user, purpose=PURPOSE_REGISTER)
         self.selenium.get('%s%s' % (self.live_server_url, confirmation.urlpath))
         self.wait_for_page_load()
+
+        self.find('#id_password').send_keys(PWD)
+        self.find('#id_password2').send_keys(PWD)
+        self.wait_for_valid_form()
+        with freeze_time(NOW2_STR):
+            self.find('button[type="submit"]').click()
+            self.wait_for_page_load()
+
+        # get user again
+        user = User.objects.get(username='%s@%s' % (NODE, DOMAIN))
+        self.assertEqual(user.confirmed, NOW2)
+        # TODO: currently not updated?
+        #self.assertEqual(user.last_activity, NOW2)
+        self.assertTrue(user.created_in_backend)
+        self.assertFalse(user.blocked)
+
+    def test_password_validation(self):
+        user = User.objects.create(username='user@example.com', email=EMAIL)
+        addr = Address.objects.create(address='127.0.0.1')
+        conf = Confirmation.objects.create(user=user, purpose=PURPOSE_REGISTER, language='en',
+                                           address=addr, to=EMAIL)
+
+        self.selenium.get('%s%s' % (self.live_server_url, conf.urlpath))
+        self.wait_for_page_load()
+
+        fg_pwd = self.find('#fg_password')
+        pwd = fg_pwd.find_element_by_css_selector('#id_password')
+        fg_pwd2 = self.find('#fg_password2')
+        pwd2 = fg_pwd2.find_element_by_css_selector('#id_password2')
+        self.assertNotValidated(fg_pwd, pwd)
+        self.assertNotValidated(fg_pwd2, pwd2)
+
+        pwd.send_keys(PWD)
+        pwd2.send_keys(PWD2)
+        self.wait_for_valid(pwd)
+        self.wait_for_invalid(pwd2)
+        self.assertValid(fg_pwd, pwd)
+        self.assertInvalid(fg_pwd2, pwd2, 'no-match')
+
+        # clear input - it's required though
+        for i in range(0, len(PWD2)):
+            pwd2.send_keys(Keys.BACKSPACE)
+        self.assertValid(fg_pwd, pwd)
+        self.assertInvalid(fg_pwd2, pwd2, 'required')
+
+        # test server-side validation
+        for i in range(0, len(PWD)):
+            pwd.send_keys(Keys.BACKSPACE)
+        pwd.send_keys('12345678')
+        pwd2.send_keys('12345678')
+        self.wait_for_valid(pwd)
+        self.wait_for_valid(pwd2)
+        self.assertValid(fg_pwd, pwd)
+        self.assertValid(fg_pwd2, pwd2)
+
+        with freeze_time(NOW2_STR):
+            self.find('button[type="submit"]').click()
+            self.wait_for_page_load()
+
+        fg_pwd = self.find('#fg_password')
+        pwd = fg_pwd.find_element_by_css_selector('#id_password')
+        fg_pwd2 = self.find('#fg_password2')
+        pwd2 = fg_pwd2.find_element_by_css_selector('#id_password2')
+        self.assertInvalid(fg_pwd, pwd, 'password_entirely_numeric', 'password_too_common')
+        self.assertInvalid(fg_pwd2, pwd2, 'password_entirely_numeric')
+
+        # send correct password
+        pwd.send_keys(PWD)
+        pwd2.send_keys(PWD)
+        self.wait_for_valid(pwd2)
+        self.assertValid(fg_pwd, pwd)
+        self.assertValid(fg_pwd2, pwd2)
 
         self.find('#id_password').send_keys(PWD)
         self.find('#id_password2').send_keys(PWD)
