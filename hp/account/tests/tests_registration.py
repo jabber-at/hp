@@ -28,13 +28,12 @@ from django.urls import reverse
 from django.utils.translation import get_language
 
 from core.models import Address
-from core.tests.base import TestCase
 from core.tests.base import SeleniumTestCase
+from core.tests.base import TestCase
 
+from ..constants import PURPOSE_REGISTER
 from ..models import Confirmation
 from ..tasks import send_confirmation_task
-from ..constants import PURPOSE_REGISTER
-
 
 User = get_user_model()
 NOW = pytz.utc.localize(datetime(2017, 4, 23, 11, 22, 33))
