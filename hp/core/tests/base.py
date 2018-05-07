@@ -157,12 +157,14 @@ class SeleniumMixin(object):
         else:
             self.assertCSSBorderColor(elem, 'rgb(128, 189, 255)')
 
-    def assertInvalid(self, fg, elem, error):
+    def assertInvalid(self, fg, elem, *errors):
         """Assert that a Bootstrap input element validates as invalid."""
 
         self.assertClass(fg, 'was-validated')
+        errors = set(['invalid-%s' % e for e in errors])
         for feedback in fg.find_elements_by_css_selector('.invalid-feedback'):
-            if 'invalid-%s' % error in self.get_classes(feedback):
+            classes = set(self.get_classes(feedback))
+            if errors & classes:
                 self.assertTrue(feedback.is_displayed())
             else:
                 self.assertFalse(feedback.is_displayed())
