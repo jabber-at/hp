@@ -160,6 +160,7 @@ class RegisterSeleniumTests(SeleniumTestCase):
         self.assertEqual(user.confirmed, NOW2)
         # TODO: currently not updated?
         #self.assertEqual(user.last_activity, NOW2)
+        self.assertTrue(user.check_password(PWD))
         self.assertTrue(user.created_in_backend)
         self.assertFalse(user.blocked)
 
@@ -232,8 +233,6 @@ class RegisterSeleniumTests(SeleniumTestCase):
         self.assertValid(fg_pwd, pwd)
         self.assertValid(fg_pwd2, pwd2)
 
-        self.find('#id_new_password1').send_keys(PWD)
-        self.find('#id_new_password2').send_keys(PWD)
         self.wait_for_valid_form()
         with freeze_time(NOW2_STR):
             self.find('button[type="submit"]').click()
@@ -245,6 +244,8 @@ class RegisterSeleniumTests(SeleniumTestCase):
         # TODO: currently not updated?
         #self.assertEqual(user.last_activity, NOW2)
         self.assertTrue(user.created_in_backend)
+        print(user, user.password)
+        self.assertTrue(user.check_password(PWD))
         self.assertFalse(user.blocked)
 
     def test_form_validation(self):
