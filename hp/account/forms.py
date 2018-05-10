@@ -196,13 +196,14 @@ class SetPasswordForm(BootstrapFormMixin, CaptchaFormMixin, SetPasswordFormBase)
     new_password2 = BootstrapConfirmPasswordField()
 
 
-class PasswordChangeForm(CaptchaFormMixin, PasswordChangeFormBase):
+class PasswordChangeForm(BootstrapFormMixin, PasswordChangeFormBase):
     """Form used when the user sets his password but has to provide his old password too.
 
     This is used for the "set password" functionality in the user-area of the homepage.
     """
-    old_password = BootstrapPasswordField()
-    new_password1 = BootstrapSetPasswordField()
+    old_password = BootstrapPasswordField(
+        label=_("Old password"), help_text=_('Your old password, just to be sure.'))
+    new_password1 = BootstrapSetPasswordField(label=_('New password'))
     new_password2 = BootstrapConfirmPasswordField()
 
 
