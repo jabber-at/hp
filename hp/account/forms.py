@@ -22,6 +22,7 @@ from django import forms
 from django.conf import settings
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.forms import SetPasswordForm as SetPasswordFormBase
+from django.contrib.auth.forms import PasswordChangeForm as PasswordChangeFormBase
 from django.utils.translation import ugettext_lazy as _
 
 from bootstrap.formfields import BootstrapBooleanField
@@ -186,7 +187,21 @@ class DeleteAccountForm(BootstrapFormMixin, forms.Form):
             'Your password, to make sure that you really want to delete your account.'))
 
 
-class SetPasswordForm(BootstrapFormMixin, SetPasswordFormBase):
+class SetPasswordForm(BootstrapFormMixin, CaptchaFormMixin, SetPasswordFormBase):
+    """Form used when the user can set his password *without* providing the old password.
+
+    This is used for registration and password reset (users that forgot their password).
+    """
+    new_password1 = BootstrapSetPasswordField()
+    new_password2 = BootstrapConfirmPasswordField()
+
+
+class PasswordChangeForm(CaptchaFormMixin, PasswordChangeFormBase):
+    """Form used when the user sets his password but has to provide his old password too.
+
+    This is used for the "set password" functionality in the user-area of the homepage.
+    """
+    old_password = BootstrapPasswordField()
     new_password1 = BootstrapSetPasswordField()
     new_password2 = BootstrapConfirmPasswordField()
 
@@ -213,7 +228,3 @@ class ResetPasswordForm(BootstrapFormMixin, CaptchaFormMixin, forms.Form):
     """Form used when a user forgot his password and forgot it."""
 
     username = UsernameField()
-
-
-class ConfirmResetPasswordForm(CaptchaFormMixin, SetPasswordForm):
-    pass

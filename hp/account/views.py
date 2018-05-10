@@ -89,11 +89,11 @@ from .constants import PURPOSE_REGISTER
 from .constants import PURPOSE_RESET_PASSWORD
 from .constants import PURPOSE_SET_EMAIL
 from .forms import AddGpgForm
-from .forms import ConfirmResetPasswordForm
 from .forms import CreateUserForm
 from .forms import DeleteAccountForm
 from .forms import LoginForm
 from .forms import NotificationsForm
+from .forms import PasswordChangeForm
 from .forms import ResetPasswordForm
 from .forms import SetEmailForm
 from .forms import SetPasswordForm
@@ -248,7 +248,7 @@ class ConfirmationMixin(object):
 class ConfirmRegistrationView(ConfirmationMixin, FormView):
     """View for confirming a registration e-mail."""
 
-    form_class = ConfirmResetPasswordForm
+    form_class = SetPasswordForm
     queryset = _confirmation_qs.purpose(PURPOSE_REGISTER)
     success_url = reverse_lazy('account:detail')
     template_name = 'account/user_register_confirm.html'
@@ -393,7 +393,7 @@ class ResetPasswordView(AntiSpamMixin, AnonymousRequiredMixin, HomepageViewMixin
 
 
 class ConfirmResetPasswordView(ConfirmationMixin, FormView):
-    form_class = ConfirmResetPasswordForm
+    form_class = SetPasswordForm
     queryset = _confirmation_qs.purpose(PURPOSE_RESET_PASSWORD)
     success_url = reverse_lazy('account:detail')
     template_name = 'account/user_password_reset_confirm.html'
@@ -447,7 +447,7 @@ class NotificationsView(LoginRequiredMixin, AccountPageMixin, UpdateView):
 
 
 class SetPasswordView(LoginRequiredMixin, AccountPageMixin, FormView):
-    form_class = SetPasswordForm
+    form_class = PasswordChangeForm
     success_url = reverse_lazy('account:detail')
     template_name = 'account/set_password.html'
     usermenu_item = 'account:set_password'
