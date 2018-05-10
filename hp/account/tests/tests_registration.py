@@ -66,7 +66,7 @@ class RegistrationTestCase(TestCase):
 
         with self.mock_celery() as func, freeze_time(NOW_STR):
             post = client.post(url, {
-                'username_0': 'testuser', 'username_1': 'example.com', 'email': 'user@example.com',
+                'username_0': NODE, 'username_1': DOMAIN, 'email': EMAIL,
             }, follow=True)
 
         self.assertTaskCall(func, send_confirmation_task, **{
@@ -75,7 +75,7 @@ class RegistrationTestCase(TestCase):
             'hostname': 'example.com',
             'language': 'en',
             'purpose': 'register',
-            'to': 'user@example.com',
+            'to': EMAIL,
             'user_pk': 1,
         })
 
@@ -83,7 +83,7 @@ class RegistrationTestCase(TestCase):
         self.assertRedirects(post, reverse('account:detail'))
 
         # redirects don't have a context, so we login now
-        client.force_login(User.objects.get(username='testuser@example.com'))
+        client.force_login(User.objects.get(username=JID))
         detail = client.get(reverse('account:detail'))
         self.assertFalse(detail.context['user'].is_anonymous)
 
@@ -91,8 +91,8 @@ class RegistrationTestCase(TestCase):
         self.assertEqual(User.objects.count(), 1)
         user = User.objects.first()
         self.assertEqual(user, detail.context['user'])
-        self.assertEqual(user.username, 'testuser@example.com')
-        self.assertEqual(user.email, 'user@example.com')
+        self.assertEqual(user.username, JID)
+        self.assertEqual(user.email, EMAIL)
         self.assertEqual(user.registered, now)
         self.assertIsNone(user.confirmed)
         self.assertFalse(user.blocked)
