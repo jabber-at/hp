@@ -253,6 +253,15 @@ class ConfirmRegistrationView(ConfirmationMixin, FormView):
     success_url = reverse_lazy('account:detail')
     template_name = 'account/user_register_confirm.html'
 
+    def get_form_kwargs(self):
+        # TODO: this is only here because the form currently uses this for password validation.
+        # TODO: not present in setPasswordView!?
+        kwargs = super(ConfirmRegistrationView, self).get_form_kwargs()
+        key = self.get_key()
+        if key is not None:
+            kwargs['instance'] = key.user
+        return kwargs
+
     def form_valid(self, form):
         key = self.get_key()
         if isinstance(key, HttpResponse):

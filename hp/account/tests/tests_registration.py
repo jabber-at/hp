@@ -43,6 +43,7 @@ NOW2_STR = '2017-04-23 12:23:34+00:00'
 
 NODE = 'user'
 DOMAIN = 'example.com'
+JID = '%s@%s' % (NODE, DOMAIN)
 EMAIL = 'user@example.com'
 PWD = 'password123'
 PWD2 = 'password456'
@@ -163,7 +164,7 @@ class RegisterSeleniumTests(SeleniumTestCase):
         self.assertFalse(user.blocked)
 
     def test_password_validation(self):
-        user = User.objects.create(username='user@example.com', email=EMAIL)
+        user = User.objects.create(username=JID, email=EMAIL)
         addr = Address.objects.create(address='127.0.0.1')
         conf = Confirmation.objects.create(user=user, purpose=PURPOSE_REGISTER, language='en',
                                            address=addr, to=EMAIL)
@@ -201,9 +202,8 @@ class RegisterSeleniumTests(SeleniumTestCase):
         self.assertValid(fg_pwd, pwd)
         self.assertValid(fg_pwd2, pwd2)
 
-        with freeze_time(NOW2_STR):
-            self.find('button[type="submit"]').click()
-            self.wait_for_page_load()
+        self.find('button[type="submit"]').click()
+        self.wait_for_page_load()
 
         fg_pwd = self.find('#fg_password')
         pwd = fg_pwd.find_element_by_css_selector('#id_password')
@@ -211,6 +211,22 @@ class RegisterSeleniumTests(SeleniumTestCase):
         pwd2 = fg_pwd2.find_element_by_css_selector('#id_password2')
         self.assertInvalid(fg_pwd, pwd, 'password_entirely_numeric', 'password_too_common')
         self.assertInvalid(fg_pwd2, pwd2, 'password_entirely_numeric')
+
+        # Send JID as password, which is always "too similar"
+        pwd.send_keys(JID)
+        pwd2.send_keys(JID)
+        self.find('button[type="submit"]').click()
+        self.wait_for_page_load()
+        print('similar password clicked')
+        import time
+        time.sleep(10)
+
+        fg_pwd = self.find('#fg_password')
+        pwd = fg_pwd.find_element_by_css_selector('#id_password')
+        fg_pwd2 = self.find('#fg_password2')
+        pwd2 = fg_pwd2.find_element_by_css_selector('#id_password2')
+        self.assertInvalid(fg_pwd, pwd, 'password_too_similar')
+        self.assertInvalid(fg_pwd2, pwd2, 'password_too_similar')
 
         # send correct password
         pwd.send_keys(PWD)
