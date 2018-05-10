@@ -21,8 +21,8 @@
 from django import forms
 from django.conf import settings
 from django.contrib.auth.forms import AuthenticationForm
-from django.contrib.auth.forms import SetPasswordForm as SetPasswordFormBase
 from django.contrib.auth.forms import PasswordChangeForm as PasswordChangeFormBase
+from django.contrib.auth.forms import SetPasswordForm as SetPasswordFormBase
 from django.utils.translation import ugettext_lazy as _
 
 from bootstrap.formfields import BootstrapBooleanField
