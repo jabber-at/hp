@@ -148,8 +148,8 @@ class RegisterSeleniumTests(SeleniumTestCase):
         self.selenium.get('%s%s' % (self.live_server_url, confirmation.urlpath))
         self.wait_for_page_load()
 
-        self.find('#id_password').send_keys(PWD)
-        self.find('#id_password2').send_keys(PWD)
+        self.find('#id_new_password1').send_keys(PWD)
+        self.find('#id_new_password2').send_keys(PWD)
         self.wait_for_valid_form()
         with freeze_time(NOW2_STR):
             self.find('button[type="submit"]').click()
@@ -172,10 +172,10 @@ class RegisterSeleniumTests(SeleniumTestCase):
         self.selenium.get('%s%s' % (self.live_server_url, conf.urlpath))
         self.wait_for_page_load()
 
-        fg_pwd = self.find('#fg_password')
-        pwd = fg_pwd.find_element_by_css_selector('#id_password')
-        fg_pwd2 = self.find('#fg_password2')
-        pwd2 = fg_pwd2.find_element_by_css_selector('#id_password2')
+        fg_pwd = self.find('#fg_new_password1')
+        pwd = fg_pwd.find_element_by_css_selector('#id_new_password1')
+        fg_pwd2 = self.find('#fg_new_password2')
+        pwd2 = fg_pwd2.find_element_by_css_selector('#id_new_password2')
         self.assertNotValidated(fg_pwd, pwd)
         self.assertNotValidated(fg_pwd2, pwd2)
 
@@ -205,26 +205,23 @@ class RegisterSeleniumTests(SeleniumTestCase):
         self.find('button[type="submit"]').click()
         self.wait_for_page_load()
 
-        fg_pwd = self.find('#fg_password')
-        pwd = fg_pwd.find_element_by_css_selector('#id_password')
-        fg_pwd2 = self.find('#fg_password2')
-        pwd2 = fg_pwd2.find_element_by_css_selector('#id_password2')
+        fg_pwd = self.find('#fg_new_password1')
+        pwd = fg_pwd.find_element_by_css_selector('#id_new_password1')
+        fg_pwd2 = self.find('#fg_new_password2')
+        pwd2 = fg_pwd2.find_element_by_css_selector('#id_new_password2')
         self.assertInvalid(fg_pwd, pwd, 'password_entirely_numeric', 'password_too_common')
-        self.assertInvalid(fg_pwd2, pwd2, 'password_entirely_numeric')
+        self.assertInvalid(fg_pwd2, pwd2, 'password_entirely_numeric', 'password_too_common')
 
         # Send JID as password, which is always "too similar"
         pwd.send_keys(JID)
         pwd2.send_keys(JID)
         self.find('button[type="submit"]').click()
         self.wait_for_page_load()
-        print('similar password clicked')
-        import time
-        time.sleep(10)
 
-        fg_pwd = self.find('#fg_password')
-        pwd = fg_pwd.find_element_by_css_selector('#id_password')
-        fg_pwd2 = self.find('#fg_password2')
-        pwd2 = fg_pwd2.find_element_by_css_selector('#id_password2')
+        fg_pwd = self.find('#fg_new_password1')
+        pwd = fg_pwd.find_element_by_css_selector('#id_new_password1')
+        fg_pwd2 = self.find('#fg_new_password2')
+        pwd2 = fg_pwd2.find_element_by_css_selector('#id_new_password2')
         self.assertInvalid(fg_pwd, pwd, 'password_too_similar')
         self.assertInvalid(fg_pwd2, pwd2, 'password_too_similar')
 
@@ -235,8 +232,8 @@ class RegisterSeleniumTests(SeleniumTestCase):
         self.assertValid(fg_pwd, pwd)
         self.assertValid(fg_pwd2, pwd2)
 
-        self.find('#id_password').send_keys(PWD)
-        self.find('#id_password2').send_keys(PWD)
+        self.find('#id_new_password1').send_keys(PWD)
+        self.find('#id_new_password2').send_keys(PWD)
         self.wait_for_valid_form()
         with freeze_time(NOW2_STR):
             self.find('button[type="submit"]').click()

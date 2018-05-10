@@ -258,8 +258,10 @@ class ConfirmRegistrationView(ConfirmationMixin, FormView):
         # TODO: not present in setPasswordView!?
         kwargs = super(ConfirmRegistrationView, self).get_form_kwargs()
         key = self.get_key()
-        if key is not None:
-            kwargs['instance'] = key.user
+        if isinstance(key, HttpResponse):
+            kwargs['user'] = None
+        else:
+            kwargs['user'] = key.user
         return kwargs
 
     def form_valid(self, form):
@@ -269,7 +271,7 @@ class ConfirmRegistrationView(ConfirmationMixin, FormView):
 
         request = self.request
         address = request.META['REMOTE_ADDR']
-        password = form.cleaned_data['password']
+        password = form.cleaned_data['new_password1']
 
         with transaction.atomic(), version(comment="email address confirmed"):
             key.user.confirmed = timezone.now()
@@ -452,17 +454,15 @@ class SetPasswordView(LoginRequiredMixin, AccountPageMixin, FormView):
 
     def get_form_kwargs(self):
         kwargs = super(SetPasswordView, self).get_form_kwargs()
-        kwargs['instance'] = self.request.user
+        kwargs['user'] = self.request.user
         return kwargs
 
     def form_valid(self, form):
         request = self.request
-        address = request.META['REMOTE_ADDR']
-        user = request.user
-        password = form.cleaned_data['password']
 
-        xmpp_backend.set_password(username=user.node, domain=user.domain, password=password)
-        user.log(ugettext_noop('Set new password.'), address)
+        form.save()
+
+        request.user.log(ugettext_noop('Set new password.'), request.META['REMOTE_ADDR'])
         AddressActivity.objects.log(request, ACTIVITY_SET_PASSWORD)
         stat(STAT_SET_PASSWORD)
         messages.success(request, _('Successfully changed your password.'))

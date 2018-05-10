@@ -20,8 +20,8 @@
 
 from django import forms
 from django.conf import settings
-from django.contrib.auth import password_validation
 from django.contrib.auth.forms import AuthenticationForm
+from django.contrib.auth.forms import SetPasswordForm as SetPasswordFormBase
 from django.utils.translation import ugettext_lazy as _
 
 from bootstrap.formfields import BootstrapBooleanField
@@ -186,29 +186,9 @@ class DeleteAccountForm(BootstrapFormMixin, forms.Form):
             'Your password, to make sure that you really want to delete your account.'))
 
 
-class SetPasswordForm(BootstrapFormMixin, forms.Form):
-    password = BootstrapSetPasswordField()
-    password2 = BootstrapConfirmPasswordField()
-
-    def __init__(self, *args, **kwargs):
-        self.instance = kwargs.pop('instance', None)
-        super(SetPasswordForm, self).__init__(*args, **kwargs)
-
-    def clean_password(self):
-        password = self.cleaned_data.get("password")
-        password_validation.validate_password(self.cleaned_data.get('password'), self.instance)
-        return password
-
-    def clean(self):
-        cleaned_data = super(SetPasswordForm, self).clean()
-
-        password1 = cleaned_data.get('password')
-        password2 = cleaned_data.get('password2')
-        if password1 and password2:
-            if password1 != password2:
-                error = forms.ValidationError(self.fields['password2'].error_messages['no-match'],
-                                              code='no-match')
-                self.add_error('password2', error)
+class SetPasswordForm(BootstrapFormMixin, SetPasswordFormBase):
+    new_password1 = BootstrapSetPasswordField()
+    new_password2 = BootstrapConfirmPasswordField()
 
 
 class SetEmailForm(GPGMixin, BootstrapFormMixin, EmailValidationMixin, forms.Form):

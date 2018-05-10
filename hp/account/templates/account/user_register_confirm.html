@@ -13,8 +13,8 @@ This link is a one-time link only. If you have already completed your
 registration, please proceed to your <a class="alert-link" href="{{ account_page_url }}">your account-page</a>.{% endblocktrans %}</div>
 
 <form class="form-horizontal needs-validation" action="" method="post">{% csrf_token %}
-  {{ form.password.formgroup }}
-  {{ form.password2.formgroup }}
+  {{ form.new_password1.formgroup }}
+  {{ form.new_password2.formgroup }}
   {{ form.captcha.formgroup }}
   {{ form.buttons }}
 </form>
