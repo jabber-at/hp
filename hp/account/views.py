@@ -424,7 +424,7 @@ class ConfirmResetPasswordView(KeyUserConfirmationMixin, FormView):
 
         with transaction.atomic():
             xmpp_backend.set_password(username=key.user.node, domain=key.user.domain,
-                                      password=form.cleaned_data['password'])
+                                      password=form.cleaned_data['new_password1'])
 
             key.user.log(ugettext_noop('Set new password.'), address)
             messages.success(request, _('Successfully changed your password.'))
