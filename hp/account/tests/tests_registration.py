@@ -27,6 +27,8 @@ from django.test import Client
 from django.urls import reverse
 from django.utils.translation import get_language
 
+from xmpp_backends.django import xmpp_backend
+
 from core.models import Address
 from core.tests.base import SeleniumTestCase
 from core.tests.base import TestCase
@@ -161,6 +163,7 @@ class RegisterSeleniumTests(SeleniumTestCase):
         # TODO: currently not updated?
         #self.assertEqual(user.last_activity, NOW2)
         self.assertTrue(user.check_password(PWD))
+        self.assertTrue(xmpp_backend.check_password(user.node, user.domain, PWD))  # just to be sure
         self.assertTrue(user.created_in_backend)
         self.assertFalse(user.blocked)
 
@@ -185,7 +188,7 @@ class RegisterSeleniumTests(SeleniumTestCase):
         self.wait_for_valid(pwd)
         self.wait_for_invalid(pwd2)
         self.assertValid(fg_pwd, pwd)
-        self.assertInvalid(fg_pwd2, pwd2, 'no-match')
+        self.assertInvalid(fg_pwd2, pwd2, 'password_mismatch')
 
         # clear input - it's required though
         for i in range(0, len(PWD2)):
@@ -244,8 +247,8 @@ class RegisterSeleniumTests(SeleniumTestCase):
         # TODO: currently not updated?
         #self.assertEqual(user.last_activity, NOW2)
         self.assertTrue(user.created_in_backend)
-        print(user, user.password)
         self.assertTrue(user.check_password(PWD))
+        self.assertTrue(xmpp_backend.check_password(user.node, user.domain, PWD))  # just to be sure
         self.assertFalse(user.blocked)
 
     def test_form_validation(self):

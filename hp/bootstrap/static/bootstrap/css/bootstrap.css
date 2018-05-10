@@ -23,9 +23,7 @@
 .was-validated.invalid-mime-type .invalid-feedback.invalid-mime-type {
     display: block;
 }
-.was-validated.invalid-no-match .invalid-feedback.invalid-no-match {
-    display: block;
-}
+.form-group-invalid.invalid-password_mismatch .invalid-feedback.invalid-password_mismatch,
 .form-group-invalid.invalid-password_too_similar .invalid-feedback.invalid-password_too_similar,
 .form-group-invalid.invalid-password_too_common .invalid-feedback.invalid-password_too_common,
 .form-group-invalid.invalid-password_entirely_numeric .invalid-feedback.invalid-password_entirely_numeric {

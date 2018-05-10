@@ -370,10 +370,10 @@ class BootstrapConfirmPasswordField(BootstrapPasswordField):
     min_validation_length = 2
     widget = widgets.BootstrapConfirmPasswordInput
     default_error_messages = {
-        'no-match': _('The passwords did not match'),
+        'password_mismatch': _('The passwords did not match'),
     }
     default_html_errors = {
-        'no-match',
+        'password_mismatch',
     }
     valid_feedback = _('The two passwords match.')
 

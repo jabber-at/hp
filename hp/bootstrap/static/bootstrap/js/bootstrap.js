@@ -3,6 +3,7 @@ var bs4_forms_set_error = function(elem, cls) {
     var form_group = elem.parents('.form-group');
     
     form_group.addClass(cls_name);
+    form_group.addClass('form-group-invalid');
     var message = form_group.find('.invalid-feedback.' + cls_name).text();
     message = message ? message.trim() : null;
     if (message) {
@@ -30,6 +31,7 @@ var bs4_forms_calculate_error = function(input) {
 };
 
 var bs4_forms_clear_error = function(form_group) {
+    form_group.removeClass('form-group-invalid');
     form_group.removeClass(function(index, className) {
         return (className.match (/(^|\s)invalid-\S+/g) || []).join(' ');
     });
@@ -209,10 +211,10 @@ $(document).ready(function() {
             confirm_pwd[0].setCustomValidity('');
             bs4_forms_clear_error(confirm_fg);
         } else if (! confirm_val) {
-            confirm_fg.removeClass('invalid-no-match');
+            confirm_fg.removeClass('invalid-password_mismatch');
             confirm_fg.addClass('invalid-required');
         } else {
-            bs4_forms_set_error(confirm_pwd, 'no-match');
+            bs4_forms_set_error(confirm_pwd, 'password_mismatch');
         }
     });
 
@@ -226,10 +228,10 @@ $(document).ready(function() {
         if (value === pwd.val()) {
             bs4_forms_clear_error(form_group);
         } else if (value === '') {
-            form_group.removeClass('invalid-no-match');
+            form_group.removeClass('invalid-password_mismatch');
             form_group.addClass('invalid-required');
         } else {
-            bs4_forms_set_error(confirm_pwd, 'no-match');
+            bs4_forms_set_error(confirm_pwd, 'password_mismatch');
         }
     });
 });
