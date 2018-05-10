@@ -340,6 +340,7 @@ class BootstrapPasswordField(BootstrapMixin, forms.CharField):
 
     def __init__(self, *args, **kwargs):
         kwargs.setdefault('label', _('Password'))
+        kwargs.setdefault('strip', False)  # Do not strip spaces
         super().__init__(*args, **kwargs)
 
 
