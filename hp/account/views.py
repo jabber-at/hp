@@ -236,16 +236,43 @@ your account, you must click on the confirmation link in that email.""") % {
 
 
 class ConfirmationMixin(object):
-    def get_key(self):
-        try:
-            return self.queryset.valid().get(key=self.kwargs['key'])
-        except Confirmation.DoesNotExist:
-            name, ext = os.path.splitext(self.template_name)
-            template = '%s_not_found%s' % (name, ext)
-            return TemplateResponse(self.request, template, {}, status=404)
+    _key = None
+
+    @property
+    def key(self):
+        if self._key is None:
+            try:
+                self._key = self.queryset.valid().get(key=self.kwargs['key'])
+            except Confirmation.DoesNotExist:
+                name, ext = os.path.splitext(self.template_name)
+                template = '%s_not_found%s' % (name, ext)
+                self._key = TemplateResponse(self.request, template, {}, status=404)
+
+        return self._key
+
+    def get_form_user(self):
+        return self.request.user
+
+    def get_form_kwargs(self):
+        kwargs = super().get_form_kwargs()
+        kwargs['user'] = self.get_form_user()
+        return kwargs
 
 
-class ConfirmRegistrationView(ConfirmationMixin, FormView):
+class KeyUserConfirmationMixin(ConfirmationMixin):
+    """A mixin for confirmation views where the user comes from the confirmation key.
+
+    This is the case when the user is not logged in, e.g. during password reset.
+    """
+    def get_form_user(self):
+        key = self.key
+        if isinstance(key, HttpResponse):
+            return None
+        else:
+            return key.user
+
+
+class ConfirmRegistrationView(KeyUserConfirmationMixin, FormView):
     """View for confirming a registration e-mail."""
 
     form_class = SetPasswordForm
@@ -253,19 +280,8 @@ class ConfirmRegistrationView(ConfirmationMixin, FormView):
     success_url = reverse_lazy('account:detail')
     template_name = 'account/user_register_confirm.html'
 
-    def get_form_kwargs(self):
-        # TODO: this is only here because the form currently uses this for password validation.
-        # TODO: not present in setPasswordView!?
-        kwargs = super(ConfirmRegistrationView, self).get_form_kwargs()
-        key = self.get_key()
-        if isinstance(key, HttpResponse):
-            kwargs['user'] = None
-        else:
-            kwargs['user'] = key.user
-        return kwargs
-
     def form_valid(self, form):
-        key = self.get_key()
+        key = self.key
         if isinstance(key, HttpResponse):
             return key
 
@@ -392,14 +408,14 @@ class ResetPasswordView(AntiSpamMixin, AnonymousRequiredMixin, HomepageViewMixin
         return self.render_to_response(self.get_context_data(form=form))
 
 
-class ConfirmResetPasswordView(ConfirmationMixin, FormView):
+class ConfirmResetPasswordView(KeyUserConfirmationMixin, FormView):
     form_class = SetPasswordForm
     queryset = _confirmation_qs.purpose(PURPOSE_RESET_PASSWORD)
     success_url = reverse_lazy('account:detail')
     template_name = 'account/user_password_reset_confirm.html'
 
     def form_valid(self, form):
-        key = self.get_key()
+        key = self.key
         if isinstance(key, HttpResponse):
             return key
 
