@@ -23,6 +23,7 @@ from django.conf import settings
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.forms import PasswordChangeForm as PasswordChangeFormBase
 from django.contrib.auth.forms import SetPasswordForm as SetPasswordFormBase
+from django.db import transaction
 from django.utils.translation import ugettext_lazy as _
 
 from bootstrap.formfields import BootstrapBooleanField
@@ -32,12 +33,14 @@ from bootstrap.formfields import BootstrapSetPasswordField
 from bootstrap.forms import BootstrapFormMixin
 from core.forms import CaptchaFormMixin
 
+from .constants import PURPOSE_REGISTER
 from .formfields import EmailVerifiedDomainField
 from .formfields import FingerprintField
 from .formfields import KeyUploadField
 from .formfields import UsernameField
 from .models import Notifications
 from .models import User
+from .tasks import send_confirmation_task
 
 _GPG_ENABLED = bool(settings.GPG_BACKENDS)
 
@@ -133,6 +136,22 @@ class EmailValidationMixin(object):
                 raise forms.ValidationError(_('Sorry, this email address cannot be used.'))
 
         return email
+
+
+class AdminUserCreationForm(forms.ModelForm):
+    class Meta:
+        fields = ('username', 'email', )
+
+    def save(self, commit=True):
+        user = super().save(commit=False)
+        if commit:
+            user.save()
+
+        base_url = settings.XMPP_HOSTS[user.domain]['CANONICAL_BASE_URL']
+        transaction.on_commit(lambda: send_confirmation_task.delay(
+            user_pk=user.pk, purpose=PURPOSE_REGISTER, language='en', to=user.email,
+            base_url=base_url, hostname=user.domain))
+        return user
 
 
 class AdminUserForm(forms.ModelForm):

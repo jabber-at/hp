@@ -30,6 +30,7 @@ from core.utils import version
 
 from .constants import PURPOSE_REGISTER
 from .forms import AdminUserForm
+from .forms import AdminUserCreationForm
 from .models import Confirmation
 from .models import GpgKey
 from .models import User
@@ -84,6 +85,7 @@ class UserAdmin(DjangoObjectActions, VersionAdmin, BaseUserAdmin):
             'fields': ('username', 'email'),
         }),
     )
+    add_form = AdminUserCreationForm
     change_actions = ['block_user', ]
     fieldsets = (
         (None, {
@@ -96,8 +98,13 @@ class UserAdmin(DjangoObjectActions, VersionAdmin, BaseUserAdmin):
     list_display = ('username', 'email', 'blocked', 'registered', 'confirmed', 'last_activity', )
     list_filter = (ConfirmedFilter, CreatedInBackendFilter, 'is_superuser', 'blocked', )
     ordering = ('-registered', )
-    readonly_fields = ['username', 'registered', 'blocked', 'normalized_email', ]
+    readonly_fields = ['registered', 'blocked', 'normalized_email', ]
     search_fields = ['username', 'email', ]
+
+    def get_readonly_fields(self, request, obj=None):
+        if obj is None:
+            return []
+        return super().get_readonly_fields(request, obj=obj)
 
     def send_registration(self, request, queryset):
         base_url = '%s://%s' % (request.scheme, request.get_host())
