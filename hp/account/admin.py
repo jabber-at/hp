@@ -106,6 +106,14 @@ class UserAdmin(DjangoObjectActions, VersionAdmin, BaseUserAdmin):
             return []
         return super().get_readonly_fields(request, obj=obj)
 
+    def get_change_actions(self, request, object_id, form_url):
+        actions = super().get_change_actions(request, object_id, form_url)
+        user = self.model.objects.get(pk=object_id)
+        if user.blocked:
+            actions.remove('block_user')
+
+        return actions
+
     def send_registration(self, request, queryset):
         base_url = '%s://%s' % (request.scheme, request.get_host())
 
