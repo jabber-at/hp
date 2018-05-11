@@ -63,6 +63,7 @@ class RegisterSeleniumTests(SeleniumTestCase):
 
         fg_username = self.find('#fg_username')
         node = self.find('#id_username_0')
+        self.wait_for_invalid(node)
         self.assertInvalid(fg_username, node, 'not-found')
 
     def test_reset(self):
