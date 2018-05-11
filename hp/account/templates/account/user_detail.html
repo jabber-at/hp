@@ -10,7 +10,7 @@
     <td>{{ object.registered }}</td>
   </tr>
   <tr{% if not object.email %} class="table-danger"{% endif %}>
-    <td>{% trans "Email address" %}</td>
+    <td id="email">{% trans "Email address" %}</td>
     <td>
       {% if object.email %}
           {{ object.email }} (<a href="{% url "account:set_email" %}">{% trans "change" %}</a>)
@@ -19,7 +19,7 @@
       {% endif %}
     </td>
   </tr>
-  <tr class="table-{% if object.confirmed %}success{% else %}danger{% endif %}">
+  <tr id="email-confirmed" class="table-{% if object.confirmed %}success{% else %}danger{% endif %}">
     <td>{% trans "Email confirmed" %}</td>
     <td>{% if object.confirmed %}{% trans "Yes" %}{% else %}
       {% trans "No" %} (<a href="{% url "account:set_email" %}">{% trans "resend confirmation" %}</a>)
