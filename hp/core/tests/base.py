@@ -127,6 +127,16 @@ class SeleniumMixin(object):
         val = self.get_validity(elem)
         return val['valid']
 
+    def assertDisplayed(self, elem):
+        if isinstance(elem, str):
+            elem = self.find(elem)
+        self.assertTrue(elem.is_displayed())
+
+    def assertNotDisplayed(self, elem):
+        if isinstance(elem, str):
+            elem = self.find(elem)
+        self.assertFalse(elem.is_displayed())
+
     def assertClass(self, elem, cls):
         """Assert that an element has a CSS class."""
 

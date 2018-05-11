@@ -145,6 +145,7 @@ class RegisterSeleniumTests(SeleniumTestCase):
         self.assertIsNone(user.confirmed)
         self.assertFalse(user.created_in_backend)
         self.assertFalse(user.blocked)
+        self.assertDisplayed('#email-confirmed.table-danger')
 
         confirmation = Confirmation.objects.get(user=user, purpose=PURPOSE_REGISTER)
         self.selenium.get('%s%s' % (self.live_server_url, confirmation.urlpath))
@@ -166,6 +167,7 @@ class RegisterSeleniumTests(SeleniumTestCase):
         self.assertTrue(xmpp_backend.check_password(user.node, user.domain, PWD))  # just to be sure
         self.assertTrue(user.created_in_backend)
         self.assertFalse(user.blocked)
+        self.assertDisplayed('#email-confirmed.table-success')
 
     def test_password_validation(self):
         user = User.objects.create(username=JID, email=EMAIL)
