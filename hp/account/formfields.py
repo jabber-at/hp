@@ -32,20 +32,34 @@ from .widgets import EmailVerifiedDomainWidget
 from .widgets import FingerprintWidget
 from .widgets import NodeWidget
 from .widgets import UsernameWidget
+from .widgets import UsernameAdminWidget
 
 
-class UsernameField(BootstrapMixin, forms.MultiValueField):
+class UsernameFieldMixin(object):
+    default_error_messages = {
+        'exists': _('This username is already taken.'),
+        'error': _('Could not check if the username already exists: Error communicating with the server.'),
+    }
+
+    @property
+    def node_validator(self):
+        return RegexValidator(r'^[^@\s]+$', _('Username cannot contain "@" or spaces.'), code='invalid')
+
+    def compress(self, data_list):
+        node, domain = data_list
+        node = node.lower()
+        return '@'.join(data_list)
+
+
+class UsernameField(BootstrapMixin, UsernameFieldMixin, forms.MultiValueField):
     formgroup_class = 'form-group-username'
     default_error_messages = {
-        'invalid': _('Username cannot contain "@" or spaces.'),
         'max_length': _('Username must have at most %(max_length)s characters.') % {
             'max_length': settings.MAX_USERNAME_LENGTH,
         },
         'min_length': _('Username must have at least %(min_length)s characters.') % {
             'min_length': settings.MIN_USERNAME_LENGTH,
         },
-        'exists': _('This username is already taken.'),
-        'error': _('Could not check if the username already exists: Error communicating with the server.'),
     }
 
     # We need to add them here because min/max_length are only set for the CharField
@@ -80,9 +94,7 @@ class UsernameField(BootstrapMixin, forms.MultiValueField):
         fields = (
             forms.CharField(
                 widget=NodeWidget(register=self.register),
-                validators=[
-                    RegexValidator(r'^[^@\s]+$', self.default_error_messages['invalid'], code='invalid'),
-                ],
+                validators=[self.node_validator],
                 **char_kwargs
             ),
             forms.ChoiceField(initial=settings.DEFAULT_XMPP_HOST,
@@ -93,10 +105,19 @@ class UsernameField(BootstrapMixin, forms.MultiValueField):
         self.widget = UsernameWidget(widgets=widgets, attrs={})
         super().__init__(fields=fields, require_all_fields=True, **kwargs)
 
-    def compress(self, data_list):
-        node, domain = data_list
-        node = node.lower()
-        return '@'.join(data_list)
+
+class UsernameAdminField(UsernameFieldMixin, forms.MultiValueField):
+
+    def __init__(self, **kwargs):
+        choices = tuple([(d, d) for d in settings.MANAGED_HOSTS.keys()])
+
+        fields = (
+            forms.CharField(validators=[self.node_validator]),
+            forms.ChoiceField(initial=settings.DEFAULT_XMPP_HOST, choices=choices),
+        )
+        self.widget = UsernameAdminWidget(settings.MANAGED_HOSTS.keys())
+
+        super().__init__(fields=fields, **kwargs)
 
 
 class FingerprintField(BootstrapCharField):

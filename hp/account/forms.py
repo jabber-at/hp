@@ -20,6 +20,7 @@
 
 from django import forms
 from django.conf import settings
+from django.contrib.admin.widgets import AdminEmailInputWidget
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.forms import PasswordChangeForm as PasswordChangeFormBase
 from django.contrib.auth.forms import SetPasswordForm as SetPasswordFormBase
@@ -39,6 +40,7 @@ from .formfields import EmailVerifiedDomainField
 from .formfields import FingerprintField
 from .formfields import KeyUploadField
 from .formfields import UsernameField
+from .formfields import UsernameAdminField
 from .models import Notifications
 from .models import User
 from .tasks import send_confirmation_task
@@ -140,22 +142,12 @@ class EmailValidationMixin(object):
 
 
 class AdminUserCreationForm(forms.ModelForm):
-    error_messages = {
-        'domain_unknown': _('The domain %(domain)s is not handled by this homepage.'),
-    }
+    username = UsernameAdminField()
+    email = forms.EmailField(required=True, widget=AdminEmailInputWidget(),
+                             help_text=_('A confirmation message will be sent to this address.'))
 
     class Meta:
         fields = ('username', 'email', )
-
-    def clean_username(self):
-        username = self.cleaned_data.get('username')
-        if username:
-            _node, domain = username.split('@', 1)
-            if domain not in settings.XMPP_HOSTS:
-                raise forms.ValidationError(self.error_messages['domain_unknown'],
-                                            params={'domain': domain},
-                                            code='domain_unknown')
-        return username
 
     def save(self, commit=True):
         user = super().save(commit=False)

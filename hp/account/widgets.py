@@ -13,7 +13,9 @@
 # You should have received a copy of the GNU General Public License along with this project. If not, see
 # <http://www.gnu.org/licenses/>.
 
+from django import forms
 from django.conf import settings
+from django.contrib.admin.widgets import AdminTextInputWidget
 
 from bootstrap.widgets import BootstrapEmailInput
 from bootstrap.widgets import BootstrapMultiWidget
@@ -77,6 +79,28 @@ class UsernameWidget(BootstrapMultiWidget):
         js = (
             'account/js/username_widget.js',
         )
+
+
+class UsernameAdminWidget(forms.MultiWidget):
+    def __init__(self, domains, attrs=None):
+        choices = [(d, '@%s' % d) for d in domains]
+        _widgets = (
+            AdminTextInputWidget(attrs=attrs),
+            forms.Select(attrs=attrs, choices=choices)
+        )
+        super().__init__(_widgets, attrs)
+
+    def decompress(self, value):
+        if value:
+            return value.lower().split('@', 1)
+        return '', settings.DEFAULT_XMPP_HOST
+
+    class Media:
+        css = {
+            'all': (
+                'account/admin/username_widget.css',
+            ),
+        }
 
 
 class EmailVerifiedDomainWidget(BootstrapEmailInput):
