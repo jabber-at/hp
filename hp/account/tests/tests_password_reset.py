@@ -46,6 +46,25 @@ PWD2 = 'password456'
 
 
 class RegisterSeleniumTests(SeleniumTestCase):
+    def test_unknown_user(self):
+        self.selenium.get('%s%s' % (self.live_server_url, reverse('account:reset_password')))
+
+        fg_username = self.find('#fg_username')
+        node = self.find('#id_username_0')
+        node.send_keys(NODE)
+        self.wait_for_valid(node)
+        self.assertValid(fg_username, node)
+
+        with self.mock_celery() as mocked:
+            self.find('button[type="submit"]').click()
+            self.wait_for_page_load()
+
+        self.assertTaskCount(mocked, 0)
+
+        fg_username = self.find('#fg_username')
+        node = self.find('#id_username_0')
+        self.assertInvalid(fg_username, node, 'not-found')
+
     def test_reset(self):
         """Test basic password reset."""
 
@@ -59,12 +78,11 @@ class RegisterSeleniumTests(SeleniumTestCase):
 
         #fg_username = self.find('#fg_username')
         node = self.selenium.find_element_by_id('id_username_0')
-
         node.send_keys(NODE)
         self.wait_for_valid_form()
 
         with self.mock_celery() as mocked:
-            self.selenium.find_element_by_css_selector('button[type="submit"]').click()
+            self.find('button[type="submit"]').click()
             self.wait_for_page_load()
 
         self.assertTaskCount(mocked, 1)
