@@ -421,16 +421,20 @@ class ConfirmResetPasswordView(KeyUserConfirmationMixin, FormView):
 
         request = self.request
         address = request.META['REMOTE_ADDR']
+        now = timezone.now()
 
         with transaction.atomic():
             xmpp_backend.set_password(username=key.user.node, domain=key.user.domain,
                                       password=form.cleaned_data['new_password1'])
+            xmpp_backend.set_last_activity(key.user.node, key.user.domain, timestamp=now)
 
+            key.user.last_activity = now
             key.user.log(ugettext_noop('Set new password.'), address)
             messages.success(request, _('Successfully changed your password.'))
             stat(STAT_RESET_PASSWORD_CONFIRMED)
 
             key.user.backend = settings.AUTHENTICATION_BACKENDS[0]
+            key.user.save()
             login(self.request, key.user)
             key.delete()
 

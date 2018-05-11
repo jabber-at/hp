@@ -22,7 +22,6 @@ from django.conf import settings
 from django.contrib.auth import get_user_model
 from django.core import mail
 from django.urls import reverse
-from django.utils import timezone
 
 from xmpp_backends.django import xmpp_backend
 
@@ -53,7 +52,7 @@ class RegisterSeleniumTests(SeleniumTestCase):
         self.selenium.get('%s%s' % (self.live_server_url, reverse('account:reset_password')))
 
         user = User.objects.create(
-            username=JID, email=EMAIL, confirmed=timezone.now(), created_in_backend=True)
+            username=JID, email=EMAIL, confirmed=NOW, created_in_backend=True, last_activity=NOW)
         xmpp_backend.create_user(NODE, DOMAIN, PWD)
         self.assertTrue(user.check_password(PWD))
         self.assertFalse(user.check_password(PWD2))
@@ -64,11 +63,15 @@ class RegisterSeleniumTests(SeleniumTestCase):
         node.send_keys(NODE)
         self.wait_for_valid_form()
 
-        with self.mock_celery() as mocked, freeze_time(NOW_STR):
+        with self.mock_celery() as mocked:
             self.selenium.find_element_by_css_selector('button[type="submit"]').click()
             self.wait_for_page_load()
 
         self.assertTaskCount(mocked, 1)
+        user = User.objects.get(username=JID)
+
+        # only a successful password reset should update last activity update
+        self.assertEqual(user.last_activity, NOW)
 
         site = settings.XMPP_HOSTS[settings.DEFAULT_XMPP_HOST]
         self.assertTaskCall(
@@ -90,8 +93,7 @@ class RegisterSeleniumTests(SeleniumTestCase):
             self.wait_for_page_load()
 
         # get user again
-        user = User.objects.get(username='%s@%s' % (NODE, DOMAIN))
-        # TODO: use freezegun for this
-        #self.assertEqual(user.last_activity, NOW2)
+        user = User.objects.get(username=JID)
         self.assertFalse(user.check_password(PWD))
         self.assertTrue(user.check_password(PWD2))
+        self.assertEqual(user.last_activity, NOW2)
