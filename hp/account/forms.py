@@ -164,7 +164,10 @@ class AdminUserCreationForm(forms.ModelForm):
 
 
 class AdminUserForm(forms.ModelForm):
-    pass
+    class Meta:
+        widgets = {
+            'default_language': forms.Select(choices=settings.LANGUAGES),
+        }
 
 
 class CreateUserForm(GPGMixin, BootstrapFormMixin, CaptchaFormMixin, EmailValidationMixin, forms.ModelForm):
