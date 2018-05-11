@@ -34,6 +34,7 @@ from bootstrap.forms import BootstrapFormMixin
 from core.forms import CaptchaFormMixin
 
 from .constants import PURPOSE_REGISTER
+from .constants import REGISTRATION_MANUAL
 from .formfields import EmailVerifiedDomainField
 from .formfields import FingerprintField
 from .formfields import KeyUploadField
@@ -139,11 +140,27 @@ class EmailValidationMixin(object):
 
 
 class AdminUserCreationForm(forms.ModelForm):
+    error_messages = {
+        'domain_unknown': _('The domain %(domain)s is not handled by this homepage.'),
+    }
+
     class Meta:
         fields = ('username', 'email', )
 
+    def clean_username(self):
+        username = self.cleaned_data.get('username')
+        if username:
+            _node, domain = username.split('@', 1)
+            if domain not in settings.XMPP_HOSTS:
+                raise forms.ValidationError(self.error_messages['domain_unknown'],
+                                            params={'domain': domain},
+                                            code='domain_unknown')
+        return username
+
     def save(self, commit=True):
         user = super().save(commit=False)
+        user.registration_method = REGISTRATION_MANUAL
+
         if commit:
             user.save()
 
