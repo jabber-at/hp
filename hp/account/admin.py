@@ -23,6 +23,7 @@ from django.utils import timezone
 from django.utils.translation import ugettext_lazy as _
 
 from django_object_actions import DjangoObjectActions
+from django_object_actions import takes_instance_or_queryset
 from reversion.admin import VersionAdmin
 
 from antispam.utils import normalize_email
@@ -86,7 +87,7 @@ class UserAdmin(DjangoObjectActions, VersionAdmin, BaseUserAdmin):
         }),
     )
     add_form = AdminUserCreationForm
-    change_actions = ['block_user', ]
+    change_actions = ['block_user', 'send_registration', ]
     fieldsets = (
         (None, {
             'fields': ('username', ('email', 'normalized_email'),
@@ -107,13 +108,17 @@ class UserAdmin(DjangoObjectActions, VersionAdmin, BaseUserAdmin):
         return super().get_readonly_fields(request, obj=obj)
 
     def get_change_actions(self, request, object_id, form_url):
-        actions = super().get_change_actions(request, object_id, form_url)
+        actions = list(super().get_change_actions(request, object_id, form_url))
         user = self.model.objects.get(pk=object_id)
-        if user.blocked:
+        if user.blocked or not user.confirmed:
+            # You cannot block a user that is not even confirmed (doesn't even exist in the backend!)
             actions.remove('block_user')
+        if user.confirmed or user.blocked:
+            actions.remove('send_registration')
 
         return actions
 
+    @takes_instance_or_queryset
     def send_registration(self, request, queryset):
         base_url = '%s://%s' % (request.scheme, request.get_host())
 
@@ -128,6 +133,7 @@ class UserAdmin(DjangoObjectActions, VersionAdmin, BaseUserAdmin):
                 send_confirmation_task.delay(
                     user_pk=user.pk, purpose=PURPOSE_REGISTER, language='en', to=user.email,
                     base_url=base_url, hostname=user.domain)
+    send_registration.label = _('Send registration email')
     send_registration.short_description = _('Send new registration confirmations')
 
     def save_model(self, request, obj, form, change):
