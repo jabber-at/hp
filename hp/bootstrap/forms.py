@@ -31,7 +31,10 @@ class BootstrapFormMixin(object):
     }
     input_columns = None
     label_columns = None
-    offset_columns = 'col-sm-10 offset-sm-2'
+
+    # offset for elements that don't have a label column, e.g. the submit buttons.
+    # NOTE: This should match label_columns from the field forms
+    offset_columns = 'col-sm-9 offset-sm-2 offset-md-3 offset-lg-2'
 
     def __init__(self, *args, input_columns=None, label_columns=None, offset_columns=None, **kwargs):
         if offset_columns is not None:
