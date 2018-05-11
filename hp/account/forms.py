@@ -39,8 +39,8 @@ from .constants import REGISTRATION_MANUAL
 from .formfields import EmailVerifiedDomainField
 from .formfields import FingerprintField
 from .formfields import KeyUploadField
-from .formfields import UsernameField
 from .formfields import UsernameAdminField
+from .formfields import UsernameField
 from .models import Notifications
 from .models import User
 from .tasks import send_confirmation_task

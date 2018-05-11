@@ -30,8 +30,8 @@ from antispam.utils import normalize_email
 from core.utils import version
 
 from .constants import PURPOSE_REGISTER
-from .forms import AdminUserForm
 from .forms import AdminUserCreationForm
+from .forms import AdminUserForm
 from .models import Confirmation
 from .models import GpgKey
 from .models import User

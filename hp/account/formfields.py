@@ -31,8 +31,8 @@ from .widgets import DomainWidget
 from .widgets import EmailVerifiedDomainWidget
 from .widgets import FingerprintWidget
 from .widgets import NodeWidget
-from .widgets import UsernameWidget
 from .widgets import UsernameAdminWidget
+from .widgets import UsernameWidget
 
 
 class UsernameFieldMixin(object):
