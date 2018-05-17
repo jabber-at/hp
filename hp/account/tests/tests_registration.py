@@ -398,4 +398,5 @@ class RegisterSeleniumTests(SeleniumTestCase):
         sel = Select(domain)
         sel.select_by_value('example.net')  # user does not exists with this domain
         node.send_keys('@')
+        self.wait_for_display(fg_username.find_element_by_css_selector('.invalid-feedback.invalid-invalid'))
         self.assertInvalid(fg_username, node, 'invalid')
