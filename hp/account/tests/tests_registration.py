@@ -377,3 +377,25 @@ class RegisterSeleniumTests(SeleniumTestCase):
         self.wait_for_invalid(domain)
         self.assertInvalid(fg_username, node, 'unique')
         self.assertInvalid(fg_username, domain, 'unique')
+
+    def test_async_validation(self):
+        # create a test user so we can test for colisions.
+        User.objects.create(username='exists@example.com')
+
+        self.selenium.get('%s%s' % (self.live_server_url, reverse('account:register')))
+
+        fg_username = self.find('#fg_username')
+        node = self.selenium.find_element_by_id('id_username_0')
+        domain = self.selenium.find_element_by_id('id_username_1')
+        node.send_keys('exists')
+        node.send_keys(' ')
+        self.assertInvalid(fg_username, node, 'invalid')
+
+        # now try the same by changing the domain
+        node.send_keys(Keys.BACKSPACE)
+        self.wait_for_display(fg_username.find_element_by_css_selector('.invalid-feedback.invalid-unique'))
+
+        sel = Select(domain)
+        sel.select_by_value('example.net')  # user does not exists with this domain
+        node.send_keys('@')
+        self.assertInvalid(fg_username, node, 'invalid')
