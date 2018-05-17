@@ -54,6 +54,10 @@ class UsernameFieldMixin(object):
 class UsernameField(BootstrapMixin, UsernameFieldMixin, forms.MultiValueField):
     formgroup_class = 'form-group-username'
     default_error_messages = {
+        'invalid': _('A username cannot contain spaces or "@".'),
+        'unique': _('A user with this username already exists.'),
+        'required': _('A username is required.'),
+        'not-found': _('User not found2.'),
         'max_length': _('Username must have at most %(max_length)s characters.') % {
             'max_length': settings.MAX_USERNAME_LENGTH,
         },
@@ -104,6 +108,13 @@ class UsernameField(BootstrapMixin, UsernameFieldMixin, forms.MultiValueField):
 
         self.widget = UsernameWidget(widgets=widgets, attrs={})
         super().__init__(fields=fields, require_all_fields=True, **kwargs)
+
+        if self.register is True:
+            self.error_messages.pop('not-found')
+        else:
+            self.error_messages.pop('min_length')
+            self.error_messages.pop('max_length')
+            self.error_messages.pop('unique')
 
 
 class UsernameAdminField(UsernameFieldMixin, forms.MultiValueField):
