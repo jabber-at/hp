@@ -839,7 +839,7 @@ class StopUserSessionView(LoginRequiredMixin, View):
 
         xmpp_backend.stop_user_session(
             user.node, user.domain, resource,
-            _('This session was forcefully stopped via our homepage.')
+            str(_('This session was forcefully stopped via our homepage.'))
         )
         return HttpResponse('ok')
 
