@@ -19,6 +19,7 @@ import dns.resolver
 
 from django import forms
 from django.conf import settings
+from django.contrib.auth import get_user_model
 from django.core.validators import RegexValidator
 from django.utils.translation import ugettext_lazy as _
 
@@ -33,6 +34,8 @@ from .widgets import FingerprintWidget
 from .widgets import NodeWidget
 from .widgets import UsernameAdminWidget
 from .widgets import UsernameWidget
+
+User = get_user_model()
 
 
 class UsernameFieldMixin(object):
@@ -54,10 +57,11 @@ class UsernameFieldMixin(object):
 class UsernameField(BootstrapMixin, UsernameFieldMixin, forms.MultiValueField):
     formgroup_class = 'form-group-username'
     default_error_messages = {
+        'blocked': _('You are permanently blocked from using this page.'),
         'invalid': _('A username cannot contain spaces or "@".'),
         'unique': _('A user with this username already exists.'),
         'required': _('A username is required.'),
-        'not-found': _('User not found2.'),
+        'not-found': _('User not found.'),
         'max_length': _('Username must have at most %(max_length)s characters.') % {
             'max_length': settings.MAX_USERNAME_LENGTH,
         },
@@ -74,6 +78,7 @@ class UsernameField(BootstrapMixin, UsernameFieldMixin, forms.MultiValueField):
 
     def __init__(self, **kwargs):
         self.register = kwargs.pop('register', False)
+        self.check_block = kwargs.pop('check_block', not self.register)
         kwargs.setdefault('label', _('Username'))
         char_kwargs = {}
 
@@ -115,6 +120,19 @@ class UsernameField(BootstrapMixin, UsernameFieldMixin, forms.MultiValueField):
             self.error_messages.pop('min_length')
             self.error_messages.pop('max_length')
             self.error_messages.pop('unique')
+
+    def clean(self, value):
+        # Validate that the user exists and is not blocked from using this page.
+        value = super().clean(value)
+        if value and self.check_block:
+            try:
+                user = User.objects.get(username=value)
+            except User.DoesNotExist:
+                raise forms.ValidationError(self.error_messages['not-found'], code='not-found')
+
+            if user.blocked:
+                raise forms.ValidationError(self.error_messages['blocked'], code='blocked')
+        return value
 
 
 class UsernameAdminField(UsernameFieldMixin, forms.MultiValueField):

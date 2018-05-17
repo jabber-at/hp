@@ -380,15 +380,8 @@ class ResetPasswordView(AntiSpamMixin, AnonymousRequiredMixin, HomepageViewMixin
             pass
 
         if user is None or not xmpp_backend.user_exists(user.node, user.domain):
-            error = forms.ValidationError(_('User not found.'), code='not-found')
-            form.add_error('username', error)
-            return self.form_invalid(form)
-
-        if user.blocked:
-            error = forms.ValidationError(
-                _("You're blocked. You can't reset your password."),
-                code='blocked'
-            )
+            code = 'not-found'
+            error = forms.ValidationError(form.fields['username'].error_messages[code], code=code)
             form.add_error('username', error)
             return self.form_invalid(form)
 
