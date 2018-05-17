@@ -375,9 +375,9 @@ class ResetPasswordView(AntiSpamMixin, AnonymousRequiredMixin, HomepageViewMixin
 
         user = None
         try:
-            user = User.objects.filter(confirmed__isnull=False).get(username=form.cleaned_data['username'])
+            user = User.objects.confirmed().get(username=form.cleaned_data['username'])
         except User.DoesNotExist:
-            pass
+            pass  # checked in next branch
 
         if user is None or not xmpp_backend.user_exists(user.node, user.domain):
             code = 'not-found'
