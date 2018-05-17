@@ -189,6 +189,9 @@ class CreateUserForm(GPGMixin, BootstrapFormMixin, CaptchaFormMixin, EmailValida
 
 
 class LoginForm(BootstrapFormMixin, CaptchaFormMixin, AuthenticationForm):
+    error_messages = {
+        'invalid_login': _('Your username and password didn\'t match. Please try again.'),
+    }
     username = UsernameField()
     password = BootstrapPasswordField(label=_('Password'))
 

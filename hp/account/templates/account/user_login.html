@@ -4,8 +4,8 @@
 {% block title %}{% trans "Log in" %}{% endblock title %}
 
 {% block form %}
-{% if form.errors %}
-<div class="alert alert-danger">Your username and password didn't match. Please try again.</div>
+{% if form.non_field_errors %}
+<div class="alert alert-danger">{% for error in form.non_field_errors %}{{ error }}{% endfor %}</div>
 {% endif %}
 
 {% if next %}<p>{% trans "Please login to see this page." %}</p>{% endif %}
