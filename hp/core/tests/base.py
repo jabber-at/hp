@@ -175,9 +175,9 @@ class SeleniumMixin(object):
         for feedback in fg.find_elements_by_css_selector('.invalid-feedback'):
             classes = set(self.get_classes(feedback))
             if errors & classes:
-                self.assertTrue(feedback.is_displayed())
+                self.assertTrue(feedback.is_displayed(), '.%s is not displayed' % ('.'.join(classes)))
             else:
-                self.assertFalse(feedback.is_displayed())
+                self.assertFalse(feedback.is_displayed(), '.%s is displayed' % ('.'.join(classes)))
         self.assertCSSBorderColor(elem, 'rgb(220, 53, 69)')
         self.assertFalse(self.get_valid(elem))
 
