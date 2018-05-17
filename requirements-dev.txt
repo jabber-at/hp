@@ -5,10 +5,10 @@ fabric-webbuilders==0.3
 flake8==3.5.0
 freezegun==0.3.10
 gnupg==2.3.1
-ipython>=6.2.1
+ipython>=6.4.0
 isort==4.3.4
 numpydoc==0.8.0
 pyflakes==1.6.0
-selenium==3.11.0
+selenium==3.12.0
 sphinx-autobuild==0.7.1
-sphinx-rtd-theme==0.3.0
+sphinx-rtd-theme==0.3.1
