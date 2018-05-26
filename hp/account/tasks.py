@@ -130,7 +130,7 @@ def add_gpg_key_task(self, user_pk, address, fingerprint=None, key=None):
     if not key and fingerprint:
         try:
             key = self.fetch_key(fingerprint, user)
-        except (URLError, socket.timeout) as e:
+        except (URLError, socket.timeout):
             return
 
     user.add_gpg_key(keys=key, fingerprint=fingerprint, address=address)
@@ -163,7 +163,7 @@ def set_email_task(self, user_pk, to, language, address, fingerprint=None, key=N
         try:
             payload['gpg_recv_pub'] = self.fetch_key(fingerprint, user)
             payload['gpg_recv_fp'] = fingerprint  # just so we know what was submitted
-        except (URLError, socket.timeout) as e:
+        except (URLError, socket.timeout):
             payload['gpg_recv_pub'] = False  # do not encrypt
     else:
         payload['gpg_recv_pub'] = False  # do not encrypt
