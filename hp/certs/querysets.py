@@ -32,3 +32,14 @@ class CertificateQuerySet(models.QuerySet):
 
     def newest(self):
         return self.order_by('-valid_from')
+
+    def default(self, hostname):
+        qs = self.enabled().hostname(hostname).newest()
+        obj = qs.newest().first()
+
+        # Return the newest valid one, if there is one
+        if obj is not None:
+            return obj
+
+        # Otherwise return the newest one even if it's not valid
+        return qs.first()

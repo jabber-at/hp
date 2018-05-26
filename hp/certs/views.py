@@ -36,14 +36,7 @@ class CertificateOverview(ListView):
         certs = []
 
         for hostname in sorted(settings.XMPP_HOSTS.keys()):
-            # first we get the newest valid one
-            cert = qs.hostname(hostname).valid().newest()
-            if cert is not None:
-                certs.append(cert)
-                continue
-
-            # get the last valid one
-            cert = qs.hostname(hostname).newest()
+            cert = qs.default(hostname)
             if cert is not None:
                 certs.append(cert)
                 continue
@@ -57,7 +50,8 @@ class CertificateMixin(object):
         if current is not None and 'date' not in self.kwargs:
             return current
 
-        queryset = Certificate.objects.enabled().hostname(self.kwargs['hostname'])
+        hostname = self.kwargs.get('hostname', settings.DEFAULT_XMPP_HOST)
+        queryset = Certificate.objects.enabled().hostname(hostname)
         obj = queryset.filter(valid_from__date=self.kwargs['date']).first()
 
         if obj is None:
@@ -67,8 +61,8 @@ class CertificateMixin(object):
     def get_current_certificate(self):
         """Returns the currently used certificate, meaning the last one issued."""
 
-        qs = Certificate.objects.enabled().hostname(self.kwargs['hostname'])
-        return qs.order_by('-valid_from').first()
+        hostname = self.kwargs.get('hostname', settings.DEFAULT_XMPP_HOST)
+        return Certificate.objects.default(hostname)
 
     def dispatch(self, request, *args, **kwargs):
         return super().dispatch(request, *args, **kwargs)
