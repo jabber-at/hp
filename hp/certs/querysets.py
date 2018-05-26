@@ -31,4 +31,4 @@ class CertificateQuerySet(models.QuerySet):
         return self.filter(valid_from__lt=now, valid_until__gt=now)
 
     def newest(self):
-        return self.values_list('hostname').annotate(latest=models.Max('valid_from'))
+        return self.order_by('-valid_from')
