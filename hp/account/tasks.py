@@ -243,6 +243,7 @@ def update_last_activity(random_update=50):
             log.warn('%s: Could not get last activity.', user)
             continue
 
+        # Update last activity in the database if it is not up to date.
         if last_activity != user.last_activity:
             log.debug('%s: Updated last_activity from %s to %s.', user, user.last_activity, last_activity)
             user.last_activity = pytz.utc.localize(last_activity)

@@ -19,22 +19,14 @@ from datetime import timedelta
 import pytz
 from freezegun import freeze_time
 
-from django.conf import settings
 from django.contrib.auth import get_user_model
 from django.core import mail
-from django.test import Client
 from django.test import override_settings
-from django.urls import reverse
-from django.utils.translation import get_language
 
 from xmpp_backends.django import xmpp_backend
 
-from core.models import Address
-from core.tests.base import SeleniumTestCase
 from core.tests.base import TestCase
 
-from ..constants import PURPOSE_REGISTER
-from ..models import Confirmation
 from ..tasks import update_last_activity
 
 User = get_user_model()
@@ -48,8 +40,12 @@ NOW_1 = pytz.utc.localize(datetime(2018, 4, 1, 0, 0, 0))
 NOW_1_STR = NOW_1.strftime(FORMAT)
 NOW_2 = pytz.utc.localize(datetime(2019, 2, 25, 0, 0, 0))
 NOW_2_STR = NOW_2.strftime(FORMAT)
-NOW_3 = pytz.utc.localize(datetime(2019, 3, 7, 0, 0, 0))
+NOW_3 = pytz.utc.localize(datetime(2019, 2, 26, 0, 0, 0))
 NOW_3_STR = NOW_3.strftime(FORMAT)
+NOW_4 = pytz.utc.localize(datetime(2019, 2, 27, 0, 0, 0))
+NOW_4_STR = NOW_4.strftime(FORMAT)
+NOW_5 = pytz.utc.localize(datetime(2019, 2, 28, 0, 0, 0))
+NOW_5_STR = NOW_5.strftime(FORMAT)
 
 NODE = 'user'
 DOMAIN = 'example.com'
@@ -82,6 +78,7 @@ class AccountExpiresTestCase(TestCase):
         with self.mock_celery() as mocked, freeze_time(NOW_2_STR):
             self.assertTrue(user.is_expiring)
             self.assertTrue(user.notifications.account_expires)
+            self.assertFalse(user.notifications.account_expires_notified)
             update_last_activity()
 
         self.assertTaskCount(mocked, 0)
@@ -92,11 +89,35 @@ class AccountExpiresTestCase(TestCase):
         self.assertEqual(len(mail.outbox), 0)
 
         # run task the next day and make sure that no mail is sent
+        user = User.objects.get(username=JID)
         with self.mock_celery() as mocked, freeze_time(NOW_2_STR):
             self.assertTrue(user.is_expiring)
             self.assertTrue(user.notifications.account_expires)
+            self.assertTrue(user.notifications.account_expires_notified)
             update_last_activity()
 
+        user = User.objects.get(username=JID)
         self.assertTaskCount(mocked, 0)
         self.assertEqual(len(mail.outbox), 0)
         self.assertEqual(user.last_activity, LAST_ACTIVITY_2)  # last activity stays the same
+
+        # User finally goes online again
+        xmpp_backend.set_last_activity(NODE, DOMAIN, timestamp=NOW_3)
+
+        # task runs again
+        user = User.objects.get(username=JID)
+        with self.mock_celery() as mocked, freeze_time(NOW_4_STR):
+            self.assertTrue(user.is_expiring)
+            self.assertTrue(user.notifications.account_expires)
+            self.assertTrue(user.notifications.account_expires_notified)
+            update_last_activity()
+
+        # no mail is sent
+        user = User.objects.get(username=JID)
+        self.assertTaskCount(mocked, 0)
+        self.assertEqual(len(mail.outbox), 0)
+        self.assertEqual(user.last_activity, NOW_3)
+
+        self.assertFalse(user.is_expiring)
+        self.assertTrue(user.notifications.account_expires)
+        self.assertFalse(user.notifications.account_expires_notified)
