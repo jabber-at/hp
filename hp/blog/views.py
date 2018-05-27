@@ -66,7 +66,7 @@ class BlogPostMixin(object):
 
 
 class BlogPostListView(HomepageViewMixin, BlogPostMixin, ListView):
-    queryset = BlogPost.objects.blog_order()
+    queryset = BlogPost.objects.select_related('author').blog_order()
     paginate_by = 10
 
     def get_context_data(self, **kwargs):
