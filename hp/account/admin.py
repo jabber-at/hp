@@ -166,8 +166,9 @@ class UserLogEntryAdmin(admin.ModelAdmin):
 
 
 @admin.register(GpgKey)
-class GpgKeyAdmin(admin.ModelAdmin):
+class GpgKeyAdmin(DjangoObjectActions, admin.ModelAdmin):
     actions = ['refresh']
+    change_actions = ['refresh', ]
     list_display = ('user', 'fingerprint', 'expires', 'valid', 'usable')
     list_select_related = ('user', )
     list_filter = ('revoked', )
@@ -186,6 +187,7 @@ class GpgKeyAdmin(admin.ModelAdmin):
             return not obj.revoked
     usable.boolean = True
 
+    @takes_instance_or_queryset
     def refresh(self, request, queryset):
         for obj in queryset:
             try:
@@ -196,6 +198,7 @@ class GpgKeyAdmin(admin.ModelAdmin):
                     'fingerprint': obj.fingerprint,
                     'error': e,
                 })
+    refresh.label = _('Refresh')
     refresh.short_description = _('Refresh keys from keyserver')
 
 

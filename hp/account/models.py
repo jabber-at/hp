@@ -431,7 +431,10 @@ class GpgKey(BaseModel):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, models.CASCADE, related_name='gpg_keys')
 
     # NOTE: the fingerprint is *not* unique, because a key might be used for multiple accounts
-    fingerprint = models.CharField(max_length=40)
+    fingerprint = models.CharField(
+        max_length=40,
+        help_text=_('The full Fingerprint, without the "0x" prefix.')
+    )
     key = models.TextField()
     expires = models.DateTimeField(null=True, blank=True)
     revoked = models.BooleanField(default=False)
