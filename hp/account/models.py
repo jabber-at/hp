@@ -437,15 +437,13 @@ class GpgKey(BaseModel):
     revoked = models.BooleanField(default=False)
 
     def refresh(self):
-        # TODO: Add ability to override keyserver with setting
-        refetched = gpg_backend.fetch_key('0x%s' % self.fingerprint)
+        refetched = gpg_backend.fetch_key('0x%s' % self.fingerprint, keyserver=settings.GPG_KEYSERVER)
 
         with self.user.gpg_keyring(init=False) as backend:
-            backend.import_key(refetched)
-            expires = backend.expires(self.fingerprint)
-
-        # TODO: No way of knowing if the key is revoked, so we don't set it yet
-        self.expires = timezone.make_aware(expires)
+            key = backend.import_key(refetched)[0]
+            self.key = refetched.decode('utf-8')
+            self.revoked = key.revoked
+            self.expires = timezone.make_aware(key.expires)
         self.save()
 
     class Meta:
