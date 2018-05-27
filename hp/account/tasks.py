@@ -243,9 +243,11 @@ def update_last_activity(random_update=50):
             log.warn('%s: Could not get last activity.', user)
             continue
 
-        log.debug('%s: Updated last_activity from %s to %s.', user, user.last_activity,
-                  last_activity)
-        user.last_activity = pytz.utc.localize(last_activity)
+        if last_activity != user.last_activity:
+            log.debug('%s: Updated last_activity from %s to %s.', user, user.last_activity, last_activity)
+            user.last_activity = pytz.utc.localize(last_activity)
+            user.save()
+
         notifs = user.notifications
 
         # On what date the user will be removed and how many days this is from now
