@@ -37,7 +37,7 @@ urlpatterns = [
     url(r'^gpg/(?P<pk>\d+)/$', views.ManageGpgView.as_view(), name='manage_gpg'),
     url(r'^gpg/add/$', views.AddGpgView.as_view(), name='add_gpg'),
     url(r'^log/$', views.RecentActivityView.as_view(), name='log'),
-    url(r'^logout/$', auth_views.logout, name='logout'),
+    url(r'^logout/$', auth_views.LogoutView.as_view(), name='logout'),
     url(r'^api/check-user/$', views.UserAvailableView.as_view(), name='api-check-user'),
     url(r'^api/xep0363/(?P<pk>\d+)/$', views.DeleteHttpUploadView.as_view(),
         name='api-xep0363-delete'),
