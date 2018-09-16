@@ -1,6 +1,6 @@
 Fabric3==1.14.post1
-Sphinx==1.7.4
-django-debug-toolbar==1.9.1
+Sphinx==1.8.0
+django-debug-toolbar==1.10.1
 fabric-webbuilders==0.3
 flake8==3.5.0
 freezegun==0.3.10
@@ -9,6 +9,6 @@ ipython>=6.4.0
 isort==4.3.4
 numpydoc==0.8.0
 pyflakes==2.0.0
-selenium==3.12.0
+selenium==3.14.0
 sphinx-autobuild==0.7.1
-sphinx-rtd-theme==0.3.1
+sphinx-rtd-theme==0.4.1
