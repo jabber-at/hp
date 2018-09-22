@@ -585,7 +585,7 @@ if ENABLE_DEBUG_TOOLBAR is True:
     _DEFAULT_INSTALLED_APPS.append('debug_toolbar')
     INTERNAL_IPS = ['127.0.0.1']
 if ENABLE_SECURITY_HEADERS_MIDDLEWARE is True:
-    MIDDLEWARE.insert(0, 'core.middleware.security_headers_middleware')
+    MIDDLEWARE.append('core.middleware.security_headers_middleware')
 
 # Make sure some required settings are set
 if not XMPP_HOSTS:
