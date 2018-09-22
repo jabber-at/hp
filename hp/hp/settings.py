@@ -39,6 +39,7 @@ SECRET_KEY = ''
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 ENABLE_DEBUG_TOOLBAR = None
+ENABLE_CSP_MIDDLEWARE = None
 
 ALLOWED_HOSTS = []
 
@@ -576,11 +577,15 @@ except ImportError:
 
 if ENABLE_DEBUG_TOOLBAR is None:
     ENABLE_DEBUG_TOOLBAR = DEBUG
+if ENABLE_CSP_MIDDLEWARE is None:
+    ENABLE_CSP_MIDDLEWARE = DEBUG
 
 if ENABLE_DEBUG_TOOLBAR is True:
     MIDDLEWARE.insert(0, 'debug_toolbar.middleware.DebugToolbarMiddleware')
     _DEFAULT_INSTALLED_APPS.append('debug_toolbar')
     INTERNAL_IPS = ['127.0.0.1']
+if ENABLE_CSP_MIDDLEWARE is True:
+    MIDDLEWARE.insert(0, 'core.middleware.csp_middleware')
 
 # Make sure some required settings are set
 if not XMPP_HOSTS:

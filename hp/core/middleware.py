@@ -113,3 +113,12 @@ class HomepageMiddleware(object):
         if isinstance(exception, BackendError):
             log.exception(exception)
             return TemplateResponse(request, template='core/errors/xmpp_backend.html', status=503)
+
+
+def csp_middleware(get_response):
+    """Middleware to add the CSP header in development."""
+    def middleware(request):
+        response = get_response(request)
+        response['Content-Security-Policy'] = 'default-src \'self\';'
+        return response
+    return middleware
