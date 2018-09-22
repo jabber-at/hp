@@ -255,11 +255,21 @@ def check():
 
 
 @task
-def test(suite=''):
-    """Run testsuite."""
+def test(suite='', virtual_display='y'):
+    """Run testsuite.
+
+    Parameters
+    ----------
+
+    suite
+        Test suite to run.
+    virtual_display
+        Set to 'n' to disable the virtual display for selenium tests.
+    """
 
     oldcwd = os.getcwd()
     os.chdir('hp')
+    os.environ.setdefault("VIRTUAL_DISPLAY", virtual_display)
     local('python manage.py test --settings=hp.test_settings %s' % suite)
     os.chdir(oldcwd)
 

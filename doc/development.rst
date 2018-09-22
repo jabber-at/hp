@@ -9,7 +9,7 @@ Initial setup
 The python libraries have some dependencies, on Debian/Ubuntu, install them
 with::
 
-   apt-get install python3-dev libgpgme11-dev
+   apt-get install python3-dev libgpgme11-dev xvfb
 
 To start, clone the project and initialize the virtualenv::
 

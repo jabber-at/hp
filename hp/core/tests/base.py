@@ -13,17 +13,21 @@
 # You should have received a copy of the GNU General Public License along with this project. If not, see
 # <http://www.gnu.org/licenses/>.
 
+import os
 import re
 from contextlib import contextmanager
 from unittest import mock
 
 from celery import task
+from pyvirtualdisplay import Display
 from selenium.webdriver.firefox.webdriver import WebDriver
 from selenium.webdriver.support.wait import WebDriverWait
 
 from django.conf import settings
 from django.contrib.staticfiles.testing import StaticLiveServerTestCase
 from django.test import TestCase as DjangoTestCase
+
+VIRTUAL_DISPLAY = os.environ.get('VIRTUAL_DISPLAY', 'y').lower().strip() == 'y'
 
 
 class HomepageTestCaseMixin(object):
@@ -58,12 +62,19 @@ class SeleniumMixin(object):
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
+
+        if VIRTUAL_DISPLAY:
+            cls.vdisplay = Display(visible=0, size=(1024, 768))
+            cls.vdisplay.start()
+
         cls.selenium = WebDriver(executable_path=settings.GECKODRIVER_PATH)
         cls.selenium.implicitly_wait(10)
 
     @classmethod
     def tearDownClass(cls):
         cls.selenium.quit()
+        if VIRTUAL_DISPLAY:
+            cls.vdisplay.stop()
         super().tearDownClass()
 
     class wait_for_css_property(object):
