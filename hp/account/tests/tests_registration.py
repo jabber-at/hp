@@ -47,8 +47,9 @@ NODE = 'user'
 DOMAIN = 'example.com'
 JID = '%s@%s' % (NODE, DOMAIN)
 EMAIL = 'user@example.com'
-PWD = 'password123'
-PWD2 = 'password456'
+COMMON_PWD = 'password123'
+PWD = 'GVIhRx5y3uH2'
+PWD2 = 'oJsfiLCwshha'
 
 
 class RegistrationTestCase(TestCase):
@@ -230,6 +231,26 @@ class RegisterSeleniumTests(SeleniumTestCase):
         pwd2 = fg_pwd2.find_element_by_css_selector('#id_new_password2')
         self.assertInvalid(fg_pwd, pwd, 'password_too_similar')
         self.assertInvalid(fg_pwd2, pwd2, 'password_too_similar')
+
+        # Send very common password
+        pwd.send_keys(COMMON_PWD)
+        pwd2.send_keys(COMMON_PWD)
+        self.wait_for_valid(pwd)
+        self.wait_for_valid(pwd2)
+        self.assertValid(fg_pwd, pwd)
+        self.assertValid(fg_pwd2, pwd2)
+
+        self.wait_for_valid_form()
+        with freeze_time(NOW2_STR):
+            self.find('button[type="submit"]').click()
+            self.wait_for_page_load()
+
+        fg_pwd = self.find('#fg_new_password1')
+        pwd = fg_pwd.find_element_by_css_selector('#id_new_password1')
+        fg_pwd2 = self.find('#fg_new_password2')
+        pwd2 = fg_pwd2.find_element_by_css_selector('#id_new_password2')
+        self.assertInvalid(fg_pwd, pwd, 'password_too_common')
+        self.assertInvalid(fg_pwd2, pwd2, 'password_too_common')
 
         # send correct password
         pwd.send_keys(PWD)
