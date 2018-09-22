@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Converse.js</title>
+    <meta charset="utf-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Converse.js: An XMPP chat client which can be integrated into any website" />
+    <meta name="author" content="JC Brand" />
+    <meta name="keywords" content="xmpp chat webchat converse.js" />
+    <link rel="shortcut icon" type="image/ico" href="../css/images/favicon.ico"/>
+    <link type="text/css" rel="stylesheet" media="screen" href="/css/font-awesome.min.css" />
+    <link type="text/css" rel="stylesheet" media="screen" href="/css/website.css" />
+    <script type="text/javascript" src="/src/website.js"></script>
+    <script type="text/javascript" src="/analytics.js"></script>
+    <noscript><p><img src="//stats.opkode.com/piwik.php?idsite=1" style="border:0;" alt="" /></p></noscript>
+    <![if gte IE 11]>
+        <link type="text/css" rel="stylesheet" media="screen" href="/css/converse.css" />
+        <script src="/dist/converse.js"></script>
+    <![endif]>
+
+    <style>
+        .converse-container {
+            height: 55vh;
+        }
+    </style>
+</head>
+
+<body id="page-top" data-spy="scroll">
+	<nav class="navbar sticky-top navbar-expand-lg" role="navigation">
+		<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo01" aria-controls="navbarTogglerDemo01" aria-expanded="false" aria-label="Toggle navigation">
+			<span class="navbar-toggler-icon"></span>
+		</button>
+		<div class="collapse navbar-collapse" id="navbarTogglerDemo01">
+            <a class="navbar-brand" href="/"><span class="converse-brand-heading"><i class="icon-conversejs"></i>Converse</span></a>
+			<ul class="navbar-nav mt-2 mt-lg-0">
+				<!-- Hidden li included to remove active class from about link when scrolled up past about section -->
+				<li class="hidden">
+					<a class="nav-link" href="#page-top"></a>
+				</li>
+				<li class="nav-item page-scroll">
+					<a class="nav-link" href="#about">About</a>
+				</li>
+				<li class="nav-item page-scroll">
+					<a class="nav-link" href="#features">Features</a>
+				</li>
+				<li class="nav-item page-scroll">
+					<a class="nav-link" href="#contact">Contact</a>
+				</li>
+				<li class="nav-item page-scroll">
+					<a class="nav-link" href="#sponsors">Sponsor</a>
+				</li>
+				<li class="nav-item page-scroll">
+					<a class="nav-link" href="#hosting">Hosting</a>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link" href="/docs/html/index.html">Documentation&nbsp;<i class="fa fa-external-link-alt"></i></a>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link" href="https://github.com/jcbrand/converse.js/releases" class="button" target="_blank" rel="noopener">Download&nbsp;<i class="fa fa-external-link-alt"></i></a>
+				</li>
+			</ul>
+		</div>
+	</nav>
+
+    <section class="intro">
+        <div class="intro-body">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-8 col-md-offset-2">
+                        <h1 class="brand-heading brand-heading-embedded"><a style="color: white;" href="/"><i class="icon-conversejs"></i>Converse</a></h1>
+                        <p class="intro-text">Embedded MUC chat demo</p>
+
+                        <div class="converse-container">
+                            <div id="conversejs"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</body>
+
+<script>
+    converse.initialize({
+        authentication: 'anonymous',
+        auto_login: true,
+        auto_join_rooms: [
+            'anonymous@conference.nomnom.im',
+        ],
+        bosh_service_url: 'https://conversejs.org/http-bind/', // Please use this connection manager only for testing purposes
+        jid: 'nomnom.im', // XMPP server which allows anonymous login (doesn't
+                          // allow chatting with other XMPP servers).
+        notify_all_room_messages: [
+            'anonymous@conference.nomnom.im',
+        ],
+        locales_url: "../locale/{{{locale}}}/LC_MESSAGES/converse.json",
+        view_mode: 'embedded',
+    });
+</script>
+</html>

@@ -4,12 +4,12 @@
 
 
 {% block pagecss %}
-<link rel="stylesheet" type="text/css" media="screen" href="{% static "conversejs/converse.css" %}">
-<link rel="stylesheet" type="text/css" media="screen" href="{% static "conversejs/init.css" %}">
+<link rel="stylesheet" type="text/css" media="screen" href="{% static "lib/converse.js/css/converse.css" %}">
+{#<link rel="stylesheet" type="text/css" media="screen" href="{% static "conversejs/init.css" %}"> #}
 {% endblock pagecss %}
 
 {% block pagejs %}
-<script src="{% static "conversejs/converse.js" %}"></script>
+<script src="{% static "./lib/converse.js/dist/converse.js" %}"></script>
 <script src="{% url "conversejs:init-js" %}"></script>
 {% endblock pagejs %}
 

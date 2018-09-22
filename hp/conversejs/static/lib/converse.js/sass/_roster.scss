@@ -1,0 +1,158 @@
+#conversejs #converse-roster {
+    text-align: left;
+    width: 100%;
+    position: relative;
+    margin: 0;
+    height: $roster-height;
+    padding: 0;
+    overflow: hidden;
+    // XXX: FIXME
+    height: calc(100% - 70px);
+
+    /* Custom addition for CSP */
+    #online-count {
+        display: none;
+    }
+
+    .search-xmpp {
+        ul {
+            li.chat-info {
+                padding-left: 10px;
+            }
+        }
+    }
+
+    .roster-filter-form {
+        width: 100%;
+
+        .button-group {
+            padding: 0.2em;
+        }
+
+        span {
+            padding: 0.3em;
+            cursor: pointer;
+        }
+
+        .roster-filter {
+            width: 100%;
+            margin: 0.2em;
+            font-size: calc(#{$font-size} - 2px);
+        }
+        .state-type {
+            font-size: calc(#{$font-size} - 2px);
+            width: 100%;
+        }
+    }
+
+    .roster-contacts {
+        padding: 0;
+        margin: 0 0 0.2em 0;
+        height: 100%;
+        overflow-x: hidden;
+        overflow-y: auto;
+
+        .roster-group {
+            border: none;
+            color: $text-color;
+            font-weight: normal;
+            text-shadow: 0 1px 0 $text-shadow-color;
+            margin: 0.75em 0 0.75em 0;
+
+            .group-toggle {
+                &:hover {
+                    color: $dark-gray-color;
+                }
+                font-family: $heading-font; 
+                color: $text-color;
+                display: block;
+                width: 100%;
+                padding-top: 0;
+                padding-bottom: 0.3rem;
+            }
+
+            li {
+                &.requesting-xmpp-contact {
+                    a {
+                        line-height: $line-height;
+                        &.far, &.fas, &.fa {
+                            width: 1.5em;
+                        }
+                    }
+                    .req-contact-name {
+                        padding: 0 0.2em 0 0;
+                    }
+                }
+
+                .open-chat {
+                    margin: 0;
+                    padding: 0;
+                    &.unread-msgs {
+                        font-weight: bold;
+                        .contact-name {
+                            width: 70%;
+                        }
+                    }
+
+                    .msgs-indicator {
+                        color: white;
+                        background-color: $chat-head-color;
+                        opacity: 1;
+                        border-radius: 10%;
+                        padding: 0.2em;
+                        font-size: $font-size-small;
+                    }
+
+                    .contact-name {
+                        overflow: hidden;
+                        white-space: nowrap;
+                        text-overflow: ellipsis;
+                        padding: 0;
+                        margin: 0;
+                        max-width: 90%;
+                        float: none;
+                        height: 100%;
+                        &.unread-msgs {
+                            max-width: 60%;
+                        }
+                    }
+
+                    .avatar {
+                        float: left;
+                        display: inline-block;
+                    }
+                }
+                &.current-xmpp-contact span {
+                    font-size: $font-size;
+                    float: left;
+                    margin-right: 0.5em;
+                }
+                &.odd {
+                    background-color: #DCEAC5;
+                    /* Make this difference */
+                }
+                a, span {
+                    display: inline-block;
+                    overflow: hidden;
+                    white-space: nowrap;
+                    text-overflow: ellipsis;
+                }
+                .decline-xmpp-request {
+                    margin-left: 5px;
+                }
+                &:hover {
+                    background-color: lighten($controlbox-head-color, 45%);
+                    .remove-xmpp-contact {
+                        display: inline-block;
+                    }
+                }
+            }
+        }
+    }
+    span {
+        &.pending-contact-name {
+            line-height: $line-height;
+            width: 100%;
+        }
+    }
+}

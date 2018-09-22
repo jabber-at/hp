@@ -1,0 +1,294 @@
+#conversejs {
+    .message {
+        .mention {
+            font-weight: bold;
+        }
+        .mention--self {
+            font-weight: normal;
+        }
+        &.date-separator {
+            height: 2em;
+            margin: 0;
+            position: relative;
+            text-align: center;
+            z-index: 0;
+
+            .separator {
+                border: 0.5px solid $chat-head-color;
+                margin: 0 1em;
+                position: relative;
+                top: 1em;
+                z-index: 5;
+            }
+
+            .separator-text {
+                background: white;
+                bottom: 1px; // Offset needed due to .separator border size
+                color: $message-text-color;
+                display: inline-block;
+                line-height: 2em;
+                padding: 0 1em;
+                position: relative;
+                z-index: 5;
+            }
+        }
+
+        &.chat-info {
+            color: $chat-head-color;
+            font-size: $message-font-size;
+            line-height: $line-height-small;
+            padding: 0.35rem 1rem;
+
+            &.badge {
+                color: $chat-head-text-color;
+            }
+            &.chat-state-notification {
+                font-style: italic;
+            }
+            &.chat-event {
+                clear: left;
+                font-style: italic;
+            }
+            &.chat-error {
+                color: $warning-color;
+                font-weight: bold;
+            }
+        }
+
+        .chat-image {
+            height: auto;
+            width: auto;
+            max-height: 15em;
+            max-width: 100%;
+        }
+        &.chat-msg--action {
+            font-style: italic;
+        }
+
+        &.chat-msg {
+            display: flex;
+            flex-direction: row;
+            overflow: auto; // Ensures that content stays inside
+            padding: 0.25rem 1rem;
+
+            &.onload {
+                animation: colorchange-chatmessage 1s;
+                -webkit-animation: colorchange-chatmessage 1s;
+            }
+            &:hover {
+                background-color: rgba(0, 0, 0, 0.035);
+                .chat-msg__actions {
+                    .chat-msg__action {
+                        opacity: 1;
+                    }
+                }
+            }
+            &.correcting {
+                &.groupchat  {
+                    background-color: lighten($chatroom-head-color, 30%);
+                }
+                &:not(.groupchat) {
+                    background-color: lighten($chat-head-color, 50%);
+                }
+            }
+
+            .spoiler {
+                margin-top: 0.5em;
+            }
+            .spoiler-hint {
+                margin-bottom: 0.5em;
+            }
+            .spoiler-toggle {
+                color: white;
+                i {
+                    color: white;
+                    padding-right: 0.5em;
+                }
+                &:before {
+                    padding-right: 0.25em;
+                    whitespace: nowrap;
+                }
+            }
+
+            .chat-msg__content {
+                display: flex;
+                flex-direction: column;
+                justify-content: space-between;
+                align-items: stretch;
+                margin-left: 0.5rem;
+                width: 100%;
+            }
+            .chat-msg__content--action {
+                margin-left: 0;
+            }
+
+            .chat-msg__body {
+                display: flex;
+                flex-direction: row;
+                justify-content: space-between;
+                width: 100%;
+            }
+
+            .chat-msg__message {
+                display: flex;
+                flex-direction: column;
+                width: 100%;
+            }
+
+            .chat-msg__edit-modal {
+                cursor: pointer;
+                padding-right: 0.5em;
+            }
+            &.headline {
+                .chat-msg__body {
+                    margin-left: 0;
+                }
+            }
+
+            .chat-msg__text {
+                padding: 0;
+                color: $message-text-color;
+                width: 100%;
+                white-space: pre-wrap;
+                a {
+                    word-wrap: break-word;
+                    word-break: break-all;
+                    display: inline-block;
+                }
+                img {
+                    &.emoji {
+                        height: 1.5em;
+                        width: 1.5em;
+                        margin: 0 .05em 0 .1em;
+                        vertical-align: -0.1em;
+                    }
+                }
+                .emojione {
+                    margin-bottom: -6px;
+                }
+            }
+            
+            .chat-msg__media {
+                margin-top: 0.25rem;
+                word-break: break-all;
+                a {
+                    word-wrap: break-word;
+                }
+                audio {
+                    width: 100%;
+                }
+            }
+
+            .chat-msg__actions {
+                .chat-msg__action {
+                    height: $message-font-size;
+                    font-size: $message-font-size;
+                    padding: 0;
+                    border: none;
+                    opacity: 0;
+                    background: transparent;
+                    cursor: pointer;
+                    &:focus {
+                        display: block;
+                    }
+                }
+            }
+
+            .chat-msg__avatar {
+                margin-top: 0.5em;
+                height: 36px;
+                vertical-align: middle;
+                width: 36px;
+            }
+
+            .chat-msg__heading {
+                width: 100%;
+                margin-top: 0.5em;
+                padding-right: 0.25rem;
+                padding-bottom: 0.25rem;
+                display: block;
+
+                .chat-msg__author {
+                    overflow: hidden;
+                    text-overflow: ellipsis;
+                    white-space: nowrap;
+                    font-family: $heading-font; 
+                    font-size: 115%;
+                    .badge {
+                        font-size: 80%;
+                        font-family: $normal_font;
+                    }
+                }
+                .chat-msg__time {
+                    padding-left: 0.25em;
+                    color: lighten($text-color, 15%);
+                }
+            }
+            &.chat-msg--action {
+                .chat-msg__content {
+                    flex-wrap: wrap;
+                    flex-direction: row;
+                    justify-content: flex-start;
+                }
+                .chat-msg__text {
+                    width: auto;
+                }
+                .chat-msg__heading {
+                    margin-top: 0;
+                    padding-bottom: 0;
+                    width: auto;
+                }
+                .chat-msg__author {
+                    font-size: $message-font-size;
+                }
+                .chat-msg__time {
+                    margin-left: 0;
+                }
+            }
+
+            &.chat-msg--followup {
+                .chat-msg__heading,
+                .chat-msg__avatar {
+                    display: none;
+                }
+                .chat-msg__content {
+                    margin-left: 2.75rem;
+                }
+            }
+        }
+    }
+
+    .chatroom-body .message {
+        &.onload {
+            animation: colorchange-chatmessage-muc 1s;
+            -webkit-animation: colorchange-chatmessage-muc 1s;
+        }
+        .separator {
+            border: 0.5px solid $chatroom-head-color;
+        }
+    }
+}
+
+#conversejs.converse-overlayed {
+    .message {
+        &.chat-msg {
+            &.chat-msg--followup {
+                .chat-msg__content {
+                    margin-left: 0;
+                }
+            }
+        }
+    }
+}
+
+@media screen and (max-width: 767px) {
+    #conversejs:not(.converse-embedded)  {
+        .message {
+            &.chat-msg {
+                .chat-msg__author {
+                    white-space: normal;
+                }
+            }
+        }
+    }
+}
