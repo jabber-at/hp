@@ -46,7 +46,8 @@
             <span itemprop="name">{{ post.author.node }}</span>
         </span>
         <div itemprop="image" itemscope itemtype="https://schema.org/ImageObject">
-            <img src="{% canonical_static "core/img/itemprop.png" %}"/>
+          <img src="{% canonical_static "core/img/itemprop.png" %}" 
+               alt="{% blocktrans with brand=site.BRAND %}{{ brand }} logo{% endblocktrans %}" />
             <meta itemprop="url" content="{% canonical_static "core/img/itemprop.png" %}">
             <meta itemprop="width" content="60">
             <meta itemprop="height" content="60">
