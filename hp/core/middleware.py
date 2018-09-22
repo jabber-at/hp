@@ -124,10 +124,12 @@ def security_headers_middleware(get_response):
         csp = 'default-src \'self\';'
 
         # If we have conversejs configured, we add the bosh service url as connect-src.
-        bosh_url = settings.CONVERSEJS_CONFIG.get('bosh_service_url', '')
-        if bosh_url:
-            bosh_url = urlsplit(bosh_url)._replace(path='').geturl()
-            csp += " connect-src 'self' %s;" % bosh_url
+        if request.resolver_match.app_name == 'conversejs':
+            csp += " img-src data: 'self';"
+            bosh_url = settings.CONVERSEJS_CONFIG.get('bosh_service_url', '')
+            if bosh_url:
+                bosh_url = urlsplit(bosh_url)._replace(path='').geturl()
+                csp += " connect-src 'self' %s;" % bosh_url
 
         response['Content-Security-Policy'] = csp
         response['Referrer-Policy'] = 'strict-origin'
