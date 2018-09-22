@@ -14,6 +14,7 @@
 # <http://www.gnu.org/licenses/>.
 
 import logging
+from urllib.parse import urlsplit
 
 from ua_parser import user_agent_parser
 
@@ -115,10 +116,23 @@ class HomepageMiddleware(object):
             return TemplateResponse(request, template='core/errors/xmpp_backend.html', status=503)
 
 
-def csp_middleware(get_response):
-    """Middleware to add the CSP header in development."""
+def security_headers_middleware(get_response):
+    """Middleware to add security headers in development that normally would be set by the webserver."""
     def middleware(request):
         response = get_response(request)
-        response['Content-Security-Policy'] = 'default-src \'self\';'
+
+        csp = 'default-src \'self\';'
+
+        # If we have conversejs configured, we add the bosh service url as connect-src.
+        bosh_url = settings.CONVERSEJS_CONFIG.get('bosh_service_url', '')
+        if bosh_url:
+            bosh_url = urlsplit(bosh_url)._replace(path='').geturl()
+            csp += " connect-src 'self' %s;" % bosh_url
+
+        response['Content-Security-Policy'] = csp
+        response['Referrer-Policy'] = 'strict-origin'
+        response['X-Frame-Options'] = 'deny'
+        response['X-XSS-Protection'] = '1; mode=block'
+        response['X-Content-Type-Options'] = 'nosniff'
         return response
     return middleware
