@@ -16,12 +16,14 @@
 {% block title %}{% trans "Webchat" %}{% endblock title %}
 
 {% block page %}
-<div class="page-header"><h1>{% trans "Webchat" %}</h1></div>
-<p>{% blocktrans %}Welcome to our still <strong>very experimental</strong> Webchat.{% endblocktrans %}</p>
+<div class="col-12">
+    <div class="page-header"><h1>{% trans "Webchat" %}</h1></div>
+    <p>{% blocktrans %}Welcome to our still <strong>very experimental</strong> Webchat.{% endblocktrans %}</p>
 
-{% if user.is_anonymous %}
-<p>{% blocktrans with brand=site.NAME %}Use your JID (user@{{ brand }}) as XMPP username{% endblocktrans %}</p>
-{% else %}
-<p>{% blocktrans with jid=user %}Use your JID ({{ jid }}) as XMPP username.{% endblocktrans %}</p>
-{% endif %}
+    {% if user.is_anonymous %}
+    <p>{% blocktrans with brand=site.NAME %}Use your JID (user@{{ brand }}) as XMPP username.{% endblocktrans %}</p>
+    {% else %}
+    <p>{% blocktrans with jid=user %}Use your JID ({{ jid }}) as XMPP username.{% endblocktrans %}</p>
+    {% endif %}
+</div>
 {% endblock page %}
