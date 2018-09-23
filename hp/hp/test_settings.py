@@ -12,7 +12,13 @@ https://docs.djangoproject.com/en/1.9/ref/settings/
 
 import ipaddress
 import os
+import warnings
 from datetime import timedelta
+
+# we install warnigns as early as possible
+from django.utils import deprecation  # NOQA
+warnings.filterwarnings('error', category=deprecation.RemovedInNextVersionWarning)  # NOQA
+warnings.filterwarnings('always', category=deprecation.RemovedInDjango30Warning)  # NOQA
 
 from celery.schedules import crontab
 
