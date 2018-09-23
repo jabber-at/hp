@@ -128,7 +128,7 @@ class SeleniumMixin(object):
     def get_classes(self, elem):
         """Get CSS classes from the passed Element."""
 
-        return re.split('\s*', elem.get_attribute('class').strip())
+        return re.split('\s+', elem.get_attribute('class').strip())
 
     def get_validity(self, elem):
         """Get validity object from a HTML5 form field."""
