@@ -372,7 +372,6 @@ XMPP_BACKENDS = {
             'jabber.zone',
             'xmpp.zone',
         ],
-        'version': (1, 0),
     },
 }
 
