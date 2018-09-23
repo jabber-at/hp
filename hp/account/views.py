@@ -331,7 +331,7 @@ class LoginView(AntiSpamMixin, AnonymousRequiredMixin, HomepageViewMixin, FormVi
         redirect_to = self.request.POST.get(self.REDIRECT_FIELD_NAME, '')
 
         # Ensure the user-originating redirection url is safe.
-        if not is_safe_url(url=redirect_to, host=self.request.get_host()):
+        if not is_safe_url(url=redirect_to, allowed_hosts=[self.request.get_host()]):
             redirect_to = resolve_url(settings.LOGIN_REDIRECT_URL)
 
         user = form.get_user()
