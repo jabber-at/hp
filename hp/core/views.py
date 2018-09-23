@@ -291,7 +291,7 @@ class SetLanguageView(RedirectView):
             request.user.save()
 
         # Ensure the user-originating redirection url is safe.
-        if not redirect_to or not is_safe_url(url=redirect_to, host=request.get_host()):
+        if not redirect_to or not is_safe_url(url=redirect_to, allowed_hosts=[request.get_host()]):
             redirect_to = '/'
 
         return redirect_to
