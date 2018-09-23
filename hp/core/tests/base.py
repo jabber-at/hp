@@ -40,6 +40,9 @@ class HomepageTestCaseMixin(object):
         """Assert that `count` Celery tasks have been called."""
         self.assertEqual(mocked.call_count, count)
 
+    def assertNoTasks(self, mocked):
+        self.assertTaskCount(mocked, 0)
+
     def assertTaskCall(self, mocked, task, *args, **kwargs):
         self.assertTrue(mocked.called)
         a, k = mocked.call_args
