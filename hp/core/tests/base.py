@@ -20,6 +20,8 @@ from unittest import mock
 
 from celery import task
 from pyvirtualdisplay import Display
+from selenium.common.exceptions import NoSuchElementException
+from selenium.common.exceptions import TimeoutException
 from selenium.webdriver.firefox.webdriver import WebDriver
 from selenium.webdriver.support.wait import WebDriverWait
 
@@ -68,7 +70,6 @@ class SeleniumMixin(object):
             cls.vdisplay.start()
 
         cls.selenium = WebDriver(executable_path=settings.GECKODRIVER_PATH)
-        cls.selenium.implicitly_wait(10)
 
     @classmethod
     def tearDownClass(cls):
@@ -137,6 +138,16 @@ class SeleniumMixin(object):
     def get_valid(self, elem):
         val = self.get_validity(elem)
         return val['valid']
+
+    def assertNoElementExists(self, selector, wait=0):
+        """Assert that no element with the passed selector is present on the page."""
+
+        if wait:
+            with self.assertRaises(TimeoutException):
+                WebDriverWait(self.selenium, wait).until(lambda d: self.find(selector))
+        else:
+            with self.assertRaises(NoSuchElementException):
+                self.find(selector)
 
     def assertDisplayed(self, elem):
         if isinstance(elem, str):
