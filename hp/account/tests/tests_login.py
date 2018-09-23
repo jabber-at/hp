@@ -17,15 +17,10 @@ from datetime import datetime
 
 import pytz
 from freezegun import freeze_time
-from selenium.webdriver.common.keys import Keys
-from selenium.webdriver.support.ui import Select
 
-from django.conf import settings
 from django.contrib.auth import get_user_model
-from django.core import mail
 from django.test import Client
 from django.urls import reverse
-from django.utils.translation import get_language
 
 from xmpp_backends.django import xmpp_backend
 
