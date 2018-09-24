@@ -17,8 +17,8 @@ from django.contrib import admin
 from django.utils import timezone
 from django.utils.translation import ugettext_lazy as _
 
-from .forms import CertificateAdminForm
 from .forms import CertificateAdminAddForm
+from .forms import CertificateAdminForm
 from .models import Certificate
 
 
