@@ -21,8 +21,15 @@ from django.urls import reverse
 from django.views.generic.edit import FormView
 from django.views.generic.list import ListView
 
+from rest_framework import generics
+from rest_framework import mixins
+from rest_framework import permissions
+from rest_framework.authentication import BasicAuthentication
+from rest_framework.authentication import SessionAuthentication
+
 from .forms import SelectCertificateForm
 from .models import Certificate
+from .serializers import CertificateSerializer
 
 
 class CertificateOverview(ListView):
@@ -110,3 +117,13 @@ class CertificateDownload(CertificateMixin, FormView):
     def get(self, request, *args, **kwargs):
         cert = self.get_certificate()
         return HttpResponse(cert.pem, content_type='text/plain')
+
+
+class CreateCertificateAPI(mixins.CreateModelMixin, generics.GenericAPIView):
+    queryset = Certificate.objects.all()
+    serializer_class = CertificateSerializer
+    permission_classes = (permissions.DjangoModelPermissions, )
+    authentication_classes = (SessionAuthentication, BasicAuthentication)
+
+    def post(self, request, *args, **kwargs):
+        return self.create(request, *args, **kwargs)

@@ -72,6 +72,7 @@ _DEFAULT_INSTALLED_APPS = [
     'reversion',  # object history for blogposts/pages
     'tinymce',  # Rich text editor
     'xmpp_http_upload',  # XEP-0363
+    'rest_framework',  # for APIs
 ]
 
 MIDDLEWARE = [

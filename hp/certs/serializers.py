@@ -13,20 +13,14 @@
 # You should have received a copy of the GNU General Public License along with this project. If not, see
 # <http://www.gnu.org/licenses/>.
 
-from django.urls import path
-from django.urls import register_converter
+from rest_framework import serializers
 
-from core.converters import DateConverter
+from .models import Certificate
 
-from . import views
 
-register_converter(DateConverter, 'date')
-
-app_name = 'certs'
-urlpatterns = [
-    path('', views.CertificateOverview.as_view(), name='overview'),
-    path('api/certs/', views.CreateCertificateAPI.as_view()),
-    path('<hostname>/', views.CertificateView.as_view(), name='certs'),
-    path('<hostname>/<date:date>/', views.CertificateView.as_view(), name='cert-id'),
-    path('<hostname>/<date:date>/view/', views.CertificateDownload.as_view(), name='cert-view'),
-]
+class CertificateSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Certificate
+        fields = (
+            'pem', 'hostname',
+        )
