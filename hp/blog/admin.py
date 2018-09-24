@@ -158,7 +158,7 @@ class BasePageAdmin(VersionAdmin, BaseModelAdmin):
         css = {
             'all': (
                 'blog/admin/css/basepage.css',
-                'lib/fontawesome/web-fonts-with-css/css/fontawesome-all.min.css',
+                'lib/fontawesome/css/all.css',
             ),
         }
         js = (

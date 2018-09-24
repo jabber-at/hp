@@ -296,7 +296,7 @@ TINYMCE_DEFAULT_CONFIG = {
     },
     'content_css': [
         '/static/lib/bootstrap/css/bootstrap.min.css',
-        '/static/lib/fontawesome/web-fonts-with-css/css/fontawesome-all.min.css',
+        'lib/fontawesome/css/all.css',
         '/static/core/css/base.css',
         '/static/core/css/tinymce-preview.css',
     ],
