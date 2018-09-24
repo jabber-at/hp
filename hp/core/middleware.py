@@ -121,6 +121,10 @@ def security_headers_middleware(get_response):
     def middleware(request):
         response = get_response(request)
 
+        # Do nothing if DEBUG = False or if status_code != 200 (for Django tracebacks)
+        if settings.DEBUG is False or response.status_code != 200:
+            return response
+
         csp = 'default-src \'self\';'
 
         # If we have conversejs configured, we add the bosh service url as connect-src.
