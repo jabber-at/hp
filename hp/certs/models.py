@@ -21,6 +21,7 @@ from cryptography.hazmat.backends import default_backend
 from cryptography.hazmat.primitives import hashes
 from cryptography.x509.oid import ExtensionOID
 
+from django.conf import settings
 from django.db import models
 from django.urls import reverse
 from django.utils import timezone
@@ -69,6 +70,13 @@ class Certificate(BaseModel):
 
     def save(self, *args, **kwargs):
         # auto-compute values from certificate
+
+        if not self.hostname:
+            subject = {s.oid: s.value for s in self.x509.subject}
+            hostname = subject[x509.NameOID.COMMON_NAME]
+            if hostname in settings.XMPP_HOSTS:
+                self.hostname = hostname
+
         self.hostnames = self.get_hostnames()
         self.key_size = self.x509.public_key().key_size
         self.valid_from = pytz.utc.localize(self.x509.not_valid_before)

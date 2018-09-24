@@ -21,6 +21,4 @@ from .models import Certificate
 class CertificateSerializer(serializers.ModelSerializer):
     class Meta:
         model = Certificate
-        fields = (
-            'pem', 'hostname',
-        )
+        fields = ('pem',)
