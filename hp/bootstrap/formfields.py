@@ -417,10 +417,10 @@ class BootstrapFileField(BootstrapMixin, forms.FileField):
     def clean(self, value, initial=None):
         value = super().clean(value, initial=initial)
 
-        if value and value._size > self.maximum_file_size:
+        if value and value.size > self.maximum_file_size:
             raise forms.ValidationError(self.error_messages['too-large'] % {
                 'max_size': filesizeformat(self.maximum_file_size),
-                'size': filesizeformat(value._size),
+                'size': filesizeformat(value.size),
             }, code='too-large')
 
         if value and self.mime_types and value.content_type not in self.mime_types:
@@ -445,7 +445,7 @@ class BootstrapFileField(BootstrapMixin, forms.FileField):
         return {
             # NOTE: messages in this field are never displayed by JavaScript, so it's ok to have no value
             #       on initial load.
-            'size': value._size if value else '__size__',
+            'size': value.size if value else '__size__',
             'max_size': filesizeformat(self.maximum_file_size),
         }
 
