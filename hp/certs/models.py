@@ -70,7 +70,6 @@ class Certificate(BaseModel):
 
     def save(self, *args, **kwargs):
         # auto-compute values from certificate
-
         if not self.hostname:
             subject = {s.oid: s.value for s in self.x509.subject}
             hostname = subject[x509.NameOID.COMMON_NAME]

@@ -18,6 +18,7 @@ from django.utils import timezone
 from django.utils.translation import ugettext_lazy as _
 
 from .forms import CertificateAdminForm
+from .forms import CertificateAdminAddForm
 from .models import Certificate
 
 
@@ -67,7 +68,12 @@ class CertificateAdmin(admin.ModelAdmin):
         if obj is None:
             return (
                 (None, {
-                    'fields': ['hostname', 'enabled', 'pem', ],
+                    'fields': ['enabled', 'pem', ],
                 }),
             )
         return super().get_fieldsets(request, obj=obj)
+
+    def get_form(self, request, obj=None, **kwargs):
+        if obj is None:
+            kwargs['form'] = CertificateAdminAddForm
+        return super().get_form(request, obj=obj, **kwargs)

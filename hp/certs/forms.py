@@ -35,6 +35,11 @@ class CertificateSelectionField(BootstrapModelChoiceField):
         )
 
 
+class CertificateAdminAddForm(forms.ModelForm):
+    class Meta:
+        fields = ('enabled', 'pem', )
+
+
 class CertificateAdminForm(forms.ModelForm):
     hostname = forms.ChoiceField(choices=[(k, k) for k in settings.XMPP_HOSTS])
 
