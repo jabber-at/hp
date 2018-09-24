@@ -193,7 +193,7 @@ CSS_FILES = None
 _DEFAULT_CSS_FILES = [
     'lib/bootstrap/css/bootstrap.min.css',
     'lib/prism/prism.css',
-    'lib/fontawesome/web-fonts-with-css/css/fontawesome-all.css',
+    'lib/fontawesome/css/all.css',
     'core/css/bootstrap-hp.css',
     'core/css/base.css',
     'core/css/clients.css',
