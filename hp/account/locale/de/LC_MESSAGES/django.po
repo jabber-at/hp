@@ -26,10 +26,8 @@ msgid "created in backend"
 msgstr "Im Backend erstellt"
 
 #: admin.py:136
-#, fuzzy
-#| msgid "Send new registration confirmations"
 msgid "Send registration email"
-msgstr "Neue Registrierungsbestätigung schicken"
+msgstr "Registrierungsbestätigung schicken"
 
 #: admin.py:137
 msgid "Send new registration confirmations"
@@ -54,7 +52,7 @@ msgstr "Fehler beim importieren von  %(fingerprint)s: %(error)s"
 
 #: admin.py:201
 msgid "Refresh"
-msgstr ""
+msgstr "Neu laden"
 
 #: admin.py:202
 msgid "Refresh keys from keyserver"
@@ -88,7 +86,7 @@ msgstr "Der Benutzername existiert bereits."
 msgid ""
 "Could not check if the username already exists: Error communicating with the "
 "server."
-msgstr ""
+msgstr "Fehler beim überprüfen, ob der Benutzername bereits existiert."
 
 #: formfields.py:50
 msgid "Username cannot contain \"@\" or spaces."
@@ -96,25 +94,19 @@ msgstr "Der Benutzername darf keine \"@\"  oder Leerzeichen enthalten."
 
 #: formfields.py:61
 msgid "You are permanently blocked from using this page."
-msgstr ""
+msgstr "Sie sind permanent von dieser Homepage verbannt."
 
 #: formfields.py:62
-#, fuzzy
-#| msgid "Username cannot contain \"@\" or spaces."
 msgid "A username cannot contain spaces or \"@\"."
-msgstr "Der Benutzername darf keine \"@\"  oder Leerzeichen enthalten."
+msgstr "Der Benutzername darf keine \"@\" oder Leerzeichen enthalten."
 
 #: formfields.py:63
-#, fuzzy
-#| msgid "This username is already taken."
 msgid "A user with this username already exists."
-msgstr "Der Benutzername existiert bereits."
+msgstr "Der Benutzer mit diesem Namen existiert bereits."
 
 #: formfields.py:64
-#, fuzzy
-#| msgid "This username is already taken."
 msgid "A username is required."
-msgstr "Der Benutzername existiert bereits."
+msgstr "Sie müssen einen Benutzernamen angeben."
 
 #: formfields.py:65
 msgid "User not found."
@@ -126,10 +118,8 @@ msgid "Username must have at most %(max_length)s characters."
 msgstr "Der Benutzername darf maximal %(max_length)s Zeichen lang sein."
 
 #: formfields.py:69
-#, fuzzy, python-format
-#| msgid "Username must have at least %(limit_value)d characters."
 msgid "Username must have at least %(min_length)s characters."
-msgstr "Der Benutzername muss mindestens %(limit_value)d Zeichen lang sein."
+msgstr "Der Benutzername muss mindestens %(min_length)d Zeichen lang sein."
 
 #: formfields.py:83 models.py:85
 msgid "Username"
@@ -137,7 +127,7 @@ msgstr "Name"
 
 #: formfields.py:102
 msgid "Your username is used to identify you on the Jabber network."
-msgstr ""
+msgstr "Ihr Benutzername identifiziert sie im Jabber-Netzwerk."
 
 #: formfields.py:157
 msgid "Please enter a valid GPG key fingerprint."
@@ -178,7 +168,7 @@ msgstr "GPG ist nicht aktiviert."
 
 #: formfields.py:201
 msgid "Please upload an ASCII armored GPG key."
-msgstr ""
+msgstr "Bitte einen \"ASCII armoured\" GPG Schlüssel hochladen."
 
 #: formfields.py:208
 msgid "GPG Key"
@@ -211,17 +201,15 @@ msgstr "Ungültige E-Mail-Adresse."
 msgid "Please give your own email address, %(domain)s does not provide one."
 msgstr ""
 "Bitte geben sie ihre eigene E-Mail-Adresse an, %(domain)s stellt keine zur "
-"Verfüugung."
+"Verfügung."
 
 #: forms.py:129 forms.py:139
 msgid "Sorry, this email address cannot be used."
 msgstr "Diese E-Mail-Adresse kann leider nicht verwendet werden."
 
 #: forms.py:147
-#, fuzzy
-#| msgid "Required, a confirmation email will be sent to this address."
 msgid "A confirmation message will be sent to this address."
-msgstr "Pflichtfeld, eine Bestätigung wird an diese Adresse geschickt."
+msgstr "Eine Bestätigung wird an diese Adresse geschickt."
 
 #: forms.py:176 forms.py:246 models.py:86
 msgid "Email"
@@ -237,7 +225,7 @@ msgstr "E-Mail-Adresse wird bereits für ein anderes Konto verwendet."
 
 #: forms.py:193
 msgid "Your username and password didn't match. Please try again."
-msgstr ""
+msgstr "Ihr Benutzername und Password stimmen nicht. Bitte versuchen sie es erneut."
 
 #: forms.py:196 forms.py:220
 msgid "Password"
@@ -268,20 +256,16 @@ msgid ""
 msgstr "Ihr Passwort, damit sie sich auch ganz sicher sind."
 
 #: forms.py:239
-#, fuzzy
-#| msgid "Set password"
 msgid "Old password"
-msgstr "Passwort setzen"
+msgstr "Bisheriges Passwort"
 
 #: forms.py:239
 msgid "Your old password, just to be sure."
-msgstr ""
+msgstr "Ihr bisheriges Passwort, nur um sicher zu gehen."
 
 #: forms.py:240
-#, fuzzy
-#| msgid "Set password"
 msgid "New password"
-msgstr "Passwort setzen"
+msgstr "Neues Passwort"
 
 #: forms.py:247
 msgid "Required, an email will be sent to this address to confirm the change."
@@ -290,10 +274,8 @@ msgstr ""
 "bestätigen."
 
 #: forms.py:257
-#, fuzzy
-#| msgid "Please enter a valid GPG key fingerprint."
 msgid "Please either upload a key or give a fingerprint."
-msgstr "Bitte einen validen GPG Fingerabdruck angeben."
+msgstr "Bitte entweder einen Schlüssel hochladen oder einen Fingerabdruck hochladen angeben."
 
 #: models.py:224
 msgid "Error importing GPG key."
@@ -340,7 +322,7 @@ msgstr ""
 
 #: models.py:436
 msgid "The full Fingerprint, without the \"0x\" prefix."
-msgstr ""
+msgstr "Der volle Fingerabdruck, ohne dem \"0x\" Prefix."
 
 #: tasks.py:81
 msgid "Unable to fetch GPG key. Giving up and sending mail unencrypted. Sorry."
@@ -358,8 +340,6 @@ msgstr ""
 "Versuchen). Wir werden es in %(time)s noch einmal versuchen."
 
 #: tasks.py:178
-#, fuzzy
-#| msgid "Error importing GPG key."
 msgid "Unexpected error importing GPG key."
 msgstr "Fehler beim importieren des GPG-Schlüssels."
 
@@ -405,7 +385,7 @@ msgstr "Sie sind blockiert"
 #: templates/account/blocked.html:6
 msgid ""
 "You are blocked for abusive behaviour or violating the Terms of Service."
-msgstr ""
+msgstr "Sie sind wegen mißbräuchlichem Verhalten von dieser Homepage blockiert."
 
 #: templates/account/confirm/delete.html:3
 #: templates/account/confirm/delete.txt:1
@@ -666,13 +646,14 @@ msgstr "Noch Fragen? <a href=\"%(contact_url)s\">Kontaktiere uns!</a>"
 
 #: templates/account/no_registration.html:4
 msgid "Registration deactivated"
-msgstr ""
+msgstr "Registrierung deaktiviert"
 
 #: templates/account/no_registration.html:8
 msgid ""
 "Registration is currently deactivated. Please see the start\n"
 "page if there is any more information."
 msgstr ""
+"Die Registrierung is derzeit deaktiviert. Auf der Startseite finden sich vielleicht mehr informationen."
 
 #: templates/account/notifications.html:14
 msgid "Notifications"
@@ -734,7 +715,7 @@ msgstr ""
 
 #: templates/account/sessions.html:16
 msgid "Resource (Priority)"
-msgstr ""
+msgstr "Resource (Priorität)"
 
 #: templates/account/sessions.html:17
 msgid "Started"
@@ -742,7 +723,7 @@ msgstr "Beginn"
 
 #: templates/account/sessions.html:28
 msgid "Disconnect this session"
-msgstr ""
+msgstr "Verbindung trennen"
 
 #: templates/account/sessions.html:34
 msgid "You are currently not online with any client."
@@ -1106,11 +1087,11 @@ msgstr "%(current)s (%(left)s verbleibend)"
 
 #: templates/account/xep0363.html:77
 msgid "n/a"
-msgstr ""
+msgstr "N/A"
 
 #: views.py:194
 msgid "You cannot register with this email address."
-msgstr ""
+msgstr "Sie können sich nicht mit dieser E-Mail Adresse registrieren."
 
 #: views.py:208
 msgid "Account created."
@@ -1181,11 +1162,11 @@ msgstr "E-Mail-Adressänderung auf %(email)s bestätigt."
 
 #: views.py:642
 msgid "Total bytes"
-msgstr ""
+msgstr "Bytes insgesamt"
 
 #: views.py:654
 msgid "Maximum file size"
-msgstr ""
+msgstr "Maximale Dateigröße"
 
 #: views.py:664
 #, python-format
@@ -1227,69 +1208,3 @@ msgstr ""
 #: views.py:872
 msgid "Refreshing GPG key..."
 msgstr "GPG-Schlüssel wird aktualisiert..."
-
-#~ msgid "Submit"
-#~ msgstr "Bestätigen"
-
-#~ msgid "Delete"
-#~ msgstr "Löschen"
-
-#~ msgid "Send"
-#~ msgstr "Abschicken"
-
-#~ msgid "Overview"
-#~ msgstr "Übersicht"
-
-#~ msgid "Set E-Mail"
-#~ msgstr "E-Mail setzen"
-
-#~ msgid ""
-#~ "At least %(MIN_LENGTH)s and up to %(MAX_LENGTH)s characters. No \"@\" or "
-#~ "spaces."
-#~ msgstr ""
-#~ "Mindestens %(MIN_LENGTH)s und maximal %(MAX_LENGTH)s Zeichen. Keine \"@\" "
-#~ "oder Abstände."
-
-#~ msgid "Type to see if the username is still available."
-#~ msgstr ""
-#~ "Geben sie den gewünschen Benutzernamen ein, um zu sehen, ob er noch "
-#~ "verfügbar ist."
-
-#~ msgid "The username is still available."
-#~ msgstr "Der Benutzername ist verfügbar."
-
-#~ msgid "The username is no longer available."
-#~ msgstr "Der Benutzername ist nicht mehr verfügbar"
-
-#~ msgid "An error occured, please try again later."
-#~ msgstr "Ein Fehler ist aufgetreten, bitte versuchen sie es später erneut."
-
-#~ msgid "Fingerprint should be 40 characters long."
-#~ msgstr "Der Fingerabdruck muss exakt 40 Zeichen lang sein."
-
-#~ msgid "Fingerprint contains invalid characters."
-#~ msgstr "Der Fingerabdruck enthält ungültige Zeichen."
-
-#~ msgid "Only plain-text files are allowed (was: %(content-type)s)!"
-#~ msgstr ""
-#~ "Es sind ausschließlich Textdateien erlaubt (nicht %(content-type)s)!"
-
-#~ msgid "Confirm"
-#~ msgstr "Bestätigen"
-
-#~ msgid "Confirm the password to make sure you spelled it correctly."
-#~ msgstr "Bestätigen sie das Passwort um Tippfehler auszuschließen."
-
-#~ msgid "The two password fields didn't match."
-#~ msgstr "Die beiden Passwörter stimmen nicht überein."
-
-#~ msgid "Delete key"
-#~ msgstr "Schlüssel löschen"
-
-#~ msgid "<span class=\"glyphicon glyphicon-plus\"></span> Add another GPG key"
-#~ msgstr ""
-#~ "<span class=\"glyphicon glyphicon-plus\"></span> Schlüssel hinzufügen"
-
-#~ msgid "<span class=\"glyphicon glyphicon-plus\"></span> Add a GPG key"
-#~ msgstr ""
-#~ "<span class=\"glyphicon glyphicon-plus\"></span> GPG-Schlüsseln hinzufügen"
