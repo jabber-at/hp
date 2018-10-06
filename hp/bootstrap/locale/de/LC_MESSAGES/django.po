@@ -58,7 +58,7 @@ msgstr "Bestätigen sie das Passwort um Tippfehler auszuschließen."
 
 #: formfields.py:360
 msgid "Upload a file with the correct type."
-msgstr "Bitte eine Datei mit dem Datentyp hochladen."
+msgstr "Bitte eine Datei mit dem richtigen Datentyp hochladen."
 
 #: templates/bootstrap/forms/widgets/file_input.html:4
 msgid "Choose file"
