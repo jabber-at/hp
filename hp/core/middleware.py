@@ -20,6 +20,7 @@ from ua_parser import user_agent_parser
 
 from django.conf import settings
 from django.contrib import messages
+from django.core.cache import cache
 from django.db import transaction
 from django.http import HttpResponseRedirect
 from django.http.request import split_domain_port
@@ -32,6 +33,7 @@ from xmpp_backends.base import BackendError
 
 from .exceptions import HttpResponseException
 from .models import CachedMessage
+from .models import MenuItem
 
 log = logging.getLogger(__name__)
 
@@ -91,6 +93,19 @@ class HomepageMiddleware(object):
         request.os = self.get_os(request)
         request.os_mobile = request.os in ['android', 'ios', 'any']
 
+        # Get data that is used with every request and requires database access and cache it
+        cache_key = 'request_context'
+        cached = cache.get(cache_key)
+        if cached is None:
+            cached = {
+                'menuitems': MenuItem.objects.all(),
+            }
+            for item in cached['menuitems']:
+                item.cached_data  # touch cached_data to make sure that all properties serialized
+
+            cache.set(cache_key, cached)
+        request.hp_request_context = cached
+
         response = self.get_response(request)
         return response
 
@@ -118,6 +133,7 @@ class HomepageMiddleware(object):
 
 def security_headers_middleware(get_response):
     """Middleware to add security headers in development that normally would be set by the webserver."""
+
     def middleware(request):
         response = get_response(request)
 

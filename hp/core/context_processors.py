@@ -43,16 +43,6 @@ def basic(request):
     }
 
     # Data that requires database access is cached
-    cache_key = 'request_context'
-    cached = cache.get(cache_key)
-    if cached is None:
-        cached = {
-            'menuitems': MenuItem.objects.all(),
-        }
-        for item in cached['menuitems']:
-            item.cached_data  # touch cached_data to make sure that all properties serialized
-
-        cache.set(cache_key, cached)
-    context.update(cached)
+    context.update(request.hp_request_context)
 
     return context
