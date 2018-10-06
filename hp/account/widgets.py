@@ -18,6 +18,7 @@ from django.conf import settings
 from django.contrib.admin.widgets import AdminTextInputWidget
 
 from bootstrap.widgets import BootstrapEmailInput
+from bootstrap.widgets import BootstrapFileInput
 from bootstrap.widgets import BootstrapMultiWidget
 from bootstrap.widgets import BootstrapSelect
 from bootstrap.widgets import BootstrapTextInput
@@ -60,6 +61,15 @@ class DomainWidget(BootstrapSelect):
 
 class FingerprintWidget(BootstrapTextInput):
     css_classes = 'gpg-fingerprint'
+
+
+class KeyUploadWidget(BootstrapFileInput):
+    class Media:
+        css = {
+            'all': (
+                'account/css/keyupload_widget.css',
+            ),
+        }
 
 
 class UsernameWidget(BootstrapMultiWidget):

@@ -13,7 +13,9 @@
 # You should have received a copy of the GNU General Public License along with this project. If
 # not, see <http://www.gnu.org/licenses/>.
 
+import os
 from datetime import datetime
+from io import BytesIO
 
 import pytz
 from freezegun import freeze_time
@@ -50,6 +52,8 @@ EMAIL = 'user@example.com'
 COMMON_PWD = 'password123'
 PWD = 'GVIhRx5y3uH2'
 PWD2 = 'oJsfiLCwshha'
+
+testdata_path = os.path.join(os.path.dirname(__file__), 'testdata')
 
 
 class RegistrationTestCase(TestCase):
@@ -108,6 +112,54 @@ class RegistrationTestCase(TestCase):
         # Confirm email address
         # Check updated user
         # Check XMPP backend (user should be present)
+
+
+class RegistrationWithGPGTestCase(TestCase):
+    def test_bogus_data(self):
+        url = reverse('account:register')
+        client = Client()
+
+        self.assertEqual(User.objects.count(), 0)
+
+        get = client.get(url)
+        self.assertEqual(get.status_code, 200)
+        self.assertTrue(get.context['user'].is_anonymous)
+        self.assertTrue('form' in get.context)
+
+        with self.mock_celery() as mock:
+            response = client.post(url, {
+                'username_0': NODE, 'username_1': DOMAIN, 'email': EMAIL,
+                'gpg_key': BytesIO(b'\x00\x00'),
+            }, follow=True)
+        self.assertEqual(User.objects.count(), 0)
+        self.assertNoTasks(mock)
+        self.assertFormError(response, 'form', 'gpg_key', ['Upload a file with the correct type.'])
+
+    def test_binary_gpg_data(self):
+        url = reverse('account:register')
+        client = Client()
+
+        self.assertEqual(User.objects.count(), 0)
+
+        get = client.get(url)
+        self.assertEqual(get.status_code, 200)
+        self.assertTrue(get.context['user'].is_anonymous)
+        self.assertTrue('form' in get.context)
+
+        with open(os.path.join(testdata_path, 'non_armored.gpg'), 'rb') as stream:
+            data = stream.read()
+        data = BytesIO(data)
+        data.name = 'non_armored.gpg'
+        data.content_type = 'application/pgp-encrypted'
+
+        with self.mock_celery() as mock:
+            response = client.post(url, {
+                'username_0': NODE, 'username_1': DOMAIN, 'email': EMAIL,
+                'gpg_key': data,
+            }, follow=True)
+        self.assertEqual(User.objects.count(), 0)
+        self.assertNoTasks(mock)
+        self.assertFormError(response, 'form', 'gpg_key', ['Please upload an ASCII armored GPG key.'])
 
 
 class RegisterSeleniumTests(SeleniumTestCase):

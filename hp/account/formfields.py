@@ -31,6 +31,7 @@ from bootstrap.formfields import BootstrapMixin
 from .widgets import DomainWidget
 from .widgets import EmailVerifiedDomainWidget
 from .widgets import FingerprintWidget
+from .widgets import KeyUploadWidget
 from .widgets import NodeWidget
 from .widgets import UsernameAdminWidget
 from .widgets import UsernameWidget
@@ -197,8 +198,10 @@ class FingerprintField(BootstrapCharField):
 class KeyUploadField(BootstrapFileField):
     default_error_messages = {
         'not-enabled': _('GPG not enabled.'),
+        'no-ascii': _('Please upload an ASCII armored GPG key.'),
     }
     default_mime_types = {'text/plain', 'application/pgp-encrypted', 'application/pgp-keys', }
+    widget = KeyUploadWidget
 
     def __init__(self, **kwargs):
         kwargs.setdefault('required', False)
@@ -209,6 +212,37 @@ class KeyUploadField(BootstrapFileField):
 
         # define error messages
         super().__init__(**kwargs)
+
+    def to_python(self, data):
+        """Validate that uploaded file is indeed an ASCII armoured GPG key.
+
+        So far, this function only validates that the file can be decoded as UTF-8. The most
+        common case where this happens is if the user forgets to ASCII armor the key.
+
+        This function is inspired by ImageField.to_python().
+        """
+
+        f = super().to_python(data)
+        if f is None:
+            return None
+
+        if hasattr(data, 'temporary_file_path'):
+            with open(data.temporary_file_path(), 'rb') as stream:
+                data = stream.read()
+        else:
+            if hasattr(data, 'read'):
+                data = data.read()
+            else:
+                data = data['content']
+
+        try:
+            data.decode('utf-8')
+        except UnicodeDecodeError:
+            raise forms.ValidationError(self.error_messages['no-ascii'], code='no-ascii')
+
+        if hasattr(f, 'seek') and callable(f.seek):
+            f.seek(0)
+        return f
 
     def clean(self, value, initial=None):
         # This check is just to be sure
