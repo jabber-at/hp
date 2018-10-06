@@ -22,6 +22,7 @@ from django.contrib import admin
 from django.urls import path
 
 urlpatterns = [
+    url(r'^%s/uwsgi/' % settings.ADMIN_URL.strip('/'), include('django_uwsgi.urls')),
     url(r'^%s/' % settings.ADMIN_URL.strip('/'), admin.site.urls),
     url(r'^tinymce/', include('tinymce.urls')),
     url(r'^captcha/', include('captcha.urls')),
