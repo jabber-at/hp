@@ -85,6 +85,7 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'core.middleware.HomepageMiddleware',
+    'blog.middleware.blog_middleware',
 ]
 
 ROOT_URLCONF = 'hp.urls'
