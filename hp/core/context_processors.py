@@ -16,9 +16,6 @@
 from datetime import date
 
 from django.conf import settings
-from django.core.cache import cache
-
-from .models import MenuItem
 
 
 def basic(request):
