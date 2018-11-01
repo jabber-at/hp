@@ -94,6 +94,9 @@ class UserAdmin(DjangoObjectActions, VersionAdmin, BaseUserAdmin):
                        ('registered', 'confirmed', 'last_activity', ),
                        'registration_method', 'blocked', 'default_language', ),
         }),
+        (_('Permissions'), {
+            'fields': ['is_superuser', 'groups', 'user_permissions'],
+        }),
     )
     form = AdminUserForm
     list_display = ('username', 'email', 'blocked', 'registered', 'confirmed', 'last_activity', )
