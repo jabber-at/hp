@@ -177,6 +177,13 @@ class CreateUserForm(GPGMixin, BootstrapFormMixin, CaptchaFormMixin, EmailValida
         help_text=_('Required, a confirmation email will be sent to this address.')
     )
 
+    default_buttons = {
+        'submit': {
+            'text': _('Register'),
+            'class': 'primary',
+        },
+    }
+
     def clean_email(self):
         email = super(CreateUserForm, self).clean_email()
         if settings.REQUIRE_UNIQUE_EMAIL and email and User.objects.filter(email=email).exists():
@@ -189,11 +196,18 @@ class CreateUserForm(GPGMixin, BootstrapFormMixin, CaptchaFormMixin, EmailValida
 
 
 class LoginForm(BootstrapFormMixin, CaptchaFormMixin, AuthenticationForm):
+    username = UsernameField()
+    password = BootstrapPasswordField(label=_('Password'))
+
+    default_buttons = {
+        'submit': {
+            'text': _('Login'),
+            'class': 'primary',
+        },
+    }
     error_messages = {
         'invalid_login': _('Your username and password didn\'t match. Please try again.'),
     }
-    username = UsernameField()
-    password = BootstrapPasswordField(label=_('Password'))
 
 
 class NotificationsForm(BootstrapFormMixin, forms.ModelForm):
@@ -220,6 +234,13 @@ class DeleteAccountForm(BootstrapFormMixin, forms.Form):
         label=_('Password'), help_text=_(
             'Your password, to make sure that you really want to delete your account.'))
 
+    default_buttons = {
+        'submit': {
+            'text': _('Delete account'),
+            'class': 'primary',
+        },
+    }
+
 
 class SetPasswordForm(BootstrapFormMixin, CaptchaFormMixin, SetPasswordFormBase):
     """Form used when the user can set his password *without* providing the old password.
@@ -240,12 +261,26 @@ class PasswordChangeForm(BootstrapFormMixin, PasswordChangeFormBase):
     new_password1 = BootstrapSetPasswordField(label=_('New password'))
     new_password2 = BootstrapConfirmPasswordField()
 
+    default_buttons = {
+        'submit': {
+            'text': _('Set password'),
+            'class': 'primary',
+        },
+    }
+
 
 class SetEmailForm(GPGMixin, BootstrapFormMixin, EmailValidationMixin, forms.Form):
     email = EmailVerifiedDomainField(
         label=_('Email'),
         help_text=_('Required, an email will be sent to this address to confirm the change.')
     )
+
+    default_buttons = {
+        'submit': {
+            'text': _('Set email'),
+            'class': 'primary',
+        },
+    }
 
 
 class AddGpgForm(GPGMixin, BootstrapFormMixin, forms.Form):
@@ -263,3 +298,10 @@ class ResetPasswordForm(BootstrapFormMixin, CaptchaFormMixin, forms.Form):
     """Form used when a user forgot his password and forgot it."""
 
     username = UsernameField()
+
+    default_buttons = {
+        'submit': {
+            'text': _('Request new password'),
+            'class': 'primary',
+        },
+    }
