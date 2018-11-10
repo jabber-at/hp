@@ -105,6 +105,10 @@ class EmailValidationMixin(object):
 
     Ensures that email address is not banned and that the xmpp server domain is not used.
     """
+    error_messages = {
+        'blacklist': _('This email address is banned from using this site.'),
+    }
+
     def clean_email(self):
         email = self.cleaned_data['email']
 
@@ -126,7 +130,7 @@ class EmailValidationMixin(object):
         # check if the address is in settings.EMAIL_BLACKLIST
         for regex in settings.EMAIL_BLACKLIST:
             if regex.search(email):
-                raise forms.ValidationError(_('Sorry, this email address cannot be used.'))
+                raise forms.ValidationError(self.error_messages['blacklist'], code='blacklist')
 
         if settings.EMAIL_WHITELIST:
             matched = False

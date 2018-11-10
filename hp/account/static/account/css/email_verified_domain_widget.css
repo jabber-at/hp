@@ -1,4 +1,5 @@
 .was-validated.invalid-domain-banned .form-control:invalid ~ .invalid-feedback.invalid-domain-banned,
+.was-validated.invalid-blacklist .form-control:invalid ~ .invalid-feedback.invalid-blacklist,
 .was-validated.invalid-domain-does-not-exist .form-control:invalid ~ .invalid-feedback.invalid-domain-does-not-exist {
     display: block
 }
