@@ -17,6 +17,7 @@ password or if your account hasn't been used for a year and is about to be
 removed.{% endblocktrans %}
 </div>
 <form enctype="multipart/form-data" class="form-horizontal needs-validation" action="" method="post">{% csrf_token %}
+  {# TODO: add a template for handling non-field errors #}
   {{ form.username.formgroup }}
   {{ form.email.formgroup }}
 
