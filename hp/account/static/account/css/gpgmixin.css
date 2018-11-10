@@ -8,3 +8,6 @@
 .gpg-header-row {
     cursor: pointer;
 }
+.gpg-header-row.hidden-with-js {
+    margin-bottom: 1rem;
+}
