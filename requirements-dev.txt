@@ -2,14 +2,14 @@ Fabric3==1.14.post1
 Sphinx==1.8.1
 django-debug-toolbar==1.10.1
 fabric-webbuilders==0.3
-flake8==3.5.0
-freezegun==0.3.10
+flake8==3.6.0
+freezegun==0.3.11
 gnupg==2.3.1
 ipython>=7.0.1
 isort==4.3.4
 numpydoc==0.8.0
 pyflakes==2.0.0
 pyvirtualdisplay==0.2.1
-selenium==3.14.1
+selenium==3.141.0
 sphinx-autobuild==0.7.1
 sphinx-rtd-theme==0.4.2
