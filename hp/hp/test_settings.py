@@ -17,8 +17,10 @@ from datetime import timedelta
 
 # we install warnigns as early as possible
 from django.utils import deprecation  # NOQA
-warnings.filterwarnings('error', category=deprecation.RemovedInNextVersionWarning)  # NOQA
-warnings.filterwarnings('always', category=deprecation.RemovedInDjango30Warning)  # NOQA
+warnings.filterwarnings(action='always')  # NOQA
+warnings.filterwarnings(action='error', module='hp')  # NOQA
+msg = 'Remove the context parameter from JSONField\.from_db_value\(\)\.'  # NOQA
+warnings.filterwarnings(action='ignore', category=deprecation.RemovedInDjango30Warning, message=msg)  # NOQA
 
 from celery.schedules import crontab
 
