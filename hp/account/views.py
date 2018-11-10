@@ -89,6 +89,8 @@ from .constants import PURPOSE_REGISTER
 from .constants import PURPOSE_RESET_PASSWORD
 from .constants import PURPOSE_SET_EMAIL
 from .forms import AddGpgForm
+from .forms import ConfirmRegistrationForm
+from .forms import ConfirmResetPasswordForm
 from .forms import CreateUserForm
 from .forms import DeleteAccountForm
 from .forms import LoginForm
@@ -96,7 +98,6 @@ from .forms import NotificationsForm
 from .forms import PasswordChangeForm
 from .forms import ResetPasswordForm
 from .forms import SetEmailForm
-from .forms import SetPasswordForm
 from .models import Confirmation
 from .tasks import add_gpg_key_task
 from .tasks import send_confirmation_task
@@ -275,7 +276,7 @@ class KeyUserConfirmationMixin(ConfirmationMixin):
 class ConfirmRegistrationView(KeyUserConfirmationMixin, FormView):
     """View for confirming a registration e-mail."""
 
-    form_class = SetPasswordForm
+    form_class = ConfirmRegistrationForm
     queryset = _confirmation_qs.purpose(PURPOSE_REGISTER)
     success_url = reverse_lazy('account:detail')
     template_name = 'account/user_register_confirm.html'
@@ -402,7 +403,7 @@ class ResetPasswordView(AntiSpamMixin, AnonymousRequiredMixin, HomepageViewMixin
 
 
 class ConfirmResetPasswordView(KeyUserConfirmationMixin, FormView):
-    form_class = SetPasswordForm
+    form_class = ConfirmResetPasswordForm
     queryset = _confirmation_qs.purpose(PURPOSE_RESET_PASSWORD)
     success_url = reverse_lazy('account:detail')
     template_name = 'account/user_password_reset_confirm.html'

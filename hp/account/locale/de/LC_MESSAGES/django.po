@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-11-10 13:13+0100\n"
+"POT-Creation-Date: 2018-11-10 13:29+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -27,7 +27,7 @@ msgstr "Im Backend erstellt"
 
 #: admin.py:97
 msgid "Permissions"
-msgstr ""
+msgstr "Berechtigungen"
 
 #: admin.py:139
 msgid "Send registration email"
@@ -216,7 +216,7 @@ msgstr "Diese E-Mail-Adresse kann leider nicht verwendet werden."
 msgid "A confirmation message will be sent to this address."
 msgstr "Eine Bestätigung wird an diese Adresse geschickt."
 
-#: forms.py:176 forms.py:274 models.py:86
+#: forms.py:176 forms.py:294 models.py:86
 msgid "Email"
 msgstr "E-Mail"
 
@@ -228,7 +228,7 @@ msgstr "Pflichtfeld, eine Bestätigung wird an diese Adresse geschickt."
 msgid "Register"
 msgstr "Registrieren"
 
-#: forms.py:190 views.py:555
+#: forms.py:190 views.py:556
 msgid "Email address is already used by another account."
 msgstr "E-Mail-Adresse wird bereits für ein anderes Konto verwendet."
 
@@ -238,7 +238,7 @@ msgstr "Passwort"
 
 #: forms.py:204
 msgid "Login"
-msgstr ""
+msgstr "Einloggen"
 
 #: forms.py:209
 msgid "Your username and password didn't match. Please try again."
@@ -274,39 +274,48 @@ msgstr "Ihr Passwort, damit sie sich auch ganz sicher sind."
 msgid "Delete account"
 msgstr "Konto löschen"
 
-#: forms.py:260
+#: forms.py:258
+msgid "Complete registration"
+msgstr "Registrierung abschließen"
+
+#: forms.py:268 templates/account/user_password_reset.html:4
+#: templates/account/user_password_reset_confirm.html:4
+msgid "Reset password"
+msgstr "Passwort neu setzen"
+
+#: forms.py:280
 msgid "Old password"
 msgstr "Bisheriges Passwort"
 
-#: forms.py:260
+#: forms.py:280
 msgid "Your old password, just to be sure."
 msgstr "Ihr bisheriges Passwort, nur um sicher zu gehen."
 
-#: forms.py:261
+#: forms.py:281
 msgid "New password"
 msgstr "Neues Passwort"
 
-#: forms.py:266 templates/account/set_password.html:4
+#: forms.py:286 templates/account/set_password.html:4
 msgid "Set password"
 msgstr "Passwort setzen"
 
-#: forms.py:275
+#: forms.py:295
 msgid "Required, an email will be sent to this address to confirm the change."
 msgstr ""
 "Pflichtfeld, eine E-Mail wird an diese Adresse gesendet um die Änderung zu "
 "bestätigen."
 
-#: forms.py:280
+#: forms.py:300
 msgid "Set email"
 msgstr "E-Mail-Adresse setzen"
 
-#: forms.py:292
+#: forms.py:312
 msgid "Please either upload a key or give a fingerprint."
 msgstr ""
 "Bitte entweder einen Schlüssel hochladen oder einen Fingerabdruck hochladen "
 "angeben."
 
-#: forms.py:304
+#: forms.py:324
 msgid "Request new password"
 msgstr "Neues Passwort anfordern"
 
@@ -865,11 +874,6 @@ msgstr "Bitte melden sie sich an, um diese Seite zu sehen."
 msgid "Forgot your password?"
 msgstr "Passwort vergessen?"
 
-#: templates/account/user_password_reset.html:4
-#: templates/account/user_password_reset_confirm.html:4
-msgid "Reset password"
-msgstr "Passwort neu setzen"
-
 #: templates/account/user_password_reset.html:9
 msgid "Please check your email inbox!"
 msgstr "Bitte überprüfen sie ihre E-Mail Inbox!"
@@ -1112,15 +1116,15 @@ msgstr "%(current)s (%(left)s verbleibend)"
 msgid "n/a"
 msgstr "N/A"
 
-#: views.py:194
+#: views.py:195
 msgid "You cannot register with this email address."
 msgstr "Sie können sich nicht mit dieser E-Mail Adresse registrieren."
 
-#: views.py:208
+#: views.py:209
 msgid "Account created."
 msgstr "Konto erstellt."
 
-#: views.py:213
+#: views.py:214
 #, python-format
 msgid ""
 "Successfully created the account %(username)s. A confirmation email was\n"
@@ -1131,40 +1135,40 @@ msgstr ""
 "Adresse (%(email)s) versandt. Bevor sie ihr Konto nutzen können, müssen sie "
 "den Link in der E-Mail bestätigen."
 
-#: views.py:306
+#: views.py:307
 #, python-format
 msgid "Email address %(email)s confirmed."
 msgstr "E-Mail-Adresse %(email)s bestätigt."
 
-#: views.py:310
+#: views.py:311
 msgid ""
 "Successfully confirmed your email address. You can now use your account."
 msgstr ""
 "Ihre E-Mail-Adresse wurde erfolgreich bestätigt. Sie können nun ihr Konto "
 "nutzen."
 
-#: views.py:393
+#: views.py:394
 msgid "Requested password reset."
 msgstr "Neues Passwort angefordert."
 
-#: views.py:425 views.py:478
+#: views.py:426 views.py:479
 msgid "Set new password."
 msgstr "Neues Passwort gesetzt."
 
-#: views.py:426 views.py:481
+#: views.py:427 views.py:482
 msgid "Successfully changed your password."
 msgstr "Passwort erfolgreich geändert."
 
-#: views.py:520
+#: views.py:521
 msgid "Resent confirmation."
 msgstr "Bestätigung erneut geschickt."
 
-#: views.py:523
+#: views.py:524
 #, python-format
 msgid "Resent confirmation email to %(email)s."
 msgstr "Bestätigung erneut auf %(email)s geschickt."
 
-#: views.py:567
+#: views.py:568
 #, python-format
 msgid ""
 "We sent you an email to your new email address (%(email)s). Click on the "
@@ -1173,61 +1177,61 @@ msgstr ""
 "Wir haben ihnen eine E-Mail an ihre neue Adresse %(email)s geschickt. "
 "Klicken sie auf den Link in der E-Mail, um die Änderung zu bestätigen."
 
-#: views.py:569
+#: views.py:570
 #, python-format
 msgid "Requested change of email address to %(email)s."
 msgstr "Änderung der E-Mail-Adresse auf %(email)s beantragt."
 
-#: views.py:606 views.py:608
+#: views.py:607 views.py:609
 #, python-format
 msgid "Confirmed email address change to %(email)s."
 msgstr "E-Mail-Adressänderung auf %(email)s bestätigt."
 
-#: views.py:642
+#: views.py:643
 msgid "Total bytes"
 msgstr "Bytes insgesamt"
 
-#: views.py:654
+#: views.py:655
 msgid "Maximum file size"
 msgstr "Maximale Dateigröße"
 
-#: views.py:664
+#: views.py:665
 #, python-format
 msgid "Bytes/%(delta)s"
 msgstr ""
 
-#: views.py:679
+#: views.py:680
 #, python-format
 msgid "Uploads/%(delta)s"
 msgstr ""
 
-#: views.py:718
+#: views.py:719
 msgid "Processing new GPG key, it will be added in a moment."
 msgstr "Neuer GPG-Schlüssel wird verarbeitet."
 
-#: views.py:748 views.py:782
+#: views.py:749 views.py:783
 msgid "The password is incorrect."
 msgstr "Das Passwort stimmt nicht."
 
-#: views.py:760
+#: views.py:761
 #, python-format
 msgid "We sent you an email to %(email)s to confirm your request."
 msgstr ""
 "Wir haben ihnen eine E-Mail an %(email)s geschickt, um das Löschen ihres "
 "Kontos zu bestätigen."
 
-#: views.py:762
+#: views.py:763
 msgid "Requested deletion of account."
 msgstr "Löschung ihres Kontos beantragt."
 
-#: views.py:826
+#: views.py:827
 msgid "Your email address is already confirmed."
 msgstr "Ihre E-Mail-Adresse ist bereits bestätigt."
 
-#: views.py:835
+#: views.py:836
 msgid "This session was forcefully stopped via our homepage."
-msgstr ""
+msgstr "Diese Verbindung wurde über unsere Homepage getrennt."
 
-#: views.py:872
+#: views.py:873
 msgid "Refreshing GPG key..."
 msgstr "GPG-Schlüssel wird aktualisiert..."

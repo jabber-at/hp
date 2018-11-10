@@ -251,6 +251,26 @@ class SetPasswordForm(BootstrapFormMixin, CaptchaFormMixin, SetPasswordFormBase)
     new_password2 = BootstrapConfirmPasswordField()
 
 
+class ConfirmRegistrationForm(SetPasswordForm):
+    # override the button text
+    default_buttons = {
+        'submit': {
+            'text': _('Complete registration'),
+            'class': 'primary',
+        },
+    }
+
+
+class ConfirmResetPasswordForm(SetPasswordForm):
+    # override the button text
+    default_buttons = {
+        'submit': {
+            'text': _('Reset password'),
+            'class': 'primary',
+        },
+    }
+
+
 class PasswordChangeForm(BootstrapFormMixin, PasswordChangeFormBase):
     """Form used when the user sets his password but has to provide his old password too.
 
