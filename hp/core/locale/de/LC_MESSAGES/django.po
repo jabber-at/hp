@@ -290,7 +290,7 @@ msgid ""
 "<strong>Error:</strong> The Jabber server itself is currently unavailable.\n"
 "Please try again later!"
 msgstr ""
-"<strong>Fehler:</strong> Der Jabber-Server ist derzeit nicht erreichbar."
+"<strong>Fehler:</strong> Der Jabber-Server ist derzeit nicht erreichbar. "
 "Bitte versuchen sie es später erneut!"
 
 #: templates/core/errors/xmpp_backend.html:11
@@ -302,7 +302,7 @@ msgid ""
 "already working on the problem."
 msgstr ""
 "Auf unserer <a href=\"https://twitter.com/%(TWITTER_HANDLE)s\">Twitter "
-"Seite</a>erfahren sie normalerweise am schnellsten, was bei uns nicht stimmt "
+"Seite</a> erfahren sie normalerweise am schnellsten, was bei uns nicht stimmt "
 "und ob wir bereits an der Behebung des Problems arbeiten."
 
 #: templates/core/errors/xmpp_backend.html:16
