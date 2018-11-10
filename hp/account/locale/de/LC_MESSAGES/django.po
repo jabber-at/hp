@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-10-06 15:22+0200\n"
+"POT-Creation-Date: 2018-11-10 13:13+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -25,40 +25,44 @@ msgstr "Bestätigte E-Mail"
 msgid "created in backend"
 msgstr "Im Backend erstellt"
 
-#: admin.py:136
+#: admin.py:97
+msgid "Permissions"
+msgstr ""
+
+#: admin.py:139
 msgid "Send registration email"
 msgstr "Registrierungsbestätigung schicken"
 
-#: admin.py:137
+#: admin.py:140
 msgid "Send new registration confirmations"
 msgstr "Neue Registrierungsbestätigung schicken"
 
-#: admin.py:152
+#: admin.py:155
 msgid "Block"
 msgstr "Blockieren"
 
-#: admin.py:153
+#: admin.py:156
 msgid "Block this user"
 msgstr "Diesen Benutzer blockieren"
 
-#: admin.py:158
+#: admin.py:161
 msgid "Block selected users"
 msgstr "Ausgewählte Benutzer blockieren"
 
-#: admin.py:197
+#: admin.py:200
 #, python-format
 msgid "Error importing %(fingerprint)s: %(error)s"
 msgstr "Fehler beim importieren von  %(fingerprint)s: %(error)s"
 
-#: admin.py:201
+#: admin.py:204
 msgid "Refresh"
 msgstr "Neu laden"
 
-#: admin.py:202
+#: admin.py:205
 msgid "Refresh keys from keyserver"
 msgstr "Schlüssel vom Keyserver aktualisieren"
 
-#: admin.py:215
+#: admin.py:218
 msgid "Resend confirmations"
 msgstr "E-Mail erneut schicken"
 
@@ -118,8 +122,9 @@ msgid "Username must have at most %(max_length)s characters."
 msgstr "Der Benutzername darf maximal %(max_length)s Zeichen lang sein."
 
 #: formfields.py:69
+#, python-format
 msgid "Username must have at least %(min_length)s characters."
-msgstr "Der Benutzername muss mindestens %(min_length)d Zeichen lang sein."
+msgstr "Der Benutzername muss mindestens %(min_length)s Zeichen lang sein."
 
 #: formfields.py:83 models.py:85
 msgid "Username"
@@ -211,7 +216,7 @@ msgstr "Diese E-Mail-Adresse kann leider nicht verwendet werden."
 msgid "A confirmation message will be sent to this address."
 msgstr "Eine Bestätigung wird an diese Adresse geschickt."
 
-#: forms.py:176 forms.py:246 models.py:86
+#: forms.py:176 forms.py:274 models.py:86
 msgid "Email"
 msgstr "E-Mail"
 
@@ -219,63 +224,91 @@ msgstr "E-Mail"
 msgid "Required, a confirmation email will be sent to this address."
 msgstr "Pflichtfeld, eine Bestätigung wird an diese Adresse geschickt."
 
-#: forms.py:183 views.py:555
+#: forms.py:182 templates/account/user_register.html:4
+msgid "Register"
+msgstr "Registrieren"
+
+#: forms.py:190 views.py:555
 msgid "Email address is already used by another account."
 msgstr "E-Mail-Adresse wird bereits für ein anderes Konto verwendet."
 
-#: forms.py:193
-msgid "Your username and password didn't match. Please try again."
-msgstr "Ihr Benutzername und Password stimmen nicht. Bitte versuchen sie es erneut."
-
-#: forms.py:196 forms.py:220
+#: forms.py:200 forms.py:234
 msgid "Password"
 msgstr "Passwort"
 
-#: forms.py:208
+#: forms.py:204
+msgid "Login"
+msgstr ""
+
+#: forms.py:209
+msgid "Your username and password didn't match. Please try again."
+msgstr ""
+"Ihr Benutzername und Password stimmen nicht. Bitte versuchen sie es erneut."
+
+#: forms.py:222
 msgid "my account expires"
 msgstr "mein Konto abläuft"
 
-#: forms.py:209
+#: forms.py:223
 msgid "my GPG key expires"
 msgstr "mein GPG-Schlüssel abläuft"
 
-#: forms.py:213
+#: forms.py:227
 msgid ""
 "Accounts are automatically removed if they haven't been used for a year."
 msgstr ""
 "Ihr Konto wird automatisch gelöscht, wenn sie es ein Jahr lang nicht mehr "
 "genutzt haben."
 
-#: forms.py:214
+#: forms.py:228
 msgid "If you have uploaded a GPG key and it is about to expire."
 msgstr "wenn sie einen GPG-Schlüssel hochgeladen haben und dieser abläuft."
 
-#: forms.py:221
+#: forms.py:235
 msgid ""
 "Your password, to make sure that you really want to delete your account."
 msgstr "Ihr Passwort, damit sie sich auch ganz sicher sind."
 
-#: forms.py:239
+#: forms.py:239 templates/account/delete.html:4
+#: templates/account/delete_confirm.html:4
+msgid "Delete account"
+msgstr "Konto löschen"
+
+#: forms.py:260
 msgid "Old password"
 msgstr "Bisheriges Passwort"
 
-#: forms.py:239
+#: forms.py:260
 msgid "Your old password, just to be sure."
 msgstr "Ihr bisheriges Passwort, nur um sicher zu gehen."
 
-#: forms.py:240
+#: forms.py:261
 msgid "New password"
 msgstr "Neues Passwort"
 
-#: forms.py:247
+#: forms.py:266 templates/account/set_password.html:4
+msgid "Set password"
+msgstr "Passwort setzen"
+
+#: forms.py:275
 msgid "Required, an email will be sent to this address to confirm the change."
 msgstr ""
 "Pflichtfeld, eine E-Mail wird an diese Adresse gesendet um die Änderung zu "
 "bestätigen."
 
-#: forms.py:257
+#: forms.py:280
+msgid "Set email"
+msgstr "E-Mail-Adresse setzen"
+
+#: forms.py:292
 msgid "Please either upload a key or give a fingerprint."
-msgstr "Bitte entweder einen Schlüssel hochladen oder einen Fingerabdruck hochladen angeben."
+msgstr ""
+"Bitte entweder einen Schlüssel hochladen oder einen Fingerabdruck hochladen "
+"angeben."
+
+#: forms.py:304
+msgid "Request new password"
+msgstr "Neues Passwort anfordern"
 
 #: models.py:224
 msgid "Error importing GPG key."
@@ -385,7 +418,8 @@ msgstr "Sie sind blockiert"
 #: templates/account/blocked.html:6
 msgid ""
 "You are blocked for abusive behaviour or violating the Terms of Service."
-msgstr "Sie sind wegen mißbräuchlichem Verhalten von dieser Homepage blockiert."
+msgstr ""
+"Sie sind wegen mißbräuchlichem Verhalten von dieser Homepage blockiert."
 
 #: templates/account/confirm/delete.html:3
 #: templates/account/confirm/delete.txt:1
@@ -518,10 +552,6 @@ msgstr ""
 "Sie haben die E-Mail-Adresse für ihr Jabber-Konto %(jid)s geändert. Um den "
 "Vorgang abzuschließen, gehen sie bitte auf diese URL:"
 
-#: templates/account/delete.html:4 templates/account/delete_confirm.html:4
-msgid "Delete account"
-msgstr "Konto löschen"
-
 #: templates/account/email/user_expires.html:6
 #: templates/account/email/user_expires.txt:6
 #, python-format
@@ -653,7 +683,8 @@ msgid ""
 "Registration is currently deactivated. Please see the start\n"
 "page if there is any more information."
 msgstr ""
-"Die Registrierung is derzeit deaktiviert. Auf der Startseite finden sich vielleicht mehr informationen."
+"Die Registrierung is derzeit deaktiviert. Auf der Startseite finden sich "
+"vielleicht mehr informationen."
 
 #: templates/account/notifications.html:14
 msgid "Notifications"
@@ -728,10 +759,6 @@ msgstr "Verbindung trennen"
 #: templates/account/sessions.html:34
 msgid "You are currently not online with any client."
 msgstr "Sie sind gegenwärtig mit keinem Client verbunden."
-
-#: templates/account/set_password.html:4
-msgid "Set password"
-msgstr "Passwort setzen"
 
 #: templates/account/user_detail.html:9
 msgid "Registered"
@@ -918,10 +945,6 @@ msgstr "Aktion"
 #: templates/account/user_recent_activity.html:33
 msgid "No recent log entries found."
 msgstr "Keine Aktivitäten gefunden."
-
-#: templates/account/user_register.html:4
-msgid "Register"
-msgstr "Registrieren"
 
 #: templates/account/user_register.html:8
 #, python-format
