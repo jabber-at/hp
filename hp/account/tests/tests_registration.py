@@ -14,6 +14,7 @@
 # not, see <http://www.gnu.org/licenses/>.
 
 import os
+import re
 from datetime import datetime
 from io import BytesIO
 
@@ -26,6 +27,7 @@ from django.conf import settings
 from django.contrib.auth import get_user_model
 from django.core import mail
 from django.test import Client
+from django.test import override_settings
 from django.urls import reverse
 from django.utils.translation import get_language
 
@@ -475,3 +477,34 @@ class RegisterSeleniumTests(SeleniumTestCase):
         self.wait_for_invalid(node)
         self.wait_for_invalid(domain)
         self.assertInvalid(fg_username, node, 'invalid')
+
+    @override_settings(
+        EMAIL_BLACKLIST=(re.compile('blacklist.*'), ),
+        BANNED_EMAIL_DOMAINS={'example.com', },
+    )
+    def test_email_blacklist(self):
+        self.selenium.get('%s%s' % (self.live_server_url, reverse('account:register')))
+
+        fg_username = self.find('#fg_username')
+        node = self.selenium.find_element_by_id('id_username_0')
+        domain = self.selenium.find_element_by_id('id_username_1')
+
+        fg_email = self.find('#fg_email')
+        email = self.selenium.find_element_by_id('id_email')
+
+        node.send_keys('email-blacklist')
+        email.send_keys('blacklist@example.net')
+
+        self.assertValid(fg_username, node)
+        self.assertValid(fg_username, domain)
+        self.assertValid(fg_email, email)
+
+        with self.mock_celery() as mocked, freeze_time(NOW_STR):
+            self.selenium.find_element_by_css_selector('button[type="submit"]').click()
+            self.wait_for_page_load()
+
+        self.assertTaskCount(mocked, 0)
+
+        fg_email = self.find('#fg_email')
+        email = self.selenium.find_element_by_id('id_email')
+        self.assertInvalid(fg_email, email, 'blacklist')
