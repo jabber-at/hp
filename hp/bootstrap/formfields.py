@@ -327,6 +327,11 @@ class BootstrapEmailField(BootstrapMixin, forms.EmailField):
                 'node': '__node__',
                 'domain': '__domain__',
             }
+        elif '@' not in value:
+            return {
+                'node': value,
+                'domain': '__domain__',
+            }
 
         node, domain = value.rsplit('@', 1)
         return {
