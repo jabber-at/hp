@@ -13,6 +13,7 @@
 # You should have received a copy of the GNU General Public License along with this project. If not, see
 # <http://www.gnu.org/licenses/>.
 
+import json
 import logging
 from urllib.parse import urlsplit
 
@@ -83,11 +84,10 @@ class HomepageMiddleware(object):
         if request.user.is_anonymous is False:
             with transaction.atomic():
                 stored_msgs = CachedMessage.objects.filter(user=request.user)
-                if stored_msgs:
-                    for msg in stored_msgs:
-                        messages.add_message(request, msg.level, _(msg.message) % msg.payload)
+                for msg in stored_msgs:
+                    messages.add_message(request, msg.level, _(msg.message) % json.loads(msg.payload))
 
-                    stored_msgs.delete()
+                stored_msgs.delete()
 
         # Attach OS information to request
         request.os = self.get_os(request)

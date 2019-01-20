@@ -13,6 +13,7 @@
 # You should have received a copy of the GNU General Public License along with this project. If not, see
 # <http://www.gnu.org/licenses/>.
 
+import json
 import logging
 from contextlib import contextmanager
 
@@ -145,7 +146,7 @@ class User(XmppBackendUser, PermissionsMixin):
 
     def message(self, level, message, **kwargs):
         return CachedMessage.objects.create(
-            user=self, level=level, message=message, payload=kwargs)
+            user=self, level=level, message=message, payload=json.dumps(kwargs))
 
     def logs(self):
         return self.log_entries.order_by('-created')

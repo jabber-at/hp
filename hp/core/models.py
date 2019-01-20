@@ -21,7 +21,6 @@ from django.utils.translation import ugettext_lazy as _
 
 #from composite_field.l10n import LocalizedCharField
 #from composite_field.l10n import LocalizedTextField
-from jsonfield import JSONField
 from mptt.models import MPTTModel
 from mptt.models import TreeForeignKey
 
@@ -105,7 +104,7 @@ class CachedMessage(BaseModel):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, models.CASCADE, db_index=True)
     level = models.IntegerField()
     message = models.TextField()
-    payload = JSONField(default=dict)
+    payload = models.TextField(default='{}')
 
 
 class Address(models.Model):
@@ -140,7 +139,7 @@ class AddressActivity(models.Model):
     activity = models.SmallIntegerField(
         choices=sorted([(k, v) for k, v in ACTIVITY_CHOICES.items()], key=lambda t: t[0]))
     note = models.CharField(max_length=255, default='', blank=True)
-    headers = JSONField(help_text=_('Request headers used.'))
+    headers = models.TextField(help_text=_('Request headers used.'))
 
     class Meta:
         verbose_name = _('IP-Address Activity')

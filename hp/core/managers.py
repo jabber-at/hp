@@ -13,6 +13,8 @@
 # You should have received a copy of the GNU General Public License along with this project. If not, see
 # <http://www.gnu.org/licenses/>.
 
+import json
+
 from django.db import models
 
 _LOGGED_HEADERS = {
@@ -36,4 +38,4 @@ class AddressActivityManager(models.Manager):
                    if k in _LOGGED_HEADERS or k.startswith('HTTP_')}
 
         return self.create(address=address, user=user, activity=activity, note=note,
-                           headers=headers)
+                           headers=json.dumps(headers))
