@@ -8,12 +8,12 @@ django-mptt==0.9.1
 django-object-actions==1.0.0
 django-redis==4.10.0
 django-reversion==3.0.2
-django-simple-captcha==0.5.9
+django-simple-captcha==0.5.10
 #django-tinymce4-widget==2.1.1
-django-tinymce4-lite==1.7.3
+django-tinymce4-lite==1.7.4
 django-uwsgi==0.2.2
 django-xmpp-http-upload==0.5.1
-djangorestframework==3.9.0
+djangorestframework==3.9.1
 dnspython==1.16.0
 gpgliblib==0.2.0
 hiredis==0.3.1
