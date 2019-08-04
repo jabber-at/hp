@@ -518,7 +518,7 @@ DNSBL = (
     'sbl.spamhaus.org',
     'xbl.spamhaus.org',
     'proxies.dnsbl.sorbs.net',
-    'spam.abuse.ch',
+    #'spam.abuse.ch',
     'cbl.abuseat.org',
 )
 
