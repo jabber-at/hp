@@ -137,9 +137,6 @@ class LinkTarget(JSONField):
         return value
 
     def from_db_value(self, *args, **kwargs):
-        # always empty but required in Django 2.0.
-        # https://docs.djangoproject.com/en/2.0/releases/2.0/#context-argument-of-field-from-db-value-and-expression-convert-value
-        kwargs['context'] = None
         value = super().from_db_value(*args, **kwargs)
         if type(value) == dict:
             value = LinkTargetDict(value)
