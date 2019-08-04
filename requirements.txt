@@ -26,3 +26,4 @@ setuptools>=39.2.0
 strict-rfc3339==0.7
 ua-parser==0.8.0
 xmpp-backends==0.7.0
+git+https://github.com/mathiasertl/django-xmpp-software-overview.git#egg=django-xmpp-software-overview
