@@ -100,7 +100,7 @@ class BasePage(BaseModel):
         if it is preceeded by a number ("16. February") and only if followed by a space, a "<" (for
         HTML tags) or as end of string.
         """
-        return ['%s.' % m.strip(' .:') for m in re.split(r'(?<![.0-9])[:.](?=[ <\Z])', summary)]
+        return ['%s.' % m.strip(' .:') for m in re.split(r'(?<![.0-9])[:.](?=([ <]|\Z))', summary)]
 
     def crop_summary(self, summary, length):
         sentences = self.get_sentences(summary)
