@@ -19,8 +19,6 @@ from datetime import timedelta
 from django.utils import deprecation  # NOQA
 warnings.filterwarnings(action='always')  # NOQA
 warnings.filterwarnings(action='error', module='hp')  # NOQA
-msg = 'Remove the context parameter from JSONField\.from_db_value\(\)\.'  # NOQA
-warnings.filterwarnings(action='ignore', category=deprecation.RemovedInDjango30Warning, message=msg)  # NOQA
 
 from celery.schedules import crontab
 
