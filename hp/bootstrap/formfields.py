@@ -22,7 +22,7 @@ from django.forms.utils import flatatt
 from django.template.defaultfilters import filesizeformat
 from django.utils.functional import Promise
 from django.utils.html import mark_safe
-from django.utils.translation import ugettext_lazy as _
+from django.utils.translation import gettext_lazy as _
 
 from . import widgets
 

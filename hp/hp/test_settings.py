@@ -24,7 +24,7 @@ from celery.schedules import crontab
 
 from django.contrib.messages import constants as messages
 from django.urls import reverse_lazy
-from django.utils.translation import ugettext_lazy as _
+from django.utils.translation import gettext_lazy as _
 
 from core.constants import ACTIVITY_FAILED_LOGIN
 from core.constants import ACTIVITY_REGISTER
