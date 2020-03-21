@@ -20,6 +20,17 @@ from django.utils import deprecation  # NOQA
 warnings.filterwarnings(action='always')  # NOQA
 warnings.filterwarnings(action='error', module='hp')  # NOQA
 
+# 2020-03-22: These warnings seem to be fixed in master, but no release yet.
+warnings.filterwarnings(
+    action='ignore', category=deprecation.RemovedInDjango40Warning, module='captcha',
+    message=r'smart_text\(\) is deprecated in favor of smart_str\(\)\.'
+)  # NOQA
+warnings.filterwarnings(
+    action='ignore', category=deprecation.RemovedInDjango40Warning, module='captcha',
+    message=r'django\.utils\.translation\.ugettext_lazy\(\) is deprecated in favor of '
+        'django\.utils\.translation\.gettext_lazy\(\)\.'
+)  # NOQA
+
 from celery.schedules import crontab
 
 from django.contrib.messages import constants as messages
