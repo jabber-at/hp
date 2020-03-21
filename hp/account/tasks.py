@@ -28,8 +28,8 @@ from django.contrib.auth import get_user_model
 from django.contrib.messages import constants as messages
 from django.urls import reverse
 from django.utils import translation
-from django.utils.translation import ugettext as _
-from django.utils.translation import ugettext_noop
+from django.utils.translation import gettext as _
+from django.utils.translation import gettext_noop
 
 from gpgliblib.base import UnknownGpgliblibError
 from gpgliblib.django import gpg_backend
@@ -77,7 +77,7 @@ class FetchKeyTask(Task):
             delta = timedelta(seconds=60 * 10)
 
             if retries == self.max_retries:
-                msg = ugettext_noop(
+                msg = gettext_noop(
                     'Unable to fetch GPG key. Giving up and sending mail unencrypted. Sorry.')
                 user.log(msg)
                 user.message(messages.ERROR, msg)
@@ -90,7 +90,7 @@ class FetchKeyTask(Task):
                     'retry': retries + 1,
                     'time': delta_formatted,
                 }
-                msg = ugettext_noop(
+                msg = gettext_noop(
                     'Unable to fetch GPG key (%(retry)s of %(max)s tries). '
                     'Will try again in %(time)s.')
 
@@ -175,7 +175,7 @@ def set_email_task(self, user_pk, to, language, address, fingerprint=None, key=N
     except UnknownGpgliblibError as e:
         log.exception(e)
 
-        msg = ugettext_noop('Unexpected error importing GPG key.')
+        msg = gettext_noop('Unexpected error importing GPG key.')
         user.log(msg)
         user.message(messages.ERROR, msg)
 

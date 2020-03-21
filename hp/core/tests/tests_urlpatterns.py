@@ -18,7 +18,7 @@ from django.conf.urls import include
 from django.conf.urls import url
 from django.test import Client
 from django.test import override_settings
-from django.utils.translation import ugettext_lazy as _
+from django.utils.translation import gettext_lazy as _
 
 from .. import views
 from ..urlpatterns import i18n_re_path

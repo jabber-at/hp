@@ -28,7 +28,7 @@ from django.http.request import split_domain_port
 from django.http.request import validate_host
 from django.template.response import TemplateResponse
 from django.urls import reverse
-from django.utils.translation import ugettext as _
+from django.utils.translation import gettext as _
 
 from xmpp_backends.base import BackendError
 

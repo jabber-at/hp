@@ -21,7 +21,7 @@ from django.forms.utils import flatatt
 #from django.utils.html import mark_safe
 from django.utils.html import format_html
 
-#from django.utils.translation import ugettext as _
+#from django.utils.translation import gettext as _
 
 log = logging.getLogger(__name__)
 register = template.Library()

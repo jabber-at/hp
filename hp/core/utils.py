@@ -28,7 +28,7 @@ from django.core.cache import cache
 from django.forms.utils import flatatt
 from django.utils.html import format_html
 from django.utils.text import normalize_newlines
-from django.utils.translation import ugettext as _
+from django.utils.translation import gettext as _
 from django.utils.translation import ungettext
 
 import reversion

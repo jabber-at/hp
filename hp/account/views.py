@@ -40,8 +40,8 @@ from django.urls import reverse
 from django.urls import reverse_lazy
 from django.utils import timezone
 from django.utils.http import is_safe_url
-from django.utils.translation import ugettext_lazy as _
-from django.utils.translation import ugettext_noop
+from django.utils.translation import gettext_lazy as _
+from django.utils.translation import gettext_noop
 from django.views.generic import DetailView
 from django.views.generic import View
 from django.views.generic.base import RedirectView
@@ -206,7 +206,7 @@ class RegistrationView(AntiSpamMixin, AnonymousRequiredMixin, HomepageViewMixin,
             user.save()
 
             # log user creation, display help message.
-            user.log(ugettext_noop('Account created.'), address=address)
+            user.log(gettext_noop('Account created.'), address=address)
             AddressActivity.objects.log(request, ACTIVITY_REGISTER, user=user, note=user.email)
             stat(STAT_REGISTER)
 
@@ -304,7 +304,7 @@ class ConfirmRegistrationView(KeyUserConfirmationMixin, FormView):
             xmpp_backend.create_user(username=key.user.node, domain=key.user.domain,
                                      password=password, email=key.user.email)
 
-            key.user.log(ugettext_noop('Email address %(email)s confirmed.'), address,
+            key.user.log(gettext_noop('Email address %(email)s confirmed.'), address,
                          email=key.user.email)
             # TODO: More meaningful help message on a webchat, usable clients, follow updates, ...
             messages.success(request, _(
@@ -391,7 +391,7 @@ class ResetPasswordView(AntiSpamMixin, AnonymousRequiredMixin, HomepageViewMixin
         lang = request.LANGUAGE_CODE
         base_url = '%s://%s' % (request.scheme, request.get_host())
 
-        user.log(ugettext_noop('Requested password reset.'), address)
+        user.log(gettext_noop('Requested password reset.'), address)
         AddressActivity.objects.log(request, ACTIVITY_RESET_PASSWORD, user=user)
         stat(STAT_RESET_PASSWORD)
 
@@ -423,7 +423,7 @@ class ConfirmResetPasswordView(KeyUserConfirmationMixin, FormView):
             xmpp_backend.set_last_activity(key.user.node, key.user.domain, timestamp=now)
 
             key.user.last_activity = now
-            key.user.log(ugettext_noop('Set new password.'), address)
+            key.user.log(gettext_noop('Set new password.'), address)
             messages.success(request, _('Successfully changed your password.'))
             stat(STAT_RESET_PASSWORD_CONFIRMED)
 
@@ -476,7 +476,7 @@ class SetPasswordView(LoginRequiredMixin, AccountPageMixin, FormView):
 
         form.save()
 
-        request.user.log(ugettext_noop('Set new password.'), request.META['REMOTE_ADDR'])
+        request.user.log(gettext_noop('Set new password.'), request.META['REMOTE_ADDR'])
         AddressActivity.objects.log(request, ACTIVITY_SET_PASSWORD)
         stat(STAT_SET_PASSWORD)
         messages.success(request, _('Successfully changed your password.'))
@@ -518,7 +518,7 @@ class SetEmailView(AntiSpamMixin, LoginRequiredMixin, AccountPageMixin, FormView
                 user.gpg_keys.all().delete()
 
             # log user creation, display help message.
-            user.log(ugettext_noop('Resent confirmation.'), address=address)
+            user.log(gettext_noop('Resent confirmation.'), address=address)
             AddressActivity.objects.log(request, ACTIVITY_RESEND_CONFIRMATION, user=user, note=user.email)
             stat(STAT_RESEND_CONFIRMATION)
             messages.success(request, _("Resent confirmation email to %(email)s.") % {'email': user.email})
@@ -567,7 +567,7 @@ class SetEmailView(AntiSpamMixin, LoginRequiredMixin, AccountPageMixin, FormView
         messages.success(request, _(
             'We sent you an email to your new email address (%(email)s). Click on the link in it '
             'to confirm it.') % {'email': to})
-        user.log(ugettext_noop('Requested change of email address to %(email)s.'), address,
+        user.log(gettext_noop('Requested change of email address to %(email)s.'), address,
                  email=to)
         stat(STAT_SET_EMAIL)
         AddressActivity.objects.log(request, ACTIVITY_SET_EMAIL, note=to)
@@ -606,7 +606,7 @@ class ConfirmSetEmailView(LoginRequiredMixin, RedirectView):
             messages.success(request,
                              _('Confirmed email address change to %(email)s.')
                              % {'email': user.email, })
-            user.log(ugettext_noop('Confirmed email address change to %(email)s.'),
+            user.log(gettext_noop('Confirmed email address change to %(email)s.'),
                      request.META['REMOTE_ADDR'], email=key.to)
             stat(STAT_SET_EMAIL_CONFIRMED)
 
@@ -760,7 +760,7 @@ class DeleteAccountView(LoginRequiredMixin, AccountPageMixin, FormView):
         messages.success(request, _(
             'We sent you an email to %(email)s to confirm your request.') %
             {'email': user.email, })
-        user.log(ugettext_noop('Requested deletion of account.'), address)
+        user.log(gettext_noop('Requested deletion of account.'), address)
         stat(STAT_DELETE_ACCOUNT)
         AddressActivity.objects.log(request, ACTIVITY_SET_EMAIL, note=user.email)
 

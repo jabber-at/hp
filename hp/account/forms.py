@@ -25,7 +25,7 @@ from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.forms import PasswordChangeForm as PasswordChangeFormBase
 from django.contrib.auth.forms import SetPasswordForm as SetPasswordFormBase
 from django.db import transaction
-from django.utils.translation import ugettext_lazy as _
+from django.utils.translation import gettext_lazy as _
 
 from bootstrap.formfields import BootstrapBooleanField
 from bootstrap.formfields import BootstrapConfirmPasswordField

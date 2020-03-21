@@ -20,7 +20,7 @@ from django import forms
 from django.conf import settings
 from django.contrib.admin.widgets import AdminTextInputWidget
 from django.contrib.contenttypes.models import ContentType
-from django.utils.translation import ugettext_lazy as _
+from django.utils.translation import gettext_lazy as _
 
 from captcha.fields import CaptchaField as CaptchaFieldBase
 

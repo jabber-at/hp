@@ -15,7 +15,7 @@
 
 from django.conf.urls import url
 from django.contrib.sitemaps.views import sitemap
-from django.utils.translation import ugettext_lazy as _
+from django.utils.translation import gettext_lazy as _
 
 from blog.sitemaps import BlogPostSitemap
 from blog.sitemaps import PageSitemap

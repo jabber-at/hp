@@ -44,7 +44,7 @@ def activate_language(task, language_param='language'):
     Decorate a task that accepts the ``language`` parameter to automatically activate the passed
     language for this task. For example, given the task::
 
-        from django.utils.translation import ugettext as _
+        from django.utils.translation import gettext as _
 
         @shared_task
         @activate_language
