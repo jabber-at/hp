@@ -203,7 +203,7 @@ class SeleniumMixin(object):
                 self.assertTrue(feedback.is_displayed(), '.%s is not displayed' % ('.'.join(classes)))
             else:
                 self.assertFalse(feedback.is_displayed(), '.%s is displayed' % ('.'.join(classes)))
-        self.assertCSSBorderColor(elem, 'rgb(220, 53, 69)')
+        self.wait_for_invalid(elem)
         self.assertFalse(self.get_valid(elem))
 
     def assertValid(self, fg, elem):
