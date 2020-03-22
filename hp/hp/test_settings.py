@@ -19,6 +19,10 @@ from datetime import timedelta
 from django.utils import deprecation  # NOQA
 warnings.filterwarnings(action='always')  # NOQA
 warnings.filterwarnings(action='error', module='hp')  # NOQA
+warnings.filterwarnings(action='error', module='xmpp_backends')  # NOQA
+warnings.filterwarnings(action='error', module='xmpp_http_upload')  # NOQA
+
+_ugettext_lazy_msg = r'django\.utils\.translation\.ugettext_lazy\(\) is deprecated in favor of django\.utils\.translation\.gettext_lazy\(\)\.'  # NOQA
 
 # 2020-03-22: These warnings seem to be fixed in master, but no release yet.
 warnings.filterwarnings(
@@ -27,8 +31,19 @@ warnings.filterwarnings(
 )  # NOQA
 warnings.filterwarnings(
     action='ignore', category=deprecation.RemovedInDjango40Warning, module='captcha',
-    message=r'django\.utils\.translation\.ugettext_lazy\(\) is deprecated in favor of '
-        'django\.utils\.translation\.gettext_lazy\(\)\.'
+    message=_ugettext_lazy_msg
+)  # NOQA
+
+# 2020-03-22: We need to get rid of jsonfield, it's no longer maintained.
+warnings.filterwarnings(
+    action='ignore', category=deprecation.RemovedInDjango40Warning, module='jsonfield.fields',
+    message=_ugettext_lazy_msg
+)  # NOQA
+warnings.filterwarnings(
+    action='ignore', category=DeprecationWarning,
+    module='bleach._vendor.html5lib._trie._base',
+    message=r"Using or importing the ABCs from 'collections' instead of from 'collections\.abc' is "
+        r"deprecated since Python 3\.3, and in 3\.9 it will stop working"
 )  # NOQA
 
 from celery.schedules import crontab
