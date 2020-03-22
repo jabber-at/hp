@@ -9,10 +9,24 @@ RUN --mount=type=cache,target=/var/cache/apt,id=apt-cache --mount=type=cache,tar
 RUN --mount=type=cache,target=/root/.cache/pip,id=pip \
     pip install -U pip setuptools
 
+FROM base as install
+# Install APT requirements
+RUN --mount=type=cache,target=/var/cache/apt,id=apt-cache --mount=type=cache,target=/var/lib/apt,id=apt-lib \
+    apt-get install -qy git-core gettext
+
+ADD requirements.txt ./
+RUN --mount=type=cache,target=/root/.cache/pip,id=pip \
+    pip install --no-warn-script-location --prefix=/install -r requirements.txt
+RUN cp -a /install/* /usr/local
+
 ###############
 # Test stage #
 ##############
-FROM base as test
+FROM install as test
+
+# Install APT requirements
+RUN --mount=type=cache,target=/var/cache/apt,id=apt-cache --mount=type=cache,target=/var/lib/apt,id=apt-lib \
+    apt-get install -qy build-essential libgpgme-dev xvfb wget firefox-esr x11-utils
 
 # Download Selenium
 RUN mkdir -p /usr/src/contrib/selenium/
@@ -20,14 +34,10 @@ RUN wget -O /usr/src/contrib/selenium/geckodriver.tar.gz \
         https://github.com/mozilla/geckodriver/releases/download/v0.26.0/geckodriver-v0.26.0-linux64.tar.gz
 RUN tar xf /usr/src/contrib/selenium/geckodriver.tar.gz -C /usr/src/contrib/selenium/
 
-# Install APT requirements
-RUN --mount=type=cache,target=/var/cache/apt,id=apt-cache --mount=type=cache,target=/var/lib/apt,id=apt-lib \
-    apt-get install -qy build-essential libgpgme-dev xvfb git-core wget firefox-esr x11-utils
-
 # Install pip requirements
-ADD requirements.txt requirements-dev.txt ./
+ADD requirements-dev.txt ./
 RUN --mount=type=cache,target=/root/.cache/pip,id=pip \
-    pip install -r requirements.txt -r requirements-dev.txt
+    pip install -r requirements-dev.txt
 
 # Add source
 ENV DJANGO_SETTINGS_MODULE=hp.test_settings
@@ -38,21 +48,23 @@ ADD hp/ ./
 RUN flake8 .
 RUN isort --check-only --diff -rc .
 RUN python -Wd manage.py check
+RUN python manage.py compilemessages -l de
 RUN python manage.py test
 
-FROM $IMAGE as build
-WORKDIR /usr/src/hp
-RUN --mount=type=cache,target=/etc/apk/cache apk upgrade
-ADD requirements.txt ./
-RUN --mount=type=cache,target=/root/.cache/pip pip install \
-        --no-warn-script-location --prefix=/install -r requirements.txt
+FROM install as prepare
+ADD hp/ ./
+RUN cp hp/dockersettings.py hp/localsettings.py
+RUN python manage.py compilemessages -l de
 
+# Cleanup source
+RUN rm -rf core/tests account/tests/ hp/test_settings.py \
+        core/static/lib/tinymce/src/ conversejs/static/lib/converse.js/tests \
+        conversejs/static/lib/converse.js/docs/
 
-FROM $IMAGE
-WORKDIR /usr/src/hp
-RUN apk --no-cache upgrade && apk add --no-cache libpq
-COPY --from=build /install /usr/local
+RUN find . -type f -name "tests.py" -exec rm -rf {} \;
+RUN find . -type f -name "*.pyc" -exec rm -rf {} \;
+RUN find . -type d -empty -delete
 
-ADD hp/ hp/
-
-RUN ln -s /usr/local/bin/manage /usr/src/hp/hp/manage.py
+FROM base
+COPY --from=install /install /usr/local
+COPY --from=prepare /usr/src/hp /usr/src/hp
