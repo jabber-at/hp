@@ -4,5 +4,8 @@
 **/__pycache__
 **/*.mo
 **/pip-selfcheck.json
+**/geckodriver.log
 /.git/
 /contrib/
+**/gpg-keys
+/hp/hp/localsettings*
