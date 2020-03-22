@@ -4,7 +4,7 @@ The homepage is still an evolving project, with many features unifinished, maybe
 
 ### Requirements
 
-* Python 3.4+, Django 1.10+
+* Python 3.6+, Django 3.0+
 * A webserver and a database (anything that works with Django)
 * An XMPP-server, this project interfaces with it via
   [xmpp-backends](https://github.com/mathiasertl/xmpp-backends).
