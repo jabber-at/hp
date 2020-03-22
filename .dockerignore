@@ -2,6 +2,7 @@
 **/*.sqlite3
 **/*.sw[a-z]
 **/__pycache__
+**/*.mo
 **/pip-selfcheck.json
 /.git/
 /contrib/
