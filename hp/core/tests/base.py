@@ -212,7 +212,7 @@ class SeleniumMixin(object):
         self.assertClass(fg, 'was-validated')
         for feedback in fg.find_elements_by_css_selector('.invalid-feedback'):
             self.assertFalse(feedback.is_displayed())
-        self.assertCSSBorderColor(elem, 'rgb(40, 167, 69)')
+        self.wait_for_valid(elem)
         self.assertTrue(self.get_valid(elem))
 
 
