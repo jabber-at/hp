@@ -118,6 +118,7 @@ class AccountExpiresTestCase(TestCase):
         self.assertEqual(len(mail.outbox), 0)
         self.assertEqual(user.last_activity, NOW_3)
 
-        self.assertFalse(user.is_expiring)
-        self.assertTrue(user.notifications.account_expires)
-        self.assertFalse(user.notifications.account_expires_notified)
+        with self.mock_celery() as mocked, freeze_time(NOW_4_STR):
+            self.assertFalse(user.is_expiring)
+            self.assertTrue(user.notifications.account_expires)
+            self.assertFalse(user.notifications.account_expires_notified)
