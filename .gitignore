@@ -3,7 +3,7 @@
 *.sw[op]
 /bin/
 /build/
-/contrib/selenium/geckodriver
+/contrib/
 /data/
 /doc/_build/
 /fab.conf
