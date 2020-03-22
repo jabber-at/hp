@@ -25,7 +25,7 @@ from django.template.response import TemplateResponse
 from django.urls import reverse_lazy
 from django.utils import timezone
 from django.utils.functional import Promise
-from django.utils.http import is_safe_url
+from django.utils.http import url_has_allowed_host_and_scheme
 from django.utils.translation import LANGUAGE_SESSION_KEY
 from django.utils.translation import gettext as _
 from django.views.generic.base import RedirectView
@@ -291,7 +291,8 @@ class SetLanguageView(RedirectView):
             request.user.save()
 
         # Ensure the user-originating redirection url is safe.
-        if not redirect_to or not is_safe_url(url=redirect_to, allowed_hosts=[request.get_host()]):
+        if not redirect_to or not url_has_allowed_host_and_scheme(url=redirect_to,
+                                                                  allowed_hosts=[request.get_host()]):
             redirect_to = '/'
 
         return redirect_to

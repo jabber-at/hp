@@ -39,7 +39,7 @@ from django.template.response import TemplateResponse
 from django.urls import reverse
 from django.urls import reverse_lazy
 from django.utils import timezone
-from django.utils.http import is_safe_url
+from django.utils.http import url_has_allowed_host_and_scheme
 from django.utils.translation import gettext_lazy as _
 from django.utils.translation import gettext_noop
 from django.views.generic import DetailView
@@ -332,7 +332,7 @@ class LoginView(AntiSpamMixin, AnonymousRequiredMixin, HomepageViewMixin, FormVi
         redirect_to = self.request.POST.get(self.REDIRECT_FIELD_NAME, '')
 
         # Ensure the user-originating redirection url is safe.
-        if not is_safe_url(url=redirect_to, allowed_hosts=[self.request.get_host()]):
+        if not url_has_allowed_host_and_scheme(url=redirect_to, allowed_hosts=[self.request.get_host()]):
             redirect_to = resolve_url(settings.LOGIN_REDIRECT_URL)
 
         user = form.get_user()
