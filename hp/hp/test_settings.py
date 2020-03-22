@@ -543,13 +543,7 @@ CAPTCHA_TEXT_FIELD_TEMPLATE = 'core/captcha/text_field.html'
 CAPTCHA_TEST_MODE = True  # PASSED is always a valid captcha
 
 # DNSBL lists
-DNSBL = (
-    'sbl.spamhaus.org',
-    'xbl.spamhaus.org',
-    'proxies.dnsbl.sorbs.net',
-    #'spam.abuse.ch',
-    'cbl.abuseat.org',
-)
+DNSBL = ()
 
 # Ratelimit
 RATELIMIT_CONFIG = {
