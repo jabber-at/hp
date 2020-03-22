@@ -1,23 +1,44 @@
 # syntax = docker/dockerfile:experimental
-ARG IMAGE=python:3.8.1-alpine3.11
+ARG IMAGE=python:3.8.2-slim-buster
 
 FROM $IMAGE as base
 WORKDIR /usr/src/hp
-RUN --mount=type=cache,target=/etc/apk/cache apk upgrade
+RUN rm -f /etc/apt/apt.conf.d/docker-clean; echo 'Binary::apt::APT::Keep-Downloaded-Packages "true";' > /etc/apt/apt.conf.d/keep-cach
+RUN --mount=type=cache,target=/var/cache/apt,id=apt-cache --mount=type=cache,target=/var/lib/apt,id=apt-lib \
+    apt-get update && apt-get dist-upgrade
+RUN --mount=type=cache,target=/root/.cache/pip,id=pip \
+    pip install -U pip setuptools
 
+###############
+# Test stage #
+##############
 FROM base as test
-RUN --mount=type=cache,target=/etc/apk/cache apk add --update \
-        build-base libffi-dev libxml2-dev gpgme-dev libxslt-dev jpeg-dev git
-ADD requirements.txt requirements-dev.txt ./
-RUN --mount=type=cache,target=/root/.cache/pip pip install -r requirements.txt -r requirements-dev.txt
 
+# Download Selenium
+RUN mkdir -p /usr/src/contrib/selenium/
+RUN wget -O /usr/src/contrib/selenium/geckodriver.tar.gz \
+        https://github.com/mozilla/geckodriver/releases/download/v0.26.0/geckodriver-v0.26.0-linux64.tar.gz
+RUN tar xf /usr/src/contrib/selenium/geckodriver.tar.gz -C /usr/src/contrib/selenium/
+
+# Install APT requirements
+RUN --mount=type=cache,target=/var/cache/apt,id=apt-cache --mount=type=cache,target=/var/lib/apt,id=apt-lib \
+    apt-get install -qy build-essential libgpgme-dev xvfb git-core wget firefox-esr x11-utils
+
+# Install pip requirements
+ADD requirements.txt requirements-dev.txt ./
+RUN --mount=type=cache,target=/root/.cache/pip,id=pip \
+    pip install -r requirements.txt -r requirements-dev.txt
+
+# Add source
 ENV DJANGO_SETTINGS_MODULE=hp.test_settings
 ADD tox.ini ./
 ADD hp/ ./
+
+# Start testing
 RUN flake8 .
 RUN isort --check-only --diff -rc .
 RUN python -Wd manage.py check
-RUN VIRTUAL_DISPLAY=y python manage.py test
+RUN python manage.py test
 
 FROM $IMAGE as build
 WORKDIR /usr/src/hp
