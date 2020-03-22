@@ -24,9 +24,9 @@ from django.http import HttpResponseRedirect
 from django.template.response import TemplateResponse
 from django.urls import reverse_lazy
 from django.utils import timezone
+from django.utils import translation
 from django.utils.functional import Promise
 from django.utils.http import url_has_allowed_host_and_scheme
-from django.utils.translation import LANGUAGE_SESSION_KEY
 from django.utils.translation import gettext as _
 from django.views.generic.base import RedirectView
 from django.views.generic.edit import FormView
@@ -275,20 +275,25 @@ class ContactView(AntiSpamMixin, HomepageViewMixin, FormView):
 
 
 class SetLanguageView(RedirectView):
-    def get_redirect_url(self, *args, **kwargs):
-        request = self.request
+    def get(self, request, *args, **kwargs):
+        response = super().get(request, *args, **kwargs)
 
-        # Some bots might attempt to use this link without the lang parameter. If not present, this
-        # view basically does nothing.
         lang = request.GET.get('lang')
-        if lang:
-            request.session[LANGUAGE_SESSION_KEY] = lang
+        if not lang:
+            return response
 
-        redirect_to = request.GET.get('next')
+        translation.activate(lang)
+        response.set_cookie(settings.LANGUAGE_COOKIE_NAME, lang)
 
         if not request.user.is_anonymous:
             request.user.default_language = lang
             request.user.save()
+
+        return response
+
+    def get_redirect_url(self, *args, **kwargs):
+        request = self.request
+        redirect_to = request.GET.get('next')
 
         # Ensure the user-originating redirection url is safe.
         if not redirect_to or not url_has_allowed_host_and_scheme(url=redirect_to,
