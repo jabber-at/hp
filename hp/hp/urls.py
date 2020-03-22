@@ -16,30 +16,29 @@ Including another URLconf
 
 from django.conf import settings
 from django.conf.urls import include
-from django.conf.urls import url
 from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import path
 
 urlpatterns = [
-    url(r'^%s/uwsgi/' % settings.ADMIN_URL.strip('/'), include('django_uwsgi.urls')),
-    url(r'^%s/' % settings.ADMIN_URL.strip('/'), admin.site.urls),
-    url(r'^tinymce/', include('tinymce.urls')),
-    url(r'^captcha/', include('captcha.urls')),
+    path('%s/uwsgi/' % settings.ADMIN_URL.strip('/'), include('django_uwsgi.urls')),
+    path(settings.ADMIN_URL.lstrip('/'), admin.site.urls),
+    path('tinymce/', include('tinymce.urls')),
+    path('captcha/', include('captcha.urls')),
 
-    url(r'^account/', include('account.urls')),
-    url(r'^feed/', include('feed.urls')),
-    url(r'^chat/', include('conversejs.urls')),
-    url(r'^certs/', include('certs.urls')),
-    url(r'^xep0363/', include('xmpp_http_upload.urls')),
-    url(r'^', include('core.urls')),
+    path('account/', include('account.urls')),
+    path('feed/', include('feed.urls')),
+    path('chat/', include('conversejs.urls')),
+    path('certs/', include('certs.urls')),
+    path('xep0363/', include('xmpp_http_upload.urls')),
+    path('', include('core.urls')),
 ]
 
 for route, module in settings.ADDITIONAL_URL_PATHS:
     urlpatterns.append(path('', include(module)))
 
 # This is catch-all
-urlpatterns.append(url(r'^', include('blog.urls')))
+urlpatterns.append(path('', include('blog.urls')))
 
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
@@ -47,5 +46,5 @@ if settings.DEBUG:
 if getattr(settings, 'ENABLE_DEBUG_TOOLBAR', False) is True:
     import debug_toolbar
     urlpatterns = [
-        url(r'^__debug__/', include(debug_toolbar.urls)),
+        path('__debug__/', include(debug_toolbar.urls)),
     ] + urlpatterns
