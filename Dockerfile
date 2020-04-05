@@ -7,7 +7,7 @@ RUN rm -f /etc/apt/apt.conf.d/docker-clean; echo 'Binary::apt::APT::Keep-Downloa
 RUN --mount=type=cache,target=/var/cache/apt,id=apt-cache --mount=type=cache,target=/var/lib/apt,id=apt-lib \
     apt-get update && \
     apt-get -qy dist-upgrade && \
-    apt-get -qy install netcat-openbsd
+    apt-get -qy install netcat-openbsd libpq5
 RUN --mount=type=cache,target=/root/.cache/pip,id=pip \
     pip install -U pip setuptools
 
