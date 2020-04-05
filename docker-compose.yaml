@@ -1,14 +1,34 @@
 version: "3.6"
 services:
-    redis:
+    cache:
         image: redis:5-alpine
         networks:
-            - redis
+            - cache
+        restart: unless-stopped
+    db: 
+        image: postgres:12-alpine
+        environment:
+            POSTGRES_DB:
+            POSTGRES_DB_FILE:
+            POSTGRES_PASSWORD:
+            POSTGRES_PASSWORD_FILE:
+            POSTGRES_USER:
+            POSTGRES_USER_FILE:
+        networks:
+            - db
         restart: unless-stopped
     uwsgi:
         image: jabberat/hp
+        environment:
+            POSTGRES_DB:
+            POSTGRES_DB_FILE:
+            POSTGRES_PASSWORD:
+            POSTGRES_PASSWORD_FILE:
+            POSTGRES_USER:
+            POSTGRES_USER_FILE:
         networks:
-            - redis
+            - cache
+            - db
             - external
         ports:
             - 8000:8000
@@ -17,5 +37,7 @@ services:
 
 networks:
     external: {}
-    redis:
+    db:
+        internal: true
+    cache:
         internal: true

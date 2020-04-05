@@ -52,6 +52,13 @@ SECRET_KEY = 'dummy'
 #   ('your-path/', 'your_django_app.urls'),
 #]
 
+# NOTE: other variables are set via env variables
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+    }
+}
+
 #########################
 # General configuration #
 #########################
@@ -136,7 +143,7 @@ SECRET_KEY = 'dummy'
 CACHES = {
     "default": {
         "BACKEND": "django_redis.cache.RedisCache",
-        "LOCATION": "redis://redis:6379/1",
+        "LOCATION": "redis://cache:6379/1",
 
         # Use this in development, that way users don't disappear from the "backend" (which is just
         # this redis cache).
@@ -249,7 +256,7 @@ DEFAULT_XMPP_HOST = 'example.com'
 ########################
 # See also: http://docs.celeryproject.org/en/latest/configuration.html
 
-CELERY_BROKER_URL = 'redis://localhost:6379/0'
+CELERY_BROKER_URL = 'redis://cache:6379/0'
 
 # The log format used by the celery loggers. If None (the default), the same as LOG_FORMAT will be
 # used.
