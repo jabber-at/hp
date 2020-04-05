@@ -19,6 +19,9 @@ services:
         restart: unless-stopped
     uwsgi:
         image: jabberat/hp
+        depends_on:
+            - cache
+            - db
         environment:
             POSTGRES_DB:
             POSTGRES_DB_FILE:
@@ -26,6 +29,8 @@ services:
             POSTGRES_PASSWORD_FILE:
             POSTGRES_USER:
             POSTGRES_USER_FILE:
+            DATABASE_HOST:
+            DATABASE_PORT:
         networks:
             - cache
             - db
@@ -36,7 +41,7 @@ services:
             - ${PWD}/example.yaml:/usr/src/conf/localsettings.yaml
 
 networks:
-    external: {}
+    external:
     db:
         internal: true
     cache:
