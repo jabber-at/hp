@@ -586,6 +586,33 @@ try:
 except ImportError:
     pass
 
+
+def _set_db_setting(name, env_name, default=None):
+    if DATABASES['default'].get(name):
+        return
+
+    if os.environ.get(env_name):
+        DATABASES['default'][name] = os.environ[env_name]
+    elif os.environ.get('%s_FILE' % env_name):
+        with open(os.environ['%s_FILE' % env_name]) as stream:
+            DATABASES['default'][name] = stream.read()
+    elif default is not None:
+        DATABASES['default'][name] = default
+
+
+# use POSTGRES_* environment variables from the postgres Docker image
+if DATABASES['default']['ENGINE'] == 'django.db.backends.postgresql_psycopg2':
+    print('### yes we have postres!')
+    _set_db_setting('PASSWORD', 'POSTGRES_PASSWORD', default='postgres')
+    _set_db_setting('USER', 'POSTGRES_USER', default='postgres')
+    _set_db_setting('NAME', 'POSTGRES_DB', default=DATABASES['default'].get('USER'))
+
+# use MYSQL_* environment variables from the mysql Docker image
+if DATABASES['default']['ENGINE'] == 'django.db.backends.mysql':
+    _set_db_setting('PASSWORD', 'MYSQL_PASSWORD')
+    _set_db_setting('USER', 'MYSQL_USER')
+    _set_db_setting('NAME', 'MYSQL_DATABASE')
+
 if ENABLE_DEBUG_TOOLBAR is None:
     ENABLE_DEBUG_TOOLBAR = DEBUG
 if ENABLE_SECURITY_HEADERS_MIDDLEWARE is None:
