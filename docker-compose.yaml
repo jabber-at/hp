@@ -1,0 +1,21 @@
+version: "3.6"
+services:
+    redis:
+        image: redis:5-alpine
+        networks:
+            - redis
+        restart: unless-stopped
+    uwsgi:
+        image: jabberat/hp
+        networks:
+            - redis
+            - external
+        ports:
+            - 8000:8000
+        volumes:
+            - ${PWD}/example.yaml:/usr/src/conf/localsettings.yaml
+
+networks:
+    external: {}
+    redis:
+        internal: true
