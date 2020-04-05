@@ -5,7 +5,9 @@ FROM $IMAGE as base
 WORKDIR /usr/src/hp
 RUN rm -f /etc/apt/apt.conf.d/docker-clean; echo 'Binary::apt::APT::Keep-Downloaded-Packages "true";' > /etc/apt/apt.conf.d/keep-cach
 RUN --mount=type=cache,target=/var/cache/apt,id=apt-cache --mount=type=cache,target=/var/lib/apt,id=apt-lib \
-    apt-get update && apt-get -qy dist-upgrade
+    apt-get update && \
+    apt-get -qy dist-upgrade && \
+    apt-get -qy install netcat-openbsd
 RUN --mount=type=cache,target=/root/.cache/pip,id=pip \
     pip install -U pip setuptools
 
@@ -70,8 +72,8 @@ RUN find . -type f -name "*.pyc" -exec rm -rf {} \;
 RUN find . -type d -empty -delete
 
 FROM base
-COPY files/uwsgi/uwsgi.ini .
+COPY uwsgi.sh files/uwsgi/uwsgi.ini .
 COPY --from=prepare /var/www/hp/static /var/www/hp/static
 COPY --from=install /install /usr/local
 COPY --from=prepare /usr/src/hp /usr/src/hp
-CMD uwsgi --ini uwsgi.ini
+CMD /usr/src/hp/uwsgi.sh
