@@ -54,8 +54,11 @@ class CertificateOverview(ListView):
 class CertificateMixin(object):
     def get_certificate(self, current=None):
 
-        if current is not None and 'date' not in self.kwargs:
-            return current
+        if 'date' not in self.kwargs:
+            if current is not None:
+                return current
+            else:
+                raise Http404
 
         hostname = self.kwargs.get('hostname', settings.DEFAULT_XMPP_HOST)
         queryset = Certificate.objects.enabled().hostname(hostname)
