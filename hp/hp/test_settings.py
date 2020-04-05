@@ -40,7 +40,7 @@ warnings.filterwarnings(
     action='ignore', category=deprecation.RemovedInDjango40Warning, module='jsonfield.fields',
     message=_ugettext_lazy_msg
 )  # NOQA
-# 2020-03-22: present in html5lib==1.0.1
+# 2020-04-5: present in bleach==3.1.4
 warnings.filterwarnings(
     action='ignore', category=DeprecationWarning, module='bleach._vendor.html5lib._trie._base',
     message=collections_msg
