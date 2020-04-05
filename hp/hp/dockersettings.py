@@ -7,10 +7,7 @@
 # Mandatory settings used by this HP: XMPP_HOSTS, CONTACT_ADDRESS, DEFAULT_XMPP_HOST
 
 import os
-import re
-
 from datetime import timedelta
-from django.utils.translation import gettext_lazy as _
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -373,27 +370,27 @@ DNSBL = ()
 
 XMPP_HTTP_UPLOAD_ACCESS = (
     # This user has no limits
-    ('^user@example\.com$', {}),
+    (r'^user@example\.com$', {}),
     # Users on these domains have more explicit limits
-    (['@example\.com$', '@example\.net$', ], {
-      # User may not upload a file larger then 30MB:
-      'max_file_size': 30 * 1024 * 1024,
+    ([r'@example\.com$', r'@example\.net$', ], {
+        # User may not upload a file larger then 30MB:
+        'max_file_size': 30 * 1024 * 1024,
 
-      # User may not upload more then 150 MB in total
-      'max_total_size': 150 * 1024 * 1024,
+        # User may not upload more then 150 MB in total
+        'max_total_size': 150 * 1024 * 1024,
 
-      # User may not upload more then 50 MB per hour
-      'bytes_per_timedelta': {
-          'delta': timedelta(hours=1),
-          'bytes': 100 * 1024 * 1024,
-      },
+        # User may not upload more then 50 MB per hour
+        'bytes_per_timedelta': {
+            'delta': timedelta(hours=1),
+            'bytes': 100 * 1024 * 1024,
+        },
 
-      # User may not do more then ten uploads per hour
-      'uploads_per_timedelta': {
-          'delta': timedelta(hours=1),
-          'uploads': 10,
-      },
-  }),
+        # User may not do more then ten uploads per hour
+        'uploads_per_timedelta': {
+            'delta': timedelta(hours=1),
+            'uploads': 10,
+        },
+    }),
 )
 
 # How long files are shared before they are deleted:
