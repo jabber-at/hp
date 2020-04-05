@@ -32,7 +32,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # Static and media files configuration
 #MEDIA_ROOT = '/var/www/example.com/media/'
 #MEDIA_URL = '/media/'
-#STATIC_ROOT = '/var/www/example.com/static/'
+STATIC_ROOT = '/var/www/hp/static/'
 
 # Set this to True during development
 DEBUG = False
@@ -136,7 +136,7 @@ SECRET_KEY = 'dummy'
 CACHES = {
     "default": {
         "BACKEND": "django_redis.cache.RedisCache",
-        "LOCATION": "redis://127.0.0.1:6379/1",
+        "LOCATION": "redis://redis:6379/1",
 
         # Use this in development, that way users don't disappear from the "backend" (which is just
         # this redis cache).
@@ -249,7 +249,7 @@ DEFAULT_XMPP_HOST = 'example.com'
 ########################
 # See also: http://docs.celeryproject.org/en/latest/configuration.html
 
-#CELERY_BROKER_URL = 'redis://localhost:6379/0'
+CELERY_BROKER_URL = 'redis://localhost:6379/0'
 
 # The log format used by the celery loggers. If None (the default), the same as LOG_FORMAT will be
 # used.
