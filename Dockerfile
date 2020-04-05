@@ -5,28 +5,27 @@ FROM $IMAGE as base
 WORKDIR /usr/src/hp
 RUN rm -f /etc/apt/apt.conf.d/docker-clean; echo 'Binary::apt::APT::Keep-Downloaded-Packages "true";' > /etc/apt/apt.conf.d/keep-cach
 RUN --mount=type=cache,target=/var/cache/apt,id=apt-cache --mount=type=cache,target=/var/lib/apt,id=apt-lib \
-    apt-get update && apt-get dist-upgrade
+    apt-get update && apt-get -qy dist-upgrade
 RUN --mount=type=cache,target=/root/.cache/pip,id=pip \
     pip install -U pip setuptools
 
 FROM base as install
 # Install APT requirements
 RUN --mount=type=cache,target=/var/cache/apt,id=apt-cache --mount=type=cache,target=/var/lib/apt,id=apt-lib \
-    apt-get install -qy git-core gettext
+    apt-get install -qy build-essential libgpgme-dev git-core gettext
 
 ADD requirements.txt ./
 RUN --mount=type=cache,target=/root/.cache/pip,id=pip \
     pip install --no-warn-script-location --prefix=/install -r requirements.txt
-RUN cp -a /install/* /usr/local
 
 ###############
 # Test stage #
 ##############
-FROM install as test
+FROM base as test
 
 # Install APT requirements
 RUN --mount=type=cache,target=/var/cache/apt,id=apt-cache --mount=type=cache,target=/var/lib/apt,id=apt-lib \
-    apt-get install -qy build-essential libgpgme-dev xvfb wget firefox-esr x11-utils
+    apt-get install -qy xvfb wget firefox-esr x11-utils
 
 # Download Selenium
 RUN mkdir -p /usr/src/contrib/selenium/
@@ -35,6 +34,7 @@ RUN wget -O /usr/src/contrib/selenium/geckodriver.tar.gz \
 RUN tar xf /usr/src/contrib/selenium/geckodriver.tar.gz -C /usr/src/contrib/selenium/
 
 # Install pip requirements
+COPY --from=install /install /usr/local
 ADD requirements-dev.txt ./
 RUN --mount=type=cache,target=/root/.cache/pip,id=pip \
     pip install -r requirements-dev.txt
@@ -53,7 +53,9 @@ RUN python manage.py test
 
 FROM install as prepare
 ADD hp/ ./
-RUN cp hp/dockersettings.py hp/localsettings.py
+RUN mv hp/dockersettings.py hp/localsettings.py
+
+COPY --from=install /install /usr/local
 RUN python manage.py compilemessages -l de
 
 # Cleanup source
