@@ -52,10 +52,11 @@ SECRET_KEY = 'dummy'
 #   ('your-path/', 'your_django_app.urls'),
 #]
 
-# NOTE: other variables are set via env variables
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'HOST': 'db',
+        # NOTE: other variables are set via env variables
     }
 }
 
