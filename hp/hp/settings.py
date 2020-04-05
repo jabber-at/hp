@@ -28,7 +28,7 @@ from core.constants import ACTIVITY_RESET_PASSWORD
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 ROOT_DIR = os.path.dirname(BASE_DIR)
-
+YAML_CONFIG_PATH = os.path.join(ROOT_DIR, 'conf', 'localsettings.yaml')
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.9/howto/deployment/checklist/
@@ -573,6 +573,16 @@ CONVERSEJS_SETUP_CALLBACK = None
 
 try:
     from .localsettings import *  # NOQA
+except ImportError:
+    pass
+
+try:
+    import yaml
+    if os.path.exists(YAML_CONFIG_PATH):
+        with open(YAML_CONFIG_PATH) as stream:
+            data = yaml.load(stream, Loader=yaml.SafeLoader)
+        for key, value in data.items():
+            globals()[key] = value
 except ImportError:
     pass
 
