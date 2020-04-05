@@ -1,0 +1,5 @@
+sudo: required
+services:
+  - docker
+script:
+  - DOCKER_BUILDKIT=1 docker build --target test .
