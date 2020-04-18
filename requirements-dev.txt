@@ -1,4 +1,4 @@
-Sphinx==2.4.4
+Sphinx==3.0.1
 django-debug-toolbar==2.2
 flake8==3.7.9
 freezegun==0.3.15
