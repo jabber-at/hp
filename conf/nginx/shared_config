@@ -1,0 +1,6 @@
+location /static/ {
+    root   /var/www/hp/static/;
+}
+location /media/ {
+    root   /var/www/hp/media/;
+}
