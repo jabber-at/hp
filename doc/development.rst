@@ -49,9 +49,8 @@ Build Docker images
 
 Build Docker images::
 
-   docker build --target=prepare -t jabberat/prepare .
+   docker build --target nginx -t jabberat/hp-nginx .
    docker build -t jabberat/hp .
-   docker build -t jabberat/hp-nginx -f Dockerfile.nginx .
 
 Try them out::
 

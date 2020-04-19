@@ -73,9 +73,15 @@ RUN find conversejs/static/lib -type f | \
     xargs rm
 RUN find . -type d -empty -delete
 
+# We use the latest stable nginx based on alpine
+# https://hub.docker.com/_/nginx 
+FROM nginx:1.16-alpine as nginx
+COPY --from=prepare /var/www/hp/static /var/www/hp/static
+COPY conf/nginx/ /etc/nginx/
+CMD /etc/nginx/nginx.sh
+
 FROM base
 COPY celery.sh uwsgi.sh files/uwsgi/uwsgi.ini ./
-COPY --from=prepare /var/www/hp/static /var/www/hp/static
 COPY --from=install /install /usr/local
 COPY --from=prepare /usr/src/hp /usr/src/hp
 
