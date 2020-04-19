@@ -68,7 +68,9 @@ RUN rm -rf core/tests account/tests/ hp/test_settings.py \
 RUN find . -type f -name "tests.py" -exec rm -rf {} \;
 RUN find . -type f -name "*.pyc" -exec rm -rf {} \;
 RUN find . -type f -name "*.po" -exec rm -rf {} \;
-RUN find conversejs/static/lib -type f | egrep -v '(converse.js/css/converse.css|converse.js/dist/converse.js)' | xargs rm
+RUN find conversejs/static/lib -type f | \
+    egrep -v '(converse.js/css/converse.css|converse.js/dist/converse.js)' | \
+    xargs rm
 RUN find . -type d -empty -delete
 
 FROM base
