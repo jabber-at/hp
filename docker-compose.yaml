@@ -24,6 +24,7 @@ services:
             - cache
             - db
         environment:
+            CELERY_LOGLEVEL:
             POSTGRES_DB:
             POSTGRES_DB_FILE:
             POSTGRES_PASSWORD:

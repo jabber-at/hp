@@ -1,3 +1,5 @@
 #!/bin/sh -e
 
-exec celery worker -A hp --loglevel=INFO -B -s /var/lib/hp/celery.schedule
+CELERY_LOGLEVEL=${CELERY_LOGLEVEL:-INFO}
+
+exec celery worker -A hp --loglevel=${CELERY_LOGLEVEL} -B -s /var/lib/hp/celery.schedule
