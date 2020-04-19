@@ -1,0 +1,3 @@
+upstream uwsgi_server {
+    server uwsgi:8000;
+}
