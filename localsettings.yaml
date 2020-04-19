@@ -7,6 +7,29 @@ ALLOWED_HOSTS:
 SECRET_KEY: dummy
 DEBUG: false
 
+#######################
+# Email configuration #
+#######################
+# See also: https://docs.djangoproject.com/en/3.0/topics/email/
+
+# Configure an SMTP server to send emails, see Django documentation for available settings
+#EMAIL_HOST: ...
+#EMAIL_PORT: ...
+
+# Development: log emails to stdout:
+EMAIL_BACKEND: django.core.mail.backends.console.EmailBackend
+
+######################
+# XMPP configuration #
+######################
+
+# Connection to the XMPP server. For more information, see:
+#    http://xmpp-backends.readthedocs.io/en/latest/
+XMPP_BACKENDS:
+    default:
+        BACKEND: xmpp_backends.dummy.DummyBackend
+        domains: localhost
+
 XMPP_HOSTS:
     localhost:
         ALLOWED_HOSTS: localhost
