@@ -58,6 +58,8 @@ services:
             - ${PWD}/localsettings.yaml:/usr/src/conf/localsettings.yaml
     nginx:
         image: jabberat/hp-nginx:${TAG:-latest}
+        depends_on:
+            - uwsgi
         networks:
             - nginx
         ports:
