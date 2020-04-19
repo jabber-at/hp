@@ -1,0 +1,4 @@
+# This file configures Django during the docker build process 
+# (manage.py commands need SECRET_KEY set)
+DEBUG: false
+SECRET_KEY: build

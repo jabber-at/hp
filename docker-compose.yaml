@@ -17,6 +17,24 @@ services:
         networks:
             - db
         restart: unless-stopped
+    celery:
+        image: jabberat/hp
+        command: /usr/src/hp/celery.sh
+        depends_on:
+            - cache
+            - db
+        environment:
+            POSTGRES_DB:
+            POSTGRES_DB_FILE:
+            POSTGRES_PASSWORD:
+            POSTGRES_PASSWORD_FILE:
+            POSTGRES_USER:
+            POSTGRES_USER_FILE:
+        networks:
+            - cache
+            - db
+        volumes:
+            - ${PWD}/localsettings.yaml:/usr/src/conf/localsettings.yaml
     uwsgi:
         image: jabberat/hp
         depends_on:

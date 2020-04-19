@@ -4,3 +4,5 @@
 
 ALLOWED_HOSTS:
     - localhost
+SECRET_KEY: dummy
+DEBUG: false

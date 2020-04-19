@@ -56,6 +56,7 @@ ADD hp/ ./
 RUN mv hp/dockersettings.py hp/localsettings.py
 
 COPY --from=install /install /usr/local
+COPY conf/build/localsettings.yaml /usr/src/conf/
 RUN python manage.py compilemessages -l de
 RUN python manage.py collectstatic --no-input
 
@@ -71,8 +72,11 @@ RUN find conversejs/static/lib -type f | egrep -v '(converse.js/css/converse.css
 RUN find . -type d -empty -delete
 
 FROM base
-COPY uwsgi.sh files/uwsgi/uwsgi.ini ./
+COPY celery.sh uwsgi.sh files/uwsgi/uwsgi.ini ./
 COPY --from=prepare /var/www/hp/static /var/www/hp/static
 COPY --from=install /install /usr/local
 COPY --from=prepare /usr/src/hp /usr/src/hp
+
+VOLUME /var/lib/hp
+
 CMD /usr/src/hp/uwsgi.sh

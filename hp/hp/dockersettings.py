@@ -35,8 +35,8 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 STATIC_ROOT = '/var/www/hp/static/'
 
 # Set this to True during development
-DEBUG = False
-SECRET_KEY = 'dummy'
+#DEBUG = False
+#SECRET_KEY = 'dummy'
 
 # If you want to configure INSTALLED_APPS to add your own Django apps, you can either completely
 # override the INSTALLED_APPS setting or set it to a callable that will receive the default value
