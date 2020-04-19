@@ -1,0 +1,8 @@
+ARG IMAGE=jabberat/prepare
+FROM $IMAGE as prepare
+
+# We use the latest stable nginx based on alpine
+# https://hub.docker.com/_/nginx 
+FROM nginx:1.16-alpine
+COPY --from=prepare /var/www/hp/static /var/www/hp/static
+COPY conf/nginx/ /etc/nginx/
