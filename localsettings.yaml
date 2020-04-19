@@ -1,0 +1,6 @@
+####################################
+# jabber.at homepage configuration #
+####################################
+
+ALLOWED_HOSTS:
+    - localhost

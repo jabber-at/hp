@@ -38,7 +38,7 @@ services:
         ports:
             - 8000:8000
         volumes:
-            - ${PWD}/example.yaml:/usr/src/conf/localsettings.yaml
+            - ${PWD}/localsettings.yaml:/usr/src/conf/localsettings.yaml
 
 networks:
     external:
