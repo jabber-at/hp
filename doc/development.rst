@@ -43,6 +43,31 @@ To run the Celery daemon (which is needed for sending emails etc.), use (in the 
 
    celery -A hp worker -l info -B
 
+*******************
+Build Docker images
+*******************
+
+Build Docker images::
+
+   docker build --target=prepare -t jabberat/prepare .
+   docker build -t jabberat/hp .
+   docker build -t jabberat/hp-nginx -f Dockerfile.nginx .
+
+Try them out::
+
+   docker-compose up
+
+Finally upload them::
+
+   export TAG=`date +%Y%m%d%H%M%S`
+   docker tag jabberat/hp jabberat/hp:$TAG
+   docker push jabberat/hp
+   docker push jabberat/hp:$TAG
+
+   docker tag jabberat/hp-nginx jabberat/hp-nginx:$TAG
+   docker push jabberat/hp-nginx
+   docker push jabberat/hp-nginx:$TAG
+
 **************************
 Build/upload documentation
 **************************
