@@ -2,3 +2,9 @@
 # (manage.py commands need SECRET_KEY set)
 DEBUG: false
 SECRET_KEY: build
+XMPP_HOSTS:
+    localhost:
+        ALLOWED_HOSTS: localhost
+DEFAULT_XMPP_HOST: localhost
+DEFAULT_FROM_EMAIL: localhost
+CONTACT_ADDRESS: user@localhost
