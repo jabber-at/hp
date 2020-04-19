@@ -2,10 +2,12 @@
 # jabber.at homepage configuration #
 ####################################
 
+# List of hostnames where your homepage can be reached
 ALLOWED_HOSTS:
     - localhost
+
+# Set this to a unique random value and keep it secret
 SECRET_KEY: dummy
-DEBUG: false
 
 #######################
 # Email configuration #
