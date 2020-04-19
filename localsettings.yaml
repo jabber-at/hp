@@ -17,9 +17,11 @@ SECRET_KEY: dummy
 # Configure an SMTP server to send emails, see Django documentation for available settings
 #EMAIL_HOST: ...
 #EMAIL_PORT: ...
+#DEFAULT_FROM_EMAIL: user@example.com
 
 # Development: log emails to stdout:
 EMAIL_BACKEND: django.core.mail.backends.console.EmailBackend
+DEFAULT_FROM_EMAIL: hp@localhost
 
 ######################
 # XMPP configuration #
@@ -36,3 +38,4 @@ XMPP_HOSTS:
     localhost:
         ALLOWED_HOSTS: localhost
 DEFAULT_XMPP_HOST: localhost
+CONTACT_ADDRESS: hp@localhost
