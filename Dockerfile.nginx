@@ -6,3 +6,4 @@ FROM $IMAGE as prepare
 FROM nginx:1.16-alpine
 COPY --from=prepare /var/www/hp/static /var/www/hp/static
 COPY conf/nginx/ /etc/nginx/
+CMD /etc/nginx/nginx.sh
