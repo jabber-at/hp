@@ -68,7 +68,7 @@
     "lodash-template-webpack-loader": "jcbrand/lodash-template-webpack-loader",
     "long": "^3.1.0",
     "minimist": "^1.2.0",
-    "moment": "~> 2.19.3 ",
+    "moment": "~> 2.29.2 ",
     "npm": "^6.14.6",
     "pluggable.js": "2.0.0",
     "po2json": "^0.4.4",
