@@ -69,7 +69,7 @@
     "long": "^3.1.0",
     "minimist": "^1.2.0",
     "moment": "~> 2.29.4 ",
-    "npm": "^6.14.6",
+    "npm": "^12.2.1",
     "pluggable.js": "2.0.0",
     "po2json": "^0.4.4",
     "protobufjs": "6.11.3",
