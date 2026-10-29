@@ -40,9 +40,9 @@ from core.models import Address
 from core.tasks import activate_language
 from core.utils import format_timedelta
 
-from .constants import PURPOSE_SET_EMAIL
-from .models import Confirmation
-from .models import UserLogEntry
+from account.constants import PURPOSE_SET_EMAIL
+from account.models import Confirmation
+from account.models import UserLogEntry
 
 User = get_user_model()
 log = get_task_logger(__name__)
@@ -300,7 +300,7 @@ def cleanup():
     for hostname in settings.XMPP_HOSTS:
         existing_users = set([u.lower() for u in xmpp_backend.all_users(hostname)])
 
-        if len(existing_users) < 50:
+        if len(existing_users) < 5:
             # A safety check if the backend for some reason does not return any users and does not
             # raise an exception.
             log.info('Skipping %s: Only %s users received.', hostname, len(existing_users))

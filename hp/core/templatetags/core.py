@@ -17,8 +17,10 @@ import logging
 
 from django import template
 from django.urls import reverse
+from django.utils.html import format_html
 from django.utils.html import mark_safe
 
+from ..forms import SelectOSForm
 from ..utils import format_link
 from ..utils import format_timedelta as _format_timedelta
 from ..utils import mailformat
@@ -86,6 +88,13 @@ def wordbreak(value, arg):
         word-break: break-word;
     """
     return mark_safe(value.replace(arg, '%s&#8203;' % arg))
+
+
+@register.simple_tag(takes_context=True)
+def os_selector(context):
+    """Display a selector for OS-specific content."""
+    form = SelectOSForm()
+    return format_html('<form class="form-horizontal">{}</form>', form['os'].formgroup())
 
 
 @register.tag('mailformat')
