@@ -397,6 +397,11 @@ class Confirmation(BaseModel):
         if gpg_key:
             gpg_key = gpg_key.encode()
 
+        if self.purpose in [PURPOSE_DELETE, PURPOSE_RESET_PASSWORD]:
+            gpg_key = self.user.gpg_keys.first()
+            if gpg_key:
+                gpg_key = gpg_key.key
+
         with translation.override(self.language):
             self.user.send_mail_template(template_base, context, subject, host=host, to=self.to,
                                          gpg_key=gpg_key)

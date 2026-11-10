@@ -110,10 +110,14 @@ class BoundField(forms.boundfield.BoundField):
             'field_label': self.label,
             'value': self.value(),
         }
+
+        msg_context['limit_value'] = 0
         if hasattr(self.field, 'max_length'):
-            msg_context['limit_value'] = self.field.max_length
+            if self.field.max_length is not None:
+                msg_context['limit_value'] = self.field.max_length
         if hasattr(self.field, 'min_length'):
-            msg_context['limit_value'] = self.field.min_length
+            if self.field.min_length is not None:
+                msg_context['limit_value'] = self.field.min_length
 
         if hasattr(self.field, 'get_message_context'):
             msg_context.update(self.field.get_message_context(msg_context['value']))

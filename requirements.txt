@@ -2,7 +2,7 @@ Django==3.1.6
 Pillow==9.3.0
 PyYAML==5.4
 bleach==3.3.0
-celery==4.4.2
+celery==5.2.2
 cryptography==3.3.2
 django-composite-field==1.1.0
 django-jsonfield==1.4.0
@@ -20,7 +20,7 @@ dnspython==1.16.0
 gpgliblib==0.2.0
 hiredis==1.0.1
 html5lib==1.0.1
-lxml==4.6.3
+lxml==4.9.1
 pygpgme==0.3
 requests==2.23.0
 strict-rfc3339==0.7
