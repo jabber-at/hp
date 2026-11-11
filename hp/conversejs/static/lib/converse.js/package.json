@@ -87,7 +87,7 @@
     "urijs": "^1.19.1",
     "wait-until-promise": "^1.0.0",
     "webpack": "^4.0.1",
-    "webpack-cli": "^2.1.4",
+    "webpack-cli": "^7.3.1",
     "xss": "^0.3.3"
   }
 }
