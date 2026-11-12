@@ -1,8 +1,8 @@
-Django==3.1.13
-Pillow==9.3.0
-PyYAML==5.4
+Django==3.2.21
+Pillow==11.1.0
+PyYAML==5.3.1
 bleach==3.3.0
-celery==5.2.2
+celery==5.3.4
 cryptography==3.3.2
 django-composite-field==1.1.0
 django-jsonfield==1.4.0
@@ -18,10 +18,10 @@ django-xmpp-http-upload==1.0.0
 djangorestframework==3.11.2
 dnspython==1.16.0
 gpgliblib==0.2.0
-hiredis==1.0.1
-html5lib==1.0.1
-lxml==4.9.1
-pygpgme==0.3
+hiredis==3.5.0
+html5lib==1.1
+lxml==5.4.0
+pygpgme==0.6
 requests==2.23.0
 strict-rfc3339==0.7
 ua-parser==0.10.0
