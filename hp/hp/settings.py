@@ -78,7 +78,6 @@ _DEFAULT_INSTALLED_APPS = [
     'tinymce',  # Rich text editor
     'xmpp_http_upload',  # XEP-0363
     'rest_framework',  # for APIs
-    'django_uwsgi',  # UWSGI admin interface
 ]
 
 MIDDLEWARE = [

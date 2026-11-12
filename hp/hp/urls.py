@@ -21,7 +21,6 @@ from django.contrib import admin
 from django.urls import path
 
 urlpatterns = [
-    path('%s/uwsgi/' % settings.ADMIN_URL.strip('/'), include('django_uwsgi.urls')),
     path(settings.ADMIN_URL.lstrip('/'), admin.site.urls),
     path('tinymce/', include('tinymce.urls')),
     path('captcha/', include('captcha.urls')),
