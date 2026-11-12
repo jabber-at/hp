@@ -29,7 +29,7 @@ from django.forms.utils import flatatt
 from django.utils.html import format_html
 from django.utils.text import normalize_newlines
 from django.utils.translation import gettext as _
-from django.utils.translation import ungettext
+from django.utils.translation import ngettext
 
 import reversion
 
@@ -45,11 +45,11 @@ def format_timedelta(delta):
 
     # Get translated strings for days/hours/minutes
     if days:
-        days = ungettext('one day', '%(count)d days', days) % {'count': days}
+        days = ngettext('one day', '%(count)d days', days) % {'count': days}
     if hours:
-        hours = ungettext('one hour', '%(count)d hours', hours) % {'count': hours}
+        hours = ngettext('one hour', '%(count)d hours', hours) % {'count': hours}
     if minutes:  # just minutes
-        minutes = ungettext('one minute', '%(count)d minutes', minutes) % {'count': minutes}
+        minutes = ngettext('one minute', '%(count)d minutes', minutes) % {'count': minutes}
 
     # Assemble a string based on what we have
     if days and hours and minutes:
