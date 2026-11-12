@@ -13,12 +13,12 @@
 # You should have received a copy of the GNU General Public License along with this project. If not, see
 # <http://www.gnu.org/licenses/>.
 
-from django.conf.urls import url
+from django.urls import re_path
 
 from . import views
 
 app_name = 'feed'
 urlpatterns = [
-    url(r'^(?P<language>[a-z][a-z](-[a-z][a-z])?)/rss.xml$', views.RSS2Feed.as_view(), name='rss2'),
-    url(r'^(?P<language>[a-z][a-z](-[a-z][a-z])?)/atom.xml$', views.AtomFeed.as_view(), name='atom'),
+    re_path(r'^(?P<language>[a-z][a-z](-[a-z][a-z])?)/rss.xml$', views.RSS2Feed.as_view(), name='rss2'),
+    re_path(r'^(?P<language>[a-z][a-z](-[a-z][a-z])?)/atom.xml$', views.AtomFeed.as_view(), name='atom'),
 ]

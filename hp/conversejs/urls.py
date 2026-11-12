@@ -13,12 +13,12 @@
 # You should have received a copy of the GNU General Public License along with this project. If not, see
 # <http://www.gnu.org/licenses/>.
 
-from django.conf.urls import url
+from django.urls import re_path
 
 from . import views
 
 app_name = 'conversejs'
 urlpatterns = [
-    url(r'^init.js$', views.ConverseJsInitView.as_view(), name='init-js'),
-    url(r'^$', views.ConverseJsView.as_view(), name='main'),
+    re_path(r'^init.js$', views.ConverseJsInitView.as_view(), name='init-js'),
+    re_path(r'^$', views.ConverseJsView.as_view(), name='main'),
 ]

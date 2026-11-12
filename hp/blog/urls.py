@@ -13,13 +13,13 @@
 # You should have received a copy of the GNU General Public License along with this project. If not, see
 # <http://www.gnu.org/licenses/>.
 
-from django.conf.urls import url
+from django.urls import re_path
 
 from . import views
 
 app_name = 'blog'
 urlpatterns = [
-    url(r'^b/(?P<slug>[a-z0-9-_äöüß]+)/$', views.BlogPostView.as_view(), name='blogpost'),
-    url(r'^p/(?P<slug>[a-z0-9-_äöüß]+)/$', views.PageView.as_view(), name='page'),
-    url(r'^$', views.BlogPostListView.as_view(), name='home'),
+    re_path(r'^b/(?P<slug>[a-z0-9-_äöüß]+)/$', views.BlogPostView.as_view(), name='blogpost'),
+    re_path(r'^p/(?P<slug>[a-z0-9-_äöüß]+)/$', views.PageView.as_view(), name='page'),
+    re_path(r'^$', views.BlogPostListView.as_view(), name='home'),
 ]

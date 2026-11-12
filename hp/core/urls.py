@@ -13,7 +13,7 @@
 # You should have received a copy of the GNU General Public License along with this project. If not, see
 # <http://www.gnu.org/licenses/>.
 
-from django.conf.urls import url
+from django.urls import re_path
 from django.contrib.sitemaps.views import sitemap
 from django.utils.translation import gettext_lazy as _
 
@@ -34,6 +34,6 @@ sitemaps = {
 app_name = 'core'
 urlpatterns = [
     i18n_re_path(_(r'^contact/$'), views.ContactView.as_view(), name='contact'),
-    url(r'^sitemap\.xml$', sitemap, {'sitemaps': sitemaps, }, name='django.contrib.sitemaps.views.sitemap'),
-    url(r'^api/set-lang/$', views.SetLanguageView.as_view(), name='api-set-lang'),
+    re_path(r'^sitemap\.xml$', sitemap, {'sitemaps': sitemaps, }, name='django.contrib.sitemaps.views.sitemap'),
+    re_path(r'^api/set-lang/$', views.SetLanguageView.as_view(), name='api-set-lang'),
 ]
