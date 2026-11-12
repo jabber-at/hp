@@ -13,7 +13,7 @@ django-simple-captcha==0.5.12
 #django-tinymce4-widget==2.1.1
 django-tinymce4-lite==1.8.0
 django-xmpp-http-upload==1.0.0
-djangorestframework==3.11.2
+djangorestframework==3.18.2
 dnspython==1.16.0
 gpgliblib==0.2.0
 hiredis==3.5.0
