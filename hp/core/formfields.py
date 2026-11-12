@@ -44,7 +44,6 @@ class CaptchaField(BootstrapMixin, CaptchaFieldBase):
 
         # NOTE: This is what captcha.fields.CaptchaField does, so we cannot just set CaptchaField.widget.
         kwargs['widget'] = kwargs.pop('widget', CaptchaWidget(
-            output_format=kwargs.pop('output_format', None),
             id_prefix=kwargs.pop('id_prefix', None),
             generator=kwargs.pop('generator', None)
         ))

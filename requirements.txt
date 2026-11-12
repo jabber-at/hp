@@ -7,7 +7,7 @@ cryptography==3.3.2
 django-composite-field==1.1.0
 django-mptt==0.21.1
 django-object-actions==5.2.1
-django-redis==4.11.0
+django-redis==7.0.0
 django-reversion==6.4.0
 django-simple-captcha==0.5.12
 django-tinymce==5.0.0
