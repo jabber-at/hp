@@ -132,19 +132,19 @@ class LinkTarget(models.JSONField):
     """
     def pre_init(self, value, obj):
         value = LinkTargetDict(super(LinkTarget, self).pre_init(value, obj))
-        if value is dict:
+        if type(value) is dict:
             value = LinkTargetDict(value)
         return value
 
     def from_db_value(self, *args, **kwargs):
         value = super().from_db_value(*args, **kwargs)
-        if value is dict:
+        if type(value) is dict:
             value = LinkTargetDict(value)
         return value
 
     def to_python(self, value):
         value = super(LinkTarget, self).to_python(value)
-        if value is dict:
+        if type(value) is dict:
             value = LinkTargetDict(value)
         return value
 

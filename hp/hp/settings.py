@@ -25,11 +25,6 @@ from core.constants import ACTIVITY_FAILED_LOGIN
 from core.constants import ACTIVITY_REGISTER
 from core.constants import ACTIVITY_RESET_PASSWORD
 
-# django-tinymce4-lite==1.8.0 requires smart_text, but that has been removed in Django-4.x
-import django
-from django.utils.encoding import smart_str
-django.utils.encoding.smart_text = smart_str
-
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 ROOT_DIR = os.path.dirname(BASE_DIR)
