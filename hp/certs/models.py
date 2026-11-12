@@ -27,8 +27,6 @@ from django.urls import reverse
 from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
 
-from jsonfield import JSONField
-
 from core.models import BaseModel
 
 from .querysets import CertificateQuerySet
@@ -50,7 +48,7 @@ class Certificate(BaseModel):
     pem = models.TextField(help_text=_('Certificate, in PEM format.'))
 
     # key values
-    hostnames = JSONField(default=_default_hostnames, blank=True)
+    hostnames = models.JSONField(default=_default_hostnames, blank=True)
     key_size = models.PositiveSmallIntegerField(blank=True)
     valid_from = models.DateTimeField(blank=True)
     valid_until = models.DateTimeField(blank=True)

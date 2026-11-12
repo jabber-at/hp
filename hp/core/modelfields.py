@@ -23,7 +23,7 @@ from django.urls.exceptions import NoReverseMatch
 
 from composite_field.l10n import LocalizedCharField as _LocalizedCharField
 from composite_field.l10n import LocalizedTextField as _LocalizedTextField
-from jsonfield import JSONField
+from django.db import models
 
 from .constants import TARGET_MODEL
 from .constants import TARGET_NAMED_URL
@@ -117,7 +117,7 @@ class LinkTargetDict(dict):
         return ''
 
 
-class LinkTarget(JSONField):
+class LinkTarget(models.JSONField):
     """Subclass of a JSONField to contain all relevant data to link to various objects.
 
     A JSONField is a model field that dynamically serializes its data to JSON.
@@ -132,19 +132,19 @@ class LinkTarget(JSONField):
     """
     def pre_init(self, value, obj):
         value = LinkTargetDict(super(LinkTarget, self).pre_init(value, obj))
-        if type(value) == dict:
+        if value is dict:
             value = LinkTargetDict(value)
         return value
 
     def from_db_value(self, *args, **kwargs):
         value = super().from_db_value(*args, **kwargs)
-        if type(value) == dict:
+        if value is dict:
             value = LinkTargetDict(value)
         return value
 
     def to_python(self, value):
         value = super(LinkTarget, self).to_python(value)
-        if type(value) == dict:
+        if value is dict:
             value = LinkTargetDict(value)
         return value
 

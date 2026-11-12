@@ -37,7 +37,6 @@ from django.utils.translation import gettext_noop
 
 from gpgliblib.django import GpgEmailMessage
 from gpgliblib.django import gpg_backend
-from jsonfield import JSONField
 from xmpp_backends.base import UserNotFound
 from xmpp_backends.django import xmpp_backend
 from xmpp_backends.django.models import XmppBackendUser
@@ -356,7 +355,7 @@ class Confirmation(BaseModel):
     key = models.CharField(max_length=40, default=default_key)
     expires = models.DateTimeField(default=default_expires)
     purpose = models.CharField(max_length=16)
-    payload = JSONField(default=default_payload)
+    payload = models.JSONField(default=default_payload)
 
     # NOTE: Do not add choices here, or changing settings.LANGUAGES will trigger a migration
     language = models.CharField(max_length=2)
@@ -415,7 +414,7 @@ class UserLogEntry(BaseModel):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, models.CASCADE, related_name='log_entries')
     address = models.GenericIPAddressField(null=True, blank=True)
     message = models.TextField()
-    payload = JSONField(default=default_payload)
+    payload = models.JSONField(default=default_payload)
 
     class Meta:
         verbose_name = 'User activity log'
