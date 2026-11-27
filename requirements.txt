@@ -19,7 +19,7 @@ hiredis==3.5.0
 html5lib==1.1
 lxml==5.4.0
 pygpgme==0.6
-requests==2.23.0
+requests==2.33.0
 strict-rfc3339==0.7
 ua-parser==0.10.0
 xmpp-backends==0.8.0
