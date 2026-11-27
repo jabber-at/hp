@@ -3,7 +3,7 @@ Pillow==13.0.0
 PyYAML==5.4
 bleach==3.3.0
 celery==5.3.4
-cryptography==3.3.2
+cryptography==50.0.0
 django-composite-field==1.1.0
 django-mptt==0.21.1
 django-object-actions==5.2.1
